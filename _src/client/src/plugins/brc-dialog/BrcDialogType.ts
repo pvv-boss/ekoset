@@ -1,0 +1,6 @@
+export enum BrcDialogType {
+    Error = 'error',
+    Warning = 'warning',
+    Info = 'info',
+    Success = 'success'
+}

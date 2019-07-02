@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "@nuxtjs"
+  ],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 9
+  },
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "comma-dangle": 2,
+    "camelcase": 0,
+    "no-unused-vars": "off"
+  },
+  "root": true,
+
+
+  "overrides": [{
+    "files": ["*.vue"],
+    "rules": {
+      "indent": "off"
+    }
+  }]
+}

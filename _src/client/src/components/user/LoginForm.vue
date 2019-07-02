@@ -1,0 +1,223 @@
+<template>
+  <div class="brc-login-form__container">
+    <div class="brc-main-container__header">
+      <h2>{{ mode === 'login' ? 'Вход' : 'Регистрация' }}</h2>
+      <h4 v-if="validateMessage" class="error-message">{{ validateMessage }}</h4>
+      <h4
+        v-else-if="logonResult.logonStatus !== logonStatus.OK && logonResult.logonStatus !== logonStatus.UserNotFoundButSocialNetworkAuthOK"
+        class="error-message"
+      >{{ errorMessage }}</h4>
+      <h4
+        v-else-if="tempSocialUser && tempSocialUser.userSnProfileId > 0 && logonResult.logonStatus === logonStatus.UserNotFoundButSocialNetworkAuthOK"
+        class="social-not-connect"
+      >{{ errorMessage }}</h4>
+    </div>
+    <div
+      v-if="tempSocialUser && tempSocialUser.userSnProfileId > 0"
+      class="brc-login__social-profile"
+    >
+      <img
+        :src="tempSocialUserImageSrc"
+        class="img-responsive"
+        style="border-radius: 50%;"
+        width="36"
+      >
+      {{ tempSocialUser.userSnProfileNick }}
+      <br>
+      <a
+        href="#"
+        class="brc-clear-social-user"
+        @click="clearTempSocialUserUser"
+      >Убрать связь с соц.сетью</a>
+    </div>
+    <div class="brc-login-form__wrapper">
+      <form
+        id="user-form"
+        ref="user"
+        class="brc-login-form"
+        name="user"
+        label-width="120px"
+        @submit="mode === 'login' ? processLocalAuthAction() : processRegistration()"
+      >
+        <div class="brc-login-form__block" v-if="isBrowser">
+          <label>Email</label>
+          <input
+            v-model.lazy="loginData.useremail"
+            type="email"
+            name="userName"
+            placeholder="Email"
+          >
+          <span
+            v-if="(isSubmit || loginData.useremail.length > 0) && $v.loginData.useremail.$invalid"
+            class="error-message"
+          >{{invalidEmail}}</span>
+        </div>
+        <div class="brc-login-form__block" v-if="isBrowser">
+          <label>Пароль</label>
+          <input
+            v-model.lazy="loginData.password"
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            autocomplete="off"
+            @keyup.enter.native="mode === 'login' ? processLocalAuthAction() : processRegistration()"
+          >
+          <span
+            v-if="(isSubmit || loginData.password.length > 0) && $v.loginData.password.$invalid"
+            class="error-message"
+          >{{invalidPassword}}</span>
+        </div>
+        <div v-if="mode === 'login'" class="brc-login-form__forget-password">
+          <nuxt-link :to="{ name: 'auth-restore' }">Забыли пароль?</nuxt-link>
+        </div>
+        <div v-if="mode === 'login'" class="brc-login-form__social-block">
+          <p>или {{ mode === 'login' ? 'войдите с помощью других сервисов' : 'привяжите аккаунт к соц.сетям' }}</p>
+          <div class="brc-login-form__social">
+            <button
+              v-for="passportStrategyType in passportStrategyDescriptorList"
+              :key="passportStrategyType.authType"
+              type="button"
+              :title="passportStrategyType.name"
+              class="brc-social-auth-button"
+              :style="`background-color: ${passportStrategyType.backgroundColor}; border: 1px solid ${passportStrategyType.borderColor}`"
+              @click="processLogin(passportStrategyType.authType)"
+            >
+              <i :class="passportStrategyType.iconClass"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="brc-login-form__submit">
+          <button
+            type="button"
+            class="brc-login-form__submit-btn"
+            @click="mode === 'login' ? processLocalAuthAction():processRegistration()"
+          >{{ mode === 'login' ? 'Войти' : 'Зарегистрироваться' }}</button>
+        </div>
+      </form>
+    </div>
+    <div class="brc-login-form__switch-mode">
+      <div v-if="mode === 'login'">
+        Еще нет аккаунта?
+        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'registration'} }">Зарегистрируйтесь</nuxt-link>
+      </div>
+      <div v-else>
+        Уже зарегистрированы?
+        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'} }">Войдите</nuxt-link>
+      </div>
+    </div>
+
+    <div class="brc-login-form__additional"></div>
+  </div>
+</template>
+
+<script lang="ts">
+
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import LoginData from '@/models/user/LoginData'
+import PassportStrategyDescriptor from '@/models/user/PassportStrategyDescriptor'
+import AuthStore from '@/store/AuthStore'
+import { getModule } from 'vuex-module-decorators'
+import { LogonStatus } from '@/models/user/LogonResult'
+import { emailTest, passwordStrenghtTest, invalidEmailMessage, invalidPasswordMessage } from '@/utils/Validators'
+import { Validation } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
+
+@Component({
+  validations: {
+    loginData: {
+      useremail: {
+        required,
+        validFormat: (val) => emailTest.test(val)
+      },
+      password: {
+        required,
+        validFormat: (val) => passwordStrenghtTest.test(val)
+      }
+    }
+  }
+})
+export default class LoginForm extends Vue {
+  private userStore = getModule(AuthStore, this.$store)
+  @Prop()
+  private status
+
+  @Prop(String)
+  private mode
+
+  private loginData: LoginData = new LoginData()
+  private logonStatus = LogonStatus
+  private isBrowser = false
+  private isSubmit = false
+
+  private invalidEmail = invalidEmailMessage
+  private invalidPassword = invalidPasswordMessage
+
+  private get passportStrategyDescriptorList () {
+    return this.userStore.passportStrategyDescriptorList
+  }
+
+  private sessionUser = this.userStore.sessionUser
+  private tempSocialUser = this.userStore.tempSocialUser
+  private registrationResult = this.userStore.registrationResult
+  private logonResult = this.userStore.logonResult
+
+  private validateMessage = ''
+
+  private get errorMessage () {
+    return this.mode === 'login' ? this.logonResult && this.logonResult.message ? this.logonResult.message : '' : this.registrationResult && this.registrationResult.message ? this.registrationResult.message : ''
+  }
+
+  private validateForm (): boolean {
+    this.isSubmit = true
+    return this.$v.loginData.useremail && this.$v.loginData.password ? !this.$v.loginData.useremail.$invalid && !this.$v.loginData.password.$invalid : false
+  }
+
+  private processLocalAuthAction () {
+    if (this.validateForm()) {
+      const userForm = window.document.getElementById('user-form') as HTMLFormElement
+      if (userForm) {
+        Array.from(userForm.getElementsByTagName('input')).forEach((item) => {
+          item.setAttribute('disabled', 'disabled')
+        })
+      }
+      this.userStore.startLogin({ authType: PassportStrategyDescriptor.LOCAL, loginData: this.loginData })
+    }
+  }
+
+  private processRegistration () {
+    if (this.validateForm()) {
+      const userForm = document.getElementById('user-form') as HTMLFormElement
+      if (userForm) {
+        Array.from(userForm.getElementsByTagName('input')).forEach((item) => {
+          item.setAttribute('disabled', 'disabled')
+        })
+      }
+      this.userStore.register(this.loginData)
+    }
+  }
+
+  private processLogin (authType: string) {
+    const userForm = document.getElementById('user-form') as HTMLFormElement
+    if (userForm) {
+      Array.from(userForm.getElementsByTagName('input')).forEach((item) => {
+        item.setAttribute('disabled', 'disabled')
+      })
+    }
+    this.userStore.startLogin({ authType, loginData: null })
+  }
+
+  private clearTempSocialUserUser () {
+    this.userStore.clearTempSocialUserUser()
+    this.tempSocialUser = this.userStore.tempSocialUser
+  }
+
+  private get tempSocialUserImageSrc (): string {
+    return this.tempSocialUser.userSnProfileAvatar !== '' ? this.tempSocialUser.userSnProfileAvatar : '/images/user.png'
+  }
+
+  private mounted () {
+    this.isBrowser = true
+  }
+}
+</script>

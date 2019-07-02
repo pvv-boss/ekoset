@@ -1,0 +1,52 @@
+@import "@/styles/variables.scss";
+
+.brc-cookie-accept {
+  z-index: 5000;
+  position: fixed;
+  bottom: 0;
+  background-color: #333;
+  opacity: 0.85;
+  filter: alpha(opacity=80);
+  width: 100%;
+  color: white;
+  text-align: center;
+  min-height: 54px;
+  // line-height: 54px;
+  padding: 16px 16px !important;
+
+  .brc-cookie-text {
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: 400;
+
+    >a {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+
+  .brc-cookie-close {
+    font-size: 26px;
+    vertical-align: middle;
+    padding-left: 20px;
+
+    >a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+@media(max-width: 1090px) {
+  .brc-cookie-accept {
+    line-height: 1.5;
+    padding: 0 40px 0 16px !important;
+
+
+    .brc-cookie-close {
+      position: absolute;
+      top: 0;
+      right: 15px;
+    }
+  }
+}

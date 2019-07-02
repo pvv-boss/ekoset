@@ -1,0 +1,435 @@
+@import "@/styles/variables.scss";
+
+.brc-dialog-wrapper {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+
+  &.brc-dialog-wrapper_preloader {
+    // background-color: rgb(240, 240, 240) !important;
+    background-color: rgba(240, 240, 240, 0.6) !important;
+  }
+
+  &.brc-dialog-wrapper_modal {
+    position: static;
+    width: 0;
+    height: 0;
+  }
+
+  .brc-dialog {
+    background-color: white;
+    opacity: 1;
+    box-shadow: $box-shadow;
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+
+    &.brc-dialog_normal {
+      width: 50%;
+      height: 50%;
+      margin: 0;
+      position: absolute;
+
+
+      &.brc-dialog_normal-central {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.brc-dialog_normal-center {
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+
+      &.brc-dialog_normal-left {
+        left: 0;
+        position: fixed;
+      }
+
+      &.brc-dialog_normal-right {
+        right: 0;
+        position: fixed;
+      }
+
+      &.brc-dialog_normal-top {
+        top: 0;
+        position: fixed;
+      }
+
+      &.brc-dialog_normal-middle {
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+
+      &.brc-dialog_normal-bottom {
+        bottom: 0;
+        position: fixed;
+      }
+
+      .brc-dialog__header-restore {
+        display: none;
+      }
+    }
+
+    &.brc-dialog_maximize {
+      width: calc(100vw - 40px);
+      height: calc(100vh - 20px);
+      margin: 10px;
+
+      .brc-dialog__header-restore {
+        display: block !important;
+      }
+
+      .brc-dialog__header-maximize {
+        display: none !important;
+      }
+    }
+
+    &.brc-dialog_minimize {
+      width: min-content;
+      max-width: 350px;
+      max-height: 41px;
+      height: min-content;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+
+      .brc-dialog__body,
+      .brc-dialog__footer {
+        display: none;
+      }
+
+      .brc-dialog__header-minimize {
+        display: none !important;
+      }
+
+      .brc-dialog__header-restore {
+        display: block !important;
+      }
+    }
+
+    .brc-dialog__header {
+      padding: 5px;
+      padding-left: 10px;
+      display: flex;
+      flex-direction: row;
+
+      .brc-dialog__title {
+        flex: 1;
+        white-space: nowrap;
+      }
+
+      .brc-dialog__header-maximize,
+      .brc-dialog__header-restore,
+      .brc-dialog__header-minimize,
+      .brc-dialog__header-close {
+        margin: 0 2px;
+        cursor: pointer;
+      }
+    }
+
+    .brc-dialog__body {
+      flex: 1;
+      padding: 10px;
+      overflow: auto;
+      height: 50%;
+    }
+
+    .brc-dialog__footer {
+      text-align: right;
+      flex: 0;
+      padding: 10px;
+
+      button {
+        cursor: pointer;
+        border-radius: 1px;
+        box-shadow: none;
+        border: 1px solid $delimiter-strong-color;
+        min-width: 60px;
+        background-color: white;
+        font-weight: $font-medium;
+        color: $text-muted;
+
+        &:hover {
+          background-color: $delimiter-light-color;
+        }
+      }
+
+      .brc-dialog__button-ok {
+        border: 1px solid $blue-modal;
+        color: $blue-modal;
+
+        &:hover {
+          background-color: $light-blue;
+        }
+      }
+    }
+
+    &.brc-notification {
+      position: fixed;
+      min-height: 50px;
+      height: min-content !important;
+      min-width: 300px;
+      max-width: 400px;
+      width: fit-content !important;
+      background-color: $footer-background-color !important;
+      color: white;
+      border-radius: 1px;
+      margin: 10px 10px 50px 10px;
+
+      &.brc-notification_without-title {
+        flex-direction: row-reverse;
+      }
+
+      .brc-dialog__header {
+        padding: 5px 10px;
+        //float: right;
+        margin: auto 0;
+
+        .brc-dialog__icon {
+          margin-right: 5px;
+        }
+      }
+
+      .brc-dialog__body {
+        padding: 5px 10px;
+        //float: left;
+        border: none !important;
+        height: min-content !important;
+        overflow: unset;
+
+      }
+
+      &.brc-notification_error {
+        // background-color: $red !important;
+        // color: white !important;
+      }
+
+      &.brc-notification_success {
+        // background-color: $green !important;
+        // color: white !important;
+      }
+
+      &.brc-notification_info {
+        // background-color: $light-blue !important;
+      }
+
+      &.brc-notification_warning {
+        // background-color: $yellow !important;
+      }
+    }
+
+    &.brc-alert {
+      height: min-content;
+
+      .brc-dialog__body {
+        border: none !important;
+        height: min-content !important;
+        overflow: unset;
+
+      }
+
+      .brc-dialog__header {
+        font-weight: $font-medium;
+        font-size: 13px;
+
+        .brc-dialog__icon {
+          margin-right: 5px;
+        }
+      }
+
+      .brc-dialog__footer {
+        text-align: right;
+        flex: 0;
+        padding: 10px;
+
+        button {
+          cursor: pointer;
+          border: none !important;
+          min-width: 60px;
+          background-color: white;
+          font-weight: $font-medium;
+          color: $text-color;
+
+          &:hover {
+            background-color: $delimiter-light-color;
+          }
+        }
+      }
+
+      &.brc-alert_error {
+        // border: 1px solid $blue-modal !important;
+
+        .brc-dialog__header {
+          background-color: $blue-modal;
+          color: white;
+        }
+
+        .brc-dialog__button-ok:hover {
+          background-color: $blue-modal !important;
+          color: white !important;
+        }
+      }
+
+      &.brc-alert_success {
+        //border: 1px solid $blue-modal !important;
+
+        .brc-dialog__header {
+          background-color: $blue-modal;
+          color: white;
+        }
+
+        .brc-dialog__button-ok:hover {
+          background-color: $blue-modal !important;
+          color: white !important;
+        }
+      }
+
+      &.brc-alert_info {
+        //border: 1px solid $blue-modal !important;
+
+        .brc-dialog__header {
+          background-color: $blue-modal;
+          color: white;
+        }
+
+        .brc-dialog__button-ok:hover {
+          background-color: $blue-modal !important;
+          color: white !important;
+        }
+      }
+
+      &.brc-alert_warning {
+        //  border: 1px solid $blue-modal !important;
+
+        .brc-dialog__header {
+          background-color: $blue-modal;
+          color: white !important;
+        }
+
+        .brc-dialog__button-ok:hover {
+          background-color: $blue-modal !important;
+          color: white !important;
+        }
+      }
+    }
+
+    &.brc-popover {
+      position: fixed;
+      min-width: 100px;
+      max-width: 300px;
+      width: fit-content !important;
+      height: min-content !important;
+      transform: none !important;
+      visibility: hidden;
+      font-size: $font-small !important;
+      background-color: $footer-background-color;
+      color: white;
+
+      a {
+        color: white;
+        text-decoration: underline;
+      }
+
+      a:hover {
+        color: $delimiter-light-color;
+      }
+
+      .brc-dialog__body {
+        height: min-content !important;
+        overflow: unset;
+      }
+    }
+
+    &.brc-preloader {
+      border: 1px solid $delimiter-light-color !important;
+      width: min-content !important;
+      height: min-content !important;
+      min-height: 50px;
+      min-width: 50px;
+      overflow: hidden;
+      box-shadow: none;
+      background-color: transparent;
+      border-radius: 6px;
+      position: fixed;
+
+      &.brc-preloader_caption {
+        background-color: white;
+      }
+
+
+      .brc-dialog__body {
+        overflow: hidden;
+        width: min-content !important;
+        white-space: nowrap !important;
+        margin: auto;
+        display: flex;
+      }
+
+      .brc-preloader__caption {
+        color: #333;
+        font-size: 14px;
+        padding-left: 10px;
+        font-weight: $font-medium;
+        margin: auto;
+      }
+    }
+  }
+}
+
+.brc-dialog_hidden {
+  opacity: 0;
+}
+
+.fa-spin {
+  width: 30px;
+  animation: fa-spin 2s infinite linear;
+}
+
+.brc-dialog-wrapper_parental {
+  background-color: transparent;
+  width: 100% !important;
+  height: 100% !important;
+
+  &.brc-dialog-wrapper_preloader {
+    background-color: transparent !important;
+  }
+
+
+  &.brc-dialog-wrapper_modal {
+    position: static;
+  }
+
+  .brc-dialog.brc-preloader {
+    position: static;
+    margin: auto;
+    transform: none !important;
+  }
+}
+
+@media(max-width: 400px) {
+  .brc-dialog-wrapper .brc-dialog.brc-dialog_maximize {
+    width: 100vw;
+    height: 100vh;
+    margin: 10px;
+  }
+
+  .brc-dialog_maximize {
+    width: 100vw;
+    height: 100vh;
+    margin: 10px;
+  }
+
+  .brc-dialog_minimize {
+    max-width: 300px;
+  }
+}
