@@ -18,7 +18,7 @@ export function createRouter () {
         path: '*',
         component: BaseNotFound,
         meta: {
-          title: 'Эколайн: Страница не найдена!'
+          title: 'Экосеть: Страница не найдена!'
         }
       },
       {
@@ -27,7 +27,7 @@ export function createRouter () {
         component: BaseError,
         props: true,
         meta: {
-          title: 'Эколайн: Ошибка!'
+          title: 'Экосеть: Ошибка!'
         }
       }
     ],

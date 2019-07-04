@@ -34,6 +34,7 @@ const config: NuxtConfiguration = {
 
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css' },
       { rel: 'stylesheet', href: '/_nuxt/app.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
