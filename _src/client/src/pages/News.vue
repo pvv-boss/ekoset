@@ -21,7 +21,6 @@ export default class News extends Vue {
     for (let i = 0; i < 10; i++) {
       this.newsItems.push(new NewsShortDetail())
     }
-    alert(this.newsItems)
   }
 }
 </script>
