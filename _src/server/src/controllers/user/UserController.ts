@@ -1,4 +1,4 @@
-import { BaseController } from './BaseController';
+import { BaseController } from '../BaseController';
 import { JsonController, Post, BodyParam, Req, Res, Get, Param, UseBefore } from 'routing-controllers';
 import { Request, Response } from 'express';
 import ServiceContainer from '@/services/ServiceContainer';
@@ -6,7 +6,7 @@ import TokenUtil from '@/utils/TokenUtil';
 import { RegistrationStatus } from '@/entities/users/RegistrationResult';
 import SessionUser from '@/entities/users/SessionUser';
 import { LogonResult, LogonStatus } from '@/entities/users/LogonResult';
-import ClientNotifyMessage from './ClientNotifyMessage';
+import ClientNotifyMessage from '../ClientNotifyMessage';
 import { authorized } from '@/middlewares/AuthorizeMiddleware';
 import { logger } from '@/utils/Logger';
 import { ChangePasswordResult, ChangePasswordStatus } from '@/entities/users/ChangePasswordResult';

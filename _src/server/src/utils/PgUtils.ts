@@ -105,28 +105,6 @@ class PgUtls {
     return selectStmtp + whereAdd + sortAdd + limitOffsetAdd;
   }
 
-  private expandWhereParams (whereStmt: string, whereParms: any[]) {
-    if (!whereStmt) {
-      return [];
-    }
-
-    if (whereStmt.toUpperCase().includes('ANY')) {
-      return whereParms;
-    }
-
-    let params = [];
-
-    if (whereParms) {
-      whereParms.forEach((element) => {
-        if (Array.isArray(element)) {
-          params = [...params, ...element as []]
-        } else {
-          params.push(element);
-        }
-      })
-    }
-    return params;
-  }
 }
 
 const pgUtils = new PgUtls();

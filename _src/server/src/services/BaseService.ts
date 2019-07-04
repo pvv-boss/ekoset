@@ -3,7 +3,6 @@ import SortFilterPagination from '@/entities/SortFilterPagination';
 
 export default class BaseService {
 
-
   public async getDbViewResult (viewName: string, sortFilterPagin?: SortFilterPagination, whereStmt?: string, whereParams?: any[]) {
     return PgUtls.getAnyFromDatabase(viewName, sortFilterPagin, whereStmt, ...whereParams);
   }

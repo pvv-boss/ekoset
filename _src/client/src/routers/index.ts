@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import UserRoute from '@/routers/UserRouter'
 import BaseNotFound from '@/components/base/BaseNotFound.vue'
 import BaseError from '@/components/base/BaseError.vue'
-import index from '@/pages/index.vue'
+import { EkosetRouter } from '@/routers/EkosetRouter'
 
 Vue.use(Router)
 
@@ -11,11 +11,8 @@ export function createRouter () {
   return new Router({
     mode: 'history',
     routes: [
-      {
-        name: 'main',
-        path: '/', redirect: '/biddings/grounds'
-      },
       ...UserRoute,
+      ...EkosetRouter,
       {
         name: 'not-found',
         path: '*',
