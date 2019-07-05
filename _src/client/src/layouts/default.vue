@@ -1,7 +1,9 @@
 <template>
   <div v-show="!loading" class="brc-page-container">
     <TheLayoutHeader></TheLayoutHeader>
-    <nuxt></nuxt>
+    <main class="brc-body">
+      <nuxt></nuxt>
+    </main>
     <no-ssr>
       <TheLayoutFooter v-if="!loading"></TheLayoutFooter>
       <BaseCookieNotice></BaseCookieNotice>

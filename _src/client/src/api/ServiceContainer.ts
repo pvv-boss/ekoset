@@ -1,17 +1,17 @@
 import { Store } from 'vuex'
 import AuthService from './AuthService'
-import NewsService from './NewsService';
+import ArticleService from './ArticleService';
 
 
 export class ServiceContainer {
   public authService: AuthService
-  public newsService: NewsService
+  public articleService: ArticleService
 
   public initialized = false
 
   public async initialize (store: Store<any>) {
     this.authService = new AuthService(store)
-    this.newsService = new NewsService()
+    this.articleService = new ArticleService()
     await this.authService.initConfig()
     this.initialized = true
 
