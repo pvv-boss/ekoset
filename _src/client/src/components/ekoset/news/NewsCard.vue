@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="brc-news-card"></div>
 </template>
 
 <script lang="ts">
