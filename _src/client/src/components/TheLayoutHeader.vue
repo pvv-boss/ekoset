@@ -35,5 +35,6 @@ export default class TheLayoutHeader extends Vue {
 <style lang="scss" scoped>
 .brc-header-menu__list li {
   display: inline;
+  margin: auto;
 }
 </style>
