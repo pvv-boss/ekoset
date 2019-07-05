@@ -1,4 +1,5 @@
 import NuxtConfiguration from '@nuxt/config'
+import webpack = require('webpack')
 
 const config: NuxtConfiguration = {
 
@@ -35,6 +36,9 @@ const config: NuxtConfiguration = {
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css' },
+      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.core.css' },
+      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.snow.css' },
+      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.bubble.css' },
       { rel: 'stylesheet', href: '/_nuxt/app.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
@@ -49,6 +53,9 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/vuelidate', mode: 'client'
+    },
+    {
+      src: '@/plugins/nuxt-quill-plugin', ssr: false
     }
   ],
 
@@ -66,6 +73,12 @@ const config: NuxtConfiguration = {
     filenames: {
       css: ({ isDev }) => isDev ? '[name].css' : 'app.css',
     },
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ],
     extend (config, { isDev, isClient }) {
       if (isClient) {
         config.externals = {
