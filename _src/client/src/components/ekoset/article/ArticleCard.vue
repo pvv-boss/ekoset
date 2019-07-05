@@ -11,5 +11,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class NewsCard extends Vue { }
+export default class ArticleCard extends Vue { }
 </script>

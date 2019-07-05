@@ -6,6 +6,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class NewsRelatedList extends Vue { }
+export default class ArticleRelatedList extends Vue { }
 </script>
 

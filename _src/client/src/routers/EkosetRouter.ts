@@ -1,11 +1,11 @@
-import News from '@/pages/News.vue'
+import Article from '@/pages/Article.vue'
 
 export const EkosetRouter = [
   {
     name: 'news',
     path: '/news',
     props: true,
-    component: News,
+    component: Article,
     meta: { title: 'Экосеть: Новости' }
   }
 ]

@@ -1,7 +1,5 @@
 <template>
-  <section class="brc-body">
-    <LoginForm :mode="mode"></LoginForm>
-  </section>
+  <LoginForm :mode="mode"></LoginForm>
 </template>
 
 <script lang="ts">
