@@ -18,7 +18,7 @@ export class Article {
   public siteSection: Promise<SiteSection | null>;
 
   @RelationId((article: Article) => article.siteSection)
-  public siteSectionId: number;
+  public siteSectionId: number | null;
 
   @Column('text', {
     nullable: false,

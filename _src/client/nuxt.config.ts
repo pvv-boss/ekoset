@@ -55,7 +55,7 @@ const config: NuxtConfiguration = {
       src: '@/plugins/vuelidate', mode: 'client'
     },
     {
-      src: '@/plugins/nuxt-quill-plugin', ssr: false
+      src: '@/plugins/nuxt-quill-plugin', mode: 'client'
     }
   ],
 

@@ -16,7 +16,16 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
-  @Get('/:sitesection/news/:id(\\d+)')
+  @Get('/news')
+  public async getRootArticle (
+    @Res() response: Response
+  ) {
+
+    const result = await ServiceContainer.ArticleService.getWithoutSection();
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Get('/news/:id(\\d+)')
   public async getArticleById (
     @Res() response: Response,
     @Param('id') id: number) {
@@ -26,16 +35,25 @@ export default class ArticleController extends BaseController {
   }
 
   @Put('/:sitesection/news')
-  public async saveArticle (
+  public async saveArticleForSection (
     @Param('sitesection') siteSectionId: number,
     @Body() article: Article,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.ArticleService.save(siteSectionId, article)
+    const result = await ServiceContainer.ArticleService.save(siteSectionId, article);
     return ArticleController.createSuccessResponse(result, response);
   }
 
-  @Delete('/:sitesection/news/:id(\\d+)')
+  @Put('/news')
+  public async saveArticle (
+    @Body() article: Article,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.save(0, article);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/news/:id(\\d+)')
   public async deleteArticle (
     @Param('id') id: number,
     @Res() response: Response) {
