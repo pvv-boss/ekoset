@@ -10,4 +10,5 @@ export default class AppConfig {
   public adminRoleName = 'admin'
   public cookieName: string = 'auth-rsn-cookie'
   public jwtHeaderName: string = 'auth-rsn-header'
+  public mainEntityOfPage: string = 'http://ekoset.npobaltros.ru/'
 }
