@@ -5,6 +5,11 @@ import Article from '@/models/ekoset/Article'
 
 export default class ArticleService extends BaseService {
 
+  public async  getRootArticle (siteSectionId: number, pagination?: Pagination) {
+    const query = 'news'
+    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+    return result
+  }
 
   public async  getArticleListBySiteSection (siteSectionId: number, pagination?: Pagination) {
     const query = `${siteSectionId}/news`
@@ -12,18 +17,23 @@ export default class ArticleService extends BaseService {
     return result
   }
 
-  public async getArticleById (siteSectionId: number, id: number) {
-    const query = `${siteSectionId}/news/${id}`
+  public async getArticleById (id: number) {
+    const query = `news/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  public async saveArticle (siteSectionId: number, article: Article) {
+  public async saveArticleForSection (siteSectionId: number, article: Article) {
     const query = `${siteSectionId}/news`
     return HttpUtil.httpPut(this.buildHttRequest(query), article)
   }
 
-  public async deleteArticle (siteSectionId: number, id: number) {
-    const query = `${siteSectionId}/news/${id}`
+  public async saveArticle (article: Article) {
+    const query = 'news'
+    return HttpUtil.httpPut(this.buildHttRequest(query), article)
+  }
+
+  public async deleteArticle (id: number) {
+    const query = `news/${id}`
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 }
