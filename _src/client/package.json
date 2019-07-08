@@ -20,6 +20,8 @@
     "nuxt": "latest",
     "nuxt-class-component": "latest",
     "nuxt-property-decorator": "latest",
+    "quill-image-resize-module": "^3.0.0",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "latest",
     "vuelidate": "latest",
     "vuex-module-decorators": "latest"

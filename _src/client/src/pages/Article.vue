@@ -13,5 +13,6 @@ import articleList from '@/components/ekoset/article/articleList.vue'
 })
 export default class Article extends Vue {
 
+
 }
 </script>

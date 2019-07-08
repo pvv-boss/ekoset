@@ -1,4 +1,5 @@
 import Article from '@/pages/Article.vue'
+import ArticleEditor from '@/pages/ArticleEditor.vue'
 
 export const EkosetRouter = [
   {
@@ -7,5 +8,12 @@ export const EkosetRouter = [
     props: true,
     component: Article,
     meta: { title: 'Экосеть: Новости' }
+  },
+  {
+    name: 'editor',
+    path: '/editor',
+    props: true,
+    component: ArticleEditor,
+    meta: { title: 'Экосеть: Редактор статей' }
   }
 ]
