@@ -1,16 +1,6 @@
 <template>
   <header class="brc-header">
     <h3>Экосеть</h3>
-    <div class="brc-header-menu">
-      <ul class="brc-header-menu__list">
-        <li>О компании</li>
-        <li>Наши клиенты</li>
-        <li>Цены</li>
-        <li>Новости</li>
-        <li>Контакты</li>
-      </ul>
-    </div>
-    <div class="brc-breadcrumb">Главная > Навигация</div>
   </header>
 </template>
 
@@ -31,10 +21,3 @@ export default class TheLayoutHeader extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.brc-header-menu__list li {
-  display: inline;
-  margin: auto;
-}
-</style>
