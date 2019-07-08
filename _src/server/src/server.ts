@@ -10,6 +10,7 @@ app.initialize().
 
     logger.info(`Server running on port ${port} in ${process.env.NODE_ENV}`);
     process.send('ready');
+
   }).
   catch((error) => {
     logger.error(error);

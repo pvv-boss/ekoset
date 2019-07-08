@@ -3,16 +3,13 @@ import { AppUser } from '../../entities/users/AppUser';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import PgUtls from '@/utils/PgUtils';
 import { AppUserSocialNetProfile } from '@/entities/users/AppUserSocialNetProfile';
-import BaseRepository from '@/utils/BaseRepository';
 import SessionUser from '../../entities/users/SessionUser';
 
 export default class UserService extends BaseService {
-  private userRepository: BaseRepository<AppUser> = new BaseRepository(AppUser);
-  private appUserSocialNetProfileRepository: BaseRepository<AppUserSocialNetProfile> = new BaseRepository(AppUserSocialNetProfile);
 
   public async getById (userId: number) {
     const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user', 'app_user_id=$1', userId);
-    return this.userRepository.getOneEntityInstanceFromJson(dbResult);
+    return this.getOneEntityInstanceFromJson(dbResult, AppUser);
   }
 
   public async getByEmail (email: string) {
@@ -21,17 +18,17 @@ export default class UserService extends BaseService {
     }
 
     const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user', 'LOWER(app_user_email)=$1', email.trim().toLowerCase());
-    return this.userRepository.getOneEntityInstanceFromJson(dbResult);
+    return this.getOneEntityInstanceFromJson(dbResult, AppUser);
   }
 
   public async getByRegistrationToken (token: string) {
     const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user', 'app_user_reg_token=$1', token);
-    return this.userRepository.getOneEntityInstanceFromJson(dbResult);
+    return this.getOneEntityInstanceFromJson(dbResult, AppUser);
   }
 
   public async getByResetPasswordToken (token: string) {
     const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user', 'app_user_reset_pwd=$1', token);
-    return this.userRepository.getOneEntityInstanceFromJson(dbResult);
+    return this.getOneEntityInstanceFromJson(dbResult, AppUser);
   }
 
   public async getSessionUserByProfileCode (profileType: string, profileCode: number) {
@@ -40,7 +37,7 @@ export default class UserService extends BaseService {
       return null;
     }
 
-    const profile = this.appUserSocialNetProfileRepository.getOneEntityInstanceFromJson(dbResult);
+    const profile = this.getOneEntityInstanceFromJson(dbResult, AppUserSocialNetProfile);
     const result = this.convertAppUserSocialNetProfileToSessionUser(profile)
 
     return result;
@@ -60,7 +57,7 @@ export default class UserService extends BaseService {
   public async linkSessionUserToSocialNetwork (authStrategyType: string, sessionUser: SessionUser) {
     if (sessionUser.appUserId > 0 && sessionUser.userSnProfileId > 0 && authStrategyType) {
       const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user_social_net_profile', 'user_sn_profile_code=$1 and user_sn_profile_type=$2', sessionUser.userSnProfileId, authStrategyType);
-      const tryProfile = this.appUserSocialNetProfileRepository.getOneEntityInstanceFromJson(dbResult);
+      const tryProfile = this.getOneEntityInstanceFromJson(dbResult, AppUserSocialNetProfile);
 
       const newAppUserSocialNetProfile: AppUserSocialNetProfile = tryProfile ? tryProfile : new AppUserSocialNetProfile();
       newAppUserSocialNetProfile.appUserId = sessionUser.appUserId;

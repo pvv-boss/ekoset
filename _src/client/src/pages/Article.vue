@@ -5,7 +5,6 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import articleList from '@/components/ekoset/article/articleList.vue'
-import articleShortDetail from '@/models/ekoset/articleShortDetail.ts'
 
 @Component({
   components: {
@@ -13,14 +12,7 @@ import articleShortDetail from '@/models/ekoset/articleShortDetail.ts'
   }
 })
 export default class Article extends Vue {
-  private articleItems: articleShortDetail[] = []
 
-  private async mounted () {
-    for (let i = 0; i < 10; i++) {
-      this.articleItems.push(new articleShortDetail())
-    }
-
-  }
 
   private testRegex () {
     const textWithImgBase64 = '<p><img src="data:image/jpeg;base64,/9j/4AAAhKYR5lK7omoFjHNIFbA6KrB/iFXG9CgKSlKPyprkCEptpHIagUJb2SN6JR1Qf/2Q==" width="454" style="cursor: nesw-resize;"></p><p><br></p>'
@@ -32,7 +24,7 @@ export default class Article extends Vue {
       base64 = match[2]
       ext = match[1]
     }
-    const textWithImgSrc = textWithImgBase64.replace(regexp, '<img src="ÑÑÑ‹Ð»ÐºÐ° Ð½Ð° Ñ„Ð°Ð¹Ð»"/>')
+    const textWithImgSrc = textWithImgBase64.replace(regexp, '<img src="ññûëêà íà ôàéë"/>')
   }
 
 }

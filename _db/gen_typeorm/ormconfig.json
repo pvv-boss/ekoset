@@ -1,0 +1,16 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "172.16.3.45",
+    "port": 5432,
+    "username": "postgres",
+    "password": "hgtf86443",
+    "database": "PKK",
+    "schema": "brc_ekoset",
+    "synchronize": false,
+    "entities": [
+      "entities/*.js"
+    ]
+  }
+]

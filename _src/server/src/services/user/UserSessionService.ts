@@ -4,14 +4,12 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 import PgUtls from '@/utils/PgUtils';
 import Guid from '@/utils/Guid';
 import AppConfig from '@/utils/Config';
-import BaseRepository from '@/utils/BaseRepository';
 
 export default class UserSessionService extends BaseService {
-  private baseRepository: BaseRepository<AppUserSession> = new BaseRepository(AppUserSession);
 
   public async getByToken (token: string) {
     const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user_session', 'user_session_token=$1', token);
-    return this.baseRepository.getOneEntityInstanceFromJson(dbResult);
+    return this.getOneEntityInstanceFromJson(dbResult, AppUserSession);
   }
 
   public async getByUser (appUserId: number) {

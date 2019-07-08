@@ -22,7 +22,7 @@ export default class Base64 {
 
   public static async decode (encoded: string, filePath?: string) {
     const promise = new Promise((resolve, reject) => {
-      const decoded = Buffer.from(encoded).toString('base64');
+      const decoded = Buffer.from(encoded, 'base64');
       if (filePath) {
         fs.writeFile(filePath, decoded, (err) => {
           if (err) {
