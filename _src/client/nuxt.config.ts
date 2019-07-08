@@ -85,7 +85,7 @@ const config: NuxtConfiguration = {
   },
 
   server: {
-    port: 8000,
+    port: 8010,
     host: 'localhost'
   }
 }
