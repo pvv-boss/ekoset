@@ -1,12 +1,19 @@
-import Article from '@/pages/Article.vue'
-import ArticleCard from '@/components/ekoset/article/ArticleCard.vue'
+import Articles from '@/pages/Articles.vue'
+import ArticleCard from '@/pages/ArticleCard.vue'
 
 export const EkosetRouter = [
   {
-    name: 'news',
+    name: 'article-list',
     path: '/news',
     props: true,
-    component: Article,
+    component: Articles,
+    meta: { title: 'Экосеть: Новости' }
+  },
+  {
+    name: 'article-section-list',
+    path: '/:siteSectionId(\\d+)/news',
+    props: true,
+    component: Articles,
     meta: { title: 'Экосеть: Новости' }
   },
   {

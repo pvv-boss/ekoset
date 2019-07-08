@@ -5,7 +5,7 @@ import Article from '@/models/ekoset/Article'
 
 export default class ArticleService extends BaseService {
 
-  public async  getRootArticle (siteSectionId: number, pagination?: Pagination) {
+  public async  getRootArticleList (pagination?: Pagination) {
     const query = 'news'
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
