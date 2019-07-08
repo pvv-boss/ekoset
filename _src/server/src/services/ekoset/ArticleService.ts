@@ -6,22 +6,24 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 import Base64 from '@/utils/Base64';
 import { logger } from '@/utils/Logger';
 import AppConfig from '@/utils/Config';
+import Guid from '@/utils/Guid';
+import { slugify } from '@/utils/Slug';
 
 export default class ArticleService extends BaseService {
 
   private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?=)".*?>/gm;
   private apiViewName = 'v_api_article';
 
-  public async getAll () {
-    return this.getDbViewResult(this.apiViewName);
+  public async getAll (published = 1) {
+    return this.getDbViewResult(this.apiViewName, null, 'article_status = $1', [published]);
   }
 
-  public async getWithoutSection () {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id IS NULL');
+  public async getWithoutSection (published = 1) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id IS NULL AND article_status = $1', [published]);
   }
 
-  public async getBySiteSection (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
+  public async getBySiteSection (siteSectionId: number, published = 1) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 AND article_status = $2', [siteSectionId, published]);
   }
 
   public async getById (id: number) {
@@ -34,9 +36,9 @@ export default class ArticleService extends BaseService {
     }
     article.articlePublishDate = new Date(Date.now()).toUTCString();
     try {
-      const savedArticle = await TypeOrmManager.EntityManager.save(article);
       // Заменяем встроенные картинки Base64 на URL
-      savedArticle.articleBody = await this.createImageFromBase64AndReplaceSrc(savedArticle.articleId, savedArticle.articleBody);
+      article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
+      article.articleSlug = slugify(article.articleTitle);
       return TypeOrmManager.EntityManager.save(article);
     } catch (err) {
       logger.error(err);
@@ -55,7 +57,7 @@ export default class ArticleService extends BaseService {
   }
 
   public async moveToSiteSection (id: number, siteSectionId: number) {
-    const update = 'UPDATE article SET site_section_id = $1 WHERE user_session_token=$2';
+    const update = 'UPDATE article SET site_section_id = $1 WHERE article_id=$2';
     return PgUtls.execNone(update, siteSectionId, id);
   }
 
@@ -63,14 +65,14 @@ export default class ArticleService extends BaseService {
     return this.deleteById(this.apiViewName, 'article_id = $1', id);
   }
 
-  private async createImageFromBase64AndReplaceSrc (id: number, articleBody: string) {
+  private async createImageFromBase64AndReplaceSrc (articleBody: string) {
     let result = articleBody;
     const match = this.regexp.exec(articleBody);
 
     if (match) {
       const ext = match[1];
       const base64 = match[2];
-      const filePath = path.resolve('static', 'article', `_${id}.${ext}`);
+      const filePath = path.resolve('static', 'article', `_${Guid.newGuid()}.${ext}`);
 
       try {
         await Base64.decode(base64, filePath);

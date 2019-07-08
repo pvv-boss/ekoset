@@ -40,6 +40,11 @@ export class Article {
   })
   public articleTitle: string;
 
+  @Column('text', {
+    nullable: false,
+    name: 'article_slug'
+  })
+  public articleSlug: string;
 
   @Column('text', {
     nullable: false,
