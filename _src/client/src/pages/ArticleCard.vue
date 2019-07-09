@@ -57,15 +57,16 @@ export default class ArticleCard extends Vue {
   private realtedArticles: Article[] = []
 
   private async asyncData (context: NuxtContext) {
-    const articleId = Number(context.params.id)
+    const articleUrl = context.params.articleUrl
 
-    const data = await getServiceContainer().articleService.getArticleById(articleId)
-    if (data) {
-      const relatedListPr = await getServiceContainer().articleService.getArticleListBySiteSection(data.siteSectionId)
-      return {
-        article: data,
-        realtedArticles: relatedListPr
-      }
+    const articlePr = getServiceContainer().articleService.getArticleBySlugUrl(articleUrl)
+    const articleId = getServiceContainer().articleService.getArticleIdBySlugUrl(articleUrl)
+
+    const relatedListPr = getServiceContainer().articleService.getRelatedArticleListById(articleId)
+    const data = await Promise.all([articlePr, relatedListPr])
+    return {
+      article: data[0],
+      realtedArticles: data[1]
     }
   }
 

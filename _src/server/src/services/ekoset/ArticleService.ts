@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as fs from 'fs';
+import * as slugify from '@sindresorhus/slugify';
 import BaseService from '../BaseService';
 import PgUtls from '@/utils/PgUtils';
 import { Article } from '@/entities/ekoset/Article';
@@ -7,7 +9,6 @@ import Base64 from '@/utils/Base64';
 import { logger } from '@/utils/Logger';
 import AppConfig from '@/utils/Config';
 import Guid from '@/utils/Guid';
-import { slugify } from '@/utils/Slug';
 
 export default class ArticleService extends BaseService {
 
@@ -33,7 +34,7 @@ export default class ArticleService extends BaseService {
   }
 
   public async getRelated (id: number, published = 1) {
-    return this.getDbViewResult(this.apiRelatedViewName, null, 'article_id =$1 AND article_status = $2', [id, published]);
+    return this.getDbViewResult(this.apiRelatedViewName, null, 'main_article_id =$1 AND article_status = $2', [id, published]);
   }
 
   public async save (siteSectionId: number, article: Article) {
@@ -78,7 +79,12 @@ export default class ArticleService extends BaseService {
     if (match) {
       const ext = match[1];
       const base64 = match[2];
-      const filePath = path.resolve('static', 'article', `_${Guid.newGuid()}.${ext}`);
+
+      const imageDir = path.resolve('static', 'article');
+      const filePath = path.resolve(imageDir, `img_${Guid.newGuid()}.${ext}`);
+      if (!fs.existsSync(imageDir)) {
+        fs.mkdirSync(imageDir);
+      }
 
       try {
         await Base64.decode(base64, filePath);

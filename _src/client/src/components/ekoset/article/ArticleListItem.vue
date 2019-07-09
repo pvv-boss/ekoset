@@ -5,7 +5,7 @@
     </div>
     <div class="brc-article-smallitem__header">
       <nuxt-link
-        :to="{ name: 'article-card', params: { id: articleItem.articleId}}"
+        :to="{ name: 'article-card', params: { articleUrl: articleItem.articleUrl}}"
         class="brc-article-smallitem__header-link"
       >{{articleItem.articleTitle}}</nuxt-link>
     </div>
