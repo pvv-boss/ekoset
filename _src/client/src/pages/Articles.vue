@@ -25,7 +25,7 @@ export default class Articles extends Vue {
   private async asyncData (context: NuxtContext) {
     const siteSectionId = Number(context.params.siteSectionId)
 
-    const data = await (siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getArticleListBySiteSection(1))
+    const data = (siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
     if (data) {
       return {
         articleItems: data

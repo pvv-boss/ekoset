@@ -12,4 +12,5 @@ export default class Article {
   public articleSource: string | null
   public articleViewsNumber: number | null
   public articleStatus: number
+  public articleUrl: string
 }

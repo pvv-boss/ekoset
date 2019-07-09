@@ -12,7 +12,9 @@ import { slugify } from '@/utils/Slug';
 export default class ArticleService extends BaseService {
 
   private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?=)".*?>/gm;
+
   private apiViewName = 'v_api_article';
+  private apiRelatedViewName = 'v_api_related_article';
 
   public async getAll (published = 1) {
     return this.getDbViewResult(this.apiViewName, null, 'article_status = $1', [published]);
@@ -28,6 +30,10 @@ export default class ArticleService extends BaseService {
 
   public async getById (id: number) {
     return this.getOneById(this.apiViewName, 'article_id = $1', id);
+  }
+
+  public async getRelated (id: number, published = 1) {
+    return this.getDbViewResult(this.apiRelatedViewName, null, 'article_id =$1 AND article_status = $2', [id, published]);
   }
 
   public async save (siteSectionId: number, article: Article) {

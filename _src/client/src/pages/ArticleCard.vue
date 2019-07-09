@@ -1,6 +1,8 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
-    <h1 itemprop="headline name">{{article.articleTitle}}</h1>
+    <header>
+      <h1 itemprop="headline name">{{article.articleTitle}}</h1>
+    </header>
     <figure>
       <img
         :src="article.articleHeaderImgSrc"
