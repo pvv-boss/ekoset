@@ -32,7 +32,6 @@ export default class ArticleService extends BaseService {
   }
 
   public async getRelatedArticleListById (id: number) {
-    await this.testSave(id)
     const query = `news/${id}/related`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
@@ -50,10 +49,5 @@ export default class ArticleService extends BaseService {
   public async deleteArticle (id: number) {
     const query = `news/${id}`
     return HttpUtil.httpDelete(this.buildHttRequest(query))
-  }
-
-  private async testSave (id: number) {
-    const article: Article = await this.getArticleById(id)
-    this.saveArticle(article)
   }
 }
