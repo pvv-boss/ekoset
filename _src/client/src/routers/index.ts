@@ -4,6 +4,7 @@ import UserRoute from '@/routers/UserRouter'
 import BaseNotFound from '@/components/base/BaseNotFound.vue'
 import BaseError from '@/components/base/BaseError.vue'
 import { EkosetRouter } from '@/routers/EkosetRouter'
+import { AdminRouter } from '@/routers/AdminRouter'
 
 Vue.use(Router)
 
@@ -13,6 +14,7 @@ export function createRouter () {
     routes: [
       ...UserRoute,
       ...EkosetRouter,
+      ...AdminRouter,
       {
         name: 'not-found',
         path: '*',
