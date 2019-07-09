@@ -18,7 +18,7 @@ export const EkosetRouter = [
   },
   {
     name: 'article-card',
-    path: '/news/:id(\\d+)',
+    path: '/news/:articleUrl',
     component: ArticleCard,
     meta: { title: 'Экосеть: Новость' }
   }
