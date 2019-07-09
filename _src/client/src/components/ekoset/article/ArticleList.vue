@@ -40,8 +40,10 @@ export default class ArticleList extends Vue {
   align-content: space-around;
 
   .brc-article-smallitem {
-    width: 30%;
+    flex: 1;
     margin-bottom: 50px;
+    min-width: 300px;
+    max-width: 300px;
   }
 }
 

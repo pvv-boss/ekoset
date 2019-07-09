@@ -77,6 +77,7 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+img,
 .brc-article-item__header-img {
   max-width: 100%;
 }
@@ -100,13 +101,16 @@ figure {
 .brc-article-wrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   .brc-article-item {
-    width: 70%;
+    flex: 2;
+    max-width: 700px;
+    min-width: 400px;
   }
   .brc-article-related {
-    width: 30%;
-    margin-left: 30px;
+    flex: 1;
+    min-width: 300px;
   }
 }
 </style>
