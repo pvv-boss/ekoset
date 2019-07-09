@@ -8,7 +8,7 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 import Base64 from '@/utils/Base64';
 import { logger } from '@/utils/Logger';
 import AppConfig from '@/utils/Config';
-import Guid from '@/utils/Guid';
+import * as cuid from 'cuid';
 
 export default class ArticleService extends BaseService {
 
@@ -80,15 +80,16 @@ export default class ArticleService extends BaseService {
       const ext = match[1];
       const base64 = match[2];
 
-      const imageDir = path.resolve('static', 'article');
-      const filePath = path.resolve(imageDir, `img_${Guid.newGuid()}.${ext}`);
-      if (!fs.existsSync(imageDir)) {
-        fs.mkdirSync(imageDir);
+      const pathName = path.resolve('static', 'article');
+      const fileName = `img_${cuid()}.${ext}`;
+      const filePath = path.resolve(pathName, fileName);
+      if (!fs.existsSync(pathName)) {
+        fs.mkdirSync(pathName);
       }
 
       try {
         await Base64.decode(base64, filePath);
-        const imageSrc = `${AppConfig.serverConfig.host}`;
+        const imageSrc = `${AppConfig.serverConfig.host}images/${fileName}`;
         result = articleBody.replace(`data:image/${ext};base64,`, '').replace(base64, filePath)
       } catch (err) {
         logger.error(err);

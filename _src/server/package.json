@@ -52,6 +52,7 @@
     "yarn": "latest"
   },
   "dependencies": {
+    "@sindresorhus/slugify": "latest",
     "bcrypt": "latest",
     "body-parser": "^1.19.0",
     "camelcase-keys": "latest",
@@ -59,6 +60,7 @@
     "compression": "^1.7.4",
     "cookie-parser": "latest",
     "cors": "latest",
+    "cuid": "^2.1.6",
     "express": "^4.17.1",
     "express-session": "^1.16.1",
     "express-validator": "^5.3.1",
@@ -80,7 +82,6 @@
     "routing-controllers": "latest",
     "routing-controllers-openapi": "^1.7.0",
     "typeorm": "^0.2.17",
-    "winston": "latest",
-    "@sindresorhus/slugify": "latest"
+    "winston": "latest"
   }
 }

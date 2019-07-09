@@ -52,3 +52,5 @@
 {"level":"error"}
 {"level":"error"}
 {"level":"error"}
+{"message":"Server running on port 3000 in development","level":"info"}
+{"level":"error"}
