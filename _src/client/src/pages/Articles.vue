@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <section>
     <h1 itemprop="headline name">Список новостей</h1>
-    <articleList :articleList="articleItems" mode="columns"></articleList>
-  </div>
+    <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
+  </section>
 </template>
 
 <script lang="ts">

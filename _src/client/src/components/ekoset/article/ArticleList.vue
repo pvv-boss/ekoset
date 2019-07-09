@@ -3,7 +3,7 @@
     <ArticleListItem
       v-for="articleItem in articleList"
       :key="articleItem.articleId"
-      :article-item="articleItem"
+      :articleItem="articleItem"
     ></ArticleListItem>
   </div>
 </template>

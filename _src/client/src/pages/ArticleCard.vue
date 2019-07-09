@@ -31,10 +31,10 @@
         <div>Теги</div>
         <div>Поделиться</div>
       </section>
-      <aside class="brc-article-related">
+      <section class="brc-article-related">
         <h2>Похожие новости</h2>
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
-      </aside>
+      </section>
     </div>
   </div>
 </template>
