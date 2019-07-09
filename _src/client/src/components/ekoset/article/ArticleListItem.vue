@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-article-smallitem">
+  <article class="brc-article-smallitem">
     <div class="brc-article-smallitem__preview">
       <img :src="articleItem.articlePreviewImgSrc" class="brc-article-smallitem__preview-img" />
     </div>
@@ -20,7 +20,7 @@
         <span>{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script lang="ts">
