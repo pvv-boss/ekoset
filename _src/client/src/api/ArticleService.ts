@@ -22,6 +22,11 @@ export default class ArticleService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  public async getRelatedArticleListById (id: number) {
+    const query = `news/${id}/related`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
   public async saveArticleForSection (siteSectionId: number, article: Article) {
     const query = `${siteSectionId}/news`
     return HttpUtil.httpPut(this.buildHttRequest(query), article)

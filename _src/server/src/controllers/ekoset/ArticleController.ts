@@ -34,6 +34,16 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
+
+  @Get('/news/:id(\\d+)/related')
+  public async getRelatedArticleListById (
+    @Res() response: Response,
+    @Param('id') id: number) {
+
+    const result = await ServiceContainer.ArticleService.getRelated(id);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
   @Put('/:sitesection/news')
   public async saveArticleForSection (
     @Param('sitesection') siteSectionId: number,

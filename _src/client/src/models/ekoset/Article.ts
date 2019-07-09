@@ -4,6 +4,7 @@ export default class Article {
   public articlePublishDate: string
   public articleAuthor: string | null
   public articleTitle: string
+  public articleSlug: string
   public articleDescription: string
   public articleBody: string | null
   public articlePreviewImgSrc: string | null
@@ -11,4 +12,5 @@ export default class Article {
   public articleSource: string | null
   public articleViewsNumber: number | null
   public articleStatus: number
+  public articleUrl: string
 }
