@@ -54,3 +54,19 @@
 {"level":"error"}
 {"message":"Server running on port 3000 in development","level":"info"}
 {"level":"error"}
+{"message":"Server running on port 3000 in development","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"нулевое значение в столбце \"article_description\" нарушает ограничение NOT NULL","name":"QueryFailedError","length":484,"severity":"ОШИБКА","code":"23502","detail":"Ошибочная строка содержит (12, null, 2019-07-09 19:10:06+03, null, Нет денег на бритву, null, <p><img src=\"C:\\_Work\\_Projects\\Baltros.Fsin\\ekoset\\_src\\server\\..., null, null, null, null, 0, net-deneg-na-britvu).","schema":"brc_ekoset","table":"article","column":"article_description","file":"execMain.c","line":"2008","routine":"ExecConstraints","query":"INSERT INTO \"brc_ekoset\".\"article\"(\"article_publish_date\", \"article_author\", \"article_title\", \"article_slug\", \"article_description\", \"article_body\", \"article_preview_img_src\", \"article_header_img_src\", \"article_source\", \"article_views_number\", \"article_status\", \"site_section_id\") VALUES ($1, DEFAULT, $2, $3, DEFAULT, $4, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT) RETURNING \"article_id\"","parameters":["Tue, 09 Jul 2019 16:10:06 GMT","Нет денег на бритву","net-deneg-na-britvu","<p><img src=\"C:\\_Work\\_Projects\\Baltros.Fsin\\ekoset\\_src\\server\\static\\article\\img_cjxw0g5g000010kkgc83l8cdw.jpeg\"></p>"],"level":"error"}
+{"message":"request entity too large","expected":2854503,"length":2854503,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854529,"length":2854529,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854529,"length":2854529,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854484,"length":2854484,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854703,"length":2854703,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854703,"length":2854703,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854439,"length":2854439,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854721,"length":2854721,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"request entity too large","expected":2854721,"length":2854721,"limit":102400,"type":"entity.too.large","level":"error"}

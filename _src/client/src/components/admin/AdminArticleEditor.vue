@@ -4,9 +4,6 @@
       class="quill-editor"
       :content="value"
       @change="onEditorChange($event)"
-      @blur="onEditorBlur($event)"
-      @focus="onEditorFocus($event)"
-      @ready="onEditorReady($event)"
       v-quill:myQuillEditor="editorOptions"
     ></div>
   </div>

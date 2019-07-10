@@ -28,15 +28,15 @@
   },
   "devDependencies": {
     "@babel/core": "latest",
-    "@babel/preset-env": "latest",
-    "@babel/runtime": "latest",
-    "@babel/runtime-corejs3": "latest",
+    "@babel/preset-env": "^7.5.3",
+    "@babel/runtime": "^7.5.3",
+    "@babel/runtime-corejs3": "^7.5.3",
     "@nuxt/typescript": "latest",
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/router": "latest",
     "@types/js-cookie": "latest",
     "@types/jwt-decode": "latest",
-    "@types/node": "latest",
+    "@types/node": "^12.6.1",
     "@types/vuelidate": "latest",
     "@types/webpack-env": "latest",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
@@ -60,7 +60,7 @@
     "purgecss-webpack-plugin": "^1.5.0",
     "sass-loader": "latest",
     "ts-node": "latest",
-    "typescript": "latest",
+    "typescript": "^3.5.3",
     "vue-meta": "latest"
   }
 }
