@@ -91,6 +91,7 @@ export default class AdminArticleCard extends Vue {
 .brc-article-card_admin {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap-reverse;
   flex: 2;
 
   .brc-article-card__editor,
