@@ -1,14 +1,20 @@
 <template>
   <article class="brc-article-smallitem">
-    <div class="brc-article-smallitem__preview">
-      <img :src="articleItem.articlePreviewImgSrc" class="brc-article-smallitem__preview-img" />
-    </div>
-    <div class="brc-article-smallitem__header">
+    <figure class="brc-article-smallitem__preview">
+      <img
+        :src="articleItem.articlePreviewImgSrc"
+        :alt="articleItem.articleTitle"
+        itemprop="image"
+        class="brc-article-smallitem__preview-img"
+      />
+      <figcaption>{{articleItem.articleTitle}}</figcaption>
+    </figure>
+    <header class="brc-article-smallitem__header">
       <nuxt-link
         :to="{ name: 'article-card', params: { articleUrl: articleItem.articleUrl}}"
         class="brc-article-smallitem__header-link"
       >{{articleItem.articleTitle}}</nuxt-link>
-    </div>
+    </header>
     <div class="clearfix"></div>
     <div class="brc-article-smallitem__stat-info">
       <div class="brc-article-smallitem__views">
@@ -33,7 +39,7 @@ export default class ArticleListItem extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .brc-article-smallitem__preview-img {
   max-width: 100%;
 }

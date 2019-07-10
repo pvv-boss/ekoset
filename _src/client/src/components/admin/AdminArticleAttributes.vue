@@ -2,11 +2,11 @@
   <div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Статус</div>
-      <input type="number" v-model="value.articleStatus" />
+      <input type="number" v-model.number="value.articleStatus" />
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Раздел</div>
-      <input type="number" v-model="value.siteSectionId" />
+      <input type="number" v-model.number="value.siteSectionId" />
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Краткое описание</div>

@@ -76,10 +76,12 @@ export default class ArticleCard extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-img,
+<style lang="scss">
 .brc-article-item__header-img {
   max-width: 100%;
+}
+img {
+  max-width: 100% !important;
 }
 .brc-article-item__stat-info {
   color: gray;
