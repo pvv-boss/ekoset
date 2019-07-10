@@ -61,6 +61,8 @@ export default class AdminArticleEditor extends Vue {
     this.value = str.replace(/\s*(style|class)=\".*?\"/gm, '')
   }
 
+  // FIXME:     через update:fffff чтобы извне использовать :prop.sync
+
   private onEditorChange ({ editor, html, text }) {
     this.$emit('input', html)
   }

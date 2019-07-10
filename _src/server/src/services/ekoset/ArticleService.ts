@@ -80,7 +80,7 @@ export default class ArticleService extends BaseService {
       const ext = match[1];
       const base64 = match[2];
 
-      const pathName = path.resolve('static', 'article');
+      const pathName = path.resolve('static', 'news');
       const fileName = `img_${cuid()}.${ext}`;
       const filePath = path.resolve(pathName, fileName);
       if (!fs.existsSync(pathName)) {
@@ -89,8 +89,8 @@ export default class ArticleService extends BaseService {
 
       try {
         await Base64.decode(base64, filePath);
-        const imageSrc = `${AppConfig.serverConfig.host}images/${fileName}`;
-        result = articleBody.replace(`data:image/${ext};base64,`, '').replace(base64, filePath)
+        const imageSrc = `/img/news/${fileName}`;
+        result = articleBody.replace(`data:image/${ext};base64,`, '').replace(base64, imageSrc)
       } catch (err) {
         logger.error(err);
       }
