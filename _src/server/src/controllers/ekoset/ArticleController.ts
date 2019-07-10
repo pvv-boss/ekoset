@@ -44,22 +44,12 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
-  @Put('/:sitesection/news')
-  public async saveArticleForSection (
-    @Param('sitesection') siteSectionId: number,
-    @Body() article: Article,
-    @Res() response: Response) {
-
-    const result = await ServiceContainer.ArticleService.save(siteSectionId, article);
-    return ArticleController.createSuccessResponse(result, response);
-  }
-
   @Put('/news')
   public async saveArticle (
     @Body() article: Article,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.ArticleService.save(0, article);
+    const result = await ServiceContainer.ArticleService.save(article);
     return ArticleController.createSuccessResponse(result, response);
   }
 

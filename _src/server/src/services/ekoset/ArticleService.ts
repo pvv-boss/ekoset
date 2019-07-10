@@ -37,15 +37,13 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult(this.apiRelatedViewName, null, 'main_article_id =$1 AND article_status = $2', [id, published]);
   }
 
-  public async save (siteSectionId: number, article: Article) {
-    if (siteSectionId > 0) {
-      article.siteSectionId = siteSectionId;
-    }
+  public async save (article: Article) {
     article.articlePublishDate = new Date(Date.now()).toUTCString();
     try {
       // Заменяем встроенные картинки Base64 на URL
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
       article.articleSlug = slugify(article.articleTitle);
+      article.siteSection = Promise.resolve(article.siteSectionId);
       return TypeOrmManager.EntityManager.save(article);
     } catch (err) {
       logger.error(err);

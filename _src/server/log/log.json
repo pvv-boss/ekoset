@@ -70,3 +70,7 @@
 {"message":"request entity too large","expected":2854439,"length":2854439,"limit":102400,"type":"entity.too.large","level":"error"}
 {"message":"request entity too large","expected":2854721,"length":2854721,"limit":102400,"type":"entity.too.large","level":"error"}
 {"message":"request entity too large","expected":2854721,"length":2854721,"limit":102400,"type":"entity.too.large","level":"error"}
+{"message":"Server running on port 3000 in development","level":"info"}
+{"level":"error"}
+{"message":"Server running on port 3000 in development","level":"info"}
+{"level":"error"}

@@ -15,7 +15,7 @@ export class Article {
 
   @ManyToOne((type) => SiteSection)
   @JoinColumn({ name: 'site_section_id' })
-  public siteSection: Promise<SiteSection | null>;
+  public siteSection: Promise<SiteSection | null | number>;
 
   @RelationId((article: Article) => article.siteSection)
   public siteSectionId: number | null;
