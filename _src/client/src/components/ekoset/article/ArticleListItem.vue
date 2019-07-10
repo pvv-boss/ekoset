@@ -23,7 +23,10 @@
       </div>
       <div class="brc-article-smallitem__date">
         <i class="far fa-clock"></i>
-        <span>{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+        <span
+          itemprop="datePublished"
+          :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
+        >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
     </div>
   </article>

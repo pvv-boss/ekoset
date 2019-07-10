@@ -35,7 +35,7 @@
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Дата</div>
-      <input type="date" v-model="value.articlePublishDate" />
+      <input type="datetime" v-model="value.articlePublishDate" />
     </div>
   </div>
 </template>
