@@ -23,7 +23,7 @@
             <i class="far fa-clock"></i>
             <span
               itemprop="datePublished"
-              :content="article.articlePublishDate"
+              :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
             >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
           </div>
         </div>
