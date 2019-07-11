@@ -30,15 +30,17 @@ const config: NuxtConfiguration = {
       { src: 'https://unpkg.com/vue/dist/vue.runtime.min.js' },
       { src: 'https://unpkg.com/vue-router/dist/vue-router.min.js' },
       { src: 'https://unpkg.com/vuex/dist/vuex.min.js' },
-      { src: 'https://unpkg.com/axios/dist/axios.min.js' }
+      { src: 'https://unpkg.com/axios/dist/axios.min.js' },
+      { src: 'https://unpkg.com/quill/dist/quill.min.js' },
+      { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' }
     ],
 
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css' },
-      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.core.css' },
-      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.snow.css' },
-      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.3.4/quill.bubble.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
       { rel: 'stylesheet', href: '/_nuxt/app.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
@@ -73,19 +75,15 @@ const config: NuxtConfiguration = {
     filenames: {
       css: ({ isDev }) => isDev ? '[name].css' : 'app.css',
     },
-    plugins: [
-      new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
-        'Quill': 'quill/dist/quill.js'
-      })
-    ],
     extend (config, { isDev, isClient }) {
       if (isClient) {
         config.externals = {
           'vue': 'Vue',
           'vuex': 'Vuex',
           'axios': 'axios',
-          'vue-router': 'VueRouter'
+          'vue-router': 'VueRouter',
+          'Quill': 'Quill',
+          'quill-image-resize-module': 'ImageResize'
         }
       }
       return config
