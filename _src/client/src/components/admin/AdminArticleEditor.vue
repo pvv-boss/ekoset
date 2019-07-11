@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-    <div
+    <quill-editor
+      ref="articleQuillEditor"
       class="quill-editor"
       :content="value"
       @change="onEditorChange($event)"
-      v-quill:myQuillEditor="editorOptions"
-    ></div>
+      :options="editorOptions"
+    ></quill-editor>
   </div>
 </template>
 
@@ -20,24 +21,20 @@ export default class AdminArticleEditor extends Vue {
   private toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
-
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+    [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
+    [{ direction: 'rtl' }],                         // text direction
+    [{ size: ['small', false, 'large', 'huge'] }],  // custom dropdown
+    [{ header: [2, 3, 4, 5, 6, false] }],
+    [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
+    [{ align: [] }],
     ['clean'],
     ['link', 'image', 'video']
   ]
   private editorOptions = {
+    theme: 'snow',
+    // debug: false,
     modules: {
       toolbar: {
         container: this.toolbarOptions,
@@ -56,18 +53,23 @@ export default class AdminArticleEditor extends Vue {
     }
   }
 
+  public get editor () {
+    // @ts-ignore
+    return this.$refs.articleQuillEditor.quill
+  }
+
   private cleanHandler () {
     const str = this.value
     this.value = str.replace(/\s*(style|class)=\".*?\"/gm, '')
   }
-
-  // FIXME:     через update:fffff чтобы извне использовать :prop.sync
 
   private onEditorChange ({ editor, html, text }) {
     this.$emit('input', html)
   }
 }
 </script>
+
+
 <style lang="scss" scoped>
 .container {
   min-width: 300px;

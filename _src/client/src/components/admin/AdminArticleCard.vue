@@ -33,11 +33,11 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType.ts'
 })
 export default class AdminArticleCard extends Vue {
 
+  private article: Article
+
   private layout () {
     return 'admin'
   }
-
-  private article: Article
 
   private saveArticle () {
     getServiceContainer().articleService.saveArticle(this.article)
@@ -51,8 +51,7 @@ export default class AdminArticleCard extends Vue {
       await getServiceContainer().articleService.deleteArticle(this.article.articleId)
       if (sectionId && sectionId > 0) {
         self.$router.push({ name: 'admin-news-section', params: { siteSectionId: String(sectionId) } })
-      }
-      else {
+      } else {
         self.$router.push({ name: 'admin-news' })
       }
 
@@ -71,8 +70,7 @@ export default class AdminArticleCard extends Vue {
           article: data
         }
       }
-    }
-    else {
+    } else {
       return {
         article: new Article()
       }

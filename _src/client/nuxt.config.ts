@@ -32,6 +32,7 @@ const config: NuxtConfiguration = {
       { src: 'https://unpkg.com/vuex/dist/vuex.min.js' },
       { src: 'https://unpkg.com/axios/dist/axios.min.js' },
       { src: 'https://unpkg.com/quill/dist/quill.min.js' },
+      { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
       { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' }
     ],
 
@@ -43,7 +44,7 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
       { rel: 'stylesheet', href: '/_nuxt/app.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
+    ]
   },
 
   plugins: [
@@ -83,6 +84,7 @@ const config: NuxtConfiguration = {
           'axios': 'axios',
           'vue-router': 'VueRouter',
           'Quill': 'Quill',
+          'vue-quill-editor': 'VueQuillEditor',
           'quill-image-resize-module': 'ImageResize'
         }
       }
