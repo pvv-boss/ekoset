@@ -97,12 +97,12 @@ export class BaseController {
 
   public static createFailureResponse (exc: Exception, res: Response, redirectUrl?: string) {
     const response = ResponseWrapper.createFailure(exc, null, redirectUrl);
-    return res.status(res.statusCode).json(response);
+    return res.status(exc.status).json(response);
   }
 
   public static createFailureResponseWithMessage (exc: Exception, res: Response, message: ClientNotifyMessage, redirectUrl?: string) {
     const response = ResponseWrapper.createFailure(exc, message, redirectUrl);
-    return res.status(res.statusCode).json(response);
+    return res.status(exc.status).json(response);
   }
 
   public static setLocationToClient (response: Response, location: string) {
