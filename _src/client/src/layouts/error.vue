@@ -18,7 +18,7 @@ import BaseError from '@/components/base/BaseError.vue'
     BaseNotFound
   }
 })
-export default class Error extends Vue {
+export default class ErrorLayout extends Vue {
   @Prop()
   private error
 }
