@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import { Article } from '@/entities/ekoset/Article';
+import { NotFound } from '@/exceptions/clientErrors/NotFound';
 
 @JsonController()
 export default class ArticleController extends BaseController {
@@ -27,11 +28,16 @@ export default class ArticleController extends BaseController {
 
   @Get('/news/:id(\\d+)')
   public async getArticleById (
+    @Req() request: Request,
     @Res() response: Response,
     @Param('id') id: number) {
 
     const result = await ServiceContainer.ArticleService.getById(id);
-    return ArticleController.createSuccessResponse(result, response);
+    if (!!result) {
+      return ArticleController.createSuccessResponse(result, response);
+    } else {
+      return ArticleController.createFailureResponse(new NotFound(request.originalUrl), response)
+    }
   }
 
 
