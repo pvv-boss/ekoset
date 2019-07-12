@@ -34,7 +34,7 @@ export default class AdminArticleEditor extends Vue {
   ]
   private editorOptions = {
     theme: 'snow',
-    // debug: false,
+    debug: false,
     modules: {
       toolbar: {
         container: this.toolbarOptions,
