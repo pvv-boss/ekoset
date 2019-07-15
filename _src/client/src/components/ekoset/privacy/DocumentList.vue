@@ -1,0 +1,43 @@
+<template>
+  <div>
+    <header>Сандокументы</header>
+    <DocumentListItem
+      v-for="documentItem in documentList"
+      :key="documentItem.documentId"
+      :documentItem="documentItem"
+    ></DocumentListItem>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import DocumentListItem from '@/components/ekoset/privacy/DocumentListItem.vue'
+import { getServiceContainer } from '@/api/ServiceContainer'
+import { NuxtContext } from 'vue/types/options'
+import Document from '@/models/ekoset/Document.ts'
+
+@Component({
+  components: {
+    DocumentListItem
+  }
+})
+export default class DocumentList extends Vue {
+  @Prop()
+  private userId
+
+  @Prop(String)
+  private mode
+
+  private documentList: Document[] = []
+
+  private async asyncData (context: NuxtContext) {
+    //FIXME: получение сандокументов
+    const data = await (getServiceContainer().articleService.getRootArticleList())
+    if (data) {
+      return {
+        documentList: data
+      }
+    }
+  }
+}
+</script>
