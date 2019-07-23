@@ -14,6 +14,7 @@ import ArticleListItem from '@/components/ekoset/article/ArticleListItem.vue'
 import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
+import { importDeclaration } from '@babel/types';
 
 @Component({
   components: {
@@ -26,7 +27,6 @@ export default class ArticleList extends Vue {
 
   @Prop(String)
   private mode
-
 }
 </script>
 
