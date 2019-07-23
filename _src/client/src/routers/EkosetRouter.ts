@@ -1,8 +1,7 @@
 import Articles from '@/pages/Articles.vue'
 import ArticleCard from '@/pages/ArticleCard.vue'
 import Privacy from '@/pages/Privacy.vue'
-import BusinessServiceLanding from '@/pages/BusinessServiceLanding.vue'
-import CarServiceLanding from '@/pages/CarServiceLanding.vue'
+import ServiceLanding from '@/pages/ServiceLanding.vue'
 import MainLanding from '@/pages/MainLanding.vue'
 
 export const EkosetRouter = [
@@ -14,18 +13,11 @@ export const EkosetRouter = [
     meta: { title: 'Экосеть' }
   },
   {
-    name: 'business-service',
-    path: '/business-service',
+    name: 'service',
+    path: '/service/:param1?/:param2?/:param3?',
     props: true,
-    component: BusinessServiceLanding,
+    component: ServiceLanding,
     meta: { title: 'Экосеть: Услуги для бизнеса' }
-  },
-  {
-    name: 'car-service',
-    path: '/car-service',
-    props: true,
-    component: CarServiceLanding,
-    meta: { title: 'Экосеть: Услуги для автосалонов' }
   },
   {
     name: 'article-list',
@@ -48,18 +40,8 @@ export const EkosetRouter = [
     meta: { title: 'Экосеть: Новость' }
   },
   {
-    name: 'user-privacy',
-    path: '/user/:userId(\\d+)/:privacyType(contract|work|research|document)',
-    props: true,
-    component: Privacy,
-    meta: {
-      title: 'Экосеть: Личный кабинет',
-      // requiresAuth: true
-    }
-  },
-  {
     name: 'user-privacy-mode',
-    path: '/user/:userId(\\d+)/:privacyType(contract|work|research|document)/:mode(tile|list)',
+    path: '/user/:userId(\\d+)/:privacyType(contract|work|research|document)/:mode(tile|list)?',
     props: true,
     component: Privacy,
     meta: {
