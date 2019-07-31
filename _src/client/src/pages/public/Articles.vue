@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import BasePagination from '@/components/base/BasePagination.vue'
-import ArticleList from '@/components/ekoset/article/ArticleList.vue'
+import ArticleList from '@/components/public/ArticleList.vue'
 import Pagination from '@/models/Pagination'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'

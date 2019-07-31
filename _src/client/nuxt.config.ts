@@ -94,7 +94,7 @@ const config: NuxtConfiguration = {
 
   purgeCSS: {
     mode: 'postcss',
-    whitelistPatterns: [/el.*?$/, /brc.*?$/]
+    whitelistPatterns: [/el.*?$/, /brc.*?$/, /ql.*?$/]
   },
 
   server: {

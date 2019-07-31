@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="container">
     <quill-editor
       ref="articleQuillEditor"
       class="quill-editor"
@@ -30,7 +30,8 @@ export default class AdminArticleEditor extends Vue {
     [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
     [{ align: [] }],
     ['clean'],
-    ['link', 'image', 'video']
+    ['link', 'image', 'video'],
+    ['html']
   ]
   private editorOptions = {
     theme: 'snow',
@@ -39,7 +40,8 @@ export default class AdminArticleEditor extends Vue {
       toolbar: {
         container: this.toolbarOptions,
         handlers: {
-          clean: this.cleanHandler
+          clean: this.cleanHandler,
+          html: this.htmlEditor
         }
       },
       imageResize: {
@@ -53,6 +55,11 @@ export default class AdminArticleEditor extends Vue {
     }
   }
 
+  private txtArea
+
+
+
+
   public get editor () {
     // @ts-ignore
     return this.$refs.articleQuillEditor.quill
@@ -63,21 +70,48 @@ export default class AdminArticleEditor extends Vue {
     this.value = str.replace(/\s*(style|class)=\".*?\"/gm, '')
   }
 
+  private htmlEditor () {
+    if (this.txtArea.style.display === '') {
+      var html = this.txtArea.value
+      this.editor.pasteHTML(html)
+    }
+    this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none'
+  }
+
   private onEditorChange ({ editor, html, text }) {
     this.$emit('input', html)
+    this.txtArea.value = html
+  }
+
+  private mounted () {
+    this.txtArea = document.createElement('textarea');
+    this.txtArea.setAttribute('id', 'txtArea')
+    this.txtArea.style.cssText = "width: 100%;height:100%;margin: 0px;background: rgb(29, 29, 29);box-sizing: border-box;color: rgb(204, 204, 204);font-size: 15px;outline: none;padding: 20px;line-height: 24px;font-family: Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace;position: absolute;top: 0;bottom: 0;border: none;display:none"
+
+    const htmlEditor = this.editor.addContainer('ql-custom')
+    htmlEditor.appendChild(this.txtArea)
   }
 }
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 .container {
   min-width: 300px;
   padding: 10px;
   background-color: white;
   .quill-editor {
-    height: 600px;
+    //height: 600px;
     overflow-y: auto;
+  }
+}
+.ql-container {
+  height: 600px !important;
+}
+.ql-html {
+  width: 120px !important;
+  &:after {
+    content: "Исходный Html" !important;
   }
 }
 </style>

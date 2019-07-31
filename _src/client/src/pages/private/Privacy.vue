@@ -8,7 +8,6 @@
       <DocumentList v-if="privacyType === 'document'" :userId="userId" :mode="mode"></DocumentList>
     </section>
     <aside>
-      <OrderForm></OrderForm>
       <MessageForm></MessageForm>
     </aside>
   </section>
@@ -16,12 +15,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import ContractList from '@/components/ekoset/privacy/ContractList.vue'
-import WorkList from '@/components/ekoset/privacy/WorkList.vue'
-import ResearchList from '@/components/ekoset/privacy/ResearchList.vue'
-import DocumentList from '@/components/ekoset/privacy/DocumentList.vue'
-import OrderForm from '@/components/ekoset/partials/OrderForm.vue'
-import MessageForm from '@/components/ekoset/partials/MessageForm.vue'
+import ContractList from '@/components/private/ContractList.vue'
+import WorkList from '@/components/private/WorkList.vue'
+import ResearchList from '@/components/private/ResearchList.vue'
+import DocumentList from '@/components/private/DocumentList.vue'
+import MessageForm from '@/components/public/MessageForm.vue'
 
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
@@ -32,7 +30,6 @@ import { NuxtContext } from 'vue/types/options'
     WorkList,
     ResearchList,
     DocumentList,
-    OrderForm,
     MessageForm
   }
 })
