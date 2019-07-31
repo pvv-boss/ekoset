@@ -1,5 +1,5 @@
 <template>
-  <div>Отправить сообщение</div>
+  <div>Форма сообщения обратной связи</div>
 </template>
 
 <script lang="ts">

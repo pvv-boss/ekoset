@@ -44,7 +44,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import ArticleList from '@/components/ekoset/article/ArticleList.vue'
+import ArticleList from '@/components/public/ArticleList.vue'
 
 @Component({
   components: {

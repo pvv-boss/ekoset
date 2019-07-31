@@ -1,4 +1,4 @@
-import Login from '@/pages/Login.vue'
+import Login from '@/pages/private/Login.vue'
 import ChangePasswordForm from '@/components/user/ChangePasswordForm.vue'
 import RestorePasswordForm from '@/components/user/RestorePasswordForm.vue'
 import AuthCallback from '@/components/user/AuthCallback.vue'

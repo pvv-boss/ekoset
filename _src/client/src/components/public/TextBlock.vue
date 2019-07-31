@@ -1,12 +1,12 @@
 <template>
-  <div>Заказать услугу</div>
+  <div>Текстовый блок</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class OrderForm extends Vue {
+export default class TextBlock extends Vue {
 
 }
 </script>

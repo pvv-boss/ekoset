@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ContractListItem from '@/components/ekoset/privacy/ContractListItem.vue'
+import ContractListItem from '@/components/private/ContractListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import Contract from '@/models/ekoset/Contract.ts'
