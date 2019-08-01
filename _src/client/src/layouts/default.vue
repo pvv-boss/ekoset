@@ -1,7 +1,9 @@
 <template>
   <div v-show="!loading" class="brc-page-container">
     <TheLayoutHeader></TheLayoutHeader>
-    <div class="brc-body">
+
+    <div class="brc-body container">
+      <BreadCrumbs></BreadCrumbs>
       <nuxt></nuxt>
     </div>
     <no-ssr>
@@ -16,6 +18,7 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import TheLayoutHeader from '@/components/TheLayoutHeader.vue'
 import TheLayoutFooter from '@/components/TheLayoutFooter.vue'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import ActivateAccauntNotice from '@/components/user/ActivateAccauntNotice.vue'
 import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
 
@@ -24,7 +27,8 @@ import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
     TheLayoutHeader,
     TheLayoutFooter,
     ActivateAccauntNotice,
-    BaseCookieNotice
+    BaseCookieNotice,
+    BreadCrumbs
   }
 })
 export default class DefaultLayout extends Vue {
