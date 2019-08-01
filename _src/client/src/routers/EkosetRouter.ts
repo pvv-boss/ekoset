@@ -38,20 +38,39 @@ export const EkosetRouter = [
     path: '/news',
     props: true,
     component: Articles,
-    meta: { title: 'Экосеть: Новости' }
+    meta: {
+      title: 'Экосеть: Новости',
+      breadcrumb: [
+        { name: 'Главная', link: 'main' },
+        { name: 'Новости', link: 'article-list' }
+      ]
+    }
   },
   {
     name: 'article-section-list',
     path: '/:siteSectionId(\\d+)/news',
     props: true,
     component: Articles,
-    meta: { title: 'Экосеть: Новости' }
+    meta: {
+      title: 'Экосеть: Новости',
+      breadcrumb: [
+        { name: 'Главная', link: 'main' },
+        { name: 'Новости', link: 'article-list' }
+      ]
+    }
   },
   {
     name: 'article-card',
     path: '/news/:articleUrl',
     component: ArticleCard,
-    meta: { title: 'Экосеть: Новость' }
+    meta: {
+      title: 'Экосеть: Новость',
+      breadcrumb: [
+        { name: 'Главная', link: 'main' },
+        { name: 'Новости', link: 'article-list' },
+        { name: (t: { params: { articleUrl: any; }; }) => `Новость ${t.params.articleUrl}` }
+      ]
+    }
   },
   {
     name: 'user-privacy-mode',

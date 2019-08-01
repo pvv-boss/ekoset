@@ -56,6 +56,7 @@ export default class ArticleCard extends Vue {
   private article = new Article()
   private realtedArticles: Article[] = []
 
+
   private async asyncData (context: NuxtContext) {
     const articleUrl = context.params.articleUrl
 
