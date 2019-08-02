@@ -1,625 +1,193 @@
-html {
-  height: 100%;
-}
+@import "@/styles/variables.scss";
 
 body {
-  margin: 0;
-  height: 100%;
   font-family: $font-stack;
-  font-size: $font-size;
-  background-color: $body-background-color;
-  outline: 0 !important;
-  min-height: 100%;
-  line-height: 1.5;
-  overflow-y: scroll;
-
-  >div:first-child,
-  >div:first-child>div:first-child {
-    min-height: 100%;
-    height: 100% !important;
-  }
-
-  .brc-nuxt-mount-twice-bug-fix {
-    min-height: 100%;
-    height: 100%;
-  }
-
-  ::placeholder {
-    color: $placeholder-color !important;
-  }
-
-  button,
-  input,
-  select,
-  textarea {
-    font: inherit;
-    margin: 0;
-    outline: 0 !important;
-  }
-
-  button:focus {
-    outline: 0 !important;
-  }
-
+  margin: 0;
 
   a {
-    outline: 0 !important;
-  }
+    text-decoration: none;
 
-  .h1,
-  h1 {
-    font-size: 22px;
-    margin: 0%;
-  }
-
-  .h2,
-  h2 {
-    font-size: $font-big;
-    margin: 0%;
-  }
-
-  .h3,
-  h3 {
-    font-size: 16px;
-    margin: 0%;
-  }
-
-  .h4,
-  h4 {
-    font-size: 14px;
-    margin: 0%;
-  }
-
-  .brc-error-container {
-    height: 100%;
-    margin: auto;
-    margin-top: 100px;
-  }
-
-  .brc-not-found {
-    text-align: center;
-    margin: auto;
-
-    .fa-bug {
-      font-size: 64px !important;
+    &:hover {
+      color: $dark-red;
     }
-
-    h1 {
-      margin: 40px 0;
-    }
-
-    div {
-      margin-bottom: 20px;
-    }
-  }
-
-  .text-danger {
-    color: $red !important;
-  }
-
-  .brc-nonauth-message {
-    color: $text-muted;
-    font-size: $font-small;
-  }
-
-  .brc-nonauth-message__full-page {
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    font-size: $font-size;
-  }
-
-  .brc-input_error {
-    input {
-      border: 1px solid $red;
-    }
-
   }
 
   .brc-page-container {
-    min-height: 100%;
-    height: 100%;
-    // padding-bottom: 103px;
+    max-width: 1200px;
+    margin: auto;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
-    .brc-loading {
-      width: 100%;
-      text-align: center;
-    }
-
-    .brc-header {
-      background-color: white;
-
-
-
-      .brc-sticky-menu {
-        background-color: $header-background-color;
-        width: 100%;
-        z-index: 1500;
-        padding: 0.1rem 0;
-
-        .brc-sticky-menu__collapse {
-          max-width: 1140px;
-          margin: auto;
-        }
-
-        .brc-sticky-menu__item {
-          .brc-sticky-menu__link {
-            padding-right: 1rem !important;
-            padding-left: 1rem !important;
-            color: white;
-          }
-
-          &.active {
-            .brc-sticky-menu__link {
-              font-weight: $font-medium;
-              border-bottom: 2px solid white;
-              margin-bottom: -2px;
-            }
-          }
-        }
-
-
-        .brc-sticky-menu__toggler {
-          padding: 1px 6px;
-        }
-      }
-
-      .brc-top-menu {
-        width: 100%;
-        max-width: 1140px;
-        margin: auto;
-        padding: 0.5rem 0;
-        display: flex;
-        flex-direction: row;
-
-        .brc-top-menu__logo {
-          padding-right: 20px;
-        }
-
-        .brc-top-menu__title-additional {
-          color: $header-additional-text-color;
-          font-weight: $font-regular !important;
-          padding-top: 0.2rem;
-
-          h4 {
-            font-weight: $font-regular !important;
-          }
-
-          a {
-            text-decoration: none;
-            color: $a-color;
-
-            &:hover {
-              color: $a-color;
-              text-decoration: underline;
-            }
-          }
-        }
-
-        .brc-top-menu__title-brand {
-          color: $green;
-          margin: 0px;
-        }
-
-
-
-        >.brc-top-menu__item {
-          .brc-top-menu__link {
-            color: $header-secondary-a-color;
-            display: block;
-            padding: 11px 15px;
-          }
-
-          .brc-top-menu__link:hover {
-            color: $a-hover-color;
-          }
-        }
-
-        .nav-link {
-          padding-right: 0 !important;
-          padding-left: 1rem !important;
-        }
-
-        .brc-top-menu__link-auth {
-          color: $blue !important;
-        }
-
-        .brc-top-menu__link-auth:hover {
-          color: $red !important;
-        }
-
-        .dropdown-menu {
-          z-index: 3500;
-          position: absolute;
-          left: -14px;
-
-          .dropdown-item {
-            padding: 0.1rem 0.5rem;
-            color: $text-color;
-            font-size: 12px;
-            background-color: white !important;
-
-            &:hover {
-              background-color: $background-hover-light-color !important;
-            }
-          }
-        }
-      }
-
-      .fixed-top {
-        position: fixed !important;
-      }
-
-      @media (max-width: 991px) {
-        .brc-sticky-menu {
-          z-index: 2000;
-          position: absolute;
-          padding: 0.5rem 0.5rem;
-
-          .brc-sticky-menu__list {
-            float: none !important;
-          }
-
-          .brc-header__search-form {
-            float: none !important;
-          }
-        }
-      }
-    }
-
     .brc-body {
-      width: 100%;
-      // min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      max-width: 1140px;
-      margin: auto;
-      flex: 1 0 auto;
+      flex-grow: 1;
+    }
 
-      i {
-        font-size: 16px;
+    .brc-page-header {
+      display: grid;
+      grid-gap: 2vw;
+      grid-template-rows: 60px 50px;
+      grid-template-columns: 1fr 450px;
+      width: 100wh;
+      padding: 10px 0;
+
+      grid-template-areas:
+        "logo contact"
+        "menu feedback";
+
+      .brc-logo_main {
+        grid-area: "logo";
       }
 
-
-
-      a {
-        text-decoration: none;
-        color: $a-color;
-
-        &:hover {
-          color: $a-hover-color;
-        }
-
-        &.active {
-          color: $a-hover-color;
-        }
-      }
-
-      .brc-main-container__header {
-        display: flex;
-        flex-direction: row;
-        margin-top: 0.9rem;
-        margin-bottom: 0.6rem;
-        justify-content: space-between;
-
-        h2 {
-          line-height: 32px;
-        }
+      .brc-contact_main {
+        grid-area: "contact";
+        display: inline-flex;
+        margin: 10px 0 0 auto;
 
         a {
-          padding: 0 5px;
+          padding: 5px;
+        }
 
-          &.nuxt-link-active {
-            color: $text-color !important;
+        .brc-contact__telephone {
+          color: #26272d;
+          font-size: 20px;
+          font-weight: bold;
+
+          >span {
+            color: $red;
+            font-size: 30px;
+            padding-left: 5px;
           }
         }
 
-        .brc-main-container__header-right {
-          text-align: right;
-          align-content: flex-end;
-        }
-
-
-      }
-
-      .brc-header-switcher {
-        width: 100%;
-
-        button {
-          width: 50%;
-          font-weight: $font-regular;
-        }
-      }
-
-      .brc-main-container {
-        padding: 0 0;
-        display: flex;
-        flex-flow: column;
-        flex: 1;
-      }
-
-      .brc-left-side-container {
-        display: flex;
-        flex-direction: row;
-        flex: 1;
-
-        .brc-left-side-wrapper {
+        .brc-contact__message-form-call {
+          width: 130px;
+          margin: 0 10px;
+          color: white;
+          font-size: 14px;
+          background-color: $red;
           display: flex;
-          background-color: $leftside-background-color;
-          flex: 1 1 25%;
-          max-width: 285px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 3px;
+          border: none;
+          cursor: pointer;
+          line-height: 14px;
+        }
+
+        .brc-contact__user-logo {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid lightgray;
+          border-radius: 50%;
         }
       }
 
-      .brc-main-side-wrapper {
-        background-color: $mainside-wrapper-background-color;
-        flex: 0 0 75%;
-        padding-left: 10px;
+      .brc-main-menu {
+        grid-area: "menu";
+        text-transform: uppercase;
+        font-size: 14px;
+        margin: 0;
+        padding-left: 100px;
+
+        >li {
+          >a {
+            color: #212224;
+
+            &:hover {
+              color: $red;
+            }
+
+            &.active {
+              color: $red;
+            }
+          }
+
+          display: inline-block;
+          list-style-type: none;
+          padding: 0 20px;
+        }
+      }
+
+      .brc-contact__feedback-menu {
+        grid-area: "feedback";
+        margin: 0 70px 0 auto;
+
+        >li {
+          >a {
+            color: #212224;
+            text-decoration: underline;
+
+            &:hover {
+              color: $red;
+            }
+          }
+
+          font-size: 12px;
+          display: inline-block;
+          list-style-type: none;
+          padding: 0 20px;
+        }
       }
     }
 
-
-
-    .brc-body-map {
-      // min-height: 100%;
-      max-width: 100%;
-      padding: 10px;
-      height: 100%;
-      max-width: 100%;
+    .brc-page-footer {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      padding: 20px 0;
+      border-top: 1px solid lightgray;
+
+      img {
+        max-width: 160px !important;
+      }
 
       >div {
-        box-shadow: $box-shadow;
-      }
-    }
-
-
-    .brc-footer {
-      width: 100%;
-      padding: 2px 0;
-      font-size: $font-small !important;
-      background-color: $footer-background-color;
-      color: $footer-text-color;
-      text-align: center;
-      // border-top: 1px solid $delimiter-strong-color;
-      flex: 0 0 auto;
-      margin-top: 3px;
-
-      a {
-        color: $footer-text-color;
-
-        &:hover {
-          text-decoration: underline;
-        }
+        flex-grow: 1;
       }
 
-      .brc-footer__information {
-        max-width: 1140px;
-        margin: auto;
-        flex-direction: row;
-        display: flex;
-        align-items: stretch;
+      h3 {
+        padding-left: 25px;
+      }
 
-        >div {
-          flex: 1;
-          text-align: center;
+      ul {
+        margin: 0;
+        padding: 0;
 
-          &:first-child {
-            text-align: left;
-          }
+        >li {
+          list-style: none;
+          padding: 2px 0;
 
-          &:last-child {
-            text-align: right;
+          >a {
+            color: gray;
+            font-size: 13px;
+            padding: 2px 0 2px 25px;
+
+            &:hover {
+              color: black;
+              background-image: url(/images/sun-icon.png);
+              background-repeat: no-repeat;
+            }
           }
         }
       }
-    }
-  }
-}
 
-.brc-input-range {
-  white-space: nowrap;
+      .brc-page-footer__contacts {
+        a {
+          color: #26272d;
+          font-size: 16px;
+          font-weight: 900;
+          line-height: 25px;
+        }
+      }
 
-  div:first-child {
-    margin-right: -2px;
-
-    input {
-      border-right: none !important;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-
-  div:last-child {
-    margin-left: -2px;
-
-    input {
-      border-left: none !important;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-  }
-}
-
-.fa,
-.far,
-.fas,
-.fal {
-  font-family: "Font Awesome 5 Free" !important;
-}
-
-.fas {
-  &.fa-bookmark {
-    color: $red;
-  }
-}
-
-i {
-  margin: 0 !important;
-}
-
-.clearfix:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
-
-.align-right {
-  text-align: right;
-}
-
-@media(min-width: 991px) {
-  .hide-wide {
-    display: none;
-  }
-}
-
-
-@media(max-width: 992px) {
-
-  .brc-body,
-  .brc-body-map {
-    margin-top: 50px !important;
-  }
-
-  .hide-small {
-    display: none !important;
-  }
-
-  .brc-main-container__header {
-    flex-direction: column !important;
-  }
-}
-
-@media(max-width:1140px) {
-
-  .brc-body {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
-
-  .brc-sticky-menu {
-    padding-right: 10px !important;
-  }
-
-  .brc-top-menu {
-    padding: 0.5rem 0.5rem !important;
-    justify-content: stretch;
-  }
-
-  h1 {
-    font-size: 20px !important;
-
-  }
-}
-
-/********/
-.modalwin {
-  height: 200px;
-  width: 300px;
-  border: 3px outset gray;
-  background: wheat;
-  top: 20%;
-  /* отступ сверху */
-  right: 0;
-  left: 0;
-  font-size: 14px;
-  margin: 0 auto;
-  z-index: 2;
-  /* поверх всех */
-  display: none;
-  /* сначала невидим */
-  position: fixed;
-  /* фиксированное позиционирование, окно стабильно при прокрутке */
-  padding: 15px;
-  border: 1px solid #383838;
-}
-
-#shadow {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  /* поверх всех  кроме окна*/
-  background: #000;
-  opacity: 0.5;
-  /*прозрачность*/
-  left: 0;
-  top: 0;
-}
-
-@media(max-width:500px) {
-  .brc-top-menu__title-brand {
-    display: none;
-  }
-
-  .brc-top-menu__title-additional {
-    display: none;
-  }
-
-  .brc-main-container__header-left {
-    h2 {
-      line-height: 20px !important;
+      .brc-page-footer__menu {
+        padding-top: 20px;
+      }
     }
   }
 
-  .brc-lot-item__header-details_category {
-    font-size: $font-size;
-  }
 
-  .brc-lot-item__header-details_primary-values,
-  .brc-lot-card__header-details_primary-values {
-    width: 100%;
-  }
-
-  .brc-lot-item__header-details_type {
-    font-size: $font-small;
-    width: min-content;
-    float: right;
-  }
-
-  .brc-lot-item__footer-dates {
-    .brc-value-viewer:not(:first-child) {
-      display: none !important;
-    }
-  }
-
-  .brc-value-viewer {
-    .brc-value-viewer__label {
-      width: 160px !important;
-      padding-right: 5px;
-    }
-  }
-
-  .brc-lot-item__header-details_category {
-    font-size: $font-size;
-  }
-
-  .brc-lot-list__sort {
-    width: 100% !important;
-  }
-
-  .brc-left-side__view-btn {
-    width: 100% !important;
-  }
-
-  .brc-footer__information {
-    margin: 0 10px !important;
-  }
-
-  .brc-notification {
-    margin: 10px !important;
-  }
 }

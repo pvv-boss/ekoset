@@ -6,7 +6,6 @@ import Privacy from '@/pages/private/Privacy.vue'
 import Main from '@/pages/public/Main.vue'
 import Clients from '@/pages/public/Clients.vue'
 import Contacts from '@/pages/public/Contacts.vue'
-import About from '@/pages/public/About.vue'
 import Prices from '@/pages/public/Prices.vue'
 
 export const EkosetRouter = [
@@ -30,13 +29,6 @@ export const EkosetRouter = [
     props: true,
     component: Contacts,
     meta: { title: 'Экосеть: контакты' }
-  },
-  {
-    name: 'about',
-    path: '/about',
-    props: true,
-    component: About,
-    meta: { title: 'Экосеть: о компании' }
   },
   {
     name: 'prices',
