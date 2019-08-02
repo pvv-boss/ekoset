@@ -15,7 +15,7 @@ export class RelatedArticle {
 
   @ManyToOne((type) => Article)
   @JoinColumn({ name: 'article_id' })
-  public article: Promise<Article | null>;
+  public article: Promise<Article | null | number>;
 
   @RelationId((related_article: RelatedArticle) => related_article.article)
   public articleId: number;
@@ -23,7 +23,7 @@ export class RelatedArticle {
 
   @ManyToOne((type) => Article)
   @JoinColumn({ name: 'art_article_id' })
-  public artArticle: Promise<Article | null>;
+  public artArticle: Promise<Article | null | number>;
 
   @RelationId((related_article: RelatedArticle) => related_article.artArticle)
   public artArticleId: number;
