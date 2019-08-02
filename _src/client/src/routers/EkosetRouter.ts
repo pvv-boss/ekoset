@@ -4,6 +4,10 @@ import ArticleCard from '@/pages/public/ArticleCard.vue'
 import ServiceCard from '@/pages/public/ServiceCard.vue'
 import Privacy from '@/pages/private/Privacy.vue'
 import Main from '@/pages/public/Main.vue'
+import Clients from '@/pages/public/Clients.vue'
+import Contacts from '@/pages/public/Contacts.vue'
+import About from '@/pages/public/About.vue'
+import Prices from '@/pages/public/Prices.vue'
 
 export const EkosetRouter = [
   {
@@ -12,6 +16,34 @@ export const EkosetRouter = [
     props: true,
     component: Main,
     meta: { title: 'Экосеть' }
+  },
+  {
+    name: 'clients',
+    path: '/clients',
+    props: true,
+    component: Clients,
+    meta: { title: 'Экосеть: клиенты' }
+  },
+  {
+    name: 'contacts',
+    path: '/contacts',
+    props: true,
+    component: Contacts,
+    meta: { title: 'Экосеть: контакты' }
+  },
+  {
+    name: 'about',
+    path: '/about',
+    props: true,
+    component: About,
+    meta: { title: 'Экосеть: о компании' }
+  },
+  {
+    name: 'prices',
+    path: '/prices',
+    props: true,
+    component: Prices,
+    meta: { title: 'Экосеть: цены' }
   },
   // {
   //   name: 'service',
@@ -34,7 +66,7 @@ export const EkosetRouter = [
     meta: { title: 'Экосеть: Услуга' }
   },
   {
-    name: 'article-list',
+    name: 'news',
     path: '/news',
     props: true,
     component: Articles,
@@ -47,7 +79,7 @@ export const EkosetRouter = [
     }
   },
   {
-    name: 'article-section-list',
+    name: 'section-news',
     path: '/:siteSectionId(\\d+)/news',
     props: true,
     component: Articles,
@@ -60,7 +92,7 @@ export const EkosetRouter = [
     }
   },
   {
-    name: 'article-card',
+    name: 'news-card',
     path: '/news/:articleUrl',
     component: ArticleCard,
     meta: {

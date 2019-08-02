@@ -1,13 +1,7 @@
 <template>
   <div v-show="!loading" class="brc-page-container">
     <TheLayoutHeader></TheLayoutHeader>
-<<<<<<< HEAD
     <div class="brc-body">
-=======
-
-    <div class="brc-body container">
-      <BreadCrumbs></BreadCrumbs>
->>>>>>> d57d2f372ea21f1e54a2395513f083616057198c
       <nuxt></nuxt>
     </div>
     <no-ssr>
