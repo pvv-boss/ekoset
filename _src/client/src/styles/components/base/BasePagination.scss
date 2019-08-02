@@ -1,0 +1,41 @@
+@import "@/styles/variables.scss";
+
+.brc-pagination {
+  display: block;
+  width: 100%;
+
+  ul {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    >li {
+      padding: 5px;
+      margin: 5px;
+      width: 30px;
+      height: 30px;
+      background-color: #efefef;
+      border: 1px solid #efefef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-size: 16px;
+      color: gray;
+      font-weight: 300;
+
+      &:hover {
+        color: $red;
+        cursor: pointer;
+        border: 1px solid gray;
+      }
+
+      &.active {
+        background-color: $red;
+        border: 1px solid $red;
+        color: #ffffff;
+      }
+    }
+  }
+}

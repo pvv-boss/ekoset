@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Экосеть: главная страница</h1>
+    <h1 itemprop="headline name">Клиенты</h1>
     <MessageForm></MessageForm>
   </section>
 </template>
@@ -16,9 +16,9 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class Main extends Vue {
+export default class Clients extends Vue {
   private head () {
-    return { title: 'Экосеть' }
+    return { title: 'Экосеть: Клиенты' }
   }
 }
 </script>
