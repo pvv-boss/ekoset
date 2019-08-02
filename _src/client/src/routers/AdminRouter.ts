@@ -1,4 +1,4 @@
-import Admin from '@/pages/Admin.vue'
+import Admin from '@/pages/admin/Admin.vue'
 import AdminArticleList from '@/components/admin/AdminArticleList.vue'
 import AdminArticleCard from '@/components/admin/AdminArticleCard.vue'
 

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import DocumentListItem from '@/components/ekoset/privacy/DocumentListItem.vue'
+import DocumentListItem from '@/components/private/DocumentListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import Document from '@/models/ekoset/Document.ts'

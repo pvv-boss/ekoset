@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import WorkListItem from '@/components/ekoset/privacy/WorkListItem.vue'
+import WorkListItem from '@/components/private/WorkListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import Work from '@/models/ekoset/Work.ts'
