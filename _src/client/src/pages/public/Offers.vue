@@ -16,7 +16,7 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class BusinessTypeOffers extends Vue {
+export default class OfferCard extends Vue {
   private head () {
     return { title: 'Экосеть: Индивидуальные предложения' }
   }

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Комплексные решения</h1>
+    <h1 itemprop="headline name">Индивидуальное предложение</h1>
     <MessageForm></MessageForm>
   </section>
 </template>
@@ -16,9 +16,9 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class ClientTypeOffers extends Vue {
+export default class OfferCard extends Vue {
   private head () {
-    return { title: 'Экосеть: Комплексные решения' }
+    return { title: 'Экосеть: Индивидуальное предложение' }
   }
 }
 </script>

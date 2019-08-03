@@ -1,6 +1,9 @@
 import Articles from '@/pages/public/Articles.vue'
-import Activities from '@/pages/public/Activities.vue'
+import ActivityCard from '@/pages/public/ActivityCard.vue'
+import Offers from '@/pages/public/Offers.vue'
+import OfferCard from '@/pages/public/OfferCard.vue'
 import ArticleCard from '@/pages/public/ArticleCard.vue'
+import Services from '@/pages/public/Services.vue'
 import ServiceCard from '@/pages/public/ServiceCard.vue'
 import Privacy from '@/pages/private/Privacy.vue'
 import Main from '@/pages/public/Main.vue'
@@ -47,18 +50,58 @@ export const EkosetRouter = [
   },
 
   {
-    name: 'activity-list',
-    path: '/activities',
+    name: 'activity-card',
+    path: '/:activity',
     props: true,
-    component: Activities,
+    component: ActivityCard,
+    meta: { title: 'Экосеть: Направление деятельности' }
+  },
+
+  {
+    name: 'offer-list',
+    path: '/:activity/offers',
+    props: true,
+    component: Offers,
     meta: { title: 'Экосеть: Направления деятельности' }
   },
+
+  {
+    name: 'activity-prices',
+    path: '/:activity/prices',
+    props: true,
+    component: Prices,
+    meta: { title: 'Экосеть: Цены раздела' }
+  },
+
+  {
+    name: 'offer-card',
+    path: '/:activity/offers/:offerId',
+    props: true,
+    component: OfferCard,
+    meta: { title: 'Экосеть: Направление деятельности' }
+  },
+
+  {
+    name: 'service-list',
+    path: '/:activity/services',
+    component: Services,
+    meta: { title: 'Экосеть: Услуги' }
+  },
+
   {
     name: 'service-card',
-    path: '/service/:serviceName',
+    path: '/:activity/services/:service',
     component: ServiceCard,
     meta: { title: 'Экосеть: Услуга' }
   },
+
+  {
+    name: 'service-news',
+    path: '/:activity/services/:service/news',
+    component: Articles,
+    meta: { title: 'Экосеть: Новости услуги' }
+  },
+
   {
     name: 'news',
     path: '/news',
@@ -73,12 +116,12 @@ export const EkosetRouter = [
     }
   },
   {
-    name: 'section-news',
-    path: '/:siteSectionId(\\d+)/news',
+    name: 'activity-news',
+    path: '/:activity/news',
     props: true,
     component: Articles,
     meta: {
-      title: 'Экосеть: Новости',
+      title: 'Экосеть: Новости раздела',
       breadcrumb: [
         { name: 'Главная', link: 'main' },
         { name: 'Новости', link: 'article-list' }

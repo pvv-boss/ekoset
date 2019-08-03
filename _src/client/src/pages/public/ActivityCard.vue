@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Направления деятельности</h1>
+    <h1 itemprop="headline name">Направление деятельности</h1>
     <MessageForm></MessageForm>
   </section>
 </template>
@@ -16,9 +16,9 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class Activities extends Vue {
+export default class ActivityCard extends Vue {
   private head () {
-    return { title: 'Экосеть: направления деятельности' }
+    return { title: 'Экосеть: Направление деятельности' }
   }
 }
 </script>
