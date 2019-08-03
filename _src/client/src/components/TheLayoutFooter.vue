@@ -72,7 +72,7 @@
     <div class="brc-page-footer__menu">
       <ul>
         <li>
-          <nuxt-link :to="{name: 'main'}">О компании</nuxt-link>
+          <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
         </li>
         <li>
           <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
@@ -91,3 +91,63 @@
   </footer>
 </template>
 
+<style lang="scss" scoped>
+@import "@/styles/variables.scss";
+.brc-page-footer {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0 10px 0px;
+  border-top: 1px solid lightgray;
+
+  @media (max-width: 480px) {
+    padding: 5px 0 5px 0;
+  }
+
+  img {
+    max-width: 160px !important;
+  }
+
+  > div {
+    flex-grow: 1;
+  }
+
+  h3 {
+    padding-left: 25px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    > li {
+      list-style: none;
+      padding: 2px 0;
+
+      > a {
+        color: gray;
+        font-size: 13px;
+        padding: 2px 0 2px 25px;
+
+        &:hover {
+          color: black;
+          background-image: url(/images/sun-icon.png);
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
+
+  .brc-page-footer__contacts {
+    a {
+      color: #26272d;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 25px;
+    }
+  }
+
+  .brc-page-footer__menu {
+    padding-top: 20px;
+  }
+}
+</style>
