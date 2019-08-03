@@ -64,24 +64,4 @@ export default class BasePagination extends Vue {
 }
 </script>
 
-<style lang="scss">
-.brc-pagination {
-  display: block;
-  width: 100%;
-  ul > li {
-    display: inline;
-    padding: 5px;
-    min-width: 25px;
-    &:hover {
-      background-color: lightsteelblue;
-      cursor: pointer;
-    }
-    &.active {
-      color: darkred;
-      font-weight: bold;
-      background-color: white;
-    }
-  }
-}
-</style>
 

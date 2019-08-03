@@ -1,0 +1,92 @@
+$(document).ready(function () {
+
+    var scroll = 0,
+        scrollTop = $('#scroll-top');
+
+    $(window).scroll(function () {
+        var $this = $(this),
+            scroll = $this.scrollTop();
+
+        if (scroll > 150) {
+            scrollTop.addClass('active');
+        } else if (scroll < 100) {
+            scrollTop.removeClass('active');
+        }
+
+    });
+
+    //SCROLL TOP
+    scrollTop.click(function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, 1000);
+    });
+
+    /*mob_menu*/
+    $(".menu_mob").click(function () {
+        $(".menu_mob").toggleClass("active_drop_men");
+        $(".header-bottom").toggleClass("active");
+    });
+
+   /*  uncor */
+
+    $(".go-to").click(function (event) {
+
+        event.preventDefault();
+        var id = $(this).attr('href'),
+            top = $(id).offset().top;
+
+        $('body,html').animate({ scrollTop: top }, 1500);
+    });
+
+    /* modal */
+    $(".open-modal").click(function () {
+        $(".modal").css("display", "flex");
+    });
+    $(".close_modal").click(function () {
+        $(".modal").hide();
+    });
+
+    var modal = $('.modal')[0];
+    $(window).click(function () {
+        if (event.target == modal) {
+            $(".modal").hide();
+        }
+    });
+
+    /* tab */
+    $(".tab-btns li").click(function () {
+        $(".tab-btns li").removeClass("active");
+        $(this).addClass("active");
+        $(".tab-block").removeClass("active");
+        $(".tab-block").eq($(this).index()).addClass("active");
+    });
+
+    $(".table-style-btn").click(function () {
+        $(".row-style-btn").removeClass("active");
+        $(this).addClass("active");
+        $(".tab-container").removeClass("row-style");
+    });
+
+    $(".row-style-btn").click(function () {
+        $(".table-style-btn").removeClass("active");
+        $(this).addClass("active");
+        $(".tab-container").addClass("row-style");
+    });
+
+    /* attach file  */
+  //   $('input[type="file"]').change(function(e){
+  //   var fileName = e.target.files[0].name;
+  //   $('.file-text').html(fileName);
+  //});
+
+    /* footer menu */
+    var winWidth = $(window).width();
+    if (winWidth <= 767) {
+        $("footer h3").click(function () {
+            $(this).next().slideToggle();
+        });
+    }
+
+});

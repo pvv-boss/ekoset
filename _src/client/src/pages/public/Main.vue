@@ -16,7 +16,7 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class MainLanding extends Vue {
+export default class Main extends Vue {
   private head () {
     return { title: 'Экосеть' }
   }

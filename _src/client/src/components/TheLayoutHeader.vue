@@ -1,55 +1,43 @@
 <template>
-  <header>
-    <div class="container">
-      <div class="header-top">
-        <a class="header-logo" href="index.html">
-          <img src="/images/logo.png" alt="Alternate Text" />
-        </a>
-        <div class="menu_mob">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-      <div class="header-bottom">
-        <a class="persontal-info" href="#">
-          <img src="/images/user.png" alt="Alternate Text" />
-          <span>Имя Фамилия</span>
-        </a>
-        <ul class="header-menu">
-          <li class="active">
-            <a href="#">О компании</a>
-          </li>
-          <li>
-            <a href="#">Наши клиенты</a>
-          </li>
-          <li>
-            <a href="#">Цены</a>
-          </li>
-          <li>
-            <nuxt-link :to="{name: 'article-list'}">Новости</nuxt-link>
-          </li>
-          <li>
-            <a href="#">Контакты</a>
-          </li>
-        </ul>
-        <div class="header-info">
-          <a href="#">Пригласить на тендер</a>
-          <a href="#">Ваш вопрос</a>
-          <a class="full-version" href="#">Полная версия сайта</a>
-        </div>
-        <div class="header-contact">
-          <a class="header-tel" href="tel:4952233595">
-            (495)
-            <span>223-35-95</span>
-          </a>
-          <a class="btn header-order-btn" href="#">Заказать</a>
-          <a class="header-profile" href="#">
-            <img src="/images/user-icon.png" alt="Alternate Text" />
-          </a>
-        </div>
-      </div>
+  <header class="brc-page-header">
+    <div class="brc-logo_main">
+      <img src="/images/logo.png" alt="Экосеть" />
     </div>
+    <div class="brc-contact_main">
+      <a class="brc-contact__telephone" href="tel:4952233595">
+        (495)
+        <span>223-35-95</span>
+      </a>
+      <a class="brc-contact__message-form-call" href="#">Заказать</a>
+      <a class="brc-contact__user-logo" href="#">
+        <img src="/images/user-icon.png" alt="Личный кабинет" />
+      </a>
+    </div>
+    <ul class="brc-main-menu">
+      <li>
+        <nuxt-link :to="{name: 'main'}" :class="{active: activeIndex === 'main'}">О компании</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link :to="{name: 'clients'}" :class="{active: activeIndex === 'clients'}">Наши клиенты</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link :to="{name: 'prices'}" :class="{active: activeIndex === 'prices'}">Цены</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link :to="{name: 'news'}" :class="{active: activeIndex === 'news'}">Новости</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link :to="{name: 'contacts'}" :class="{active: activeIndex === 'contacts'}">Контакты</nuxt-link>
+      </li>
+    </ul>
+    <ul class="brc-contact__feedback-menu">
+      <li>
+        <a href="#">Пригласить на тендер</a>
+      </li>
+      <li>
+        <a href="#">Ваш вопрос</a>
+      </li>
+    </ul>
   </header>
 </template>
 
@@ -70,4 +58,3 @@ export default class TheLayoutHeader extends Vue {
   }
 }
 </script>
-
