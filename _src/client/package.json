@@ -62,6 +62,6 @@
     "sass-loader": "latest",
     "ts-node": "latest",
     "typescript": "^3.5.3",
-    "vue-meta": "^2.2.0"
+    "vue-meta": "^2.2.1"
   }
 }

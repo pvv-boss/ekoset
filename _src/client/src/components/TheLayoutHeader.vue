@@ -75,7 +75,7 @@ export default class TheLayoutHeader extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/styles/variables.scss";
 
 #main-header {

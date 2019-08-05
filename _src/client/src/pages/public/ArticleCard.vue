@@ -80,24 +80,24 @@ export default class ArticleCard extends Vue {
 <style lang="scss">
 .brc-article-item__header-img {
   max-width: 100%;
-}
-img {
-  max-width: 100% !important;
-}
-.brc-article-item__stat-info {
-  color: gray;
-  display: flex;
-  float: right;
-
-  > div {
-    padding: 10px;
+  img {
+    max-width: 100% !important;
   }
-}
-figure {
-  margin: 0 !important;
+  .brc-article-item__stat-info {
+    color: gray;
+    display: flex;
+    float: right;
 
-  figcaption {
-    display: none;
+    > div {
+      padding: 10px;
+    }
+  }
+  figure {
+    margin: 0 !important;
+
+    figcaption {
+      display: none;
+    }
   }
 }
 
