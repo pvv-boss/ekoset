@@ -12,21 +12,24 @@
       />
       <figcaption>{{article.articleTitle}}</figcaption>
     </figure>
+    <div class="brc-article-item__stat-info">
+      <div class="brc-article-item__views" v-if="article.articleViewsNumber > 0">
+        <img src="/images/eye-iccon.png" alt="Просмотры: {{article.articleViewsNumber}}" />
+        <span>{{article.articleViewsNumber}}</span>
+      </div>
+      <div class="brc-article-item__date">
+        <img
+          src="/images/clock-iccon.png"
+          alt="Дата публикации: {{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}"
+        />
+        <span
+          itemprop="datePublished"
+          :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
+        >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+      </div>
+    </div>
     <div class="brc-article-wrapper">
       <section class="brc-article-item">
-        <div class="brc-article-item__stat-info">
-          <div class="brc-article-item__views" v-if="article.articleViewsNumber > 0">
-            <i class="far fa-eye"></i>
-            <span>{{article.articleViewsNumber}}</span>
-          </div>
-          <div class="brc-article-item__date">
-            <i class="far fa-clock"></i>
-            <span
-              itemprop="datePublished"
-              :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
-            >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
-          </div>
-        </div>
         <article v-html="article.articleBody" itemprop="articleBody"></article>
         <div>Теги</div>
         <div>Поделиться</div>
@@ -79,7 +82,8 @@ export default class ArticleCard extends Vue {
 
 <style lang="scss">
 .brc-article-item__header-img {
-  max-width: 100%;
+  width: 100%;
+  height: 300px;
 }
 img {
   max-width: 100% !important;
@@ -87,7 +91,8 @@ img {
 .brc-article-item__stat-info {
   color: gray;
   display: flex;
-  float: right;
+  align-items: center;
+  justify-content: flex-end;
 
   > div {
     padding: 10px;
