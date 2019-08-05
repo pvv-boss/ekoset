@@ -75,7 +75,7 @@ export default class TheLayoutHeader extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/styles/variables.scss";
 
 #main-header {
@@ -107,8 +107,9 @@ export default class TheLayoutHeader extends Vue {
     text-transform: uppercase;
     font-size: 14px;
     margin: 0;
-    padding-left: 100px;
+    padding-left: 90px;
     z-index: 1;
+    padding-top: 10px;
 
     > li {
       > a {
