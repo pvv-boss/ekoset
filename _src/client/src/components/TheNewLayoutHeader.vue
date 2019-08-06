@@ -17,27 +17,30 @@
       <img src="/images/brand_name_big.png" alt="Экосеть" />
     </nuxt-link>
 
-    <div id="empty"></div>
+    <div id="brc-page-header-empty-block" class="brc-page-header_mobile-hide"></div>
 
-    <div id="brc-page-header-top-actions" class="brc-page-header__top-actions p_medium">
+    <div
+      id="brc-page-header-top-actions"
+      class="brc-page-header__top-actions brc-page-header_mobile-hide p_medium"
+    >
       <a>Задать вопрос</a>
       <a>Пригласить на тендр</a>
     </div>
 
-    <div id="brc-page-header-logon">Logon</div>
+    <div id="brc-page-header-logon" class="brc-page-header_mobile-hide">Logon</div>
 
-    <div id="brc-page-header-callme">
+    <div id="brc-page-header-callme" class="brc-page-header_mobile-hide">
       <a class="brc-contact__telephone" href="tel:4952233595">
         (495)
         <span>223-35-95</span>
       </a>
     </div>
 
-    <div id="brc-page-header-order" class="brc-page-header__order">
+    <div id="brc-page-header-order" class="brc-page-header__order brc-page-header_mobile-hide">
       <a>Заказать</a>
     </div>
 
-    <nav id="brc-page-header-menu-items">
+    <nav id="brc-page-header-menu-items" class="brc-page-header_mobile-hide">
       <ul
         class="brc-page-header__main-menu"
         :class="{ 'brc-main-menu_active': isMainMenuActive === true }"
@@ -118,6 +121,22 @@ $menu_item_padding_left: 20px;
     "logo brandname topactions logon callme order"
     "logo menuitems menuitems menuitems menuitems menuitems";
 
+  @media (max-width: 1200px) {
+    .brc-page-header_mobile-hide {
+      display: none;
+    }
+
+    grid-template-rows: 53px;
+    grid-template-columns: 53px 85px 1fr;
+    grid-template-areas: "logo brandname";
+    grid-column-gap: 0px;
+
+    img {
+      height: 100%;
+      max-height: 100%;
+    }
+  }
+
   @media (max-width: 768px) {
     grid-column-gap: $grid_column_gap/2;
   }
@@ -125,6 +144,10 @@ $menu_item_padding_left: 20px;
   @media (max-width: 480px) {
     margin-top: $header_margin_top - 10px;
     grid-column-gap: $grid_column_gap/2;
+  }
+
+  #brc-page-header-empty-block {
+    grid-area: empty;
   }
 
   #brc-page-header-main-logo {

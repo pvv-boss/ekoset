@@ -16,7 +16,7 @@ $minor-third:1.2;
 $major-second:1.125;
 $minor-second:1.067;
 
-$base-rem: 1rem;
+$base-rem: 0.8rem;
 $ratio: $minor-third;
 
 $ms0: 1.0;
@@ -29,11 +29,15 @@ $ms6: $ratio * $ms5;
 $ms7: $ratio * $ms6;
 
 
-body {
+html {
   // font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
   font-size: 16px;
   line-height: 1.4;
   letter-spacing: 0.02rem;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 
   h1 {
     font-size: $base-rem * $ms5;

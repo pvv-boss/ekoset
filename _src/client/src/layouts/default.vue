@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!loading" class="brc-page-container">
+  <div class="brc-page-container">
     <TheNewLayoutHeader></TheNewLayoutHeader>
     <div class="brc-body">
       <nuxt></nuxt>
