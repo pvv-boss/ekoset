@@ -30,7 +30,7 @@ export default class ArticleList extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .brc-article-list {
   display: flex;
   flex-direction: row;

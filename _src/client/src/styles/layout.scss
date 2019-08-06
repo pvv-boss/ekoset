@@ -9,28 +9,6 @@
   font-family: $font-stack;
 }
 
-:root {
-  --ratio: 1.2;
-  --base: 1;
-  --base-em: calc(var(--base) * 1em);
-  --base-px: calc(var(--base) * 16px);
-  --ms0: 1;
-  --ms1: var(--ratio);
-  /* 1.2   */
-  --ms2: calc(var(--ratio) * var(--ms1));
-  /* 1.44  */
-  --ms3: calc(var(--ratio) * var(--ms2));
-  /* 1.728 */
-  --ms4: calc(var(--ratio) * var(--ms3));
-  /* 2.074 */
-  --ms5: calc(var(--ratio) * var(--ms4));
-  /* 2.488 */
-  --ms6: calc(var(--ratio) * var(--ms5));
-  /* 2.986 */
-  --ms7: calc(var(--ratio) * var(--ms6));
-  /* 3.583 */
-}
-
 a {
   text-decoration: none;
   outline: none;
@@ -42,9 +20,9 @@ a {
 
 .brc-page-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1140px;
   padding: 0 15px;
-  margin: 0 auto;
+  margin: auto;
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
@@ -60,68 +38,5 @@ a {
 
   .brc-body {
     flex-grow: 1;
-    font-size: calc(var(--base-em) * var(--ms0)) !important;
-    line-height: calc(var(--base) * var(--ms2)) !important;
-
-    h6 {
-      font-size: calc(var(--base-em) / var(--ms1)) !important;
-    }
-
-    h5 {
-      font-size: calc(var(--base-em) * var(--ms0)) !important;
-    }
-
-    h4 {
-      font-size: calc(var(--base-em) * var(--ms1)) !important;
-    }
-
-    h3 {
-      font-size: calc(var(--base-em) * var(--ms2)) !important;
-    }
-
-    h2 {
-      font-size: calc(var(--base-em) * var(--ms3)) !important;
-    }
-
-    h1 {
-      font-size: calc(var(--base-em) * var(--ms4)) !important;
-    }
   }
-
-  @media (min-width: 480px) {
-    html {
-      font-size: calc(var(--base-px) * var(--ms1));
-    }
-  }
-
-  @media (min-width: 768px) {
-    h3 {
-      font-size: calc(var(--base-em) * var(--ms3));
-    }
-
-    h2 {
-      font-size: calc(var(--base-em) * var(--ms4));
-    }
-
-    h1 {
-      font-size: calc(var(--base-em) * var(--ms5));
-    }
-  }
-
-  @media (min-width: 1024px) {
-    h2 {
-      font-size: calc(var(--base-em) * var(--ms5));
-    }
-
-    h1 {
-      font-size: calc(var(--base-em) * var(--ms6));
-    }
-  }
-
-  @media (min-width: 1360px) {
-    h1 {
-      font-size: calc(var(--base-em) * var(--ms7));
-    }
-  }
-
 }

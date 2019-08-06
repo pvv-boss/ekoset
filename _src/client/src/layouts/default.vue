@@ -5,7 +5,7 @@
       <nuxt></nuxt>
     </div>
     <no-ssr>
-      <TheLayoutFooter v-if="!loading"></TheLayoutFooter>
+      <TheLayoutFooter></TheLayoutFooter>
       <BaseCookieNotice></BaseCookieNotice>
       <ActivateAccauntNotice></ActivateAccauntNotice>
     </no-ssr>
@@ -30,22 +30,6 @@ import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
   }
 })
 export default class DefaultLayout extends Vue {
-  private loading = true
-
-  private mounted () {
-    this.$nextTick(() => {
-      this.checkLoading()
-    })
-  }
-
-  private checkLoading () {
-    const el = document.getElementsByClassName('brc-body')
-    if (el && el.length > 0) {
-      this.loading = false
-    } else {
-      setTimeout(this.checkLoading, 1500)
-    }
-  }
 }
 </script>
 
