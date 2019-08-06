@@ -138,15 +138,11 @@ export default class TheLayoutFooter extends Vue {
 .brc-page-footer {
   display: flex;
   flex-direction: row;
-  padding: 10px 0 10px 0px;
+  justify-content: space-between;
   border-top: 1px solid lightgray;
 
   img {
     max-width: 160px;
-  }
-
-  > div {
-    flex-grow: 1;
   }
 
   ul {
