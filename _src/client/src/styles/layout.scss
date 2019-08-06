@@ -124,4 +124,9 @@ a {
     }
   }
 
+  @media (max-width: 767px) {
+    .brc-body {
+      min-height: 600px;
+    }
+  }
 }

@@ -1,7 +1,7 @@
-<template functional>
+<template>
   <footer class="brc-page-footer">
     <div class="brc-page-footer__contacts">
-      <a class="footer-logo" href="/">
+      <a class="brc-footer-logo" href="/">
         <img src="/images/logo.png" alt="Экосеть" />
       </a>
       <div class="brc-page-footer__phone">
@@ -11,12 +11,28 @@
         <a href="mailto:inbox@ekoset.ru">inbox@ekoset.ru</a>
       </div>
       <div class="brc-page-footer__social">
-        <small>Иконки для соцсетей</small>
+        <a href="https://vk.com/ekoset">
+          <img src="/images/social-vk.png" alt="Экосеть ВКонтакте" />
+        </a>
+        <a
+          href="http://www.facebook.com/pages/%D0%AD%D0%BA%D0%BE%D1%81%D0%B5%D1%82%D1%8C-%D0%9C%D1%8B-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B5%D0%BC-%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8E/214044655403288"
+        >
+          <img src="/images/social-facebook.png" alt="Экосеть в Фейсбуке" />
+        </a>
+        <a href="https://twitter.com/Ekoset77">
+          <img src="/images/social-twitter.png" alt="Экосеть в Твиттере" />
+        </a>
       </div>
     </div>
     <div class="brc-page-footer__business-activities">
-      <h3>Услуги для Бизнеса</h3>
-      <ul class="footer-list-link">
+      <h3>
+        Бизнесу
+        <small class="brc-footer-list-arrow" @click="toogleBusinessTypeMenuVisible">&#9660;</small>
+      </h3>
+      <ul
+        class="brc-footer-list-link"
+        :class="{'brc-footer-list-link_mobile-visible': isBusinessTypeMenuVisible}"
+      >
         <li>
           <a href="#">Ежедневная уборка</a>
         </li>
@@ -41,8 +57,17 @@
       </ul>
     </div>
     <div class="brc-page-footer__private-activities">
-      <h3>Услуги для Частных лиц</h3>
-      <ul class="footer-list-link">
+      <h3>
+        Частным лицам
+        <small
+          class="brc-footer-list-arrow"
+          @click="toogleClientTypeMenuVisible"
+        >&#9660;</small>
+      </h3>
+      <ul
+        class="brc-footer-list-link"
+        :class="{'brc-footer-list-link_mobile-visible': isClientTypeMenuVisible}"
+      >
         <li>
           <a href="#">Уничтожение кротов</a>
         </li>
@@ -91,7 +116,24 @@
   </footer>
 </template>
 
-<style lang="scss" scoped>
+<script lang="ts">
+import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+
+@Component({})
+export default class TheLayoutFooter extends Vue {
+  public isBusinessTypeMenuVisible = false
+  public isClientTypeMenuVisible = false
+
+  public toogleBusinessTypeMenuVisible () {
+    this.isBusinessTypeMenuVisible = !this.isBusinessTypeMenuVisible
+  }
+  public toogleClientTypeMenuVisible () {
+    this.isClientTypeMenuVisible = !this.isClientTypeMenuVisible
+  }
+}
+</script>
+
+<style lang="scss">
 @import "@/styles/variables.scss";
 .brc-page-footer {
   display: flex;
@@ -99,20 +141,12 @@
   padding: 10px 0 10px 0px;
   border-top: 1px solid lightgray;
 
-  @media (max-width: 480px) {
-    padding: 5px 0 5px 0;
-  }
-
   img {
-    max-width: 160px !important;
+    max-width: 160px;
   }
 
   > div {
     flex-grow: 1;
-  }
-
-  h3 {
-    padding-left: 25px;
   }
 
   ul {
@@ -121,33 +155,43 @@
 
     > li {
       list-style: none;
-      padding: 2px 0;
 
       > a {
         color: gray;
-        font-size: 13px;
-        padding: 2px 0 2px 25px;
 
         &:hover {
           color: black;
-          background-image: url(/images/sun-icon.png);
-          background-repeat: no-repeat;
         }
       }
     }
   }
-
+  .brc-footer-list-arrow {
+    display: none;
+  }
   .brc-page-footer__contacts {
     a {
       color: #26272d;
-      font-size: 16px;
-      font-weight: 900;
-      line-height: 25px;
+    }
+    &:hover {
+      color: black;
     }
   }
+}
 
-  .brc-page-footer__menu {
-    padding-top: 20px;
+@media (max-width: 767px) {
+  .brc-page-footer {
+    flex-direction: column;
+
+    .brc-footer-list-link {
+      display: none;
+    }
+    .brc-footer-list-link_mobile-visible {
+      display: block !important;
+    }
+    .brc-footer-list-arrow {
+      display: inline;
+      cursor: pointer;
+    }
   }
 }
 </style>
