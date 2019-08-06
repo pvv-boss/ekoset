@@ -1,0 +1,73 @@
+$golden:1.618;
+$double-octave:4;
+$major-twelfth: 3;
+$major-eleventh:2.667;
+$major-tenth:2.5;
+$octave:2;
+$major-seventh:1.875;
+$minor-seventh:1.778;
+$major-sixth:1.667;
+$minor-sixth:1.6;
+$fifth:1.5;
+$augmented-fourth:1.414;
+$fourth:1.333;
+$major-third:1.25;
+$minor-third:1.2;
+$major-second:1.125;
+$minor-second:1.067;
+
+$base-rem: 0.8rem;
+$ratio: $minor-third;
+
+$ms0: 1.0;
+$ms1: $ratio * $ms0;
+$ms2: $ratio * $ms1;
+$ms3: $ratio * $ms2;
+$ms4: $ratio * $ms3;
+$ms5: $ratio * $ms4;
+$ms6: $ratio * $ms5;
+$ms7: $ratio * $ms6;
+
+
+html {
+  // font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0.02rem;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: $base-rem * $ms5;
+  }
+
+  h2 {
+    font-size: $base-rem * $ms4;
+  }
+
+  h3 {
+    font-size: $base-rem * $ms3;
+  }
+
+  h4 {
+    font-size: $base-rem * $ms2;
+  }
+
+  h5 {
+    font-size: $base-rem * $ms1;
+  }
+
+  .p_big {
+    font-size: $base-rem * $ms1;
+  }
+
+  .p_medium {
+    font-size: $base-rem;
+  }
+
+  .p_small {
+    font-size: $base-rem / $ms1;
+  }
+}

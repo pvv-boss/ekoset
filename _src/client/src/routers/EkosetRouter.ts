@@ -50,14 +50,6 @@ export const EkosetRouter = [
   },
 
   {
-    name: 'activity-card',
-    path: '/:activity',
-    props: true,
-    component: ActivityCard,
-    meta: { title: 'Экосеть: Направление деятельности' }
-  },
-
-  {
     name: 'offer-list',
     path: '/:activity/offers',
     props: true,
@@ -150,5 +142,12 @@ export const EkosetRouter = [
       title: 'Экосеть: Личный кабинет',
       // requiresAuth: true
     }
+  },
+  {
+    name: 'activity-card',
+    path: '/:activity',
+    props: true,
+    component: ActivityCard,
+    meta: { title: 'Экосеть: Направление деятельности' }
   }
 ]

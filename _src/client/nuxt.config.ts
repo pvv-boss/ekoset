@@ -43,7 +43,7 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
       { rel: 'stylesheet', href: '/_nuxt/app.css' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
