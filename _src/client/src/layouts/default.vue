@@ -1,6 +1,7 @@
 <template>
   <div class="brc-page-container">
     <TheNewLayoutHeader></TheNewLayoutHeader>
+    <BreadCrumbs></BreadCrumbs>
     <div class="brc-body">
       <nuxt></nuxt>
     </div>

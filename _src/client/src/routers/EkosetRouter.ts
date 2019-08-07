@@ -103,7 +103,7 @@ export const EkosetRouter = [
       title: 'Экосеть: Новости',
       breadcrumb: [
         { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'article-list' }
+        { name: 'Новости', link: 'news' }
       ]
     }
   },
@@ -116,7 +116,7 @@ export const EkosetRouter = [
       title: 'Экосеть: Новости раздела',
       breadcrumb: [
         { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'article-list' }
+        { name: 'Новости', link: 'news' }
       ]
     }
   },
@@ -128,7 +128,7 @@ export const EkosetRouter = [
       title: 'Экосеть: Новость',
       breadcrumb: [
         { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'article-list' },
+        { name: 'Новости', link: 'news' },
         { name: (t: { params: { articleUrl: any; }; }) => `Новость ${t.params.articleUrl}` }
       ]
     }
