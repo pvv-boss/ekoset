@@ -13,8 +13,8 @@ export function createRouter () {
     mode: 'history',
     routes: [
       ...UserRoute,
-      ...EkosetRouter,
       ...AdminRouter,
+      ...EkosetRouter,
       {
         name: 'not-found',
         path: '*',

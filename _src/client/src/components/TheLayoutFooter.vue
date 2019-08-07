@@ -25,9 +25,10 @@
       </div>
     </div>
     <div class="brc-page-footer__business-activities">
-      <h4>Бизнесу</h4>
       <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
-      <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">&#9660;</label>
+      <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">
+        <h4>Бизнесу</h4>
+      </label>
       <ul class="brc-footer-list-link">
         <li>
           <a href="#">Ежедневная уборка</a>
@@ -53,9 +54,10 @@
       </ul>
     </div>
     <div class="brc-page-footer__private-activities">
-      <h4>Частным лицам</h4>
       <input id="toogleClientTypeMenuVisible" type="checkbox" />
-      <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">&#9660;</label>
+      <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">
+        <h4 for="toogleClientTypeMenuVisible">Частным лицам</h4>
+      </label>
       <ul class="brc-footer-list-link">
         <li>
           <a href="#">Уничтожение кротов</a>
@@ -167,6 +169,17 @@
     #toogleClientTypeMenuVisible:checked ~ .brc-footer-list-link,
     #toogleBusinessTypeMenuVisible:checked ~ .brc-footer-list-link {
       height: min-content;
+    }
+
+    .brc-footer-list-arrow:after {
+      content: "\25bc";
+    }
+
+    #toogleClientTypeMenuVisible:checked ~ .brc-footer-list-arrow,
+    #toogleBusinessTypeMenuVisible:checked ~ .brc-footer-list-arrow {
+      &:after {
+        content: "\25ba";
+      }
     }
   }
 }
