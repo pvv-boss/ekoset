@@ -134,9 +134,9 @@
       }
     }
   }
-  .brc-footer-list-arrow {
-    display: none;
-  }
+  // .brc-footer-list-arrow {
+  //   display: none;
+  // }
   .brc-page-footer__contacts {
     a {
       color: #26272d;
