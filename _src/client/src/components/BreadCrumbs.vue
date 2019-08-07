@@ -1,5 +1,5 @@
 <template>
-  <ul class="navigaton">
+  <ul class="brc-breadcrumb">
     <li v-for="(bread, idx) in breadCrumbList" :key="idx">
       <nuxt-link v-if="bread.link !== ''" :to="{name: bread.link}">{{getBreadCrumbName(bread.name)}}</nuxt-link>
     </li>
@@ -29,4 +29,21 @@ export default class BreadCrumbs extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.brc-breadcrumb {
+  li {
+    display: inline;
+    list-style-type: none;
+
+    &:before {
+      content: ">";
+    }
+    &:first-child:before {
+      content: none;
+    }
+  }
+}
+</style>
+
 

@@ -2,7 +2,6 @@
   <section>
     <h1 itemprop="headline name">Список новостей</h1>
     <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
-    <div>{{pagination}}</div>
     <BasePagination
       :total="pagination.total"
       :currentPage.sync="pagination.currentPage"
@@ -37,12 +36,13 @@ export default class Articles extends Vue {
   }
   private async asyncData (context: NuxtContext) {
     const siteSectionId = Number(context.params.siteSectionId)
-    const data = await (!!siteSectionId && siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
-    if (data) {
-      return {
-        articleItems: data,
-        pagination: { total: 20, limit: 10, currentPage: 1 }
-      }
+    console.debug(siteSectionId)
+    const articleList = (!!siteSectionId && siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
+
+    const data = await Promise.all([articleList])
+    return {
+      articleItems: data[0],
+      pagination: { total: 5, limit: 3, currentPage: 1 }
     }
   }
 

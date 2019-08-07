@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <footer class="brc-page-footer">
     <div class="brc-page-footer__contacts">
       <a class="brc-footer-logo" href="/">
@@ -25,14 +25,10 @@
       </div>
     </div>
     <div class="brc-page-footer__business-activities">
-      <h3>
-        Бизнесу
-        <small class="brc-footer-list-arrow" @click="toogleBusinessTypeMenuVisible">&#9660;</small>
-      </h3>
-      <ul
-        class="brc-footer-list-link"
-        :class="{'brc-footer-list-link_mobile-visible': isBusinessTypeMenuVisible}"
-      >
+      <h4>Бизнесу</h4>
+      <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
+      <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">&#9660;</label>
+      <ul class="brc-footer-list-link">
         <li>
           <a href="#">Ежедневная уборка</a>
         </li>
@@ -57,17 +53,10 @@
       </ul>
     </div>
     <div class="brc-page-footer__private-activities">
-      <h3>
-        Частным лицам
-        <small
-          class="brc-footer-list-arrow"
-          @click="toogleClientTypeMenuVisible"
-        >&#9660;</small>
-      </h3>
-      <ul
-        class="brc-footer-list-link"
-        :class="{'brc-footer-list-link_mobile-visible': isClientTypeMenuVisible}"
-      >
+      <h4>Частным лицам</h4>
+      <input id="toogleClientTypeMenuVisible" type="checkbox" />
+      <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">&#9660;</label>
+      <ul class="brc-footer-list-link">
         <li>
           <a href="#">Уничтожение кротов</a>
         </li>
@@ -116,23 +105,6 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class TheLayoutFooter extends Vue {
-  public isBusinessTypeMenuVisible = false
-  public isClientTypeMenuVisible = false
-
-  public toogleBusinessTypeMenuVisible () {
-    this.isBusinessTypeMenuVisible = !this.isBusinessTypeMenuVisible
-  }
-  public toogleClientTypeMenuVisible () {
-    this.isClientTypeMenuVisible = !this.isClientTypeMenuVisible
-  }
-}
-</script>
-
 <style lang="scss">
 @import "@/styles/variables.scss";
 .brc-page-footer {
@@ -140,21 +112,20 @@ export default class TheLayoutFooter extends Vue {
   flex-direction: row;
   justify-content: space-between;
   border-top: 1px solid lightgray;
-
   img {
     max-width: 160px;
   }
-
+  input {
+    display: none;
+    visibility: hidden;
+  }
   ul {
     margin: 0;
     padding: 0;
-
     > li {
       list-style: none;
-
       > a {
         color: gray;
-
         &:hover {
           color: black;
         }
@@ -173,20 +144,29 @@ export default class TheLayoutFooter extends Vue {
     }
   }
 }
-
 @media (max-width: 767px) {
   .brc-page-footer {
     flex-direction: column;
 
+    h4,
+    label {
+      display: inline;
+    }
+
     .brc-footer-list-link {
-      display: none;
+      height: 0px;
+      overflow: hidden;
+      transition: height 0.5s;
     }
-    .brc-footer-list-link_mobile-visible {
-      display: block !important;
-    }
+
     .brc-footer-list-arrow {
       display: inline;
       cursor: pointer;
+    }
+
+    #toogleClientTypeMenuVisible:checked ~ .brc-footer-list-link,
+    #toogleBusinessTypeMenuVisible:checked ~ .brc-footer-list-link {
+      height: min-content;
     }
   }
 }

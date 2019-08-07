@@ -34,22 +34,28 @@ export default class ArticleList extends Vue {
 .brc-article-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   align-content: space-around;
+  flex-wrap: wrap;
 
   .brc-article-smallitem {
     flex: 1;
-    margin-bottom: 50px;
     min-width: 300px;
-    max-width: 300px;
   }
 }
 
 .brc-article-list_vertical {
   .brc-article-smallitem {
     width: 100%;
+  }
+}
+
+@media (min-width: 600px) {
+  .brc-article-list:after {
+    content: "";
+    flex: auto;
   }
 }
 </style>
