@@ -1,12 +1,15 @@
 <template>
   <article class="brc-article-smallitem">
     <figure class="brc-article-smallitem__preview">
-      <img
-        :src="articleItem.articlePreviewImgSrc"
-        :alt="articleItem.articleTitle"
-        itemprop="image"
-        class="brc-article-smallitem__preview-img"
-      />
+      <nuxt-link :to="{ name: 'news-card', params: { articleUrl: articleItem.articleUrl}}">
+        <img
+          :src="articleItem.articlePreviewImgSrc"
+          :alt="articleItem.articleTitle"
+          itemprop="image"
+          class="brc-article-smallitem__preview-img"
+        />
+      </nuxt-link>
+
       <figcaption>{{articleItem.articleTitle}}</figcaption>
     </figure>
     <header class="brc-article-smallitem__header">

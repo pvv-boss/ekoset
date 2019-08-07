@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="brc-recommendations">
+    <h4>Нас рекомендуют</h4>
     <RecommendationListItem
       v-for="recommendationItem in recommendationList"
       :key="recommendationItem.recommendationId"
@@ -25,3 +26,24 @@ export default class RecommendationList extends Vue {
   private recommendationList
 }
 </script>
+
+<style lang="scss">
+.brc-recommendations {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: space-around;
+  flex-wrap: wrap;
+
+  &:after {
+    content: "";
+    flex: auto;
+  }
+
+  .brc-recommend-smallitem__preview {
+    width: 90px;
+  }
+}
+</style>
