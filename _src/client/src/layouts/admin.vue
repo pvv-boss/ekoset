@@ -22,7 +22,7 @@
 
 <script  lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import TheLayoutHeader from '@/components/TheLayoutHeader.vue'
+import TheLayoutHeader from '@/components/header/TheLayoutHeader.vue'
 import TheLayoutFooter from '@/components/TheLayoutFooter.vue'
 
 

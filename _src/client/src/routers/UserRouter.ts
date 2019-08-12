@@ -9,7 +9,7 @@ export const UserRoute = [
     path: '/auth/:mode(login|registration)',
     props: true,
     component: Login,
-    meta: { title: 'Госторги24: Вход на сайт' }
+    meta: { title: 'Экосеть:: Вход на сайт' }
   },
   {
     name: 'auth-change',
@@ -17,7 +17,7 @@ export const UserRoute = [
     props: true,
     component: ChangePasswordForm,
     meta: {
-      title: 'Госторги24: Смена пароля',
+      title: 'Экосеть:: Смена пароля',
       requiresAuth: true
     }
   },
@@ -25,7 +25,7 @@ export const UserRoute = [
     name: 'auth-restore',
     path: '/auth/restore',
     component: RestorePasswordForm,
-    meta: { title: 'Госторги24: Восстановление пароля' }
+    meta: { title: 'Экосеть:: Восстановление пароля' }
   },
   {
     name: 'auth-callback',

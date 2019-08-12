@@ -3,7 +3,7 @@
     <ul class="brc-top-menu__user-navigation-menu">
       <li v-if="isAuthenticated" class="user-navigation-menu__li">
         <a class="user-navigation-menu__link brc-dropdown-toggle" href="#" @click="toggleMenu">
-          <img :src="userImageSrc" class="img-responsive" style="border-radius: 100%;" width="42">
+          <img :src="userImageSrc" class="img-responsive" style="border-radius: 100%;" width="42" />
           <span>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</span>
         </a>
         <div id="userAuthMenu" class="brc-top-menu__user-navigation-dropdown" style="display:none">
@@ -15,7 +15,7 @@
         <nuxt-link
           :to="{ name: 'auth-login', params: {mode: 'login'} }"
           class="user-navigation-menu__link user-navigation-menu__link-auth"
-        >Войти на сайт</nuxt-link>
+        >Личный кабинет</nuxt-link>
       </li>
     </ul>
   </div>

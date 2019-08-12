@@ -13,7 +13,6 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ActivityListItem from '@/components/public/ActivityListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import { importDeclaration } from '@babel/types'
 
 @Component({
   components: {

@@ -1,0 +1,45 @@
+<template>
+  <a class="brc-contact__telephone" href="tel:4952233595">
+    <span class="brc-contact__telephone-code">(495)</span>
+    <span class="brc-contact__telephone-nmb">223-35-95</span>
+  </a>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
+import TheHeaderActions from '@/components/header/TheHeaderActions.vue'
+import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
+
+@Component({
+  components: {
+  }
+})
+export default class TheHeaderCallMe extends Vue {
+
+}
+</script>
+
+<style lang="scss">
+@import "@/styles/variables.scss";
+@import "@/styles/typography.scss";
+
+.brc-contact__telephone {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  > span + span {
+    margin-left: 5px;
+  }
+  .brc-contact__telephone-code {
+    color: #26272d;
+    font-weight: $font-medium;
+  }
+  .brc-contact__telephone-nmb {
+    color: $red;
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+  }
+}
+</style>

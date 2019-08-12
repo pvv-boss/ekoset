@@ -1,9 +1,9 @@
 <template functional>
   <footer class="brc-page-footer">
     <div class="brc-page-footer__contacts">
-      <a class="brc-footer-logo" href="/">
+      <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
         <img src="/images/logo.png" alt="Экосеть" />
-      </a>
+      </nuxt-link>
       <div class="brc-page-footer__phone">
         <a href="tel:4952233595">(495) 223-35-95</a>
       </div>
@@ -115,7 +115,8 @@
   justify-content: space-between;
   border-top: 1px solid lightgray;
   img {
-    max-width: 160px;
+    max-height: 40px;
+    height: 40px;
   }
   input {
     display: none;
@@ -132,6 +133,7 @@
           color: black;
         }
       }
+      list-style-type: none;
     }
   }
   // .brc-footer-list-arrow {
@@ -146,7 +148,16 @@
     }
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
+  .brc-page-footer__menu {
+    display: none;
+  }
+  .brc-footer-log {
+    height: 34px;
+  }
+}
+
+@media (max-width: 600px) {
   .brc-page-footer {
     flex-direction: column;
 

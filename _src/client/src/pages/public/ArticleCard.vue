@@ -128,7 +128,7 @@ article {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .brc-article-wrapper {
     flex-direction: column;
   }
