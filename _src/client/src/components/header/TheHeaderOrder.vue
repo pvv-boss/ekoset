@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-page-header__order p_small">
+  <div class="brc-page-header__order">
     <a>Заказать</a>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default class TheHeaderOrder extends Vue {
   align-items: center;
   font-weight: $font-medium;
   color: white;
-
+  margin-left: 10px;
   > a:hover {
     color: white !important;
   }

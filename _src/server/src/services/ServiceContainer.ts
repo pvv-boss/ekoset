@@ -5,6 +5,7 @@ import UserSessionService from './user/UserSessionService';
 import PassportProviders from './user/PassportProviders';
 import AuthEmailService from './user/AuthEmailService';
 import ArticleService from './ekoset/ArticleService';
+import PublicEkosetService from './ekoset/PublicEkosetService';
 
 
 class ServiceContainer {
@@ -14,6 +15,7 @@ class ServiceContainer {
   public static PassportProviders: PassportProviders = new PassportProviders();
   public static AuthEmailService: AuthEmailService = new AuthEmailService();
   public static ArticleService: ArticleService = new ArticleService();
+  public static PublicEkosetService: PublicEkosetService = new PublicEkosetService();
 }
 
 export default ServiceContainer;

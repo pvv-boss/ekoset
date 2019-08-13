@@ -5,11 +5,9 @@
   </a>
 </template>
 
+
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
-import TheHeaderActions from '@/components/header/TheHeaderActions.vue'
-import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
 
 @Component({
   components: {
@@ -27,7 +25,7 @@ export default class TheHeaderCallMe extends Vue {
 .brc-contact__telephone {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   > span + span {
     margin-left: 5px;

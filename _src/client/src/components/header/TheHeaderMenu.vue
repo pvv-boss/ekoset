@@ -48,14 +48,14 @@ export default class TheHeaderMenu extends Vue {
 @import "@/styles/variables.scss";
 @import "@/styles/typography.scss";
 
-$menu_item_padding_left: 20px;
+$menu_item_padding_left: 15px;
 
 .brc-page-header__main-menu {
   text-transform: uppercase;
   margin: 0;
   > li {
     > a {
-      color: #212224;
+      color: $text-color;
       font-size: 0.938rem;
       &:hover {
         color: $red;
@@ -74,7 +74,7 @@ $menu_item_padding_left: 20px;
 
   > li + li {
     padding-left: $menu_item_padding_left;
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       padding-left: $menu_item_padding_left - 5px;
     }
   }
