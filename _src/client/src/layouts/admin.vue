@@ -14,9 +14,7 @@
       </nav>
       <nuxt></nuxt>
     </main>
-    <no-ssr>
-      <TheLayoutFooter v-if="!loading"></TheLayoutFooter>
-    </no-ssr>
+    <TheLayoutFooter v-if="!loading"></TheLayoutFooter>
   </div>
 </template>
 

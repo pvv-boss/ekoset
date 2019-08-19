@@ -30,14 +30,16 @@ export default class ContractList extends Vue {
 
   private contractList: Contract[] = []
 
-  private async asyncData (context: NuxtContext) {
+  public async getDataList () {
     //FIXME: получение списка контрагентов и договоров
-    const data = await (getServiceContainer().articleService.getRootArticleList())
-    if (data) {
-      return {
-        contractList: data
-      }
-    }
+    const dataItems = []//await getServiceContainer().UserService.getData(this.userId)
+    this.contractList = dataItems
+  }
+
+  public mounted () {
+    this.$nextTick(() => {
+      this.getDataList()
+    })
   }
 
 }

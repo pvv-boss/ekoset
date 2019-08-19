@@ -30,14 +30,16 @@ export default class ResearchList extends Vue {
 
   private researchList: Research[] = []
 
-  private async asyncData (context: NuxtContext) {
-    //FIXME: получение списка лабораторных исследований
-    const data = await (getServiceContainer().articleService.getRootArticleList())
-    if (data) {
-      return {
-        researchList: data
-      }
-    }
+  public async getDataList () {
+    //FIXME: получение списка лабораторных исседований
+    const dataItems = []//await getServiceContainer().UserService.getData(this.userId)
+    this.researchList = dataItems
+  }
+
+  public mounted () {
+    this.$nextTick(() => {
+      this.getDataList()
+    })
   }
 }
 </script>

@@ -1,41 +1,61 @@
 <template>
-  <div class="brc-page-header-mobile">
-    <nuxt-link
-      :to="{name: 'main'}"
-      class="brc-page-header-mobile__logo"
-      :class="{active: activeIndex === 'main'}"
-    >
-      <img src="/images/logo.png" alt="Экосеть" />
-    </nuxt-link>
+  <div>
+    <div class="brc-page-header-mobile" :class="{fixedHeader: fixedHeader}">
+      <img
+        v-click-outside="closeMenu"
+        class="brc-page-header-mobile__menu-expander"
+        @click="openMenu"
+        src="/images/menu.png"
+      />
 
-    <div
-      class="brc-page-header-mobile__menu-expander"
-      :class="{menu_visible:isMainMenuActive===true}"
-      @click="toogleMenuVisible"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
+      <nuxt-link
+        :to="{name: 'main'}"
+        class="brc-page-header-mobile__logo"
+        :class="{active: activeIndex === 'main'}"
+      >
+        <img src="/images/logo.png" alt="Экосеть" />
+      </nuxt-link>
+
+      <nuxt-link
+        :to="{name: 'auth-login',params:{mode:'login'}}"
+        class="brc-page-header-mobile__user"
+        :class="{active: activeIndex === 'auth-login'}"
+      >
+        <img src="/images/user_small.png" alt="Экосеть" />
+      </nuxt-link>
     </div>
 
+    <!-- Само меню. Живет с фиксед позишн !!! -->
     <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
+      <div class="brc-page-header-mobile-menu__title">
+        <img class="brc-page-header-mobile-menu__logo" src="/images/logo.png" alt="Экосеть" />
+        <a href="#" class="brc-page-header-mobile__menu-closer" @click="closeMenu" />
+      </div>
+
       <div class="brc-page-header-mobile-menu__user-auth">
         <UserAuthHeader></UserAuthHeader>
       </div>
+
       <div class="brc-page-header-mobile-menu__main-menu">
         <TheHeaderMenu></TheHeaderMenu>
       </div>
+
       <div class="brc-page-header-mobile__invite">
         <TheHeaderInviteTender></TheHeaderInviteTender>
       </div>
+
       <div class="brc-page-header-mobile__ask">
         <TheHeaderAskQuestion></TheHeaderAskQuestion>
       </div>
+
       <div class="brc-page-header-mobile__callme">
         <TheHeaderCallMe></TheHeaderCallMe>
         <TheHeaderOrder class="brc-page-header-mobile__order"></TheHeaderOrder>
       </div>
     </nav>
+
+    <!-- Для закрытия основного контента -->
+    <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
   </div>
 </template>
 
@@ -59,12 +79,20 @@ import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue
     TheHeaderAskQuestion
   }
 })
-export default class TheHeaderMobileMenu extends Vue {
+export default class TheHeaderMobileMenu2 extends Vue {
   public isMainMenuActive = false
-  public toogleMenuVisible () {
-    this.isMainMenuActive = !this.isMainMenuActive
+
+  public openMenu () {
+    this.isMainMenuActive = true
   }
-  private get activeIndex () {
+
+  public closeMenu () {
+    if (this.isMainMenuActive === true) {
+      this.isMainMenuActive = false
+    }
+  }
+
+  public get activeIndex () {
     return this.$route.name ? this.$route.name.split('-')[0] : ''
   }
 }
@@ -74,19 +102,38 @@ export default class TheHeaderMobileMenu extends Vue {
 @import "@/styles/variables.scss";
 @import "@/styles/typography.scss";
 
+.main-content_hidden {
+  display: none;
+
+  &.active {
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    min-width: 100%;
+    width: 100vw;
+    min-height: 100%;
+    height: 100vh;
+    background-color: #bbbbbb;
+    opacity: 0.7;
+  }
+}
+
 .brc-page-header-mobile {
   display: none;
   font-size: 1rem !important;
   letter-spacing: 0.02rem !important;
+  z-index: 1000;
 
   @media (max-width: 768px) {
     display: flex !important;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
     .brc-page-header-mobile__logo {
+      height: 40px;
       > img {
-        width: 100%;
-        max-width: 100%;
         max-height: 40px;
         height: 40px;
       }
@@ -96,41 +143,15 @@ export default class TheHeaderMobileMenu extends Vue {
       position: relative;
       width: 30px;
       height: 30px;
-      display: block;
+      max-height: 30px;
+      cursor: pointer;
+    }
 
-      > span {
-        background-color: #4b4b4b;
-        height: 3px;
-        width: 30px;
-        position: absolute;
-        top: 0px;
-        transition: 0.3s;
-      }
-
-      > span:nth-child(2) {
-        top: 10px;
-      }
-
-      > span:nth-child(3) {
-        top: 20px;
-      }
-
-      &.menu_visible {
-        > span {
-          background-color: $red;
-        }
-        > span:nth-child(1) {
-          top: 8px;
-          transform: rotate(225deg);
-        }
-        > span:nth-child(2) {
-          top: 8px;
-          transform: rotate(135deg);
-        }
-        > span:nth-child(3) {
-          top: 8px;
-          transform: rotate(225deg);
-        }
+    .brc-page-header-mobile__user {
+      height: 20px;
+      > img {
+        max-height: 20px;
+        height: 20px;
       }
     }
   }
@@ -145,15 +166,17 @@ export default class TheHeaderMobileMenu extends Vue {
   display: flex !important;
   flex-direction: column;
   background-color: white;
-
-  transition: 0.3s;
+  overflow-y: auto;
+  z-index: 1000;
+  transform-style: flat;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  border-radius: 1px;
+  //  border-radius: 1px;
 
   height: 100vh;
 
   &.visible {
-    transform: translateX(0);
+    transform: none;
   }
 
   * {
@@ -164,6 +187,45 @@ export default class TheHeaderMobileMenu extends Vue {
 
   > div + div {
     border-top: 1px solid $delimiter-light-color;
+  }
+
+  .brc-page-header-mobile__invite {
+    border-top: 1px solid $delimiter-strong-color;
+  }
+
+  .brc-page-header-mobile-menu__title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brc-page-header-mobile-menu__logo {
+    max-height: 40px;
+    height: 40px;
+  }
+
+  .brc-page-header-mobile__menu-closer {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .brc-page-header-mobile__menu-closer::before,
+  .brc-page-header-mobile__menu-closer::after {
+    position: absolute;
+    top: 0px;
+    left: 7px;
+    width: 3px;
+    height: 18px;
+    content: "";
+    background-color: black;
+    display: block;
+  }
+  .brc-page-header-mobile__menu-closer::before {
+    transform: rotate(-45deg);
+  }
+  .brc-page-header-mobile__menu-closer::after {
+    transform: rotate(45deg);
   }
 
   .brc-top-menu__user-navigation {
@@ -177,7 +239,7 @@ export default class TheHeaderMobileMenu extends Vue {
   .brc-page-header__main-menu {
     * {
       display: block;
-      text-transform: none;
+      // text-transform: none;
       font-size: 1rem !important;
       letter-spacing: 0.02rem !important;
     }
@@ -192,6 +254,7 @@ export default class TheHeaderMobileMenu extends Vue {
     }
   }
 
+  .brc-page-header-mobile-menu__title,
   .brc-page-header-mobile-menu__user-auth,
   .brc-page-header-mobile__invite,
   .brc-page-header-mobile__callme,

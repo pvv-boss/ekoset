@@ -24,7 +24,7 @@ export default class TheHeaderOrder extends Vue {
 .brc-page-header__order {
   background-color: $red;
   width: 90px;
-  height: 40px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;

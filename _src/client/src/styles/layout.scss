@@ -26,16 +26,16 @@ a {
 
 .brc-page-container {
   width: 100%;
-  max-width: 1140px;
-  padding: 0px 15px;
+  max-width: 1164px;
+  padding: 0px 32px;
   margin: auto;
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 
-  @media(max-width: 768px) {
-    // padding: 0 15px 0 10px;
+  @media (max-width: 768px) {
+    padding: 0px 16px;
   }
 
   .brc-body {
@@ -45,10 +45,4 @@ a {
     flex-shrink: 0;
   }
 
-}
-
-@media(max-width: 767px) {
-  .brc-body {
-    min-height: 600px;
-  }
 }

@@ -5,7 +5,7 @@ import { ImageFormat } from '@/models/ImageFormat.ts'
 
 Quill.register('modules/imageResize', ImageResize)
 
-Quill.register(ImageFormat, true);
+Quill.register(ImageFormat, true)
 Vue.use(VueQuillEditor)
 
 

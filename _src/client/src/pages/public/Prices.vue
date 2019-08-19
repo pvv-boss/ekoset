@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 itemprop="headline name">Цены</h1>
-    <MessageForm></MessageForm>
   </section>
 </template>
 
@@ -17,6 +16,18 @@ import MessageForm from '@/components/public/MessageForm.vue'
   }
 })
 export default class Prices extends Vue {
+  private priceItems: [] = []
+
+  private async asyncData (context: NuxtContext) {
+    //FIXME: получение списка цен
+    const priceList = getServiceContainer().articleService.getRootArticleList()
+
+    const data = await Promise.all([priceList])
+    return {
+      priceItems: data[0]
+    }
+  }
+
   private head () {
     return { title: 'Экосеть: Цены' }
   }

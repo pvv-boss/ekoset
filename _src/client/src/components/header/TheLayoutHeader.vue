@@ -27,7 +27,7 @@
       </div>
     </nav>
 
-    <TheHeaderMobileMenu></TheHeaderMobileMenu>
+    <TheHeaderMobileMenu2></TheHeaderMobileMenu2>
   </header>
 </template>
 
@@ -35,7 +35,7 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
 import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
-import TheHeaderMobileMenu from '@/components/header/TheHeaderMobileMenu.vue'
+import TheHeaderMobileMenu2 from '@/components/header/TheHeaderMobileMenu2.vue'
 import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
 import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
 import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
@@ -46,7 +46,7 @@ import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue
   components: {
     TheHeaderMenu,
     UserAuthHeader,
-    TheHeaderMobileMenu,
+    TheHeaderMobileMenu2,
     TheHeaderOrder,
     TheHeaderCallMe,
     TheHeaderAskQuestion,
@@ -67,9 +67,11 @@ export default class TheLayoutHeader extends Vue {
 $header_margin_top: 15px;
 .brc-page-header {
   margin-top: $header_margin_top;
+  background-color: white;
 
-  @media (max-width: 1024px) {
-    margin-top: 10px;
+  @media (max-width: 768px) {
+    position: sticky;
+    top: 0px;
   }
 }
 

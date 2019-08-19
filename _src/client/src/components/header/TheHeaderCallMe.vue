@@ -1,6 +1,6 @@
 <template>
-  <a class="brc-contact__telephone" href="tel:4952233595">
-    <span class="brc-contact__telephone-code">(495)</span>
+  <a class="brc-contact__telephone" href="tel:+74952233595">
+    <span class="brc-contact__telephone-code">+7 (495)</span>
     <span class="brc-contact__telephone-nmb">223-35-95</span>
   </a>
 </template>
@@ -36,8 +36,9 @@ export default class TheHeaderCallMe extends Vue {
   }
   .brc-contact__telephone-nmb {
     color: $red;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: $font-bold;
+    margin-left: 5px !important;
   }
 }
 </style>
