@@ -1,14 +1,14 @@
 <template>
   <div class="brc-page-container">
     <TheLayoutHeader></TheLayoutHeader>
-    <BreadCrumbs></BreadCrumbs>
     <div class="brc-body">
       <nuxt></nuxt>
     </div>
+    <TheLayoutFooter></TheLayoutFooter>
     <no-ssr>
-      <TheLayoutFooter></TheLayoutFooter>
       <BaseCookieNotice></BaseCookieNotice>
-      <ActivateAccauntNotice></ActivateAccauntNotice>
+      <BaseBackToTop></BaseBackToTop>
+      <!-- <ActivateAccauntNotice></ActivateAccauntNotice> -->
     </no-ssr>
   </div>
 </template>
@@ -20,12 +20,14 @@ import TheLayoutFooter from '@/components/TheLayoutFooter.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import ActivateAccauntNotice from '@/components/user/ActivateAccauntNotice.vue'
 import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
+import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
 
 @Component({
   components: {
     TheLayoutHeader,
     TheLayoutFooter,
     ActivateAccauntNotice,
+    BaseBackToTop,
     BaseCookieNotice,
     BreadCrumbs
   }

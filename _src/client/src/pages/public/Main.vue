@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 itemprop="headline name">Экосеть: главная страница</h1>
-    <MessageForm></MessageForm>
   </section>
 </template>
 

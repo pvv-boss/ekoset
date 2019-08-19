@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 itemprop="headline name">Индивидуальные предложения</h1>
-    <MessageForm></MessageForm>
   </section>
 </template>
 

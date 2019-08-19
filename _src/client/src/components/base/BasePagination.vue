@@ -30,22 +30,20 @@ export default class BasePagination extends Vue {
   private currentPage
 
   private get pages () {
-    let pages: number[] = new Array()
+    const pages: number[] = new Array()
 
     let startPage = 1
     let endPage = this.total
 
     if (this.currentPage - Math.floor(this.limit / 2) <= 1) {
       endPage = this.limit < this.total ? this.limit : this.total
-    }
-    else if (this.currentPage + Math.floor(this.limit / 2) > this.total) {
+    } else if (this.currentPage + Math.floor(this.limit / 2) > this.total) {
       startPage = this.total - this.limit > 1 ? this.total - this.limit : 1
-    }
-    else {
+    } else {
       startPage = this.currentPage - Math.floor(this.limit / 2)
       endPage = startPage + this.limit - 1
     }
-    for (var i = startPage; i <= endPage; i++) {
+    for (let i = startPage; i <= endPage; i++) {
       pages.push(i)
     }
     return pages

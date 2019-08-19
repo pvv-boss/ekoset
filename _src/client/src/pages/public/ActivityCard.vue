@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 itemprop="headline name">Направление деятельности</h1>
-    <MessageForm></MessageForm>
   </section>
 </template>
 

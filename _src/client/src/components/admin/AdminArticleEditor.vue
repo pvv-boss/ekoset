@@ -72,7 +72,7 @@ export default class AdminArticleEditor extends Vue {
 
   private htmlEditor () {
     if (this.txtArea.style.display === '') {
-      var html = this.txtArea.value
+      const html = this.txtArea.value
       this.editor.pasteHTML(html)
     }
     this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none'
@@ -86,7 +86,7 @@ export default class AdminArticleEditor extends Vue {
   private mounted () {
     this.txtArea = document.createElement('textarea');
     this.txtArea.setAttribute('id', 'txtArea')
-    this.txtArea.style.cssText = "width: 100%;height:100%;margin: 0px;background: rgb(29, 29, 29);box-sizing: border-box;color: rgb(204, 204, 204);font-size: 15px;outline: none;padding: 20px;line-height: 24px;font-family: Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace;position: absolute;top: 0;bottom: 0;border: none;display:none"
+    this.txtArea.style.cssText = 'width: 100%;height:100%;margin: 0px;background: rgb(29, 29, 29);box-sizing: border-box;color: rgb(204, 204, 204);font-size: 15px;outline: none;padding: 20px;line-height: 24px;font-family: Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace;position: absolute;top: 0;bottom: 0;border: none;display:none'
 
     const htmlEditor = this.editor.addContainer('ql-custom')
     htmlEditor.appendChild(this.txtArea)

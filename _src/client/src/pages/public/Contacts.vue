@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 itemprop="headline name">Контакты</h1>
-    <MessageForm></MessageForm>
   </section>
 </template>
 

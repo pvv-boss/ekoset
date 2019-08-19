@@ -17,13 +17,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import Article from '@/models/ekoset/Article.ts'
+import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
 import AdminArticleAttributes from '@/components/admin/AdminArticleAttributes.vue'
-import { returnStatement } from '@babel/types';
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType.ts'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
 @Component({
   components: {

@@ -24,8 +24,7 @@
     "quill-image-resize-module": "latest",
     "vue-quill-editor": "latest",
     "vue-router": "latest",
-    "vuelidate": "latest",
-    "vuex-module-decorators": "latest"
+    "vuelidate": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -62,6 +61,7 @@
     "sass-loader": "latest",
     "ts-node": "latest",
     "typescript": "^3.5.3",
-    "vue-meta": "^2.2.1"
+    "vue-meta": "^2.2.1",
+    "vuex-module-decorators": "latest"
   }
 }

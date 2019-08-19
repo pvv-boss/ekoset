@@ -17,11 +17,6 @@ export default class ArticleService extends BaseService {
     return result
   }
 
-  public async getArticleById (id: number) {
-    const query = `news/${id}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
-
   public async getArticleBySlugUrl (articleUrl: string) {
     const id = this.getArticleIdBySlugUrl(articleUrl)
     return this.getArticleById(id)
@@ -44,5 +39,10 @@ export default class ArticleService extends BaseService {
   public async deleteArticle (id: number) {
     const query = `news/${id}`
     return HttpUtil.httpDelete(this.buildHttRequest(query))
+  }
+
+  private async getArticleById (id: number) {
+    const query = `news/${id}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 }
