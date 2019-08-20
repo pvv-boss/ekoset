@@ -88,7 +88,7 @@
     <div class="brc-page-footer__menu">
       <ul>
         <li>
-          <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
+          <nuxt-link :to="{name: 'main'}">О компании</nuxt-link>
         </li>
         <li>
           <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>

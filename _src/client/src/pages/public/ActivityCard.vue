@@ -23,9 +23,10 @@ export default class ActivityCard extends Vue {
   private articleItems: Article[] = []
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionId = 1 //FIXME: получать ид раздела
+    // FIXME: получать ид раздела
+    const siteSectionId = 1
 
-    //FIXME: получение списка сервисов
+    // FIXME: получение списка сервисов
     const articleList = getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId)
 
     const data = await Promise.all([articleList])
