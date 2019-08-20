@@ -106,7 +106,7 @@ export class BaseController {
   }
 
   public static setLocationToClient (response: Response, location: string) {
-    const loc = process.env.NODE_ENV === 'development' ? `http://localhost:3000${location}` : location
+    const loc = process.env.NODE_ENV === 'development' ? `http://localhost:8010${location}` : location
     return this.createSuccessResponse({}, response.location(loc), 302);
   }
 }
