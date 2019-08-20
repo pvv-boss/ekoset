@@ -16,6 +16,18 @@ import MessageForm from '@/components/public/MessageForm.vue'
   }
 })
 export default class Clients extends Vue {
+  private clientItems: [] = []
+
+  private async asyncData (context: NuxtContext) {
+    //FIXME: получаем список клиентов
+    const clientList = getServiceContainer().articleService.getRootArticleList()
+
+    const data = await Promise.all([clientList])
+    return {
+      clientItems: data[0]
+    }
+  }
+
   private head () {
     return { title: 'Экосеть: Клиенты' }
   }

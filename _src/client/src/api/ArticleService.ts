@@ -41,7 +41,7 @@ export default class ArticleService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 
-  private async getArticleById (id: number) {
+  public async getArticleById (id: number) {
     const query = `news/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }

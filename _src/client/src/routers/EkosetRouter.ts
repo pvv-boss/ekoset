@@ -6,6 +6,7 @@ import ArticleCard from '@/pages/public/ArticleCard.vue'
 import Services from '@/pages/public/Services.vue'
 import ServiceCard from '@/pages/public/ServiceCard.vue'
 import Privacy from '@/pages/private/Privacy.vue'
+import UserSettings from '@/pages/private/UserSettings.vue'
 import Main from '@/pages/public/Main.vue'
 import Clients from '@/pages/public/Clients.vue'
 import Contacts from '@/pages/public/Contacts.vue'
@@ -108,19 +109,6 @@ export const EkosetRouter = [
     }
   },
   {
-    name: 'activity-news',
-    path: '/:activity/news',
-    props: true,
-    component: Articles,
-    meta: {
-      title: 'Экосеть: Новости раздела',
-      breadcrumb: [
-        { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'news' }
-      ]
-    }
-  },
-  {
     name: 'news-card',
     path: '/news/:articleUrl',
     component: ArticleCard,
@@ -134,12 +122,22 @@ export const EkosetRouter = [
     }
   },
   {
-    name: 'user-privacy-mode',
-    path: '/user/:userId(\\d+)/:privacyType(contract|work|research|document)/:mode(tile|list)?',
+    name: 'user',
+    path: '/user/:privacyType(disinfectionwork|research|document)?',
     props: true,
     component: Privacy,
     meta: {
       title: 'Экосеть: Личный кабинет',
+      // requiresAuth: true
+    }
+  },
+  {
+    name: 'user-settings',
+    path: '/user/settings',
+    props: true,
+    component: UserSettings,
+    meta: {
+      title: 'Экосеть: Настройки пользователя',
       // requiresAuth: true
     }
   },
@@ -149,5 +147,18 @@ export const EkosetRouter = [
     props: true,
     component: ActivityCard,
     meta: { title: 'Экосеть: Направление деятельности' }
+  },
+  {
+    name: 'activity-news',
+    path: '/:activity/news',
+    props: true,
+    component: Articles,
+    meta: {
+      title: 'Экосеть: Новости раздела',
+      breadcrumb: [
+        { name: 'Главная', link: 'main' },
+        { name: 'Новости', link: 'news' }
+      ]
+    }
   }
 ]

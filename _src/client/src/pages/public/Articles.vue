@@ -32,11 +32,10 @@ export default class Articles extends Vue {
 
   private updatePagintaion () {
     //обновляем список новостей
-    console.debug("update")
   }
+
   private async asyncData (context: NuxtContext) {
     const siteSectionId = Number(context.params.siteSectionId)
-    console.debug(siteSectionId)
     const articleList = (!!siteSectionId && siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
 
     const data = await Promise.all([articleList])

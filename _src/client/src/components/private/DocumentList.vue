@@ -30,14 +30,16 @@ export default class DocumentList extends Vue {
 
   private documentList: Document[] = []
 
-  private async asyncData (context: NuxtContext) {
-    //FIXME: получение сандокументов
-    const data = await (getServiceContainer().articleService.getRootArticleList())
-    if (data) {
-      return {
-        documentList: data
-      }
-    }
+  public async getDataList () {
+    //FIXME: получение списка сан.документов
+    const dataItems = []//await getServiceContainer().UserService.getData(this.userId)
+    this.documentList = dataItems
+  }
+
+  public mounted () {
+    this.$nextTick(() => {
+      this.getDataList()
+    })
   }
 }
 </script>

@@ -1,16 +1,12 @@
 <template>
-  <div>{{workItem}}</div>
+  <div>Заказать услугу</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class WorkListItem extends Vue {
-  @Prop()
-  private workItem
+export default class OrderService extends Vue {
 
-  @Prop()
-  private mode
 }
 </script>
