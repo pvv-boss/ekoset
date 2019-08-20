@@ -1,0 +1,70 @@
+CREATE OR REPLACE VIEW brc_ekoset.v_api_article(
+    article_id,
+    site_section_id,
+    article_publish_date,
+    article_author,
+    article_title,
+    article_slug,
+    article_description,
+    article_body,
+    article_preview_img_src,
+    article_header_img_src,
+    article_source,
+    article_views_number,
+    article_status,
+    article_url)
+AS
+  SELECT article.article_id,
+         article.site_section_id,
+         article.article_publish_date,
+         article.article_author,
+         article.article_title,
+         article.article_slug,
+         article.article_description,
+         article.article_body,
+         article.article_preview_img_src,
+         article.article_header_img_src,
+         article.article_source,
+         article.article_views_number,
+         article.article_status,
+         (article.article_slug || '-' ::text) || article.article_id AS
+          article_url
+  FROM brc_ekoset.article
+  ORDER BY article.article_publish_date DESC;
+
+
+  CREATE OR REPLACE VIEW brc_ekoset.v_api_related_article(
+    article_id,
+    site_section_id,
+    article_publish_date,
+    article_author,
+    article_title,
+    article_slug,
+    article_description,
+    article_body,
+    article_preview_img_src,
+    article_header_img_src,
+    article_source,
+    article_views_number,
+    article_status,
+    article_url,
+    main_article_id)
+AS
+  SELECT art.article_id,
+         art.site_section_id,
+         art.article_publish_date,
+         art.article_author,
+         art.article_title,
+         art.article_slug,
+         art.article_description,
+         art.article_body,
+         art.article_preview_img_src,
+         art.article_header_img_src,
+         art.article_source,
+         art.article_views_number,
+         art.article_status,
+         art.article_url,
+         relat.article_id AS main_article_id
+  FROM brc_ekoset.v_api_article art
+       JOIN brc_ekoset.related_article relat ON relat.art_article_id =
+        art.article_id;

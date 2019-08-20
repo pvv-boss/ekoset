@@ -27,7 +27,7 @@
       </div>
     </nav>
 
-    <TheHeaderMobileMenu2></TheHeaderMobileMenu2>
+    <TheHeaderMobileMenu></TheHeaderMobileMenu>
   </header>
 </template>
 
@@ -35,7 +35,7 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
 import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
-import TheHeaderMobileMenu2 from '@/components/header/TheHeaderMobileMenu2.vue'
+import TheHeaderMobileMenu from '@/components/header/TheHeaderMobileMenu.vue'
 import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
 import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
 import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
@@ -46,7 +46,7 @@ import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue
   components: {
     TheHeaderMenu,
     UserAuthHeader,
-    TheHeaderMobileMenu2,
+    TheHeaderMobileMenu,
     TheHeaderOrder,
     TheHeaderCallMe,
     TheHeaderAskQuestion,
@@ -68,11 +68,6 @@ $header_margin_top: 15px;
 .brc-page-header {
   margin-top: $header_margin_top;
   background-color: white;
-
-  @media (max-width: 768px) {
-    position: sticky;
-    top: 0px;
-  }
 }
 
 #page-header {
@@ -106,10 +101,6 @@ $header_margin_top: 15px;
   margin-left: 114px;
   margin-top: -20px;
   white-space: nowrap;
-
-  @media (max-width: 1024px) {
-    margin: 0;
-    margin-top: -5px;
-  }
+  align-items: center;
 }
 </style>
