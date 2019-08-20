@@ -23,7 +23,7 @@ export default class OfferCard extends Vue {
   private articleItems: Article[] = []
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionId = 1 //FIXME: получать ид раздела
+    const siteSectionId = 1 // FIXME: получать ид раздела
     const articleList = getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId)
 
     const data = await Promise.all([articleList])
