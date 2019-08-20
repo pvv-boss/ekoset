@@ -59,6 +59,9 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/nuxt-quill-plugin', mode: 'client'
+    },
+    {
+      src: '@/plugins/brc-directives', mode: 'client'
     }
   ],
 

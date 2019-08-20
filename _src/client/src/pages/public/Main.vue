@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1 itemprop="headline name">Экосеть: главная страница</h1>
+
     <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
   </section>
 </template>
