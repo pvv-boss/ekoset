@@ -8,12 +8,12 @@ import AppConfig from '@/utils/Config';
 export default class UserSessionService extends BaseService {
 
   public async getByToken (token: string) {
-    const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user_session', 'user_session_token=$1', token);
+    const dbResult = await PgUtls.getOneFromDatabse('v_api_app_user_session', 'user_session_token=$1', [token]);
     return this.getOneEntityInstanceFromJson(dbResult, AppUserSession);
   }
 
   public async getByUser (appUserId: number) {
-    return PgUtls.getAnyFromDatabase('v_api_app_user_session', null, 'app_user_id=$1', appUserId);
+    return PgUtls.getAnyFromDatabase('v_api_app_user_session', null, 'app_user_id=$1', [appUserId]);
   }
 
   public async createSession (appUserId: number) {
@@ -38,12 +38,12 @@ export default class UserSessionService extends BaseService {
 
   public async delete (token: string) {
     const delWhere = 'user_session_token=$1';
-    return PgUtls.delete('app_user_session', delWhere, token);
+    return PgUtls.delete('app_user_session', delWhere, [token]);
   }
 
   public async deleteAllByUser (appUserId: number) {
     const delWhere = 'user_session_token=$1';
-    return PgUtls.delete('app_user_id', delWhere, appUserId);
+    return PgUtls.delete('app_user_id', delWhere, [appUserId]);
   }
 
   public async lockSession (token: string) {

@@ -21,23 +21,19 @@ class PgUtls {
   }
 
 
-  public async getAnyFromDatabase (dbViewName: string, sortFilterPagin?: SortFilterPagination, whereStmt?: string, ...whereParams): Promise<any[]> {
+  public async getAnyFromDatabase (dbViewName: string, sortFilterPagin?: SortFilterPagination, whereStmt?: string, whereParams?: any[]): Promise<any[]> {
     const selectStmt = this.buildSelectStatement(dbViewName, sortFilterPagin, whereStmt);
-    // const params = this.expandWhereParams(whereStmt, whereParams);
-    const params = whereParams;
     return this.postgrePromise.any({
       text: selectStmt,
-      values: params
+      values: whereParams
     });
   }
 
-  public async getOneFromDatabse (dbViewName: string, whereStmt?: string, ...whereParams): Promise<any> {
+  public async getOneFromDatabse (dbViewName: string, whereStmt?: string, whereParams?: any[]): Promise<any> {
     const selectStmt = this.buildSelectStatement(dbViewName, null, whereStmt);
-    // const params = this.expandWhereParams(whereStmt, whereParams);
-    const params = whereParams;
     return this.postgrePromise.oneOrNone({
       text: selectStmt,
-      values: params
+      values: whereParams
     });
   }
 
@@ -46,7 +42,7 @@ class PgUtls {
     return this.postgrePromise.oneOrNone(select);
   }
 
-  public async delete (tableName: string, whereStmt: string, ...whereParams) {
+  public async delete (tableName: string, whereStmt: string, whereParams?: any[]) {
     const stmtp = `DELETE FROM ${tableName} WHERE ${whereStmt} `;
     // const params = this.expandWhereParams(whereStmt, whereParams);
     const params = whereParams;
@@ -57,18 +53,16 @@ class PgUtls {
     return this.postgrePromise.any(select);
   }
 
-  public async getCountFrom (dbViewName: string, whereStmt?: string, ...whereParams) {
+  public async getCountFrom (dbViewName: string, whereStmt?: string, whereParams?: any[]) {
     let count = 0;
     const selectStmtp = `SELECT COUNT(1) FROM ${dbViewName}`;
     let whereAdd = '';
     if (whereStmt != null) {
       whereAdd = ` WHERE ${whereStmt} `;
     }
-    // const params = this.expandWhereParams(whereStmt, whereParams);
-    const params = whereParams;
     const countObj = await this.postgrePromise.one({
       text: selectStmtp + whereAdd,
-      values: params
+      values: whereParams
     });
 
     if (countObj && countObj.count) {

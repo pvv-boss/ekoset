@@ -4,30 +4,45 @@ import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import { Article } from '@/entities/ekoset/Article';
 import { NotFound } from '@/exceptions/clientErrors/NotFound';
+import SortFilterPagination from '@/entities/SortFilterPagination';
+import { SortFilterPaginationFromRequest } from '../AppController';
 
 @JsonController()
 export default class ArticleController extends BaseController {
 
   @Get('/:sitesection/news')
-  public async getArticleListBySiteSection (
+  public async getArticlesBySiteSection (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number) {
+    @Param('sitesection') siteSectionId: number,
+    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination) {
 
-    const result = await ServiceContainer.ArticleService.getBySiteSection(siteSectionId);
+    const result = await ServiceContainer.ArticleService.getBySiteSection(siteSectionId, sortFilterPang);
     return ArticleController.createSuccessResponse(result, response);
   }
 
   @Get('/news')
-  public async getRootArticle (
-    @Res() response: Response
+  public async getRootArticles (
+    @Res() response: Response,
+    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination,
+
   ) {
 
-    const result = await ServiceContainer.ArticleService.getWithoutSection();
+    const result = await ServiceContainer.ArticleService.getForHomePage(sortFilterPang);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Get('/services/:service(\\d+)/news')
+  public async getByBusinessService (
+    @Res() response: Response,
+    @Param(':service') serviceId: number,
+    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination) {
+
+    const result = await ServiceContainer.ArticleService.getByBusinessService(serviceId, sortFilterPang);
     return ArticleController.createSuccessResponse(result, response);
   }
 
   @Get('/news/:id(\\d+)')
-  public async getArticleById (
+  public async getArticlesById (
     @Req() request: Request,
     @Res() response: Response,
     @Param('id') id: number) {
@@ -42,7 +57,7 @@ export default class ArticleController extends BaseController {
 
 
   @Get('/news/:id(\\d+)/related')
-  public async getRelatedArticleListById (
+  public async getRelatedArticlesListById (
     @Res() response: Response,
     @Param('id') id: number) {
 

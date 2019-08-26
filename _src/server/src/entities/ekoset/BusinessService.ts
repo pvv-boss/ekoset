@@ -1,0 +1,85 @@
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import { SiteSection } from './SiteSection';
+
+
+@Entity('business_service')
+export class BusinessService {
+
+  @PrimaryGeneratedColumn({
+    type: 'integer',
+    name: 'business_service_id'
+  })
+  public businessServiceId: number;
+
+
+
+  @ManyToOne(() => SiteSection)
+  @JoinColumn({ name: 'site_section_id' })
+  public siteSection: Promise<SiteSection | null | number>;
+
+  @RelationId((business_service: BusinessService) => business_service.siteSection)
+  public siteSectionId: number | null;
+
+  @Column('text', {
+    nullable: false,
+    name: 'business_service_name'
+  })
+  public businessServiceName: string;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_slug'
+  })
+  public businessServiceSlug: string | null;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_unit'
+  })
+  public businessServiceUnit: string | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'business_service_price'
+  })
+  public businessServicePrice: number | null;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_img_small'
+  })
+  public businessServiceImgSmall: string | null;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_img_big'
+  })
+  public businessServiceImgBig: string | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'business_service_status'
+  })
+  public businessServiceStatus: number | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'business_service_priority'
+  })
+  public businessServicePriority: number | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'business_service_parent_id'
+  })
+  public businessServiceParentId: number | null;
+
+}

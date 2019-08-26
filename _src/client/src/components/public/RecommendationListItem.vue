@@ -1,12 +1,12 @@
 <template>
   <figure class="brc-recommend-smallitem__preview">
     <img
-      :src="recommendationItem.recommendationPreviewImgSrc"
-      :alt="recommendationItem.recommendationTitle"
+      :src="brand.clBrandImgSmall"
+      :alt="brand.clBrandName"
       itemprop="image"
       class="brc-recommend-smallitem__preview-img"
     />
-    <figcaption>{{recommendationItem.recommendationTitle}}</figcaption>
+    <figcaption>{{brand.clBrandName}}</figcaption>
   </figure>
 </template>
 
@@ -16,9 +16,8 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class RecommendationListItem extends Vue {
   @Prop()
-  private recommendationItem
+  private brand
 }
 </script>
-
 
 

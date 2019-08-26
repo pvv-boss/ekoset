@@ -28,7 +28,7 @@ export default class TheHeaderOrder extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: $font-medium;
+  // font-weight: $font-medium;
   color: white;
   margin-left: 10px;
   > a:hover {

@@ -99,7 +99,7 @@ $header_margin_top: 15px;
   flex-direction: row;
   justify-content: space-between;
   margin-left: 114px;
-  margin-top: -20px;
+  margin-top: -30px;
   white-space: nowrap;
   align-items: center;
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="brc-article-list_wrapper">
-    <h1 v-if="siteSectionId > 0">Новости раздела {{siteSectionId}}</h1>
-    <h1 v-else>Общие новости</h1>
+    <h1>Новости раздела {{siteSectionSlug}}</h1>
     <nuxt-link :to="{ name: 'admin-news-article'}">Создать новость</nuxt-link>
     <table class="brc-article-table_admin">
       <thead>
@@ -14,7 +13,7 @@
         <tr v-for="articleItem in articleItems" :key="articleItem.articleId">
           <td>
             <nuxt-link
-              :to="{ name: 'admin-news-article-card', params: { id: articleItem.articleId}}"
+              :to="{ name: 'admin-news-article-card', params: { article: articleItem.articleUrl}}"
             >{{articleItem.articleTitle}}</nuxt-link>
           </td>
           <td>{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</td>
@@ -34,24 +33,22 @@ import { NuxtContext } from 'vue/types/options'
 
 @Component({})
 export default class AdminArticleList extends Vue {
+  private articleItems: Article[] = []
+  private siteSectionSlug = ''
 
   private layout () {
     return 'admin'
   }
 
-  private articleItems: Article[] = []
-  private siteSectionId = 0
-
   private async asyncData (context: NuxtContext) {
-    const siteSectionId = Number(context.params.siteSectionId)
+    const siteSectionSlug = context.params.activity
 
-    const data = await (siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
-    if (data) {
-      return {
-        articleItems: data,
-        siteSectionId: siteSectionId
-      }
+    const data = await siteSectionSlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug) : await getServiceContainer().articleService.getRootArticleList()
+    return {
+      articleItems: data,
+      siteSectionSlug
     }
+
   }
 }
 </script>

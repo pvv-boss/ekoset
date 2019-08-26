@@ -15,6 +15,7 @@
   </div>
 </template>
 
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
@@ -23,6 +24,7 @@ import { NuxtContext } from 'vue/types/options'
 import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
 import AdminArticleAttributes from '@/components/admin/AdminArticleAttributes.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import Articles from '../../pages/public/Articles.vue';
 
 @Component({
   components: {
@@ -32,7 +34,7 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 })
 export default class AdminArticleCard extends Vue {
 
-  private article: Article
+  private article: Article = new Article()
 
   private layout () {
     return 'admin'
@@ -60,19 +62,12 @@ export default class AdminArticleCard extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-    const articleId = Number(context.params.id)
+    const articleSlug = context.params.article
 
-    if (articleId > 0) {
-      const data = await getServiceContainer().articleService.getArticleById(articleId)
-      if (data) {
-        return {
-          article: data
-        }
-      }
-    } else {
-      return {
-        article: new Article()
-      }
+    const data = await articleSlug ? getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
+
+    return {
+      article: data
     }
   }
 }

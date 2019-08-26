@@ -17,9 +17,6 @@ import { getModule } from 'vuex-module-decorators'
 export default class Login extends Vue {
   private appStore = getModule(AppStore, this.$store)
 
-  private head () {
-    return { title: this.appStore.pageTitle }
-  }
   private layout () {
     return 'admin'
   }

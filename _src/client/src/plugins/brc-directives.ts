@@ -15,7 +15,7 @@ Vue.directive('click-outside', {
       }
     }
 
-    document.body.addEventListener('touchend', onClickHandler)
+    // document.body.addEventListener('touchend', onClickHandler)
     document.body.addEventListener('click', onClickHandler)
   }
 

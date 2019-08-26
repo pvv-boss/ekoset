@@ -34,8 +34,9 @@ export default class Application {
     }
     // app.use(responseTime());
     // app.use(compression({ threshold: 0 }));
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    app.use(bodyParser.json({ limit: '50mb' }));
+
     app.use(passport.initialize());
 
     app.use(refreshAccessToken());

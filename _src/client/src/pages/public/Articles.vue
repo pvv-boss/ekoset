@@ -19,6 +19,7 @@ import Pagination from '@/models/Pagination'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
+import ApiSharedData from '@/models/ekoset/ApiSharedData'
 
 @Component({
   components: {
@@ -27,26 +28,33 @@ import { NuxtContext } from 'vue/types/options'
   }
 })
 export default class Articles extends Vue {
+  private apiSharedData: ApiSharedData = new ApiSharedData()
   private pagination: Pagination = new Pagination()
   private articleItems: Article[] = []
 
   private updatePagintaion () {
-    //обновляем список новостей
+    // обновляем список новостей
   }
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionId = Number(context.params.siteSectionId)
-    const articleList = (!!siteSectionId && siteSectionId > 0 ? getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId) : getServiceContainer().articleService.getRootArticleList())
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
+
+    const activitySlug = context.params.activity
+    const articleList = activitySlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug) : getServiceContainer().articleService.getRootArticleList()
 
     const data = await Promise.all([articleList])
     return {
+      apiSharedData,
       articleItems: data[0],
       pagination: { total: 5, limit: 3, currentPage: 1 }
     }
   }
 
   private head () {
-    return { title: 'Список новостей' }
+    return {
+      title: this.apiSharedData.seoMeta.pageTitle,
+      meta: this.apiSharedData.seoMeta.metaTags
+    }
   }
 }
 </script>

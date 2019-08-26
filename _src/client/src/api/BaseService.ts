@@ -14,6 +14,15 @@ export default class BaseService {
       this.appConfig.initialized = true
     }
   }
+
+  public getIdBySlug (slug: string) {
+    try {
+      return Number(slug.split('-').pop())
+    } catch {
+      return 0
+    }
+  }
+
   protected buildHttRequest (query: string, pagination?: Pagination): string {
     return this.internalBuildHttRequest(undefined, query, undefined, undefined, pagination)
   }

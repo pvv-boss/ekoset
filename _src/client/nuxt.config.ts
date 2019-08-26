@@ -5,25 +5,14 @@ const config: NuxtConfiguration = {
 
   mode: 'universal',
   srcDir: 'src/',
-
   head: {
-    title: 'Экосеть',
+    htmlAttrs: {
+      prefix: 'og:http://ogp.me/ns#'
+    },
 
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'Description', content: 'Экосеть' },
-      { name: 'Keywords', content: 'Экосеть' },
-      { name: 'theme-color', content: '#317EFB' },
-      { hid: 'og:title', property: 'og:title', content: 'Экосеть' },
-      { hid: 'og:image', property: 'og:image', content: 'Экосеть' },
-      { hid: 'og:description', property: 'og:description', content: 'Экосеть' },
-      { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'Экосеть' },
-      { hid: 'og:image:type', property: 'og:image:type', content: 'image/png' },
-      { hid: 'og:image:width', property: 'og:image:width', content: '400' },
-      { hid: 'og:image:height', property: 'og:image:height', content: '300' },
-      { hid: 'og:image:alt', property: 'og:image:alt', content: 'Экосеть' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
 
     script: [
@@ -66,7 +55,7 @@ const config: NuxtConfiguration = {
   ],
 
   router: {
-    middleware: ['needAuthorize', 'setPageTitle']
+    middleware: ['needAuthorize', 'baseMiddleware']
   },
 
   modules: [

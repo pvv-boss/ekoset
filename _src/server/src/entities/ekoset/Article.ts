@@ -1,6 +1,6 @@
-import { BaseEntity, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { SiteSection } from './SiteSection';
-import { RelatedArticle } from './RelatedArticle';
+import { BusinessService } from './BusinessService';
 
 
 @Entity('article')
@@ -13,12 +13,13 @@ export class Article {
   public articleId: number;
 
 
-  @ManyToOne((type) => SiteSection)
+
+  @ManyToOne(() => SiteSection)
   @JoinColumn({ name: 'site_section_id' })
   public siteSection: Promise<SiteSection | null | number>;
 
   @RelationId((article: Article) => article.siteSection)
-  public siteSectionId: number | null;
+  public siteSectionId: null | number;
 
   @Column('text', {
     nullable: false,
@@ -40,11 +41,13 @@ export class Article {
   })
   public articleTitle: string;
 
+
   @Column('text', {
-    nullable: false,
+    nullable: true,
     name: 'article_slug'
   })
-  public articleSlug: string;
+  public articleSlug: string | null;
+
 
   @Column('text', {
     nullable: false,
@@ -93,4 +96,5 @@ export class Article {
     name: 'article_status'
   })
   public articleStatus: number;
+
 }

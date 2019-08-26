@@ -1,6 +1,8 @@
 import {BaseEntity,Column,Entity,Index,JoinColumn,JoinTable,ManyToMany,ManyToOne,OneToMany,OneToOne,PrimaryColumn,PrimaryGeneratedColumn,RelationId} from "typeorm";
 import {SiteSection} from "./SiteSection";
 import {RelatedArticle} from "./RelatedArticle";
+import {ClArticleTag} from "./ClArticleTag";
+import {BusinessService} from "./BusinessService";
 
 
 @Entity("article",{schema:"brc_ekoset" } )
@@ -42,6 +44,13 @@ export class Article {
         name:"article_title"
         })
     articleTitle:string;
+        
+
+    @Column("text",{ 
+        nullable:true,
+        name:"article_slug"
+        })
+    articleSlug:string | null;
         
 
     @Column("text",{ 
@@ -101,5 +110,18 @@ export class Article {
    
     @OneToMany(type=>RelatedArticle, related_article=>related_article.article,{ onDelete: 'RESTRICT' ,onUpdate: 'RESTRICT' })
     relatedArticles2:Promise<RelatedArticle[]>;
+    
+
+   
+    @ManyToMany(type=>ClArticleTag, cl_article_tag=>cl_article_tag.articles,{  nullable:false, })
+    @JoinTable({ name:'article_cl_article_tag'})
+    clArticleTags:Promise<ClArticleTag[]>;
+    
+    @RelationId((article: Article) => article.clArticleTags)
+    clArticleTagsId: Promise<undefined[]>;
+
+   
+    @ManyToMany(type=>BusinessService, business_service=>business_service.articles)
+    businessServices:Promise<BusinessService[]>;
     
 }

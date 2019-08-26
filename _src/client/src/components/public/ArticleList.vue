@@ -27,6 +27,7 @@ export default class ArticleList extends Vue {
 
   @Prop(String)
   private mode
+
 }
 </script>
 
