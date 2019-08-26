@@ -23,14 +23,17 @@ export default class TheHeaderOrder extends Vue {
 
 .brc-page-header__order {
   background-color: $red;
-  width: 90px;
-  height: 30px;
+  width: 100px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 15px;
   // font-weight: $font-medium;
+  letter-spacing: 1.5;
   color: white;
   margin-left: 10px;
+  border-radius: 4px;
   > a:hover {
     color: white !important;
   }

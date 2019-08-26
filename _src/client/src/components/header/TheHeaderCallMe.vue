@@ -36,7 +36,7 @@ export default class TheHeaderCallMe extends Vue {
   }
   .brc-contact__telephone-nmb {
     color: $red;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: $font-bold;
     margin-left: 5px !important;
   }
