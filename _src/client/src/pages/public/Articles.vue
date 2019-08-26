@@ -31,9 +31,19 @@ export default class Articles extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private pagination: Pagination = new Pagination()
   private articleItems: Article[] = []
+  private activitySlug: string = ""
 
   private updatePagintaion () {
-    // обновляем список новостей
+    this.updateArticleList()
+  }
+
+  private async updateArticleList () {
+    const articleList = this.activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(this.activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
+
+    if (articleList) {
+      this.articleItems = articleList
+      Object.freeze(this.articleItems)
+    }
   }
 
   private async asyncData (context: NuxtContext) {
@@ -45,6 +55,7 @@ export default class Articles extends Vue {
     const data = await Promise.all([articleList])
     return {
       apiSharedData,
+      activitySlug,
       articleItems: data[0],
       pagination: { total: 5, limit: 3, currentPage: 1 }
     }

@@ -1,6 +1,11 @@
 <template>
   <section>
     <h1 itemprop="headline name">Экосеть: главная страница</h1>
+    <figure>
+      <img :alt="Экосеть" itemprop="image" />
+      <figcaption>Экосеть</figcaption>
+    </figure>
+    <div>Описание главной страницы</div>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
@@ -39,6 +44,7 @@ export default class Main extends Vue {
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
+
     return {
       apiSharedData,
       siteSectionItems
