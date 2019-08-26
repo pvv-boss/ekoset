@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1 itemprop="headline name">Цены</h1>
+    <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
 
@@ -8,12 +9,13 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import MessageForm from '@/components/public/MessageForm.vue'
+
+import TheShared from '@/components/TheShared.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData';
 
 @Component({
   components: {
-    MessageForm
+    TheShared
   }
 })
 export default class Prices extends Vue {

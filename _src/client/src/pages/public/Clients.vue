@@ -1,6 +1,8 @@
 <template>
   <section>
     <h1 itemprop="headline name">Клиенты</h1>
+    <ClientList></ClientList>
+    <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
 
@@ -8,13 +10,16 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import MessageForm from '@/components/public/MessageForm.vue'
+
+import ClientList from '@/components/public/ClientList.vue'
+import TheShared from '@/components/TheShared.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import Partner from '@/models/ekoset/Partner'
 
 @Component({
   components: {
-    MessageForm
+    ClientList,
+    TheShared
   }
 })
 export default class Clients extends Vue {

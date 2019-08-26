@@ -1,6 +1,6 @@
 <template>
   <div class="brc-feedback">
-    <h4>Заказать услугу</h4>
+    <h4>{{title}}</h4>
     <form class="brc-message-form">
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
@@ -37,11 +37,15 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class MessageForm extends Vue {
-
+  @Prop()
+  private title
 }
 </script>
 
 <style lang="scss">
+.brc-feedback {
+  border: 1px solid gray;
+}
 .brc-message-form__data {
   display: flex;
   flex-direction: row;
