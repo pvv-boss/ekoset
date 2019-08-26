@@ -1,9 +1,9 @@
 <template>
   <section>
-    <MessageForm title="Çàêàçàòü óñëóãó"></MessageForm>
+    <MessageForm title="Ð—Ð°ÐºÐ°Ð·Ð°Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ"></MessageForm>
     <RecommendationList :brandList="apiSharedData.brandItems"></RecommendationList>
     <ArticleList :articleList="apiSharedData.articleItems" mode="columns"></ArticleList>
-    <MessageForm title="Çàäàòü âîïðîñ ýêñïåðòó"></MessageForm>
+    <MessageForm title="Ð—Ð°Ð´Ð°Ñ‚ÑŒ Ð²Ð¾Ð¿Ñ€Ð¾Ñ ÑÐºÑÐ¿ÐµÑ€Ñ‚Ñƒ"></MessageForm>
   </section>
 </template>
 
