@@ -31,6 +31,17 @@ export default class BusinessServiceService extends BaseService {
     return this.getByClientTypeAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(clientType), pagination)
   }
 
+  // Услуги для бизнеса по разделу
+  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+  }
+
+  // Услуги для частных лиц по разделу
+  public async  getForClientBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForClientBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+  }
+
+
   // Услуги второго уровня
   public async getChildServicesByParentId (serviceId: number, pagination?: Pagination) {
     const query = `services/${serviceId}/children`
@@ -70,4 +81,17 @@ export default class BusinessServiceService extends BaseService {
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
+
+  private async  getForBusinessBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/clients/services`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
+  private async  getForClientBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/business/services`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
 }

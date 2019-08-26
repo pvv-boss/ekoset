@@ -42,6 +42,22 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/clients/services')
+  public async getForClientBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getForClientBySiteSectionId(siteSectionId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Get('/business/services')
+  public async getForBusinessBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getForClientBySiteSectionId(siteSectionId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
   @Get('/services/:service/children')
   public async getChildServicesByParentId (
     @Res() response: Response,

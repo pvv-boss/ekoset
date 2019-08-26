@@ -16,12 +16,21 @@ export default class BusinessServiceService extends BaseService {
     return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and business_service_parent_id IS NULL;', [siteSectionId]);
   }
 
+  // По виду объекта
   public async getByActivityAndBySiteSectionId (siteSectionId: number, activityId: number) {
     return this.getDbViewResult(this.apiActivityServiceViewName, null, 'site_section_id = $1 and cl_activity_id = $2', [siteSectionId, activityId]);
   }
 
+  public async getForBusinessBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiActivityServiceViewName, null, 'site_section_id = $1', [siteSectionId]);
+  }
+
   public async getByClientTypeAndBySiteSectionId (siteSectionId: number, clientTypeId: number) {
     return this.getDbViewResult(this.apiClientServiceViewName, null, 'site_section_id = $1 and cl_client_id = $2', [siteSectionId, clientTypeId]);
+  }
+
+  public async getForClientBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiClientServiceViewName, null, 'site_section_id = $1', [siteSectionId]);
   }
 
   // Получить услуги второго уровня

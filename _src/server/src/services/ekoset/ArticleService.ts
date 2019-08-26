@@ -14,6 +14,7 @@ export default class ArticleService extends BaseService {
 
   private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?=)".*?>/gm;
 
+  private apiListViewName = 'v_api_article_list';
   private apiViewName = 'v_api_article';
   private apiRelatedViewName = 'v_api_related_article';
   private apiBusinessServiceArticlesViewName = 'v_api_business_service_article';
@@ -21,7 +22,7 @@ export default class ArticleService extends BaseService {
 
   // Для стратовой страницы (нет связит с разделом)
   public async getForHomePage (pagination: SortFilterPagination) {
-    return this.getDbViewResult(this.apiViewName, pagination, 'site_section_id IS NULL AND article_status = 1');
+    return this.getDbViewResult(this.apiListViewName, pagination, 'site_section_id IS NULL AND article_status = 1');
   }
 
   // Для раздела сайта (есть связь с разделом, но не связаны с услугами)

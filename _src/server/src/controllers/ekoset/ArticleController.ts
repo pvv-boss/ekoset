@@ -10,16 +10,6 @@ import { SortFilterPaginationFromRequest } from '../AppController';
 @JsonController()
 export default class ArticleController extends BaseController {
 
-  @Get('/:sitesection/news')
-  public async getArticlesBySiteSection (
-    @Res() response: Response,
-    @Param('sitesection') siteSectionId: number,
-    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination) {
-
-    const result = await ServiceContainer.ArticleService.getBySiteSection(siteSectionId, sortFilterPang);
-    return ArticleController.createSuccessResponse(result, response);
-  }
-
   @Get('/news')
   public async getRootArticles (
     @Res() response: Response,
@@ -28,6 +18,16 @@ export default class ArticleController extends BaseController {
   ) {
 
     const result = await ServiceContainer.ArticleService.getForHomePage(sortFilterPang);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Get('/:sitesection/news')
+  public async getArticlesBySiteSection (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number,
+    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination) {
+
+    const result = await ServiceContainer.ArticleService.getBySiteSection(siteSectionId, sortFilterPang);
     return ArticleController.createSuccessResponse(result, response);
   }
 
