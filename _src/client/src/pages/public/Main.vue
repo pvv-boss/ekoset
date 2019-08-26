@@ -22,7 +22,7 @@ import ApiSharedData from '@/models/ekoset/ApiSharedData'
 @Component({
   components: {
     TheShared,
-    SiteSectionList,
+    SiteSectionList
   }
 })
 export default class Main extends Vue {

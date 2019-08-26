@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Страница услуги</h1>
+    <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -12,6 +12,7 @@ import { NuxtContext } from 'vue/types/options'
 import TheShared from '@/components/TheShared.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import BusinessService from '@/models/ekoset/BusinessService'
+import ArticleListItem from '../../components/public/ArticleListItem.vue';
 
 @Component({
   components: {
