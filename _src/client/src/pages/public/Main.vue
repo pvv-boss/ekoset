@@ -12,6 +12,7 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import Article from '@/models/ekoset/Article.ts'
 import SeoMeta from '@/models/ekoset/SeoMeta.ts'
+
 import TheShared from '@/components/TheShared.vue'
 import SiteSectionList from '@/components/public/SiteSectionList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
