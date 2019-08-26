@@ -17,4 +17,38 @@ export class SiteSection {
   })
   public siteSectionName: string;
 
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_slug'
+  })
+  public siteSectionSlug: string | null;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_img_big'
+  })
+  public siteSectionImgBig: string | null;
+
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_img_small'
+  })
+  public siteSectionImgSmall: string | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'site_section_priority'
+  })
+  public siteSectionPriority: string | null;
+
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'site_section_status'
+  })
+  public siteSectionStatus: number | null;
 }

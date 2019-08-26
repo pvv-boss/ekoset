@@ -114,6 +114,9 @@
   flex-direction: row;
   justify-content: space-between;
   border-top: 1px solid lightgray;
+  a {
+    color: $text-color1;
+  }
   img {
     max-height: 40px;
     height: 40px;
@@ -127,13 +130,8 @@
     padding: 0;
     > li {
       list-style: none;
-      > a {
-        color: gray;
-        &:hover {
-          color: black;
-        }
-      }
       list-style-type: none;
+      font-size: 0.9rem;
     }
   }
   // .brc-footer-list-arrow {
@@ -141,10 +139,7 @@
   // }
   .brc-page-footer__contacts {
     a {
-      color: #26272d;
-    }
-    &:hover {
-      color: black;
+      color: $text-color1;
     }
   }
 }

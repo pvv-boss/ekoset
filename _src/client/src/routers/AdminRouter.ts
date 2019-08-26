@@ -18,13 +18,6 @@ export const AdminRouter = [
     meta: { title: 'Экосеть: Панель управления - список новостей' }
   },
   {
-    name: 'admin-news-section',
-    path: '/admin/news/:siteSectionId(\\d+)',
-    props: true,
-    component: AdminArticleList,
-    meta: { title: 'Экосеть: Панель управления - список новостей' }
-  },
-  {
     name: 'admin-news-article',
     path: '/admin/news/article',
     props: true,
@@ -33,7 +26,7 @@ export const AdminRouter = [
   },
   {
     name: 'admin-news-article-card',
-    path: '/admin/news/article/:id(\\d+)',
+    path: '/admin/news/article/:article',
     props: true,
     component: AdminArticleCard,
     meta: { title: 'Экосеть: Панель управления - редактирование новости' }

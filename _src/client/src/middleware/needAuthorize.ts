@@ -6,7 +6,7 @@ const needAuthorize = ({ redirect, route, store, app }) => {
   const isAuthRoute = !!route.meta && route.meta.find((item) => item.requiresAuth)
 
   if (isAuthRoute && !userStore(store).isAuthenticated) {
-    redirect('/auth/login')
+    return redirect('/auth/login')
   }
 }
 

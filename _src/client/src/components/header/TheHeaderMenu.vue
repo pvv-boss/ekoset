@@ -7,22 +7,36 @@
       <nuxt-link :to="{name: 'main'}" :class="{active: activeIndex === 'main'}">О компании</nuxt-link>
     </li>
     <li>
-      <nuxt-link :to="{name: 'prices'}" :class="{active: activeIndex === 'prices'}">Цены</nuxt-link>
+      <nuxt-link
+        :to="{name: 'clients', params: {activity: getCurrentSiteSection}}"
+        :class="{active: activeIndex === 'clients'}"
+      >Наши клиенты</nuxt-link>
     </li>
     <li>
-      <nuxt-link :to="{name: 'clients'}" :class="{active: activeIndex === 'clients'}">Наши клиенты</nuxt-link>
+      <nuxt-link
+        :to="{name: 'prices', params: {activity: getCurrentSiteSection}}"
+        :class="{active: activeIndex === 'prices'}"
+      >Цены</nuxt-link>
     </li>
     <li>
-      <nuxt-link :to="{name: 'news'}" :class="{active: activeIndex === 'news'}">Новости</nuxt-link>
+      <nuxt-link
+        :to="{name: 'news', params: {activity: getCurrentSiteSection}}"
+        :class="{active: activeIndex === 'news'}"
+      >Новости</nuxt-link>
     </li>
     <li>
-      <nuxt-link :to="{name: 'contacts'}" :class="{active: activeIndex === 'contacts'}">Контакты</nuxt-link>
+      <nuxt-link
+        :to="{name: 'contacts', params: {activity: getCurrentSiteSection}}"
+        :class="{active: activeIndex === 'contacts'}"
+      >Контакты</nuxt-link>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import AppStore from '@/store/AppStore'
+import { getModule } from 'vuex-module-decorators'
 
 @Component({
   components: {
@@ -37,6 +51,10 @@ export default class TheHeaderMenu extends Vue {
 
   public toogleMenuVisible () {
     this.isMainMenuActive = !this.isMainMenuActive
+  }
+
+  public get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 itemprop="headline name">Индивидуальное предложение</h1>
-    <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
+    <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
 
@@ -9,31 +9,33 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import MessageForm from '@/components/public/MessageForm.vue'
-import ArticleList from '@/components/public/ArticleList.vue'
-import Article from '@/models/ekoset/Article'
+import TheShared from '@/components/TheShared.vue'
+import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import IndividualOffer from '@/models/ekoset/IndividualOffer'
 
 @Component({
   components: {
-    MessageForm,
-    ArticleList
+    TheShared
   }
 })
 export default class OfferCard extends Vue {
-  private articleItems: Article[] = []
+  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private individualOffer: IndividualOffer = new IndividualOffer()
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionId = 1 // FIXME: получать ид раздела
-    const articleList = getServiceContainer().articleService.getArticleListBySiteSection(siteSectionId)
-
-    const data = await Promise.all([articleList])
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     return {
-      articleItems: data[0]
+      apiSharedData,
+      individualOffer
     }
   }
 
   private head () {
-    return { title: 'Экосеть: Индивидуальное предложение' }
+    return {
+      title: this.apiSharedData.seoMeta.pageTitle,
+      meta: this.apiSharedData.seoMeta.metaTags
+    }
   }
 }
 </script>

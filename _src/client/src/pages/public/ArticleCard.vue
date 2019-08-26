@@ -53,6 +53,7 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
+import ApiSharedData from '@/models/ekoset/ApiSharedData'
 
 @Component({
   components: {
@@ -60,27 +61,31 @@ import ArticleList from '@/components/public/ArticleList.vue'
   }
 })
 export default class ArticleCard extends Vue {
-
+  private apiSharedData: ApiSharedData = new ApiSharedData()
   private article = new Article()
   private realtedArticles: Article[] = []
 
 
   private async asyncData (context: NuxtContext) {
-    const articleUrl = context.params.articleUrl
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
 
-    const articlePr = getServiceContainer().articleService.getArticleBySlugUrl(articleUrl)
-    const articleId = getServiceContainer().articleService.getArticleIdBySlugUrl(articleUrl)
-
-    const relatedListPr = getServiceContainer().articleService.getRelatedArticleListById(articleId)
+    const articleUrl = context.params.article
+    const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)
+    const relatedListPr = getServiceContainer().articleService.getRelatedArticleListBySlug(articleUrl)
     const data = await Promise.all([articlePr, relatedListPr])
+
     return {
+      apiSharedData,
       article: data[0],
       realtedArticles: data[1]
     }
   }
 
   private head () {
-    return { title: this.article.articleTitle }
+    return {
+      title: this.apiSharedData.seoMeta.pageTitle,
+      meta: this.apiSharedData.seoMeta.metaTags
+    }
   }
 }
 </script>

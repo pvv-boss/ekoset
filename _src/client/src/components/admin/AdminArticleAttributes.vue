@@ -42,11 +42,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import Article from '../../models/ekoset/Article';
 
 @Component
 export default class AdminArticleAttributes extends Vue {
   @Prop()
-  private value
+  private value: Article
 
 }
 </script>

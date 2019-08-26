@@ -1,8 +1,8 @@
 <template>
   <section>
     <h1 itemprop="headline name">Экосеть: главная страница</h1>
-
-    <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
+    <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
+    <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
 
@@ -11,28 +11,37 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import Article from '@/models/ekoset/Article.ts'
-import MessageForm from '@/components/public/MessageForm.vue'
-import ArticleList from '@/components/public/ArticleList.vue'
+import SeoMeta from '@/models/ekoset/SeoMeta.ts'
+
+import TheShared from '@/components/TheShared.vue'
+import SiteSectionList from '@/components/public/SiteSectionList.vue'
+import SiteSection from '@/models/ekoset/SiteSection'
+import ClBrand from '@/models/ekoset/ClBrand'
+import ApiSharedData from '@/models/ekoset/ApiSharedData'
 
 @Component({
   components: {
-    MessageForm,
-    ArticleList
+    TheShared,
+    SiteSectionList,
   }
 })
 export default class Main extends Vue {
-  private articleItems: Article[] = []
+  private siteSectionItems: SiteSection[] = []
+  private apiSharedData: ApiSharedData = new ApiSharedData()
 
   private head () {
-    return { title: 'Экосеть' }
+    return {
+      title: this.apiSharedData.seoMeta.pageTitle,
+      meta: this.apiSharedData.seoMeta.metaTags
+    }
   }
 
   private async asyncData (context: NuxtContext) {
-    const articleList = getServiceContainer().articleService.getRootArticleList()
-
-    const data = await Promise.all([articleList])
+    const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
     return {
-      articleItems: data[0]
+      apiSharedData,
+      siteSectionItems
     }
   }
 }

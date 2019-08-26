@@ -21,6 +21,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import ActivateAccauntNotice from '@/components/user/ActivateAccauntNotice.vue'
 import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
 import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
+import { NuxtContext } from 'vue/types/options';
 
 @Component({
   components: {
@@ -33,6 +34,7 @@ import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
   }
 })
 export default class DefaultLayout extends Vue {
+
 }
 </script>
 

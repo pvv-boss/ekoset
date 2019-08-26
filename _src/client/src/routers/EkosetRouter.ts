@@ -1,9 +1,7 @@
 import Articles from '@/pages/public/Articles.vue'
-import ActivityCard from '@/pages/public/ActivityCard.vue'
-import Offers from '@/pages/public/Offers.vue'
+import SiteSectionCard from '@/pages/public/SiteSectionCard.vue'
 import OfferCard from '@/pages/public/OfferCard.vue'
 import ArticleCard from '@/pages/public/ArticleCard.vue'
-import Services from '@/pages/public/Services.vue'
 import ServiceCard from '@/pages/public/ServiceCard.vue'
 import Privacy from '@/pages/private/Privacy.vue'
 import UserSettings from '@/pages/private/UserSettings.vue'
@@ -14,98 +12,55 @@ import Prices from '@/pages/public/Prices.vue'
 
 export const EkosetRouter = [
   {
+    name: 'activity-card',
+    path: '/:activity',
+    props: true,
+    component: SiteSectionCard
+  },
+
+  {
     name: 'main',
     path: '/',
     props: true,
-    component: Main,
-    meta: { title: 'Экосеть: О компании' }
+    component: Main
   },
   {
     name: 'clients',
-    path: '/clients',
+    path: '/:activity?/clients',
     props: true,
-    component: Clients,
-    meta: { title: 'Экосеть: клиенты' }
+    component: Clients
   },
   {
     name: 'contacts',
-    path: '/contacts',
+    path: '/:activity?/contacts',
     props: true,
-    component: Contacts,
-    meta: { title: 'Экосеть: контакты' }
+    component: Contacts
   },
   {
     name: 'prices',
-    path: '/prices',
+    path: '/:activity?/prices',
     props: true,
-    component: Prices,
-    meta: { title: 'Экосеть: цены' }
-  },
-
-  {
-    name: 'offer-list',
-    path: '/:activity/offers',
-    props: true,
-    component: Offers,
-    meta: { title: 'Экосеть: Направления деятельности' }
-  },
-
-  {
-    name: 'activity-prices',
-    path: '/:activity/prices',
-    props: true,
-    component: Prices,
-    meta: { title: 'Экосеть: Цены раздела' }
+    component: Prices
   },
 
   {
     name: 'offer-card',
-    path: '/:activity/offers/:offerId',
+    path: '/:activity/offers/:offer',
     props: true,
-    component: OfferCard,
-    meta: { title: 'Экосеть: Направление деятельности' }
-  },
-
-  {
-    name: 'service-list',
-    path: '/:activity/services',
-    component: Services,
-    meta: { title: 'Экосеть: Услуги' }
+    component: OfferCard
   },
 
   {
     name: 'service-card',
-    path: '/:activity/services/:service',
-    component: ServiceCard,
-    meta: { title: 'Экосеть: Услуга' }
+    path: ':activity/services/:service',
+    component: ServiceCard
   },
 
-  {
-    name: 'service-news',
-    path: '/:activity/services/:service/news',
-    component: Articles,
-    meta: { title: 'Экосеть: Новости услуги' }
-  },
-
-  {
-    name: 'news',
-    path: '/news',
-    props: true,
-    component: Articles,
-    meta: {
-      title: 'Экосеть: Новости',
-      breadcrumb: [
-        { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'news' }
-      ]
-    }
-  },
   {
     name: 'news-card',
-    path: '/news/:articleUrl',
+    path: '/:activity?/news/:article',
     component: ArticleCard,
     meta: {
-      title: 'Экосеть: Новость',
       breadcrumb: [
         { name: 'Главная', link: 'main' },
         { name: 'Новости', link: 'news' },
@@ -113,6 +68,20 @@ export const EkosetRouter = [
       ]
     }
   },
+
+  {
+    name: 'news',
+    path: '/:activity?/news',
+    props: true,
+    component: Articles,
+    meta: {
+      breadcrumb: [
+        { name: 'Главная', link: 'main' },
+        { name: 'Новости', link: 'news' }
+      ]
+    }
+  },
+
   {
     name: 'user',
     path: '/user/:privacyType(disinfectionwork|research|document)?',
@@ -131,26 +100,6 @@ export const EkosetRouter = [
     meta: {
       title: 'Экосеть: Настройки пользователя',
       // requiresAuth: true
-    }
-  },
-  {
-    name: 'activity-card',
-    path: '/:activity',
-    props: true,
-    component: ActivityCard,
-    meta: { title: 'Экосеть: Направление деятельности' }
-  },
-  {
-    name: 'activity-news',
-    path: '/:activity/news',
-    props: true,
-    component: Articles,
-    meta: {
-      title: 'Экосеть: Новости раздела',
-      breadcrumb: [
-        { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'news' }
-      ]
     }
   }
 ]

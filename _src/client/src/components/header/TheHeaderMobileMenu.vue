@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <div class="brc-page-header-mobile">
       <nuxt-link
         :to="{name: 'main'}"
@@ -25,7 +25,7 @@
       </nuxt-link>
     </div>
 
-    <!-- Само меню. Живет с фиксед позишн !!! -->
+    <!-- Само меню. Живет с абсолютным позишн !!! -->
     <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
         <div class="brc-page-header-mobile-menu__user-auth">
@@ -56,7 +56,7 @@
 
     <!-- Для закрытия основного контента -->
     <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
-  </div>
+  </section>
 </template>
 
 
@@ -123,7 +123,6 @@ export default class TheHeaderMobileMenu2 extends Vue {
   display: none;
   font-size: 1rem !important;
   letter-spacing: 0.02rem !important;
-  z-index: 1000;
 
   @media (max-width: 768px) {
     display: flex !important;
@@ -161,20 +160,21 @@ export default class TheHeaderMobileMenu2 extends Vue {
 
 .brc-page-header-mobile__menu {
   box-sizing: border-box;
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 0px;
   transform: translateY(-110%);
-  display: flex !important;
+  display: none;
   flex-direction: column;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: scroll;
   z-index: 1000;
   transform-style: flat;
   transition: transform 0.3s ease-in-out;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
   width: 100vw;
+  height: max-content;
 
   &.visible {
     transform: none;
@@ -278,6 +278,10 @@ export default class TheHeaderMobileMenu2 extends Vue {
 
   .brc-page-header-mobile__empty-section {
     padding: 15px !important;
+  }
+
+  @media (max-width: 768px) {
+    display: flex !important;
   }
 }
 </style>

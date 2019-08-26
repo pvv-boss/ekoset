@@ -6,19 +6,19 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
   namespaced: true
 })
 export default class AppStore extends VuexModule {
-  private pageTitleState: string = 'Эколайн'
+  private currentSiteSectionState: string | null = null
 
   @Mutation
-  public setPageTitle (title: string) {
-    this.pageTitleState = title
+  public setCurrentSiteSection (siteSectionSlug: string | null) {
+    this.currentSiteSectionState = siteSectionSlug
   }
 
   @Action
-  public async changetPageTitle (title: string) {
-    this.context.commit('setPageTitle', title)
+  public async changeCurrentSiteSection (siteSectionSlug: string | null) {
+    this.context.commit('setCurrentSiteSection', siteSectionSlug)
   }
 
-  public get pageTitle (): string {
-    return this.pageTitleState
+  public get currentSiteSection (): string | null {
+    return this.currentSiteSectionState
   }
 }

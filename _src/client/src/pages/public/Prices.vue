@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1 itemprop="headline name">Цены</h1>
+    <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
 
@@ -9,6 +10,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import MessageForm from '@/components/public/MessageForm.vue'
+import ApiSharedData from '@/models/ekoset/ApiSharedData';
 
 @Component({
   components: {
@@ -16,20 +18,20 @@ import MessageForm from '@/components/public/MessageForm.vue'
   }
 })
 export default class Prices extends Vue {
-  private priceItems: [] = []
+  private apiSharedData: ApiSharedData = new ApiSharedData()
 
   private async asyncData (context: NuxtContext) {
-    //FIXME: получение списка цен
-    const priceList = getServiceContainer().articleService.getRootArticleList()
-
-    const data = await Promise.all([priceList])
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
     return {
-      priceItems: data[0]
+      apiSharedData
     }
   }
 
   private head () {
-    return { title: 'Экосеть: Цены' }
+    return {
+      title: this.apiSharedData.seoMeta.pageTitle,
+      meta: this.apiSharedData.seoMeta.metaTags
+    }
   }
 }
 </script>

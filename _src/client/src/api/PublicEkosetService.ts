@@ -1,11 +1,72 @@
 import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
-import Pagination from '@/models/Pagination'
-import Article from '@/models/ekoset/Article'
+import { getServiceContainer } from './ServiceContainer';
+import ApiSharedData from '@/models/ekoset/ApiSharedData';
 
 export default class PublicEkosetService extends BaseService {
 
-  // Получить разделы сайта
+  public async getApiSharedData (siteSectionSlug?: string, serviceSlug?: string): Promise<ApiSharedData> {
+    // Нас рекомендуют
+    const brandItems = siteSectionSlug ? getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(siteSectionSlug) : getServiceContainer().publicEkosetService.getBrandsForHomePage()
 
+    // Новости (для услуги или для раздела или для главной)
+    let articleItems: any
+    if (serviceSlug) {
+      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(serviceSlug)
+    }
 
+    if (!serviceSlug && siteSectionSlug) {
+      articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
+    }
+
+    if (!articleItems) {
+      articleItems = getServiceContainer().articleService.getRootArticleList()
+    }
+
+    // Мета
+    const seoMeta = getServiceContainer().seoMetaService.getForHomePage()
+
+    const data = await Promise.all([brandItems, articleItems, seoMeta])
+
+    const result = new ApiSharedData()
+    result.brandItems = data[0]
+    result.articleItems = data[1]
+    result.seoMeta = data[2]
+
+    return result
+  }
+
+  public async getSiteSectionBySlug (slug: string) {
+    return this.getSiteSectionById(this.getIdBySlug(slug))
+  }
+
+  public async getSiteSections () {
+    const query = `activities`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getPartners () {
+    const query = `clients`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getBrandsForHomePage () {
+    const query = `brands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getBrandsBySiteSectionSlug (slug: string) {
+    return this.getBrandsBySiteSection(this.getIdBySlug(slug))
+  }
+
+  private async getBrandsBySiteSection (siteSectionId: number) {
+    const query = `${siteSectionId}/brands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  private async getSiteSectionById (siteSectionId: number) {
+    const query = `activities/${siteSectionId}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
 }
+

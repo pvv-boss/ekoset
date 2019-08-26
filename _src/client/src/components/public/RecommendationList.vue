@@ -2,9 +2,9 @@
   <div class="brc-recommendations">
     <h4>Нас рекомендуют</h4>
     <RecommendationListItem
-      v-for="recommendationItem in recommendationList"
-      :key="recommendationItem.recommendationId"
-      :recommendationItem="recommendationItem"
+      v-for="iterBrand in brandList"
+      :key="iterBrand.clBrandId"
+      :brand="iterBrand"
     ></RecommendationListItem>
   </div>
 </template>
@@ -23,7 +23,7 @@ import { importDeclaration } from '@babel/types'
 })
 export default class RecommendationList extends Vue {
   @Prop(Array)
-  private recommendationList
+  private brandList
 }
 </script>
 

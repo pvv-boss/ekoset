@@ -1,7 +1,9 @@
 <template>
   <article class="brc-article-smallitem">
     <figure class="brc-article-smallitem__preview">
-      <nuxt-link :to="{ name: 'news-card', params: { articleUrl: articleItem.articleUrl}}">
+      <nuxt-link
+        :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
+      >
         <img
           :src="articleItem.articlePreviewImgSrc"
           :alt="articleItem.articleTitle"
@@ -14,7 +16,7 @@
     </figure>
     <header class="brc-article-smallitem__header">
       <nuxt-link
-        :to="{ name: 'news-card', params: { articleUrl: articleItem.articleUrl}}"
+        :to="{ name: 'news-card', params: { article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
         class="brc-article-smallitem__header-link"
       >{{articleItem.articleTitle}}</nuxt-link>
     </header>
@@ -37,11 +39,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import AppStore from '@/store/AppStore'
+import { getModule } from 'vuex-module-decorators'
 
 @Component({})
 export default class ArticleListItem extends Vue {
   @Prop()
   private articleItem
+
+  public get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
+  }
 }
 </script>
 
