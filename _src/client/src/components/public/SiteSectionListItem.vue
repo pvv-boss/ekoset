@@ -1,6 +1,5 @@
 <template>
   <section>
-    <div>Направление деятельности</div>
     <nuxt-link :to="{ name: 'activity-card', params: { activity: siteSectionItem.siteSectionUrl}}">
       <h2>{{siteSectionItem.siteSectionName}}</h2>
     </nuxt-link>

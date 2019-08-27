@@ -35,17 +35,15 @@ export const EkosetRouter = [
     props: true,
     component: Prices
   },
-
   {
     name: 'offer-card',
     path: '/:activity/offers/:offer',
     props: true,
     component: OfferCard
   },
-
   {
     name: 'service-card',
-    path: ':activity/services/:service',
+    path: '/:activity/services/:service',
     component: ServiceCard
   },
 
