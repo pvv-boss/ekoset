@@ -2,7 +2,7 @@
   <div>
     <ClientListItem
       v-for="clientItem in clientList"
-      :key="clientItem.clientId"
+      :key="clientItem.clClientId"
       :clientItem="clientItem"
     ></ClientListItem>
   </div>

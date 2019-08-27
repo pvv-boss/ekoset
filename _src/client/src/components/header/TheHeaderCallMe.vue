@@ -27,18 +27,21 @@ export default class TheHeaderCallMe extends Vue {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  white-space: nowrap;
   > span + span {
     margin-left: 5px;
   }
   .brc-contact__telephone-code {
     color: #26272d;
     font-weight: $font-medium;
+    white-space: nowrap;
   }
   .brc-contact__telephone-nmb {
     color: $red;
     font-size: 1.6rem;
     font-weight: $font-bold;
     margin-left: 5px !important;
+    white-space: nowrap;
   }
 }
 </style>

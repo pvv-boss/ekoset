@@ -2,7 +2,7 @@
   <div>
     <ServiceListItem
       v-for="serviceItem in serviceList"
-      :key="serviceItem.serviceId"
+      :key="serviceItem.businessServiceId"
       :serviceItem="serviceItem"
     ></ServiceListItem>
   </div>

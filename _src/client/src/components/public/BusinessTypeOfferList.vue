@@ -2,7 +2,7 @@
   <div>
     <BusinessTypeOfferListItem
       v-for="offerItem in offerList"
-      :key="offerItem.activityId"
+      :key="offerItem.indOfferId"
       :offerItem="offerItem"
     ></BusinessTypeOfferListItem>
   </div>
@@ -11,9 +11,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferListItem.vue'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { importDeclaration } from '@babel/types'
 
 @Component({
   components: {

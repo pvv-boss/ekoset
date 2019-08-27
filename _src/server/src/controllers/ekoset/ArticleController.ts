@@ -31,10 +31,27 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
+  @Get('/:sitesection/news/count')
+  public async getArticlesCountSiteSection (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+
+    const result = await ServiceContainer.ArticleService.getCountBySiteSection(siteSectionId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Get('/news/count')
+  public async getRootArticlesCount (
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.getRootArticlesCount();
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
   @Get('/services/:service(\\d+)/news')
   public async getByBusinessService (
     @Res() response: Response,
-    @Param(':service') serviceId: number,
+    @Param('service') serviceId: number,
     @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination) {
 
     const result = await ServiceContainer.ArticleService.getByBusinessService(serviceId, sortFilterPang);

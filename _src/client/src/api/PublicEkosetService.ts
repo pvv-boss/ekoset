@@ -5,14 +5,25 @@ import ApiSharedData from '@/models/ekoset/ApiSharedData';
 
 export default class PublicEkosetService extends BaseService {
 
-  public async getApiSharedData (siteSectionSlug?: string, serviceSlug?: string): Promise<ApiSharedData> {
-    // Нас рекомендуют
-    const brandItems = siteSectionSlug ? getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(siteSectionSlug) : getServiceContainer().publicEkosetService.getBrandsForHomePage()
+  public async getApiSharedData (siteSectionSlug: string, serviceSlug?: string): Promise<ApiSharedData> {
+    // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
+    let brandItems: any
+    if (serviceSlug) {
+      brandItems = this.getBrandsByBusinessServiceSlug(serviceSlug)
+    }
+
+    if (!serviceSlug && siteSectionSlug) {
+      brandItems = this.getBrandsBySiteSectionSlug(siteSectionSlug)
+    }
+
+    if (!brandItems) {
+      brandItems = this.getBrandsForHomePage()
+    }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any
     if (serviceSlug) {
-      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(serviceSlug)
+      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
     }
 
     if (!serviceSlug && siteSectionSlug) {
@@ -59,8 +70,17 @@ export default class PublicEkosetService extends BaseService {
     return this.getBrandsBySiteSection(this.getIdBySlug(slug))
   }
 
+  public async getBrandsByBusinessServiceSlug (slug: string) {
+    return this.getBrandsByBusinessService(this.getIdBySlug(slug))
+  }
+
   private async getBrandsBySiteSection (siteSectionId: number) {
     const query = `${siteSectionId}/brands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  private async getBrandsByBusinessService (serviceId: number) {
+    const query = `services/${serviceId}/brands`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

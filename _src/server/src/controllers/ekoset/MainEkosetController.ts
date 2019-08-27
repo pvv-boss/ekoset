@@ -32,7 +32,7 @@ export default class MainEkosetController extends BaseController {
   @Get('/brands')
   public async getBrandsForHomePage (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getForHomePage();
+    const result = await ServiceContainer.MainEkosetService.getBrandsForHomePage();
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
@@ -42,6 +42,15 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
     const result = await ServiceContainer.MainEkosetService.getBrandsBySiteSection(siteSectionId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/services/:service(\\d+)/brands')
+  public async getByBusinessService (
+    @Res() response: Response,
+    @Param('service') serviceId: number) {
+
+    const result = await ServiceContainer.MainEkosetService.getBrandsByBusinessService(serviceId);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 }

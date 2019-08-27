@@ -10,7 +10,7 @@ export default class BaseService {
 
 
   public async getDbViewRowCount (viewName: string, whereStmt?: string, whereParams?: any[]) {
-    return PgUtls.getCountFrom(viewName, whereStmt, ...whereParams);
+    return PgUtls.getCountFrom(viewName, whereStmt, whereParams);
   }
 
   public async getOneById (viewName: string, whereStmt: string, id: number) {
@@ -20,6 +20,7 @@ export default class BaseService {
   public async deleteById (viewName: string, whereStmt: string, id: number) {
     return PgUtls.delete(viewName, whereStmt, [id]);
   }
+
 
   public getOneEntityInstanceFromJson<T> (dbResult: {}, classType: new () => T): T {
     if (dbResult) {

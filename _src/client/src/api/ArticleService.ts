@@ -16,17 +16,22 @@ export default class ArticleService extends BaseService {
   // Для главной страницы
   public async  getRootArticleList (pagination?: Pagination) {
     const query = 'news'
+    this.modifyPagination(0, pagination)
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
   // Для раздела
   public async  getArticleListBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
-    return this.getArticleListBySiteSection(this.getIdBySlug(siteSectionSlug), pagination)
+    const siteSectionId = this.getIdBySlug(siteSectionSlug)
+    this.modifyPagination(siteSectionId, pagination)
+    return this.getArticleListBySiteSection(siteSectionId, pagination)
   }
 
   // Для услуги
-  public async  getArticleListByBusinessServiceSlug (serviceSlug: string, pagination?: Pagination) {
+  public async  getArticleListByBusinessServiceSlug (siteSectionSlug: string, serviceSlug: string, pagination?: Pagination) {
+    const siteSectionId = this.getIdBySlug(siteSectionSlug)
+    this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
   }
 
@@ -59,6 +64,18 @@ export default class ArticleService extends BaseService {
   private async  getArticleListByBusinessService (serviceId: number, pagination?: Pagination) {
     const query = `services/${serviceId}/news`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+    return result
+  }
+
+  private async modifyPagination (siteSectionId: number, pagination?: Pagination) {
+    if (pagination) {
+      pagination.total = Number(await this.getArticlesCount(siteSectionId))
+    }
+  }
+
+  private async getArticlesCount (siteSectionId?: number | null) {
+    const query = siteSectionId && siteSectionId > 0 ? `${siteSectionId}/news/count` : 'news/count'
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 }

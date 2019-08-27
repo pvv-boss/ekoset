@@ -24,7 +24,7 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
-  @Get('/:sitesection/:activityType/services')
+  @Get('/:sitesection/activity/:activityType/services')
   public async getByActivityAndBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number,
@@ -42,19 +42,19 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
-  @Get('/clients/services')
-  public async getForClientBySiteSectionId (
+  @Get('/:sitesection/services/person')
+  public async getForPrivatePersonBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForClientBySiteSectionId(siteSectionId);
+    const result = await ServiceContainer.BusinessServiceService.getForPrivatePersonBySiteSectionId(siteSectionId);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
-  @Get('/business/services')
+  @Get('/:sitesection/services/business')
   public async getForBusinessBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForClientBySiteSectionId(siteSectionId);
+    const result = await ServiceContainer.BusinessServiceService.getForBusinessBySiteSectionId(siteSectionId);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 

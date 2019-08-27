@@ -26,19 +26,14 @@ export default class BusinessServiceService extends BaseService {
     return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(activityTypeSlug), pagination)
   }
 
-  // Для типа клиента и раздела
-  public async  getByClientTypeAndBySiteSectionSlug (siteSectionSlug: string, clientType: string, pagination?: Pagination) {
-    return this.getByClientTypeAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(clientType), pagination)
-  }
-
   // Услуги для бизнеса по разделу
   public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
     return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
   // Услуги для частных лиц по разделу
-  public async  getForClientBySiteSectionSlug (siteSectionSlug: string) {
-    return this.getForClientBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
 
@@ -59,10 +54,16 @@ export default class BusinessServiceService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 
+  // Для типа клиента и раздела
+  private async  getByClientTypeAndBySiteSectionSlug (siteSectionSlug: string, clientType: string, pagination?: Pagination) {
+    return this.getByClientTypeAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(clientType), pagination)
+  }
+
   private async getById (id: number) {
     const query = `services/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
+
 
   private async  getBySiteSection (siteSectionId: number, pagination?: Pagination) {
     const query = `${siteSectionId}/services`
@@ -71,7 +72,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   private async  getByActivityAndBySiteSectionId (siteSectionId: number, activityTypeId: number, pagination?: Pagination) {
-    const query = `${siteSectionId}/${activityTypeId}/services`
+    const query = `${siteSectionId}/activity/${activityTypeId}/services`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
@@ -82,14 +83,16 @@ export default class BusinessServiceService extends BaseService {
     return result
   }
 
+  // Для футера Услуги для Бизнеса
   private async  getForBusinessBySiteSectionId (siteSectionId: number) {
-    const query = `${siteSectionId}/clients/services`
+    const query = `${siteSectionId}/services/business`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getForClientBySiteSectionId (siteSectionId: number) {
-    const query = `${siteSectionId}/business/services`
+  // Для футера Услуги для Частных лиц
+  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/services/person`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }

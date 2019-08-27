@@ -44,6 +44,14 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult(this.apiRelatedViewName, null, 'main_article_id =$1 AND article_status = 1', [id]);
   }
 
+  public async getCountBySiteSection (siteSectionId: number) {
+    return this.getDbViewRowCount(this.apiSiteSectionArticlesViewName, 'site_section_id = $1 AND article_status = 1', [siteSectionId]);
+  }
+
+  public async getRootArticlesCount () {
+    return this.getDbViewRowCount(this.apiListViewName, 'site_section_id IS NULL AND article_status = 1');
+  }
+
   public async save (article: Article) {
     article.articlePublishDate = new Date(Date.now()).toUTCString();
     try {

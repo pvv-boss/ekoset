@@ -4,6 +4,8 @@ import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 
 export default class IndividualOfferService extends BaseService {
   private apiViewName = 'v_api_individual_offer';
+  private businessClientTypeId = 1;
+  private PrivatePersonClientTypeId = 3;
 
   public async getAll () {
     return this.getDbViewResult(this.apiViewName);
@@ -13,12 +15,21 @@ export default class IndividualOfferService extends BaseService {
     return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
   }
 
-  public async getByActivityAndBySiteSectionId (siteSectionId: number, activityId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id = $2', [siteSectionId, activityId]);
+  public async getForActivityBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL', [siteSectionId]);
   }
 
-  public async getByClientTypeAndBySiteSectionId (siteSectionId: number, clientTypeId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id = $2', [siteSectionId, clientTypeId]);
+  public async getForBusinessBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, this.businessClientTypeId]);
+  }
+
+  public async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, this.PrivatePersonClientTypeId]);
+  }
+
+
+  public async getForClientBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id IS NOT NULL', [siteSectionId]);
   }
 
   public async getById (id: number) {

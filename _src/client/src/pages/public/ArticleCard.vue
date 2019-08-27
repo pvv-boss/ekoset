@@ -67,7 +67,7 @@ export default class ArticleCard extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
 
     const articleUrl = context.params.article
     const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)

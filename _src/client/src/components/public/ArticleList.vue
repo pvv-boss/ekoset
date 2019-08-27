@@ -11,10 +11,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
-import Article from '@/models/ekoset/Article.ts'
+import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import { importDeclaration } from '@babel/types'
 
 @Component({
   components: {

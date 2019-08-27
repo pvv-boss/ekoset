@@ -37,7 +37,7 @@ export const EkosetRouter = [
   },
   {
     name: 'offer-card',
-    path: '/:activity/offers/:offer',
+    path: '/:activity/:clienttype?/offers/:offer?',
     props: true,
     component: OfferCard
   },
