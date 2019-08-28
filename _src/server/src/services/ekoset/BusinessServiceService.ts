@@ -3,10 +3,14 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 import { BusinessService } from '@/entities/ekoset/BusinessService';
 
 export default class BusinessServiceService extends BaseService {
+  private businessClientTypeId = 1;
+  private PrivatePersonClientTypeId = 3;
+
   private apiViewName = 'v_api_business_service';
   private apiClientServiceViewName = 'v_api_client_business_service';
   private apiActivityServiceViewName = 'v_api_activity_business_service';
   private apiChildServiceViewName = 'v_api_second_level_business_service';
+
 
   public async getAll () {
     return this.getDbViewResult(this.apiViewName);
@@ -16,12 +20,24 @@ export default class BusinessServiceService extends BaseService {
     return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and business_service_parent_id IS NULL;', [siteSectionId]);
   }
 
+  // По виду объекта
   public async getByActivityAndBySiteSectionId (siteSectionId: number, activityId: number) {
     return this.getDbViewResult(this.apiActivityServiceViewName, null, 'site_section_id = $1 and cl_activity_id = $2', [siteSectionId, activityId]);
   }
 
   public async getByClientTypeAndBySiteSectionId (siteSectionId: number, clientTypeId: number) {
     return this.getDbViewResult(this.apiClientServiceViewName, null, 'site_section_id = $1 and cl_client_id = $2', [siteSectionId, clientTypeId]);
+  }
+
+
+  // Услуги для Бизнеса
+  public async getForBusinessBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiClientServiceViewName, null, 'site_section_id = $1 and cl_client_id = $2', [siteSectionId, this.businessClientTypeId]);
+  }
+
+  // Услуги для частных лиц
+  public async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiClientServiceViewName, null, 'site_section_id = $1 and cl_client_id = $2', [siteSectionId, this.PrivatePersonClientTypeId]);
   }
 
   // Получить услуги второго уровня

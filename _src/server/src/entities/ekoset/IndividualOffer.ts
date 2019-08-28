@@ -17,6 +17,11 @@ export class IndividualOffer {
   })
   public clClientId: number | null;
 
+  @Column('integer', {
+    nullable: true,
+    name: 'cl_activity_id'
+  })
+  public clActivityId: number | null;
 
 
   @ManyToOne(() => SiteSection)

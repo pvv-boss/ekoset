@@ -1,9 +1,8 @@
 
-import { JsonController, Get, Res, Param, Req, Body, Put, Delete } from 'routing-controllers';
-import { Request, Response } from 'express';
+import { JsonController, Get, Res, Param, Body, Put, Delete } from 'routing-controllers';
+import { Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
-import { NotFound } from '@/exceptions/clientErrors/NotFound';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 
 @JsonController()
@@ -25,21 +24,35 @@ export default class IndividualOfferController extends BaseController {
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
-  @Get('/:sitesection/:activityType/offers')
-  public async getByActivityAndBySiteSectionId (
+  @Get('/:sitesection/activity/offers')
+  public async getForActivityBySiteSectionId (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number,
-    @Param('activityType') activityTypeId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getByActivityAndBySiteSectionId(siteSectionId, activityTypeId);
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.IndividualOfferService.getForActivityBySiteSectionId(siteSectionId);
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
-  @Get('/:sitesection/clients/:clientType/offers')
-  public async getByClientTypeAndBySiteSectionId (
+  @Get('/:sitesection/clients/offers')
+  public async getForClientBySiteSectionId (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number,
-    @Param('clientType') clientTypeId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getByClientTypeAndBySiteSectionId(siteSectionId, clientTypeId);
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.IndividualOfferService.getForClientBySiteSectionId(siteSectionId);
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+
+  @Get('/:sitesection/offers/person')
+  public async getForPrivatePersonBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getForPrivatePersonBySiteSectionId(siteSectionId);
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+
+  @Get('/:sitesection/offers/business')
+  public async getForBusinessBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getForBusinessBySiteSectionId(siteSectionId);
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
