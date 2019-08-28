@@ -64,7 +64,7 @@ export default class OfferCard extends Vue {
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
         ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.activity)
-        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug
+        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(context.params.activity)
 
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
