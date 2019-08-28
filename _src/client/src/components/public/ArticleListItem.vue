@@ -1,40 +1,42 @@
 <template>
-  <article class="brc-article-smallitem">
-    <figure class="brc-article-smallitem__preview">
-      <nuxt-link
-        :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
-      >
-        <img
-          :src="articleItem.articlePreviewImgSrc"
-          :alt="articleItem.articleTitle"
-          itemprop="image"
-          class="brc-article-smallitem__preview-img"
-        />
-      </nuxt-link>
+  <div class="brc-article-smallitem__wrapper">
+    <article class="brc-article-smallitem">
+      <figure class="brc-article-smallitem__preview">
+        <nuxt-link
+          :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
+        >
+          <img
+            src="/images/news-image-1.jpg"
+            :alt="articleItem.articleTitle"
+            itemprop="image"
+            class="brc-article-smallitem__preview-img"
+          />
+        </nuxt-link>
 
-      <figcaption>{{articleItem.articleTitle}}</figcaption>
-    </figure>
-    <header class="brc-article-smallitem__header">
-      <nuxt-link
-        :to="{ name: 'news-card', params: { article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
-        class="brc-article-smallitem__header-link"
-      >{{articleItem.articleTitle}}</nuxt-link>
-    </header>
-    <div class="clearfix"></div>
-    <div class="brc-article-smallitem__stat-info">
-      <div class="brc-article-smallitem__views">
-        <img src="/images/eye-iccon.png" alt="Количество просмотров" />
-        <span>{{articleItem.articleViewsNumber}}</span>
+        <figcaption>{{articleItem.articleTitle}}</figcaption>
+      </figure>
+      <header class="brc-article-smallitem__header">
+        <nuxt-link
+          :to="{ name: 'news-card', params: { article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
+          class="brc-article-smallitem__header-link"
+        >{{articleItem.articleTitle}}</nuxt-link>
+      </header>
+      <div class="clearfix"></div>
+      <div class="brc-article-smallitem__stat-info">
+        <div class="brc-article-smallitem__views">
+          <img src="/images/eye-iccon.png" alt="Количество просмотров" />
+          <span>{{articleItem.articleViewsNumber}}</span>
+        </div>
+        <div class="brc-article-smallitem__date">
+          <img src="/images/clock-iccon.png" alt="Дата публикации" />
+          <span
+            itemprop="datePublished"
+            :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
+          >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+        </div>
       </div>
-      <div class="brc-article-smallitem__date">
-        <img src="/images/clock-iccon.png" alt="Дата публикации" />
-        <span
-          itemprop="datePublished"
-          :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
-        >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
-      </div>
-    </div>
-  </article>
+    </article>
+  </div>
 </template>
 
 <script lang="ts">
@@ -56,6 +58,10 @@ export default class ArticleListItem extends Vue {
 <style lang="scss">
 .brc-article-smallitem {
   border: 1px solid #efefef;
+  padding:15px;
+  margin:0 15px;
+  display: flex;
+  flex-direction: column;
   &:hover {
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
   }
@@ -71,6 +77,10 @@ export default class ArticleListItem extends Vue {
 figcaption {
   display: none;
 }
+.brc-article-smallitem__header{
+  flex-grow: 1;
+  padding-bottom: 10px;
+}
 .brc-article-smallitem__header-link {
   color: #222;
   text-decoration: none;
@@ -80,6 +90,7 @@ figcaption {
   display: flex;
   flex-direction: row;
   border-top: 1px solid #efefef;
+  padding-top: 10px;
 
   .brc-article-smallitem__views {
     float: left;
