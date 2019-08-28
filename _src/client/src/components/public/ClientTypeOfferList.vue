@@ -16,17 +16,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClientTypeOfferListItem from '@/components/public/ClientTypeOfferListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 
-@Component({
-  components: {
-    ClientTypeOfferListItem
-  }
-})
+@Component
 export default class ClientTypeOfferList extends Vue {
   @Prop(Array)
   private offerList
