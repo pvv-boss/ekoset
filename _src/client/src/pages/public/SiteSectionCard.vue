@@ -10,11 +10,16 @@
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
     </figure>
     <div>Описание раздела</div>
+
+    <h2>Услуги</h2>
     <ServiceList :serviceList="serviceList"></ServiceList>
+
     <h2>Комплексные решения</h2>
-    <ClientList :clientList="clientList"></ClientList>
+    <ClientTypeOfferList></ClientTypeOfferList>
+
     <h2>Индивидуальные предложения</h2>
-    <ClientTypeOfferList :offerList="offerList"></ClientTypeOfferList>
+    <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -26,7 +31,7 @@ import { NuxtContext } from 'vue/types/options'
 import SiteSection from '../../models/ekoset/SiteSection'
 import TheShared from '@/components/TheShared.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
-import ClientList from '@/components/public/ClientList.vue'
+import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
@@ -35,7 +40,7 @@ import BusinessService from '../../models/ekoset/BusinessService'
 @Component({
   components: {
     TheShared,
-    ClientList,
+    BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList
   }
@@ -44,23 +49,21 @@ export default class SiteSectionCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceList: BusinessService[] = []
-  private offerList: IndividualOffer[] = []
-  private clientList: IndividualOffer[] = []
+  private busineesTypeOfferList: IndividualOffer[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.activity)
-    const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.activity)
-    //TODO: типы клиентов - модель и сервисы
-    const offerList = getServiceContainer().individualOfferService.getBySiteSectionSlug(context.params.activity)
 
-    const data = await Promise.all([siteSectionItem, serviceList, offerList])
+    const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.activity)
+    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.activity)
+    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList])
 
     return {
       apiSharedData,
       siteSectionItem: data[0],
       serviceList: data[1],
-      offerList: data[2]
+      busineesTypeOfferList: data[2]
     }
   }
 

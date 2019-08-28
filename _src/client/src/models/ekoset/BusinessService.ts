@@ -12,3 +12,4 @@ export default class BusinessService {
   public businessServiceParentId: number | null;
   public businessServiceUrl: string;
 }
+

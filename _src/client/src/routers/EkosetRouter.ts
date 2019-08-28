@@ -12,13 +12,6 @@ import Prices from '@/pages/public/Prices.vue'
 
 export const EkosetRouter = [
   {
-    name: 'activity-card',
-    path: '/:activity',
-    props: true,
-    component: SiteSectionCard
-  },
-
-  {
     name: 'main',
     path: '/',
     props: true,
@@ -44,7 +37,7 @@ export const EkosetRouter = [
   },
   {
     name: 'offer-card',
-    path: '/:activity/offers/:offer',
+    path: '/:activity/:clienttype?/offers/:offer?',
     props: true,
     component: OfferCard
   },
@@ -78,6 +71,13 @@ export const EkosetRouter = [
         { name: 'Новости', link: 'news' }
       ]
     }
+  },
+
+  {
+    name: 'activity-card',
+    path: '/:activity',
+    props: true,
+    component: SiteSectionCard
   },
 
   {

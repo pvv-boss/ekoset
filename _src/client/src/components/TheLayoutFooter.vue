@@ -27,7 +27,7 @@
     <div class="brc-page-footer__business-activities">
       <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
       <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">
-        <h4>Бизнесу</h4>
+        <h4>Услуги для Бизнеса</h4>
       </label>
       <ul class="brc-footer-list-link">
         <li>
@@ -56,7 +56,7 @@
     <div class="brc-page-footer__private-activities">
       <input id="toogleClientTypeMenuVisible" type="checkbox" />
       <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">
-        <h4 for="toogleClientTypeMenuVisible">Частным лицам</h4>
+        <h4 for="toogleClientTypeMenuVisible">Услуги для Частных лиц</h4>
       </label>
       <ul class="brc-footer-list-link">
         <li>
@@ -114,6 +114,9 @@
   flex-direction: row;
   justify-content: space-between;
   border-top: 1px solid lightgray;
+  margin-top: 30px;
+  padding-top: 30px;
+  
   a {
     color: $text-color1;
   }

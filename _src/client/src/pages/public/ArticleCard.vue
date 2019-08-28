@@ -5,7 +5,7 @@
     </header>
     <figure class="brc-article-item__header-img">
       <img
-        :src="article.articleHeaderImgSrc"
+        src="/images/banner-service-3.png"
         :alt="article.articleTitle"
         itemprop="image"
         class="brc-article-item__header-img"
@@ -43,7 +43,7 @@
         <li>#Чистота</li>
       </ul>
     </div>
-    <div>Поделиться</div>
+    <ShareBlock></ShareBlock>
   </div>
 </template>
 
@@ -53,11 +53,13 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
+import ShareBlock from '@/components/ShareBlock.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 
 @Component({
   components: {
-    ArticleList
+    ArticleList,
+    ShareBlock
   }
 })
 export default class ArticleCard extends Vue {
@@ -67,7 +69,7 @@ export default class ArticleCard extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
 
     const articleUrl = context.params.article
     const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)
@@ -112,11 +114,12 @@ article {
 }
 
 .brc-article-tags {
+  padding: 15px 0;
   ul {
     li {
       display: inline;
       list-style-type: "#";
-      color: gray;
+      color: lightgrey;
     }
   }
 }
@@ -124,9 +127,19 @@ article {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  
 
+  & * {
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
   .brc-article-item {
     flex: 2;
+    max-width: 70%;
+
+    img{
+      max-width: 100%;
+    }
   }
   .brc-article-related {
     flex: 1;
@@ -136,6 +149,9 @@ article {
 @media (max-width: 768px) {
   .brc-article-wrapper {
     flex-direction: column;
+  }
+  .brc-article-item {
+    max-width: 100%;
   }
 }
 </style>

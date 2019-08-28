@@ -12,11 +12,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import ClBrand from '@/models/ekoset/ClBrand'
 
 @Component({})
 export default class RecommendationListItem extends Vue {
   @Prop()
-  private brand
+  private brand: ClBrand
 }
 </script>
 

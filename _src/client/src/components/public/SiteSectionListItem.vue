@@ -8,11 +8,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import SiteSection from '@/models/ekoset/SiteSection';
 
 @Component({})
 export default class SiteSectionListItem extends Vue {
   @Prop()
-  private siteSectionItem
+  private siteSectionItem: SiteSection
 }
 </script>
 

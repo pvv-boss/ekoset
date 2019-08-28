@@ -9,28 +9,20 @@ export default class IndividualOfferService extends BaseService {
     return this.getById(this.getIdBySlug(slug))
   }
 
-  // Для главной страницы
-  public async  getMainList (pagination?: Pagination) {
-    const query = 'services'
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
+  // Для видов деятельности и раздела
+  public async  getForActivityBySiteSectionIdSlug (siteSectionSlug: string) {
+    return this.getForActivityBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
-  // Для раздела
-  public async  getBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
-    return this.getBySiteSection(this.getIdBySlug(siteSectionSlug), pagination)
+  // Для Частных лиц и раздела
+  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
-  // Для вида деятельности и раздела
-  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeSlug: string, pagination?: Pagination) {
-    return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(activityTypeSlug), pagination)
+  // Для Бизнеса и раздела
+  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
-
-  // Для типа клиента и раздела
-  public async  getByClientTypeAndBySiteSectionSlug (siteSectionSlug: string, clientType: string, pagination?: Pagination) {
-    return this.getByClientTypeAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(clientType), pagination)
-  }
-
 
   public async save (individualOffer: IndividualOffer) {
     const query = 'offers'
@@ -47,21 +39,43 @@ export default class IndividualOfferService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  // Для раздела
+  private async  getBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
+    return this.getBySiteSection(this.getIdBySlug(siteSectionSlug), pagination)
+  }
+
+  // Для типов клиента и раздела
+  private async  getForClientBySiteSectionSlug (siteSectionSlug: string) {
+    return this.getForClientBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+  }
+
+  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/offers/person`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
+  private async  getForBusinessBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/offers/business`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
   private async  getBySiteSection (siteSectionId: number, pagination?: Pagination) {
     const query = `${siteSectionId}/offers`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
-  private async  getByActivityAndBySiteSectionId (siteSectionId: number, activityTypeId: number, pagination?: Pagination) {
-    const query = `${siteSectionId}/${activityTypeId}/offers`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+  private async  getForActivityBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/activity/offers`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getByClientTypeAndBySiteSectionId (siteSectionId: number, clientType: number, pagination?: Pagination) {
-    const query = `${siteSectionId}/clients/${clientType}/offers`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+  private async  getForClientBySiteSectionId (siteSectionId: number) {
+    const query = `${siteSectionId}/clients/offers`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 

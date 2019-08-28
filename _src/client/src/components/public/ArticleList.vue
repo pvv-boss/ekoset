@@ -11,10 +11,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
-import Article from '@/models/ekoset/Article.ts'
+import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import { importDeclaration } from '@babel/types'
 
 @Component({
   components: {
@@ -36,19 +35,21 @@ export default class ArticleList extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
   align-content: space-around;
   flex-wrap: wrap;
+  margin: 0 -15px;
 
-  .brc-article-smallitem {
+  .brc-article-smallitem__wrapper {
     flex: 1;
     min-width: 300px;
+    padding-bottom:30px;
   }
 }
 
 .brc-article-list_vertical {
-  .brc-article-smallitem {
+  .brc-article-smallitem__wrapper {
     width: 100%;
   }
 }

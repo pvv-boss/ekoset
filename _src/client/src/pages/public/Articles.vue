@@ -20,6 +20,8 @@ import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import AppStore from '@/store/AppStore'
+import { getModule } from 'vuex-module-decorators'
 
 @Component({
   components: {
@@ -31,14 +33,14 @@ export default class Articles extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private pagination: Pagination = new Pagination()
   private articleItems: Article[] = []
-  private activitySlug: string = ""
 
   private updatePagintaion () {
     this.updateArticleList()
   }
 
   private async updateArticleList () {
-    const articleList = this.activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(this.activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
+    const activitySlug = getModule(AppStore, this.$store).currentSiteSection
+    const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
 
     if (articleList) {
       this.articleItems = articleList
@@ -47,17 +49,16 @@ export default class Articles extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData()
-
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const startPagination = new Pagination()
     const activitySlug = context.params.activity
-    const articleList = activitySlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug) : getServiceContainer().articleService.getRootArticleList()
+    const articleList = activitySlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
     const data = await Promise.all([articleList])
     return {
       apiSharedData,
-      activitySlug,
-      articleItems: data[0],
-      pagination: { total: 5, limit: 3, currentPage: 1 }
+      pagination: startPagination,
+      articleItems: data[0]
     }
   }
 

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">{{individualOffer.indOfferName}}</h1>
+    <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
         :src="individualOffer.indOfferImgBig"
@@ -9,12 +9,17 @@
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
     </figure>
-    <div>Описание предложения</div>
+    <div>Описание индивид.предложения</div>
+
     <h2>Список услуг</h2>
     <ServiceList :serviceList="serviceList"></ServiceList>
+
     <h2>Стоимость услуг</h2>
     <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
-    <ServiceList :serviceList="serviceSecondList"></ServiceList>
+
+    <h2>{{otherOfferHeaderText}}</h2>
+    <component :is="otherOfferComponentName"></component>
+
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -27,35 +32,71 @@ import TheShared from '@/components/TheShared.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
+import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
 import BusinessService from '../../models/ekoset/BusinessService'
+import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
+
 
 @Component({
   components: {
     TheShared,
     ServicePriceTable,
-    ServiceList
+    ServiceList,
+    BusinessTypeOfferList,
+    ClientTypeOfferList
   }
 })
 export default class OfferCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private individualOffer: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService[] = []
-  private serviceSecondList: BusinessService[] = []
+
+  private offerHeaderText = ''
+  private otherOfferHeaderText = ''
+  private otherOfferComponentName = ''
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
-    const individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
-    const serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.activity, context.params.offer)
-    const serviceSecondList = getServiceContainer().businessServiceService.getByClientTypeAndBySiteSectionSlug(context.params.activity, individualOffer.clClientId)
 
-    const data = await Promise.all([serviceList, serviceSecondList])
+    // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
+    let individualOffer: IndividualOffer
+    if (context.params.clienttype) {
+      individualOffer = context.params.clienttype === 'business'
+        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.activity)
+        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(context.params.activity)
+
+    } else {
+      individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
+    }
+
+    let offerHeaderText = individualOffer.indOfferName
+    let otherOfferHeaderText = 'Комплексные решения'
+    let otherOfferComponentName = 'ClientTypeOfferList'
+    // Услуги Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
+    let serviceList: Promise<BusinessService>
+    if (context.params.clienttype) {
+      serviceList = context.params.clienttype === 'business'
+        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.activity)
+        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.activity)
+
+      offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
+      otherOfferHeaderText = 'Индивидуальные предложения'
+      otherOfferComponentName = 'BusinessTypeOfferList'
+
+    } else {
+      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.activity, individualOffer.indOfferUrl)
+    }
+
+    const data = await Promise.all([serviceList])
 
     return {
-      apiSharedData,
       individualOffer,
+      apiSharedData,
       serviceList: data[0],
-      serviceSecondList: data[1]
+      offerHeaderText,
+      otherOfferHeaderText,
+      otherOfferComponentName
     }
   }
 

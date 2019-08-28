@@ -80,7 +80,7 @@ $menu_item_padding_left: 15px;
         font-weight: $font-medium;
         border-bottom: 2px solid $red;
       }
-      letter-spacing: -0.1px;
+      //  letter-spacing: -0.1px;
     }
 
     display: inline-block;
