@@ -3,7 +3,7 @@ import { getModule } from 'vuex-module-decorators'
 import { NuxtContext } from 'vue/types/options';
 
 const baseMiddleware = (context: NuxtContext) => {
-  const newSiteSection = context.params.activity ? context.params.activity : null
+  const newSiteSection = context.params.siteSection ? context.params.siteSection : null
   appStore(context.store).changeCurrentSiteSection(newSiteSection)
 }
 
