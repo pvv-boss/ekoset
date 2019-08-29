@@ -3,7 +3,7 @@
     <article class="brc-article-smallitem">
       <figure class="brc-article-smallitem__preview">
         <nuxt-link
-          :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
+          :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
         >
           <img
             src="/images/news-image-1.jpg"
@@ -17,7 +17,7 @@
       </figure>
       <header class="brc-article-smallitem__header">
         <nuxt-link
-          :to="{ name: 'news-card', params: { article: articleItem.articleUrl, activity: getCurrentSiteSection}}"
+          :to="{ name: 'news-card', params: { article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
           class="brc-article-smallitem__header-link"
         >{{articleItem.articleTitle}}</nuxt-link>
       </header>

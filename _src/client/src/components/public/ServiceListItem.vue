@@ -1,9 +1,22 @@
 <template>
-  <section>
-    <nuxt-link
-      :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, activity: getCurrentSiteSection}}"
-    >{{serviceItem.businessServiceName}}</nuxt-link>
-  </section>
+  <div class="brc-service-smallitem__wrapper">
+    <section class="brc-service-smallitem">
+      <nuxt-link
+        :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+        class="brc-service-link"
+      >
+        <h4>{{serviceItem.businessServiceName}}</h4>
+        <figure>
+          <img
+            :alt="serviceItem.businessServiceName"
+            itemprop="image"
+            src="/images/activities/cleaning.png"
+          />
+          <figcaption>{{serviceItem.businessServiceName}}</figcaption>
+        </figure>
+      </nuxt-link>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,5 +37,35 @@ export default class ServiceListItem extends Vue {
 }
 </script>
 
+<style lang="scss">
+@import "@/styles/variables.scss";
+.brc-service-smallitem {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0 15px;
 
+  &:hover {
+    border: 1px solid red;
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
+    h4 {
+      color: red;
+    }
+  }
+
+  .brc-service-link {
+    display: flex;
+    flex-direction: row;
+  }
+  h4 {
+    flex-grow: 1;
+    margin: auto;
+    color: $text-color;
+  }
+
+  img {
+    max-width: 90px;
+  }
+}
+</style>
 

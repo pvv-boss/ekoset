@@ -1,6 +1,6 @@
 <template>
   <div class="brc-recommendations__wrapper">
-    <h3>Нас рекомендуют</h3>
+    <h2>Нас рекомендуют</h2>
     <div class="brc-recommendations">
       <RecommendationListItem
         v-for="iterBrand in brandList"
@@ -52,7 +52,7 @@ export default class RecommendationList extends Vue {
 
 <style lang="scss">
 .brc-recommendations__wrapper {
-  margin: 50px 0;
+  margin: 30px 0 60px;
   h3 {
     text-align: center;
   }
@@ -68,7 +68,7 @@ export default class RecommendationList extends Vue {
   }
 
   .brc-all-recomndation-link__wrapper {
-    margin-top: 30px;
+    margin-top: 15px;
 
     .brc-all-recomndation-link {
       border: 1px solid red;

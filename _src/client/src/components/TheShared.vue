@@ -2,6 +2,7 @@
   <section>
     <MessageForm title="Заказать услугу"></MessageForm>
     <RecommendationList :brandList="apiSharedData.brandItems"></RecommendationList>
+    <h2 v-if="apiSharedData.articleItems.length > 0">Новости</h2>
     <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
   </section>
