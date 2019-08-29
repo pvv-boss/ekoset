@@ -50,12 +50,10 @@ export default class RecommendationListItem extends Vue {
     filter: gray; /* IE 6-9 */
     opacity: 0.5;
 
-    /*Добавим вот такой вот код*/
     -webkit-transition: all 0.1s;
     -moz-transition: all 0.1s;
     -o-transition: all 0.1s;
     transition: all 0.1s;
-    /*конец кода с transition*/
   }
   &:hover {
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);

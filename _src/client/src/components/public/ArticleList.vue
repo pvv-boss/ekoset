@@ -46,7 +46,7 @@ export default class ArticleList extends Vue {
 
   .brc-article-smallitem__wrapper {
     flex: 1;
-    min-width: 350px;
+    min-width: 300px;
     padding-bottom: 30px;
   }
 }
