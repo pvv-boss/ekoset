@@ -1,9 +1,7 @@
 <template>
   <section>
     <MessageForm title="Заказать услугу"></MessageForm>
-    <h3>Нас рекомендуют</h3>
     <RecommendationList :brandList="apiSharedData.brandItems"></RecommendationList>
-    <h3>Новости</h3>
     <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
   </section>
