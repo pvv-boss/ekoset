@@ -1,9 +1,18 @@
 <template>
-  <section>
-    <nuxt-link :to="{ name: 'activity-card', params: { activity: siteSectionItem.siteSectionUrl}}">
-      <h2>{{siteSectionItem.siteSectionName}}</h2>
-    </nuxt-link>
-  </section>
+  <div class="brc-site-section-smallitem__wrapper">
+    <section class="brc-site-section-smallitem">
+      <nuxt-link
+        :to="{ name: 'activity-card', params: { siteSection: siteSectionItem.siteSectionUrl}}"
+        class="brc-site-section-link"
+      >
+        <h4>{{siteSectionItem.siteSectionName}}</h4>
+        <figure>
+          <img alt="Экосеть" itemprop="image" src="/images/services-photo-2.png" />
+          <figcaption>Экосеть</figcaption>
+        </figure>
+      </nuxt-link>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,5 +26,35 @@ export default class SiteSectionListItem extends Vue {
 }
 </script>
 
+<style lang="scss">
+@import "@/styles/variables.scss";
+.brc-site-section-smallitem {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0 15px;
 
+  &:hover {
+    border: 1px solid red;
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
+    h4 {
+      color: red;
+    }
+  }
+
+  .brc-site-section-link {
+    display: flex;
+    flex-direction: row;
+  }
+  h4 {
+    flex-grow: 1;
+    margin: auto;
+    color: $text-color;
+  }
+
+  img {
+    max-width: 110px;
+  }
+}
+</style>
 

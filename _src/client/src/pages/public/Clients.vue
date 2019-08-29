@@ -27,7 +27,7 @@ export default class Clients extends Vue {
   private clientItems: Partner[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
 
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
