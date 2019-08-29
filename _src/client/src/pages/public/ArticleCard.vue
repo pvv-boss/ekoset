@@ -43,7 +43,7 @@
         <li>#Чистота</li>
       </ul>
     </div>
-    <ShareBlock></ShareBlock>
+    <TheShareSocial></TheShareSocial>
   </div>
 </template>
 
@@ -53,13 +53,13 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
-import ShareBlock from '@/components/ShareBlock.vue'
+import TheShareSocial from '@/components/TheShareSocial.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 
 @Component({
   components: {
     ArticleList,
-    ShareBlock
+    TheShareSocial
   }
 })
 export default class ArticleCard extends Vue {
@@ -127,7 +127,6 @@ article {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  
 
   & * {
     overflow-wrap: break-word;
@@ -137,12 +136,13 @@ article {
     flex: 2;
     max-width: 70%;
 
-    img{
+    img {
       max-width: 100%;
     }
   }
   .brc-article-related {
     flex: 1;
+    padding-left: 30px;
   }
 }
 
@@ -152,6 +152,9 @@ article {
   }
   .brc-article-item {
     max-width: 100%;
+  }
+  .brc-article-related {
+    padding-left: 0;
   }
 }
 </style>
