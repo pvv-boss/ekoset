@@ -7,8 +7,12 @@
       >
         <h4>{{siteSectionItem.siteSectionName}}</h4>
         <figure>
-          <img alt="Экосеть" itemprop="image" src="/images/services-photo-2.png" />
-          <figcaption>Экосеть</figcaption>
+          <img
+            alt="siteSectionItem.siteSectionName"
+            itemprop="image"
+            src="/images/services-photo-2.png"
+          />
+          <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
         </figure>
       </nuxt-link>
     </section>

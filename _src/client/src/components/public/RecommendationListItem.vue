@@ -3,6 +3,7 @@
     <img
       :src="brand.clBrandImgSmall"
       :alt="brand.clBrandName"
+      :title="brand.clBrandName"
       itemprop="image"
       class="brc-recommend-smallitem__preview-img"
     />
@@ -21,4 +22,46 @@ export default class RecommendationListItem extends Vue {
 }
 </script>
 
+<style lang="scss">
+.brc-recommend-smallitem__preview {
+  border-radius: 5px;
+  padding: 15px;
+  flex: 1;
+  min-width: 150px;
+  width: 150px;
+  max-width: 150px;
+  display: flex;
+  justify-content: center;
+  .brc-recommend-smallitem__preview-img {
+    max-width: 100%;
+    margin: auto;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray; /* IE 6-9 */
+    opacity: 0.5;
 
+    /*Добавим вот такой вот код*/
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    /*конец кода с transition*/
+  }
+  &:hover {
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
+    .brc-recommend-smallitem__preview-img {
+      -webkit-filter: none;
+      -moz-filter: none;
+      -ms-filter: none;
+      -o-filter: none;
+      opacity: 1;
+      filter: none;
+      filter: none; /* IE 6-9 */
+      cursor: pointer;
+    }
+  }
+}
+</style>
