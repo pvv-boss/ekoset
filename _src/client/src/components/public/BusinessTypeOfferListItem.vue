@@ -40,7 +40,6 @@ export default class BusinessTypeOfferListItem extends Vue {
   padding: 15px;
 
   .brc-business-type-offer-item {
-    margin: 0 15px;
     overflow: hidden;
     width: 100%;
     height: 100%;
