@@ -6,6 +6,7 @@ import { DisplayFormatType } from '@/entities/DisplayFormatType';
 import { JsonController, Get, Res, createParamDecorator, getMetadataArgsStorage, UseBefore } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 import { authorized } from '@/middlewares/AuthorizeMiddleware';
+import RgisService from '@/services/RgisService';
 
 
 @JsonController('/app')
@@ -26,6 +27,12 @@ export default class AppController extends BaseController {
     }
     const spec = routingControllersToSpec(storage, options);
     return BaseController.createSuccessResponse(spec, response);
+  }
+
+  @Get('/rgis')
+  public async Rgis (@Res() response: Response) {
+    new RgisService().start();
+    return BaseController.createSuccessResponse('', response);
   }
 }
 
