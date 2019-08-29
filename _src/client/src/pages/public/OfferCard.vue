@@ -3,19 +3,23 @@
     <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
-        :src="individualOffer.indOfferImgBig"
+        class="brc-page-img"
+        src="/images/banner-service-1.jpg"
         :alt="individualOffer.indOfferName"
         itemprop="image"
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
     </figure>
-    <div>Описание индивид.предложения</div>
+    <div class="brc-page-description">
+      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
+      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
+    </div>
 
-    <h2>Список услуг</h2>
+    <h2 v-if="serviceList.length > 0">Список услуг</h2>
     <ServiceList :serviceList="serviceList"></ServiceList>
 
-    <h2>Стоимость услуг</h2>
-    <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
+    <h2 v-if="serviceList.length > 0">Стоимость услуг</h2>
+    <ServicePriceTable :servicePriceList="serviceList" v-if="serviceList.length > 0"></ServicePriceTable>
 
     <h2>{{otherOfferHeaderText}}</h2>
     <component :is="otherOfferComponentName"></component>

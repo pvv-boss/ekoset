@@ -3,21 +3,25 @@
     <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
     <figure>
       <img
-        :src="siteSectionItem.siteSectionImgBig"
+        class="brc-page-img"
+        src="/images/banner-service-1.jpg"
         :alt="siteSectionItem.siteSectionName"
         itemprop="image"
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
     </figure>
-    <div>Описание раздела</div>
+    <div class="brc-page-description">
+      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
+      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
+    </div>
 
-    <h2>Услуги</h2>
+    <h2 v-if="serviceList.length>0">Услуги</h2>
     <ServiceList :serviceList="serviceList"></ServiceList>
 
     <h2>Комплексные решения</h2>
     <ClientTypeOfferList></ClientTypeOfferList>
 
-    <h2>Индивидуальные предложения</h2>
+    <h2 v-if="busineesTypeOfferList.length>0">Индивидуальные предложения</h2>
     <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
 
     <TheShared :apiSharedData="apiSharedData"></TheShared>

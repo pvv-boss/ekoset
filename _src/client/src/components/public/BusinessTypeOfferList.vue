@@ -55,7 +55,7 @@ export default class BusinessTypeOfferList extends Vue {
   flex-wrap: wrap;
   align-content: space-around;
   flex-wrap: wrap;
-  margin: 0 -15px;
+  margin: 30px -15px 60px;
 }
 
 @media (min-width: 800px) {

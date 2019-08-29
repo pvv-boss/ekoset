@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="brc-service-list">
     <ServiceListItem
       v-for="serviceItem in serviceList"
       :key="serviceItem.businessServiceId"
@@ -13,6 +13,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
+import BusinessService from '@/models/ekoset/BusinessService'
 
 @Component({
   components: {
@@ -24,3 +25,22 @@ export default class ServiceList extends Vue {
   private serviceList
 }
 </script>
+
+<style lang="scss">
+.brc-service-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+  align-content: space-around;
+  flex-wrap: wrap;
+  margin: 30px -15px 60px;
+
+  .brc-service-smallitem__wrapper {
+    flex: 1;
+    min-width: 250px;
+    padding-bottom: 30px;
+  }
+}
+</style>

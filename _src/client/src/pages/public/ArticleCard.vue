@@ -151,10 +151,10 @@ article {
     flex-direction: column;
   }
   .brc-article-item {
-    max-width: 100%;
+    max-width: 100% !important;
   }
   .brc-article-related {
-    padding-left: 0;
+    padding-left: 0 !important;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <section class="brc-client-type-offer-list">
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: null, activity: getCurrentSiteSection, clienttype: 'business'}}"
+      :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'business'}}"
       class="brc-client-type-offer-item"
     >
       <img
@@ -14,7 +14,7 @@
     </nuxt-link>
 
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: null, activity: getCurrentSiteSection, clienttype: 'person'}}"
+      :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'person'}}"
       class="brc-client-type-offer-item"
     >
       <img
@@ -60,7 +60,7 @@ export default class ClientTypeOfferList extends Vue {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  margin: 0 0 30px;
+  margin: 30px 0 60px;
 
   img {
     width: 100%;

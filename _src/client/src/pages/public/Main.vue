@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Экосеть: главная страница</h1>
+    <!-- <h1 itemprop="headline name">Экосеть: главная страница</h1> -->
     <figure>
       <img alt="Экосеть" itemprop="image" src="/images/banner-service-4.jpg" class="brc-main-image" />
       <figcaption>Экосеть</figcaption>

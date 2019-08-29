@@ -1,7 +1,7 @@
 <template>
   <section class="brc-business-type-offer-item__wrapper">
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: offerItem.indOfferUrl, activity: getCurrentSiteSection, clienttype: null}}"
+      :to="{ name: 'offer-card', params: { offer: offerItem.indOfferUrl, siteSection: getCurrentSiteSection, clienttype: null}}"
       class="brc-business-type-offer-item"
     >
       <img

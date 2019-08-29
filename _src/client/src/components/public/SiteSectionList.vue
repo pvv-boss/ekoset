@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="brc-site-section-list"
-    :class="{ 'brc-site-section-list_empty' : siteSectionList.length % 3 !== 0 }"
-  >
+  <div class="brc-site-section-list">
     <SiteSectionListItem
       v-for="siteSectionItem in siteSectionList"
       :key="siteSectionItem.siteSectionId"
@@ -37,19 +34,12 @@ export default class SiteSectionList extends Vue {
   flex-wrap: wrap;
   align-content: space-around;
   flex-wrap: wrap;
-  margin: 0 -15px;
+  margin: 30px -15px 60px;
 
   .brc-site-section-smallitem__wrapper {
     flex: 1;
     min-width: 300px;
     padding-bottom: 30px;
-  }
-}
-
-@media (min-width: 630px) {
-  .brc-site-section-list_empty:after {
-    content: "";
-    flex: auto;
   }
 }
 </style>
