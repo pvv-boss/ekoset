@@ -22,12 +22,13 @@ const config: NuxtConfiguration = {
       { src: 'https://unpkg.com/axios/dist/axios.min.js' },
       { src: 'https://unpkg.com/quill/dist/quill.min.js' },
       { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
-      { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' }
+      { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' },
+      { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
+      { src: 'https://yastatic.net/share2/share.js' },
     ],
 
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
-      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
