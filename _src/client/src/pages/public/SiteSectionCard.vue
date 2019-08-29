@@ -52,11 +52,11 @@ export default class SiteSectionCard extends Vue {
   private busineesTypeOfferList: IndividualOffer[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
-    const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
-    const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.activity)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.activity)
+    const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
+    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
     const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList])
 
     return {

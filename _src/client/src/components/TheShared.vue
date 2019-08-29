@@ -2,7 +2,7 @@
   <section>
     <MessageForm title="Заказать услугу"></MessageForm>
     <RecommendationList :brandList="apiSharedData.brandItems"></RecommendationList>
-    <ArticleList :articleList="apiSharedData.articleItems" mode="columns"></ArticleList>
+    <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
   </section>
 </template>

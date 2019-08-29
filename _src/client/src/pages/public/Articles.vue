@@ -49,10 +49,10 @@ export default class Articles extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     const startPagination = new Pagination()
-    const activitySlug = context.params.activity
-    const articleList = activitySlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
+    const siteSectionSlug = context.params.siteSection
+    const articleList = siteSectionSlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
     const data = await Promise.all([articleList])
     return {

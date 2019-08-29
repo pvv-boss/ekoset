@@ -1,5 +1,8 @@
 <template>
-  <div class="brc-article-list" :class="{ 'brc-article-list_vertical': mode === 'vertical' }">
+  <div
+    class="brc-article-list"
+    :class="{ 'brc-article-list_vertical': mode === 'vertical', 'brc-article-list_empty' : articleList.length % 3 !== 0 }"
+  >
     <ArticleListItem
       v-for="articleItem in articleList"
       :key="articleItem.articleId"
@@ -43,8 +46,8 @@ export default class ArticleList extends Vue {
 
   .brc-article-smallitem__wrapper {
     flex: 1;
-    min-width: 300px;
-    padding-bottom:30px;
+    min-width: 350px;
+    padding-bottom: 30px;
   }
 }
 
@@ -55,7 +58,7 @@ export default class ArticleList extends Vue {
 }
 
 @media (min-width: 600px) {
-  .brc-article-list:after {
+  .brc-article-list_empty:after {
     content: "";
     flex: auto;
   }

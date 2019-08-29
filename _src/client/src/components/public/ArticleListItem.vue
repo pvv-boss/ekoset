@@ -58,8 +58,8 @@ export default class ArticleListItem extends Vue {
 <style lang="scss">
 .brc-article-smallitem {
   border: 1px solid #efefef;
-  padding:15px;
-  margin:0 15px;
+  padding: 15px;
+  margin: 0 15px;
   display: flex;
   flex-direction: column;
   &:hover {
@@ -77,7 +77,7 @@ export default class ArticleListItem extends Vue {
 figcaption {
   display: none;
 }
-.brc-article-smallitem__header{
+.brc-article-smallitem__header {
   flex-grow: 1;
   padding-bottom: 10px;
 }

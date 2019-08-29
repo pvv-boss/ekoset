@@ -2,10 +2,9 @@
   <section>
     <h1 itemprop="headline name">Экосеть: главная страница</h1>
     <figure>
-      <img alt="Экосеть" itemprop="image" />
+      <img alt="Экосеть" itemprop="image" src="/images/banner-service-4.jpg" class="brc-main-image" />
       <figcaption>Экосеть</figcaption>
     </figure>
-    <div>Описание главной страницы</div>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
@@ -43,7 +42,7 @@ export default class Main extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     return {
       apiSharedData,
       siteSectionItems
@@ -51,3 +50,9 @@ export default class Main extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.brc-main-image {
+  max-width: 100%;
+}
+</style>

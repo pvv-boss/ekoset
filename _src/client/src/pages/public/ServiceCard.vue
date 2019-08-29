@@ -53,10 +53,10 @@ export default class ServiceCard extends Vue {
   private busineesTypeOfferList: IndividualOffer[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity, context.params.service)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.activity)
+    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
 
     const data = await Promise.all([childServiceList, busineesTypeOfferList])
 
