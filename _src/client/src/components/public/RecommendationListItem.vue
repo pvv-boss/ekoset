@@ -1,14 +1,16 @@
 <template>
-  <figure class="brc-recommend-smallitem__preview">
-    <img
-      :src="brand.clBrandImgSmall"
-      :alt="brand.clBrandName"
-      :title="brand.clBrandName"
-      itemprop="image"
-      class="brc-recommend-smallitem__preview-img"
-    />
-    <figcaption>{{brand.clBrandName}}</figcaption>
-  </figure>
+  <div class="brc-recommend-smallitem__wrapper">
+    <figure class="brc-recommend-smallitem__preview">
+      <img
+        :src="brand.clBrandImgSmall"
+        :alt="brand.clBrandName"
+        :title="brand.clBrandName"
+        itemprop="image"
+        class="brc-recommend-smallitem__preview-img"
+      />
+      <figcaption>{{brand.clBrandName}}</figcaption>
+    </figure>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,17 +25,22 @@ export default class RecommendationListItem extends Vue {
 </script>
 
 <style lang="scss">
-.brc-recommend-smallitem__preview {
-  border-radius: 5px;
-  padding: 15px;
+.brc-recommend-smallitem__wrapper {
+  padding: 15px 15px;
   flex: 1;
-  min-width: 150px;
-  width: 150px;
-  max-width: 150px;
+  min-width: 200px;
   display: flex;
   justify-content: center;
+}
+.brc-recommend-smallitem__preview {
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: #f4f4f5;
+  width: 100%;
+  padding: 15px 0;
   .brc-recommend-smallitem__preview-img {
-    max-width: 100%;
+    max-width: 110px;
     margin: auto;
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);

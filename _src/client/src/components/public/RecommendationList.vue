@@ -1,10 +1,16 @@
 <template>
-  <div class="brc-recommendations">
-    <RecommendationListItem
-      v-for="iterBrand in brandList"
-      :key="iterBrand.clBrandId"
-      :brand="iterBrand"
-    ></RecommendationListItem>
+  <div class="brc-recommendations__wrapper">
+    <h3>Нас рекомендуют</h3>
+    <div class="brc-recommendations">
+      <RecommendationListItem
+        v-for="iterBrand in brandList"
+        :key="iterBrand.clBrandId"
+        :brand="iterBrand"
+      ></RecommendationListItem>
+    </div>
+    <div class="brc-all-recomndation-link__wrapper">
+      <nuxt-link :to="{ name: 'main'}" class="brc-all-recomndation-link">Все рекомендации</nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -45,21 +51,43 @@ export default class RecommendationList extends Vue {
 </script>
 
 <style lang="scss">
-.brc-recommendations {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: wrap;
-  align-content: space-around;
-  flex-wrap: wrap;
-  margin: 0 -15px;
-}
+.brc-recommendations__wrapper {
+  margin: 50px 0;
+  h3 {
+    text-align: center;
+  }
+  .brc-recommendations {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: space-around;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+  }
 
-@media (min-width: 330px) {
-  .brc-recommendations:after {
-    content: "";
-    flex: auto;
+  .brc-all-recomndation-link__wrapper {
+    margin-top: 30px;
+
+    .brc-all-recomndation-link {
+      border: 1px solid red;
+      color: red;
+      text-decoration: none;
+      width: 200px;
+      max-width: 100%;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      margin: auto;
+
+      &:hover {
+        background-color: red;
+        color: white;
+      }
+    }
   }
 }
 </style>
