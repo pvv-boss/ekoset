@@ -1,5 +1,6 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <header>
       <h1 itemprop="headline name">{{article.articleTitle}}</h1>
     </header>
@@ -55,18 +56,22 @@ import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
 import TheShareSocial from '@/components/TheShareSocial.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
     ArticleList,
-    TheShareSocial
+    TheShareSocial,
+    BreadCrumbs
   }
 })
 export default class ArticleCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private article = new Article()
   private realtedArticles: Article[] = []
-
+  private breadCrumbList: Object[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
@@ -80,6 +85,23 @@ export default class ArticleCard extends Vue {
       apiSharedData,
       article: data[0],
       realtedArticles: data[1]
+    }
+  }
+
+  private async mounted () {
+    const siteSection = getModule(AppStore, this.$store).currentSiteSection
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
+        this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSection } })
+        this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
+      });
+
+    }
+    else {
+      this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSection } })
+      this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
     }
   }
 

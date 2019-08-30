@@ -54,8 +54,9 @@ export const EkosetRouter = [
     meta: {
       breadcrumb: [
         { name: 'Главная', link: 'main' },
+        { name: 'getSiteSectionName', link: 'getSiteSectionSlug' },
         { name: 'Новости', link: 'news' },
-        { name: (t: { params: { articleUrl: any; }; }) => `Новость ${t.params.articleUrl}` }
+        { name: 'getArticleName', link: '' }
       ]
     }
   },

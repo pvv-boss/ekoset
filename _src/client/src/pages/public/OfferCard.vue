@@ -1,5 +1,6 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
@@ -40,7 +41,9 @@ import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
 import BusinessService from '../../models/ekoset/BusinessService'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -48,13 +51,15 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
     ServicePriceTable,
     ServiceList,
     BusinessTypeOfferList,
-    ClientTypeOfferList
+    ClientTypeOfferList,
+    BreadCrumbs
   }
 })
 export default class OfferCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private individualOffer: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService[] = []
+  private breadCrumbList: Object[] = []
 
   private offerHeaderText = ''
   private otherOfferHeaderText = ''
@@ -101,6 +106,18 @@ export default class OfferCard extends Vue {
       offerHeaderText,
       otherOfferHeaderText,
       otherOfferComponentName
+    }
+  }
+
+  private async mounted () {
+    const siteSection = getModule(AppStore, this.$store).currentSiteSection
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
+        this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
+      });
+
     }
   }
 
