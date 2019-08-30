@@ -23,15 +23,15 @@
       </header>
       <div class="clearfix"></div>
       <div class="brc-article-smallitem__stat-info">
-        <div class="brc-article-smallitem__views">
-          <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-          <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
-        </div>
         <div class="brc-article-smallitem__date">
           <span
             itemprop="datePublished"
             :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
           >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+        </div>
+        <div class="brc-article-smallitem__views">
+          <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
+          <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
         </div>
       </div>
     </article>
@@ -93,11 +93,11 @@ figcaption {
   font-size: 13px;
 
   .brc-article-smallitem__views {
-    float: left;
+    text-align: right;
     width: 50%;
   }
   .brc-article-smallitem__date {
-    text-align: right;
+    float: left;
     width: 50%;
   }
 }

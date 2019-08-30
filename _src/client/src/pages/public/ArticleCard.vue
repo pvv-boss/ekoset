@@ -1,6 +1,5 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <header>
       <h1 itemprop="headline name">{{article.articleTitle}}</h1>
     </header>
@@ -14,15 +13,15 @@
       <figcaption>{{article.articleTitle}}</figcaption>
     </figure>
     <div class="brc-article-item__stat-info">
-      <div class="brc-article-item__views">
-        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-        <span>{{article.articleViewsNumber > 0 ? article.articleViewsNumber : "63"}}</span>
-      </div>
       <div class="brc-article-item__date">
         <span
           itemprop="datePublished"
           :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
         >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+      </div>
+      <div class="brc-article-item__views">
+        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
+        <span>{{article.articleViewsNumber > 0 ? article.articleViewsNumber : "63"}}</span>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -55,15 +54,13 @@ import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
 import TheShareSocial from '@/components/TheShareSocial.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
     ArticleList,
-    TheShareSocial,
-    BreadCrumbs
+    TheShareSocial
   }
 })
 export default class ArticleCard extends Vue {
@@ -87,23 +84,6 @@ export default class ArticleCard extends Vue {
     }
   }
 
-  private async mounted () {
-    const siteSection = getModule(AppStore, this.$store).currentSiteSection
-    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
-        this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSection } })
-        this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
-      });
-
-    }
-    else {
-      this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSection } })
-      this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
-    }
-  }
-
   private head () {
     return {
       title: this.apiSharedData.seoMeta.pageTitle,
@@ -120,7 +100,7 @@ export default class ArticleCard extends Vue {
   font-size: 13px;
   margin-bottom: 15px;
   .brc-article-item__views {
-    margin-right: 15px;
+    margin-left: 15px;
   }
 }
 .brc-article-item__header-img {
@@ -168,6 +148,9 @@ article {
   .brc-article-related {
     flex: 1;
     padding-left: 30px;
+    > h2 {
+      text-align: left;
+    }
   }
 }
 

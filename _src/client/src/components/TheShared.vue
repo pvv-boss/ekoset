@@ -5,6 +5,7 @@
     <h2 v-if="apiSharedData.articleItems.length > 0">Новости</h2>
     <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
+    <BottomDynamicBlock></BottomDynamicBlock>
   </section>
 </template>
 
@@ -14,12 +15,13 @@ import ApiSharedData from '@/models/ekoset/ApiSharedData';
 import RecommendationList from '@/components/public/RecommendationList.vue'
 import ArticleList from '@/components/public/ArticleList.vue'
 import MessageForm from '@/components/public/MessageForm.vue'
-
+import BottomDynamicBlock from '@/components/public/BottomDynamicBlock.vue'
 @Component({
   components: {
     ArticleList,
     RecommendationList,
-    MessageForm
+    MessageForm,
+    BottomDynamicBlock
   }
 })
 export default class TheShared extends Vue {
