@@ -22,8 +22,8 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
   }
 })
 export default class BusinessTypeOfferList extends Vue {
-  @Prop(Array)
-  private offerList
+  //@Prop(Array)
+  private offerList: IndividualOffer[] = []
 
   //TODO: убрать, когда появятся в базе
   private mounted () {

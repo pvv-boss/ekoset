@@ -24,11 +24,10 @@
       <div class="clearfix"></div>
       <div class="brc-article-smallitem__stat-info">
         <div class="brc-article-smallitem__views">
-          <img src="/images/eye-iccon.png" alt="Количество просмотров" />
-          <span>{{articleItem.articleViewsNumber}}</span>
+          <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
+          <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
         </div>
         <div class="brc-article-smallitem__date">
-          <img src="/images/clock-iccon.png" alt="Дата публикации" />
           <span
             itemprop="datePublished"
             :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
@@ -91,6 +90,7 @@ figcaption {
   flex-direction: row;
   border-top: 1px solid #efefef;
   padding-top: 10px;
+  font-size: 13px;
 
   .brc-article-smallitem__views {
     float: left;

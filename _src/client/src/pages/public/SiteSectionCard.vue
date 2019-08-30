@@ -1,5 +1,6 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
     <figure>
       <img
@@ -40,13 +41,15 @@ import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessService from '../../models/ekoset/BusinessService'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     TheShared,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    ServiceList
+    ServiceList,
+    BreadCrumbs
   }
 })
 export default class SiteSectionCard extends Vue {
@@ -54,6 +57,7 @@ export default class SiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
+  private breadCrumbList: Object[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
@@ -69,6 +73,11 @@ export default class SiteSectionCard extends Vue {
       serviceList: data[1],
       busineesTypeOfferList: data[2]
     }
+  }
+
+  private mounted () {
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
   }
 
   private head () {

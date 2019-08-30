@@ -65,9 +65,11 @@ export default class TheLayoutHeader extends Vue {
 @import "@/styles/typography.scss";
 
 $header_margin_top: 15px;
+$header_margin_bottom: 30px;
 .brc-page-header {
   margin-top: $header_margin_top;
   background-color: white;
+  margin-bottom: $header_margin_bottom;
 }
 
 #page-header {

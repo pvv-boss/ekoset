@@ -44,7 +44,7 @@ export default class MessageForm extends Vue {
 
 <style lang="scss">
 .brc-feedback {
-  border: 3px solid gray;
+  border: 3px solid lightgrey;
   border-radius: 10px;
   padding: 30px 15px;
   max-width: 900px;

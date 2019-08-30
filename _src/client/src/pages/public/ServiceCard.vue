@@ -1,5 +1,6 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
@@ -40,6 +41,9 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -47,7 +51,8 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
     ServiceList,
     ServicePriceTable,
     BusinessTypeOfferList,
-    ClientTypeOfferList
+    ClientTypeOfferList,
+    BreadCrumbs
   }
 })
 export default class ServiceCard extends Vue {
@@ -55,6 +60,7 @@ export default class ServiceCard extends Vue {
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
+  private breadCrumbList: Object[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
@@ -69,6 +75,18 @@ export default class ServiceCard extends Vue {
       businessService,
       childServiceList: data[0],
       busineesTypeOfferList: data[1]
+    }
+  }
+
+  private async mounted () {
+    const siteSection = getModule(AppStore, this.$store).currentSiteSection
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
+        this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
+      });
+
     }
   }
 
