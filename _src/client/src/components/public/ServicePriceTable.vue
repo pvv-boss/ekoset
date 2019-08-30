@@ -15,7 +15,10 @@
       </tbody>
     </table>
     <div class="brc-all-prices-link__wrapper">
-      <nuxt-link :to="{ name: 'main'}" class="brc-all-prices-link">Все цены</nuxt-link>
+      <nuxt-link
+        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
+        class="brc-all-prices-link"
+      >Все цены</nuxt-link>
     </div>
   </div>
 </template>
@@ -23,11 +26,17 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
+import AppStore from '@/store/AppStore'
+import { getModule } from 'vuex-module-decorators'
 
 @Component({})
 export default class ServicePriceTable extends Vue {
   @Prop(Array)
   private servicePriceList
+
+  public get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
+  }
 }
 </script>
 

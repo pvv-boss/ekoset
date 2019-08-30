@@ -8,9 +8,6 @@
         :brand="iterBrand"
       ></RecommendationListItem>
     </div>
-    <div class="brc-all-recomndation-link__wrapper">
-      <nuxt-link :to="{ name: 'main'}" class="brc-all-recomndation-link">Все рекомендации</nuxt-link>
-    </div>
   </div>
 </template>
 
@@ -29,24 +26,6 @@ import { NuxtContext } from 'vue/types/options'
 export default class RecommendationList extends Vue {
   @Prop(Array)
   private brandList
-
-  //TODO: убрать, когда появятся в базе
-  private mounted () {
-    this.brandList = []
-    for (let i = 0; i < 10; i++) {
-      let item = new ClBrand()
-      item.clBrandId = i
-      if (i % 2 === 0) {
-        item.clBrandName = "AirLines"
-        item.clBrandImgSmall = "/images/recommend/airlines.png"
-      }
-      else {
-        item.clBrandName = "Газпром Нефть"
-        item.clBrandImgSmall = "/images/recommend/gasprom.png"
-      }
-      this.brandList.push(item)
-    }
-  }
 }
 </script>
 
@@ -57,37 +36,16 @@ export default class RecommendationList extends Vue {
     text-align: center;
   }
   .brc-recommendations {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-wrap: wrap;
-    align-content: space-around;
-    flex-wrap: wrap;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
+    // align-items: stretch;
+    // flex-wrap: wrap;
+    // align-content: space-around;
+    // flex-wrap: wrap;
     margin: 0 -15px;
-  }
-
-  .brc-all-recomndation-link__wrapper {
-    margin-top: 15px;
-
-    .brc-all-recomndation-link {
-      border: 1px solid red;
-      color: red;
-      text-decoration: none;
-      width: 200px;
-      max-width: 100%;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 3px;
-      margin: auto;
-
-      &:hover {
-        background-color: red;
-        color: white;
-      }
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 </style>

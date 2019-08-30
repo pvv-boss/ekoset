@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="brc-business-type-offer-list"
-    :class="{ 'brc-business-type-offer-list_empty' : offerList.length % 4 !== 0 }"
-  >
+  <div class="brc-business-type-offer-list">
     <BusinessTypeOfferListItem
       v-for="offerItem in offerList"
       :key="offerItem.indOfferId"
@@ -22,46 +19,22 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
   }
 })
 export default class BusinessTypeOfferList extends Vue {
-  //@Prop(Array)
-  private offerList: IndividualOffer[] = []
-
-  //TODO: убрать, когда появятся в базе
-  private mounted () {
-    this.offerList = []
-    for (let i = 0; i < 8; i++) {
-      let item = new IndividualOffer()
-      item.indOfferId = i
-      item.indOfferUrl = "uslugi_avtosalonov-1"
-      if (i % 2 === 0) {
-        item.indOfferName = "Больницам"
-        item.indOfferImgSmall = "/images/individual-offer/individual-offer-3.png"
-      }
-      else {
-        item.indOfferName = "Автосалонам"
-        item.indOfferImgSmall = "/images/individual-offer/individual-offer-1.png"
-      }
-      this.offerList.push(item)
-    }
-  }
+  @Prop(Array)
+  private offerList
 }
 </script>
 
 <style lang="scss">
 .brc-business-type-offer-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: wrap;
-  align-content: space-around;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-between;
+  // align-items: stretch;
+  // flex-wrap: wrap;
+  // align-content: space-around;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin: 30px -15px 60px;
-}
-
-@media (min-width: 800px) {
-  .brc-business-type-offer-list_empty:after {
-    content: "";
-    flex: auto;
-  }
 }
 </style>

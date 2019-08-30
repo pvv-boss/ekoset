@@ -8,13 +8,17 @@
         @click="currentChange(page)"
         :class="{active : page === currentPage }"
       >{{page}}</li>
-      <li v-if="pages[pages.length-1]<total" @click="currentChange(pages[pages.length-1]+1)">&gt;</li>
+      <li
+        v-if="pages[pages.length-1]<countPage"
+        @click="currentChange(pages[pages.length-1]+1)"
+      >&gt;</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { returnStatement } from '@babel/types';
 
 @Component
 export default class BasePagination extends Vue {
@@ -27,11 +31,15 @@ export default class BasePagination extends Vue {
   @Prop(Number)
   private currentPage
 
+  private get countPage () {
+    return Math.ceil(this.total / this.limit)
+  }
+
   private get pages () {
     const pages: number[] = new Array()
 
     let startPage = 1
-    let endPage = this.total
+    let endPage = this.countPage
 
     if (this.currentPage - Math.floor(this.limit / 2) <= 1) {
       endPage = this.limit < this.total ? this.limit : this.total

@@ -1,6 +1,5 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
@@ -11,10 +10,7 @@
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
     </figure>
-    <div class="brc-page-description">
-      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
-      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
-    </div>
+    <DynamicBlock></DynamicBlock>
 
     <h2 v-if="childServiceList.length > 0">Список услуг</h2>
     <ServiceList :serviceList="childServiceList"></ServiceList>
@@ -41,7 +37,7 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicBlock from '@/components/public/DynamicBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 
@@ -52,7 +48,7 @@ import AppStore from '@/store/AppStore'
     ServicePriceTable,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    BreadCrumbs
+    DynamicBlock
   }
 })
 export default class ServiceCard extends Vue {
@@ -60,7 +56,6 @@ export default class ServiceCard extends Vue {
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
-  private breadCrumbList: Object[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
@@ -75,18 +70,6 @@ export default class ServiceCard extends Vue {
       businessService,
       childServiceList: data[0],
       busineesTypeOfferList: data[1]
-    }
-  }
-
-  private async mounted () {
-    const siteSection = getModule(AppStore, this.$store).currentSiteSection
-    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
-        this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
-      });
-
     }
   }
 
