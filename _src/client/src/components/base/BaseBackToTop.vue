@@ -62,7 +62,7 @@ export default class BaseBackToTop extends Vue {
 
   opacity: 0;
   transform: translateX(120%);
-  background-color: $red;
+  background-color: #515151;
   border-radius: 50%;
   height: 40px;
   text-align: center;
