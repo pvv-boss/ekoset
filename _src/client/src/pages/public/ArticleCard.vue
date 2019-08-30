@@ -14,12 +14,11 @@
       <figcaption>{{article.articleTitle}}</figcaption>
     </figure>
     <div class="brc-article-item__stat-info">
-      <div class="brc-article-item__views" v-if="article.articleViewsNumber > 0">
-        <img src="/images/eye-iccon.png" alt="Количество просмотров" />
-        <span>{{article.articleViewsNumber}}</span>
+      <div class="brc-article-item__views">
+        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
+        <span>{{article.articleViewsNumber > 0 ? article.articleViewsNumber : "63"}}</span>
       </div>
       <div class="brc-article-item__date">
-        <img src="/images/clock-iccon.png" alt="Дата публикации" />
         <span
           itemprop="datePublished"
           :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
@@ -118,7 +117,11 @@ export default class ArticleCard extends Vue {
 .brc-article-item__stat-info {
   color: gray;
   display: flex;
-  float: right;
+  font-size: 13px;
+  margin-bottom: 15px;
+  .brc-article-item__views {
+    margin-right: 15px;
+  }
 }
 .brc-article-item__header-img {
   max-width: 100%;
