@@ -1,6 +1,5 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Список новостей</h1>
     <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
     <BasePagination
@@ -23,13 +22,11 @@ import { NuxtContext } from 'vue/types/options'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     ArticleList,
-    BasePagination,
-    BreadCrumbs
+    BasePagination
   }
 })
 export default class Articles extends Vue {
@@ -63,21 +60,6 @@ export default class Articles extends Vue {
       apiSharedData,
       pagination: startPagination,
       articleItems: data[0]
-    }
-  }
-
-  private async mounted () {
-    const siteSection = getModule(AppStore, this.$store).currentSiteSection
-    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
-        this.breadCrumbList.push({ name: 'Новости', link: '' })
-      });
-
-    }
-    else {
-      this.breadCrumbList.push({ name: 'Новости', link: '' })
     }
   }
 

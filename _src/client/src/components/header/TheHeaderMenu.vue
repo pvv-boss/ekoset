@@ -8,25 +8,25 @@
     </li>
     <li>
       <nuxt-link
-        :to="{name: 'clients', params: {activity: getCurrentSiteSection}}"
+        :to="{name: 'clients', params: {siteSection: getCurrentSiteSection}}"
         :class="{active: activeIndex === 'clients'}"
       >Наши клиенты</nuxt-link>
     </li>
     <li>
       <nuxt-link
-        :to="{name: 'prices', params: {activity: getCurrentSiteSection}}"
+        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
         :class="{active: activeIndex === 'prices'}"
       >Цены</nuxt-link>
     </li>
     <li>
       <nuxt-link
-        :to="{name: 'news', params: {activity: getCurrentSiteSection}}"
+        :to="{name: 'news', params: {siteSection: getCurrentSiteSection}}"
         :class="{active: activeIndex === 'news'}"
       >Новости</nuxt-link>
     </li>
     <li>
       <nuxt-link
-        :to="{name: 'contacts', params: {activity: getCurrentSiteSection}}"
+        :to="{name: 'contacts', params: {siteSection: getCurrentSiteSection}}"
         :class="{active: activeIndex === 'contacts'}"
       >Контакты</nuxt-link>
     </li>

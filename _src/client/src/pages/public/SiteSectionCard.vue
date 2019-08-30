@@ -1,6 +1,5 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
     <figure>
       <img
@@ -11,10 +10,7 @@
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
     </figure>
-    <div class="brc-page-description">
-      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
-      <p>Давно выяснено, что при оценке дизайна и&nbsp;композиции читаемый текст мешает сосредоточиться.&nbsp;а&nbsp;также реальное распределение букв и&nbsp;пробелов в&nbsp;абзацах, которое не&nbsp;получается при простой и&nbsp;редакторы HTML используют Lorem Ipsum в&nbsp;качестве текста по&nbsp;умолчанию, так что поиск по&nbsp;ключ настоящего рождения. За&nbsp;прошедшие годы текст Lorem Ipsum получил много версий. Некоторые</p>
-    </div>
+    <DynamicBlock></DynamicBlock>
 
     <h2 v-if="serviceList.length>0">Услуги</h2>
     <ServiceList :serviceList="serviceList"></ServiceList>
@@ -33,15 +29,15 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import SiteSection from '../../models/ekoset/SiteSection'
+import SiteSection from '@/models/ekoset/SiteSection'
 import TheShared from '@/components/TheShared.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
-import BusinessService from '../../models/ekoset/BusinessService'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import BusinessService from '@/models/ekoset/BusinessService'
+import DynamicBlock from '@/components/public/DynamicBlock.vue'
 
 @Component({
   components: {
@@ -49,7 +45,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList,
-    BreadCrumbs
+    DynamicBlock
   }
 })
 export default class SiteSectionCard extends Vue {
