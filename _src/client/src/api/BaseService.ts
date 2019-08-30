@@ -39,10 +39,15 @@ export default class BaseService {
 
     if (!!pagination) {
       pagination.limit = pagination.limit > 0 ? pagination.limit : this.appConfig.defaultRowsLimit
-      request = request + `?offset=${pagination.offset() || 0}&limit=${pagination.limit}`
+      request = request + `?offset=${this.getPaginationOffset(pagination) || 0}&limit=${pagination.limit}`
     }
 
     return request
+  }
+
+
+  private getPaginationOffset (pagination: Pagination) {
+    return (pagination.currentPage - 1) * pagination.limit
   }
 
 }

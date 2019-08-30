@@ -20,28 +20,28 @@ export default class RgisService {
     const deleteStmt = 'DELETE FROM brc_geodata.layer_meta';
     await PgUtls.execNone(deleteStmt);
 
-    // lines.forEach(async (iterLine) => {
-    //   const splitter = iterLine.split(';');
-    //   const layerName = splitter[0];
-    //   const layerDescription = splitter[1];
-
-    //   await this.addToMeta(layerName, layerDescription);
-    // });
-
-    // const geoJson = await this.getLayerGeoJson('rgis:CO_ZONA_PROTECT_MODE')
-    // this.insertArticleZPM(geoJson);
-
-    for (const iterFeature of lines) {
-      await this.delay();
-
-      const splitter = iterFeature.split(';');
+    lines.forEach(async (iterLine) => {
+      const splitter = iterLine.split(';');
       const layerName = splitter[0];
+      const layerDescription = splitter[1];
 
-      const geoJson = await this.getLayerGeoJson(layerName);
-      const geoJsonFileName = layerName.replace(':', '_') + '.json';
-      fs.writeFile(`rgis_layers/${geoJsonFileName}`, geoJson, (err) => { });
+      await this.addToMeta(layerName, layerDescription);
+    });
 
-    }
+    const geoJson = await this.getLayerGeoJson('rgis:CO_ZONA_PROTECT_MODE')
+    this.insertArticleZPM(geoJson);
+
+    // for (const iterFeature of lines) {
+    //   await this.delay();
+
+    //   const splitter = iterFeature.split(';');
+    //   const layerName = splitter[0];
+
+    //   const geoJson = await this.getLayerGeoJson(layerName);
+    //   const geoJsonFileName = layerName.replace(':', '_') + '.json';
+    //   fs.writeFile(`rgis_layers/${geoJsonFileName}`, geoJson, (err) => { });
+
+    // }
   }
 
 
