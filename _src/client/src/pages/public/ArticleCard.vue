@@ -26,10 +26,13 @@
     </div>
     <div class="clearfix"></div>
     <div class="brc-article-wrapper">
-      <section class="brc-article-item">
+      <section
+        class="brc-article-item"
+        :class="{'brc-article-item_full-width': realtedArticles.length===0}"
+      >
         <article v-html="article.articleBody" itemprop="articleBody"></article>
       </section>
-      <section class="brc-article-related">
+      <section class="brc-article-related" v-if="realtedArticles.length>0">
         <h2>Похожие новости</h2>
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
       </section>
@@ -114,10 +117,6 @@ export default class ArticleCard extends Vue {
   }
 }
 
-article {
-  height: 100%;
-}
-
 .brc-article-tags {
   padding: 15px 0;
   ul {
@@ -140,7 +139,9 @@ article {
   .brc-article-item {
     flex: 2;
     max-width: 70%;
-
+    &.brc-article-item_full-width {
+      max-width: 100% !important;
+    }
     img {
       max-width: 100%;
     }

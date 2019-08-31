@@ -23,4 +23,15 @@ export default class DynamicBlock extends Vue {
   -moz-column-gap: 30px;
   column-gap: 30px;
 }
+
+@media (max-width: 768px) {
+  .brc-page-description {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    column-gap: 0;
+  }
+}
 </style>

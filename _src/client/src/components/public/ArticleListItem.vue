@@ -1,41 +1,41 @@
 <template>
-  <div class="brc-article-smallitem__wrapper">
-    <article class="brc-article-smallitem">
-      <figure class="brc-article-smallitem__preview">
-        <nuxt-link
-          :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
-        >
-          <img
-            src="/images/news-image-1.jpg"
-            :alt="articleItem.articleTitle"
-            itemprop="image"
-            class="brc-article-smallitem__preview-img"
-          />
-        </nuxt-link>
+  <!-- <div class="brc-article-smallitem__wrapper"> -->
+  <article class="brc-article-smallitem">
+    <figure class="brc-article-smallitem__preview">
+      <nuxt-link
+        :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
+      >
+        <img
+          src="/images/news-image-1.jpg"
+          :alt="articleItem.articleTitle"
+          itemprop="image"
+          class="brc-article-smallitem__preview-img"
+        />
+      </nuxt-link>
 
-        <figcaption>{{articleItem.articleTitle}}</figcaption>
-      </figure>
-      <header class="brc-article-smallitem__header">
-        <nuxt-link
-          :to="{ name: 'news-card', params: { article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
-          class="brc-article-smallitem__header-link"
-        >{{articleItem.articleTitle}}</nuxt-link>
-      </header>
-      <div class="clearfix"></div>
-      <div class="brc-article-smallitem__stat-info">
-        <div class="brc-article-smallitem__date">
-          <span
-            itemprop="datePublished"
-            :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
-          >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
-        </div>
-        <div class="brc-article-smallitem__views">
-          <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-          <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
-        </div>
+      <figcaption>{{articleItem.articleTitle}}</figcaption>
+    </figure>
+    <header class="brc-article-smallitem__header">
+      <nuxt-link
+        :to="{ name: 'news-card', params: { article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
+        class="brc-article-smallitem__header-link"
+      >{{articleItem.articleTitle}}</nuxt-link>
+    </header>
+    <div class="clearfix"></div>
+    <div class="brc-article-smallitem__stat-info">
+      <div class="brc-article-smallitem__date">
+        <span
+          itemprop="datePublished"
+          :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
+        >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
-    </article>
-  </div>
+      <div class="brc-article-smallitem__views">
+        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
+        <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
+      </div>
+    </div>
+  </article>
+  <!-- </div> -->
 </template>
 
 <script lang="ts">
@@ -58,7 +58,7 @@ export default class ArticleListItem extends Vue {
 .brc-article-smallitem {
   border: 1px solid #efefef;
   padding: 15px;
-  margin: 0 15px;
+  margin: 15px;
   display: flex;
   flex-direction: column;
   &:hover {

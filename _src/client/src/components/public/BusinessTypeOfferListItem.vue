@@ -35,9 +35,9 @@ export default class BusinessTypeOfferListItem extends Vue {
 <style lang="scss">
 .brc-business-type-offer-item__wrapper {
   flex: 1;
-  min-width: 250px;
-  height: 160px;
-  padding: 15px;
+  min-width: 235px;
+  height: 145px;
+  margin: 15px;
 
   .brc-business-type-offer-item {
     overflow: hidden;

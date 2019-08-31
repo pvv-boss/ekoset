@@ -28,21 +28,8 @@ export default class ServiceList extends Vue {
 
 <style lang="scss">
 .brc-service-list {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // align-items: stretch;
-  // flex-wrap: wrap;
-  // align-content: space-around;
-  // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin: 30px -15px 60px;
-
-  .brc-service-smallitem__wrapper {
-    flex: 1;
-    min-width: 250px;
-    padding-bottom: 30px;
-  }
 }
 </style>

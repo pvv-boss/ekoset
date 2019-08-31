@@ -1,9 +1,13 @@
 <template>
   <section>
     <MessageForm title="Заказать услугу"></MessageForm>
-    <RecommendationList :brandList="apiSharedData.brandItems"></RecommendationList>
+    <RecommendationList v-if="apiSharedData.brandItems > 0" :brandList="apiSharedData.brandItems"></RecommendationList>
     <h2 v-if="apiSharedData.articleItems.length > 0">Новости</h2>
-    <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
+    <ArticleList
+      v-if="apiSharedData.articleItems.length > 0"
+      :articleList="apiSharedData.articleItems.slice(0, 3)"
+      mode="columns"
+    ></ArticleList>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
     <BottomDynamicBlock></BottomDynamicBlock>
   </section>
@@ -30,6 +34,3 @@ export default class TheShared extends Vue {
 
 }
 </script>
-
-<style lang="scss">
-</style>

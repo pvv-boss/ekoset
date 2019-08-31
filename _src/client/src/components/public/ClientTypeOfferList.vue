@@ -52,6 +52,7 @@ export default class ClientTypeOfferList extends Vue {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin: 30px 0 60px;
 }
 .brc-client-type-offer-item {
   width: calc(50% - 10px);
@@ -60,7 +61,6 @@ export default class ClientTypeOfferList extends Vue {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  margin: 30px 0 60px;
 
   img {
     width: 100%;
@@ -97,6 +97,15 @@ export default class ClientTypeOfferList extends Vue {
   &:last-child {
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .brc-client-type-offer-item {
+    width: 100%;
+    &:first-child {
+      margin-bottom: 30px;
+    }
   }
 }
 </style>

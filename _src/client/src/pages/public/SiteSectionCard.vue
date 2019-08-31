@@ -13,13 +13,13 @@
     <DynamicBlock></DynamicBlock>
 
     <h2 v-if="serviceList.length>0">Услуги</h2>
-    <ServiceList :serviceList="serviceList"></ServiceList>
+    <ServiceList v-if="serviceList.length>0" :serviceList="serviceList"></ServiceList>
 
     <h2>Комплексные решения</h2>
     <ClientTypeOfferList></ClientTypeOfferList>
 
     <h2 v-if="busineesTypeOfferList.length>0">Индивидуальные предложения</h2>
-    <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+    <BusinessTypeOfferList v-if="busineesTypeOfferList.length>0" :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
 
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
