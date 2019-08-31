@@ -27,21 +27,8 @@ export default class SiteSectionList extends Vue {
 
 <style lang="scss">
 .brc-site-section-list {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // align-items: stretch;
-  // flex-wrap: wrap;
-  // align-content: space-around;
-  // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   margin: 30px -15px 60px;
-
-  .brc-site-section-smallitem__wrapper {
-    flex: 1;
-    min-width: 300px;
-    padding-bottom: 30px;
-  }
 }
 </style>

@@ -32,17 +32,7 @@ export default class RecommendationList extends Vue {
 <style lang="scss">
 .brc-recommendations__wrapper {
   margin: 30px 0 60px;
-  h3 {
-    text-align: center;
-  }
   .brc-recommendations {
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: space-between;
-    // align-items: stretch;
-    // flex-wrap: wrap;
-    // align-content: space-around;
-    // flex-wrap: wrap;
     margin: 0 -15px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

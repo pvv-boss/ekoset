@@ -13,13 +13,16 @@
     <DynamicBlock></DynamicBlock>
 
     <h2 v-if="childServiceList.length > 0">Список услуг</h2>
-    <ServiceList :serviceList="childServiceList"></ServiceList>
+    <ServiceList :serviceList="childServiceList" v-if="childServiceList.length > 0"></ServiceList>
 
     <h2 v-if="childServiceList.length > 0">Стоимость услуг</h2>
     <ServicePriceTable :servicePriceList="childServiceList" v-if="childServiceList.length > 0"></ServicePriceTable>
 
-    <h2>Индивидуальные предложения</h2>
-    <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+    <h2 v-if="busineesTypeOfferList.length > 0">Индивидуальные предложения</h2>
+    <BusinessTypeOfferList
+      :offerList="busineesTypeOfferList"
+      v-if="busineesTypeOfferList.length > 0"
+    ></BusinessTypeOfferList>
 
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>

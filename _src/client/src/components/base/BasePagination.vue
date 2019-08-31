@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-pagination">
+  <div class="brc-pagination" v-if="countPage > 1">
     <ul>
       <li v-if="pages[0]>1" @click="currentChange(pages[0]-1)">&lt;</li>
       <li
@@ -42,9 +42,9 @@ export default class BasePagination extends Vue {
     let endPage = this.countPage
 
     if (this.currentPage - Math.floor(this.limit / 2) <= 1) {
-      endPage = this.limit < this.total ? this.limit : this.total
-    } else if (this.currentPage + Math.floor(this.limit / 2) > this.total) {
-      startPage = this.total - this.limit > 1 ? this.total - this.limit : 1
+      endPage = this.limit < this.countPage ? this.limit : this.countPage
+    } else if (this.currentPage + Math.floor(this.limit / 2) > this.countPage) {
+      startPage = this.countPage - this.limit > 1 ? this.countPage - this.limit : 1
     } else {
       startPage = this.currentPage - Math.floor(this.limit / 2)
       endPage = startPage + this.limit - 1

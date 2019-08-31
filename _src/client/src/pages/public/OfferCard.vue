@@ -13,7 +13,7 @@
     <DynamicBlock></DynamicBlock>
 
     <h2 v-if="serviceList.length > 0">Список услуг</h2>
-    <ServiceList :serviceList="serviceList"></ServiceList>
+    <ServiceList :serviceList="serviceList" v-if="serviceList.length > 0"></ServiceList>
 
     <h2 v-if="serviceList.length > 0">Стоимость услуг</h2>
     <ServicePriceTable :servicePriceList="serviceList" v-if="serviceList.length > 0"></ServicePriceTable>

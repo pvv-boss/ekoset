@@ -26,13 +26,6 @@ export default class BusinessTypeOfferList extends Vue {
 
 <style lang="scss">
 .brc-business-type-offer-list {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // align-items: stretch;
-  // flex-wrap: wrap;
-  // align-content: space-around;
-  // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin: 30px -15px 60px;

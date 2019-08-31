@@ -43,6 +43,9 @@ export default class BottomDynamicBlock extends Vue {
 @media (max-width: 768px) {
   .brc-page-description_bottom {
     flex-direction: column;
+    div {
+      max-width: 100%;
+    }
   }
 }
 </style>
