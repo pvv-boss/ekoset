@@ -1,4 +1,5 @@
 <template>
+  <!-- <div class="brc-article-smallitem__wrapper"> -->
   <article class="brc-article-smallitem">
     <figure class="brc-article-smallitem__preview">
       <nuxt-link
@@ -34,6 +35,7 @@
       </div>
     </div>
   </article>
+  <!-- </div> -->
 </template>
 
 <script lang="ts">
