@@ -279,6 +279,11 @@ export default class TheHeaderMobileMenu2 extends Vue {
   .brc-page-header-mobile__empty-section {
     padding: 15px !important;
   }
+  .user-navigation-menu__link {
+    > div {
+      padding-left: 5px !important;
+    }
+  }
 
   @media (max-width: 768px) {
     display: flex !important;

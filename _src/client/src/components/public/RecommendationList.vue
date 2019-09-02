@@ -31,7 +31,7 @@ export default class RecommendationList extends Vue {
 
 <style lang="scss">
 .brc-recommendations__wrapper {
-  margin: 30px 0 60px;
+  margin: 30px 0 0;
   .brc-recommendations {
     margin: 0 -15px;
     display: grid;

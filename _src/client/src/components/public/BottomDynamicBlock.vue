@@ -23,11 +23,11 @@ export default class BottomDynamicBlock extends Vue {
 .brc-page-description_bottom {
   display: flex;
   flex-direction: row;
-  margin: 0 -10px;
+  margin: 60px -15px 0;
 
   > div {
     flex-grow: 1;
-    margin: 0 10px;
+    margin: 0 15px;
     max-width: 50%;
     > p {
       color: gray;

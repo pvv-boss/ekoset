@@ -42,7 +42,7 @@ export default class ServicePriceTable extends Vue {
 
 <style lang="scss">
 .brc-service-price-table__wrapper {
-  margin: 30px 0 60px;
+  margin: 30px 0 0;
   .brc-service-price-table {
     width: 100%;
     border: 1px solid #f4f4f5;

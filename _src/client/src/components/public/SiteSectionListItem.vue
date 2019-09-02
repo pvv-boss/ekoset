@@ -1,5 +1,4 @@
 <template>
-  <div class="brc-site-section-smallitem__wrapper">
     <section class="brc-site-section-smallitem">
       <nuxt-link
         :to="{ name: 'activity-card', params: { siteSection: siteSectionItem.siteSectionUrl}}"
@@ -16,8 +15,7 @@
         </figure>
       </nuxt-link>
     </section>
-  </div>
-</template>
+  </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'

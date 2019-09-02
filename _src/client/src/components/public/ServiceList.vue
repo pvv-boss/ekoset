@@ -30,6 +30,6 @@ export default class ServiceList extends Vue {
 .brc-service-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  margin: 30px -15px 60px;
+  margin: 30px -15px 0;
 }
 </style>

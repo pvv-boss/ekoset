@@ -34,7 +34,7 @@ export default class ArticleList extends Vue {
 .brc-article-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  margin: 30px -15px 60px;
+  margin: 30px -15px 0;
 }
 
 .brc-article-list_vertical {

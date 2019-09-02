@@ -28,6 +28,6 @@ export default class BusinessTypeOfferList extends Vue {
 .brc-business-type-offer-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  margin: 30px -15px 60px;
+  margin: 30px -15px 0;
 }
 </style>

@@ -29,6 +29,6 @@ export default class SiteSectionList extends Vue {
 .brc-site-section-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  margin: 30px -15px 60px;
+  margin: 30px -15px 0;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="brc-feedback">
-    <h2>{{title}}</h2>
+    <h3>{{title}}</h3>
     <form class="brc-message-form">
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
@@ -48,7 +48,7 @@ export default class MessageForm extends Vue {
   border-radius: 10px;
   padding: 30px 15px;
   max-width: 900px;
-  margin: 0 auto 60px;
+  margin: 60px auto 0;
 }
 .brc-message-form__data {
   display: flex;
@@ -134,6 +134,11 @@ export default class MessageForm extends Vue {
       border-color: darkred;
       cursor: pointer;
     }
+  }
+}
+@media (max-width: 768px) {
+  .brc-feedback {
+    padding: 15px 0;
   }
 }
 </style>

@@ -101,7 +101,7 @@ export default class ArticleCard extends Vue {
   color: gray;
   display: flex;
   font-size: 13px;
-  margin-bottom: 15px;
+
   .brc-article-item__views {
     margin-left: 15px;
   }

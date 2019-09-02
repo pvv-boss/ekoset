@@ -78,7 +78,6 @@ figcaption {
 }
 .brc-article-smallitem__header {
   flex-grow: 1;
-  padding-bottom: 10px;
 }
 .brc-article-smallitem__header-link {
   color: #222;
@@ -90,6 +89,7 @@ figcaption {
   flex-direction: row;
   border-top: 1px solid #efefef;
   padding-top: 10px;
+  margin-top: 10px;
   font-size: 13px;
 
   .brc-article-smallitem__views {

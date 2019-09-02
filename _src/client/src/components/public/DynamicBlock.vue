@@ -15,7 +15,7 @@ export default class DynamicBlock extends Vue {
 </script>
 <style lang="scss">
 .brc-page-description {
-  margin: 30px 0 60px;
+  margin: 15px 0 0;
   -webkit-column-count: 2;
   -moz-column-count: 2;
   column-count: 2;
