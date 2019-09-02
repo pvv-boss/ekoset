@@ -17,7 +17,6 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import TheLayoutHeader from '@/components/header/TheLayoutHeader.vue'
 import TheLayoutFooter from '@/components/TheLayoutFooter.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import ActivateAccauntNotice from '@/components/user/ActivateAccauntNotice.vue'
 import BaseCookieNotice from '@/components/base/BaseCookieNotice.vue'
 import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
@@ -29,8 +28,7 @@ import { NuxtContext } from 'vue/types/options';
     TheLayoutFooter,
     ActivateAccauntNotice,
     BaseBackToTop,
-    BaseCookieNotice,
-    BreadCrumbs
+    BaseCookieNotice
   }
 })
 export default class DefaultLayout extends Vue {

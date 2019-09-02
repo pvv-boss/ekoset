@@ -1,7 +1,22 @@
 <template>
   <div class="vue-back-to-top" :class="{active: isVisible === true}" @click="scrollToWindowTop">
     <slot>
-      <span class="vue-back-to-top_text__default">{{text}}</span>
+      <span class="vue-back-to-top_text__default">
+        <svg
+          class="icon-svg icon-svg_scroll-up"
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          version="1.1"
+          role="img"
+          fill="#d3d3d3"
+        >
+          <path
+            d="M16 0C7.164 0 0 7.164 0 16s7.164 16 16 16 16-7.164 16-16S24.836 0 16 0zm8.412 19.523c-.517.512-1.355.512-1.872 0L16 13.516l-6.54 6.01c-.518.51-1.356.51-1.873 0-.516-.513-.517-1.343 0-1.855l7.476-7.326c.517-.512 1.356-.512 1.873 0l7.476 7.327c.516.513.516 1.342 0 1.854z"
+          />
+        </svg>
+      </span>
     </slot>
   </div>
 </template>
@@ -62,8 +77,9 @@ export default class BaseBackToTop extends Vue {
 
   opacity: 0;
   transform: translateX(120%);
-  background-color: $red;
-  border-radius: 50%;
+  // background-color: #515151;
+  // border-radius: 50%;
+  background-color: transparent;
   height: 40px;
   text-align: center;
   width: 40px;

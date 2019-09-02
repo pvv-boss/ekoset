@@ -3,22 +3,26 @@
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
-        :src="businessService.businessServiceImgBig"
+        class="brc-page-img"
+        src="/images/banner-service-1.jpg"
         :alt="businessService.businessServiceName"
         itemprop="image"
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
     </figure>
-    <div>Описание услуги</div>
+    <DynamicBlock></DynamicBlock>
 
     <h2 v-if="childServiceList.length > 0">Список услуг</h2>
-    <ServiceList :serviceList="childServiceList"></ServiceList>
+    <ServiceList :serviceList="childServiceList" v-if="childServiceList.length > 0"></ServiceList>
 
     <h2 v-if="childServiceList.length > 0">Стоимость услуг</h2>
-    <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
+    <ServicePriceTable :servicePriceList="childServiceList" v-if="childServiceList.length > 0"></ServicePriceTable>
 
-    <h2>Индивидуальные предложения</h2>
-    <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+    <h2 v-if="busineesTypeOfferList.length > 0">Индивидуальные предложения</h2>
+    <BusinessTypeOfferList
+      :offerList="busineesTypeOfferList"
+      v-if="busineesTypeOfferList.length > 0"
+    ></BusinessTypeOfferList>
 
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
@@ -36,6 +40,9 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
+import DynamicBlock from '@/components/public/DynamicBlock.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -43,7 +50,8 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
     ServiceList,
     ServicePriceTable,
     BusinessTypeOfferList,
-    ClientTypeOfferList
+    ClientTypeOfferList,
+    DynamicBlock
   }
 })
 export default class ServiceCard extends Vue {
@@ -53,10 +61,10 @@ export default class ServiceCard extends Vue {
   private busineesTypeOfferList: IndividualOffer[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity, context.params.service)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.activity)
+    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
 
     const data = await Promise.all([childServiceList, busineesTypeOfferList])
 

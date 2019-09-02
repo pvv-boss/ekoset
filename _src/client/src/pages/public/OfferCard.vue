@@ -3,19 +3,20 @@
     <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
-        :src="individualOffer.indOfferImgBig"
+        class="brc-page-img"
+        src="/images/banner-service-1.jpg"
         :alt="individualOffer.indOfferName"
         itemprop="image"
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
     </figure>
-    <div>Описание индивид.предложения</div>
+    <DynamicBlock></DynamicBlock>
 
-    <h2>Список услуг</h2>
-    <ServiceList :serviceList="serviceList"></ServiceList>
+    <h2 v-if="serviceList.length > 0">Список услуг</h2>
+    <ServiceList :serviceList="serviceList" v-if="serviceList.length > 0"></ServiceList>
 
-    <h2>Стоимость услуг</h2>
-    <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
+    <h2 v-if="serviceList.length > 0">Стоимость услуг</h2>
+    <ServicePriceTable :servicePriceList="serviceList" v-if="serviceList.length > 0"></ServicePriceTable>
 
     <h2>{{otherOfferHeaderText}}</h2>
     <component :is="otherOfferComponentName"></component>
@@ -34,9 +35,11 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
+import DynamicBlock from '@/components/public/DynamicBlock.vue'
 import BusinessService from '../../models/ekoset/BusinessService'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -44,7 +47,8 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
     ServicePriceTable,
     ServiceList,
     BusinessTypeOfferList,
-    ClientTypeOfferList
+    ClientTypeOfferList,
+    DynamicBlock
   }
 })
 export default class OfferCard extends Vue {
@@ -57,14 +61,14 @@ export default class OfferCard extends Vue {
   private otherOfferComponentName = ''
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
 
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
-        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.activity)
-        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug
+        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.siteSection)
+        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
 
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
@@ -77,15 +81,15 @@ export default class OfferCard extends Vue {
     let serviceList: Promise<BusinessService>
     if (context.params.clienttype) {
       serviceList = context.params.clienttype === 'business'
-        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.activity)
-        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.activity)
+        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
+        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
 
       offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'
 
     } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.activity, individualOffer.indOfferUrl)
+      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, individualOffer.indOfferUrl)
     }
 
     const data = await Promise.all([serviceList])

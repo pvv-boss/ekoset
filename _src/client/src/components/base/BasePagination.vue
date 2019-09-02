@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-pagination">
+  <div class="brc-pagination" v-if="countPage > 1">
     <ul>
       <li v-if="pages[0]>1" @click="currentChange(pages[0]-1)">&lt;</li>
       <li
@@ -8,13 +8,17 @@
         @click="currentChange(page)"
         :class="{active : page === currentPage }"
       >{{page}}</li>
-      <li v-if="pages[pages.length-1]<total" @click="currentChange(pages[pages.length-1]+1)">&gt;</li>
+      <li
+        v-if="pages[pages.length-1]<countPage"
+        @click="currentChange(pages[pages.length-1]+1)"
+      >&gt;</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { returnStatement } from '@babel/types';
 
 @Component
 export default class BasePagination extends Vue {
@@ -27,16 +31,20 @@ export default class BasePagination extends Vue {
   @Prop(Number)
   private currentPage
 
+  private get countPage () {
+    return Math.ceil(this.total / this.limit)
+  }
+
   private get pages () {
     const pages: number[] = new Array()
 
     let startPage = 1
-    let endPage = this.total
+    let endPage = this.countPage
 
     if (this.currentPage - Math.floor(this.limit / 2) <= 1) {
-      endPage = this.limit < this.total ? this.limit : this.total
-    } else if (this.currentPage + Math.floor(this.limit / 2) > this.total) {
-      startPage = this.total - this.limit > 1 ? this.total - this.limit : 1
+      endPage = this.limit < this.countPage ? this.limit : this.countPage
+    } else if (this.currentPage + Math.floor(this.limit / 2) > this.countPage) {
+      startPage = this.countPage - this.limit > 1 ? this.countPage - this.limit : 1
     } else {
       startPage = this.currentPage - Math.floor(this.limit / 2)
       endPage = startPage + this.limit - 1

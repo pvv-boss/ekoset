@@ -19,50 +19,51 @@ export const EkosetRouter = [
   },
   {
     name: 'clients',
-    path: '/:activity?/clients',
+    path: '/:siteSection?/clients',
     props: true,
     component: Clients
   },
   {
     name: 'contacts',
-    path: '/:activity?/contacts',
+    path: '/:siteSection?/contacts',
     props: true,
     component: Contacts
   },
   {
     name: 'prices',
-    path: '/:activity?/prices',
+    path: '/:siteSection?/prices',
     props: true,
     component: Prices
   },
   {
     name: 'offer-card',
-    path: '/:activity/:clienttype?/offers/:offer?',
+    path: '/:siteSection/:clienttype?/offers/:offer?',
     props: true,
     component: OfferCard
   },
   {
     name: 'service-card',
-    path: '/:activity/services/:service',
+    path: '/:siteSection/services/:service',
     component: ServiceCard
   },
 
   {
     name: 'news-card',
-    path: '/:activity?/news/:article',
+    path: '/:siteSection?/news/:article',
     component: ArticleCard,
     meta: {
       breadcrumb: [
         { name: 'Главная', link: 'main' },
+        { name: 'getSiteSectionName', link: 'getSiteSectionSlug' },
         { name: 'Новости', link: 'news' },
-        { name: (t: { params: { articleUrl: any; }; }) => `Новость ${t.params.articleUrl}` }
+        { name: 'getArticleName', link: '' }
       ]
     }
   },
 
   {
     name: 'news',
-    path: '/:activity?/news',
+    path: '/:siteSection?/news',
     props: true,
     component: Articles,
     meta: {
@@ -75,7 +76,7 @@ export const EkosetRouter = [
 
   {
     name: 'activity-card',
-    path: '/:activity',
+    path: '/:siteSection',
     props: true,
     component: SiteSectionCard
   },

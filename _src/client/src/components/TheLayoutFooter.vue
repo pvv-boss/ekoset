@@ -114,6 +114,9 @@
   flex-direction: row;
   justify-content: space-between;
   border-top: 1px solid lightgray;
+  margin-top: 30px;
+  padding-top: 30px;
+
   a {
     color: $text-color1;
   }
@@ -134,9 +137,6 @@
       font-size: 0.9rem;
     }
   }
-  // .brc-footer-list-arrow {
-  //   display: none;
-  // }
   .brc-page-footer__contacts {
     a {
       color: $text-color1;

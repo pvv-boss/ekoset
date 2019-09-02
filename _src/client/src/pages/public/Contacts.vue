@@ -21,7 +21,7 @@ export default class Contacts extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.activity)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     return {
       apiSharedData
     }

@@ -43,6 +43,20 @@ a {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    margin-top: 30px;
   }
 
+  h2 {
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  h3 {
+    text-align: center;
+  }
+
+
+  .brc-page-img {
+    max-width: 100%;
+  }
 }

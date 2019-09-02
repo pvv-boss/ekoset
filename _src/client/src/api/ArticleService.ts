@@ -75,7 +75,7 @@ export default class ArticleService extends BaseService {
 
   private async getArticlesCount (siteSectionId?: number | null) {
     const query = siteSectionId && siteSectionId > 0 ? `${siteSectionId}/news/count` : 'news/count'
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    const result = await HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 }
