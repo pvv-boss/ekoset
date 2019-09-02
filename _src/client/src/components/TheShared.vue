@@ -2,12 +2,10 @@
   <section>
     <MessageForm title="Заказать услугу"></MessageForm>
     <RecommendationList v-if="apiSharedData.brandItems > 0" :brandList="apiSharedData.brandItems"></RecommendationList>
-    <h2 v-if="apiSharedData.articleItems.length > 0">Новости</h2>
-    <ArticleList
-      v-if="apiSharedData.articleItems.length > 0"
-      :articleList="apiSharedData.articleItems.slice(0, 3)"
-      mode="columns"
-    ></ArticleList>
+    <div class="brc-section__wrapper" v-if="apiSharedData.articleItems.length > 0">
+      <h2>Новости</h2>
+      <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
+    </div>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
     <BottomDynamicBlock></BottomDynamicBlock>
   </section>

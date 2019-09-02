@@ -1,5 +1,6 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
@@ -12,18 +13,20 @@
     </figure>
     <DynamicBlock></DynamicBlock>
 
-    <h2 v-if="childServiceList.length > 0">Список услуг</h2>
-    <ServiceList :serviceList="childServiceList" v-if="childServiceList.length > 0"></ServiceList>
+    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
+      <h2>Список услуг</h2>
+      <ServiceList :serviceList="childServiceList"></ServiceList>
+    </div>
 
-    <h2 v-if="childServiceList.length > 0">Стоимость услуг</h2>
-    <ServicePriceTable :servicePriceList="childServiceList" v-if="childServiceList.length > 0"></ServicePriceTable>
+    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
+      <h2>Стоимость услуг</h2>
+      <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
+    </div>
 
-    <h2 v-if="busineesTypeOfferList.length > 0">Индивидуальные предложения</h2>
-    <BusinessTypeOfferList
-      :offerList="busineesTypeOfferList"
-      v-if="busineesTypeOfferList.length > 0"
-    ></BusinessTypeOfferList>
-
+    <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
+      <h2>Индивидуальные предложения</h2>
+      <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+    </div>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -43,6 +46,7 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
 import DynamicBlock from '@/components/public/DynamicBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
@@ -51,7 +55,8 @@ import AppStore from '@/store/AppStore'
     ServicePriceTable,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    DynamicBlock
+    DynamicBlock,
+    BreadCrumbs
   }
 })
 export default class ServiceCard extends Vue {
@@ -59,8 +64,11 @@ export default class ServiceCard extends Vue {
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
+  private breadCrumbList: Object[] = []
+  private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
+    const siteSection = context.params.siteSection
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
@@ -72,13 +80,25 @@ export default class ServiceCard extends Vue {
       apiSharedData,
       businessService,
       childServiceList: data[0],
-      busineesTypeOfferList: data[1]
+      busineesTypeOfferList: data[1],
+      siteSection
+    }
+  }
+
+  private async mounted () {
+    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (this.siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
+        this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
+      });
     }
   }
 
   private head () {
     return {
-      title: this.apiSharedData.seoMeta.pageTitle,
+      title: 'Экосеть',//  this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

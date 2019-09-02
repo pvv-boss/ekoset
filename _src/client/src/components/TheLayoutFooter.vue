@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <footer class="brc-page-footer">
     <div class="brc-page-footer__contacts">
       <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
@@ -88,24 +88,40 @@
     <div class="brc-page-footer__menu">
       <ul>
         <li>
-          <nuxt-link :to="{name: 'main'}">О компании</nuxt-link>
+          <nuxt-link :to="{name: 'main', params:{siteSection: getCurrentSiteSection}}">О компании</nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
+          <nuxt-link
+            :to="{name: 'clients', params:{siteSection: getCurrentSiteSection}}"
+          >Наши клиенты</nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="{name: 'prices'}">Цены</nuxt-link>
+          <nuxt-link :to="{name: 'prices', params:{siteSection: getCurrentSiteSection}}">Цены</nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="{name: 'news'}">Новости</nuxt-link>
+          <nuxt-link :to="{name: 'news', params:{siteSection: getCurrentSiteSection}}">Новости</nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>
+          <nuxt-link :to="{name: 'contacts', params:{siteSection: getCurrentSiteSection}}">Контакты</nuxt-link>
         </li>
       </ul>
     </div>
   </footer>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import AppStore from '@/store/AppStore'
+import { getModule } from 'vuex-module-decorators'
+
+@Component({
+})
+export default class TheLayoutFooter extends Vue {
+  public get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
+  }
+}
+</script>
 
 <style lang="scss">
 @import "@/styles/variables.scss";

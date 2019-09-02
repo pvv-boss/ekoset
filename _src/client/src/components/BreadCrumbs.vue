@@ -31,8 +31,8 @@ export default class BreadCrumbs extends Vue {
     list-style-type: none;
 
     &:before {
-      content: ">";
-      padding: 0 15px;
+      content: " > ";
+      padding: 0 5px;
       color: lightgray;
     }
     &:first-child:before {

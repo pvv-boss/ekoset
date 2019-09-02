@@ -3,7 +3,7 @@ import webpack = require('webpack')
 
 const config: NuxtConfiguration = {
 
-  mode: 'universal',
+  mode: 'spa',
   srcDir: 'src/',
   head: {
     htmlAttrs: {
@@ -32,7 +32,7 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
-      { rel: 'stylesheet', href: '/_nuxt/app.css' },
+      { rel: 'stylesheet', href: '/_nuxt/app-190902-16.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
@@ -67,7 +67,7 @@ const config: NuxtConfiguration = {
   build: {
     extractCSS: true,
     filenames: {
-      css: ({ isDev }) => isDev ? '[name].css' : 'app.css',
+      css: ({ isDev }) => isDev ? '[name].css' : 'app-190902-16.css',
     },
     extend (config, { isDev, isClient }) {
       if (isClient) {

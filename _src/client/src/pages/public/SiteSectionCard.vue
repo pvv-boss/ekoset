@@ -1,5 +1,6 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
     <figure>
       <img
@@ -12,15 +13,21 @@
     </figure>
     <DynamicBlock></DynamicBlock>
 
-    <h2 v-if="serviceList.length>0">Услуги</h2>
-    <ServiceList v-if="serviceList.length>0" :serviceList="serviceList"></ServiceList>
-
-    <h2>Комплексные решения</h2>
-    <ClientTypeOfferList></ClientTypeOfferList>
-
-    <h2 v-if="busineesTypeOfferList.length>0">Индивидуальные предложения</h2>
-    <BusinessTypeOfferList v-if="busineesTypeOfferList.length>0" :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
-
+    <div class="brc-section__wrapper">
+      <h2 v-if="serviceList.length>0">Услуги</h2>
+      <ServiceList v-if="serviceList.length>0" :serviceList="serviceList"></ServiceList>
+    </div>
+    <div class="brc-section__wrapper">
+      <h2>Комплексные решения</h2>
+      <ClientTypeOfferList></ClientTypeOfferList>
+    </div>
+    <div class="brc-section__wrapper">
+      <h2 v-if="busineesTypeOfferList.length>0">Индивидуальные предложения</h2>
+      <BusinessTypeOfferList
+        v-if="busineesTypeOfferList.length>0"
+        :offerList="busineesTypeOfferList"
+      ></BusinessTypeOfferList>
+    </div>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -38,6 +45,9 @@ import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessService from '@/models/ekoset/BusinessService'
 import DynamicBlock from '@/components/public/DynamicBlock.vue'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -45,7 +55,8 @@ import DynamicBlock from '@/components/public/DynamicBlock.vue'
     BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList,
-    DynamicBlock
+    DynamicBlock,
+    BreadCrumbs
   }
 })
 export default class SiteSectionCard extends Vue {
@@ -54,6 +65,7 @@ export default class SiteSectionCard extends Vue {
   private serviceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: Object[] = []
+  private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
@@ -67,18 +79,20 @@ export default class SiteSectionCard extends Vue {
       apiSharedData,
       siteSectionItem: data[0],
       serviceList: data[1],
-      busineesTypeOfferList: data[2]
+      busineesTypeOfferList: data[2],
+      siteSection: context.params.siteSection
     }
   }
 
   private mounted () {
+    //getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
   }
 
   private head () {
     return {
-      title: this.apiSharedData.seoMeta.pageTitle,
+      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

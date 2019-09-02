@@ -1,5 +1,7 @@
 <template>
   <section>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+
     <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
@@ -12,15 +14,19 @@
     </figure>
     <DynamicBlock></DynamicBlock>
 
-    <h2 v-if="serviceList.length > 0">Список услуг</h2>
-    <ServiceList :serviceList="serviceList" v-if="serviceList.length > 0"></ServiceList>
+    <div class="brc-section__wrapper" v-if="serviceList.length > 0">
+      <h2>Список услуг</h2>
+      <ServiceList :serviceList="serviceList"></ServiceList>
+    </div>
 
-    <h2 v-if="serviceList.length > 0">Стоимость услуг</h2>
-    <ServicePriceTable :servicePriceList="serviceList" v-if="serviceList.length > 0"></ServicePriceTable>
-
-    <h2>{{otherOfferHeaderText}}</h2>
-    <component :is="otherOfferComponentName"></component>
-
+    <div class="brc-section__wrapper" v-if="serviceList.length > 0">
+      <h2>Стоимость услуг</h2>
+      <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
+    </div>
+    <div class="brc-section__wrapper" v-if="otherOfferHeaderText === 'Комплексные решения'">
+      <h2>{{otherOfferHeaderText}}</h2>
+      <component :is="otherOfferComponentName"></component>
+    </div>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -40,6 +46,8 @@ import BusinessService from '../../models/ekoset/BusinessService'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+
 
 @Component({
   components: {
@@ -48,21 +56,24 @@ import AppStore from '@/store/AppStore'
     ServiceList,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    DynamicBlock
+    DynamicBlock,
+    BreadCrumbs
   }
 })
 export default class OfferCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private individualOffer: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService[] = []
+  private breadCrumbList: Object[] = []
 
   private offerHeaderText = ''
   private otherOfferHeaderText = ''
   private otherOfferComponentName = ''
+  private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
-
+    const siteSection = context.params.siteSection
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
     if (context.params.clienttype) {
@@ -100,13 +111,25 @@ export default class OfferCard extends Vue {
       serviceList: data[0],
       offerHeaderText,
       otherOfferHeaderText,
-      otherOfferComponentName
+      otherOfferComponentName,
+      siteSection
+    }
+  }
+
+  private async mounted () {
+    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (this.siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
+        this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
+      });
     }
   }
 
   private head () {
     return {
-      title: this.apiSharedData.seoMeta.pageTitle,
+      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }
