@@ -3,7 +3,7 @@ import webpack = require('webpack')
 
 const config: NuxtConfiguration = {
 
-  mode: 'spa',
+  mode: 'universal',
   srcDir: 'src/',
   head: {
     htmlAttrs: {
