@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
@@ -89,27 +89,21 @@ export default class TheLayoutFooter extends Vue {
   private serviceListForBusiness: BusinessService[] = []
   private serviceListForPerson: BusinessService[] = []
 
+
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
   }
 
-  private async asyncData (context: NuxtContext) {
-    const siteSection = context.params.siteSection
-    let serviceListForBusiness
-    let serviceListForPerson
+  @Watch('getCurrentSiteSection', { immediate: true })
+  private async configFooterList () {
+    const siteSection = this.getCurrentSiteSection
     if (siteSection) {
-      serviceListForBusiness = getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
-      serviceListForPerson = getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
+      this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
+      this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
     }
     else {
-      serviceListForBusiness = getServiceContainer().businessServiceService.getForBusinessByMainPage()
-      serviceListForPerson = getServiceContainer().businessServiceService.getForPrivatePersonByMainPage()
-    }
-    const data = await Promise.all([serviceListForBusiness, serviceListForPerson])
-
-    return {
-      serviceListForBusiness: data[0],
-      serviceListForPerson: data[1]
+      this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessByMainPage()
+      this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonByMainPage()
     }
   }
 }
