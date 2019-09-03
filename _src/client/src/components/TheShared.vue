@@ -4,7 +4,10 @@
       <a name="brcOfferForm"></a>
     </p>
     <MessageForm title="Заказать услугу"></MessageForm>
-    <RecommendationList v-if="apiSharedData.brandItems > 0" :brandList="apiSharedData.brandItems"></RecommendationList>
+    <RecommendationList
+      v-if="apiSharedData.brandItems.length > 0"
+      :brandList="apiSharedData.brandItems"
+    ></RecommendationList>
     <p>
       <a name="brcTenderForm"></a>
     </p>
