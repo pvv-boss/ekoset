@@ -5,7 +5,7 @@
       class="brc-business-type-offer-item"
     >
       <img
-        src="/images/individual-offer/individual-offer-1.png"
+        :src="offerItem.indOfferImgSmall"
         :alt="offerItem.indOfferName"
         :title="offerItem.indOfferName"
         itemprop="image"

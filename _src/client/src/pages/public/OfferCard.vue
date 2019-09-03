@@ -6,13 +6,13 @@
     <figure>
       <img
         class="brc-page-img"
-        src="/images/banner-service-1.jpg"
+        :src="individualOffer.indOfferImgBig"
         :alt="individualOffer.indOfferName"
         itemprop="image"
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
     </figure>
-    <DynamicBlock></DynamicBlock>
+    <TopDynamicBlock></TopDynamicBlock>
 
     <div class="brc-section__wrapper" v-if="serviceList.length > 0">
       <h2>Список услуг</h2>
@@ -44,7 +44,7 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
-import DynamicBlock from '@/components/public/DynamicBlock.vue'
+import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import BusinessService from '../../models/ekoset/BusinessService'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -59,7 +59,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     ServiceList,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    DynamicBlock,
+    TopDynamicBlock,
     BreadCrumbs
   }
 })
@@ -137,7 +137,7 @@ export default class OfferCard extends Vue {
 
   private head () {
     return {
-      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
+      title: this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

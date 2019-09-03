@@ -2,7 +2,7 @@
   <div class="brc-recommend-smallitem__wrapper">
     <figure class="brc-recommend-smallitem__preview">
       <img
-        src="/images/recommend/airlines.png"
+        :src="brand.clBrandImgSmall"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"
         itemprop="image"

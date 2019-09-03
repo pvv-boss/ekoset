@@ -6,7 +6,7 @@
     </header>
     <figure class="brc-article-item__header-img">
       <img
-        src="/images/banner-service-3.png"
+        :src="article.articleHeaderImgSrc"
         :alt="article.articleTitle"
         itemprop="image"
         class="brc-article-item__header-img"
@@ -20,9 +20,9 @@
           :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
         >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
-      <div class="brc-article-item__views">
+      <div class="brc-article-item__views" v-if="article.articleViewsNumber > 0">
         <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-        <span>{{article.articleViewsNumber > 0 ? article.articleViewsNumber : "63"}}</span>
+        <span>{{article.articleViewsNumber}}</span>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -103,7 +103,7 @@ export default class ArticleCard extends Vue {
 
   private head () {
     return {
-      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
+      title: this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

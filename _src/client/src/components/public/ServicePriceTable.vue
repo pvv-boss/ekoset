@@ -9,8 +9,8 @@
       <tbody>
         <tr v-for="servicePrice in servicePriceList" :key="servicePrice.businessServiceId">
           <td>{{servicePrice.businessServiceName}}</td>
-          <td>час</td>
-          <td>от 100 ₽</td>
+          <td>{{servicePrice.businessServiceUnit}}</td>
+          <td>{{servicePrice.businessServicePrice}}</td>
         </tr>
       </tbody>
     </table>
