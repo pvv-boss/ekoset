@@ -11,7 +11,10 @@
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
     </figure>
-    <TopDynamicBlock></TopDynamicBlock>
+    <TopDynamicBlock
+      :leftBlock="siteSectionItem.siteSectionFreeText1"
+      :rightBlock="siteSectionItem.siteSectionFreeText2"
+    ></TopDynamicBlock>
 
     <div class="brc-section__wrapper">
       <h2 v-if="serviceList.length>0">Услуги</h2>
