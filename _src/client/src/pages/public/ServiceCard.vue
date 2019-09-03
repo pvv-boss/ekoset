@@ -65,7 +65,6 @@ export default class ServiceCard extends Vue {
   private childServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: Object[] = []
-  private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -86,11 +85,12 @@ export default class ServiceCard extends Vue {
   }
 
   private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSection = await getModule(AppStore, this.$store).currentSiteSection
+    alert(siteSection)
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
+    if (siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: siteSection } })
         this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
       });
     }

@@ -23,9 +23,12 @@
       <h2>Стоимость услуг</h2>
       <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
     </div>
-    <div class="brc-section__wrapper" v-if="otherOfferHeaderText === 'Комплексные решения'">
+    <div
+      class="brc-section__wrapper"
+      v-if="otherOfferList.length > 0 || otherOfferHeaderText === 'Комплексные решения'"
+    >
       <h2>{{otherOfferHeaderText}}</h2>
-      <component :is="otherOfferComponentName"></component>
+      <component :is="otherOfferComponentName" :offerList="otherOfferList"></component>
     </div>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
@@ -63,12 +66,14 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 export default class OfferCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private individualOffer: IndividualOffer = new IndividualOffer()
+  private otherOfferList: IndividualOffer[] = []
   private serviceList: BusinessService[] = []
   private breadCrumbList: Object[] = []
 
   private offerHeaderText = ''
   private otherOfferHeaderText = ''
   private otherOfferComponentName = ''
+
   private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
@@ -76,6 +81,8 @@ export default class OfferCard extends Vue {
     const siteSection = context.params.siteSection
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
+    let otherOfferList: Promise<IndividualOffer>
+
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
         ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.siteSection)
@@ -88,6 +95,7 @@ export default class OfferCard extends Vue {
     let offerHeaderText = individualOffer.indOfferName
     let otherOfferHeaderText = 'Комплексные решения'
     let otherOfferComponentName = 'ClientTypeOfferList'
+    otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
     // Услуги Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let serviceList: Promise<BusinessService>
     if (context.params.clienttype) {
@@ -98,12 +106,11 @@ export default class OfferCard extends Vue {
       offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'
-
     } else {
       serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, individualOffer.indOfferUrl)
     }
 
-    const data = await Promise.all([serviceList])
+    const data = await Promise.all([serviceList, otherOfferList])
 
     return {
       individualOffer,
@@ -112,7 +119,8 @@ export default class OfferCard extends Vue {
       offerHeaderText,
       otherOfferHeaderText,
       otherOfferComponentName,
-      siteSection
+      siteSection,
+      otherOfferList: data[1]
     }
   }
 
