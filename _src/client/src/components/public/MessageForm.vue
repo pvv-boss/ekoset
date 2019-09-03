@@ -26,6 +26,10 @@
       </div>
 
       <div class="brc-message-form__button">
+        <label class="attach-file">
+          <input type="file" name="name" value />
+          <span class="file-name">Прикрепить файл</span>
+        </label>
         <button type="button">Отправить</button>
       </div>
     </form>
@@ -133,6 +137,27 @@ export default class MessageForm extends Vue {
       background-color: darkred;
       border-color: darkred;
       cursor: pointer;
+    }
+  }
+
+  .attach-file {
+    float: right;
+    line-height: 50px;
+    padding-right: 20px;
+
+    input {
+      display: none;
+    }
+    .file-name {
+      font-size: 14px;
+      color: gray;
+      font-size: 12px;
+      cursor: pointer;
+      padding-right: 20px;
+      background-image: url("/images/clip-icon.png");
+      background-repeat: no-repeat;
+      background-position: right;
+      transition: 0.3s;
     }
   }
 }
