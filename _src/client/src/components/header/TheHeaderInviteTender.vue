@@ -1,7 +1,7 @@
 <template>
   <div class="brc-page-header__invent">
     <img src="/images/tender.png" />
-    <a>Пригласить на тендер</a>
+    <a href="#brcTenderForm">Пригласить на тендер</a>
   </div>
 </template>
 
@@ -40,6 +40,11 @@ export default class TheHeaderInviteTender extends Vue {
     border-bottom: 1px dotted rgba(255, 13, 41, 0.25);
     color: $red;
     letter-spacing: -0.2px;
+
+    &:hover {
+      color: darkred;
+      border-bottom: 1px dotted darkred;
+    }
   }
 }
 </style>

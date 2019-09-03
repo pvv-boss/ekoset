@@ -1,6 +1,6 @@
 <template>
   <div class="brc-page-header__order">
-    <a>Заказать</a>
+    <a href="#brcOfferForm">Заказать</a>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default class TheHeaderOrder extends Vue {
   color: white;
   margin-left: 10px;
   border-radius: 4px;
-  > a:hover {
+  > a {
     color: white !important;
   }
 }
