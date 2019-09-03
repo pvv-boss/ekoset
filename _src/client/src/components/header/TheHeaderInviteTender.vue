@@ -1,7 +1,7 @@
 <template>
   <div class="brc-page-header__invent">
     <img src="/images/tender.png" />
-    <a href="#brcTenderForm">Пригласить на тендер</a>
+    <a href="#brcOfferForm">Пригласить на тендер</a>
   </div>
 </template>
 
