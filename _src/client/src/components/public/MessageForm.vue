@@ -8,13 +8,21 @@
             <label for="fio">Имя Фамилия</label>
             <input type="text" id="fio" />
           </div>
-          <div class="brc-message-form__block">
+          <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
             <input type="text" id="phone" />
+            <span
+              v-if="phone.length > 0 && $v.phone.$invalid"
+              class="brc-error-message"
+            >Введите настоящий номер телефона</span>
           </div>
-          <div class="brc-message-form__block">
+          <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
-            <input type="email" id="email" />
+            <input type="email" id="email" v-model.lazy="email" />
+            <span
+              v-if="email.length > 0 && $v.email.$invalid"
+              class="brc-error-message"
+            >Введите настоящий email</span>
           </div>
         </div>
         <div class="brc-message-form__row">
@@ -38,11 +46,28 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Validation } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
+import { emailTest } from '@/utils/Validators'
 
-@Component({})
+@Component({
+  validations: {
+    email: {
+      required,
+      validFormat: val => emailTest.test(val),
+    }
+  }
+})
 export default class MessageForm extends Vue {
   @Prop()
   private title
+  private isBrowser = false
+  private email = ''
+  private phone = ''
+
+  private mounted () {
+    this.isBrowser = true
+  }
 }
 </script>
 
@@ -68,11 +93,12 @@ export default class MessageForm extends Vue {
   .brc-message-form__block {
     label {
       display: block;
+      margin-top: 15px;
     }
     textarea {
       width: 100%;
       height: 115px;
-      margin: 0 0 15px;
+      margin: 0;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
       border-radius: 3px;
@@ -90,7 +116,7 @@ export default class MessageForm extends Vue {
     input {
       width: 100%;
       height: 48px;
-      margin: 0 0 15px;
+      margin: 0;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
       border-radius: 3px;
@@ -112,6 +138,12 @@ export default class MessageForm extends Vue {
       textarea {
         flex-grow: 1;
       }
+    }
+
+    .brc-error-message {
+      font-size: small;
+      color: #ed0205;
+      font-weight: bold;
     }
   }
 }
