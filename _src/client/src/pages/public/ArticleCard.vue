@@ -1,5 +1,6 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <header>
       <h1 itemprop="headline name">{{article.articleTitle}}</h1>
     </header>
@@ -37,14 +38,6 @@
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
       </section>
     </div>
-    <div class="brc-article-tags">
-      <ul>
-        <li>#Уборка</li>
-        <li>#Клининг</li>
-        <li>#Гармония</li>
-        <li>#Чистота</li>
-      </ul>
-    </div>
     <TheShareSocial></TheShareSocial>
   </div>
 </template>
@@ -59,11 +52,13 @@ import TheShareSocial from '@/components/TheShareSocial.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     ArticleList,
-    TheShareSocial
+    TheShareSocial,
+    BreadCrumbs
   }
 })
 export default class ArticleCard extends Vue {
@@ -71,8 +66,10 @@ export default class ArticleCard extends Vue {
   private article = new Article()
   private realtedArticles: Article[] = []
   private breadCrumbList: Object[] = []
+  private siteSection: string = ''
 
   private async asyncData (context: NuxtContext) {
+    const siteSection = context.params.siteSection
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
 
     const articleUrl = context.params.article
@@ -83,13 +80,30 @@ export default class ArticleCard extends Vue {
     return {
       apiSharedData,
       article: data[0],
-      realtedArticles: data[1]
+      realtedArticles: data[1],
+      siteSection
+    }
+  }
+
+  private async mounted () {
+    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (this.siteSection) {
+      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
+        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
+        this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: this.siteSection } })
+        this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
+      });
+    }
+    else {
+      this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: this.siteSection } })
+      this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
     }
   }
 
   private head () {
     return {
-      title: this.apiSharedData.seoMeta.pageTitle,
+      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }
@@ -97,6 +111,9 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style lang="scss">
+.brc-article-list_vertical {
+  margin-top: 0;
+}
 .brc-article-item__stat-info {
   color: gray;
   display: flex;
@@ -131,14 +148,15 @@ export default class ArticleCard extends Vue {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 30px;
 
   & * {
     overflow-wrap: break-word;
     white-space: normal;
   }
   .brc-article-item {
-    flex: 2;
-    max-width: 70%;
+    flex: 5;
+    max-width: 75%;
     &.brc-article-item_full-width {
       max-width: 100% !important;
     }
@@ -147,7 +165,7 @@ export default class ArticleCard extends Vue {
     }
   }
   .brc-article-related {
-    flex: 1;
+    flex: 2;
     padding-left: 30px;
     > h2 {
       text-align: left;
