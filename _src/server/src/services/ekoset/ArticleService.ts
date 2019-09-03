@@ -37,6 +37,8 @@ export default class ArticleService extends BaseService {
 
 
   public async getById (id: number) {
+    const updateStmt = 'update article set article_views_number=article_views_number+1 where article_id=$1';
+    await PgUtls.execNone(updateStmt, id)
     return this.getOneById(this.apiViewName, 'article_id = $1', id);
   }
 
