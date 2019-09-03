@@ -14,7 +14,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="brc-all-prices-link__wrapper">
+    <div class="brc-all-prices-link__wrapper" v-if="!allPricesPage">
       <nuxt-link
         :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
         class="brc-all-prices-link"
@@ -33,6 +33,9 @@ import { getModule } from 'vuex-module-decorators'
 export default class ServicePriceTable extends Vue {
   @Prop(Array)
   private servicePriceList
+
+  @Prop({ default: false })
+  private allPricesPage
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection

@@ -118,6 +118,7 @@ export default class MessageForm extends Vue {
 .brc-message-form__button {
   width: 100%;
   text-align: center;
+  position: relative;
   button {
     border: 1px solid red;
     background-color: red;
@@ -144,6 +145,8 @@ export default class MessageForm extends Vue {
     float: right;
     line-height: 50px;
     padding-right: 20px;
+    position: absolute;
+    right: 0;
 
     input {
       display: none;
