@@ -11,7 +11,10 @@
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
     </figure>
-    <TopDynamicBlock></TopDynamicBlock>
+    <TopDynamicBlock
+      :leftBlock="businessService.businessServiceFreeText1"
+      :rightBlock="businessService.businessServiceFreeText2"
+    ></TopDynamicBlock>
 
     <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
       <h2>Список услуг</h2>

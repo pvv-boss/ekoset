@@ -2,7 +2,7 @@
   <div class="brc-top-menu__user-navigation">
     <ul class="brc-top-menu__user-navigation-menu">
       <li v-if="isAuthenticated" class="user-navigation-menu__li">
-        <a class="user-navigation-menu__link brc-dropdown-toggle" href="#" @click="toggleMenu">
+        <a class="user-navigation-menu__link brc-dropdown-toggle">
           <img
             :src="userImageSrc"
             title="Личный кабинет"
@@ -48,14 +48,5 @@ export default class UserAuthHeader extends Vue {
     return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user.png'
   }
 
-  private changePassword () {
-    this.toggleMenu()
-    this.$router.replace({ name: 'auth-change', params: { mode: 'change' } })
-  }
-
-  private toggleMenu () {
-    const menuElement = document.getElementById('userAuthMenu') as HTMLElement
-    menuElement.style.display = menuElement.style.display !== 'none' ? 'none' : 'block'
-  }
 }
 </script>
