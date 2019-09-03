@@ -36,6 +36,15 @@ export default class BusinessServiceService extends BaseService {
     return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
+  // Для футера Услуги для Бизнеса на Главной странице
+  public async  getForBusinessByMainPage () {
+    return []
+  }
+
+  // Для футера Услуги для Частных лиц на Главной странице
+  public async  getForPrivatePersonByMainPage () {
+    return []
+  }
 
   // Услуги второго уровня
   public async getChildServicesByParentId (serviceId: number, pagination?: Pagination) {
@@ -96,5 +105,4 @@ export default class BusinessServiceService extends BaseService {
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
-
 }

@@ -30,26 +30,10 @@
         <h4>Услуги для Бизнеса</h4>
       </label>
       <ul class="brc-footer-list-link">
-        <li>
-          <a href="#">Ежедневная уборка</a>
-        </li>
-        <li>
-          <a href="#">Пэст-контроль</a>
-        </li>
-        <li>
-          <a href="#">Лабораторные исследования</a>
-        </li>
-        <li>
-          <a href="#">Оформление сандокументов</a>
-        </li>
-        <li>
-          <a href="#">Дезинфекция автотранспорта</a>
-        </li>
-        <li>
-          <a href="#">Очистка вентиляции</a>
-        </li>
-        <li>
-          <a href="#">Уничтожение борщевика</a>
+        <li v-for="serviceItem in serviceListForBusiness" :key="serviceItem.businessServiceId">
+          <nuxt-link
+            :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+          >{{serviceItem.businessServiceName}}</nuxt-link>
         </li>
       </ul>
     </div>
@@ -59,29 +43,10 @@
         <h4 for="toogleClientTypeMenuVisible">Услуги для Частных лиц</h4>
       </label>
       <ul class="brc-footer-list-link">
-        <li>
-          <a href="#">Уничтожение кротов</a>
-        </li>
-        <li>
-          <a href="#">Уничтожение комаров</a>
-        </li>
-        <li>
-          <a href="#">Уничтожение клещей</a>
-        </li>
-        <li>
-          <a href="#">Уничтожение любых вредителей</a>
-        </li>
-        <li>
-          <a href="#">Уничтожение борщевика</a>
-        </li>
-        <li>
-          <a href="#">Анализ воды</a>
-        </li>
-        <li>
-          <a href="#">Анализ почвы</a>
-        </li>
-        <li>
-          <a href="#">Анализ радиации</a>
+        <li v-for="serviceItem in serviceListForPerson" :key="serviceItem.businessServiceId">
+          <nuxt-link
+            :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+          >{{serviceItem.businessServiceName}}</nuxt-link>
         </li>
       </ul>
     </div>
@@ -113,12 +78,39 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
+import BusinessService from '@/models/ekoset/BusinessService'
+import { getServiceContainer } from '@/api/ServiceContainer'
+import { NuxtContext } from 'vue/types/options'
+import { returnStatement } from '@babel/types';
 
 @Component({
 })
 export default class TheLayoutFooter extends Vue {
+  private serviceListForBusiness: BusinessService[] = []
+  private serviceListForPerson: BusinessService[] = []
+
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
+  }
+
+  private async asyncData (context: NuxtContext) {
+    const siteSection = context.params.siteSection
+    let serviceListForBusiness
+    let serviceListForPerson
+    if (siteSection) {
+      serviceListForBusiness = getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
+      serviceListForPerson = getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
+    }
+    else {
+      serviceListForBusiness = getServiceContainer().businessServiceService.getForBusinessByMainPage()
+      serviceListForPerson = getServiceContainer().businessServiceService.getForPrivatePersonByMainPage()
+    }
+    const data = await Promise.all([serviceListForBusiness, serviceListForPerson])
+
+    return {
+      serviceListForBusiness: data[0],
+      serviceListForPerson: data[1]
+    }
   }
 }
 </script>
