@@ -1,7 +1,7 @@
 <template>
   <div class="brc-page-header__action">
     <img src="/images/note.png" />
-    <a>Задать вопрос</a>
+    <a href="#brcQuestionForm">Задать вопрос</a>
   </div>
 </template>
 
@@ -39,6 +39,11 @@ export default class TheHeaderAskQuestion extends Vue {
     border-bottom: 1px dotted rgba(255, 13, 41, 0.25);
     color: $red;
     letter-spacing: -0.2px;
+
+    &:hover {
+      color: darkred;
+      border-bottom: 1px dotted darkred;
+    }
   }
 }
 </style>
