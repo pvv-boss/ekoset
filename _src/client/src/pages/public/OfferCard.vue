@@ -12,7 +12,10 @@
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
     </figure>
-    <TopDynamicBlock></TopDynamicBlock>
+    <TopDynamicBlock
+      :leftBlock="individualOffer.indOfferFreeText1"
+      :rightBlock="individualOffer.indOfferFreeText2"
+    ></TopDynamicBlock>
 
     <div class="brc-section__wrapper" v-if="serviceList.length > 0">
       <h2>Список услуг</h2>
