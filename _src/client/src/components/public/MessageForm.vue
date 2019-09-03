@@ -48,13 +48,16 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
-import { emailTest } from '@/utils/Validators'
+import { emailTest, phoneTest } from '@/utils/Validators'
 
 @Component({
   validations: {
     email: {
       required,
       validFormat: val => emailTest.test(val),
+    },
+    phone: {
+      validFormat: val => phoneTest.test(val)
     }
   }
 })
