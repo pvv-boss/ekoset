@@ -21,9 +21,9 @@
       <ServiceList :serviceList="childServiceList"></ServiceList>
     </div>
 
-    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
+    <div class="brc-section__wrapper">
       <h2>Стоимость услуг</h2>
-      <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
+      <ServicePriceTable :servicePriceList="priceServiceList"></ServicePriceTable>
     </div>
 
     <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
@@ -88,6 +88,12 @@ export default class ServiceCard extends Vue {
     }
   }
 
+  private get priceServiceList () {
+    // let list: BusinessService[] = []
+    // list.push(this.businessService)
+    // list.push(...this.childServiceList)
+    return [this.businessService, ...this.childServiceList]
+  }
   private async mounted () {
     getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
