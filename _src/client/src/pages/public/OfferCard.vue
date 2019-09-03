@@ -71,25 +71,23 @@ export default class OfferCard extends Vue {
   private individualOffer: IndividualOffer = new IndividualOffer()
   private otherOfferList: IndividualOffer[] = []
   private serviceList: BusinessService[] = []
-  private breadCrumbList: Object[] = []
+  private breadCrumbList: any[] = []
 
   private offerHeaderText = ''
   private otherOfferHeaderText = ''
   private otherOfferComponentName = ''
 
-  private siteSection: string = ''
-
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     const siteSection = context.params.siteSection
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(siteSection)
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
     let otherOfferList: Promise<IndividualOffer>
 
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
-        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.siteSection)
-        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
+        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(siteSection)
+        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(siteSection)
 
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
@@ -98,19 +96,19 @@ export default class OfferCard extends Vue {
     let offerHeaderText = individualOffer.indOfferName
     let otherOfferHeaderText = 'Комплексные решения'
     let otherOfferComponentName = 'ClientTypeOfferList'
-    otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
+    otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
     // Услуги Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let serviceList: Promise<BusinessService>
     if (context.params.clienttype) {
       serviceList = context.params.clienttype === 'business'
-        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
-        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
+        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
+        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
 
       offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'
     } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, individualOffer.indOfferUrl)
+      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl)
     }
 
     const data = await Promise.all([serviceList, otherOfferList])
@@ -122,19 +120,17 @@ export default class OfferCard extends Vue {
       offerHeaderText,
       otherOfferHeaderText,
       otherOfferComponentName,
-      siteSection,
       otherOfferList: data[1]
     }
   }
 
   private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
-      });
+    if (siteSectionName) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
+      this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
     }
   }
 

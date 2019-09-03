@@ -67,8 +67,7 @@ export default class SiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
-  private breadCrumbList: Object[] = []
-  private siteSection: string = ''
+  private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
@@ -82,13 +81,12 @@ export default class SiteSectionCard extends Vue {
       apiSharedData,
       siteSectionItem: data[0],
       serviceList: data[1],
-      busineesTypeOfferList: data[2],
-      siteSection: context.params.siteSection
+      busineesTypeOfferList: data[2]
     }
   }
 
   private mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
   }
