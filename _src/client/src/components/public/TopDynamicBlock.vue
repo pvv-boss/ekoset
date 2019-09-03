@@ -9,7 +9,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class DynamicBlock extends Vue {
+export default class TopDynamicBlock extends Vue {
 
 }
 </script>

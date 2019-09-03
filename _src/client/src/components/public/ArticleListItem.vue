@@ -1,12 +1,11 @@
 <template>
-  <!-- <div class="brc-article-smallitem__wrapper"> -->
   <article class="brc-article-smallitem">
     <figure class="brc-article-smallitem__preview">
       <nuxt-link
         :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
       >
         <img
-          src="/images/news-image-1.jpg"
+          :src="articleItem.articlePreviewImgSrc"
           :alt="articleItem.articleTitle"
           itemprop="image"
           class="brc-article-smallitem__preview-img"
@@ -29,13 +28,12 @@
           :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
         >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
-      <div class="brc-article-smallitem__views">
+      <div class="brc-article-smallitem__views" v-if="articleItem.articleViewsNumber > 0">
         <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-        <span>{{articleItem.articleViewsNumber > 0 ? articleItem.articleViewsNumber : "63"}}</span>
+        <span>{{articleItem.articleViewsNumber}}</span>
       </div>
     </div>
   </article>
-  <!-- </div> -->
 </template>
 
 <script lang="ts">

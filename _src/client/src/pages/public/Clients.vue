@@ -40,7 +40,7 @@ export default class Clients extends Vue {
 
   private head () {
     return {
-      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
+      title: this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }
