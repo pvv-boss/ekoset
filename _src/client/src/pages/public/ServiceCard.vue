@@ -5,13 +5,13 @@
     <figure>
       <img
         class="brc-page-img"
-        src="/images/banner-service-1.jpg"
+        :src="businessService.businessServiceImgBig"
         :alt="businessService.businessServiceName"
         itemprop="image"
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
     </figure>
-    <DynamicBlock></DynamicBlock>
+    <TopDynamicBlock></TopDynamicBlock>
 
     <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
       <h2>Список услуг</h2>
@@ -43,7 +43,7 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import DynamicBlock from '@/components/public/DynamicBlock.vue'
+import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -55,7 +55,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     ServicePriceTable,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    DynamicBlock,
+    TopDynamicBlock,
     BreadCrumbs
   }
 })
@@ -86,7 +86,6 @@ export default class ServiceCard extends Vue {
 
   private async mounted () {
     const siteSection = await getModule(AppStore, this.$store).currentSiteSection
-    alert(siteSection)
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     if (siteSection) {
       await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSection).then(value => {
@@ -98,7 +97,7 @@ export default class ServiceCard extends Vue {
 
   private head () {
     return {
-      title: 'Экосеть',//  this.apiSharedData.seoMeta.pageTitle,
+      title: this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

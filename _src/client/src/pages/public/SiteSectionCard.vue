@@ -5,13 +5,13 @@
     <figure>
       <img
         class="brc-page-img"
-        src="/images/banner-service-1.jpg"
+        :src="siteSectionItem.siteSectionImgBig"
         :alt="siteSectionItem.siteSectionName"
         itemprop="image"
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
     </figure>
-    <DynamicBlock></DynamicBlock>
+    <TopDynamicBlock></TopDynamicBlock>
 
     <div class="brc-section__wrapper">
       <h2 v-if="serviceList.length>0">Услуги</h2>
@@ -44,7 +44,7 @@ import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessService from '@/models/ekoset/BusinessService'
-import DynamicBlock from '@/components/public/DynamicBlock.vue'
+import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -55,7 +55,7 @@ import AppStore from '@/store/AppStore'
     BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList,
-    DynamicBlock,
+    TopDynamicBlock,
     BreadCrumbs
   }
 })
@@ -90,7 +90,7 @@ export default class SiteSectionCard extends Vue {
 
   private head () {
     return {
-      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
+      title: this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }

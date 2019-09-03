@@ -1,21 +1,21 @@
 <template>
-    <section class="brc-site-section-smallitem">
-      <nuxt-link
-        :to="{ name: 'activity-card', params: { siteSection: siteSectionItem.siteSectionUrl}}"
-        class="brc-site-section-link"
-      >
-        <h4>{{siteSectionItem.siteSectionName}}</h4>
-        <figure>
-          <img
-            alt="siteSectionItem.siteSectionName"
-            itemprop="image"
-            src="/images/services-photo-2.png"
-          />
-          <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
-        </figure>
-      </nuxt-link>
-    </section>
-  </template>
+  <section class="brc-site-section-smallitem">
+    <nuxt-link
+      :to="{ name: 'activity-card', params: { siteSection: siteSectionItem.siteSectionUrl}}"
+      class="brc-site-section-link"
+    >
+      <h4>{{siteSectionItem.siteSectionName}}</h4>
+      <figure>
+        <img
+          :alt="siteSectionItem.siteSectionName"
+          itemprop="image"
+          :src="siteSectionItem.siteSectionImgSmall"
+        />
+        <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
+      </figure>
+    </nuxt-link>
+  </section>
+</template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'

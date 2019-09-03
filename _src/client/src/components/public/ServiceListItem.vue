@@ -9,7 +9,7 @@
         <img
           :alt="serviceItem.businessServiceName"
           itemprop="image"
-          src="/images/activities/cleaning.png"
+          :src="serviceItem.businessServiceImgSmall"
         />
         <figcaption>{{serviceItem.businessServiceName}}</figcaption>
       </figure>
