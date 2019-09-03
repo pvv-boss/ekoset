@@ -157,6 +157,16 @@ export default class ArticleCard extends Vue {
   .brc-article-item {
     flex: 5;
     max-width: 75%;
+
+    ul,
+    ol {
+      margin-left: 20px;
+    }
+    h1,
+    h2,
+    h3 {
+      text-align: unset !important;
+    }
     &.brc-article-item_full-width {
       max-width: 100% !important;
     }
