@@ -65,8 +65,7 @@ export default class ArticleCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private article = new Article()
   private realtedArticles: Article[] = []
-  private breadCrumbList: Object[] = []
-  private siteSection: string = ''
+  private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -80,24 +79,7 @@ export default class ArticleCard extends Vue {
     return {
       apiSharedData,
       article: data[0],
-      realtedArticles: data[1],
-      siteSection
-    }
-  }
-
-  private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
-    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
-      });
-    }
-    else {
-      this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: this.siteSection } })
-      this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
+      realtedArticles: data[1]
     }
   }
 
@@ -107,6 +89,23 @@ export default class ArticleCard extends Vue {
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }
+
+  private async mounted () {
+    this.buildBreadCrumbList()
+  }
+
+  private async  buildBreadCrumbList () {
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
+
+    this.breadCrumbList.push({ name: 'Главная', link: 'main' })
+    if (siteSectionName) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
+    }
+    this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSectionSlug } })
+    this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
+  }
+
 }
 </script>
 

@@ -45,35 +45,21 @@ export const EkosetRouter = [
     name: 'service-card',
     path: '/:siteSection/services/:service',
     component: ServiceCard,
-    props: true,
+    props: true
   },
 
   {
     name: 'news-card',
     path: '/:siteSection?/news/:article',
     component: ArticleCard,
-    props: true,
-    meta: {
-      breadcrumb: [
-        { name: 'Главная', link: 'main' },
-        { name: 'getSiteSectionName', link: 'getSiteSectionSlug' },
-        { name: 'Новости', link: 'news' },
-        { name: 'getArticleName', link: '' }
-      ]
-    }
+    props: true
   },
 
   {
     name: 'news',
     path: '/:siteSection?/news',
     props: true,
-    component: Articles,
-    meta: {
-      breadcrumb: [
-        { name: 'Главная', link: 'main' },
-        { name: 'Новости', link: 'news' }
-      ]
-    }
+    component: Articles
   },
 
   {
