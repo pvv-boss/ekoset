@@ -38,7 +38,9 @@
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
       </section>
     </div>
-    <TheShareSocial></TheShareSocial>
+    <div class="brc-article-item__yandex-share">
+      <yandex-share :services="['vkontakte','facebook','odnoklassniki','twitter','skype']" counter />
+    </div>
   </div>
 </template>
 
@@ -48,7 +50,6 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
-import TheShareSocial from '@/components/TheShareSocial.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -57,7 +58,6 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 @Component({
   components: {
     ArticleList,
-    TheShareSocial,
     BreadCrumbs
   }
 })
@@ -99,6 +99,7 @@ export default class ArticleCard extends Vue {
       this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: this.siteSection } })
       this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
     }
+
   }
 
   private head () {
@@ -182,7 +183,9 @@ export default class ArticleCard extends Vue {
     }
   }
 }
-
+.brc-article-item__yandex-share {
+  margin-top: 15px;
+}
 @media (max-width: 768px) {
   .brc-article-wrapper {
     flex-direction: column;
