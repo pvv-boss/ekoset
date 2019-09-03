@@ -36,8 +36,7 @@ export default class Articles extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private pagination: Pagination = new Pagination()
   private articleItems: Article[] = []
-  private breadCrumbList: Object[] = []
-  private siteSection: string = ''
+  private breadCrumbList: any[] = []
 
   private updatePagintaion () {
     this.updateArticleList()
@@ -46,41 +45,32 @@ export default class Articles extends Vue {
   private async updateArticleList () {
     const activitySlug = getModule(AppStore, this.$store).currentSiteSection
     const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
-
-    if (articleList) {
-      this.articleItems = articleList
-      Object.freeze(this.articleItems)
-    }
+    this.articleItems = articleList
   }
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(siteSection)
     const startPagination = new Pagination()
-    const siteSectionSlug = context.params.siteSection
-    const articleList = siteSectionSlug ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
+    const articleList = siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
     const data = await Promise.all([articleList])
     return {
       apiSharedData,
       pagination: startPagination,
-      articleItems: data[0],
-      siteSection
+      articleItems: data[0]
     }
   }
 
   private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
+
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: 'Новости', link: '' })
-      });
+    if (siteSectionSlug) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
-    else {
-      this.breadCrumbList.push({ name: 'Новости', link: '' })
-    }
+    this.breadCrumbList.push({ name: 'Новости', link: '' })
   }
 
   private head () {

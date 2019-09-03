@@ -67,8 +67,7 @@ export default class ServiceCard extends Vue {
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
-  private breadCrumbList: Object[] = []
-  private siteSection: string = ''
+  private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -83,26 +82,22 @@ export default class ServiceCard extends Vue {
       apiSharedData,
       businessService,
       childServiceList: data[0],
-      busineesTypeOfferList: data[1],
-      siteSection
+      busineesTypeOfferList: data[1]
     }
   }
 
   private get priceServiceList () {
-    // let list: BusinessService[] = []
-    // list.push(this.businessService)
-    // list.push(...this.childServiceList)
     return [this.businessService, ...this.childServiceList]
   }
+
   private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
-      });
+    if (siteSectionSlug) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
+    this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
   }
 
   private head () {

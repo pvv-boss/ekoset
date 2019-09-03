@@ -130,8 +130,8 @@ export default class OfferCard extends Vue {
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     if (siteSectionName) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
-      this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
     }
+    this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
   }
 
   private head () {

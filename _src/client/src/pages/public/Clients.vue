@@ -30,34 +30,27 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 export default class Clients extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private clientItems: Partner[] = []
-  private breadCrumbList: Object[] = []
-  private siteSection: string = ''
+  private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
-    const siteSection = context.params.siteSection
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
     const data = await Promise.all([clientList])
     return {
       apiSharedData,
       clientItems: data[0],
-      siteSection
     }
   }
 
   private async mounted () {
-    getModule(AppStore, this.$store).changeCurrentSiteSection(this.siteSection)
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (this.siteSection) {
-      await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.siteSection).then(value => {
-        this.breadCrumbList.push({ name: value.siteSectionName, link: 'activity-card', params: { siteSection: this.siteSection } })
-        this.breadCrumbList.push({ name: 'Наши клиенты', link: '' })
-      });
+    if (siteSectionSlug) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
-    else {
-      this.breadCrumbList.push({ name: 'Наши клиенты', link: '' })
-    }
+    this.breadCrumbList.push({ name: 'Наши клиенты', link: '' })
   }
 
   private head () {
