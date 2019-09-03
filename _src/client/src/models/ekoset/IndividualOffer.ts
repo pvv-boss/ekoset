@@ -10,4 +10,6 @@ export default class IndividualOffer {
   public indOfferPriority: string | null;
   public indOfferStatus: number | null;
   public indOfferUrl: string;
+  public indOfferFreeText1: string;
+  public indOfferFreeText2: string;
 }

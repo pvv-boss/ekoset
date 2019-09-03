@@ -82,4 +82,16 @@ export class BusinessService {
   })
   public businessServiceParentId: number | null;
 
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_free_text1'
+  })
+  public businessServiceFreeText1: string | null;
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_free_text2'
+  })
+  public businessServiceFreeText2: string | null;
+
 }

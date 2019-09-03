@@ -43,7 +43,7 @@ export class SiteSection {
     nullable: true,
     name: 'site_section_priority'
   })
-  public siteSectionPriority: string | null;
+  public siteSectionPriority: number | null;
 
 
   @Column('numeric', {
@@ -51,4 +51,17 @@ export class SiteSection {
     name: 'site_section_status'
   })
   public siteSectionStatus: number | null;
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_free_text1'
+  })
+  public siteSectionFreeText1: string;
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_free_text2'
+  })
+  public siteSectionFreeText2: string;
+
 }

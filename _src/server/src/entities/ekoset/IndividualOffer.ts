@@ -72,4 +72,17 @@ export class IndividualOffer {
   })
   public indOfferStatus: number | null;
 
+
+  @Column('text', {
+    nullable: true,
+    name: 'ind_offer_free_text1'
+  })
+  public indOfferFreeText1: string | null;
+
+  @Column('text', {
+    nullable: true,
+    name: 'ind_offer_free_text2'
+  })
+  public indOfferFreeText2: string | null;
+
 }

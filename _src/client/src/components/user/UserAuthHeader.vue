@@ -10,13 +10,13 @@
             style="border-radius: 100%;"
             width="42"
           />
-          <div>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
+          <div class='p_small'>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
         </a>
       </li>
       <li v-else class="user-navigation-menu__li">
         <nuxt-link
           :to="{ name: 'auth-login', params: {mode: 'login'} }"
-          class="user-navigation-menu__link user-navigation-menu__link-auth"
+          class="user-navigation-menu__link user-navigation-menu__link-auth p_small"
         >Личный кабинет</nuxt-link>
       </li>
     </ul>

@@ -11,5 +11,7 @@ export default class BusinessService {
   public businessServicePriority: number | null;
   public businessServiceParentId: number | null;
   public businessServiceUrl: string;
+  public businessServiceFreeText1: string;
+  public businessServiceFreeText2: string;
 }
 
