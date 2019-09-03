@@ -8,10 +8,6 @@
       v-if="apiSharedData.brandItems.length > 0"
       :brandList="apiSharedData.brandItems"
     ></RecommendationList>
-    <p>
-      <a name="brcTenderForm"></a>
-    </p>
-    <MessageForm title="Пригласить на тендер"></MessageForm>
     <div class="brc-section__wrapper" v-if="apiSharedData.articleItems.length > 0">
       <h2>Новости</h2>
       <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
