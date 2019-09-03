@@ -44,13 +44,15 @@ export const EkosetRouter = [
   {
     name: 'service-card',
     path: '/:siteSection/services/:service',
-    component: ServiceCard
+    component: ServiceCard,
+    props: true,
   },
 
   {
     name: 'news-card',
     path: '/:siteSection?/news/:article',
     component: ArticleCard,
+    props: true,
     meta: {
       breadcrumb: [
         { name: 'Главная', link: 'main' },

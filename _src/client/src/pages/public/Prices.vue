@@ -38,7 +38,7 @@ export default class Prices extends Vue {
 
   private head () {
     return {
-      title: this.apiSharedData.seoMeta.pageTitle,
+      title: 'Экосеть',// this.apiSharedData.seoMeta.pageTitle,
       meta: this.apiSharedData.seoMeta.metaTags
     }
   }
