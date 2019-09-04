@@ -43,7 +43,7 @@ export default class ServiceListItem extends Vue {
   padding: 15px;
   margin: 15px;
   flex: 1;
-  min-width: 250px;
+  min-width: 300px;
 
   &:hover {
     border: 1px solid red;
@@ -64,8 +64,8 @@ export default class ServiceListItem extends Vue {
   }
 
   img {
-    max-width: 90px;
-    height: 75px;
+    max-width: 100%;
+    height: 90px;
   }
 }
 </style>

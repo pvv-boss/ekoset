@@ -124,7 +124,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   font-size: 1rem !important;
   letter-spacing: 0.02rem !important;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: flex !important;
     flex-direction: row;
     justify-content: space-between;
@@ -285,7 +285,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: flex !important;
   }
 }

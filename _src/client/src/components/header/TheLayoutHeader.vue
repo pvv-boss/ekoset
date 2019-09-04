@@ -85,7 +85,7 @@ $header_margin_top: 15px;
 }
 
 .brc-page-header_mobile-hide {
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: none !important;
   }
 }
