@@ -1,5 +1,5 @@
 
-import { JsonController, Get, Res, Param, Body, Put, Delete } from 'routing-controllers';
+import { JsonController, Get, Res, Param, Body, Put, Delete, QueryParam } from 'routing-controllers';
 import { Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
@@ -19,8 +19,10 @@ export default class BusinessServiceController extends BaseController {
   @Get('/:sitesection/services')
   public async getAllBySiteSectionId (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getAllBySiteSectionId(siteSectionId);
+    @Param('sitesection') siteSectionId: number,
+    @QueryParam('root') excludeChild: boolean) {
+
+    const result = await ServiceContainer.BusinessServiceService.getAllBySiteSectionId(siteSectionId, excludeChild);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
@@ -28,33 +30,27 @@ export default class BusinessServiceController extends BaseController {
   public async getByActivityAndBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number,
-    @Param('activityType') activityTypeId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getByActivityAndBySiteSectionId(siteSectionId, activityTypeId);
-    return BusinessServiceController.createSuccessResponse(result, response);
-  }
-
-  @Get('/:sitesection/clients/:clientType/services')
-  public async getByClientTypeAndBySiteSectionId (
-    @Res() response: Response,
-    @Param('sitesection') siteSectionId: number,
-    @Param('clientType') clientTypeId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getByClientTypeAndBySiteSectionId(siteSectionId, clientTypeId);
+    @Param('activityType') activityTypeId: number,
+    @QueryParam('root') excludeChild: boolean) {
+    const result = await ServiceContainer.BusinessServiceService.getByActivityAndBySiteSectionId(siteSectionId, activityTypeId, excludeChild);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/services/person')
   public async getForPrivatePersonBySiteSectionId (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForPrivatePersonBySiteSectionId(siteSectionId);
+    @Param('sitesection') siteSectionId: number,
+    @QueryParam('root') excludeChild: boolean) {
+    const result = await ServiceContainer.BusinessServiceService.getForPrivatePersonBySiteSectionId(siteSectionId, excludeChild);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/services/business')
   public async getForBusinessBySiteSectionId (
     @Res() response: Response,
-    @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForBusinessBySiteSectionId(siteSectionId);
+    @Param('sitesection') siteSectionId: number,
+    @QueryParam('root') excludeChild: boolean) {
+    const result = await ServiceContainer.BusinessServiceService.getForBusinessBySiteSectionId(siteSectionId, excludeChild);
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 

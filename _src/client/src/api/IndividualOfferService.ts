@@ -39,16 +39,6 @@ export default class IndividualOfferService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  // Для раздела
-  private async  getBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
-    return this.getBySiteSection(this.getIdBySlug(siteSectionSlug), pagination)
-  }
-
-  // Для типов клиента и раздела
-  private async  getForClientBySiteSectionSlug (siteSectionSlug: string) {
-    return this.getForClientBySiteSectionId(this.getIdBySlug(siteSectionSlug))
-  }
-
   private async  getForPrivatePersonBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/offers/person`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
@@ -61,22 +51,9 @@ export default class IndividualOfferService extends BaseService {
     return result
   }
 
-  private async  getBySiteSection (siteSectionId: number, pagination?: Pagination) {
-    const query = `${siteSectionId}/offers`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
-  }
-
   private async  getForActivityBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/activity/offers`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
-
-  private async  getForClientBySiteSectionId (siteSectionId: number) {
-    const query = `${siteSectionId}/clients/offers`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
-  }
-
 }

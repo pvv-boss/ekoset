@@ -44,7 +44,7 @@ export default class IndividualOfferController extends BaseController {
   public async getForPrivatePersonBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForPrivatePersonBySiteSectionId(siteSectionId);
+    const result = await ServiceContainer.IndividualOfferService.getForPrivatePersonBySiteSectionId(siteSectionId);
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
@@ -52,7 +52,7 @@ export default class IndividualOfferController extends BaseController {
   public async getForBusinessBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.BusinessServiceService.getForBusinessBySiteSectionId(siteSectionId);
+    const result = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionId(siteSectionId);
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
