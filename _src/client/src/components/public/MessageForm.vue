@@ -14,11 +14,11 @@
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
-            <input type="text" id="phone" v-model.lazy="phone" />
+            <input type="tel" id="phone" v-model.lazy="phone" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
-            >Введите настоящий номер телефона</span>
+            >Введите номер телефона в формате +7 999 999-99-99</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
