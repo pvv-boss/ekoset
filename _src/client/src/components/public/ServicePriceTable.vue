@@ -11,18 +11,12 @@
           <td
             v-if="servicePrice.businessServicePrice > 0"
             :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0}"
-          >
-            <nuxt-link
-              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-              class="brc-service-price-table-link"
-            >{{servicePrice.businessServiceName}}</nuxt-link>
-          </td>
-          <td v-else colspan="3" class="brc-service-price-td_bold">
-            <nuxt-link
-              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-              class="brc-service-price-table-link"
-            >{{servicePrice.businessServiceName}}</nuxt-link>
-          </td>
+          >{{servicePrice.businessServiceName}}</td>
+          <td
+            v-else
+            colspan="3"
+            class="brc-service-price-td_bold"
+          >{{servicePrice.businessServiceName}}</td>
           <td v-if="servicePrice.businessServicePrice > 0">{{servicePrice.businessServiceUnit}}</td>
           <td
             v-if="servicePrice.businessServicePrice > 0"
