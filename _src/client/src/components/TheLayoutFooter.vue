@@ -80,8 +80,6 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { returnStatement } from '@babel/types';
 
 @Component({
 })
@@ -100,8 +98,7 @@ export default class TheLayoutFooter extends Vue {
     if (siteSection) {
       this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
       this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
-    }
-    else {
+    } else {
       this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessByMainPage()
       this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonByMainPage()
     }
