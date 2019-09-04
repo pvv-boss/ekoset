@@ -1,7 +1,7 @@
 <template>
   <section>
     <p>
-      <a name="brcOfferForm"></a>
+      <a name="brcOfferForm" id="brcOfferForm"></a>
     </p>
     <MessageForm title="Заказать услугу"></MessageForm>
     <RecommendationList
@@ -13,7 +13,7 @@
       <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
     </div>
     <p>
-      <a name="brcQuestionForm"></a>
+      <a name="brcQuestionForm" id="brcQuestionForm"></a>
     </p>
     <MessageForm title="Задать вопрос эксперту"></MessageForm>
     <BottomDynamicBlock></BottomDynamicBlock>

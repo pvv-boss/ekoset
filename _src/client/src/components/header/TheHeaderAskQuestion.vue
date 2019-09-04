@@ -1,7 +1,7 @@
 <template>
   <div class="brc-page-header__action">
     <img src="/images/note.png" />
-    <a href="#brcQuestionForm">Задать вопрос</a>
+    <a href="#brcQuestionForm" @click="navigateToQuestionForm">Задать вопрос</a>
   </div>
 </template>
 
@@ -13,7 +13,17 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class TheHeaderAskQuestion extends Vue {
-
+  private navigateToQuestionForm (e) {
+    const formElement = document.getElementById("brcQuestionForm")
+    if (formElement) {
+      window.scrollTo({
+        top: formElement.offsetTop,
+        left: 0,
+        behavior: 'smooth'
+      })
+    }
+    e.preventDefault()
+  }
 }
 </script>
 

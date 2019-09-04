@@ -5,30 +5,38 @@
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
-            <label for="fio">Имя Фамилия</label>
-            <input type="text" id="fio" />
+            <label for="name">Имя Фамилия</label>
+            <input type="text" v-model.lazy="name" />
+            <span
+              class="brc-error-message"
+              :class="{'brc-error-message_visible': isSubmit && name.length === 0 }"
+            >Введите имя</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
-            <input type="text" id="phone" />
+            <input type="tel" v-model.lazy="phone" />
             <span
-              v-if="phone.length > 0 && $v.phone.$invalid"
               class="brc-error-message"
-            >Введите настоящий номер телефона</span>
+              :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
+            >Введите номер телефона в формате +7 999 999-99-99</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
-            <input type="email" id="email" v-model.lazy="email" />
+            <input type="email" v-model.lazy="email" />
             <span
-              v-if="email.length > 0 && $v.email.$invalid"
               class="brc-error-message"
+              :class="{'brc-error-message_visible': (isSubmit || email.length > 0) && $v.email.$invalid}"
             >Введите настоящий email</span>
           </div>
         </div>
         <div class="brc-message-form__row">
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea id="message"></textarea>
+            <textarea v-model.lazy="message"></textarea>
+            <span
+              class="brc-error-message"
+              :class="{'brc-error-message_visible': isSubmit && message.length === 0}"
+            >Напишите комментарий</span>
           </div>
         </div>
       </div>
@@ -38,7 +46,7 @@
           <input type="file" name="name" value />
           <span class="file-name">Прикрепить файл</span>
         </label>
-        <button type="button">Отправить</button>
+        <button type="button" @click="sentMessage">Отправить</button>
       </div>
     </form>
   </div>
@@ -58,18 +66,39 @@ import { emailTest, phoneTest } from '@/utils/Validators'
     },
     phone: {
       validFormat: val => phoneTest.test(val)
+    },
+    name: {
+      required
+    },
+    message: {
+      required
     }
   }
 })
 export default class MessageForm extends Vue {
   @Prop()
   private title
+
   private isBrowser = false
+  private isSubmit = false
   private email = ''
   private phone = ''
+  private message = ''
+  private name = ''
 
   private mounted () {
     this.isBrowser = true
+  }
+
+  private validateForm (): boolean {
+    this.isSubmit = true
+    return !this.$v.$invalid
+  }
+
+  private async sentMessage () {
+    if (this.validateForm()) {
+      alert('Отправили сообщение')
+    }
   }
 }
 </script>
@@ -89,6 +118,8 @@ export default class MessageForm extends Vue {
 
   .brc-message-form__row {
     flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
     justify-content: space-between;
     margin: 15px;
   }
@@ -96,7 +127,6 @@ export default class MessageForm extends Vue {
   .brc-message-form__block {
     label {
       display: block;
-      margin-top: 15px;
     }
     textarea {
       width: 100%;
@@ -147,6 +177,11 @@ export default class MessageForm extends Vue {
       font-size: small;
       color: #ed0205;
       font-weight: bold;
+      visibility: hidden;
+
+      &.brc-error-message_visible {
+        visibility: visible;
+      }
     }
   }
 }

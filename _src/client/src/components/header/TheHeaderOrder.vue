@@ -1,6 +1,6 @@
 <template>
   <div class="brc-page-header__order">
-    <a href="#brcOfferForm">Заказать</a>
+    <a href="#brcOfferForm" @click="navigateToOfferForm">Заказать</a>
   </div>
 </template>
 
@@ -13,7 +13,17 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class TheHeaderOrder extends Vue {
-
+  private navigateToOfferForm (e) {
+    const formElement = document.getElementById("brcOfferForm")
+    if (formElement) {
+      window.scrollTo({
+        top: formElement.offsetTop,
+        left: 0,
+        behavior: 'smooth'
+      })
+    }
+    e.preventDefault()
+  }
 }
 </script>
 
