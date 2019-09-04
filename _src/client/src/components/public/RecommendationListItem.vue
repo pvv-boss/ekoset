@@ -41,6 +41,7 @@ export default class RecommendationListItem extends Vue {
   padding: 15px 0;
   .brc-recommend-smallitem__preview-img {
     max-width: 110px;
+    min-height: 30px;
     margin: auto;
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);

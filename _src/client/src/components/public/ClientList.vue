@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <ul>
     <ClientListItem
       v-for="clientItem in clientList"
       :key="clientItem.clClientId"
       :clientItem="clientItem"
     ></ClientListItem>
-  </div>
+  </ul>
 </template>
 
 <script lang="ts">

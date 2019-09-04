@@ -1,15 +1,15 @@
 <template>
-  <div>Клиент</div>
+  <li>{{clientItem.partnerName}}</li>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClClient from '@/models/ekoset/ClClient'
+import Partner from '@/models/ekoset/Partner'
 
 @Component({})
 export default class ClientListItem extends Vue {
   @Prop()
-  private clientItem: ClClient
+  private clientItem: Partner
 }
 </script>
 
