@@ -25,7 +25,7 @@
             name="oldpassword"
             placeholder="Пароль"
             autocomplete="off"
-          >
+          />
           <span
             v-if="(isSubmit || oldpassword.length > 0) && $v.oldpassword.$invalid"
             class="error-message"
@@ -40,7 +40,7 @@
             placeholder="Пароль"
             autocomplete="off"
             @keyup.enter.native="changePassword"
-          >
+          />
           <span
             v-if="(isSubmit || password.length > 0) && $v.password.$invalid"
             class="error-message"
@@ -98,21 +98,6 @@ export default class ChangePasswordForm extends Vue {
   }
 
   private validatePassword (): boolean {
-
-    // let validPasswordMessage = validatePassword(this.password)
-    // if (validPasswordMessage === 'OK') {
-    //   if (this.mode === 'reset') {
-    //     this.validateMessage = ''
-    //     return true
-    //   } else {
-    //     validPasswordMessage = validatePassword(this.oldpassword)
-    //     if (validPasswordMessage === 'OK') {
-    //       this.validateMessage = ''
-    //       return true
-    //     }
-    //   }
-    // }
-    // this.validateMessage = validPasswordMessage
     this.isSubmit = true
     if (this.mode === 'reset') {
       return this.$v.password && !this.$v.password.$invalid

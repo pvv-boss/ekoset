@@ -50,6 +50,7 @@ import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { returnStatement } from '@babel/types';
 
 @Component({
   components: {
@@ -87,7 +88,7 @@ export default class ServiceCard extends Vue {
   }
 
   private get priceServiceList () {
-    return [this.businessService, ...this.childServiceList]
+    return this.childServiceList.length > 0 ? this.childServiceList : [this.businessService]
   }
 
   private async mounted () {
