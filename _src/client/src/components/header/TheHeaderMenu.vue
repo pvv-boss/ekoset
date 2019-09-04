@@ -4,7 +4,7 @@
     :class="{ 'brc-main-menu_active': isMainMenuActive === true }"
   >
     <li>
-      <nuxt-link :to="{name: 'main'}" :class="{active: activeIndex === 'main'}">О компании</nuxt-link>
+      <nuxt-link :to="{name: 'about'}" :class="{active: activeIndex === 'about'}">О компании</nuxt-link>
     </li>
     <li>
       <nuxt-link

@@ -59,4 +59,10 @@ export default class Main extends Vue {
 .brc-page-img {
   min-height: 160px;
 }
+@media (max-width: 768px) {
+  .brc-main-image,
+  .brc-page-img {
+    min-height: 60px;
+  }
+}
 </style>
