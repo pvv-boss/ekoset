@@ -1,6 +1,7 @@
 export default class BusinessService {
   public businessServiceId: number;
   public siteSectionId: number | null;
+  public siteSectionUrl: string | null;
   public businessServiceName: string;
   public businessServiceSlug: string | null;
   public businessServiceUnit: string | null;

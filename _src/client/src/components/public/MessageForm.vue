@@ -62,10 +62,12 @@ import { emailTest, phoneTest } from '@/utils/Validators'
   validations: {
     email: {
       required,
-      validFormat: val => emailTest.test(val),
+      validFormat: (val) => {
+        return emailTest.test(val);
+      },
     },
     phone: {
-      validFormat: val => phoneTest.test(val)
+      validFormat: (val) => phoneTest.test(val)
     },
     name: {
       required
@@ -104,6 +106,7 @@ export default class MessageForm extends Vue {
 </script>
 
 <style lang="scss">
+@import "@/styles/variables.scss";
 .brc-feedback {
   border: 3px solid lightgrey;
   border-radius: 10px;
@@ -176,7 +179,7 @@ export default class MessageForm extends Vue {
     .brc-error-message {
       font-size: small;
       color: #ed0205;
-      font-weight: bold;
+      font-weight: $font-medium;
       visibility: hidden;
 
       &.brc-error-message_visible {

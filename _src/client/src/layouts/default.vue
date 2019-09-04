@@ -6,7 +6,7 @@
     </div>
     <TheLayoutFooter></TheLayoutFooter>
     <no-ssr>
-      <BaseCookieNotice></BaseCookieNotice>
+      <!-- <BaseCookieNotice></BaseCookieNotice> -->
       <BaseBackToTop></BaseBackToTop>
       <!-- <ActivateAccauntNotice></ActivateAccauntNotice> -->
     </no-ssr>
@@ -26,9 +26,9 @@ import { NuxtContext } from 'vue/types/options';
   components: {
     TheLayoutHeader,
     TheLayoutFooter,
-    ActivateAccauntNotice,
+    // ActivateAccauntNotice,
     BaseBackToTop,
-    BaseCookieNotice
+    // BaseCookieNotice
   }
 })
 export default class DefaultLayout extends Vue {

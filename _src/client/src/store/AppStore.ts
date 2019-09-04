@@ -24,7 +24,7 @@ export default class AppStore extends VuexModule {
   public async changeCurrentSiteSection (siteSectionSlug: string | null) {
     this.context.commit('setCurrentSiteSection', siteSectionSlug)
 
-    if (siteSectionSlug) {
+    if (!!siteSectionSlug) {
       const siteSectionModel = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
       if (siteSectionModel) {
         this.context.commit('setCurrentSiteSectionName', siteSectionModel.siteSectionName)

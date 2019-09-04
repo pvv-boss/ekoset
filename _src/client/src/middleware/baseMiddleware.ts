@@ -2,9 +2,9 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { NuxtContext } from 'vue/types/options';
 
-const baseMiddleware = async (context: NuxtContext) => {
+const baseMiddleware = (context: NuxtContext) => {
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null
-  await appStore(context.store).changeCurrentSiteSection(newSiteSection)
+  appStore(context.store).changeCurrentSiteSection(newSiteSection)
 }
 
 const appStore = (store) => {
