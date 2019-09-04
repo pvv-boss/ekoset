@@ -21,10 +21,9 @@
       <h2>Список услуг</h2>
       <ServiceList :serviceList="serviceList"></ServiceList>
     </div>
-
     <div class="brc-section__wrapper" v-if="serviceList.length > 0">
       <h2>Стоимость услуг</h2>
-      <ServicePriceTable :servicePriceList="serviceList"></ServicePriceTable>
+      <ServicePriceTable :servicePriceList="servicePriceList"></ServicePriceTable>
     </div>
     <div
       class="brc-section__wrapper"
@@ -71,6 +70,7 @@ export default class OfferCard extends Vue {
   private individualOffer: IndividualOffer = new IndividualOffer()
   private otherOfferList: IndividualOffer[] = []
   private serviceList: BusinessService[] = []
+  private servicePriceList: BusinessService[] = []
   private breadCrumbList: any[] = []
 
   private offerHeaderText = ''
@@ -99,19 +99,25 @@ export default class OfferCard extends Vue {
     otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
     // Услуги Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let serviceList: Promise<BusinessService>
+    let servicePriceList: Promise<BusinessService>
     if (context.params.clienttype) {
       serviceList = context.params.clienttype === 'business'
         ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
         : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
+
+      servicePriceList = context.params.clienttype === 'business'
+        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection, false)
+        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection, false)
 
       offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'
     } else {
       serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl)
+      servicePriceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl, false)
     }
 
-    const data = await Promise.all([serviceList, otherOfferList])
+    const data = await Promise.all([serviceList, otherOfferList, servicePriceList])
 
     return {
       individualOffer,
@@ -120,7 +126,8 @@ export default class OfferCard extends Vue {
       offerHeaderText,
       otherOfferHeaderText,
       otherOfferComponentName,
-      otherOfferList: data[1]
+      otherOfferList: data[1],
+      servicePriceList: data[2]
     }
   }
 
