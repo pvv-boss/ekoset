@@ -11,12 +11,18 @@
           <td
             v-if="servicePrice.businessServicePrice > 0"
             :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0}"
-          >{{servicePrice.businessServiceName}}</td>
-          <td
-            v-else
-            colspan="3"
-            class="brc-service-price-td_bold"
-          >{{servicePrice.businessServiceName}}</td>
+          >
+            <nuxt-link
+              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: servicePrice.siteSectionUrl}}"
+              class="brc-service-price-table-link"
+            >{{servicePrice.businessServiceName}}</nuxt-link>
+          </td>
+          <td v-else colspan="3" class="brc-service-price-td_bold">
+            <nuxt-link
+              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: servicePrice.siteSectionUrl}}"
+              class="brc-service-price-table-link"
+            >{{servicePrice.businessServiceName}}</nuxt-link>
+          </td>
           <td v-if="servicePrice.businessServicePrice > 0">{{servicePrice.businessServiceUnit}}</td>
           <td
             v-if="servicePrice.businessServicePrice > 0"
@@ -106,9 +112,6 @@ export default class ServicePriceTable extends Vue {
       text-align: right;
       white-space: nowrap;
     }
-    .brc-service-price-td_child {
-      padding-left: 30px;
-    }
     .brc-service-price-td_bold {
       font-weight: 500;
       text-align: left !important;
@@ -149,9 +152,6 @@ export default class ServicePriceTable extends Vue {
   .brc-service-price-table__wrapper {
     max-width: 100%;
     overflow-x: scroll;
-  }
-  .brc-service-price-td_child {
-    padding-left: 10px !important;
   }
 }
 </style>

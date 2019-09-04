@@ -43,7 +43,7 @@ export default class Prices extends Vue {
     const siteSection = context.params.siteSection
     let serviceList: Promise<BusinessService>
     if (siteSection) {
-      serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection)
+      serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection, false)
     } else {
       serviceList = getServiceContainer().businessServiceService.getMainList()
     }
