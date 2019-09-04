@@ -39,7 +39,7 @@ export class BaseController {
 
   public static getCurrentUserId (req: Request): number {
     const test = req.user ? req.user : SessionUser.anonymousUser.appUserId;
-    return test;
+    return 0;
   }
 
   public static setCurrentUserAnonymous (req: Request, res: Response) {

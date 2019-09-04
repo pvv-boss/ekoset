@@ -25,6 +25,7 @@ export default class TopDynamicBlock extends Vue {
 
   > div {
     margin: 15px;
+    flex-basis: 100%;
   }
 }
 
