@@ -65,6 +65,7 @@ export default class ServiceListItem extends Vue {
 
   img {
     max-width: 90px;
+    height: 75px;
   }
 }
 </style>

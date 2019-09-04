@@ -7,10 +7,20 @@
         <th>Цена</th>
       </thead>
       <tbody>
-        <tr v-for="servicePrice in servicePriceList" :key="servicePrice.businessServiceId">
-          <td>{{servicePrice.businessServiceName}}</td>
-          <td>{{servicePrice.businessServiceUnit}}</td>
-          <td>{{servicePrice.businessServicePrice}}</td>
+        <tr v-for="servicePrice in serviceResultList" :key="servicePrice.businessServiceId">
+          <td
+            v-if="servicePrice.businessServicePrice > 0"
+            :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0}"
+          >{{servicePrice.businessServiceName}}</td>
+          <td
+            v-else
+            colspan="3"
+            class="brc-service-price-td_bold"
+          >{{servicePrice.businessServiceName}}</td>
+          <td v-if="servicePrice.businessServicePrice > 0">{{servicePrice.businessServiceUnit}}</td>
+          <td
+            v-if="servicePrice.businessServicePrice > 0"
+          >{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}} ₽</td>
         </tr>
       </tbody>
     </table>
@@ -28,6 +38,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
+import BusinessService from '@/models/ekoset/BusinessService'
 
 @Component({})
 export default class ServicePriceTable extends Vue {
@@ -36,6 +47,30 @@ export default class ServicePriceTable extends Vue {
 
   @Prop({ default: false })
   private allPricesPage
+
+  private get serviceTopList () {
+    return this.servicePriceList.filter(obj => obj.businessServiceParentId == null).sort(function (obj1, obj2) {
+      return obj1.businessServicePriority - obj2.businessServicePriority;
+    })
+  }
+
+  private get serviceResultList () {
+    let list: BusinessService[] = []
+    if (this.serviceTopList.length > 0) {
+      this.serviceTopList.forEach(item => {
+        list.push(item)
+        list.push(...this.servicePriceList.filter(obj => obj.businessServiceParentId == item.businessServiceId).sort(function (obj1, obj2) {
+          return obj1.businessServicePriority - obj2.businessServicePriority;
+        }))
+      });
+    }
+    else {
+      list = this.servicePriceList.sort(function (obj1, obj2) {
+        return obj1.businessServicePriority - obj2.businessServicePriority;
+      })
+    }
+    return list
+  }
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
@@ -62,6 +97,7 @@ export default class ServicePriceTable extends Vue {
     th {
       text-align: center;
       padding: 10px;
+      border-bottom: 1px solid #f4f4f5;
     }
     td:first-child {
       text-align: left;
@@ -69,6 +105,20 @@ export default class ServicePriceTable extends Vue {
     td:last-child {
       text-align: right;
       white-space: nowrap;
+    }
+    .brc-service-price-td_child {
+      padding-left: 30px !important;
+    }
+    .brc-service-price-td_bold {
+      font-weight: 500;
+      text-align: left !important;
+    }
+    .brc-service-price-table-link {
+      text-decoration: none;
+      color: #292929;
+      &:hover {
+        color: red;
+      }
     }
   }
   .brc-all-prices-link__wrapper {

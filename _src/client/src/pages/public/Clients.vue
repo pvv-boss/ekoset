@@ -1,8 +1,15 @@
 <template>
   <section>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1 itemprop="headline name">Клиенты</h1>
-    <ClientList></ClientList>
+    <h1 itemprop="headline name">Наши клиенты</h1>
+    <div class="brc-clients__wrapper">
+      <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
+        <h4>{{group.partnerGroupName}}</h4>
+        <ClientList
+          :clientList="clientItems.filter(obj => obj.partnerGroupId === group.partnerGroupId)"
+        ></ClientList>
+      </div>
+    </div>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
@@ -32,6 +39,12 @@ export default class Clients extends Vue {
   private clientItems: Partner[] = []
   private breadCrumbList: any[] = []
 
+  private get partnerGroupList () {
+    const groupList = Array.from(this.clientItems, x => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
+    return groupList.filter((group, i, arr) => arr.findIndex(g => g.partnerGroupId === group.partnerGroupId) === i).sort(function (obj1, obj2) {
+      return obj1.partnerGroupPriority - obj2.partnerGroupPriority
+    })
+  }
   private async asyncData (context: NuxtContext) {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     const clientList = getServiceContainer().publicEkosetService.getPartners()
@@ -61,3 +74,22 @@ export default class Clients extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.brc-clients__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  > div {
+    min-width: 450px;
+    margin-top: 15px;
+    > ul {
+      margin-left: 30px;
+      > li {
+        list-style-type: none;
+      }
+    }
+  }
+}
+</style>
