@@ -150,5 +150,8 @@ export default class ServicePriceTable extends Vue {
     max-width: 100%;
     overflow-x: scroll;
   }
+  .brc-service-price-td_child {
+    padding-left: 10px !important;
+  }
 }
 </style>
