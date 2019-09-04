@@ -9,7 +9,7 @@ export default class BusinessService {
   public businessServiceImgSmall: string | null;
   public businessServiceImgBig: string | null;
   public businessServiceStatus: number | null;
-  public businessServicePriority: number | null;
+  public businessServicePriority: number;
   public businessServiceParentId: number | null;
   public businessServiceUrl: string;
   public businessServiceFreeText1: string;

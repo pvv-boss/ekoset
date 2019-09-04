@@ -10,6 +10,7 @@
           :alt="siteSectionItem.siteSectionName"
           itemprop="image"
           :src="siteSectionItem.siteSectionImgSmall"
+          class="brc-site-section-img"
         />
         <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
       </figure>
@@ -58,6 +59,7 @@ export default class SiteSectionListItem extends Vue {
 
   img {
     max-width: 110px;
+    height: 90px;
   }
 }
 </style>
