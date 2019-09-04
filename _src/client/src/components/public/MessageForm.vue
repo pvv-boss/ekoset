@@ -246,6 +246,9 @@ export default class MessageForm extends Vue {
     &:last-child {
       margin-top: 0;
     }
+    &:first-child {
+      margin-bottom: 0;
+    }
   }
   .brc-message-form__button .attach-file {
     float: none;
