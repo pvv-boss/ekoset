@@ -6,7 +6,7 @@
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
             <label for="name">Имя Фамилия</label>
-            <input type="text" id="name" v-model.lazy="name" />
+            <input type="text" v-model.lazy="name" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': isSubmit && name.length === 0 }"
@@ -14,7 +14,7 @@
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
-            <input type="tel" id="phone" v-model.lazy="phone" />
+            <input type="tel" v-model.lazy="phone" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
@@ -22,7 +22,7 @@
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
-            <input type="email" id="email" v-model.lazy="email" />
+            <input type="email" v-model.lazy="email" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || email.length > 0) && $v.email.$invalid}"
@@ -32,7 +32,7 @@
         <div class="brc-message-form__row">
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea id="message" v-model.lazy="message"></textarea>
+            <textarea v-model.lazy="message"></textarea>
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': isSubmit && message.length === 0}"
@@ -92,13 +92,6 @@ export default class MessageForm extends Vue {
 
   private validateForm (): boolean {
     this.isSubmit = true
-    // return this.$v.name && this.$v.message && this.$v.email && this.$v.phone && this.$v.$invalid
-    // if (this.mode === 'reset') {
-    //   return this.$v.password && !this.$v.password.$invalid
-    // } else {
-    //   return this.$v.password && this.$v.oldpassword ? !this.$v.password.$invalid && !this.$v.oldpassword.$invalid : false
-    // }
-    console.debug(this.$v)
     return !this.$v.$invalid
   }
 
