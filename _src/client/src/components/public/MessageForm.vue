@@ -18,7 +18,7 @@
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
-            >Введите номер телефона в формате +7 999 999-99-99</span>
+            >Введите телефон в формате +7 999 999-99-99</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
@@ -240,6 +240,21 @@ export default class MessageForm extends Vue {
 @media (max-width: 768px) {
   .brc-feedback {
     padding: 15px 0;
+  }
+  .brc-message-form__row {
+    flex-basis: 100% !important;
+    &:last-child {
+      margin-top: 0;
+    }
+    &:first-child {
+      margin-bottom: 0;
+    }
+  }
+  .brc-message-form__button .attach-file {
+    float: none;
+    line-height: 50px;
+    padding-right: 0;
+    position: relative;
   }
 }
 </style>

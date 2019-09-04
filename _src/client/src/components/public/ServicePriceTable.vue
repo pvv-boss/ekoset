@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-price-table__wrapper">
+  <div class="brc-service-price-table__wrapper" v-if="servicePriceList.length>0">
     <table class="brc-service-price-table" cellspacing="0">
       <thead>
         <th>Услуга</th>
@@ -107,7 +107,7 @@ export default class ServicePriceTable extends Vue {
       white-space: nowrap;
     }
     .brc-service-price-td_child {
-      padding-left: 30px !important;
+      padding-left: 30px;
     }
     .brc-service-price-td_bold {
       font-weight: 500;
@@ -149,6 +149,9 @@ export default class ServicePriceTable extends Vue {
   .brc-service-price-table__wrapper {
     max-width: 100%;
     overflow-x: scroll;
+  }
+  .brc-service-price-td_child {
+    padding-left: 10px !important;
   }
 }
 </style>
