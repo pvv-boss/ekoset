@@ -18,19 +18,13 @@ export function createRouter () {
       {
         name: 'not-found',
         path: '*',
-        component: BaseNotFound,
-        meta: {
-          title: 'Экосеть: Страница не найдена!'
-        }
+        component: BaseNotFound
       },
       {
-        name: 'error',
+        name: 'error-page',
         path: '/error',
         component: BaseError,
-        props: true,
-        meta: {
-          title: 'Экосеть: Ошибка!'
-        }
+        props: true
       }
     ],
     scrollBehavior (to, from, savedPosition) {

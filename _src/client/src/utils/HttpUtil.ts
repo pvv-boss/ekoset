@@ -114,10 +114,10 @@ class HttpUtil {
   }
 
   private redirect (errorResponse: any) {
-    const routerName = errorResponse.status === 401 || errorResponse.status === 403 ? 'auth-login' : 'error'
+    const routerName = errorResponse.status === 401 || errorResponse.status === 403 ? 'auth-login' : 'error-page'
     if (this.router) {
-      this.router.replace({ name: 'error', params: { errorMessage: errorResponse.message, status: errorResponse.status } })
-      this.router.replace({ name: routerName, params: { errorMessage: errorResponse.message, status: errorResponse.status, mode: 'login' } })
+      this.router.push({ name: 'error', params: { errorMessage: errorResponse.message, status: errorResponse.status } })
+      this.router.push({ name: routerName, params: { errorMessage: errorResponse.message, status: errorResponse.status, mode: 'login' } })
     }
   }
 
