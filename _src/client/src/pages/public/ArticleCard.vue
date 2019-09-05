@@ -125,10 +125,10 @@ export default class ArticleCard extends Vue {
 }
 .brc-article-item__header-img {
   max-width: 100%;
-  img {
-    min-height: 160px;
-    max-width: 100% !important;
-  }
+  // img {
+  //   min-height: 160px;
+  //   max-width: 100% !important;
+  // }
 
   figcaption {
     display: none;

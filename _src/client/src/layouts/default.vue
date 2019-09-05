@@ -26,13 +26,11 @@ import { NuxtContext } from 'vue/types/options';
   components: {
     TheLayoutHeader,
     TheLayoutFooter,
-    // ActivateAccauntNotice,
-    BaseBackToTop,
-    // BaseCookieNotice
-  }
+    BaseBackToTop
+  },
+  middleware: ['baseMiddleware']
 })
 export default class DefaultLayout extends Vue {
-
 }
 </script>
 

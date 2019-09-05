@@ -70,7 +70,7 @@ const config: NuxtConfiguration = {
   build: {
     extractCSS: true,
     filenames: {
-      css: ({ isDev }) => isDev ? '[name].css' : 'app-190902-16.css',
+      css: ({ isDev }) => isDev ? '[name].css' : '[contenthash].css',
     },
     extend (config, { isDev, isClient }) {
       if (isClient) {
