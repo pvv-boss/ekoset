@@ -6,7 +6,7 @@ const baseMiddleware = (context: NuxtContext) => {
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null
 
   // tslint:disable-next-line:no-console
-  console.log(newSiteSection)
+  console.log('routemiddleware ' + newSiteSection)
 
   appStore(context.store).changeCurrentSiteSection(newSiteSection)
 }

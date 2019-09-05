@@ -1,3 +1,4 @@
+import { getModule } from 'vuex-module-decorators'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import HttpUtil from '@/utils/HttpUtil'
 import { NuxtContext } from 'vue/types/options'
@@ -11,3 +12,4 @@ export default async (context: NuxtContext, inject) => {
   inject('getServiceContainer', () => getServiceContainer())
 
 }
+

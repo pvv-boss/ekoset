@@ -27,8 +27,7 @@ import { NuxtContext } from 'vue/types/options';
     TheLayoutHeader,
     TheLayoutFooter,
     BaseBackToTop
-  },
-  middleware: ['baseMiddleware']
+  }
 })
 export default class DefaultLayout extends Vue {
 }

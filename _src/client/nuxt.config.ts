@@ -55,6 +55,9 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/yandex-share', mode: 'client'
+    },
+    {
+      src: '@/plugins/brc-route-middleware'
     }
   ],
 
