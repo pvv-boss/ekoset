@@ -1,13 +1,13 @@
 <template>
-  <ul class="brc-breadcrumb">
-    <li v-for="(bread, idx) in breadCrumbs" :key="idx">
-      <nuxt-link
-        v-if="bread.link !== ''"
-        :to="{name: bread.link, params: bread.params}"
-      >{{bread.name}}</nuxt-link>
-      <span v-else>{{bread.name}}</span>
-    </li>
-  </ul>
+    <ul class="brc-breadcrumb">
+      <li v-for="(bread, idx) in breadCrumbs" :key="idx">
+        <nuxt-link
+          v-if="bread.link !== ''"
+          :to="{name: bread.link, params: bread.params}"
+        >{{bread.name}}</nuxt-link>
+        <span v-else>{{bread.name}}</span>
+      </li>
+    </ul>
 </template>
 
 <script lang="ts">

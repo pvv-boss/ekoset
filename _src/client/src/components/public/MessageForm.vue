@@ -14,7 +14,24 @@
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
-            <input type="tel" v-model.lazy="phone" />
+            <!-- <input type="tel" v-model.lazy="phone" /> -->
+            <span class="brc-input-addon">
+              <span>+7</span>
+            </span>
+            <input
+              type="tel"
+              v-model="phone"
+              name="phone"
+              id="phone"
+              placeholder="(555) 555-5555"
+              autocomplete="tel"
+              maxlength="14"
+              class="form-control form-control_phone"
+              v-phone
+              pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
+              required
+            />
+
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
@@ -114,6 +131,7 @@ export default class MessageForm extends Vue {
   max-width: 900px;
   margin: 60px auto 0;
 }
+
 .brc-message-form__data {
   display: flex;
   flex-direction: row;
@@ -164,6 +182,16 @@ export default class MessageForm extends Vue {
       &:focus {
         background-color: white;
       }
+
+      &.form-control_phone {
+        padding-left: 35px;
+      }
+    }
+
+    .brc-input-addon {
+      position: absolute;
+      padding-top: 13px;
+      padding-left: 15px;
     }
 
     &.brc-message-form__block_message {
