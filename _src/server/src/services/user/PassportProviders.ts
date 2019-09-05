@@ -88,7 +88,7 @@ export default class PassportProviders {
     }
 
     const strategy = new yandex.Strategy(AppConfig.authConfig.Yandex,
-      (profile, done: any) => {
+      (req, accessToken, refreshToken, profile, done) => {
         ServiceContainer.AuthService.verifyBySocialNetwork(strategyDescriptor.authType, profile, done)
       }
     );
