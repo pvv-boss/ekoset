@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import SiteSection from '@/models/ekoset/SiteSection'
@@ -85,7 +85,13 @@ export default class SiteSectionCard extends Vue {
     }
   }
 
-  private mounted () {
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSectionName
+  }
+
+  @Watch('getCurrentSiteSection', { immediate: true })
+  private async buildBreadCrumbList () {
+    this.breadCrumbList = []
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })

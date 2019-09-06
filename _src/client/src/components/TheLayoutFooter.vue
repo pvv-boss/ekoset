@@ -108,6 +108,7 @@ export default class TheLayoutFooter extends Vue {
 
 <style lang="scss">
 @import "@/styles/variables.scss";
+
 .brc-page-footer {
   display: flex;
   flex-direction: row;

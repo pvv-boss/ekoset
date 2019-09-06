@@ -14,13 +14,9 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 })
 export default class TheHeaderInviteTender extends Vue {
   private navigateToOfferForm (e) {
-    const formElement = document.getElementById("brcOfferForm")
+    const formElement = document.getElementById("btnOrderPopupForm")
     if (formElement) {
-      window.scrollTo({
-        top: formElement.offsetTop,
-        left: 0,
-        behavior: 'smooth'
-      })
+      formElement.setAttribute("style", "display:block");
     }
     e.preventDefault()
   }
