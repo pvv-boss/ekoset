@@ -14,13 +14,9 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 })
 export default class TheHeaderAskQuestion extends Vue {
   private navigateToQuestionForm (e) {
-    const formElement = document.getElementById("brcQuestionForm")
+    const formElement = document.getElementById("btnQuestionPopupForm")
     if (formElement) {
-      window.scrollTo({
-        top: formElement.offsetTop,
-        left: 0,
-        behavior: 'smooth'
-      })
+      formElement.setAttribute("style", "display:block");
     }
     e.preventDefault()
   }

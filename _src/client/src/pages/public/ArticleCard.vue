@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
@@ -91,11 +91,13 @@ export default class ArticleCard extends Vue {
     }
   }
 
-  private async mounted () {
-    this.buildBreadCrumbList()
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSectionName
   }
 
-  private async  buildBreadCrumbList () {
+  @Watch('getCurrentSiteSection', { immediate: true })
+  private async buildBreadCrumbList () {
+    this.breadCrumbList = []
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
 
@@ -106,7 +108,6 @@ export default class ArticleCard extends Vue {
     this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSectionSlug } })
     this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
   }
-
 }
 </script>
 

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 
@@ -56,7 +56,13 @@ export default class Clients extends Vue {
     }
   }
 
-  private async mounted () {
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSectionName
+  }
+
+  @Watch('getCurrentSiteSection', { immediate: true })
+  private async buildBreadCrumbList () {
+    this.breadCrumbList = []
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
