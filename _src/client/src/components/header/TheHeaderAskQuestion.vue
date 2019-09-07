@@ -1,6 +1,5 @@
 <template>
   <div class="brc-page-header__action">
-    <img src="/images/note.png" />
     <a href="#brcQuestionForm" @click="navigateToQuestionForm">Задать вопрос</a>
   </div>
 </template>
@@ -14,9 +13,9 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 })
 export default class TheHeaderAskQuestion extends Vue {
   private navigateToQuestionForm (e) {
-    const formElement = document.getElementById("btnQuestionPopupForm")
+    const formElement = document.getElementById('btnQuestionPopupForm')
     if (formElement) {
-      formElement.setAttribute("style", "display:block");
+      formElement.setAttribute('style', 'display:block');
     }
     e.preventDefault()
   }
