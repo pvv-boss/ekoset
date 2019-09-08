@@ -1,26 +1,22 @@
 <template>
   <footer class="brc-page-footer">
     <div class="brc-page-footer__contacts">
-      <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
-        <img src="/images/logo.png" alt="Экосеть" />
-      </nuxt-link>
-      <div class="brc-page-footer__phone">
-        <a href="tel:4952233595">(495) 223-35-95</a>
+      <div class="brc-footer-logo__wrapper">
+        <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
+          <img src="/images/logo.png" alt="Экосеть" />
+        </nuxt-link>
       </div>
-      <div class="brc-page-footer__email">
-        <a href="mailto:inbox@ekoset.ru">inbox@ekoset.ru</a>
+      <div class="brc-page-footer__contacts">
+        <div class="brc-page-footer__phone">
+          <a href="tel:4952233595">(495) 223-35-95</a>
+        </div>
+        <div class="brc-page-footer__email">
+          <a href="mailto:inbox@ekoset.ru">inbox@ekoset.ru</a>
+        </div>
       </div>
       <div class="brc-page-footer__social">
         <a href="https://vk.com/ekoset">
           <img src="/images/social-vk.png" alt="Экосеть ВКонтакте" />
-        </a>
-        <a
-          href="http://www.facebook.com/pages/%D0%AD%D0%BA%D0%BE%D1%81%D0%B5%D1%82%D1%8C-%D0%9C%D1%8B-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B5%D0%BC-%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8E/214044655403288"
-        >
-          <img src="/images/social-facebook.png" alt="Экосеть в Фейсбуке" />
-        </a>
-        <a href="https://twitter.com/Ekoset77">
-          <img src="/images/social-twitter.png" alt="Экосеть в Твиттере" />
         </a>
       </div>
     </div>
@@ -145,15 +141,33 @@ export default class TheLayoutFooter extends Vue {
 }
 @media (max-width: 768px) {
   .brc-page-footer__menu {
-    display: none;
+    a {
+      color: gray;
+    }
   }
   .brc-footer-log {
     height: 34px;
   }
-}
-
-@media (max-width: 600px) {
+  .brc-footer-logo__wrapper {
+    text-align: center;
+  }
+  .brc-page-footer__social {
+    float: right;
+    margin-top: 15px;
+  }
+  .brc-page-footer__contacts {
+    float: left;
+    margin-top: 15px;
+    font-weight: 500 !important;
+  }
+  .brc-page-footer__menu,
+  .brc-page-footer__private-activities,
+  .brc-page-footer__business-activities {
+    margin-top: 15px;
+  }
   .brc-page-footer {
+    padding-top: 0;
+    margin-bottom: 100px;
     flex-direction: column;
 
     h4,

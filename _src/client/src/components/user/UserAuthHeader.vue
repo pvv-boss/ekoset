@@ -17,7 +17,13 @@
         <nuxt-link
           :to="{ name: 'auth-login', params: {mode: 'login'} }"
           class="user-navigation-menu__link user-navigation-menu__link-auth p_small"
-        >Личный кабинет</nuxt-link>
+        ><img
+            :src="userImageSrc"
+            title="Личный кабинет"
+            class="img-responsive"
+            style="border-radius: 100%;"
+            width="42"
+          /></nuxt-link>
       </li>
     </ul>
   </div>
