@@ -1,6 +1,5 @@
 <template>
   <div class="brc-page-header__invent">
-    <img src="/images/tender.png" />
     <a href="#brcOfferForm" @click="navigateToOfferForm">Пригласить на тендер</a>
   </div>
 </template>
@@ -14,9 +13,9 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 })
 export default class TheHeaderInviteTender extends Vue {
   private navigateToOfferForm (e) {
-    const formElement = document.getElementById("btnOrderPopupForm")
+    const formElement = document.getElementById('btnOrderPopupForm')
     if (formElement) {
-      formElement.setAttribute("style", "display:block");
+      formElement.setAttribute('style', 'display:block');
     }
     e.preventDefault()
   }
