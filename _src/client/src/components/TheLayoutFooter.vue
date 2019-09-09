@@ -16,7 +16,7 @@
       </div>
       <div class="brc-page-footer__social">
         <a href="https://vk.com/ekoset">
-          <img src="/images/social-vk.png" alt="Экосеть ВКонтакте" />
+          <img src="/images/vk-social.png" alt="Экосеть ВКонтакте" />
         </a>
       </div>
     </div>
@@ -136,6 +136,23 @@ export default class TheLayoutFooter extends Vue {
   .brc-page-footer__contacts {
     a {
       color: $text-color1;
+    }
+  }
+
+  .brc-page-footer__social {
+    margin-top: 10px;
+    a {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #a6a6a6;
+      border-radius: 50%;
+    }
+    img {
+      width: 20px;
+      height: 12px;
     }
   }
 }
