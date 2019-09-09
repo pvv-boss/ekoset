@@ -4,7 +4,7 @@
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
-        class="brc-page-img"
+        class="brc-service-img"
         :src="businessService.businessServiceImgBig"
         :alt="businessService.businessServiceName"
         itemprop="image"
@@ -115,3 +115,10 @@ export default class ServiceCard extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+@import "@/styles/variables.scss";
+.brc-service-img {
+  width: 100%;
+}
+</style>
