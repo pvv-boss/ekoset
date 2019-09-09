@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
       <MessageForm title="Заказать услугу"></MessageForm>
     </div>
@@ -40,25 +40,57 @@ export default class TheMessagesAriseBlock extends Vue {
 
   }
 
+  private closeForm () {
+    const orderFormElement = document.getElementById("btnOrderPopupForm")
+    if (orderFormElement) {
+      orderFormElement.setAttribute("style", "display:none")
+    }
+
+    const questionFormElement = document.getElementById("btnQuestionPopupForm")
+    if (questionFormElement) {
+      questionFormElement.setAttribute("style", "display:none")
+    }
+  }
+
 }
 </script>
 
 <style lang="scss">
 @import "@/styles/variables.scss";
 .brc-message-arise__wrapper {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   top: 0;
   left: 0;
   background-color: rgba(64, 64, 64, 0.9);
   color: $text-color;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 16px;
 
   > .brc-feedback {
     background-color: white;
-    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .brc-message-arise__wrapper {
+    > .brc-feedback {
+      margin: 0 auto !important;
+
+      textarea {
+        height: 80px;
+      }
+      input {
+        height: 38px !important;
+      }
+      .brc-input-addon {
+        padding-top: 10px !important;
+      }
+    }
+    .brc-message-form__row:last-child {
+      margin-bottom: 0 !important;
+    }
   }
 }
 </style>
