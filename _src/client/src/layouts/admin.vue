@@ -14,7 +14,21 @@
           <ul class="brc-admin-navigation__list">
             <li class="brc-admin-navigation__item">Разделы</li>
             <li class="brc-admin-navigation__item">Услуги</li>
-            <li class="brc-admin-navigation__item">Комплексные решения</li>
+            <li class="brc-admin-navigation__item">
+              <input
+                id="toogleClientTypeMenuVisible"
+                class="brc-admin-navigation__item-chk"
+                type="checkbox"
+              />
+              <label
+                class="brc-admin-navigation-list-arrow"
+                for="toogleClientTypeMenuVisible"
+              >Комплексные решения</label>
+              <ul class="brc-admin-navigation__second-list">
+                <li class="brc-admin-navigation__item">Для бизнеса</li>
+                <li class="brc-admin-navigation__item">Для частных лиц</li>
+              </ul>
+            </li>
             <li class="brc-admin-navigation__item">Инд. предложения</li>
             <li class="brc-admin-navigation__item">
               <nuxt-link :to="{ name: 'admin-news'}" class="brc-admin-navigation__item-link">Новости</nuxt-link>
@@ -101,16 +115,22 @@ export default class AdminLayout extends Vue {
     .brc-admin-navigation__lt {
       width: 15px;
       text-align: center;
-      background-color: #f0f0f0;
       box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
       padding-top: 45vh;
+      &:hover {
+        background-color: #f0f0f0;
+      }
       &:after {
-        content: "\25c4";
+        content: url("/images/arrow.svg");
+        transform: rotate(180deg);
+        display: inline-block;
       }
       &.brc-admin-navigation__lt_hidden {
         &:after {
-          content: "\25ba";
+          content: url("/images/arrow.svg");
+          transform: rotate(0deg);
+          display: inline-block;
         }
       }
     }
@@ -121,9 +141,46 @@ export default class AdminLayout extends Vue {
       .brc-admin-navigation__item {
         padding: 10px;
         white-space: nowrap;
-        &:hover {
-          background-color: #f0f0f0;
-        }
+        // &:hover {
+        //   color: red;
+        // }
+      }
+    }
+
+    input {
+      display: none;
+      visibility: hidden;
+    }
+    label {
+      display: inline;
+    }
+
+    .brc-admin-navigation__second-list {
+      height: 0px;
+      overflow: hidden;
+      transition: height 0.5s;
+    }
+
+    .brc-admin-navigation-list-arrow {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .brc-admin-navigation__item-chk:checked
+      ~ .brc-admin-navigation__second-list {
+      height: min-content;
+    }
+
+    .brc-admin-navigation-list-arrow:after {
+      content: url("/images/arrow-small.svg");
+      padding-left: 5px;
+    }
+
+    .brc-admin-navigation__item-chk:checked ~ .brc-admin-navigation-list-arrow {
+      &:after {
+        content: url("/images/arrow-small.svg");
+        transform: rotate(90deg);
+        display: inline-block;
       }
     }
   }
