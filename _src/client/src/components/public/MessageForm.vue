@@ -268,13 +268,11 @@ export default class MessageForm extends Vue {
 @media (max-width: 768px) {
   .brc-feedback {
     padding: 15px 0;
-    margin: 0 auto;
   }
   .brc-message-form__row {
     flex-basis: 100% !important;
     &:last-child {
       margin-top: 0;
-      margin-bottom: 0;
     }
     &:first-child {
       margin-bottom: 0;
@@ -285,9 +283,6 @@ export default class MessageForm extends Vue {
     line-height: 50px;
     padding-right: 0;
     position: relative;
-  }
-  textarea {
-    height: 80px !important;
   }
 }
 </style>

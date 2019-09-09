@@ -58,6 +58,7 @@ export default class TheMessagesAriseBlock extends Vue {
 
   > .brc-feedback {
     background-color: white;
+    margin: 0 auto !important;
   }
 }
 </style>
