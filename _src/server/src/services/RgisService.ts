@@ -61,8 +61,8 @@ export default class RgisService {
 
       const insertStmt = `INSERT INTO brc_geodata.layer_text_data (layer_text_data_layer_name,layer_text_data_text, layer_text_layer_feature_id) values ('CO_ZONA_PROTECT_MOD',$1,'${code}')`;
       await PgUtls.execNone(insertStmt, data);
-      const fileName = 'ArticleZPM_' + code + '.html';
-      fs.writeFile(`rgis_layers/docs/${fileName}`, data, { encoding: 'utf8' }, (err) => { });
+      // const fileName = 'ArticleZPM_' + code + '.html';
+      // fs.writeFile(`rgis_layers/docs/${fileName}`, data, { encoding: 'utf8' }, (err) => { });
     }
   }
 
