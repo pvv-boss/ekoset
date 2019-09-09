@@ -54,6 +54,7 @@ export default class Main extends Vue {
 <style lang="scss">
 .brc-main-image {
   max-width: 100%;
+  width: 100%;
   min-height: 160px;
 }
 .brc-page-img {
