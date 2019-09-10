@@ -9,29 +9,30 @@
         <img src="/images/logo.png" alt="Экосеть" />
       </nuxt-link>
 
-      <img
-        v-click-outside="closeMenu"
-        class="brc-page-header-mobile__menu-expander"
-        @click="openMenu"
-        src="/images/menu.png"
-      />
+      <div class="brc-page-header-mobile__user">
+        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
+          <img src="/images/user-icon.png" title="Вход на сайт" />
+        </nuxt-link>
+      </div>
 
-      <nuxt-link
-        :to="{name: 'auth-login',params:{mode:'login'}}"
-        class="brc-page-header-mobile__user"
-        :class="{active: activeIndex === 'auth-login'}"
+      <div
+        class="brc-page-header-mobile_expander"
+        :class="{close:isMainMenuActive===true}"
+        v-click-outside="closeMenu"
+        @click="openMenu"
       >
-        <img src="/images/user_small.png" alt="Экосеть" />
-      </nuxt-link>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
 
-    <!-- Само меню. Живет с абсолютным позишн !!! -->
+    <!-- Само меню. Живет с фиксед позишн !!! -->
     <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
         <div class="brc-page-header-mobile-menu__user-auth">
           <UserAuthHeader></UserAuthHeader>
         </div>
-        <a href="#" class="brc-page-header-mobile__menu-closer" @click="closeMenu" />
       </div>
 
       <div class="brc-page-header-mobile-menu__main-menu">
@@ -55,7 +56,7 @@
     </nav>
 
     <!-- Для закрытия основного контента -->
-    <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
+    <!-- <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div> -->
   </section>
 </template>
 
@@ -83,7 +84,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   public isMainMenuActive = false
 
   public openMenu () {
-    this.isMainMenuActive = true
+    this.isMainMenuActive = !this.isMainMenuActive
   }
 
   public closeMenu () {
@@ -138,21 +139,60 @@ export default class TheHeaderMobileMenu2 extends Vue {
       }
     }
 
-    .brc-page-header-mobile__menu-expander {
-      position: relative;
-      width: 30px;
-      height: 30px;
-      max-height: 30px;
-      margin-left: auto;
-      cursor: pointer;
+    .brc-page-header-mobile__user {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .brc-page-header-mobile__user {
-      height: 20px;
-      margin-left: 15px;
-      > img {
-        max-height: 20px;
-        height: 20px;
+    .brc-page-header-mobile_expander {
+      display: block;
+      margin: 7px 0 0 12px;
+      position: relative;
+      height: 42px;
+      width: 40px;
+
+      > span {
+        background: #4b4b4b;
+        display: block;
+        height: 5px;
+        width: 42px;
+        position: absolute;
+        top: 0;
+        transition: 0.5s;
+      }
+
+      > span:nth-child(2) {
+        top: 13px;
+      }
+
+      > span:nth-child(3) {
+        top: 26px;
+      }
+
+      &.close {
+        > span {
+          display: block;
+          height: 5px;
+          width: 42px;
+          position: absolute;
+          top: 0;
+          transition: 0.5s;
+          background: $red;
+        }
+
+        > span {
+          transform: rotate(225deg);
+          top: 14px;
+        }
+
+        > span:nth-child(2) {
+          transform: rotate(135deg);
+        }
+
+        > span:nth-child(3) {
+          transform: rotate(225deg);
+        }
       }
     }
   }
@@ -161,9 +201,9 @@ export default class TheHeaderMobileMenu2 extends Vue {
 .brc-page-header-mobile__menu {
   box-sizing: border-box;
   position: absolute;
-  top: 0px;
   left: 0px;
-  transform: translateY(-110%);
+  right: 0px;
+  transform: translateX(-110%);
   display: none;
   flex-direction: column;
   background-color: white;
@@ -195,29 +235,6 @@ export default class TheHeaderMobileMenu2 extends Vue {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .brc-page-header-mobile__menu-closer {
-    position: relative;
-    width: 20px;
-    height: 20px;
-  }
-  .brc-page-header-mobile__menu-closer::before,
-  .brc-page-header-mobile__menu-closer::after {
-    position: absolute;
-    top: 0px;
-    left: 7px;
-    width: 3px;
-    height: 18px;
-    content: "";
-    background-color: black;
-    display: block;
-  }
-  .brc-page-header-mobile__menu-closer::before {
-    transform: rotate(-45deg);
-  }
-  .brc-page-header-mobile__menu-closer::after {
-    transform: rotate(45deg);
   }
 
   .brc-top-menu__user-navigation {
@@ -272,7 +289,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   .brc-page-header-mobile__ask {
     a {
       border-bottom: none;
-      color: $text-color;
+      // color: $text-color;
     }
   }
 

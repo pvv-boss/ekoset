@@ -12,7 +12,7 @@ import SortFilterPagination from '@/entities/SortFilterPagination';
 
 export default class ArticleService extends BaseService {
 
-  private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?=)".*?>/gm;
+  private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?)".*?>/gm;
 
   private apiListViewName = 'v_api_article_list';
   private apiViewName = 'v_api_article';

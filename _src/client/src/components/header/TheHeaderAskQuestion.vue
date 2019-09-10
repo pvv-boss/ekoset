@@ -32,13 +32,7 @@ export default class TheHeaderAskQuestion extends Vue {
   height: 18px;
   max-height: 18px;
   align-items: center;
-  > img {
-    height: 100%;
-    min-height: 100%;
-    @media (max-width: 900px) {
-      display: none !important;
-    }
-  }
+
   > a {
     margin-left: 3px;
     border-bottom: 1px dotted rgba(255, 13, 41, 0.25);

@@ -1,32 +1,19 @@
 <template>
-  <div class="brc-top-menu__user-navigation">
-    <ul class="brc-top-menu__user-navigation-menu">
-      <li v-if="isAuthenticated" class="user-navigation-menu__li">
-        <a class="user-navigation-menu__link brc-dropdown-toggle">
-          <img
-            :src="userImageSrc"
-            title="Личный кабинет"
-            class="img-responsive"
-            style="border-radius: 100%;"
-            width="42"
-          />
-          <div class='p_small'>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
-        </a>
-      </li>
-      <li v-else class="user-navigation-menu__li">
-        <nuxt-link
-          :to="{ name: 'auth-login', params: {mode: 'login'} }"
-          class="user-navigation-menu__link user-navigation-menu__link-auth p_small"
-        ><img
-            :src="userImageSrc"
-            title="Личный кабинет"
-            class="img-responsive"
-            style="border-radius: 100%;"
-            width="42"
-          /></nuxt-link>
-      </li>
-    </ul>
-  </div>
+  <no-ssr>
+    <section>
+      <div v-if="isAuthenticated" class="brc-top-menu__user">
+        <div
+          class="dsp_small"
+        >{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
+      </div>
+
+      <div v-else class="brc-top-menu__user_notauthenticated">
+        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
+          <img src="/images/user-icon.png" title="Вход на сайт" />
+        </nuxt-link>
+      </div>
+    </section>
+  </no-ssr>
 </template>
 
 <script lang="ts">
@@ -50,9 +37,25 @@ export default class UserAuthHeader extends Vue {
     return this.userStore.isAuthenticated
   }
 
-  private get userImageSrc (): string {
-    return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user.png'
-  }
+  // private get userImageSrc (): string {
+  // return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user-icon.png'
+  // }
 
 }
 </script>
+
+<style lang="scss">
+.brc-top-menu__user_notauthenticated {
+  // width: 50px;
+  // height: 50px;
+  // border: 1px solid #a6a6a6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border-radius: 50%;
+  .img {
+    // width: 20px;
+    // height: 25px;
+  }
+}
+</style>

@@ -81,6 +81,7 @@ $header_margin_top: 15px;
 
   #brc-page-header-order {
     display: flex;
+    margin-left: 30px;
   }
 }
 

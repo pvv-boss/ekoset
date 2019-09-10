@@ -114,7 +114,7 @@ export default class TheLayoutFooter extends Vue {
   padding-top: 30px;
 
   a {
-    color: $text-color1;
+    color: $text-color;
   }
   img {
     max-height: 40px;
@@ -130,12 +130,16 @@ export default class TheLayoutFooter extends Vue {
     > li {
       list-style: none;
       list-style-type: none;
-      font-size: 0.9rem;
+      // font-size: 0.9rem;
+    }
+
+    > li + li {
+      margin-top: 5px;
     }
   }
   .brc-page-footer__contacts {
     a {
-      color: $text-color1;
+      color: $text-color;
     }
   }
 
@@ -159,7 +163,7 @@ export default class TheLayoutFooter extends Vue {
 @media (max-width: 768px) {
   .brc-page-footer__menu {
     a {
-      color: gray;
+      color: $text-color;
     }
   }
   .brc-footer-log {

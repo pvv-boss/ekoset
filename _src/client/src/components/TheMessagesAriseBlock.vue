@@ -20,20 +20,20 @@ import MessageForm from '@/components/public/MessageForm.vue'
 })
 export default class TheMessagesAriseBlock extends Vue {
   private mounted () {
-    const orderFormElement = document.getElementById("btnOrderPopupForm")
+    const orderFormElement = document.getElementById('btnOrderPopupForm')
     if (orderFormElement) {
       orderFormElement.addEventListener('click', (e) => {
         if (!orderFormElement.children[0].contains(e.target as HTMLElement)) {
-          orderFormElement.setAttribute("style", "display:none")
+          orderFormElement.setAttribute('style', 'display:none')
         }
       })
     }
 
-    const questionFormElement = document.getElementById("btnQuestionPopupForm")
+    const questionFormElement = document.getElementById('btnQuestionPopupForm')
     if (questionFormElement) {
       questionFormElement.addEventListener('click', (e) => {
         if (!questionFormElement.children[0].contains(e.target as HTMLElement)) {
-          questionFormElement.setAttribute("style", "display:none")
+          questionFormElement.setAttribute('style', 'display:none')
         }
       })
     }
@@ -41,14 +41,14 @@ export default class TheMessagesAriseBlock extends Vue {
   }
 
   private closeForm () {
-    const orderFormElement = document.getElementById("btnOrderPopupForm")
+    const orderFormElement = document.getElementById('btnOrderPopupForm')
     if (orderFormElement) {
-      orderFormElement.setAttribute("style", "display:none")
+      orderFormElement.setAttribute('style', 'display:none')
     }
 
-    const questionFormElement = document.getElementById("btnQuestionPopupForm")
+    const questionFormElement = document.getElementById('btnQuestionPopupForm')
     if (questionFormElement) {
-      questionFormElement.setAttribute("style", "display:none")
+      questionFormElement.setAttribute('style', 'display:none')
     }
   }
 
