@@ -15,12 +15,7 @@
         </nuxt-link>
       </div>
 
-      <div
-        class="brc-page-header-mobile_expander"
-        :class="{close:isMainMenuActive===true}"
-        v-click-outside="closeMenu"
-        @click="openMenu"
-      >
+      <div class="brc-page-header-mobile_expander" v-click-outside="closeMenu" @click="openMenu">
         <span></span>
         <span></span>
         <span></span>
@@ -31,7 +26,12 @@
     <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
         <div class="brc-page-header-mobile-menu__user-auth">
-          <UserAuthHeader></UserAuthHeader>
+          <UserAuthHeader :isMobile="true"></UserAuthHeader>
+        </div>
+        <div class="brc-page-header-mobile__close" @click="openMenu">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
 
@@ -56,7 +56,7 @@
     </nav>
 
     <!-- Для закрытия основного контента -->
-    <!-- <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div> -->
+    <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
   </section>
 </template>
 
@@ -169,41 +169,16 @@ export default class TheHeaderMobileMenu2 extends Vue {
       > span:nth-child(3) {
         top: 26px;
       }
-
-      &.close {
-        > span {
-          display: block;
-          height: 5px;
-          width: 42px;
-          position: absolute;
-          top: 0;
-          transition: 0.5s;
-          background: $red;
-        }
-
-        > span {
-          transform: rotate(225deg);
-          top: 14px;
-        }
-
-        > span:nth-child(2) {
-          transform: rotate(135deg);
-        }
-
-        > span:nth-child(3) {
-          transform: rotate(225deg);
-        }
-      }
     }
   }
 }
 
 .brc-page-header-mobile__menu {
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
+  top: 0px;
   left: 0px;
-  right: 0px;
-  transform: translateX(-110%);
+  transform: translateY(-120%);
   display: none;
   flex-direction: column;
   background-color: white;
@@ -216,6 +191,49 @@ export default class TheHeaderMobileMenu2 extends Vue {
   width: 100vw;
   height: max-content;
 
+  .brc-page-header-mobile-menu__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .brc-page-header-mobile__close {
+    display: block;
+    margin: 7px 0 0 auto !important;
+    position: relative;
+    margin-left: auto;
+    height: 42px;
+    width: 40px;
+    > span {
+      display: block;
+      height: 5px;
+      width: 42px;
+      position: absolute;
+      top: 0;
+      background: $red;
+    }
+
+    > span {
+      transform: rotate(225deg);
+      top: 14px;
+    }
+
+    > span:nth-child(2) {
+      transform: rotate(135deg);
+    }
+
+    > span:nth-child(3) {
+      transform: rotate(225deg);
+    }
+  }
+
+  .brc-page-header-mobile__menu-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+
   &.visible {
     transform: none;
   }
@@ -223,18 +241,10 @@ export default class TheHeaderMobileMenu2 extends Vue {
   * {
     padding: 0 !important;
     padding-left: 0 !important;
-    margin: 0 !important;
   }
 
   > div + div {
     border-top: 1px solid $delimiter-light-color;
-  }
-
-  .brc-page-header-mobile-menu__title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
   }
 
   .brc-top-menu__user-navigation {
@@ -260,6 +270,13 @@ export default class TheHeaderMobileMenu2 extends Vue {
     justify-items: start;
     .brc-page-header-mobile__order {
       margin-left: 15px !important;
+    }
+  }
+
+  .brc-page-header-mobile__invite,
+  .brc-page-header-mobile__ask {
+    * {
+      margin: 0 !important;
     }
   }
 
@@ -289,7 +306,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   .brc-page-header-mobile__ask {
     a {
       border-bottom: none;
-      // color: $text-color;
+      color: $text-color;
     }
   }
 

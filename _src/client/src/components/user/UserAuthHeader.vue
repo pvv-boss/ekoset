@@ -1,15 +1,15 @@
 <template>
   <no-ssr>
     <section>
-      <div v-if="isAuthenticated" class="brc-top-menu__user">
-        <div
-          class="dsp_small"
-        >{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
+      <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
+        <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
+        <div>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
       </div>
 
       <div v-else class="brc-top-menu__user_notauthenticated">
         <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
-          <img src="/images/user-icon.png" title="Вход на сайт" />
+          <img :src="userImageSrc" title="Вход на сайт" />
+          <div v-if="isMobile">Личный кабинет</div>
         </nuxt-link>
       </div>
     </section>
@@ -23,6 +23,10 @@ import { getModule } from 'vuex-module-decorators'
 
 @Component
 export default class UserAuthHeader extends Vue {
+
+  @Prop()
+  private isMobile = false
+
   private userStore = getModule(AuthStore, this.$store)
 
   private get sessionUser () {
@@ -37,21 +41,36 @@ export default class UserAuthHeader extends Vue {
     return this.userStore.isAuthenticated
   }
 
-  // private get userImageSrc (): string {
-  // return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user-icon.png'
-  // }
+  private get userImageSrc (): string {
+    return this.isMobile ? '/images/user-icon-red.png' : '/images/user-icon.png'
+    // return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user-icon.png'
+  }
 
 }
 </script>
 
 <style lang="scss">
+@import "@/styles/variables.scss";
+@import "@/styles/typography.scss";
+
+.brc-top-menu__user_authenticated,
 .brc-top-menu__user_notauthenticated {
+  color: $red;
   // width: 50px;
   // height: 50px;
   // border: 1px solid #a6a6a6;
   display: flex;
   justify-content: center;
   align-items: center;
+  div {
+    color: $red;
+    margin-left: 10px;
+  }
+  a {
+    color: $red;
+    display: flex;
+    align-items: center;
+  }
   // border-radius: 50%;
   .img {
     // width: 20px;
