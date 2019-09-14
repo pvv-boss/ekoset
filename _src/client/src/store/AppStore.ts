@@ -28,6 +28,8 @@ export default class AppStore extends VuexModule {
       const siteSectionModel = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
       if (siteSectionModel) {
         this.context.commit('setCurrentSiteSectionName', siteSectionModel.siteSectionName)
+      } else {
+        this.context.commit('setCurrentSiteSectionName', null)
       }
     }
   }

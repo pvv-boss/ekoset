@@ -98,11 +98,12 @@ export default class ArticleCard extends Vue {
   @Watch('getCurrentSiteSection', { immediate: true })
   private async buildBreadCrumbList () {
     this.breadCrumbList = []
+
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
 
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (siteSectionName) {
+    if (siteSectionSlug) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
     this.breadCrumbList.push({ name: 'Новости', link: 'news', params: { siteSection: siteSectionSlug } })
