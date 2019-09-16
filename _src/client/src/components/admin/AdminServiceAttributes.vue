@@ -38,7 +38,7 @@ import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
     AdminFileUploader
   }
 })
-export default class AdminSiteSectionAttributes extends Vue {
+export default class AdminServiceAttributes extends Vue {
   @Prop()
   private value
 

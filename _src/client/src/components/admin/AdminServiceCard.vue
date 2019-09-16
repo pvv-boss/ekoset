@@ -45,7 +45,7 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
     AdminArticleEditor,
     AdminSiteSectionAttributes
   }})
-export default class AdminSiteSectionCard extends Vue {
+export default class AdminServiceCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
 
   private layout () {
