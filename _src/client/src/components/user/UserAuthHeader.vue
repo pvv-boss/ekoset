@@ -25,7 +25,7 @@ import { getModule } from 'vuex-module-decorators'
 export default class UserAuthHeader extends Vue {
 
   @Prop()
-  private isMobile = false
+  private isMobile
 
   private userStore = getModule(AuthStore, this.$store)
 
