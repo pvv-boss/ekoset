@@ -20,8 +20,9 @@
         <input type="number" v-model.number="newSiteSection.siteSectionStatus" />
       </div>
       <button @click="saveNewSiteSection">Сохранить</button>
-      <button @click="cancelNewSiteSection">Отменить</button>
+      <button @click="cancelSaveNewSiteSection">Отменить</button>
     </div>
+
     <vue-good-table :columns="headerFields" :rows="siteSectionItems">
       <template slot="table-row" slot-scope="props">
         <nuxt-link
@@ -70,15 +71,19 @@ export default class AdminSiteSectionList extends Vue {
     return 'admin'
   }
 
-  private async mounted () {
+  private async updateItems () {
     this.siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
+  }
+  private async mounted () {
+    this.updateItems()
   }
 
   private async saveNewSiteSection () {
     await getServiceContainer().publicEkosetService.saveSiteSection(this.newSiteSection)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
+    await this.updateItems()
+    this.newSiteSection = new SiteSection()
   }
 
   private cancelSaveNewSiteSection () {
