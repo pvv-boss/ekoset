@@ -16,12 +16,14 @@ export default class IndividualOfferService extends BaseService {
 
   // Для Частных лиц и раздела
   public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
-    return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+    const offers = await this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+    return !!offers && offers.length > 0 ? offers[0] : new IndividualOffer()
   }
 
   // Для Бизнеса и раздела
   public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
-    return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+    const offers = await this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
+    return !!offers && offers.length > 0 ? offers[0] : new IndividualOffer()
   }
 
   public async save (individualOffer: IndividualOffer) {

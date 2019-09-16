@@ -88,7 +88,6 @@ export default class OfferCard extends Vue {
       individualOffer = context.params.clienttype === 'business'
         ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(siteSection)
         : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(siteSection)
-
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     }
@@ -141,7 +140,7 @@ export default class OfferCard extends Vue {
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    if (siteSectionName) {
+    if (siteSectionSlug) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
     this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
