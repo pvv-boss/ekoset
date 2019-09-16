@@ -2,6 +2,7 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer';
 import ApiSharedData from '@/models/ekoset/ApiSharedData';
+import SiteSection from '@/models/ekoset/SiteSection';
 
 export default class PublicEkosetService extends BaseService {
 
@@ -72,6 +73,14 @@ export default class PublicEkosetService extends BaseService {
 
   public async getBrandsByBusinessServiceSlug (slug: string) {
     return this.getBrandsByBusinessService(this.getIdBySlug(slug))
+  }
+
+  public async saveSiteSection (siteSection: SiteSection) {
+    return HttpUtil.httpPut(this.buildHttRequest('activities'), siteSection)
+  }
+
+  public async deleteSiteSection (slug: string) {
+    return HttpUtil.httpDelete(this.buildHttRequest(`activities/${this.getIdBySlug(slug)}`))
   }
 
   private async getBrandsBySiteSection (siteSectionId: number) {

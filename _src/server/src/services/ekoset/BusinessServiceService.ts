@@ -1,6 +1,7 @@
 import BaseService from '../BaseService';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { BusinessService } from '@/entities/ekoset/BusinessService';
+import * as slugify from '@sindresorhus/slugify';
 
 export default class BusinessServiceService extends BaseService {
   private businessClientTypeId = 1;
@@ -49,6 +50,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async save (businessService: BusinessService) {
+    businessService.businessServiceSlug = slugify(businessService.businessServiceName)
     return TypeOrmManager.EntityManager.save(businessService);
   }
 

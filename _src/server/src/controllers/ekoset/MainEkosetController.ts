@@ -2,7 +2,8 @@ import { JsonController, Get, Res, Param, Req, Body, Put, Delete } from 'routing
 import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
-import { Article } from '@/entities/ekoset/Article';
+import { SiteSection } from '@/entities/ekoset/SiteSection';
+import BusinessServiceController from './BusinessServiceController';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -52,5 +53,21 @@ export default class MainEkosetController extends BaseController {
 
     const result = await ServiceContainer.MainEkosetService.getBrandsByBusinessService(serviceId);
     return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Put('/activities')
+  public async saveSiteSection (
+    @Body() siteSection: SiteSection,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.saveSiteSection(siteSection);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/activities/:id(\\d+)')
+  public async deleteSiteSection (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    // const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
+    // return BusinessServiceController.createSuccessResponse(result, response);
   }
 }
