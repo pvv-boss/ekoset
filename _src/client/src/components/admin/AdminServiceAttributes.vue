@@ -6,7 +6,7 @@
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Префикс</div>
-      <input type="text" v-model="value.siteSectionSlug" readonly="readonly" />
+      <input type="text" v-model="value.siteSectionSlug" />
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Приоритет</div>
@@ -38,7 +38,7 @@ import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
     AdminFileUploader
   }
 })
-export default class AdminSiteSectionAttributes extends Vue {
+export default class AdminServiceAttributes extends Vue {
   @Prop()
   private value
 
