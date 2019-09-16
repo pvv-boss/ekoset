@@ -34,6 +34,7 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-file-agent/dist/vue-file-agent.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
@@ -62,6 +63,9 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/vue-good-table', mode: 'client'
+    },
+    {
+      src: '@/plugins/vue-file-agent', mode: 'client'
     }
   ],
 
