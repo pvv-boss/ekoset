@@ -6,6 +6,22 @@
       v-show="!createNewSiteSectionMode"
     >Создать подраздел</button>
 
+    <div v-if="createNewSiteSectionMode">
+      <div class="brc-article-attribute">
+        <div class="brc-article-attribute__caption">Наименование</div>
+        <input type="text" v-model="newSiteSection.siteSectionName" />
+      </div>
+      <div class="brc-article-attribute">
+        <div class="brc-article-attribute__caption">Приоритет</div>
+        <input type="number" v-model.number="newSiteSection.siteSectionPriority" />
+      </div>
+      <div class="brc-article-attribute">
+        <div class="brc-article-attribute__caption">Статус</div>
+        <input type="number" v-model.number="newSiteSection.siteSectionStatus" />
+      </div>
+      <button @click="saveNewSiteSection">Сохранить</button>
+      <button @click="cancelNewSiteSection">Отменить</button>
+    </div>
     <vue-good-table :columns="headerFields" :rows="siteSectionItems">
       <template slot="table-row" slot-scope="props">
         <nuxt-link
@@ -23,10 +39,9 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
-
-@Component({
-})
+@Component({})
 export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false
@@ -57,6 +72,18 @@ export default class AdminSiteSectionList extends Vue {
 
   private async mounted () {
     this.siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
+  }
+
+  private async saveNewSiteSection () {
+    await getServiceContainer().publicEkosetService.saveSiteSection(this.newSiteSection)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.newSiteSection = new SiteSection()
+    this.createNewSiteSectionMode = false
+  }
+
+  private cancelSaveNewSiteSection () {
+    this.newSiteSection = new SiteSection()
+    this.createNewSiteSectionMode = false
   }
 }
 </script>

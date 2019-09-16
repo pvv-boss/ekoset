@@ -19,11 +19,11 @@
 
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Превью изображение</div>
-      <input type="text" v-model="value.siteSectionImgSmall" />
+      <AdminFileUploader v-model="value.siteSectionImgSmall"></AdminFileUploader>
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Основное изображение</div>
-      <input type="text" v-model="value.siteSectionImgBig" />
+      <AdminFileUploader v-model="value.siteSectionImgBig"></AdminFileUploader>
     </div>
   </div>
 </template>
@@ -31,8 +31,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection'
+import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 
-@Component
+@Component({
+  components: {
+    AdminFileUploader
+  }
+})
 export default class AdminSiteSectionAttributes extends Vue {
   @Prop()
   private value
