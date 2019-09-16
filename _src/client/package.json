@@ -24,6 +24,7 @@
     "nuxt-property-decorator": "latest",
     "quill": "^1.3.7",
     "quill-image-resize-module": "latest",
+    "vue-file-agent": "^1.2.0",
     "vue-good-table": "^2.18.0",
     "vue-quill-editor": "latest",
     "vue-router": "latest",
