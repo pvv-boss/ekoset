@@ -24,7 +24,7 @@ import { NuxtContext } from 'vue/types/options'
 import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
 import AdminArticleAttributes from '@/components/admin/AdminArticleAttributes.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import Articles from '../../pages/public/Articles.vue';
+
 
 @Component({
   components: {
@@ -73,7 +73,7 @@ export default class AdminArticleCard extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .brc-article__form {
   width: 100%;
   .brc-article-card__save {
@@ -91,5 +91,8 @@ export default class AdminArticleCard extends Vue {
     padding: 10px;
     flex: 1;
   }
+}
+.ql-container {
+  height: 600px !important;
 }
 </style>

@@ -12,7 +12,12 @@
             <img src="/images/logo.png" alt="Экосеть" />
           </nuxt-link>
           <ul class="brc-admin-navigation__list">
-            <li class="brc-admin-navigation__item">Разделы</li>
+            <li class="brc-admin-navigation__item">
+              <nuxt-link
+                :to="{ name: 'admin-site-sections'}"
+                class="brc-admin-navigation__item-link"
+              >Подразделы</nuxt-link>
+            </li>
             <li class="brc-admin-navigation__item">Услуги</li>
             <li class="brc-admin-navigation__item">
               <input
