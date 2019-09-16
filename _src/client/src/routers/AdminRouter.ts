@@ -1,6 +1,8 @@
 import Admin from '@/pages/admin/Admin.vue'
 import AdminArticleList from '@/components/admin/AdminArticleList.vue'
 import AdminArticleCard from '@/components/admin/AdminArticleCard.vue'
+import AdminSiteSectionList from '@/components/admin/AdminSiteSectionList.vue'
+import AdminSiteSectionCard from '@/components/admin/AdminSiteSectionCard.vue'
 
 export const AdminRouter = [
   {
@@ -30,5 +32,19 @@ export const AdminRouter = [
     props: true,
     component: AdminArticleCard,
     meta: { title: 'Экосеть: Панель управления - редактирование новости' }
+  },
+  {
+    name: 'admin-site-section-card',
+    path: '/admin/sitesection/:siteSection',
+    props: true,
+    component: AdminSiteSectionCard,
+    meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
+  },
+  {
+    name: 'admin-site-sections',
+    path: '/admin/sitesection/',
+    props: true,
+    component: AdminSiteSectionList,
+    meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
   }
 ]

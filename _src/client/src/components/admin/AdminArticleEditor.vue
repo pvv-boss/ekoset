@@ -105,9 +105,7 @@ export default class AdminArticleEditor extends Vue {
     overflow-y: auto;
   }
 }
-.ql-container {
-  height: 600px !important;
-}
+
 .ql-html {
   width: 120px !important;
   &:after {

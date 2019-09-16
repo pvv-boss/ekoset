@@ -24,6 +24,7 @@ const config: NuxtConfiguration = {
       { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
       { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' },
       { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
+      { src: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.js' },
       { src: 'https://yastatic.net/share2/share.js' },
     ],
 
@@ -32,7 +33,7 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
-      { rel: 'stylesheet', href: '/_nuxt/app-190902-16.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
@@ -58,6 +59,9 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/brc-route-middleware'
+    },
+    {
+      src: '@/plugins/vue-good-table', mode: 'client'
     }
   ],
 
@@ -73,7 +77,7 @@ const config: NuxtConfiguration = {
   build: {
     extractCSS: true,
     filenames: {
-      css: ({ isDev }) => isDev ? '[name].css' : '[contenthash].css',
+      css: ({ isDev }) => isDev ? '[contenthash].css' : '[contenthash].css',
     },
     extend (config, { isDev, isClient }) {
       if (isClient) {
@@ -93,7 +97,7 @@ const config: NuxtConfiguration = {
 
   purgeCSS: {
     mode: 'postcss',
-    whitelistPatterns: [/el.*?$/, /brc.*?$/]
+    whitelistPatterns: [/brc.*?$/, /vgt.*?$/]
   },
 
   server: {
