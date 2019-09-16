@@ -18,9 +18,7 @@
           <td>
             <input type="text" v-model="newSiteSection.siteSectionName" />
           </td>
-          <td>
-            <input type="text" v-model="newSiteSection.siteSectionSlug" />
-          </td>
+          <td></td>
           <td>
             <input type="text" v-model="newSiteSection.siteSectionPriority" />
           </td>
