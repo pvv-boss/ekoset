@@ -22,8 +22,9 @@
     "nuxt": "2.8.1",
     "nuxt-class-component": "latest",
     "nuxt-property-decorator": "latest",
-    "quill": "latest",
+    "quill": "^1.3.7",
     "quill-image-resize-module": "latest",
+    "vue-good-table": "^2.18.0",
     "vue-quill-editor": "latest",
     "vue-router": "latest",
     "vuelidate": "latest"

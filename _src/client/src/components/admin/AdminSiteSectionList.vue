@@ -5,37 +5,16 @@
       @click="createNewSiteSectionMode = true"
       v-show="!createNewSiteSectionMode"
     >Создать подраздел</button>
-    <table class="brc-site-section-table_admin">
-      <thead>
-        <th>Наименование</th>
-        <th>Префикс</th>
-        <th>Приоритет</th>
-        <th>Статус</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr v-if="createNewSiteSectionMode">
-          <td>
-            <input type="text" v-model="newSiteSection.siteSectionName" />
-          </td>
-          <td></td>
-          <td>
-            <input type="text" v-model="newSiteSection.siteSectionPriority" />
-          </td>
-          <td>
-            <input type="text" v-model="newSiteSection.siteSectionStatus" />
-          </td>
-          <td>
-            <button @click="saveNewSiteSection">Сохранить</button>
-          </td>
-        </tr>
-        <AdminSiteSectionListItem
-          v-for="siteSectionItem in siteSectionItems"
-          :key="siteSectionItem.siteSectionId"
-          :siteSectionItem="siteSectionItem"
-        ></AdminSiteSectionListItem>
-      </tbody>
-    </table>
+
+    <vue-good-table :columns="headerFields" :rows="siteSectionItems">
+      <template slot="table-row" slot-scope="props">
+        <nuxt-link
+          v-if="props.column.field == 'siteSectionName'"
+          :to="{ name: 'admin-site-section-card', params: { siteSection: props.row.siteSectionSlug+'-'+props.row.siteSectionId}}"
+        >{{props.row.siteSectionName}}</nuxt-link>
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+      </template>
+    </vue-good-table>
   </div>
 </template>
 
@@ -56,6 +35,25 @@ export default class AdminSiteSectionList extends Vue {
   private createNewSiteSectionMode = false
   private newSiteSection: SiteSection = new SiteSection()
 
+  private headerFields = [
+    {
+      field: "siteSectionName",
+      label: "Наименование"
+    },
+    {
+      field: "siteSectionSlug",
+      label: "Префикс"
+    },
+    {
+      field: "siteSectionPriority",
+      label: "Приоритет"
+    },
+    {
+      field: "siteSectionStatus",
+      label: "Статус"
+    }
+  ]
+
   private layout () {
     return 'admin'
   }
@@ -70,12 +68,6 @@ export default class AdminSiteSectionList extends Vue {
 .brc-site-section-list_wrapper {
   width: 100%;
   padding: 20px;
-}
-
-.brc-site-section-table_admin {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
   tr {
     &:hover {
       background-color: lightgoldenrodyellow;
