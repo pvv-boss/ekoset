@@ -6,25 +6,29 @@
     <div v-if="createNewServiceMode">
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Наименование</div>
-        <input type="text" v-model="newSiteSection.siteSectionName" />
+        <input type="text" v-model="newService.businessServiceName" />
+      </div>
+      <div class="brc-service-attribute">
+        <div class="brc-service-attribute__caption">Подраздел</div>
+        <input type="number" v-model.number="newService.siteSectionId" />
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newSiteSection.siteSectionPriority" />
+        <input type="number" v-model.number="newService.businessServicePriority" />
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <input type="number" v-model.number="newSiteSection.siteSectionStatus" />
+        <input type="number" v-model.number="newService.businessServiceStatus" />
       </div>
-      <button @click="saveNewSiteSection">Сохранить</button>
-      <button @click="cancelNewSiteSection">Отменить</button>
+      <button @click="saveNewService">Сохранить</button>
+      <button @click="cancelNewService">Отменить</button>
     </div>
     <vue-good-table :columns="headerFields" :rows="serviceItems">
       <template slot="table-row" slot-scope="props">
         <nuxt-link
-          v-if="props.column.field == 'serviceName'"
-          :to="{ name: 'admin-site-section-card', params: { siteSection: props.row.siteSectionSlug+'-'+props.row.siteSectionId}}"
-        >{{props.row.siteSectionName}}</nuxt-link>
+          v-if="props.column.field == 'businessServiceName'"
+          :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceSlug+'-'+props.row.businessServiceId}}"
+        >{{props.row.businessServiceName}}</nuxt-link>
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
     </vue-good-table>
@@ -47,19 +51,19 @@ export default class AdminSiteSectionList extends Vue {
 
   private headerFields = [
     {
-      field: "siteSectionName",
+      field: "businessServiceName",
       label: "Наименование"
     },
     {
-      field: "siteSectionSlug",
-      label: "Префикс"
+      field: "siteSectionId",
+      label: "Подраздел"
     },
     {
-      field: "siteSectionPriority",
+      field: "businessServicePriority",
       label: "Приоритет"
     },
     {
-      field: "siteSectionStatus",
+      field: "businessServiceStatus",
       label: "Статус"
     }
   ]

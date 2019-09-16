@@ -3,6 +3,8 @@ import AdminArticleList from '@/components/admin/AdminArticleList.vue'
 import AdminArticleCard from '@/components/admin/AdminArticleCard.vue'
 import AdminSiteSectionList from '@/components/admin/AdminSiteSectionList.vue'
 import AdminSiteSectionCard from '@/components/admin/AdminSiteSectionCard.vue'
+import AdminServiceList from '@/components/admin/AdminServiceList.vue'
+import AdminServiceCard from '@/components/admin/AdminServiceCard.vue'
 
 export const AdminRouter = [
   {
@@ -46,5 +48,19 @@ export const AdminRouter = [
     props: true,
     component: AdminSiteSectionList,
     meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
+  },
+  {
+    name: 'admin-service-card',
+    path: '/admin/service/:service',
+    props: true,
+    component: AdminServiceCard,
+    meta: { title: 'Экосеть: Панель управления - услуги' }
+  },
+  {
+    name: 'admin-service',
+    path: '/admin/service/',
+    props: true,
+    component: AdminServiceList,
+    meta: { title: 'Экосеть: Панель управления - услуги' }
   }
 ]
