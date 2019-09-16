@@ -6,7 +6,7 @@
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Префикс</div>
-      <input type="text" v-model="value.siteSectionSlug" readonly="readonly" />
+      <input type="text" v-model="value.siteSectionSlug" />
     </div>
     <div class="brc-article-attribute">
       <div class="brc-article-attribute__caption">Приоритет</div>
