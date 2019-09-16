@@ -24,6 +24,7 @@ const config: NuxtConfiguration = {
       { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
       { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' },
       { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
+      { src: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.js' },
       { src: 'https://yastatic.net/share2/share.js' },
     ],
 
@@ -33,7 +34,6 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.css' },
-      { rel: 'stylesheet', href: '/_nuxt/[contenthash].css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },

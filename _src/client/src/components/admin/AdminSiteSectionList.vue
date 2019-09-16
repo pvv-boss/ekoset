@@ -23,12 +23,9 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import AdminSiteSectionListItem from '@/components/admin/AdminSiteSectionListItem.vue'
+
 
 @Component({
-  components: {
-    AdminSiteSectionListItem
-  }
 })
 export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []

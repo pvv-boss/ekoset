@@ -19,11 +19,11 @@
       </div>
       <div class="brc-site-section-card__save">
         <button type="button" @click="saveSiteSection">Сохранить</button>
-        <!-- <button
+        <button
           v-if="siteSectionItem.siteSectionId > 0"
           type="button"
           @click="deleteSiteSection"
-        >Удалить</button>-->
+        >Удалить</button>
       </div>
     </div>
   </div>
@@ -63,9 +63,20 @@ export default class AdminSiteSectionCard extends Vue {
   }
 
   private saveSiteSection () {
-    //getServiceContainer().publicEkosetService.(this.siteSectionItem)
-    // TODO: сохранение подраздела
+    getServiceContainer().publicEkosetService.saveSiteSection(this.siteSectionItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  }
+
+  private deleteSiteSection () {
+    const self = this
+    const okCallback = async () => {
+      if (this.siteSectionItem.siteSectionSlug) {
+        await getServiceContainer().publicEkosetService.deleteSiteSection(this.siteSectionItem.siteSectionSlug)
+      }
+      self.$router.push({ name: 'admin-site-sections' })
+      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел?', 'Подтвердите удаление', okCallback)
   }
 }
 </script>
