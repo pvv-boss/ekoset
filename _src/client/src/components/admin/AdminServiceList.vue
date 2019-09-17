@@ -41,7 +41,7 @@ import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import BusinessServiceService from '../../api/BusinessServiceService';
+import BusinessServiceService from '@/api/BusinessServiceService';
 
 @Component({})
 export default class AdminSiteSectionList extends Vue {
@@ -55,7 +55,7 @@ export default class AdminSiteSectionList extends Vue {
       label: "Наименование"
     },
     {
-      field: "siteSectionId",
+      field: "siteSectionName",
       label: "Подраздел"
     },
     {
@@ -73,7 +73,7 @@ export default class AdminSiteSectionList extends Vue {
   }
 
   private async mounted () {
-    this.serviceItems = await getServiceContainer().businessServiceService.getMainList()
+    this.serviceItems = await getServiceContainer().businessServiceService.getAll()
   }
 
   private async saveNewService () {

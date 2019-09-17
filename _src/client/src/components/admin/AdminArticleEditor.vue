@@ -98,7 +98,7 @@ export default class AdminArticleEditor extends Vue {
 <style lang="scss">
 .container {
   min-width: 300px;
-  padding: 10px;
+  //padding: 10px;
   background-color: white;
   .quill-editor {
     //height: 600px;
