@@ -31,12 +31,12 @@ export default class AdminBrandRelationList extends Vue {
 
   private headerFields = [
     {
-      field: "clBrandId",
-      label: ""
+      field: 'clBrandId',
+      label: ''
     },
     {
-      field: "clBrandName",
-      label: "Наименование"
+      field: 'clBrandName',
+      label: 'Наименование'
     }
   ]
 

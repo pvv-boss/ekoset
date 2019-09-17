@@ -39,7 +39,6 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
-    {{indOfferItems}}
     <vue-good-table :columns="headerFields" :rows="indOfferItems"></vue-good-table>
   </div>
 </template>
