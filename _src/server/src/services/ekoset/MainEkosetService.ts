@@ -11,8 +11,6 @@ export default class MainEkosetService extends BaseService {
   private apiBrandsViewName = 'v_api_brand';
   private apiBrandsByBusinessService = 'v_api_business_service_brand'
 
-  private apiAdminSiteSectionBrand = 'v_api_admin_site_section_brand'
-
   public async getSiteSections () {
     return this.getDbViewResult(this.apiViewName);
   }
@@ -26,14 +24,16 @@ export default class MainEkosetService extends BaseService {
   }
 
   // Админка
+  public async getAdminAllBands () {
+    return this.getDbViewResult(this.apiBrandsViewName);
+  }
   public async getAdminForSiteSectionBrands (siteSectionId: number) {
-    return this.getDbViewResult(this.apiAdminSiteSectionBrand);
+    return this.execFunction('f_admin_brands_sitesection', [siteSectionId]);
   }
 
   public async getAdminForBusinessServiceBrands (serviceId: number) {
     return this.execFunction('f_admin_brands_service', [serviceId]);
   }
-
   //
 
   public async getBrandsForHomePage () {

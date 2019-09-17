@@ -63,8 +63,19 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+
+  public async getAdminAllBands () {
+    const query = `admin/brands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getAdminForSiteSectionBrands (siteSectionId: number) {
+    const query = `admin/brands/activities/${siteSectionId}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
   public async getAdminForBusinessServiceBrands (serviceId: number) {
-    const query = `/admin/brands/serivce/${serviceId}`
+    const query = `admin/brands/serivce/${serviceId}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

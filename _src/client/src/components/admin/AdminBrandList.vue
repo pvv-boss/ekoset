@@ -59,7 +59,7 @@ export default class AdminBrandList extends Vue {
   }
 
   private async updateBrandList () {
-    this.brandItems = await getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands()
+    this.brandItems = await getServiceContainer().publicEkosetService.getAdminAllBands()
   }
 
   private async mounted () {
