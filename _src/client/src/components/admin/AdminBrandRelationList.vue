@@ -1,0 +1,49 @@
+<template>
+  <div class="brc-brand-relation-list_wrapper" v-id="brandRelationItems.length>0">
+    <vue-good-table :columns="headerFields" :rows="brandRelationItems">
+      <template slot="table-row" slot-scope="props">
+        <input
+          v-if="props.column.field == 'clBrandId'"
+          type="checkbox"
+          :value="props.row.clBrandId"
+          checked
+        />
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+      </template>
+    </vue-good-table>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import ClBrand from '@/models/ekoset/ClBrand.ts'
+import { getServiceContainer } from '@/api/ServiceContainer'
+import { NuxtContext } from 'vue/types/options'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import BusinessServiceService from '@/api/BusinessServiceService';
+
+@Component({})
+export default class AdminBrandRelationList extends Vue {
+  @Prop()
+  private brandRelationItems
+
+  private brandAllItems: ClBrand[] = []
+
+  private headerFields = [
+    {
+      field: "clBrandId",
+      label: ""
+    },
+    {
+      field: "clBrandName",
+      label: "Наименование"
+    }
+  ]
+
+  private layout () {
+    return 'admin'
+  }
+}
+</script>
+
+

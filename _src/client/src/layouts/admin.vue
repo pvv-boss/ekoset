@@ -18,7 +18,12 @@
                 class="brc-admin-navigation__item-link"
               >Подразделы</nuxt-link>
             </li>
-            <li class="brc-admin-navigation__item">Услуги</li>
+            <li class="brc-admin-navigation__item">
+              <nuxt-link
+                :to="{ name: 'admin-services'}"
+                class="brc-admin-navigation__item-link"
+              >Услуги</nuxt-link>
+            </li>
             <li class="brc-admin-navigation__item">
               <input
                 id="toogleClientTypeMenuVisible"

@@ -57,7 +57,7 @@ export const AdminRouter = [
     meta: { title: 'Экосеть: Панель управления - услуги' }
   },
   {
-    name: 'admin-service',
+    name: 'admin-services',
     path: '/admin/service/',
     props: true,
     component: AdminServiceList,
