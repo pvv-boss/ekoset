@@ -126,7 +126,7 @@ export default class AdminServiceCard extends Vue {
   private async mounted () {
     if (this.serviceSlug !== '') {
       this.serviceItem = await getServiceContainer().businessServiceService.getBySlug(this.serviceSlug)
-      const brandRelationList = getServiceContainer().publicEkosetService.getBrandsByBusinessServiceSlug(this.serviceSlug)
+      const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(this.serviceItem.businessServiceId)
       const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
       const serviceOtherList = this.serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(this.serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
 

@@ -92,7 +92,7 @@ export default class AdminIndividualOfferList extends Vue {
 
   private async mounted () {
     // TODO: получение списка всех индивидуальных предложений
-    this.indOfferItems = await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug('klining-1')
+    this.indOfferItems.push(await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug('klining-1'))
     this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
   }
 
