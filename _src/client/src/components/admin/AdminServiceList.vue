@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper" v-id="serviceItems.length>0">
+  <div class="brc-service-list_wrapper">
     <h1>Услуги</h1>
     <button @click="createNewServiceMode = true" v-show="!createNewServiceMode">Создать услугу</button>
 
@@ -79,7 +79,7 @@ export default class AdminSiteSectionList extends Vue {
     return 'admin'
   }
 
-  private async created () {
+  private async mounted () {
     this.serviceItems = await getServiceContainer().businessServiceService.getAll()
     this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
   }

@@ -24,7 +24,8 @@ const config: NuxtConfiguration = {
       { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
       { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' },
       { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
-      { src: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.js' },
+      { src: 'https://unpkg.com/vue-good-table@latest/dist/vue-good-table.min.js' },
+      { src: 'https://unpkg.com/vue-file-agent@latest/dist/vue-file-agent.umd.js' },
       { src: 'https://yastatic.net/share2/share.js' },
     ],
 
@@ -33,13 +34,13 @@ const config: NuxtConfiguration = {
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
       { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table/dist/vue-good-table.min.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/vue-file-agent/dist/vue-file-agent.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table@latest/dist/vue-good-table.min.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-file-agent@latest/dist/vue-file-agent.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
-  transition: {
+  pageTransition: {
     // css: false
     mode: 'in-out'
   },
@@ -97,7 +98,9 @@ const config: NuxtConfiguration = {
           'vue-router': 'VueRouter',
           'Quill': 'Quill',
           'vue-quill-editor': 'VueQuillEditor',
-          'quill-image-resize-module': 'ImageResize'
+          'quill-image-resize-module': 'ImageResize',
+          'vue-file-agent': 'VueFileAgent',
+          'vue-good-table': 'VueGoodTablePlugin'
         }
       }
       return config
