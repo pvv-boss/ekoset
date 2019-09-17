@@ -100,7 +100,6 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
-
 import SiteSection from '@/models/ekoset/SiteSection'
 
 @Component({
@@ -165,6 +164,9 @@ export default class AdminServiceCard extends Vue {
 </script>
 
 <style lang="scss">
+.brc-admin-card_wrapper {
+  width: 100%;
+}
 .brc-admin-card {
   width: 100%;
   display: flex;
