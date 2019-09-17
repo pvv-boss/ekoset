@@ -62,6 +62,11 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  public async getAllBrands () {
+    const query = `allbrands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
   public async getBrandsForHomePage () {
     const query = `brands`
     return HttpUtil.httpGet(this.buildHttRequest(query))
