@@ -4,6 +4,7 @@ import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
+import { ClBrand } from '@/entities/ekoset/ClBrand';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -60,6 +61,22 @@ export default class MainEkosetController extends BaseController {
 
     const result = await ServiceContainer.MainEkosetService.getBrandsByBusinessService(serviceId);
     return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Put('/brands')
+  public async saveBrand (
+    @Body() clBrand: ClBrand,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.saveBrand(clBrand);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/brands/:id(\\d+)')
+  public async deleteBrand (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.deleteBrand(id);
+    // return BusinessServiceController.createSuccessResponse(result, response);
   }
 
   @Put('/activities')

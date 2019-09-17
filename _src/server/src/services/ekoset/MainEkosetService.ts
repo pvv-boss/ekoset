@@ -2,6 +2,7 @@ import BaseService from '../BaseService';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import * as slugify from '@sindresorhus/slugify';
+import { ClBrand } from '@/entities/ekoset/ClBrand';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -40,6 +41,14 @@ export default class MainEkosetService extends BaseService {
   public async saveSiteSection (siteSection: SiteSection) {
     siteSection.siteSectionSlug = slugify(siteSection.siteSectionName);
     return TypeOrmManager.EntityManager.save(siteSection);
+  }
+
+  public async deleteBrand (id: number) {
+    // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
+  }
+
+  public async saveBrand (clBrand: ClBrand) {
+    return TypeOrmManager.EntityManager.save(clBrand);
   }
 
   public async deleteSiteSection (id: number) {

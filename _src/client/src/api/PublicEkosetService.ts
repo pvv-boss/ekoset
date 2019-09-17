@@ -1,8 +1,9 @@
 import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer';
-import ApiSharedData from '@/models/ekoset/ApiSharedData';
-import SiteSection from '@/models/ekoset/SiteSection';
+import { getServiceContainer } from './ServiceContainer'
+import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import SiteSection from '@/models/ekoset/SiteSection'
+import ClBrand from '@/models/ekoset/ClBrand'
 
 export default class PublicEkosetService extends BaseService {
 
@@ -86,6 +87,14 @@ export default class PublicEkosetService extends BaseService {
 
   public async deleteSiteSection (slug: string) {
     return HttpUtil.httpDelete(this.buildHttRequest(`activities/${this.getIdBySlug(slug)}`))
+  }
+
+  public async saveBrand (brand: ClBrand) {
+    return HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
+  }
+
+  public async deleteBrand (id: number) {
+    return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
   }
 
   private async getBrandsBySiteSection (siteSectionId: number) {
