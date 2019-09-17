@@ -21,6 +21,9 @@ export default class BaseService {
     return PgUtls.delete(viewName, whereStmt, [id]);
   }
 
+  public async execFunction (funcNameWithArgs: string, params?: any[]) {
+    return PgUtls.execFunction(funcNameWithArgs, params);
+  }
 
   public getOneEntityInstanceFromJson<T> (dbResult: {}, classType: new () => T): T {
     if (dbResult) {

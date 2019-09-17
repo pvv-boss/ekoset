@@ -31,18 +31,18 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/brands/serivce/:serviceId')
+  public async getAdminForBusinessServiceBrands (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number) {
+    const result = await ServiceContainer.MainEkosetService.getAdminForBusinessServiceBrands(serviceId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
 
   @Get('/brands')
   public async getBrandsForHomePage (
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.getBrandsForHomePage();
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-  @Get('/allbrands')
-  public async getAllBrands (
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getBrands();
     return MainEkosetController.createSuccessResponse(result, response);
   }
 

@@ -49,8 +49,8 @@ class PgUtls {
     return this.postgrePromise.none(stmtp, params);
   }
 
-  public async execAnyFromDatabse (select: string): Promise<any> {
-    return this.postgrePromise.any(select);
+  public async execFunction (functionName: string, params?: any[]): Promise<any> {
+    return this.postgrePromise.func(functionName, params);
   }
 
   public async getCountFrom (dbViewName: string, whereStmt?: string, whereParams?: any[]) {
