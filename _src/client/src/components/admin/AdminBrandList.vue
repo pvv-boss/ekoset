@@ -41,16 +41,16 @@ export default class AdminBrandList extends Vue {
 
   private headerFields = [
     {
-      field: "clBrandName",
-      label: "Наименование"
+      field: 'clBrandName',
+      label: 'Наименование'
     },
     {
-      field: "clBrandPriority",
-      label: "Приоритет"
+      field: 'clBrandPriority',
+      label: 'Приоритет'
     },
     {
-      field: "clBrandStatus",
-      label: "Статус"
+      field: 'clBrandStatus',
+      label: 'Статус'
     }
   ]
 
@@ -59,7 +59,7 @@ export default class AdminBrandList extends Vue {
   }
 
   private async updateBrandList () {
-    this.brandItems = await getServiceContainer().publicEkosetService.getAllBrands()
+    this.brandItems = await getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands()
   }
 
   private async mounted () {

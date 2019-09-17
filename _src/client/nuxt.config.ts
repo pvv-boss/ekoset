@@ -39,6 +39,11 @@ const config: NuxtConfiguration = {
     ]
   },
 
+  transition: {
+    // css: false
+    mode: 'in-out'
+  },
+
   plugins: [
     {
       src: '@/plugins/initialize-app'
