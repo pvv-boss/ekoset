@@ -58,20 +58,20 @@ export default class AdminSiteSectionList extends Vue {
   private siteSectionList: SiteSection[] = []
   private headerFields = [
     {
-      field: "businessServiceName",
-      label: "Наименование"
+      field: 'businessServiceName',
+      label: 'Наименование'
     },
     {
-      field: "siteSectionName",
-      label: "Подраздел"
+      field: 'siteSectionName',
+      label: 'Подраздел'
     },
     {
-      field: "businessServicePriority",
-      label: "Приоритет"
+      field: 'businessServicePriority',
+      label: 'Приоритет'
     },
     {
-      field: "businessServiceStatus",
-      label: "Статус"
+      field: 'businessServiceStatus',
+      label: 'Статус'
     }
   ]
 
@@ -79,7 +79,7 @@ export default class AdminSiteSectionList extends Vue {
     return 'admin'
   }
 
-  private async mounted () {
+  private async created () {
     this.serviceItems = await getServiceContainer().businessServiceService.getAll()
     this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
   }

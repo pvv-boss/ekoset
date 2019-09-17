@@ -41,8 +41,8 @@ export default class MainEkosetController extends BaseController {
 
   @Get('/admin/brands')
   public async getAdminAllBands (
-    @Res() response: Response,
-    @Param('serviceId') serviceId: number) {
+    @Res() response: Response
+  ) {
     const result = await ServiceContainer.MainEkosetService.getAdminAllBands();
     return MainEkosetController.createSuccessResponse(result, response);
   }

@@ -17,6 +17,7 @@ export class BusinessService {
   @JoinColumn({ name: 'site_section_id' })
   public siteSection: Promise<SiteSection | null | number>;
 
+  @Column({ name: 'site_section_id' })
   @RelationId((business_service: BusinessService) => business_service.siteSection)
   public siteSectionId: number | null;
 
