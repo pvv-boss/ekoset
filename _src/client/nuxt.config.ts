@@ -45,6 +45,11 @@ const config: NuxtConfiguration = {
     mode: 'in-out'
   },
 
+  transition: {
+    // css: false
+    mode: 'in-out'
+  },
+
   plugins: [
     {
       src: '@/plugins/initialize-app'
@@ -98,9 +103,7 @@ const config: NuxtConfiguration = {
           'vue-router': 'VueRouter',
           'Quill': 'Quill',
           'vue-quill-editor': 'VueQuillEditor',
-          'quill-image-resize-module': 'ImageResize',
-          'vue-file-agent': 'VueFileAgent',
-          'vue-good-table': 'VueGoodTablePlugin'
+          'quill-image-resize-module': 'ImageResize'
         }
       }
       return config
