@@ -1,29 +1,64 @@
 <template>
-  <div class="brc-site-section-list_wrapper">
+  <div class="brc-admin-card_wrapper">
     <h1>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h1>
-    <div class="brc-site-section__form" method="post" v-if="siteSectionItem.siteSectionId > 0">
-      <div class="brc-site-section-card_admin">
+    <div class="brc-admin-card" v-if="siteSectionItem.siteSectionId > 0">
+      <div class="brc-admin-card__attributes">
         <div class="brc-site-section-card__attributes">
-          <AdminSiteSectionAttributes v-model="siteSectionItem"></AdminSiteSectionAttributes>
-          <h4>Комплексные решения</h4>
-          <h4>Индивидуальные предложения</h4>
-          <h4>Услуги</h4>
-          <h4>Рекомендации</h4>
-        </div>
-        <div class="brc-site-section-card__editor">
-          <div class="brc-article-attribute__caption">Текстовый блок 1</div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Наименование</div>
+            <input type="text" v-model="siteSectionItem.siteSectionName" />
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Префикс</div>
+            <input type="text" v-model="siteSectionItem.siteSectionSlug" disabled />
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Приоритет</div>
+            <input type="number" v-model.number="siteSectionItem.siteSectionPriority" />
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Статус</div>
+            <input type="number" v-model.number="siteSectionItem.siteSectionStatus" />
+          </div>
+
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Превью изображение</div>
+            <AdminFileUploader v-model="siteSectionItem.siteSectionImgSmall"></AdminFileUploader>
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Основное изображение</div>
+            <AdminFileUploader v-model="siteSectionItem.siteSectionImgBig"></AdminFileUploader>
+          </div>
+          <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
           <AdminArticleEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminArticleEditor>
-          <div class="brc-article-attribute__caption">Текстовый блок 2</div>
+          <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
           <AdminArticleEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminArticleEditor>
+          <button type="button" @click="saveSiteSection">Сохранить</button>
+          <button
+            v-if="siteSectionItem.siteSectionId > 0"
+            type="button"
+            @click="deleteSiteSection"
+          >Удалить</button>
         </div>
       </div>
-      <div class="brc-site-section-card__save">
-        <button type="button" @click="saveSiteSection">Сохранить</button>
-        <button
-          v-if="siteSectionItem.siteSectionId > 0"
-          type="button"
-          @click="deleteSiteSection"
-        >Удалить</button>
+      <div class="brc-admin-card__relations">
+        <div>
+          <h4>Комплексные решения</h4>
+        </div>
+        <div>
+          <h4>Индивидуальные предложения</h4>
+        </div>
+        <div>
+          <h4>Услуги</h4>
+          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+        </div>
+        <div>
+          <h4>Рекомендации</h4>
+          <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList>
+        </div>
+        <div>
+          <h4>Новости</h4>
+        </div>
       </div>
     </div>
   </div>
@@ -37,16 +72,25 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
-import AdminSiteSectionAttributes from '@/components/admin/AdminSiteSectionAttributes.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
+import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
+import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
+import ClBrand from '@/models/ekoset/ClBrand'
+import BusinessService from '@/models/ekoset/BusinessService.ts'
 
 @Component({
   components: {
     AdminArticleEditor,
-    AdminSiteSectionAttributes
+    AdminBrandRelationList,
+    AdminFileUploader,
+    AdminServiceChildList
   }})
+
 export default class AdminSiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
+  private serviceOtherList: BusinessService = new BusinessService()
+  private brandRelationList: ClBrand[] = []
 
   private layout () {
     return 'admin'
@@ -59,6 +103,16 @@ export default class AdminSiteSectionCard extends Vue {
   private async mounted () {
     if (this.getCurrentSiteSection) {
       this.siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.getCurrentSiteSection)
+
+      const brandRelationList = getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(this.getCurrentSiteSection)
+      const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(this.getCurrentSiteSection)
+
+      const data = await Promise.all([brandRelationList, serviceOtherList])
+      if (data) {
+        this.brandRelationList = data[0]
+        this.serviceOtherList = data[1]
+      }
+
     }
   }
 
@@ -81,32 +135,6 @@ export default class AdminSiteSectionCard extends Vue {
 }
 </script>
 
-<style lang="scss">
-.brc-site-section__form {
-  width: 100%;
-  // .brc-site-section-card__save {
-  //   padding: 20px;
-  // }
-}
-.brc-site-section-card_admin {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap-reverse;
-  flex: 2;
 
-  .brc-site-section-card__editor,
-  .brc-site-section-card__attributes {
-    flex: 1;
-
-    input {
-      width: 100%;
-    }
-  }
-}
-
-.ql-container {
-  height: 300px !important;
-}
-</style>
 
 

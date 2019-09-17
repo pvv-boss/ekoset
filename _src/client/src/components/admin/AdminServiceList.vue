@@ -21,7 +21,7 @@
         <input type="number" v-model.number="newService.businessServiceStatus" />
       </div>
       <button @click="saveNewService">Сохранить</button>
-      <button @click="cancelNewService">Отменить</button>
+      <button @click="cancelSaveNewService">Отменить</button>
     </div>
     <vue-good-table :columns="headerFields" :rows="serviceItems">
       <template slot="table-row" slot-scope="props">

@@ -43,7 +43,12 @@
             <li class="brc-admin-navigation__item">
               <nuxt-link :to="{ name: 'admin-news'}" class="brc-admin-navigation__item-link">Новости</nuxt-link>
             </li>
-            <li class="brc-admin-navigation__item">Клиенты</li>
+            <li class="brc-admin-navigation__item">
+              <nuxt-link
+                :to="{ name: 'admin-brands'}"
+                class="brc-admin-navigation__item-link"
+              >Бренды</nuxt-link>
+            </li>
             <li class="brc-admin-navigation__item">Контакты</li>
             <li class="brc-admin-navigation__item">О компании</li>
             <li class="brc-admin-navigation__item">Настройки футера</li>

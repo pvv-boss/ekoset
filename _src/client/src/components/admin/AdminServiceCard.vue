@@ -1,8 +1,8 @@
 <template>
-  <div class="brc-site-section-list_wrapper">
+  <div class="brc-admin-card_wrapper">
     <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
-    <div class="brc-admin-service-card" v-if="serviceItem.businessServiceId > 0">
-      <div class="brc-admin-service-card__attributes">
+    <div class="brc-admin-card" v-if="serviceItem.businessServiceId > 0">
+      <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
           <input type="text" v-model="serviceItem.businessServiceName" />
@@ -59,18 +59,18 @@
           <div class="brc-admin-card-attribute__caption">Основное изображение</div>
           <AdminFileUploader v-model="serviceItem.businessServiceImgBig"></AdminFileUploader>
         </div>
-        <div class="brc-admin-service-card__editor">
+        <div class="brc-admin-card__editor">
           <div class="brc-service-attribute__caption">Текстовый блок 1</div>
           <AdminArticleEditor v-model="serviceItem.businessServiceFreeText1"></AdminArticleEditor>
           <div class="brc-service-attribute__caption">Текстовый блок 2</div>
           <AdminArticleEditor v-model="serviceItem.businessServiceFreeText2"></AdminArticleEditor>
         </div>
-        <div class="brc-admin-service-card__save">
+        <div class="brc-admin-card__save">
           <button type="button" @click="saveService">Сохранить</button>
           <button type="button" @click="deleteService">Удалить</button>
         </div>
       </div>
-      <div class="brc-admin-service-card__relations">
+      <div class="brc-admin-card__relations">
         <div v-if="serviceItem.businessServiceParentId == null && serviceOtherList.length > 0">
           <h4>Услуги второго уровня</h4>
           <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
@@ -165,13 +165,13 @@ export default class AdminServiceCard extends Vue {
 </script>
 
 <style lang="scss">
-.brc-admin-service-card {
+.brc-admin-card {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap-reverse;
   flex: 2;
-  .brc-admin-service-card__attributes {
+  .brc-admin-card__attributes {
     flex: 1;
 
     input,
@@ -182,7 +182,7 @@ export default class AdminServiceCard extends Vue {
       height: 300px !important;
     }
   }
-  .brc-admin-service-card__relations {
+  .brc-admin-card__relations {
     flex: 1;
   }
 }
