@@ -5,5 +5,6 @@ export default class ClBrand {
   public clBrandImgBig: string | null;
   public clBrandUrl: string | null;
   public clBrandPriority: number | null;
+  public clBrandStatus: number | null;
   public clBrandMainPageVisible: number | null;
 }

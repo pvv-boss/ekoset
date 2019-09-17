@@ -5,6 +5,7 @@ import AdminSiteSectionList from '@/components/admin/AdminSiteSectionList.vue'
 import AdminSiteSectionCard from '@/components/admin/AdminSiteSectionCard.vue'
 import AdminServiceList from '@/components/admin/AdminServiceList.vue'
 import AdminServiceCard from '@/components/admin/AdminServiceCard.vue'
+import AdminBrandList from '@/components/admin/AdminBrandList.vue'
 
 export const AdminRouter = [
   {
@@ -62,5 +63,12 @@ export const AdminRouter = [
     props: true,
     component: AdminServiceList,
     meta: { title: 'Экосеть: Панель управления - услуги' }
+  },
+  {
+    name: 'admin-brands',
+    path: '/admin/brand/',
+    props: true,
+    component: AdminBrandList,
+    meta: { title: 'Экосеть: Панель управления - бренды' }
   }
 ]
