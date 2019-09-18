@@ -19,7 +19,6 @@
       <button @click="saveNewBrand">Сохранить</button>
       <button @click="cancelSaveNewBrand">Отменить</button>
     </div>
-    {{brandItems}}
     <vue-good-table :columns="headerFields" :rows="brandItems"></vue-good-table>
   </div>
 </template>

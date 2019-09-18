@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-article__form" method="post">
+  <div class="brc-article__form">
     <div class="brc-article-card_admin">
       <div class="brc-article-card__editor">
         <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
@@ -63,11 +63,10 @@ export default class AdminArticleCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const articleSlug = context.params.article
-
-    const data = await articleSlug ? getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
+    const article = articleSlug ? await getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
 
     return {
-      article: data
+      article
     }
   }
 }
