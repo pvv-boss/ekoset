@@ -77,7 +77,7 @@ const config: NuxtConfiguration = {
   ],
 
   build: {
-    analyze: true,
+    // analyze: true,
     extractCSS: true,
     splitChunks: {
       layouts: true
