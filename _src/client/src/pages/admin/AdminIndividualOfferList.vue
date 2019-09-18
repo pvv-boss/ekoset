@@ -89,10 +89,16 @@ export default class AdminIndividualOfferList extends Vue {
     return 'admin'
   }
 
-  private async mounted () {
-    // TODO: получение списка всех индивидуальных предложений
-    this.indOfferItems.push(await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug('klining-1'))
-    this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
+  private async asyncData (context: NuxtContext) {
+
+    const indOfferItem = getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug('klining-1')
+    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
+
+    const data = await Promise.all([indOfferItem, siteSectionList])
+    return {
+      indOfferItems: [data[0]],
+      siteSectionList: data[1]
+    }
   }
 
   private async saveNew () {

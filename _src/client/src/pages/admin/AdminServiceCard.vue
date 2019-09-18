@@ -112,30 +112,25 @@ import SiteSection from '@/models/ekoset/SiteSection'
 export default class AdminServiceCard extends Vue {
   private serviceItem: BusinessService = new BusinessService()
   private serviceOtherList: BusinessService = new BusinessService()
-  private serviceSlug = ''
   private brandRelationList: ClBrand[] = []
   private siteSectionList: SiteSection[] = []
   private layout () {
     return 'admin'
   }
 
-  public get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSection
-  }
 
-  private async mounted () {
-    if (this.serviceSlug !== '') {
-      this.serviceItem = await getServiceContainer().businessServiceService.getBySlug(this.serviceSlug)
-      const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(this.serviceItem.businessServiceId)
-      const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
-      const serviceOtherList = this.serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(this.serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
+  private async asyncData (context: NuxtContext) {
+    const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
+    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
+    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
+    const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
 
-      const data = await Promise.all([brandRelationList, siteSectionList, serviceOtherList])
-      if (data) {
-        this.brandRelationList = data[0]
-        this.siteSectionList = data[1]
-        this.serviceOtherList = data[2]
-      }
+    const data = await Promise.all([brandRelationList, siteSectionList, serviceOtherList])
+    return {
+      serviceItem,
+      brandRelationList: data[0],
+      siteSectionList: data[1],
+      serviceOtherList: data[2]
     }
   }
 
@@ -154,12 +149,6 @@ export default class AdminServiceCard extends Vue {
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
 
-  private async asyncData (context: NuxtContext) {
-    const serviceSlug = context.params.service
-    return {
-      serviceSlug
-    }
-  }
 }
 </script>
 
