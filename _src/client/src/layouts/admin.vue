@@ -39,7 +39,12 @@
                 <li class="brc-admin-navigation__item">Для частных лиц</li>
               </ul>
             </li>
-            <li class="brc-admin-navigation__item">Инд. предложения</li>
+            <li class="brc-admin-navigation__item">
+              <nuxt-link
+                :to="{ name: 'admin-individual-offers'}"
+                class="brc-admin-navigation__item-link"
+              >Инд. предложения</nuxt-link>
+            </li>
             <li class="brc-admin-navigation__item">
               <nuxt-link :to="{ name: 'admin-news'}" class="brc-admin-navigation__item-link">Новости</nuxt-link>
             </li>

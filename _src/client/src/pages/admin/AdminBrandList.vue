@@ -19,6 +19,7 @@
       <button @click="saveNewBrand">Сохранить</button>
       <button @click="cancelSaveNewBrand">Отменить</button>
     </div>
+    {{brandItems}}
     <vue-good-table :columns="headerFields" :rows="brandItems"></vue-good-table>
   </div>
 </template>
@@ -41,15 +42,15 @@ export default class AdminBrandList extends Vue {
 
   private headerFields = [
     {
-      field: 'clBrandName',
+      field: 'partnerName',
       label: 'Наименование'
     },
     {
-      field: 'clBrandPriority',
+      field: 'partnerPriority',
       label: 'Приоритет'
     },
     {
-      field: 'clBrandStatus',
+      field: 'partnerStatus',
       label: 'Статус'
     }
   ]
@@ -59,11 +60,14 @@ export default class AdminBrandList extends Vue {
   }
 
   private async updateBrandList () {
-    this.brandItems = await getServiceContainer().publicEkosetService.getAdminAllBands()
+    this.brandItems = await getServiceContainer().publicEkosetService.getPartners()
   }
 
-  private async mounted () {
-    this.updateBrandList()
+  private async asyncData (context: NuxtContext) {
+    const data = await getServiceContainer().publicEkosetService.getPartners()
+    return {
+      brandItems: data
+    }
   }
 
   private async saveNewBrand () {
@@ -81,26 +85,6 @@ export default class AdminBrandList extends Vue {
 }
 </script>
 
-<style lang="scss">
-.brc-service-list_wrapper {
-  width: 100%;
-  padding: 20px;
-  tr {
-    &:hover {
-      background-color: lightgoldenrodyellow;
-    }
 
-    td {
-      border: 1px solid lightgray;
-      margin: 0;
-      padding: 5px;
-      text-align: center;
-    }
-    td:first-child {
-      text-align: left;
-    }
-  }
-}
-</style>
 
 

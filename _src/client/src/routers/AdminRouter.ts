@@ -1,11 +1,12 @@
 import Admin from '@/pages/admin/Admin.vue'
-import AdminArticleList from '@/components/admin/AdminArticleList.vue'
-import AdminArticleCard from '@/components/admin/AdminArticleCard.vue'
-import AdminSiteSectionList from '@/components/admin/AdminSiteSectionList.vue'
-import AdminSiteSectionCard from '@/components/admin/AdminSiteSectionCard.vue'
-import AdminServiceList from '@/components/admin/AdminServiceList.vue'
-import AdminServiceCard from '@/components/admin/AdminServiceCard.vue'
-import AdminBrandList from '@/components/admin/AdminBrandList.vue'
+import AdminArticleList from '@/pages/admin/AdminArticleList.vue'
+import AdminArticleCard from '@/pages/admin/AdminArticleCard.vue'
+import AdminSiteSectionList from '@/pages/admin/AdminSiteSectionList.vue'
+import AdminSiteSectionCard from '@/pages/admin/AdminSiteSectionCard.vue'
+import AdminServiceList from '@/pages/admin/AdminServiceList.vue'
+import AdminServiceCard from '@/pages/admin/AdminServiceCard.vue'
+import AdminBrandList from '@/pages/admin/AdminBrandList.vue'
+import AdminIndividualOfferList from '@/pages/admin/AdminIndividualOfferList.vue'
 
 export const AdminRouter = [
   {
@@ -70,5 +71,19 @@ export const AdminRouter = [
     props: true,
     component: AdminBrandList,
     meta: { title: 'Экосеть: Панель управления - бренды' }
+  },
+  {
+    name: 'admin-individual-offer-card',
+    path: '/admin/individual-offer/:offer',
+    props: true,
+    component: AdminIndividualOfferList,
+    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
+  },
+  {
+    name: 'admin-individual-offers',
+    path: '/admin/individual-offer/',
+    props: true,
+    component: AdminIndividualOfferList,
+    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
   }
 ]

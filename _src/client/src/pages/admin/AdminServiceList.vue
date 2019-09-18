@@ -79,9 +79,15 @@ export default class AdminSiteSectionList extends Vue {
     return 'admin'
   }
 
-  private async mounted () {
-    this.serviceItems = await getServiceContainer().businessServiceService.getAll()
-    this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
+  private async asyncData (context: NuxtContext) {
+    const serviceItems = getServiceContainer().businessServiceService.getAll()
+    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
+
+    const data = await Promise.all([serviceItems, siteSectionList])
+    return {
+      serviceItems: data[0],
+      siteSectionList: data[1]
+    }
   }
 
   private async saveNewService () {

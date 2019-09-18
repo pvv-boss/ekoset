@@ -96,24 +96,21 @@ export default class AdminSiteSectionCard extends Vue {
     return 'admin'
   }
 
-  public get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSection
-  }
+  private async asyncData (context: NuxtContext) {
 
-  private async mounted () {
-    if (this.getCurrentSiteSection) {
-      this.siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(this.getCurrentSiteSection)
+    const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
-      const brandRelationList = getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(this.getCurrentSiteSection)
-      const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(this.getCurrentSiteSection)
+    const brandRelationList = getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(context.params.siteSection)
+    const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
 
-      const data = await Promise.all([brandRelationList, serviceOtherList])
-      if (data) {
-        this.brandRelationList = data[0]
-        this.serviceOtherList = data[1]
-      }
-
+    const data = await Promise.all([siteSectionItem, brandRelationList, serviceOtherList])
+    return {
+      siteSectionItem: data[0],
+      brandRelationList: data[1],
+      serviceOtherList: data[2]
     }
+
+
   }
 
   private saveSiteSection () {
