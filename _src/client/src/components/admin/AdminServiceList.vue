@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper" v-id="serviceItems.length>0">
+  <div class="brc-service-list_wrapper">
     <h1>Услуги</h1>
     <button @click="createNewServiceMode = true" v-show="!createNewServiceMode">Создать услугу</button>
 
@@ -58,20 +58,20 @@ export default class AdminSiteSectionList extends Vue {
   private siteSectionList: SiteSection[] = []
   private headerFields = [
     {
-      field: "businessServiceName",
-      label: "Наименование"
+      field: 'businessServiceName',
+      label: 'Наименование'
     },
     {
-      field: "siteSectionName",
-      label: "Подраздел"
+      field: 'siteSectionName',
+      label: 'Подраздел'
     },
     {
-      field: "businessServicePriority",
-      label: "Приоритет"
+      field: 'businessServicePriority',
+      label: 'Приоритет'
     },
     {
-      field: "businessServiceStatus",
-      label: "Статус"
+      field: 'businessServiceStatus',
+      label: 'Статус'
     }
   ]
 
