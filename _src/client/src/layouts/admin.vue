@@ -24,7 +24,7 @@
                 class="brc-admin-navigation__item-link"
               >Услуги</nuxt-link>
             </li>
-            <li class="brc-admin-navigation__item">
+            <!-- <li class="brc-admin-navigation__item">
               <input
                 id="toogleClientTypeMenuVisible"
                 class="brc-admin-navigation__item-chk"
@@ -38,7 +38,7 @@
                 <li class="brc-admin-navigation__item">Для бизнеса</li>
                 <li class="brc-admin-navigation__item">Для частных лиц</li>
               </ul>
-            </li>
+            </li>-->
             <li class="brc-admin-navigation__item">
               <nuxt-link
                 :to="{ name: 'admin-individual-offers'}"
@@ -54,9 +54,9 @@
                 class="brc-admin-navigation__item-link"
               >Бренды</nuxt-link>
             </li>
-            <li class="brc-admin-navigation__item">Контакты</li>
+            <!-- <li class="brc-admin-navigation__item">Контакты</li>
             <li class="brc-admin-navigation__item">О компании</li>
-            <li class="brc-admin-navigation__item">Настройки футера</li>
+            <li class="brc-admin-navigation__item">Настройки футера</li>-->
           </ul>
         </nav>
         <div
