@@ -2,9 +2,12 @@ import NuxtConfiguration from '@nuxt/config'
 import webpack = require('webpack')
 
 const config: NuxtConfiguration = {
-
   mode: 'universal',
+  modern: true,
+  cache: true,
   srcDir: 'src/',
+  loading: { color: '#ac1315' },
+
   head: {
     htmlAttrs: {
       prefix: 'og:http://ogp.me/ns#'
@@ -16,38 +19,22 @@ const config: NuxtConfiguration = {
     ],
 
     script: [
-      { src: 'https://unpkg.com/vue/dist/vue.runtime.min.js' },
-      { src: 'https://unpkg.com/vue-router/dist/vue-router.min.js' },
-      { src: 'https://unpkg.com/vuex/dist/vuex.min.js' },
-      { src: 'https://unpkg.com/axios/dist/axios.min.js' },
-      { src: 'https://unpkg.com/quill/dist/quill.min.js' },
-      { src: 'https://cdn.jsdelivr.net/npm/vue-quill-editor' },
-      { src: 'https://unpkg.com/quill-image-resize-module/image-resize.min.js' },
       { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
-      { src: 'https://unpkg.com/vue-good-table@latest/dist/vue-good-table.min.js' },
-      { src: 'https://unpkg.com/vue-file-agent@latest/dist/vue-file-agent.umd.js' },
-      { src: 'https://yastatic.net/share2/share.js' },
+      { src: 'https://yastatic.net/share2/share.js' }
     ],
 
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.core.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.snow.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/quill/dist/quill.bubble.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/vue-good-table@latest/dist/vue-good-table.min.css' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/vue-file-agent@latest/dist/vue-file-agent.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
   pageTransition: {
-    // css: false
-    mode: 'in-out'
+    css: false
   },
 
   transition: {
-    // css: false
-    mode: 'in-out'
+    css: false
   },
 
   plugins: [
@@ -90,24 +77,26 @@ const config: NuxtConfiguration = {
   ],
 
   build: {
+    analyze: true,
     extractCSS: true,
+    splitChunks: {
+      layouts: true
+    },
+
     filenames: {
       css: ({ isDev }) => isDev ? '[contenthash].css' : '[contenthash].css',
     },
+
     extend (config, { isDev, isClient }) {
-      if (isClient) {
-        config.externals = {
-          'vue': 'Vue',
-          'vuex': 'Vuex',
-          'axios': 'axios',
-          'vue-router': 'VueRouter',
-          'Quill': 'Quill',
-          'vue-quill-editor': 'VueQuillEditor',
-          'quill-image-resize-module': 'ImageResize'
-        }
-      }
       return config
-    }
+    },
+
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
   },
 
   purgeCSS: {

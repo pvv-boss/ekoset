@@ -55,7 +55,7 @@ export default class ServicePriceTable extends Vue {
   private allPricesPage
 
   private get serviceTopList () {
-    return this.servicePriceList.filter(obj => obj.businessServiceParentId == null).sort(function (obj1, obj2) {
+    return this.servicePriceList.filter((obj) => obj.businessServiceParentId == null).sort(function (obj1, obj2) {
       return obj1.businessServicePriority - obj2.businessServicePriority;
     })
   }
@@ -63,9 +63,9 @@ export default class ServicePriceTable extends Vue {
   private get serviceResultList () {
     let list: BusinessService[] = []
     if (this.serviceTopList.length > 0) {
-      this.serviceTopList.forEach(item => {
+      this.serviceTopList.forEach((item) => {
         list.push(item)
-        list.push(...this.servicePriceList.filter(obj => obj.businessServiceParentId == item.businessServiceId).sort(function (obj1, obj2) {
+        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId == item.businessServiceId).sort(function (obj1, obj2) {
           return obj1.businessServicePriority - obj2.businessServicePriority;
         }))
       });

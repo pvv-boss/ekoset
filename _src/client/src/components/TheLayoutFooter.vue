@@ -49,7 +49,7 @@
     <div class="brc-page-footer__menu">
       <ul>
         <li>
-          <nuxt-link :to="{name: 'main', params:{siteSection: getCurrentSiteSection}}">О компании</nuxt-link>
+          <nuxt-link :to="{name: 'about', params:{siteSection: getCurrentSiteSection}}">О компании</nuxt-link>
         </li>
         <li>
           <nuxt-link
