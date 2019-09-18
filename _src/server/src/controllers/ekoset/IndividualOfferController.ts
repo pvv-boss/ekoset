@@ -8,6 +8,32 @@ import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 @JsonController()
 export default class IndividualOfferController extends BaseController {
 
+  // Админка
+  @Put('/offers')
+  public async save (
+    @Body() individualOffer: IndividualOffer,
+    @Res() response: Response) {
+    const result = await ServiceContainer.IndividualOfferService.save(individualOffer);
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/offers/:id(\\d+)')
+  public async delete (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.IndividualOfferService.delete(id);
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/offers')
+  public async adminGetAll (
+    @Res() response: Response,
+  ) {
+    const result = await ServiceContainer.IndividualOfferService.adminGetAll();
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+  //
+
   @Get('/offers')
   public async getAll (
     @Res() response: Response) {
@@ -64,21 +90,4 @@ export default class IndividualOfferController extends BaseController {
     const result = await ServiceContainer.IndividualOfferService.getById(offerId);
     return IndividualOfferController.createSuccessResponse(result, response);
   }
-
-  @Put('/offers')
-  public async save (
-    @Body() individualOffer: IndividualOffer,
-    @Res() response: Response) {
-    const result = await ServiceContainer.IndividualOfferService.save(individualOffer);
-    return IndividualOfferController.createSuccessResponse(result, response);
-  }
-
-  @Delete('/offers/:id(\\d+)')
-  public async delete (
-    @Param('id') id: number,
-    @Res() response: Response) {
-    const result = await ServiceContainer.IndividualOfferService.delete(id);
-    return IndividualOfferController.createSuccessResponse(result, response);
-  }
-
 }

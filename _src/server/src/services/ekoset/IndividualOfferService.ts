@@ -36,6 +36,10 @@ export default class IndividualOfferService extends BaseService {
     return this.getOneById(this.apiViewName, 'ind_offer_id = $1', id);
   }
 
+  public async adminGetAll () {
+    return this.getDbViewResult('v_api_admin_individual_offer');
+  }
+
   public async save (individualOffer: IndividualOffer) {
     return TypeOrmManager.EntityManager.save(individualOffer);
   }

@@ -8,4 +8,4 @@ import BusinessServiceController from './ekoset/BusinessServiceController';
 import SeoController from './ekoset/SeoController';
 
 
-export const appControllers = [AppController, AuthController, UserController, ArticleController, MainEkosetController, BusinessServiceController, IndividualOfferController, SeoController]
+export const appControllers = [AppController, AuthController, UserController, ArticleController, BusinessServiceController, IndividualOfferController, MainEkosetController, SeoController]

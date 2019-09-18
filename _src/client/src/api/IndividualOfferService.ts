@@ -26,6 +26,10 @@ export default class IndividualOfferService extends BaseService {
     return !!offers && offers.length > 0 ? offers[0] : new IndividualOffer()
   }
 
+  public async adminGetAll () {
+    return HttpUtil.httpGet(this.buildHttRequest('admin/offers'))
+  }
+
   public async save (individualOffer: IndividualOffer) {
     const query = 'offers'
     return HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
