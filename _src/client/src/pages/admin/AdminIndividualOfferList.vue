@@ -39,7 +39,13 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
-    <vue-good-table :columns="headerFields" :rows="indOfferItems"></vue-good-table>
+    <vue-good-table :columns="headerFields" :rows="indOfferItems">
+      <nuxt-link
+        v-if="props.column.field == 'indOfferName'"
+        :to="{ name: 'admin-individual-offer-card', params: { siteSection: siteSection, offer: props.row.indOfferName}}"
+      >{{props.row.indOfferName}}</nuxt-link>
+      <span v-else>{{props.formattedRow[props.column.field]}}</span>
+    </vue-good-table>
   </div>
 </template>
 
@@ -60,7 +66,7 @@ export default class AdminIndividualOfferList extends Vue {
   private siteSectionList: SiteSection[] = []
   private headerFields = [
     {
-      field: "siteSectionId",
+      field: "siteSectionName",
       label: "Подраздел"
     },
     {
@@ -91,12 +97,12 @@ export default class AdminIndividualOfferList extends Vue {
 
   private async asyncData (context: NuxtContext) {
 
-    const indOfferItem = getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug('klining-1')
+    const indOfferItems = getServiceContainer().individualOfferService.adminGetAll()
     const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
 
-    const data = await Promise.all([indOfferItem, siteSectionList])
+    const data = await Promise.all([indOfferItems, siteSectionList])
     return {
-      indOfferItems: [data[0]],
+      indOfferItems: data[0],
       siteSectionList: data[1]
     }
   }

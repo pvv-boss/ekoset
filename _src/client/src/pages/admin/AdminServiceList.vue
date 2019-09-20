@@ -58,12 +58,12 @@ export default class AdminSiteSectionList extends Vue {
   private siteSectionList: SiteSection[] = []
   private headerFields = [
     {
-      field: 'businessServiceName',
-      label: 'Наименование'
-    },
-    {
       field: 'siteSectionName',
       label: 'Подраздел'
+    },
+    {
+      field: 'businessServiceName',
+      label: 'Наименование'
     },
     {
       field: 'businessServicePriority',

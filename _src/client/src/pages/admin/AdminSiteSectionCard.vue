@@ -44,6 +44,7 @@
       <div class="brc-admin-card__relations">
         <div>
           <h4>Комплексные решения</h4>
+          <AdminClientTypeOfferList :siteSection="siteSectionSlug">"</AdminClientTypeOfferList>
         </div>
         <div>
           <h4>Индивидуальные предложения</h4>
@@ -54,10 +55,7 @@
         </div>
         <div>
           <h4>Рекомендации</h4>
-          <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList>
-        </div>
-        <div>
-          <h4>Новости</h4>
+          <!-- <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList> -->
         </div>
       </div>
     </div>
@@ -76,15 +74,18 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
+import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
+import { returnStatement } from '@babel/types'
 
 @Component({
   components: {
     AdminArticleEditor,
     AdminBrandRelationList,
     AdminFileUploader,
-    AdminServiceChildList
+    AdminServiceChildList,
+    AdminClientTypeOfferList
   }})
 
 export default class AdminSiteSectionCard extends Vue {
@@ -96,18 +97,22 @@ export default class AdminSiteSectionCard extends Vue {
     return 'admin'
   }
 
+  private get siteSectionSlug () {
+    return `${this.siteSectionItem.siteSectionSlug}-${this.siteSectionItem.siteSectionId}`
+  }
+
   private async asyncData (context: NuxtContext) {
 
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
-    const brandRelationList = getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(context.params.siteSection)
+    //const brandRelationList = getServiceContainer().publicEkosetService.getAdminAllBands()
     const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
 
-    const data = await Promise.all([siteSectionItem, brandRelationList, serviceOtherList])
+    const data = await Promise.all([siteSectionItem, serviceOtherList])
     return {
       siteSectionItem: data[0],
-      brandRelationList: data[1],
-      serviceOtherList: data[2]
+      //brandRelationList: data[1],
+      serviceOtherList: data[1]
     }
 
 

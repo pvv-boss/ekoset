@@ -79,9 +79,6 @@
           <h4>Рекомендации</h4>
           <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList>
         </div>
-        <div>
-          <h4>Связанные новости</h4>
-        </div>
       </div>
     </div>
   </div>
