@@ -9,6 +9,7 @@ export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
   private apiPartnersViewName = 'v_api_partner';
   private apiBrandsViewName = 'v_api_brand';
+  private apiClActivityViewName = 'cl_activity';
   private apiBrandsByBusinessService = 'v_api_business_service_brand'
 
   public async getSiteSections () {
@@ -33,6 +34,10 @@ export default class MainEkosetService extends BaseService {
 
   public async getAdminForBusinessServiceBrands (serviceId: number) {
     return this.execFunction('f_admin_brands_service', [serviceId]);
+  }
+
+  public async adminGetClActivityList () {
+    return this.getDbViewResult(this.apiClActivityViewName);
   }
   //
 

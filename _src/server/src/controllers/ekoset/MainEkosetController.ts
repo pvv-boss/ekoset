@@ -40,10 +40,17 @@ export default class MainEkosetController extends BaseController {
   }
 
   @Get('/admin/brands')
-  public async getAdminAllBands (
+  public async adminGetAllBands (
     @Res() response: Response
   ) {
     const result = await ServiceContainer.MainEkosetService.getAdminAllBands();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/clActivities')
+  public async adminGetClActivityList (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.adminGetClActivityList();
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
