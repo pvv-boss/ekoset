@@ -1,5 +1,6 @@
 <template>
   <div class="brc-service-list_wrapper">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Услуги</h1>
     <button @click="createNewServiceMode = true" v-show="!createNewServiceMode">Создать услугу</button>
 
@@ -49,13 +50,19 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import SiteSection from '@/models/ekoset/SiteSection'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
-@Component({})
+@Component({
+  components: {
+    BreadCrumbs
+  }
+})
 export default class AdminSiteSectionList extends Vue {
   private serviceItems: BusinessService[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
   private siteSectionList: SiteSection[] = []
+  private breadCrumbList: any[] = []
   private headerFields = [
     {
       field: 'siteSectionName',
@@ -100,6 +107,16 @@ export default class AdminSiteSectionList extends Vue {
   private cancelSaveNewService () {
     this.newService = new BusinessService()
     this.createNewServiceMode = false
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
   }
 }
 </script>

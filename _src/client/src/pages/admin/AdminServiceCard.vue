@@ -1,5 +1,6 @@
 <template>
   <div class="brc-admin-card_wrapper">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
     <div class="brc-admin-card" v-if="serviceItem.businessServiceId > 0">
       <div class="brc-admin-card__attributes">
@@ -98,19 +99,22 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     AdminArticleEditor,
     AdminBrandRelationList,
     AdminFileUploader,
-    AdminServiceChildList
+    AdminServiceChildList,
+    BreadCrumbs
   }})
 export default class AdminServiceCard extends Vue {
   private serviceItem: BusinessService = new BusinessService()
   private serviceOtherList: BusinessService = new BusinessService()
   private brandRelationList: ClBrand[] = []
   private siteSectionList: SiteSection[] = []
+  private breadCrumbList: any[] = []
   private layout () {
     return 'admin'
   }
@@ -144,6 +148,17 @@ export default class AdminServiceCard extends Vue {
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
+    this.breadCrumbList.push({ name: 'Карточка услуги', link: '' })
   }
 
 }

@@ -1,5 +1,6 @@
 <template>
   <div class="brc-service-list_wrapper" v-id="indOfferItems.length>0">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальные предложения</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Создать индивидуальное предложение</button>
 
@@ -39,13 +40,15 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
-    <vue-good-table :columns="headerFields" :rows="indOfferItems">
-      <nuxt-link
-        v-if="props.column.field == 'indOfferName'"
-        :to="{ name: 'admin-individual-offer-card', params: { siteSection: siteSection, offer: props.row.indOfferName}}"
-      >{{props.row.indOfferName}}</nuxt-link>
-      <span v-else>{{props.formattedRow[props.column.field]}}</span>
-    </vue-good-table>
+    <div v-if="indOfferItems.length>0">
+      <vue-good-table :columns="headerFields" :rows="indOfferItems">
+        <!-- <nuxt-link
+          v-if="props.column.field == 'indOfferName'"
+          :to="{ name: 'admin-individual-offer-card', params: { siteSection: props.row.siteSectionId, offer: props.row.indOfferId}}"
+        >{{props.row.indOfferName}}</nuxt-link>
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>-->
+      </vue-good-table>
+    </div>
   </div>
 </template>
 
@@ -57,9 +60,15 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import SiteSection from '@/models/ekoset/SiteSection'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
-@Component({})
+@Component({
+  components: {
+    BreadCrumbs
+  }
+})
 export default class AdminIndividualOfferList extends Vue {
+  private breadCrumbList: any[] = []
   private indOfferItems: IndividualOffer[] = []
   private createNewMode = false
   private newIndividualOffer: IndividualOffer = new IndividualOffer()
@@ -105,6 +114,16 @@ export default class AdminIndividualOfferList extends Vue {
       indOfferItems: data[0],
       siteSectionList: data[1]
     }
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
   }
 
   private async saveNew () {

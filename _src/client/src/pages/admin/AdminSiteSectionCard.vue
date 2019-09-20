@@ -1,5 +1,6 @@
 <template>
   <div class="brc-admin-card_wrapper">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h1>
     <div class="brc-admin-card" v-if="siteSectionItem.siteSectionId > 0">
       <div class="brc-admin-card__attributes">
@@ -51,11 +52,17 @@
         </div>
         <div>
           <h4>Услуги</h4>
-          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+          <AdminServiceChildList
+            :serviceItems="serviceOtherList"
+            v-if="serviceOtherList.length > 0"
+          ></AdminServiceChildList>
         </div>
         <div>
           <h4>Рекомендации</h4>
-          <!-- <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList> -->
+          <AdminBrandRelationList
+            :brandRelationItems="brandRelationList"
+            v-if="brandRelationList.length > 0"
+          ></AdminBrandRelationList>
         </div>
       </div>
     </div>
@@ -78,6 +85,7 @@ import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferLis
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
@@ -85,13 +93,15 @@ import { returnStatement } from '@babel/types'
     AdminBrandRelationList,
     AdminFileUploader,
     AdminServiceChildList,
-    AdminClientTypeOfferList
+    AdminClientTypeOfferList,
+    BreadCrumbs
   }})
 
 export default class AdminSiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceOtherList: BusinessService = new BusinessService()
   private brandRelationList: ClBrand[] = []
+  private breadCrumbList: any[] = []
 
   private layout () {
     return 'admin'
@@ -103,16 +113,16 @@ export default class AdminSiteSectionCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
 
-    const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
+    const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
-    //const brandRelationList = getServiceContainer().publicEkosetService.getAdminAllBands()
+    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(siteSectionItem.siteSectionId)
     const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
 
-    const data = await Promise.all([siteSectionItem, serviceOtherList])
+    const data = await Promise.all([serviceOtherList, brandRelationList])
     return {
-      siteSectionItem: data[0],
-      //brandRelationList: data[1],
-      serviceOtherList: data[1]
+      siteSectionItem: siteSectionItem,
+      serviceOtherList: data[0],
+      brandRelationList: data[1]
     }
 
 
@@ -134,6 +144,18 @@ export default class AdminSiteSectionCard extends Vue {
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел?', 'Подтвердите удаление', okCallback)
   }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Подразделы', link: 'admin-site-sections' })
+    this.breadCrumbList.push({ name: 'Карточка подраздела', link: '' })
+  }
+
 }
 </script>
 

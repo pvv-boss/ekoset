@@ -1,5 +1,6 @@
 <template>
   <div class="brc-admin-card_wrapper">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -79,19 +80,23 @@ import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import IndividualOffer from '../../models/ekoset/IndividualOffer'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     AdminArticleEditor,
     AdminBrandRelationList,
     AdminFileUploader,
-    AdminServiceChildList
+    AdminServiceChildList,
+    BreadCrumbs
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService = new BusinessService()
   private brandRelationList: ClBrand[] = []
   private siteSectionList: SiteSection[] = []
+  private breadCrumbList: any[] = []
+
   private layout () {
     return 'admin'
   }
@@ -125,6 +130,17 @@ export default class AdminIndividualOfferCard extends Vue {
       siteSectionList: data[0],
       serviceList: data[1]
     }
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
+    this.breadCrumbList.push({ name: 'Инд.предложение', link: '' })
   }
 
   // private saveService () {
