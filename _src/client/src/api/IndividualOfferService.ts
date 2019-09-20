@@ -27,7 +27,7 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async adminGetAll () {
-    return HttpUtil.httpGet(this.buildHttRequest('admin/offers'))
+    return HttpUtil.httpGet(this.buildHttRequest('admin/panel/offers'))
   }
 
   public async save (individualOffer: IndividualOffer) {

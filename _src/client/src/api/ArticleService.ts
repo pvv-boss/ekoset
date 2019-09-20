@@ -13,6 +13,13 @@ export default class ArticleService extends BaseService {
     return this.getRelatedArticleListById(this.getIdBySlug(slug))
   }
 
+  // Для админки - все новости
+  public async  adminGetAll () {
+    const query = 'admin/panel/news'
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
   // Для главной страницы
   public async  getRootArticleList (pagination?: Pagination) {
     const query = 'news'

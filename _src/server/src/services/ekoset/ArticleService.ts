@@ -20,6 +20,11 @@ export default class ArticleService extends BaseService {
   private apiBusinessServiceArticlesViewName = 'v_api_business_service_article';
   private apiSiteSectionArticlesViewName = 'v_api_site_section_article';
 
+  // Все новости для админки
+  public async adminGetAll () {
+    return this.getDbViewResult(this.apiListViewName);
+  }
+
   // Для стратовой страницы (нет связит с разделом)
   public async getForHomePage (pagination: SortFilterPagination) {
     return this.getDbViewResult(this.apiListViewName, pagination, 'site_section_id IS NULL AND article_status = 1');
