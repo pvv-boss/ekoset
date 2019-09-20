@@ -31,7 +31,7 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/brands/serivce/:serviceId')
+  @Get('/admin/panel/brands/serivce/:serviceId')
   public async getAdminForBusinessServiceBrands (
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
@@ -39,15 +39,22 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/brands')
-  public async getAdminAllBands (
+  @Get('/admin/panel/brands')
+  public async adminGetAllBands (
     @Res() response: Response
   ) {
     const result = await ServiceContainer.MainEkosetService.getAdminAllBands();
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/activities/:sitesection')
+  @Get('/admin/panel/clActivities')
+  public async adminGetClActivityList (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.adminGetClActivityList();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/activities/:sitesection')
   public async getAdminForSiteSectionBrands (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {

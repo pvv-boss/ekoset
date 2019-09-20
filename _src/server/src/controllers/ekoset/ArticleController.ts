@@ -10,10 +10,18 @@ import { SortFilterPaginationFromRequest } from '../AppController';
 @JsonController()
 export default class ArticleController extends BaseController {
 
+  @Get('/admin/panel/news')
+  public async adminGetAll (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.ArticleService.adminGetAll();
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
   @Get('/news')
   public async getRootArticles (
     @Res() response: Response,
-    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination,
+    @SortFilterPaginationFromRequest() sortFilterPang: SortFilterPagination
 
   ) {
 

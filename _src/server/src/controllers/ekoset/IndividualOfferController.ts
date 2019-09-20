@@ -25,7 +25,7 @@ export default class IndividualOfferController extends BaseController {
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/offers')
+  @Get('/admin/panel/offers')
   public async adminGetAll (
     @Res() response: Response,
   ) {
