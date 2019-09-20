@@ -1,7 +1,7 @@
 <template>
   <section class="brc-service-smallitem">
     <nuxt-link
-      :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: serviceItem.siteSectionUrl}}"
+      :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
       class="brc-service-link"
     >
       <h4>{{serviceItem.businessServiceName}}</h4>

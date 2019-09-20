@@ -13,13 +13,13 @@
             :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0}"
           >
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: servicePrice.siteSectionUrl}}"
+              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
               class="brc-service-price-table-link"
             >{{servicePrice.businessServiceName}}</nuxt-link>
           </td>
           <td v-else colspan="3" class="brc-service-price-td_bold">
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: servicePrice.siteSectionUrl}}"
+              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
               class="brc-service-price-table-link"
             >{{servicePrice.businessServiceName}}</nuxt-link>
           </td>
@@ -55,7 +55,7 @@ export default class ServicePriceTable extends Vue {
   private allPricesPage
 
   private get serviceTopList () {
-    return this.servicePriceList.filter((obj) => obj.businessServiceParentId == null).sort(function (obj1, obj2) {
+    return this.servicePriceList.filter((obj) => obj.businessServiceParentId == null).sort((obj1, obj2) => {
       return obj1.businessServicePriority - obj2.businessServicePriority;
     })
   }
@@ -65,13 +65,12 @@ export default class ServicePriceTable extends Vue {
     if (this.serviceTopList.length > 0) {
       this.serviceTopList.forEach((item) => {
         list.push(item)
-        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId == item.businessServiceId).sort(function (obj1, obj2) {
+        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId === item.businessServiceId).sort((obj1, obj2) => {
           return obj1.businessServicePriority - obj2.businessServicePriority;
         }))
       });
-    }
-    else {
-      list = this.servicePriceList.sort(function (obj1, obj2) {
+    } else {
+      list = this.servicePriceList.sort((obj1, obj2) => {
         return obj1.businessServicePriority - obj2.businessServicePriority;
       })
     }
