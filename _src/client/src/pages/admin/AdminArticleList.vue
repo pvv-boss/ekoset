@@ -43,7 +43,7 @@ export default class AdminArticleList extends Vue {
   private async asyncData (context: NuxtContext) {
     const siteSectionSlug = context.params.siteSection
 
-    const data = await getServiceContainer().publicEkosetService.adminGetAll()
+    const data = await getServiceContainer().articleService.adminGetAll()
     return {
       articleItems: data,
       siteSectionSlug
