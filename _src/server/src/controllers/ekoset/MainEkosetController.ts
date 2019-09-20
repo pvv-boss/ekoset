@@ -54,7 +54,7 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/panel/activities/:sitesection')
+  @Get('/admin/panel/brands/activities/:sitesection')
   public async getAdminForSiteSectionBrands (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
