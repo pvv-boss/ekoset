@@ -1,4 +1,4 @@
-import { JsonController, Get, Res, Param, Req, Body, Put, Delete } from 'routing-controllers';
+import { JsonController, Get, Res, Param, Req, Body, Put, Delete, Post } from 'routing-controllers';
 import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
@@ -6,6 +6,7 @@ import { Article } from '@/entities/ekoset/Article';
 import { NotFound } from '@/exceptions/clientErrors/NotFound';
 import SortFilterPagination from '@/entities/SortFilterPagination';
 import { SortFilterPaginationFromRequest } from '../AppController';
+import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
 
 @JsonController()
 export default class ArticleController extends BaseController {
@@ -15,6 +16,44 @@ export default class ArticleController extends BaseController {
     @Res() response: Response
   ) {
     const result = await ServiceContainer.ArticleService.adminGetAll();
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Get('/news/:artcicleId(\\d+)/tags')
+  public async getArticleTags (
+    @Res() response: Response,
+    @Param('artcicleId') artcicleId: number) {
+
+    const result = await ServiceContainer.ArticleService.getArticleTags(artcicleId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/admin/panel/news/tags')
+  public async getAllArticleTags (
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.getAllArticleTags();
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Post('/admin/panel/news/:artcicleId/tags')
+  public async adminAddArticleTag (
+    @Body() clArticleTag: ClArticleTag,
+    @Param('artcicleId') artcicleId: number,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.adminAddArticleTag(artcicleId, clArticleTag);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/news/:artcicleId/tags/:tagId')
+  public async adminRemoveArticleTag (
+    @Param('tagId') tagId: number,
+    @Param('artcicleId') artcicleId: number,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.adminDeleteArticleTag(artcicleId, tagId);
     return ArticleController.createSuccessResponse(result, response);
   }
 

@@ -112,6 +112,11 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
   }
 
+  public async sendFormMessage (formData: FormData) {
+    const result = HttpUtil.httpPostForm('user/message', formData)
+    return result
+  }
+
   private async getBrandsBySiteSection (siteSectionId: number) {
     const query = `${siteSectionId}/brands`
     return HttpUtil.httpGet(this.buildHttRequest(query))

@@ -9,6 +9,7 @@ import Base64 from '@/utils/Base64';
 import { logger } from '@/utils/Logger';
 import * as cuid from 'cuid';
 import SortFilterPagination from '@/entities/SortFilterPagination';
+import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
 
 export default class ArticleService extends BaseService {
 
@@ -23,6 +24,38 @@ export default class ArticleService extends BaseService {
   // Все новости для админки
   public async adminGetAll () {
     return this.getDbViewResult(this.apiListViewName);
+  }
+
+  // Добавить/Убрать тэг
+  public async adminAddArticleTag (articleId: number, tag: ClArticleTag) {
+    let tryFind = await PgUtls.getOneFromDatabse('cl_article_tag', 'cl_article_name = $1', [tag.clArticleName]);
+    if (!tryFind) {
+      tryFind = new ClArticleTag();
+      tryFind.clArticleName = tag.clArticleName;
+      tryFind = await TypeOrmManager.EntityManager.save(tryFind);
+    }
+
+    const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tryFind.clArticleId]);
+    if (!tryAddedTag) {
+      const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tryFind.clArticleId})`;
+      PgUtls.execNone(insertStmt);
+    }
+
+    return {}
+  }
+
+  public async adminDeleteArticleTag (articleId: number, tagID: number) {
+    return PgUtls.delete('article_cl_article_tag', 'article_id = $1 AND cl_article_id = $2', [articleId, tagID])
+  }
+
+  // Все Тэги
+  public async getAllArticleTags () {
+    return this.getDbViewResult('cl_article_tag');
+  }
+
+  // Тэги для статьи
+  public async getArticleTags (articleId: number) {
+    return this.getDbViewResult('v_api_article_tag', null, 'article_id=$1', [articleId]);
   }
 
   // Для стратовой страницы (нет связит с разделом)

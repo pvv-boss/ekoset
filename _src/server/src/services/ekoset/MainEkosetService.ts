@@ -3,7 +3,7 @@ import { SiteSection } from '@/entities/ekoset/SiteSection';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import * as slugify from '@sindresorhus/slugify';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
-import PgUtls from '@/utils/PgUtils';
+import FormMessageData from '@/entities/FormMessageData';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -68,5 +68,9 @@ export default class MainEkosetService extends BaseService {
 
   public async deleteSiteSection (id: number) {
     // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
+  }
+
+  public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {
+    return {}
   }
 }
