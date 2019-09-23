@@ -1,5 +1,6 @@
 <template>
   <div class="brc-service-list_wrapper" v-id="brandItems.length>0">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Бренды</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Добавить бренд</button>
 
@@ -31,13 +32,18 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import ClBrand from '@/models/ekoset/ClBrand'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
-@Component({})
-
+@Component({
+  components: {
+    BreadCrumbs
+  }
+})
 export default class AdminBrandList extends Vue {
   private brandItems: ClBrand[] = []
   private createNewMode = false
   private newBrand: ClBrand = new ClBrand()
+  private breadCrumbList: any[] = []
 
   private headerFields = [
     {
@@ -56,6 +62,16 @@ export default class AdminBrandList extends Vue {
 
   private layout () {
     return 'admin'
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
   }
 
   private async updateBrandList () {

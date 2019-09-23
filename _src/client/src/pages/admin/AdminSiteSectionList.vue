@@ -1,5 +1,6 @@
 <template>
   <div class="brc-site-section-list_wrapper" v-id="siteSectionItems.length>0">
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Подразделы сайта</h1>
     <button
       @click="createNewSiteSectionMode = true"
@@ -41,12 +42,18 @@ import SiteSection from '@/models/ekoset/SiteSection.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
-@Component({})
+@Component({
+  components: {
+    BreadCrumbs
+  }
+})
 export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false
   private newSiteSection: SiteSection = new SiteSection()
+  private breadCrumbList: any[] = []
 
   private headerFields = [
     {
@@ -93,6 +100,16 @@ export default class AdminSiteSectionList extends Vue {
   private cancelSaveNewSiteSection () {
     this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Подразделы', link: 'admin-site-sections' })
   }
 }
 </script>

@@ -1,16 +1,56 @@
 <template>
-  <div class="brc-article__form">
-    <div class="brc-article-card_admin">
-      <div class="brc-article-card__editor">
-        <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
+  <div>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+    <div class="brc-article__form">
+      <div class="brc-article-card_admin">
+        <div class="brc-article-card__editor">
+          <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
+        </div>
+        <div class="brc-article-card__attributes">
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Статус</div>
+            <input type="number" v-model.number="article.articleStatus" />
+          </div>
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Раздел</div>
+            <input type="number" v-model.number="article.siteSectionId" />
+          </div>
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Краткое описание</div>
+            <input type="text" v-model="article.articleDescription" />
+          </div>
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Заголовок</div>
+            <input type="text" v-model="article.articleTitle" />
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Превью изображение</div>
+            <AdminFileUploader v-model="article.articlePreviewImgSrc"></AdminFileUploader>
+          </div>
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Основное изображение</div>
+            <AdminFileUploader v-model="article.articleHeaderImgSrc"></AdminFileUploader>
+          </div>
+
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Источник</div>
+            <input type="text" v-model="article.articleSource" />
+          </div>
+
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Автор</div>
+            <input type="text" v-model="article.articleAuthor" />
+          </div>
+          <div class="brc-article-attribute">
+            <div class="brc-article-attribute__caption">Дата</div>
+            <input type="datetime" v-model="article.articlePublishDate" />
+          </div>
+        </div>
       </div>
-      <div class="brc-article-card__attributes">
-        <AdminArticleAttributes v-model="article"></AdminArticleAttributes>
+      <div class="brc-article-card__save">
+        <button type="button" @click="saveArticle">Сохранить</button>
+        <button v-if="article.articleId > 0" type="button" @click="deleteArticle">Удалить</button>
       </div>
-    </div>
-    <div class="brc-article-card__save">
-      <button type="button" @click="saveArticle">Сохранить</button>
-      <button v-if="article.articleId > 0" type="button" @click="deleteArticle">Удалить</button>
     </div>
   </div>
 </template>
@@ -22,19 +62,21 @@ import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
-import AdminArticleAttributes from '@/components/admin/AdminArticleAttributes.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-
+import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
     AdminArticleEditor,
-    AdminArticleAttributes
+    AdminFileUploader,
+    BreadCrumbs
   }
 })
 export default class AdminArticleCard extends Vue {
 
   private article: Article = new Article()
+  private breadCrumbList: any[] = []
 
   private layout () {
     return 'admin'
@@ -59,6 +101,17 @@ export default class AdminArticleCard extends Vue {
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость?', 'Подтвердите удаление', okCallback)
+  }
+
+  private mounted () {
+    this.configBreadCrumbs()
+  }
+
+  private configBreadCrumbs () {
+    this.breadCrumbList = []
+    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    this.breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
+    this.breadCrumbList.push({ name: 'Карточка новости', link: '' })
   }
 
   private async asyncData (context: NuxtContext) {
@@ -93,5 +146,9 @@ export default class AdminArticleCard extends Vue {
 }
 .ql-container {
   height: 600px !important;
+}
+
+input {
+  width: 100%;
 }
 </style>

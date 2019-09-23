@@ -7,6 +7,7 @@ import AdminServiceList from '@/pages/admin/AdminServiceList.vue'
 import AdminServiceCard from '@/pages/admin/AdminServiceCard.vue'
 import AdminBrandList from '@/pages/admin/AdminBrandList.vue'
 import AdminIndividualOfferList from '@/pages/admin/AdminIndividualOfferList.vue'
+import AdminIndividualOfferCard from '@/pages/admin/AdminIndividualOfferCard.vue'
 
 export const AdminRouter = [
   {
@@ -74,9 +75,9 @@ export const AdminRouter = [
   },
   {
     name: 'admin-individual-offer-card',
-    path: '/admin/individual-offer/:offer',
+    path: '/admin/individual-offer/:siteSection/:offer?/:clienttype?',
     props: true,
-    component: AdminIndividualOfferList,
+    component: AdminIndividualOfferCard,
     meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
   {
