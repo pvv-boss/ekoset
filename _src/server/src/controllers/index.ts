@@ -6,6 +6,7 @@ import MainEkosetController from './ekoset/MainEkosetController';
 import IndividualOfferController from './ekoset/IndividualOfferController';
 import BusinessServiceController from './ekoset/BusinessServiceController';
 import SeoController from './ekoset/SeoController';
+import FormMessageController from './ekoset/FormMessageController';
 
 
-export const appControllers = [AppController, AuthController, UserController, ArticleController, BusinessServiceController, IndividualOfferController, MainEkosetController, SeoController]
+export const appControllers = [AppController, AuthController, UserController, ArticleController, BusinessServiceController, IndividualOfferController, MainEkosetController, SeoController, FormMessageController]

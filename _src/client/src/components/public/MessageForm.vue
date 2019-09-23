@@ -60,7 +60,7 @@
 
       <div class="brc-message-form__button">
         <label class="attach-file">
-          <input type="file" name="name" value />
+          <input type="file" name="name" id="file" ref="file" v-on:change="handleFileUpload()" />
           <span class="file-name">Прикрепить файл</span>
         </label>
         <button type="button" @click="sentMessage">Отправить</button>
@@ -74,6 +74,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
+import { getServiceContainer } from '@/api/ServiceContainer';
 
 @Component({
   validations: {
@@ -95,6 +96,10 @@ import { emailTest, phoneTest } from '@/utils/Validators'
   }
 })
 export default class MessageForm extends Vue {
+  public $refs!: {
+    file: HTMLFormElement
+  }
+
   @Prop()
   private title
 
@@ -104,6 +109,12 @@ export default class MessageForm extends Vue {
   private phone = ''
   private message = ''
   private name = ''
+  private file = ''
+
+  // FIXME: Как-то криво
+  private handleFileUpload () {
+    this.file = this.$refs.file.files[0];
+  }
 
   private mounted () {
     this.isBrowser = true
@@ -117,6 +128,12 @@ export default class MessageForm extends Vue {
   private async sentMessage () {
     if (this.validateForm()) {
       alert('Отправили сообщение')
+
+      const formData: FormData = new FormData()
+      formData.append('file', this.file);
+
+      getServiceContainer().formMessageService.sendFormMessage(formData)
+      getServiceContainer().formMessageService.testFile(this.file)
     }
   }
 }

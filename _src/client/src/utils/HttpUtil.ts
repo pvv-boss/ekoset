@@ -59,16 +59,25 @@ class HttpUtil {
     return this.processResponse(this.axiosInstance.get(url))
   }
 
-  public async httpPost (url: string, params?) {
-    return this.processResponse(this.axiosInstance.post(url, params))
+  public async httpPost (url: string, data?) {
+    return this.processResponse(this.axiosInstance.post(url, data))
   }
 
-  public async httpPut (url: string, params?) {
-    return this.processResponse(this.axiosInstance.put(url, params))
+  public async httpPut (url: string, data?) {
+    return this.processResponse(this.axiosInstance.put(url, data))
   }
 
   public async httpDelete (url: string) {
     return this.processResponse(this.axiosInstance.delete(url))
+  }
+
+  public async httpPostForm (url: string, formData?) {
+    const conf = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+    return this.processResponse(this.axiosInstance.post(url, formData, conf))
   }
 
   private async processResponse (axiosResult: AxiosPromise<any>) {

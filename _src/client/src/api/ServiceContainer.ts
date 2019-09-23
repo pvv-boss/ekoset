@@ -5,6 +5,7 @@ import PublicEkosetService from './PublicEkosetService';
 import BusinessServiceService from './BusinessServiceService';
 import IndividualOfferService from './IndividualOfferService';
 import SeoMetaService from './SeoMetaService';
+import FormMessageService from './FormMessageService';
 
 
 export class ServiceContainer {
@@ -14,6 +15,7 @@ export class ServiceContainer {
   public businessServiceService: BusinessServiceService
   public individualOfferService: IndividualOfferService
   public seoMetaService: SeoMetaService
+  public formMessageService: FormMessageService
 
   public initialized = false
 
@@ -23,6 +25,7 @@ export class ServiceContainer {
     this.businessServiceService = new BusinessServiceService()
     this.individualOfferService = new IndividualOfferService()
     this.seoMetaService = new SeoMetaService()
+    this.formMessageService = new FormMessageService()
 
     this.articleService = new ArticleService()
     await this.authService.initConfig()
