@@ -74,6 +74,27 @@
       <div class="brc-admin-card__relations">
         <div v-if="serviceItem.businessServiceParentId == null && serviceOtherList.length > 0">
           <h4>Услуги второго уровня</h4>
+          <button
+            @click="createNewServiceMode = true"
+            v-show="!createNewServiceMode"
+          >Создать услугу второго уровня</button>
+
+          <div v-if="createNewServiceMode">
+            <div class="brc-service-attribute">
+              <div class="brc-service-attribute__caption">Наименование</div>
+              <input type="text" v-model="newService.businessServiceName" />
+            </div>
+            <div class="brc-service-attribute">
+              <div class="brc-service-attribute__caption">Приоритет</div>
+              <input type="number" v-model.number="newService.businessServicePriority" />
+            </div>
+            <div class="brc-service-attribute">
+              <div class="brc-service-attribute__caption">Статус</div>
+              <input type="number" v-model.number="newService.businessServiceStatus" />
+            </div>
+            <button @click="saveNewService">Сохранить</button>
+            <button @click="cancelSaveNewService">Отменить</button>
+          </div>
           <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
         </div>
         <div>
@@ -115,6 +136,8 @@ export default class AdminServiceCard extends Vue {
   private brandRelationList: ClBrand[] = []
   private siteSectionList: SiteSection[] = []
   private breadCrumbList: any[] = []
+  private createNewServiceMode = false
+  private newService: BusinessService = new BusinessService()
   private layout () {
     return 'admin'
   }
@@ -149,9 +172,13 @@ export default class AdminServiceCard extends Vue {
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
-
+  private async updateServiceOtherList () {
+    this.serviceOtherList = await getServiceContainer().businessServiceService.getChildServicesByParentId(this.serviceItem.businessServiceId)
+  }
   private mounted () {
     this.configBreadCrumbs()
+    this.newService.siteSectionId = this.serviceItem.siteSectionId
+    this.newService.businessServiceParentId = this.serviceItem.businessServiceId
   }
 
   private configBreadCrumbs () {
@@ -159,6 +186,23 @@ export default class AdminServiceCard extends Vue {
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
     this.breadCrumbList.push({ name: 'Карточка услуги', link: '' })
+  }
+
+  private async saveNewService () {
+    await getServiceContainer().businessServiceService.save(this.newService)
+    this.updateServiceOtherList()
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.newService = new BusinessService()
+    this.newService.siteSectionId = this.serviceItem.siteSectionId
+    this.newService.businessServiceParentId = this.serviceItem.businessServiceId
+    this.createNewServiceMode = false
+  }
+
+  private cancelSaveNewService () {
+    this.newService = new BusinessService()
+    this.newService.siteSectionId = this.serviceItem.siteSectionId
+    this.newService.businessServiceParentId = this.serviceItem.businessServiceId
+    this.createNewServiceMode = false
   }
 
 }

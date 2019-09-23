@@ -11,10 +11,28 @@
             <div class="brc-article-attribute__caption">Статус</div>
             <input type="number" v-model.number="article.articleStatus" />
           </div>
-          <div class="brc-article-attribute">
-            <div class="brc-article-attribute__caption">Раздел</div>
-            <input type="number" v-model.number="article.siteSectionId" />
+          <div class="brc-admin-card-attribute" v-if="siteSectionList.length > 0">
+            <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
+            <select class="form-control" v-model="article.siteSectionId">
+              <option
+                v-for="siteSection in siteSectionList"
+                :key="siteSection.siteSectionId"
+                :value="siteSection.siteSectionId"
+              >{{siteSection.siteSectionName}}</option>
+            </select>
           </div>
+
+          <div class="brc-admin-card-attribute" v-if="article.siteSectionId > 0">
+            <div class="brc-admin-card-attribute__caption">Услуга</div>
+            <select class="form-control" v-model="article.businessServiceId">
+              <option
+                v-for="service in serviceList"
+                :key="service.businessServiceId"
+                :value="service.businessServiceId"
+              >{{service.businessServiceName}}</option>
+            </select>
+          </div>
+
           <div class="brc-article-attribute">
             <div class="brc-article-attribute__caption">Краткое описание</div>
             <input type="text" v-model="article.articleDescription" />
@@ -57,7 +75,7 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
@@ -65,6 +83,8 @@ import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import SiteSection from '@/models/ekoset/SiteSection'
+import BusinessService from '@/models/ekoset/BusinessService'
 
 @Component({
   components: {
@@ -77,6 +97,8 @@ export default class AdminArticleCard extends Vue {
 
   private article: Article = new Article()
   private breadCrumbList: any[] = []
+  private siteSectionList: SiteSection[] = []
+  private serviceList: BusinessService[] = []
 
   private layout () {
     return 'admin'
@@ -103,8 +125,16 @@ export default class AdminArticleCard extends Vue {
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость?', 'Подтвердите удаление', okCallback)
   }
 
+  @Watch('article.siteSectionId', { immediate: true })
+  private async updateServiceList () {
+    this.serviceList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slig-' + this.article.siteSectionId)
+  }
+
   private mounted () {
     this.configBreadCrumbs()
+    if (this.article.siteSectionId) {
+      this.updateServiceList()
+    }
   }
 
   private configBreadCrumbs () {
@@ -117,7 +147,12 @@ export default class AdminArticleCard extends Vue {
   private async asyncData (context: NuxtContext) {
     const articleSlug = context.params.article
     const article = articleSlug ? await getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
-
+    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
+    const data = await Promise.all([siteSectionList])
+    return {
+      article,
+      siteSectionList: data[0]
+    }
     return {
       article
     }
