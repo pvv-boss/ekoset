@@ -1,6 +1,7 @@
 export default class Article {
   public articleId: number;
   public siteSectionId: null | number;
+  public businessServiceId: null | number;
   public articlePublishDate: string;
   public articleAuthor: string | null;
   public articleTitle: string;

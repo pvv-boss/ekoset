@@ -40,13 +40,16 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
+    {{indOfferItems}}
     <div v-if="indOfferItems.length>0">
       <vue-good-table :columns="headerFields" :rows="indOfferItems">
-        <!-- <nuxt-link
-          v-if="props.column.field == 'indOfferName'"
-          :to="{ name: 'admin-individual-offer-card', params: { siteSection: props.row.siteSectionId, offer: props.row.indOfferId}}"
-        >{{props.row.indOfferName}}</nuxt-link>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>-->
+        <template slot="table-row" slot-scope="props">
+          <nuxt-link
+            v-if="props.column.field == 'indOfferName'"
+            :to="{ name: 'admin-individual-offer-card', params: { siteSection: props.row.siteSectionId, offer: props.row.indOfferSlug+'-'+props.row.indOfferId}}"
+          >{{props.row.indOfferName}}</nuxt-link>
+          <span v-else>{{props.formattedRow[props.column.field]}}</span>
+        </template>
       </vue-good-table>
     </div>
   </div>

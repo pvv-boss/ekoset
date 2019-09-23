@@ -6,7 +6,7 @@
           v-if="props.column.field == 'clBrandId'"
           type="checkbox"
           :value="props.row.clBrandId"
-          checked
+          :checked="props.row.hasRelation"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
