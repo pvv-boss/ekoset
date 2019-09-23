@@ -1,6 +1,7 @@
 import BaseService from '../BaseService';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
+import * as slugify from '@sindresorhus/slugify';
 
 export default class IndividualOfferService extends BaseService {
   private apiViewName = 'v_api_individual_offer';
@@ -41,6 +42,7 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async save (individualOffer: IndividualOffer) {
+    individualOffer.indOfferSlug = slugify(individualOffer.indOfferName);
     return TypeOrmManager.EntityManager.save(individualOffer);
   }
 

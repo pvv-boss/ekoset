@@ -28,6 +28,7 @@ export class IndividualOffer {
   @JoinColumn({ name: 'site_section_id' })
   public siteSection: Promise<SiteSection | null | number>;
 
+  @Column({ name: 'site_section_id' })
   @RelationId((individual_offer: IndividualOffer) => individual_offer.siteSection)
   public siteSectionId: number | null;
 
