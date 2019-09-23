@@ -12,7 +12,7 @@ export class ResponseWrapper {
   }
 
   public static createFailure (exc: Exception, message?: ClientNotifyMessage, redirectUrl?: string): ResponseWrapper {
-    const responseData = new ResponseWrapper(false, exc, exc.message, exc.status, redirectUrl);
+    const responseData = new ResponseWrapper(false, exc, exc.message, !!(exc.status) ? exc.status : 500, redirectUrl);
     if (message) {
       responseData.showNotify = message;
     }

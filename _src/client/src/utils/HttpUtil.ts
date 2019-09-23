@@ -71,7 +71,7 @@ class HttpUtil {
     return this.processResponse(this.axiosInstance.delete(url))
   }
 
-  public async httpPostForm (url: string, formData?) {
+  public async httpPostForm (url: string, formData: FormData) {
     const conf = {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -125,7 +125,7 @@ class HttpUtil {
   private redirect (errorResponse: any) {
     const routerName = errorResponse.status === 401 || errorResponse.status === 403 ? 'auth-login' : 'error-page'
     if (this.router) {
-      this.router.push({ name: 'error', params: { errorMessage: errorResponse.message, status: errorResponse.status } })
+      this.router.push({ name: 'error-page', params: { errorMessage: errorResponse.message, status: errorResponse.status } })
       this.router.push({ name: routerName, params: { errorMessage: errorResponse.message, status: errorResponse.status, mode: 'login' } })
     }
   }

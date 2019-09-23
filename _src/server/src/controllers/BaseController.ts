@@ -37,10 +37,10 @@ export class BaseController {
     res.removeHeader(AppConfig.authConfig.jwtHeaderName);
   }
 
-  public static getCurrentUserId (req: Request): number {
-    const test = req.user ? req.user : SessionUser.anonymousUser.appUserId;
-    return test;
-  }
+  // public static getCurrentUserId (req: Request): number {
+  //   const test = req.user ? req.user : SessionUser.anonymousUser.appUserId;
+  //   return test;
+  // }
 
   public static setCurrentUserAnonymous (req: Request, res: Response) {
     if (req && req.user) {

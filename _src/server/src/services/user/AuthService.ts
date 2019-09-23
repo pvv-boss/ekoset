@@ -72,7 +72,7 @@ export default class AuthService extends BaseService {
     }
   }
 
-  public async verifyBySocialNetwork (authStrategyType: string, profile: any, done: (logonResult: LogonResult) => void) {
+  public async verifyBySocialNetwork (authStrategyType: string, profile: any, done: (logonResult: LogonResult | string, user: unknown) => void) {
     const logonResult: LogonResult = new LogonResult();
 
     let socialNetworkName = null;
@@ -138,7 +138,7 @@ export default class AuthService extends BaseService {
       logonResult.makeErrorResult(new InternalServerError(err.message, err));
       logger.error(err);
     } finally {
-      done(logonResult)
+      done(logonResult, null)
     }
   }
 

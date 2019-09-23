@@ -60,7 +60,7 @@
 
       <div class="brc-message-form__button">
         <label class="attach-file">
-          <input type="file" name="name" id="file" ref="file" v-on:change="handleFileUpload()" />
+          <input type="file" name="file" id="file" ref="file" v-on:change="handleFileUpload()" />
           <span class="file-name">Прикрепить файл</span>
         </label>
         <button type="button" @click="sentMessage">Отправить</button>
@@ -130,10 +130,13 @@ export default class MessageForm extends Vue {
       alert('Отправили сообщение')
 
       const formData: FormData = new FormData()
-      formData.append('file', this.file);
+      formData.append('file', this.file)
+      formData.append('email', this.email)
+      formData.append('phone', this.phone)
+      formData.append('message', this.message)
+      formData.append('name', this.name)
 
       getServiceContainer().formMessageService.sendFormMessage(formData)
-      getServiceContainer().formMessageService.testFile(this.file)
     }
   }
 }
