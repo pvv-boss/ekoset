@@ -9,8 +9,6 @@ import MainEkosetService from './ekoset/MainEkosetService';
 import IndividualOfferService from './ekoset/IndividualOfferService';
 import BusinessServiceService from './ekoset/BusinessServiceService';
 import SeoService from './ekoset/SeoService';
-import FormMessageService from './ekoset/FormMessageService';
-
 
 class ServiceContainer {
   public static UserService: UserService = new UserService();
@@ -24,9 +22,6 @@ class ServiceContainer {
   public static IndividualOfferService: IndividualOfferService = new IndividualOfferService();
   public static BusinessServiceService: BusinessServiceService = new BusinessServiceService();
   public static SeoService: SeoService = new SeoService();
-  public static FormMessageService: FormMessageService = new FormMessageService();
-
-
 }
 
 export default ServiceContainer;

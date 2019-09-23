@@ -17,6 +17,10 @@ export default class BaseService {
     return PgUtls.getOneFromDatabse(viewName, whereStmt, [id]);
   }
 
+  public async getOneFromDatabse (viewName: string, whereStmt?: string, whereParams?: any[]) {
+    return PgUtls.getOneFromDatabse(viewName, whereStmt, whereParams);
+  }
+
   public async deleteById (viewName: string, whereStmt: string, id: number) {
     return PgUtls.delete(viewName, whereStmt, [id]);
   }

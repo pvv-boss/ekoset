@@ -6,10 +6,10 @@
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
             <label for="name">Имя Фамилия</label>
-            <input type="text" v-model.lazy="name" />
+            <input type="text" v-model.lazy="formMessageData.name" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && name.length === 0 }"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.name.length === 0 }"
             >Введите имя</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
@@ -20,7 +20,7 @@
             </span>
             <input
               type="tel"
-              v-model="phone"
+              v-model="formMessageData.phone"
               name="phone"
               id="phone"
               placeholder="(555) 555-5555"
@@ -34,25 +34,25 @@
 
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || phone.length > 0) && $v.phone.$invalid}"
+              :class="{'brc-error-message_visible': (isSubmit || formMessageData.phone.length > 0) && $v.phone.$invalid}"
             >Введите телефон в формате +7 999 999-99-99</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
-            <input type="email" v-model.lazy="email" />
+            <input type="email" v-model.lazy="formMessageData.email" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || email.length > 0) && $v.email.$invalid}"
+              :class="{'brc-error-message_visible': (isSubmit || formMessageData.email.length > 0) && $v.email.$invalid}"
             >Введите настоящий email</span>
           </div>
         </div>
         <div class="brc-message-form__row">
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea v-model.lazy="message"></textarea>
+            <textarea v-model.lazy="formMessageData.message"></textarea>
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && message.length === 0}"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.message.length === 0}"
             >Напишите комментарий</span>
           </div>
         </div>
@@ -75,6 +75,7 @@ import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
 import { getServiceContainer } from '@/api/ServiceContainer';
+import FormMessageData from '@/models/ekoset/FormMessageData';
 
 @Component({
   validations: {
@@ -100,16 +101,14 @@ export default class MessageForm extends Vue {
     file: HTMLFormElement
   }
 
+  public file = ''
+  public formMessageData: FormMessageData = new FormMessageData()
+
   @Prop()
   private title
 
   private isBrowser = false
   private isSubmit = false
-  private email = ''
-  private phone = ''
-  private message = ''
-  private name = ''
-  private file = ''
 
   // FIXME: Как-то криво
   private handleFileUpload () {
@@ -126,19 +125,15 @@ export default class MessageForm extends Vue {
   }
 
   private async sentMessage () {
-    if (this.validateForm()) {
-      alert('Отправили сообщение')
+    //  if (this.validateForm()) {
+    const formData: FormData = new FormData()
+    formData.append('formMessageData', JSON.stringify(this.formMessageData))
+    formData.append('file', this.file)
+    getServiceContainer().publicEkosetService.sendFormMessage(formData)
 
-      const formData: FormData = new FormData()
-      formData.append('file', this.file)
-      formData.append('email', this.email)
-      formData.append('phone', this.phone)
-      formData.append('message', this.message)
-      formData.append('name', this.name)
-
-      getServiceContainer().formMessageService.sendFormMessage(formData)
-    }
+    alert('Отправили сообщение')
   }
+  // }
 }
 </script>
 

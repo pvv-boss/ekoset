@@ -1,10 +1,15 @@
-import { JsonController, Get, Res, Param, Req, Body, Put, Delete } from 'routing-controllers';
+import { JsonController, Get, Res, Param, Req, Body, Put, Delete, UseBefore, Post } from 'routing-controllers';
 import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
+import * as multer from 'multer';
+import FormMessageData from '@/entities/FormMessageData';
+import ClassTransform from '@/utils/ClassTransform';
+
+const upload = multer();
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -91,7 +96,7 @@ export default class MainEkosetController extends BaseController {
     @Body() clBrand: ClBrand,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.saveBrand(clBrand);
-    return BusinessServiceController.createSuccessResponse(result, response);
+    return MainEkosetController.createSuccessResponse(result, response);
   }
 
   @Delete('/brands/:id(\\d+)')
@@ -99,7 +104,7 @@ export default class MainEkosetController extends BaseController {
     @Param('id') id: number,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.deleteBrand(id);
-    // return BusinessServiceController.createSuccessResponse(result, response);
+    // return MainEkosetController.createSuccessResponse(result, response);
   }
 
   @Put('/activities')
@@ -107,7 +112,7 @@ export default class MainEkosetController extends BaseController {
     @Body() siteSection: SiteSection,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.saveSiteSection(siteSection);
-    return BusinessServiceController.createSuccessResponse(result, response);
+    return MainEkosetController.createSuccessResponse(result, response);
   }
 
   @Delete('/activities/:id(\\d+)')
@@ -116,5 +121,20 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response) {
     // const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
     // return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @UseBefore(upload.single('file'))
+  @Post('/user/message')
+  public async saveUserMessage (
+    @Body() body: any,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const formData = JSON.parse(body.formMessageData);
+    const formDataInstance = ClassTransform.plainToClassInstanceOne<FormMessageData>(formData, FormMessageData);
+
+    const result = await ServiceContainer.MainEkosetService.saveUserMessage(formDataInstance, file);
+    return MainEkosetController.createSuccessResponse(result, response);
   }
 }

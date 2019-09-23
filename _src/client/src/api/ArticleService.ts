@@ -2,6 +2,7 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import Article from '@/models/ekoset/Article'
+import ClArticleTag from '@/models/ekoset/ClArticleTag'
 
 export default class ArticleService extends BaseService {
 
@@ -18,6 +19,28 @@ export default class ArticleService extends BaseService {
     const query = 'admin/panel/news'
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
+  }
+
+  // Добавить/Убрать тэг
+  public async adminAddArticleTag (artcicleSlug: string, tag: ClArticleTag) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}}/tags`
+    return HttpUtil.httpPost(this.buildHttRequest(query), tag)
+  }
+
+  public async adminRemoveArticleTag (artcicleSlug: string, tagId: number) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}/tags/${tagId}`
+    return HttpUtil.httpDelete(this.buildHttRequest(query))
+  }
+
+  // Все тэги
+  public async getAllArticleTags () {
+    return HttpUtil.httpGet(this.buildHttRequest('admin/panel/news/tags'))
+  }
+
+  // Тэги для Новости
+  public async getArticleTags (artcicleSlug: string, tagId: number) {
+    const query = `news/${this.getIdBySlug(artcicleSlug)}/tags`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
   // Для главной страницы
