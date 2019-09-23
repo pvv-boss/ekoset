@@ -127,14 +127,14 @@ export default class AdminArticleCard extends Vue {
 
   @Watch('article.siteSectionId', { immediate: true })
   private async updateServiceList () {
-    this.serviceList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slig-' + this.article.siteSectionId)
+    if (this.article.siteSectionId && this.article.siteSectionId > 0) {
+      this.serviceList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slig-' + this.article.siteSectionId)
+    }
   }
 
   private mounted () {
     this.configBreadCrumbs()
-    if (this.article.siteSectionId) {
-      this.updateServiceList()
-    }
+    this.updateServiceList()
   }
 
   private configBreadCrumbs () {

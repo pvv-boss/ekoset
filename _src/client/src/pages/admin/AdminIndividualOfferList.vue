@@ -40,7 +40,6 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
-    {{indOfferItems}}
     <div v-if="indOfferItems.length>0">
       <vue-good-table :columns="headerFields" :rows="indOfferItems">
         <template slot="table-row" slot-scope="props">
