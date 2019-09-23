@@ -2,7 +2,7 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
-    <div class="brc-admin-card">
+    <div class="brc-admin-card" v-if="indOfferItem.indOfferId > 0">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
@@ -46,19 +46,22 @@
           <div class="brc-service-attribute__caption">Текстовый блок 2</div>
           <AdminArticleEditor v-model="indOfferItem.indOfferFreeText2"></AdminArticleEditor>
         </div>
-        <div class="brc-admin-card__save">
+        <!-- <div class="brc-admin-card__save">
           <button type="button" @click="saveOffer">Сохранить</button>
           <button type="button" @click="deleteOffer">Удалить</button>
-        </div>
+        </div>-->
       </div>
       <div class="brc-admin-card__relations">
         <div>
           <h4>Услуги</h4>
-          <AdminServiceChildList :serviceItems="serviceList"></AdminServiceChildList>
+          <AdminServiceChildList :serviceItems="serviceList" v-if="serviceList.length > 0"></AdminServiceChildList>
         </div>
         <div>
           <h4>Рекомендации</h4>
-          <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList>
+          <AdminBrandRelationList
+            :brandRelationItems="brandRelationList"
+            v-if="brandRelationList.length > 0"
+          ></AdminBrandRelationList>
         </div>
       </div>
     </div>
@@ -79,7 +82,7 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
-import IndividualOffer from '../../models/ekoset/IndividualOffer'
+import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
@@ -112,21 +115,21 @@ export default class AdminIndividualOfferCard extends Vue {
       indOfferItem = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     }
 
-    //const brandRelationList = getServiceContainer().publicEkosetService.getAdminAllBands()
+    const brandRelationList = getServiceContainer().publicEkosetService.getAdminAllBands()
     const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
-    let serviceList: Promise<BusinessService>
-    if (context.params.clienttype) {
-      serviceList = context.params.clienttype === 'business'
-        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
-        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
-    } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.indOfferUrl)
-    }
-
-    const data = await Promise.all([siteSectionList, serviceList])
+    // let serviceList: Promise<BusinessService>
+    // if (context.params.clienttype) {
+    //   serviceList = context.params.clienttype === 'business'
+    //     ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
+    //     : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
+    // } else {
+    //   serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.indOfferUrl)
+    // }
+    const serviceList = getServiceContainer().publicEkosetService.adminGetClActivityList()
+    const data = await Promise.all([siteSectionList, serviceList, brandRelationList])
     return {
       indOfferItem,
-      //brandRelationList: data[0],
+      brandRelationList: data[2],
       siteSectionList: data[0],
       serviceList: data[1]
     }
@@ -140,7 +143,7 @@ export default class AdminIndividualOfferCard extends Vue {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
-    this.breadCrumbList.push({ name: 'Инд.предложение', link: '' })
+    //this.breadCrumbList.push({ name: 'Инд.предложение' })
   }
 
   // private saveService () {
