@@ -37,7 +37,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <input type="number" v-model.number="serviceItem.businessServiceStatus" />
+          <AdminStatusSelector v-model="serviceItem.businessServiceStatus"></AdminStatusSelector>
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -111,6 +111,7 @@ import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelecto
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
@@ -120,7 +121,8 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     AdminServiceChildList,
     BreadCrumbs,
     AdminSiteSectionSelector,
-    AdminServiceSelector
+    AdminServiceSelector,
+    AdminStatusSelector
   }
 })
 export default class AdminServiceCard extends Vue {

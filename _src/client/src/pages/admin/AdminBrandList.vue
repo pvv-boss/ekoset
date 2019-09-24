@@ -15,7 +15,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <input type="number" v-model.number="newBrand.clBrandStatus" />
+        <AdminStatusSelector v-model="newBrand.clBrandStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNewBrand">Сохранить</button>
       <button @click="cancelSaveNewBrand">Отменить</button>
@@ -33,10 +33,12 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
-    BreadCrumbs
+    BreadCrumbs,
+    AdminStatusSelector
   }
 })
 export default class AdminBrandList extends Vue {

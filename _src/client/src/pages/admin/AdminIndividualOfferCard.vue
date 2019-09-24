@@ -26,7 +26,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <input type="number" v-model.number="indOfferItem.indOfferStatus" />
+          <AdminStatusSelector v-model="indOfferItem.indOfferStatus"></AdminStatusSelector>
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -72,6 +72,7 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ClActivity from '@/models/ekoset/ClActivity'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
@@ -80,7 +81,8 @@ import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.
     AdminFileUploader,
     AdminServiceChildList,
     BreadCrumbs,
-    AdminClActivitySelector
+    AdminClActivitySelector,
+    AdminStatusSelector
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()

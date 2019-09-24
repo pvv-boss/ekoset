@@ -1,26 +1,44 @@
 <template>
-  <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
-    <option value="1">статус 1</option>
-    <option value="2">статус 2</option>
-    <option value="3">статус 3</option>
-  </select>
+  <div class="brc-admin-status-selector">
+    <input
+      type="radio"
+      id="statusSelector-0"
+      value="0"
+      v-model="value"
+      @change="$emit('input', $event.target.value)"
+    />
+    <label for="statusSelector-0">Активно</label>
+    <input
+      type="radio"
+      id="statusSelector-1"
+      value="1"
+      v-model="value"
+      @change="$emit('input', $event.target.value)"
+    />
+    <label for="statusSelector-1">Неактивно</label>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import SiteSection from '@/models/ekoset/SiteSection'
 import { getServiceContainer } from '@/api/ServiceContainer'
 
 @Component
 export default class AdminStatusSelector extends Vue {
   @Prop()
   private value
-  // private siteSectionList: SiteSection[] = []
-
-  // private async mounted () {
-  //   this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
-  // }
 }
 </script>
+
+<style lang="scss">
+.brc-admin-status-selector {
+  display: flex;
+  flex-direction: row;
+
+  input {
+    width: auto !important;
+  }
+}
+</style>
 
 

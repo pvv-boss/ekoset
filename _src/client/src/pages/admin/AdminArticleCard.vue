@@ -8,7 +8,7 @@
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <input type="number" v-model.number="article.articleStatus" />
+          <AdminStatusSelector v-model="article.articleStatus"></AdminStatusSelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
@@ -83,6 +83,7 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import BusinessService from '@/models/ekoset/BusinessService'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
@@ -90,7 +91,8 @@ import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
     AdminFileUploader,
     BreadCrumbs,
     AdminSiteSectionSelector,
-    AdminServiceSelector
+    AdminServiceSelector,
+    AdminStatusSelector
   }
 })
 export default class AdminArticleCard extends Vue {
