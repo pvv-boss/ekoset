@@ -29,7 +29,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <input type="number" v-model.number="newIndividualOffer.indOfferStatus" />
+        <AdminStatusSelector v-model="newIndividualOffer.indOfferStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
@@ -39,7 +39,7 @@
         <template slot="table-row" slot-scope="props">
           <nuxt-link
             v-if="props.column.field == 'indOfferName'"
-            :to="{ name: 'admin-individual-offer-card', params: { siteSection: props.row.siteSectionId, offer: props.row.indOfferSlug+'-'+props.row.indOfferId}}"
+            :to="{ name: 'admin-individual-offer-card', params: { siteSection: props.row.siteSectionId, offer: props.row.indOfferUrl}}"
           >{{props.row.indOfferName}}</nuxt-link>
           <span v-else>{{props.formattedRow[props.column.field]}}</span>
         </template>
@@ -59,12 +59,14 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
     BreadCrumbs,
     AdminSiteSectionSelector,
-    AdminClActivitySelector
+    AdminClActivitySelector,
+    AdminStatusSelector
   }
 })
 export default class AdminIndividualOfferList extends Vue {

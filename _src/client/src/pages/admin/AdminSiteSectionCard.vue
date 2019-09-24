@@ -19,7 +19,7 @@
           </div>
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Статус</div>
-            <input type="number" v-model.number="siteSectionItem.siteSectionStatus" />
+            <AdminStatusSelector v-model="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
           </div>
 
           <div class="brc-admin-card-attribute">
@@ -49,6 +49,7 @@
         </div>
         <div>
           <h4>Индивидуальные предложения</h4>
+          <AdminBusinessTypeOfferList :siteSection="siteSectionSlug" :offerList="offerList">"</AdminBusinessTypeOfferList>
         </div>
         <div>
           <h4>Услуги</h4>
@@ -72,6 +73,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
+import IndividualOffer from '@/models/ekoset/IndividualOffer.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
@@ -82,6 +84,8 @@ import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
+import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
@@ -94,12 +98,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     AdminFileUploader,
     AdminServiceChildList,
     AdminClientTypeOfferList,
+    AdminBusinessTypeOfferList,
+    AdminStatusSelector,
     BreadCrumbs
   }})
 
 export default class AdminSiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
-  private serviceOtherList: BusinessService = new BusinessService()
+  private serviceOtherList: BusinessService[] = []
+  private offerList: IndividualOffer[] = []
   private brandRelationList: ClBrand[] = []
   private breadCrumbList: any[] = []
 
@@ -117,12 +124,14 @@ export default class AdminSiteSectionCard extends Vue {
 
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(siteSectionItem.siteSectionId)
     const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
+    const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
 
-    const data = await Promise.all([serviceOtherList, brandRelationList])
+    const data = await Promise.all([serviceOtherList, brandRelationList, offerList])
     return {
       siteSectionItem: siteSectionItem,
       serviceOtherList: data[0],
-      brandRelationList: data[1]
+      brandRelationList: data[1],
+      offerList: data[2]
     }
 
 

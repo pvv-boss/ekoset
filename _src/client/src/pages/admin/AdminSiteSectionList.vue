@@ -18,7 +18,7 @@
       </div>
       <div class="brc-article-attribute">
         <div class="brc-article-attribute__caption">Статус</div>
-        <input type="number" v-model.number="newSiteSection.siteSectionStatus" />
+        <AdminStatusSelector v-model="newSiteSection.siteSectionStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNewSiteSection">Сохранить</button>
       <button @click="cancelSaveNewSiteSection">Отменить</button>
@@ -43,10 +43,12 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
-    BreadCrumbs
+    BreadCrumbs,
+    AdminStatusSelector
   }
 })
 export default class AdminSiteSectionList extends Vue {

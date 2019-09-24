@@ -19,7 +19,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <input type="number" v-model.number="newService.businessServiceStatus" />
+        <AdminStatusSelector v-model="newService.businessServiceStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNewService">Сохранить</button>
       <button @click="cancelSaveNewService">Отменить</button>
@@ -46,11 +46,13 @@ import BusinessServiceService from '@/api/BusinessServiceService'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    AdminSiteSectionSelector
+    AdminSiteSectionSelector,
+    AdminStatusSelector
   }
 })
 export default class AdminSiteSectionList extends Vue {

@@ -1,6 +1,9 @@
 <template>
   <div class="brc-page-description">
-    <div v-html="leftBlock"></div>
+    <div
+      v-html="leftBlock"
+      :class="{'column-block':rightBlock === null || rightBlock.length === 0}"
+    ></div>
     <div v-html="rightBlock"></div>
   </div>
 </template>
@@ -28,11 +31,28 @@ export default class TopDynamicBlock extends Vue {
     margin: 15px;
     flex-basis: 100%;
   }
+
+  .column-block {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-gap: 30px;
+  }
 }
 
 @media (max-width: 768px) {
   .brc-page-description {
     flex-direction: column;
+  }
+  .column-block {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    column-gap: 0;
   }
 }
 </style>
