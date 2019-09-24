@@ -48,12 +48,7 @@
           <button type="button" @click="deleteOffer">Удалить</button>
         </div>
       </div>
-      <div class="brc-admin-card__relations">
-        <div>
-          <h4>Услуги</h4>
-          <AdminServiceChildList :serviceItems="serviceList" v-if="serviceList.length > 0"></AdminServiceChildList>
-        </div>
-      </div>
+      <div class="brc-admin-card__relations"></div>
     </div>
   </div>
 </template>
