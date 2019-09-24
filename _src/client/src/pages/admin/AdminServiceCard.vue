@@ -87,7 +87,10 @@
         </div>
         <div>
           <h4>Рекомендации</h4>
-          <AdminBrandRelationList :brandRelationItems="brandRelationList"></AdminBrandRelationList>
+          <AdminBrandRelationList
+            :brandRelationItems="brandRelationList"
+            @brandchecked="brandChecked"
+          ></AdminBrandRelationList>
         </div>
       </div>
     </div>
@@ -164,9 +167,15 @@ export default class AdminServiceCard extends Vue {
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
+
+  private brandChecked (clBrandId: number, hasRelation: boolean) {
+    getServiceContainer().publicEkosetService.addOrRemoveBrand2Service(clBrandId, this.serviceItem.businessServiceId, hasRelation)
+  }
+
   private async updateServiceOtherList () {
     this.serviceOtherList = await getServiceContainer().businessServiceService.getChildServicesByParentId(this.serviceItem.businessServiceId)
   }
+
   private mounted () {
     this.configBreadCrumbs()
     this.newService.siteSectionId = this.serviceItem.siteSectionId

@@ -50,7 +50,7 @@ export const EkosetRouter = [
   },
   {
     name: 'service-card',
-    path: '/:siteSection/services/:service',
+    path: '/:siteSection?/services/:service',
     component: ServiceCard,
     props: true
   },

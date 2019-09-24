@@ -62,7 +62,7 @@
           <h4>Рекомендации</h4>
           <AdminBrandRelationList
             :brandRelationItems="brandRelationList"
-            v-if="brandRelationList.length > 0"
+            @brandchecked="brandChecked"
           ></AdminBrandRelationList>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default class AdminSiteSectionCard extends Vue {
 
     const data = await Promise.all([serviceOtherList, brandRelationList, offerList])
     return {
-      siteSectionItem: siteSectionItem,
+      siteSectionItem,
       serviceOtherList: data[0],
       brandRelationList: data[1],
       offerList: data[2]
@@ -152,6 +152,10 @@ export default class AdminSiteSectionCard extends Vue {
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел?', 'Подтвердите удаление', okCallback)
+  }
+
+  private brandChecked (clBrandId: number, hasRelation: boolean) {
+    getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(clBrandId, this.siteSectionItem.siteSectionId, hasRelation)
   }
 
   private mounted () {

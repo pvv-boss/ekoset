@@ -7,6 +7,7 @@
           type="checkbox"
           :value="props.row.clBrandId"
           :checked="props.row.hasRelation"
+          @change="onBrandChecked(props.row.clBrandId,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -43,7 +44,9 @@ export default class AdminBrandRelationList extends Vue {
   private layout () {
     return 'admin'
   }
+
+  private onBrandChecked (clBrandId: number, hasRelation: boolean) {
+    this.$emit('brandchecked', clBrandId, hasRelation)
+  }
 }
 </script>
-
-

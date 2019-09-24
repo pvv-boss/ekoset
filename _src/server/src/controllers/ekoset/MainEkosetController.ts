@@ -94,7 +94,7 @@ export default class MainEkosetController extends BaseController {
   @Put('/brands/:brandId/sitesection/:siteSectionId')
   public async addBrand2SiteSection (
     @Param('brandId') brandId: number,
-    @Param('sitesection') siteSectionId: number,
+    @Param('siteSectionId') siteSectionId: number,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.addBrand2SiteSection(brandId, siteSectionId);
     return MainEkosetController.createSuccessResponse(result, response);
@@ -112,13 +112,13 @@ export default class MainEkosetController extends BaseController {
   @Delete('/brands/:brandId/sitesection/:siteSectionId')
   public async removeBrandFromSiteSection (
     @Param('brandId') brandId: number,
-    @Param('sitesection') siteSectionId: number,
+    @Param('siteSectionId') siteSectionId: number,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.removeBrandFromSiteSection(brandId, siteSectionId);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
-  @Delete('/brands/:brandId/service/:siteSectionId')
+  @Delete('/brands/:brandId/service/:serviceId')
   public async removeBrandFromService (
     @Param('brandId') brandId: number,
     @Param('serviceId') serviceId: number,
