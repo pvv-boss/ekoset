@@ -19,7 +19,7 @@
           </div>
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Статус</div>
-            <input type="number" v-model.number="siteSectionItem.siteSectionStatus" />
+            <AdminStatusSelector v-model="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
           </div>
 
           <div class="brc-admin-card-attribute">
@@ -49,7 +49,6 @@
         </div>
         <div>
           <h4>Индивидуальные предложения</h4>
-          {{offerList}}
           <AdminBusinessTypeOfferList :siteSection="siteSectionSlug" :offerList="offerList">"</AdminBusinessTypeOfferList>
         </div>
         <div>
@@ -86,6 +85,7 @@ import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vu
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
+import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
@@ -99,6 +99,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     AdminServiceChildList,
     AdminClientTypeOfferList,
     AdminBusinessTypeOfferList,
+    AdminStatusSelector,
     BreadCrumbs
   }})
 
