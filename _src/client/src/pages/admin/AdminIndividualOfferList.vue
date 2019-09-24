@@ -5,15 +5,9 @@
     <button @click="createNewMode = true" v-show="!createNewMode">Создать индивидуальное предложение</button>
 
     <div v-if="createNewMode">
-      <div class="brc-service-attribute" v-if="siteSectionList.length > 0">
+      <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Подраздел</div>
-        <select class="form-control" v-model="newIndividualOffer.siteSectionId">
-          <option
-            v-for="siteSection in siteSectionList"
-            :key="siteSection.siteSectionId"
-            :value="siteSection.siteSectionId"
-          >{{siteSection.siteSectionName}}</option>
-        </select>
+        <AdminSiteSectionSelector v-model="newIndividualOffer.siteSectionId"></AdminSiteSectionSelector>
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Наименование</div>
@@ -26,7 +20,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Вид деятельности</div>
-        <input type="number" v-model.number="newIndividualOffer.clActivityId" />
+        <AdminClActivitySelector v-model="newIndividualOffer.clActivityId"></AdminClActivitySelector>
       </div>
 
       <div class="brc-service-attribute">
@@ -63,10 +57,14 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
+import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 
 @Component({
   components: {
-    BreadCrumbs
+    BreadCrumbs,
+    AdminSiteSectionSelector,
+    AdminClActivitySelector
   }
 })
 export default class AdminIndividualOfferList extends Vue {
@@ -74,7 +72,6 @@ export default class AdminIndividualOfferList extends Vue {
   private indOfferItems: IndividualOffer[] = []
   private createNewMode = false
   private newIndividualOffer: IndividualOffer = new IndividualOffer()
-  private siteSectionList: SiteSection[] = []
   private headerFields = [
     {
       field: "siteSectionName",
@@ -107,14 +104,10 @@ export default class AdminIndividualOfferList extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-
     const indOfferItems = getServiceContainer().individualOfferService.adminGetAll()
-    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
-
-    const data = await Promise.all([indOfferItems, siteSectionList])
+    const data = await Promise.all([indOfferItems])
     return {
-      indOfferItems: data[0],
-      siteSectionList: data[1]
+      indOfferItems: data[0]
     }
   }
 
