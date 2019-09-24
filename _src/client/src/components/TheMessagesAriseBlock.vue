@@ -1,9 +1,11 @@
 <template>
   <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
+      <div class="brc-message-arise__close" @click="closeForm">&times;</div>
       <MessageForm title="Заказать услугу"></MessageForm>
     </div>
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
+      <div class="brc-message-arise__close" @click="closeForm">&times;</div>
       <MessageForm title="Задать вопрос эксперту"></MessageForm>
     </div>
   </div>
@@ -71,6 +73,10 @@ export default class TheMessagesAriseBlock extends Vue {
   > .brc-feedback {
     background-color: white;
   }
+
+  .brc-message-arise__close {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -90,6 +96,14 @@ export default class TheMessagesAriseBlock extends Vue {
     }
     .brc-message-form__row:last-child {
       margin-bottom: 0 !important;
+    }
+
+    .brc-message-arise__close {
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      font-size: 24px;
+      display: block;
     }
   }
 }
