@@ -24,21 +24,6 @@
                 class="brc-admin-navigation__item-link"
               >Услуги</nuxt-link>
             </li>
-            <!-- <li class="brc-admin-navigation__item">
-              <input
-                id="toogleClientTypeMenuVisible"
-                class="brc-admin-navigation__item-chk"
-                type="checkbox"
-              />
-              <label
-                class="brc-admin-navigation-list-arrow"
-                for="toogleClientTypeMenuVisible"
-              >Комплексные решения</label>
-              <ul class="brc-admin-navigation__second-list">
-                <li class="brc-admin-navigation__item">Для бизнеса</li>
-                <li class="brc-admin-navigation__item">Для частных лиц</li>
-              </ul>
-            </li>-->
             <li class="brc-admin-navigation__item">
               <nuxt-link
                 :to="{ name: 'admin-individual-offers'}"
@@ -53,6 +38,20 @@
                 :to="{ name: 'admin-brands'}"
                 class="brc-admin-navigation__item-link"
               >Бренды</nuxt-link>
+            </li>
+            <li class="brc-admin-navigation__item">
+              <input
+                id="toogleClientTypeMenuVisible"
+                class="brc-admin-navigation__item-chk"
+                type="checkbox"
+              />
+              <label
+                class="brc-admin-navigation-list-arrow"
+                for="toogleClientTypeMenuVisible"
+              >Справочники</label>
+              <ul class="brc-admin-navigation__second-list">
+                <li class="brc-admin-navigation__item">Тип объекта</li>
+              </ul>
             </li>
             <!-- <li class="brc-admin-navigation__item">Контакты</li>
             <li class="brc-admin-navigation__item">О компании</li>
