@@ -2,7 +2,7 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h1>
-    <div class="brc-admin-card" v-if="siteSectionItem.siteSectionId > 0">
+    <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-site-section-card__attributes">
           <div class="brc-admin-card-attribute">

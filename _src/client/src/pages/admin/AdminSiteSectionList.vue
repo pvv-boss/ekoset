@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-site-section-list_wrapper" v-id="siteSectionItems.length>0">
+  <div class="brc-site-section-list_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Подразделы сайта</h1>
     <button
@@ -28,7 +28,7 @@
       <template slot="table-row" slot-scope="props">
         <nuxt-link
           v-if="props.column.field == 'siteSectionName'"
-          :to="{ name: 'admin-site-section-card', params: { siteSection: props.row.siteSectionSlug+'-'+props.row.siteSectionId}}"
+          :to="{ name: 'admin-site-section-card', params: { siteSection: props.row.siteSectionUrl}}"
         >{{props.row.siteSectionName}}</nuxt-link>
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -59,20 +59,20 @@ export default class AdminSiteSectionList extends Vue {
 
   private headerFields = [
     {
-      field: "siteSectionName",
-      label: "Наименование"
+      field: 'siteSectionName',
+      label: 'Наименование'
     },
     {
-      field: "siteSectionSlug",
-      label: "Префикс"
+      field: 'siteSectionSlug',
+      label: 'Префикс'
     },
     {
-      field: "siteSectionPriority",
-      label: "Приоритет"
+      field: 'siteSectionPriority',
+      label: 'Приоритет'
     },
     {
-      field: "siteSectionStatus",
-      label: "Статус"
+      field: 'siteSectionStatus',
+      label: 'Статус'
     }
   ]
 

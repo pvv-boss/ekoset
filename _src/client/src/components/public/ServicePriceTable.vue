@@ -39,6 +39,7 @@
   </div>
 </template>
 
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'

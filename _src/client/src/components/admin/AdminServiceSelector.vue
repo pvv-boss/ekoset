@@ -20,14 +20,14 @@ export default class AdminServiceSelector extends Vue {
   @Prop()
   private siteSectionId
 
+  private itemList: BusinessService[] = []
+
   @Watch('siteSectionId', { immediate: true })
   private async updateServiceList () {
     if (this.siteSectionId && this.siteSectionId > 0) {
       this.itemList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.siteSectionId)
     }
   }
-
-  private itemList: BusinessService[] = []
 
   private async mounted () {
     this.itemList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.siteSectionId)

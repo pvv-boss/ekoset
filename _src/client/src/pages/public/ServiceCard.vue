@@ -23,7 +23,7 @@
 
     <div class="brc-section__wrapper">
       <h2>Стоимость услуг</h2>
-      <ServicePriceTable :servicePriceList="priceServiceList"></ServicePriceTable>
+      <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
     </div>
 
     <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
@@ -50,7 +50,6 @@ import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import { returnStatement } from '@babel/types';
 
 @Component({
   components: {
@@ -72,23 +71,19 @@ export default class ServiceCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
+    const apiSharedData = getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection, context.params.service)
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
     const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
 
-    const data = await Promise.all([childServiceList, busineesTypeOfferList])
+    const data = await Promise.all([childServiceList, busineesTypeOfferList, apiSharedData])
 
     return {
-      apiSharedData,
+      apiSharedData: data[2],
       businessService,
       childServiceList: data[0],
       busineesTypeOfferList: data[1]
     }
-  }
-
-  private get priceServiceList () {
-    return this.childServiceList.length > 0 ? this.childServiceList : [this.businessService]
   }
 
   private get getCurrentSiteSection () {

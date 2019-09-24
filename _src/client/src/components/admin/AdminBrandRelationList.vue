@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-brand-relation-list_wrapper" v-id="brandRelationItems.length>0">
+  <div class="brc-brand-relation-list_wrapper">
     <vue-good-table :columns="headerFields" :rows="brandRelationItems">
       <template #table-row="props">
         <input

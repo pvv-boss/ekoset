@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper" v-id="indOfferItems.length>0">
+  <div class="brc-service-list_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальные предложения</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Создать индивидуальное предложение</button>
@@ -76,28 +76,28 @@ export default class AdminIndividualOfferList extends Vue {
   private newIndividualOffer: IndividualOffer = new IndividualOffer()
   private headerFields = [
     {
-      field: "siteSectionName",
-      label: "Подраздел"
+      field: 'siteSectionName',
+      label: 'Подраздел'
     },
     {
-      field: "indOfferName",
-      label: "Наименование"
+      field: 'indOfferName',
+      label: 'Наименование'
     },
     {
-      field: "clClientId",
-      label: "Тип клиента"
+      field: 'clClientId',
+      label: 'Тип клиента'
     },
     {
-      field: "clActivityId",
-      label: "Вид деятельности"
+      field: 'clActivityId',
+      label: 'Вид деятельности'
     },
     {
-      field: "indOfferPriority",
-      label: "Приоритет"
+      field: 'indOfferPriority',
+      label: 'Приоритет'
     },
     {
-      field: "indOfferStatus",
-      label: "Статус"
+      field: 'indOfferStatus',
+      label: 'Статус'
     }
   ]
 
