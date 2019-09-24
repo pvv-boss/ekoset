@@ -1,7 +1,7 @@
 <template>
   <div class="brc-brand-relation-list_wrapper" v-id="brandRelationItems.length>0">
     <vue-good-table :columns="headerFields" :rows="brandRelationItems">
-      <template slot="table-row" slot-scope="props">
+      <template #table-row="props">
         <input
           v-if="props.column.field == 'clBrandId'"
           type="checkbox"

@@ -108,6 +108,14 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
   }
 
+  public async addOrRemoveBrand2SiteSection (brandId, siteSectionId) {
+    // brands/:brandId/sitesection/:siteSectionId
+  }
+
+  public async addOrRemoveBrand2Service (brandId, serviceId) {
+    // brands/:brandId/service/:serviceId
+  }
+
   public async deleteBrand (id: number) {
     return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
   }

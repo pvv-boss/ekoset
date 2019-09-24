@@ -24,6 +24,7 @@
     2.1 PublicEkosetService.getAdminForBusinessServiceBrands - Маша (+ сохранение)
     2.2 Создавние услуги вторго уровня (наименвоанеи, приоритет, статус) + 
     2.3 Новости убрать - Маша +
+    2.4 API для 
 
 Новости:
  1. Список - выаодить все записи API ArticleService.adminGetAll => Маша +
