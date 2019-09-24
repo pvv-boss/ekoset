@@ -12,28 +12,13 @@
           <div class="brc-admin-card-attribute__caption">Префикс</div>
           <input type="text" v-model="indOfferItem.indOfferSlug" disabled />
         </div>
-        <div class="brc-admin-card-attribute" v-if="siteSectionList.length > 0">
+        <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <select class="form-control" v-model="indOfferItem.siteSectionId">
-            <option
-              v-for="siteSection in siteSectionList"
-              :key="siteSection.siteSectionId"
-              :value="siteSection.siteSectionId"
-            >{{siteSection.siteSectionName}}</option>
-          </select>
+          <AdminSiteSectionSelector v-model="indOfferItem.siteSectionId"></AdminSiteSectionSelector>
         </div>
-        <div
-          class="brc-admin-card-attribute"
-          v-if="businessSectionList.length > 0 && !isClientTypeMode"
-        >
-          <div class="brc-admin-card-attribute__caption">Направлени деятельности</div>
-          <select class="form-control" v-model="indOfferItem.clActivityId">
-            <option
-              v-for="businessSection in businessSectionList"
-              :key="businessSection.clActivityId"
-              :value="businessSection.clActivityId"
-            >{{businessSection.clActivityName}}</option>
-          </select>
+        <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
+          <div class="brc-admin-card-attribute__caption">Направление деятельности</div>
+          <AdminClActivitySelector v-model="indOfferItem.clActivityId"></AdminClActivitySelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Приоритет</div>
@@ -68,13 +53,6 @@
           <h4>Услуги</h4>
           <AdminServiceChildList :serviceItems="serviceList" v-if="serviceList.length > 0"></AdminServiceChildList>
         </div>
-        <div>
-          <h4>Рекомендации</h4>
-          <AdminBrandRelationList
-            :brandRelationItems="brandRelationList"
-            v-if="brandRelationList.length > 0"
-          ></AdminBrandRelationList>
-        </div>
       </div>
     </div>
   </div>
@@ -97,21 +75,21 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ClActivity from '@/models/ekoset/ClActivity'
+import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
+import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 
 @Component({
   components: {
     AdminArticleEditor,
-    AdminBrandRelationList,
+    AdminSiteSectionSelector,
     AdminFileUploader,
     AdminServiceChildList,
-    BreadCrumbs
+    BreadCrumbs,
+    AdminClActivitySelector
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService = new BusinessService()
-  private brandRelationList: ClBrand[] = []
-  private siteSectionList: SiteSection[] = []
-  private businessSectionList: ClActivity[] = []
   private breadCrumbList: any[] = []
   private isClientTypeMode = true
 
@@ -132,8 +110,6 @@ export default class AdminIndividualOfferCard extends Vue {
       indOfferItem = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     }
 
-    const brandRelationList = getServiceContainer().publicEkosetService.getAdminAllBands()
-    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
     let serviceList: Promise<BusinessService>
     if (isClientTypeMode) {
       serviceList = context.params.clienttype === 'business'
@@ -142,15 +118,10 @@ export default class AdminIndividualOfferCard extends Vue {
     } else {
       serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.indOfferUrl)
     }
-
-    const businessSectionList = getServiceContainer().publicEkosetService.getClActivityList()
-    const data = await Promise.all([siteSectionList, serviceList, brandRelationList, businessSectionList])
+    const data = await Promise.all([serviceList])
     return {
       indOfferItem,
-      brandRelationList: data[2],
-      siteSectionList: data[0],
-      serviceList: data[1],
-      businessSectionList: data[3],
+      serviceList: data[0],
       isClientTypeMode
     }
   }

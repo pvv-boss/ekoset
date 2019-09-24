@@ -9,15 +9,9 @@
         <div class="brc-service-attribute__caption">Наименование</div>
         <input type="text" v-model="newService.businessServiceName" />
       </div>
-      <div class="brc-service-attribute" v-if="siteSectionList.length > 0">
+      <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Подраздел</div>
-        <select class="form-control" v-model="newService.siteSectionId">
-          <option
-            v-for="siteSection in siteSectionList"
-            :key="siteSection.siteSectionId"
-            :value="siteSection.siteSectionId"
-          >{{siteSection.siteSectionName}}</option>
-        </select>
+        <AdminSiteSectionSelector v-model="newService.siteSectionId"></AdminSiteSectionSelector>
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Приоритет</div>
@@ -51,17 +45,18 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 
 @Component({
   components: {
-    BreadCrumbs
+    BreadCrumbs,
+    AdminSiteSectionSelector
   }
 })
 export default class AdminSiteSectionList extends Vue {
   private serviceItems: BusinessService[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
-  private siteSectionList: SiteSection[] = []
   private breadCrumbList: any[] = []
   private headerFields = [
     {
@@ -88,12 +83,10 @@ export default class AdminSiteSectionList extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const serviceItems = getServiceContainer().businessServiceService.getAll()
-    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
 
-    const data = await Promise.all([serviceItems, siteSectionList])
+    const data = await Promise.all([serviceItems])
     return {
-      serviceItems: data[0],
-      siteSectionList: data[1]
+      serviceItems: data[0]
     }
   }
 

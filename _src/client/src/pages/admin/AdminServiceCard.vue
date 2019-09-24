@@ -12,28 +12,16 @@
           <div class="brc-admin-card-attribute__caption">Префикс</div>
           <input type="text" v-model="serviceItem.businessServiceSlug" disabled />
         </div>
-        <div class="brc-admin-card-attribute" v-if="siteSectionList.length > 0">
+        <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <select class="form-control" v-model="serviceItem.siteSectionId">
-            <option
-              v-for="siteSection in siteSectionList"
-              :key="siteSection.siteSectionId"
-              :value="siteSection.siteSectionId"
-            >{{siteSection.siteSectionName}}</option>
-          </select>
+          <AdminSiteSectionSelector v-model="serviceItem.siteSectionId"></AdminSiteSectionSelector>
         </div>
-        <div
-          class="brc-admin-card-attribute"
-          v-if="serviceItem.businessServiceParentId > 0 && serviceOtherList.length > 0"
-        >
+        <div class="brc-admin-card-attribute" v-if="serviceItem.businessServiceParentId > 0">
           <div class="brc-admin-card-attribute__caption">Головная услуга</div>
-          <select class="form-control" v-model="serviceItem.businessServiceParentId">
-            <option
-              v-for="service in serviceOtherList.filter(obj => obj.businessServiceParentId == null)"
-              :key="service.businessServiceId"
-              :value="service.businessServiceId"
-            >{{service.businessServiceName}}</option>
-          </select>
+          <AdminServiceSelector
+            v-model="serviceItem.businessServiceParentId"
+            :siteSectionId="serviceItem.siteSectionId"
+          ></AdminServiceSelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Единица измерения</div>
@@ -119,6 +107,8 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
+import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
+import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
@@ -128,13 +118,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     AdminBrandRelationList,
     AdminFileUploader,
     AdminServiceChildList,
-    BreadCrumbs
-  }})
+    BreadCrumbs,
+    AdminSiteSectionSelector,
+    AdminServiceSelector
+  }
+})
 export default class AdminServiceCard extends Vue {
   private serviceItem: BusinessService = new BusinessService()
   private serviceOtherList: BusinessService = new BusinessService()
   private brandRelationList: ClBrand[] = []
-  private siteSectionList: SiteSection[] = []
   private breadCrumbList: any[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
@@ -146,15 +138,13 @@ export default class AdminServiceCard extends Vue {
   private async asyncData (context: NuxtContext) {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
-    const siteSectionList = getServiceContainer().publicEkosetService.getSiteSections()
     const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
 
-    const data = await Promise.all([brandRelationList, siteSectionList, serviceOtherList])
+    const data = await Promise.all([brandRelationList, serviceOtherList])
     return {
       serviceItem,
       brandRelationList: data[0],
-      siteSectionList: data[1],
-      serviceOtherList: data[2]
+      serviceOtherList: data[1]
     }
   }
 
