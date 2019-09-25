@@ -4,7 +4,7 @@
       v-html="leftBlock"
       :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
-    <div v-html="rightBlock" v-if="rightBlock !== null && rightBlock.length > 0"></div>
+    <div v-html="rightBlock" v-if="!!rightBlock && rightBlock.length > 0"></div>
   </div>
 </template>
 
