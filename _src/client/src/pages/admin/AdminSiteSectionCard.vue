@@ -31,9 +31,9 @@
             <AdminFileUploader v-model="siteSectionItem.siteSectionImgBig"></AdminFileUploader>
           </div>
           <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
-          <AdminArticleEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminArticleEditor>
+          <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
           <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
-          <AdminArticleEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminArticleEditor>
+          <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminTextBlockEditor>
           <button type="button" @click="saveSiteSection">Сохранить</button>
           <button
             v-if="siteSectionItem.siteSectionId > 0"
@@ -75,7 +75,7 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
+import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
@@ -90,7 +90,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
 @Component({
   components: {
-    AdminArticleEditor,
+    AdminTextBlockEditor,
     AdminBrandRelationList,
     AdminFileUploader,
     AdminServiceChildList,
