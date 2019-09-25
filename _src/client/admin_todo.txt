@@ -7,19 +7,16 @@
  
  
 Услуга
-  1. Список поле Подраздел первое + 
   2. Картчока
-    2.1 PublicEkosetService.getAdminForBusinessServiceBrands - Маша (+ сохранение)
-    2.2 Создавние услуги вторго уровня (наименвоанеи, приоритет, статус) + 
     2.4 Привязка к направлениЯМ деятельности (автосалон) - Маша API:  BusinessServiceService.addRemoveActivityType2Service
     2.5 Привязка к типу клиента (бизнес, частные лица) - Маша API: BusinessServiceService.addRemovePrivatePerson2Service  и  BusinessServiceService.addRemoveBusinessType2Service 
 
 
 Новости:
- 1. Список - выаодить все записи API ArticleService.adminGetAll => Маша +
  2. Картчока - выбор подраздела, если выбран доступен выбор услуги - Маша +
  3. Картчока - картинки - 2 шт - Маша
  4. Связь через хэштеги - Сергей => Маша
+ 5. Таблица как в других разделах (v-good)
  
 Карточка комплексного решения (частные лица, бизнес)
 
