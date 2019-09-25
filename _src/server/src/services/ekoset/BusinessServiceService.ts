@@ -57,4 +57,30 @@ export default class BusinessServiceService extends BaseService {
   public async delete (id: number) {
     return this.deleteById(this.apiViewName, 'business_service_id = $1', id);
   }
+
+
+  // Тип клиента для услуги
+  public async setPrivatePerson2Service (businessServiceId: number) {
+    return this.execFunction('f_admin_add_clienttype2service', [3, businessServiceId]);
+  }
+
+  public async setBusinessType2Service (businessServiceId: number) {
+    return this.execFunction('f_admin_add_clienttype2service', [1, businessServiceId]);
+  }
+
+  public async setActivityType2Service (businessServiceId: number, activityTypeId: number) {
+    return this.execFunction('f_admin_add_activitytype2service', [businessServiceId, activityTypeId]);
+  }
+
+  public async removePrivatePersonFromService (businessServiceId: number) {
+    return this.execFunction('f_admin_remove_clienttype_from_service', [3, businessServiceId]);
+  }
+
+  public async removeBusinessTypeFromService (businessServiceId: number) {
+    return this.execFunction('f_admin_remove_clienttype_from_service', [1, businessServiceId]);
+  }
+
+  public async removeActivityTypeFromService (businessServiceId: number, activityTypeId: number) {
+    return this.execFunction('f_admin_remove_activitytypefromservice', [businessServiceId, activityTypeId]);
+  }
 }

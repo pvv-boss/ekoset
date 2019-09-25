@@ -4,6 +4,10 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 import * as slugify from '@sindresorhus/slugify';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import FormMessageData from '@/entities/FormMessageData';
+import ServiceContainer from '../ServiceContainer';
+import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
+import IndividualOfferService from './IndividualOfferService';
+import { ClActivity } from '@/entities/ekoset/ClActivity';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -54,6 +58,25 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async saveSiteSection (siteSection: SiteSection) {
+    // Создаем два индивидуальных предложения (для бизнеса и частных лиц)
+    const offerForBusiness = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionId(siteSection.siteSectionId);
+    if (offerForBusiness.length === 0) {
+      const businessIndividualOffer: IndividualOffer = new IndividualOffer();
+      businessIndividualOffer.clClientId = IndividualOfferService.businessClientTypeId;
+      businessIndividualOffer.siteSectionId = siteSection.siteSectionId;
+      businessIndividualOffer.indOfferName = 'Для Бизнеса';
+      await ServiceContainer.IndividualOfferService.save(businessIndividualOffer);
+    }
+
+    const offerForPriviteClient = await ServiceContainer.IndividualOfferService.getForPrivatePersonBySiteSectionId(siteSection.siteSectionId);
+    if (offerForPriviteClient.length === 0) {
+      const privatePersonIndividualOffer: IndividualOffer = new IndividualOffer();
+      privatePersonIndividualOffer.clClientId = IndividualOfferService.PrivatePersonClientTypeId;
+      privatePersonIndividualOffer.siteSectionId = siteSection.siteSectionId;
+      privatePersonIndividualOffer.indOfferName = 'Для частных лиц';
+      await ServiceContainer.IndividualOfferService.save(privatePersonIndividualOffer);
+    }
+
     siteSection.siteSectionSlug = slugify(siteSection.siteSectionName);
     return TypeOrmManager.EntityManager.save(siteSection);
   }
@@ -64,6 +87,10 @@ export default class MainEkosetService extends BaseService {
 
   public async saveBrand (clBrand: ClBrand) {
     return TypeOrmManager.EntityManager.save(clBrand);
+  }
+
+  public async adminSaveClActivity (clActivity: ClActivity) {
+    return TypeOrmManager.EntityManager.save(clActivity);
   }
 
   public async addBrand2SiteSection (brandId: number, siteSectionId: number) {

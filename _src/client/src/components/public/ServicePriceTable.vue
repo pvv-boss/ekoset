@@ -61,6 +61,7 @@ export default class ServicePriceTable extends Vue {
     })
   }
 
+
   private get serviceResultList () {
     let list: BusinessService[] = []
     if (this.serviceTopList.length > 0) {

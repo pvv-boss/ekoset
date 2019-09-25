@@ -2,7 +2,7 @@
   <div class="brc-page-description">
     <div
       v-html="leftBlock"
-      :class="{'column-block':rightBlock === null || rightBlock.length === 0}"
+      :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
     <div v-html="rightBlock" v-if="rightBlock !== null && rightBlock.length > 0"></div>
   </div>
@@ -26,6 +26,7 @@ export default class TopDynamicBlock extends Vue {
   font-size: 0.85rem;
   flex-direction: row;
   margin: 0 -15px;
+  // overflow-wrap: anywhere;
 
   > div {
     margin: 15px;
