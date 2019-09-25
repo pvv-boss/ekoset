@@ -4,6 +4,7 @@ import { getServiceContainer } from './ServiceContainer'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
+import ClActivity from '@/models/ekoset/ClActivity';
 
 export default class PublicEkosetService extends BaseService {
 
@@ -106,6 +107,10 @@ export default class PublicEkosetService extends BaseService {
 
   public async saveBrand (brand: ClBrand) {
     return HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
+  }
+
+  public async saveClActivity (clActivity: ClActivity) {
+    return HttpUtil.httpPut(this.buildHttRequest('admin/panel/clActivities'), clActivity)
   }
 
   public async addOrRemoveBrand2SiteSection (brandId: number, siteSectionId: number, isAdd: boolean) {

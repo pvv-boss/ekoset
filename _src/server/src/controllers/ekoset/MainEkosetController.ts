@@ -8,6 +8,7 @@ import { ClBrand } from '@/entities/ekoset/ClBrand';
 import * as multer from 'multer';
 import FormMessageData from '@/entities/FormMessageData';
 import ClassTransform from '@/utils/ClassTransform';
+import { ClActivity } from '@/entities/ekoset/ClActivity';
 
 const upload = multer();
 
@@ -56,6 +57,15 @@ export default class MainEkosetController extends BaseController {
   public async adminGetClActivityList (
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.adminGetClActivityList();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+
+  @Put('/admin/panel/clActivities')
+  public async adminSaveClActivity (
+    @Body() clActivity: ClActivity,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.adminSaveClActivity(clActivity);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 

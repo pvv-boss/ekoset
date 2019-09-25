@@ -7,6 +7,7 @@ import FormMessageData from '@/entities/FormMessageData';
 import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import IndividualOfferService from './IndividualOfferService';
+import { ClActivity } from '@/entities/ekoset/ClActivity';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -86,6 +87,10 @@ export default class MainEkosetService extends BaseService {
 
   public async saveBrand (clBrand: ClBrand) {
     return TypeOrmManager.EntityManager.save(clBrand);
+  }
+
+  public async adminSaveClActivity (clActivity: ClActivity) {
+    return TypeOrmManager.EntityManager.save(clActivity);
   }
 
   public async addBrand2SiteSection (brandId: number, siteSectionId: number) {
