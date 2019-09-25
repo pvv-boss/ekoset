@@ -71,6 +71,19 @@ export default class BusinessServiceService extends BaseService {
   }
 
   // Привязка к типу клиента или направлению деятельности
+
+  public async getAdminСlActivitiesForService (serviceUrl: string) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/service/${id}/clActivities`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getAdminclClientsForService (serviceUrl: string) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/service/${id}/clclient`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
   public async addRemovePrivatePerson2Service (serviceUrl: string, isAdd: boolean) {
     const id = this.getIdBySlug(serviceUrl)
     const query = `admin/panel/services/${id}/clienttype/person`

@@ -59,7 +59,16 @@ export default class BusinessServiceService extends BaseService {
   }
 
 
-  // Тип клиента для услуги
+  // Тип клиента и тип направления деятельности для услуги
+
+  public async getAdminСlActivitiesForService (businessServiceId: number) {
+    return this.execFunction('f_admin_cl_activities_service', [businessServiceId]);
+  }
+
+  public async getAdminclClientsForService (businessServiceId: number) {
+    return this.execFunction('f_admin_cl_client_service', [businessServiceId]);
+  }
+
   public async setPrivatePerson2Service (businessServiceId: number) {
     return this.execFunction('f_admin_add_clienttype2service', [3, businessServiceId]);
   }
