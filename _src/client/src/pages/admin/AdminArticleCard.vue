@@ -20,14 +20,6 @@
             v-model="article.businessServiceId"
             :siteSectionId="article.siteSectionId"
           ></AdminServiceSelector>
-
-          <!-- <select class="form-control" v-model="article.businessServiceId">
-            <option
-              v-for="service in serviceList"
-              :key="service.businessServiceId"
-              :value="service.businessServiceId"
-            >{{service.businessServiceName}}</option>
-          </select>-->
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -84,6 +76,8 @@ import BusinessService from '@/models/ekoset/BusinessService'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 
 @Component({
   components: {
@@ -142,7 +136,7 @@ export default class AdminArticleCard extends Vue {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-    this.breadCrumbList.push({ name: 'Карточка новости', link: '' })
+    this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
   }
 
   private async asyncData (context: NuxtContext) {
