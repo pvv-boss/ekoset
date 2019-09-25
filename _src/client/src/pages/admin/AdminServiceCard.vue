@@ -86,6 +86,8 @@
           <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
         </div>
         <div>
+          <h4>Типы клиентов</h4>
+          <h4>Направления деятельности</h4>
           <h4>Рекомендации</h4>
           <AdminBrandRelationList
             :brandRelationItems="brandRelationList"
