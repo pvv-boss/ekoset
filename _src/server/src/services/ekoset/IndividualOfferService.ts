@@ -4,9 +4,9 @@ import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import * as slugify from '@sindresorhus/slugify';
 
 export default class IndividualOfferService extends BaseService {
+  public static businessClientTypeId = 1;
+  public static PrivatePersonClientTypeId = 3;
   private apiViewName = 'v_api_individual_offer';
-  private businessClientTypeId = 1;
-  private PrivatePersonClientTypeId = 3;
 
   public async getAll () {
     return this.getDbViewResult(this.apiViewName);
@@ -21,11 +21,11 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async getForBusinessBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, this.businessClientTypeId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.businessClientTypeId]);
   }
 
   public async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, this.PrivatePersonClientTypeId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.PrivatePersonClientTypeId]);
   }
 
 
