@@ -146,7 +146,7 @@ export default class AdminClActivityTypes extends Vue {
   private configBreadCrumbs () {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Справочники', link: 'admin-site-sections' })
+    this.breadCrumbList.push({ name: 'Справочник: Направления деятельности', link: 'admin-site-sections' })
   }
 }
 </script>

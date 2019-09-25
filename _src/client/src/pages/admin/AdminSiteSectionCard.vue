@@ -163,7 +163,7 @@ export default class AdminSiteSectionCard extends Vue {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Подразделы', link: 'admin-site-sections' })
-    this.breadCrumbList.push({ name: 'Карточка подраздела', link: '' })
+    this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
   }
 
 }

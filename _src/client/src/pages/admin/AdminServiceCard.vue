@@ -144,7 +144,7 @@ export default class AdminServiceCard extends Vue {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
     const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
-
+    //const activityRelationList = getServiceContainer().publicEkosetService.get(serviceItem.businessServiceId)
     const data = await Promise.all([brandRelationList, serviceOtherList])
     return {
       serviceItem,
@@ -186,7 +186,7 @@ export default class AdminServiceCard extends Vue {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
-    this.breadCrumbList.push({ name: 'Карточка услуги', link: '' })
+    this.breadCrumbList.push({ name: this.serviceItem.businessServiceName, link: '' })
   }
 
   private async saveNewService () {
