@@ -22,7 +22,7 @@ export function createRouter () {
       },
       {
         name: 'error-page',
-        path: '/error',
+        path: '/app/error',
         component: BaseError,
         props: true
       }

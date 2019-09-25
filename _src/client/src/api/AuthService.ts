@@ -13,7 +13,7 @@ import BaseService from './BaseService'
 export default class AuthService extends BaseService {
   private store: Store<any>
   private userStore: AuthStore
-  private accessTokenStorageKey = this.appConfig.cookieName + '_jwt_store'
+  private accessTokenStorageKey = this.getConfig().cookieName + '_jwt_store'
 
   constructor (store: Store<any>) {
     super()
@@ -37,7 +37,7 @@ export default class AuthService extends BaseService {
 
   // Обработка логина от AuthCallback.vue если было перенаправление с соц.сети. Токен берем из куки, которую выставил сервер
   public async loginFromCallback () {
-    const tryCookies = Cookies.get(this.appConfig.cookieName)
+    const tryCookies = Cookies.get(this.getConfig().cookieName)
     if (tryCookies) {
       try {
         const respObj = JSON.parse(tryCookies)
@@ -46,7 +46,7 @@ export default class AuthService extends BaseService {
         this.processAuth(LogonResult.makeFailedResult(), undefined)
       }
     }
-    Cookies.remove(this.appConfig.cookieName)
+    Cookies.remove(this.getConfig().cookieName)
   }
 
   // Регистрация

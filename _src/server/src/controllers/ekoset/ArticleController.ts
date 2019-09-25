@@ -19,6 +19,37 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/news/:artcicleId(\\d+)/:siteSectionId/service')
+  public async adminGetServiceRelation (
+    @Res() response: Response,
+    @Param('siteSectionId') siteSectionId: number,
+    @Param('artcicleId') artcicleId: number) {
+
+    const result = await ServiceContainer.ArticleService.adminGetServiceRelation(siteSectionId, artcicleId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+
+  @Put('/admin/panel/news/:artcicleId/service/:serviceId')
+  public async adminAddServiceRelation (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number,
+    @Param('artcicleId') artcicleId: number) {
+
+    const result = await ServiceContainer.ArticleService.adminAddServiceRelation(serviceId, artcicleId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/news/:artcicleId/service/:serviceId')
+  public async adminRemoveServiceRelation (
+    @Param('artcicleId') artcicleId: number,
+    @Param('serviceId') serviceId: number,
+    @Res() response: Response) {
+
+    const result = ServiceContainer.ArticleService.adminRemoveServiceRelation(serviceId, artcicleId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
   @Get('/news/:artcicleId(\\d+)/tags')
   public async getArticleTags (
     @Res() response: Response,

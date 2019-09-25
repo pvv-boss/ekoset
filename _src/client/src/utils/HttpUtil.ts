@@ -39,7 +39,7 @@ class HttpUtil {
       // После получения ответа (кладем полученный токен обратно)
       this.axiosInstance.interceptors.response.use(
         (response: AxiosResponse) => {
-          const jwt = response.headers[getServiceContainer().authService.appConfig.jwtHeaderName]
+          const jwt = response.headers[getServiceContainer().authService.getConfig().jwtHeaderName]
           if (!!jwt) {
             getServiceContainer().authService.setAccessToken(jwt)
           }
@@ -118,6 +118,8 @@ class HttpUtil {
     } else {
       errorResponse = { message: error.message ? error.message : error, status: error.status ? error.status : 500 }
     }
+    // tslint:disable-next-line:no-console
+    console.log(error)
     this.redirect(errorResponse)
     return { message: errorResponse.message, status: errorResponse.status, success: false }
   }

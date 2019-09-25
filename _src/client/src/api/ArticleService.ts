@@ -21,6 +21,22 @@ export default class ArticleService extends BaseService {
     return result
   }
 
+  // Для админки получить связи статьи с услугами
+  public async adminGetServiceRelation (siteSectionUrl: string, artcicleUrl: string) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/${this.getIdBySlug(siteSectionUrl)}/service`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  // Для админки добавить связи статьи с услугой
+  public async adminAddRemoveServiceRelation (serviceUrl: string, artcicleUrl: string, isAdd: boolean) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/service/${this.getIdBySlug(serviceUrl)}`
+    if (isAdd) {
+      return HttpUtil.httpPut(this.buildHttRequest(query))
+    } else {
+      return HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
+  }
+
   // Добавить/Убрать тэг
   public async adminAddArticleTag (artcicleSlug: string, tag: ClArticleTag) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}}/tags`
@@ -98,7 +114,7 @@ export default class ArticleService extends BaseService {
   }
 
   private async modifyPagination (siteSectionId: number, pagination?: Pagination) {
-    if (pagination) {
+    if (!!pagination) {
       pagination.total = Number(await this.getArticlesCount(siteSectionId))
     }
   }
