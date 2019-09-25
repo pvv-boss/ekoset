@@ -1,5 +1,5 @@
 <template>
-  <select class="form-control" v-model="value">
+  <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
     <option
       v-for="item in itemList"
       :key="item.clActivityId"

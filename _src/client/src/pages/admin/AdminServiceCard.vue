@@ -2,7 +2,7 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
-    <div class="brc-admin-card" v-if="serviceItem.businessServiceId > 0">
+    <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="brc-admin-card__relations">
-        <div v-if="serviceItem.businessServiceParentId == null && serviceOtherList.length > 0">
+        <div v-if="serviceItem.businessServiceParentId == null">
           <h4>Услуги второго уровня</h4>
           <button
             @click="createNewServiceMode = true"

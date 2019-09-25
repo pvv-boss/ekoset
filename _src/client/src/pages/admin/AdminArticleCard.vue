@@ -14,7 +14,7 @@
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
           <AdminSiteSectionSelector v-model="article.siteSectionId"></AdminSiteSectionSelector>
         </div>
-        <div class="brc-admin-card-attribute" v-if="article.siteSectionId > 0">
+        <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Услуга</div>
           <AdminServiceSelector
             v-model="article.businessServiceId"

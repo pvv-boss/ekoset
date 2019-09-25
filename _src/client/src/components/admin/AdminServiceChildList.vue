@@ -3,7 +3,7 @@
     <template slot="table-row" slot-scope="props">
       <nuxt-link
         v-if="props.column.field == 'businessServiceName'"
-        :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceSlug+'-'+props.row.businessServiceId}}"
+        :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceUrl}}"
       >{{props.row.businessServiceName}}</nuxt-link>
       <span v-else>{{props.formattedRow[props.column.field]}}</span>
     </template>
