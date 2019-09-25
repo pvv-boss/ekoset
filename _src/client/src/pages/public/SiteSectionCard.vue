@@ -94,7 +94,7 @@ export default class SiteSectionCard extends Vue {
     this.breadCrumbList = []
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
-    this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
+    this.breadCrumbList.push({ name: siteSectionName, link: '' })
   }
 
   private head () {

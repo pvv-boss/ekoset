@@ -21,7 +21,7 @@
       <ServiceList :serviceList="childServiceList"></ServiceList>
     </div>
 
-    <div class="brc-section__wrapper">
+    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
       <h2>Стоимость услуг</h2>
       <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
     </div>

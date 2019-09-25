@@ -88,6 +88,22 @@ export default class BusinessServiceController extends BaseController {
   }
 
 
+  @Get('/admin/panel/service/:serviceId/clActivities')
+  public async getAdminСlActivitiesForService (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getAdminСlActivitiesForService(serviceId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/service/:serviceId/clclient')
+  public async getAdminclClientsForService (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number) {
+    const result = await ServiceContainer.BusinessServiceService.getAdminclClientsForService(serviceId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
   @Put('/admin/panel/services/:id/clienttype/person')
   public async setPrivatePerson2Service (
     @Param('id') id: number,

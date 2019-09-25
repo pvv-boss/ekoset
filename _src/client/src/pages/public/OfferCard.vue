@@ -82,7 +82,7 @@ export default class OfferCard extends Vue {
     const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(siteSection)
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
-    let otherOfferList: Promise<IndividualOffer>
+    let otherOfferList: Promise<IndividualOffer[]> = Promise.resolve([new IndividualOffer()])
 
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
@@ -95,7 +95,7 @@ export default class OfferCard extends Vue {
     let offerHeaderText = individualOffer.indOfferName
     let otherOfferHeaderText = 'Комплексные решения'
     let otherOfferComponentName = 'ClientTypeOfferList'
-    otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
+
     // Услуги Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let serviceList: Promise<BusinessService>
     let servicePriceList: Promise<BusinessService>
@@ -108,6 +108,7 @@ export default class OfferCard extends Vue {
         ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection, false)
         : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection, false)
 
+      otherOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
       offerHeaderText = context.params.clienttype === 'business' ? 'Услуги для Бизнеса' : 'Услуги для Частных лиц'
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'

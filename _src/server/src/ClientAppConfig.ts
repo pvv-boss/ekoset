@@ -2,7 +2,7 @@ import AppConfig from '@/utils/Config';
 
 const ClientAppConfig = {
 
-  defaultRowsLimit: 10,
+  defaultRowsLimit: 6,
   showCookieNotice: false,
   adminRoleName: 'admin',
   cookieName: AppConfig.authConfig.cookieName,
