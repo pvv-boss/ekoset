@@ -2,7 +2,7 @@
   <div class="brc-page-description">
     <div
       v-html="leftBlock"
-      :class="{'column-block':rightBlock === null || rightBlock.length === 0}"
+      :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
     <div v-html="rightBlock"></div>
   </div>
