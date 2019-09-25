@@ -23,16 +23,29 @@
       <button @click="saveNewItem">Сохранить</button>
       <button @click="cancelSaveNewItem">Отменить</button>
     </div>
-    {{itemList}}
-    {{editModeList}}
-    <vue-good-table :columns="headerFields" :rows="itemList" @on-row-click="onRowClick">
+    <vue-good-table :columns="headerFields" :rows="itemList">
       <template slot="table-row" slot-scope="props">
-        <span v-show="editModeList[props.row.originalIndex]">
-          <input type="text" :value="props.formattedRow[props.column.field]" />
+        <span v-if="props.column.field == 'actions'">
+          <button
+            type="button"
+            @click="editItem(props.row.originalIndex)"
+            v-if="!editModeList[props.row.originalIndex]"
+          >Редактировать</button>
+          <button type="button" v-if="editModeList[props.row.originalIndex]">Сохранить</button>
+          <button
+            type="button"
+            @click="cancelSaveChanges(props.row.originalIndex)"
+            v-if="editModeList[props.row.originalIndex]"
+          >Отменить</button>
         </span>
-        <span
-          v-show="!editModeList[props.row.originalIndex]"
-        >{{props.formattedRow[props.column.field]}}</span>
+        <AdminStatusSelector
+          v-else-if="editModeList[props.row.originalIndex] && props.column.field === 'clActivityStatus'"
+          v-model="itemList[props.row.originalIndex][props.column.field]"
+        ></AdminStatusSelector>
+        <span v-else-if="editModeList[props.row.originalIndex]">
+          <input type="text" v-model="itemList[props.row.originalIndex][props.column.field]" />
+        </span>
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
     </vue-good-table>
   </div>
@@ -73,6 +86,10 @@ export default class AdminClActivityTypes extends Vue {
     {
       field: "clActivityStatus",
       label: "Статус"
+    },
+    {
+      field: "actions",
+      label: ""
     }
   ]
 
@@ -80,8 +97,20 @@ export default class AdminClActivityTypes extends Vue {
     return 'admin'
   }
 
-  private onRowClick (row) {
-    this.$set(this.editModeList, row.pageIndex, true)
+  private editItem (rowIndex) {
+    this.$set(this.editModeList, rowIndex, true)
+  }
+
+  private cancelSaveChanges (rowIndex) {
+    this.updateItems()
+    this.$set(this.editModeList, rowIndex, false)
+  }
+
+  private async saveChanges (rowIndex) {
+    await getServiceContainer().publicEkosetService.saveClActivity(this.itemList[rowIndex])
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.updateItems()
+    this.$set(this.editModeList, rowIndex, false)
   }
 
   private async updateItems () {
@@ -98,8 +127,7 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveNewItem () {
-    // TODO: сохранить направление деятельности
-    // await getServiceContainer().publicEkosetService.sa(this.newItem) 
+    await getServiceContainer().publicEkosetService.saveClActivity(this.newItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.createNewItemMode = false
     await this.updateItems()

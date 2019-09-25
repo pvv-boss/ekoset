@@ -26,7 +26,6 @@ export default class TopDynamicBlock extends Vue {
   font-size: 0.85rem;
   flex-direction: row;
   margin: 0 -15px;
-  // overflow-wrap: anywhere;
 
   > div {
     margin: 15px;
