@@ -53,10 +53,7 @@
         </div>
         <div>
           <h4>Услуги</h4>
-          <AdminServiceChildList
-            :serviceItems="serviceOtherList"
-            v-if="serviceOtherList.length > 0"
-          ></AdminServiceChildList>
+          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
         </div>
         <div>
           <h4>Рекомендации</h4>

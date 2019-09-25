@@ -2,7 +2,7 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList" v-if="breadCrumbList.length > 0"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
-    <div class="brc-admin-card" v-if="indOfferItem.indOfferId > 0">
+    <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
@@ -18,7 +18,7 @@
         </div>
         <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
           <div class="brc-admin-card-attribute__caption">Направление деятельности</div>
-          <AdminClActivitySelector v-model="indOfferItem.clActivityId"></AdminClActivitySelector>
+          <AdminClActivitySelector v-model.number="indOfferItem.clActivityId"></AdminClActivitySelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Приоритет</div>
