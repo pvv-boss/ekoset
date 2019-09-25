@@ -87,4 +87,55 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+
+  @Put('/admin/panel/services/:id/clienttype/person')
+  public async setPrivatePerson2Service (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.setPrivatePerson2Service(id);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/panel/services/:id/clienttype/business')
+  public async setBusinessType2Service (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.setBusinessType2Service(id);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/panel/services/:id/activitytype/:typeid')
+  public async setActivityType2Service (
+    @Param('id') id: number,
+    @Param('typeid') typeid: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.setActivityType2Service(id, typeid);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/services/:id/clienttype/person')
+  public async removePrivatePersonFromService (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.removePrivatePersonFromService(id);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/services/:id/clienttype/business')
+  public async removeBusinessTypeFromService (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.removeBusinessTypeFromService(id);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/services/:id/activitytype/:typeid')
+  public async removeActivityTypeFromService (
+    @Param('id') id: number,
+    @Param('typeid') typeid: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.removeActivityTypeFromService(id, typeid);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
 }

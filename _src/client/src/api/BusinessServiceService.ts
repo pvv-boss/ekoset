@@ -70,6 +70,38 @@ export default class BusinessServiceService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 
+  // Привязка к типу клиента или направлению деятельности
+  public async addRemovePrivatePerson2Service (serviceUrl: string, isAdd: boolean) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/services/${id}/clienttype/person`
+    if (isAdd) {
+      return HttpUtil.httpPut(this.buildHttRequest(query))
+    } else {
+      return HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
+  }
+
+  public async addRemoveBusinessType2Service (serviceUrl: string, isAdd: boolean) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/services/${id}/clienttype/business`
+    if (isAdd) {
+      return HttpUtil.httpPut(this.buildHttRequest(query))
+    } else {
+      HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
+  }
+
+  public async addRemoveActivityType2Service (serviceUrl: string, activityTypeId: number, isAdd: boolean) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/services/${id}/activitytype/${activityTypeId}`
+    if (isAdd) {
+      return HttpUtil.httpPut(this.buildHttRequest(query))
+    } else {
+      return HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
+  }
+  // ---
+
   private async getById (id: number) {
     const query = `services/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
@@ -88,14 +120,12 @@ export default class BusinessServiceService extends BaseService {
     return result
   }
 
-  // Для футера Услуги для Бизнеса
   private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/business?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  // Для футера Услуги для Частных лиц
   private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/person?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
