@@ -7,7 +7,7 @@
       v-model="value"
       @change="$emit('input', $event.target.value)"
     />
-    <label for="statusSelector-0">Активно</label>
+    <label for="statusSelector-0">Неактивно</label>
     <input
       type="radio"
       id="statusSelector-1"
@@ -15,7 +15,7 @@
       v-model="value"
       @change="$emit('input', $event.target.value)"
     />
-    <label for="statusSelector-1">Неактивно</label>
+    <label for="statusSelector-1">Активно</label>
   </div>
 </template>
 

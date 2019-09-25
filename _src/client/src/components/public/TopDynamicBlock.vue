@@ -4,7 +4,7 @@
       v-html="leftBlock"
       :class="{'column-block':rightBlock === null || rightBlock.length === 0}"
     ></div>
-    <div v-html="rightBlock"></div>
+    <div v-html="rightBlock" v-if="rightBlock !== null && rightBlock.length > 0"></div>
   </div>
 </template>
 
@@ -33,12 +33,17 @@ export default class TopDynamicBlock extends Vue {
   }
 
   .column-block {
+    max-width: 100%;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
     -webkit-column-gap: 30px;
     -moz-column-gap: 30px;
     column-gap: 30px;
+
+    img {
+      max-width: 100%;
+    }
   }
 }
 

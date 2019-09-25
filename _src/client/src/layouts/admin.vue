@@ -50,7 +50,12 @@
                 for="toogleClientTypeMenuVisible"
               >Справочники</label>
               <ul class="brc-admin-navigation__second-list">
-                <li class="brc-admin-navigation__item">Тип объекта</li>
+                <li class="brc-admin-navigation__item">
+                  <nuxt-link
+                    :to="{ name: 'cl-activity-types'}"
+                    class="brc-admin-navigation__item-link"
+                  >Направления деятельности</nuxt-link>
+                </li>
               </ul>
             </li>
             <!-- <li class="brc-admin-navigation__item">Контакты</li>
