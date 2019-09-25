@@ -70,18 +70,18 @@ export default class SiteSectionCard extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const apiSharedData = getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
     const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
     const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
-    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList])
+    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList, apiSharedData])
 
     return {
-      apiSharedData,
       siteSectionItem: data[0],
       serviceList: data[1],
-      busineesTypeOfferList: data[2]
+      busineesTypeOfferList: data[2],
+      apiSharedData: data[3]
     }
   }
 

@@ -108,6 +108,24 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
   }
 
+  public async addOrRemoveBrand2SiteSection (brandId: number, siteSectionId: number, isAdd: boolean) {
+    const query = `brands/${brandId}/sitesection/${siteSectionId}`
+    if (isAdd) {
+      return HttpUtil.httpPut(query)
+    } else {
+      return HttpUtil.httpDelete(query)
+    }
+  }
+
+  public async addOrRemoveBrand2Service (brandId: number, serviceId: number, isAdd: boolean) {
+    const query = `brands/${brandId}/service/${serviceId}`
+    if (isAdd) {
+      return HttpUtil.httpPut(query)
+    } else {
+      return HttpUtil.httpDelete(query)
+    }
+  }
+
   public async deleteBrand (id: number) {
     return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
   }

@@ -39,7 +39,7 @@ export default class Prices extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const apiSharedData = getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
     const siteSection = context.params.siteSection
     let serviceList: Promise<BusinessService>
     if (siteSection) {
@@ -47,10 +47,10 @@ export default class Prices extends Vue {
     } else {
       serviceList = getServiceContainer().businessServiceService.getMainList()
     }
-    const data = await Promise.all([serviceList])
+    const data = await Promise.all([serviceList, apiSharedData])
 
     return {
-      apiSharedData,
+      apiSharedData: data[1],
       serviceList: data[0]
     }
   }

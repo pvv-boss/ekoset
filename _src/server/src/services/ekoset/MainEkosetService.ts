@@ -66,6 +66,23 @@ export default class MainEkosetService extends BaseService {
     return TypeOrmManager.EntityManager.save(clBrand);
   }
 
+  public async addBrand2SiteSection (brandId: number, siteSectionId: number) {
+    return this.execFunction('f_admin_add_brand2sitesection', [brandId, siteSectionId]);
+  }
+
+  public async addBrand2Service (brandId: number, serviceId: number) {
+    return this.execFunction('f_admin_add_brand2service', [brandId, serviceId]);
+  }
+
+  public async removeBrandFromSiteSection (brandId: number, serviceId: number) {
+    return this.execFunction('f_admin_remove_brand_from_sitesection', [brandId, serviceId]);
+  }
+
+  public async removeBrandFromService (brandId: number, serviceId: number) {
+    return this.execFunction('f_admin_remove_brand_from_service', [brandId, serviceId]);
+  }
+
+
   public async deleteSiteSection (id: number) {
     // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
   }

@@ -1,12 +1,13 @@
 <template>
-  <div class="brc-brand-relation-list_wrapper" v-id="brandRelationItems.length>0">
+  <div class="brc-brand-relation-list_wrapper">
     <vue-good-table :columns="headerFields" :rows="brandRelationItems">
-      <template slot="table-row" slot-scope="props">
+      <template #table-row="props">
         <input
           v-if="props.column.field == 'clBrandId'"
           type="checkbox"
           :value="props.row.clBrandId"
           :checked="props.row.hasRelation"
+          @change="onBrandChecked(props.row.clBrandId,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -43,7 +44,9 @@ export default class AdminBrandRelationList extends Vue {
   private layout () {
     return 'admin'
   }
+
+  private onBrandChecked (clBrandId: number, hasRelation: boolean) {
+    this.$emit('brandchecked', clBrandId, hasRelation)
+  }
 }
 </script>
-
-

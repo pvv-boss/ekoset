@@ -56,7 +56,7 @@ const config: NuxtConfiguration = {
       src: '@/plugins/brc-route-middleware'
     },
     {
-      src: '@/plugins/vue-good-table', mode: 'client'
+      src: '@/plugins/vue-good-table'
     },
     {
       src: '@/plugins/vue-file-agent', mode: 'client'
