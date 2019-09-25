@@ -45,11 +45,14 @@
       <div class="brc-admin-card__relations">
         <div>
           <h4>Комплексные решения</h4>
-          <AdminClientTypeOfferList :siteSection="siteSectionSlug">"</AdminClientTypeOfferList>
+          <AdminClientTypeOfferList :siteSection="siteSectionItem.siteSectionUrl">"</AdminClientTypeOfferList>
         </div>
         <div>
           <h4>Индивидуальные предложения</h4>
-          <AdminBusinessTypeOfferList :siteSection="siteSectionSlug" :offerList="offerList">"</AdminBusinessTypeOfferList>
+          <AdminBusinessTypeOfferList
+            :siteSection="siteSectionItem.siteSectionUrl"
+            :offerList="offerList"
+          >"</AdminBusinessTypeOfferList>
         </div>
         <div>
           <h4>Услуги</h4>
@@ -109,10 +112,6 @@ export default class AdminSiteSectionCard extends Vue {
 
   private layout () {
     return 'admin'
-  }
-
-  private get siteSectionSlug () {
-    return `${this.siteSectionItem.siteSectionSlug}-${this.siteSectionItem.siteSectionId}`
   }
 
   private async asyncData (context: NuxtContext) {

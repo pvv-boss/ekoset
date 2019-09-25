@@ -147,6 +147,7 @@ export default class AdminServiceCard extends Vue {
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
     const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
     //const activityRelationList = getServiceContainer().publicEkosetService.get(serviceItem.businessServiceId)
+
     const data = await Promise.all([brandRelationList, serviceOtherList])
     return {
       serviceItem,

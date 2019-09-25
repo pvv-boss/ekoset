@@ -2,6 +2,7 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList" v-if="breadCrumbList.length > 0"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
+    {{indOfferItem}}
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
@@ -128,9 +129,15 @@ export default class AdminIndividualOfferCard extends Vue {
   }
 
   private configBreadCrumbs () {
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
+
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
+    if (siteSectionSlug) {
+      this.breadCrumbList.push({ name: siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSectionSlug } })
+    }
     this.breadCrumbList.push({ name: this.indOfferItem.indOfferName })
   }
 
