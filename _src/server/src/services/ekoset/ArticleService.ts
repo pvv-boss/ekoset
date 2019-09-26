@@ -15,8 +15,8 @@ import ServiceContainer from '../ServiceContainer';
 export default class ArticleService extends BaseService {
 
   private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?)".*?>/gm;
-
-  private apiListViewName = 'v_api_admin_article_list';
+  private apiAdminListViewName = 'v_api_admin_article_list';
+  private apiListViewName = 'v_api_article_list';
   private apiViewName = 'v_api_article';
   private apiRelatedViewName = 'v_api_related_article';
   private apiBusinessServiceArticlesViewName = 'v_api_business_service_article';
@@ -24,7 +24,7 @@ export default class ArticleService extends BaseService {
 
   // Все новости для админки
   public async adminGetAll () {
-    return this.getDbViewResult(this.apiListViewName);
+    return this.getDbViewResult(this.apiAdminListViewName);
   }
 
   // Добавить/Убрать тэг
