@@ -3,7 +3,20 @@
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Новости раздела {{siteSectionSlug}}</h1>
     <nuxt-link :to="{ name: 'admin-news-article'}">Создать новость</nuxt-link>
-    <table class="brc-article-table_admin">
+    <vue-good-table :columns="headerFields" :rows="articleItems">
+      <template slot="table-row" slot-scope="props">
+        <nuxt-link
+          v-if="props.column.field == 'articleTitle'"
+          :to="{ name: 'admin-news-article-card', params: { article: props.row.articleUrl}}"
+        >{{props.row.articleTitle}}</nuxt-link>
+        <span
+          v-else-if="props.column.field == 'articlePublishDate'"
+        >{{ props.row.articlePublishDate ? (new Date(props.row.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+      </template>
+    </vue-good-table>
+
+    <!-- <table class="brc-article-table_admin">
       <thead>
         <th>Заголовок</th>
         <th>Дата</th>
@@ -17,12 +30,12 @@
               :to="{ name: 'admin-news-article-card', params: { article: articleItem.articleUrl}}"
             >{{articleItem.articleTitle}}</nuxt-link>
           </td>
-          <td>{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</td>
+          <td></td>
           <td>{{articleItem.articleStatus}}</td>
           <td>{{articleItem.articleViewsNumber}}</td>
         </tr>
       </tbody>
-    </table>
+    </table>-->
   </div>
 </template>
 
@@ -42,6 +55,25 @@ export default class AdminArticleList extends Vue {
   private articleItems: Article[] = []
   private siteSectionSlug = ''
   private breadCrumbList: any[] = []
+
+  private headerFields = [
+    {
+      field: 'articleTitle',
+      label: 'Заголовок'
+    },
+    {
+      field: 'articlePublishDate',
+      label: 'Дата'
+    },
+    {
+      field: 'articleStatus',
+      label: 'Статус'
+    },
+    {
+      field: 'articleViewsNumber',
+      label: 'Просмотры'
+    }
+  ]
 
   private layout () {
     return 'admin'
@@ -69,36 +101,4 @@ export default class AdminArticleList extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.brc-article-list_wrapper {
-  width: 100%;
-  padding: 20px;
-}
-
-.brc-article-table_admin {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  tr {
-    &:hover {
-      background-color: lightgoldenrodyellow;
-    }
-
-    td {
-      border: 1px solid lightgray;
-      margin: 0;
-      padding: 5px;
-      text-align: center;
-    }
-    td:first-child {
-      text-align: left;
-    }
-    td:last-child {
-      text-align: right;
-    }
-  }
-}
-</style>
-
 

@@ -2,11 +2,11 @@
   <vue-good-table :columns="headerFields" :rows="clientTypeRelationItems">
     <template #table-row="props">
       <input
-        v-if="props.column.field == 'clBrandId'"
+        v-if="props.column.field == 'clClientId'"
         type="checkbox"
-        :value="props.row.clBrandId"
+        :value="props.row.clClientId"
         :checked="props.row.hasRelation"
-        @change="onBrandChecked(props.row.clBrandId,$event.target.checked)"
+        @change="onChecked(props.row.clClientId,$event.target.checked)"
       />
       <span v-else>{{props.formattedRow[props.column.field]}}</span>
     </template>
@@ -26,15 +26,13 @@ export default class AdminClientTypeRelationList extends Vue {
   @Prop()
   private clientTypeRelationItems
 
-  private brandAllItems: ClBrand[] = []
-
   private headerFields = [
     {
-      field: 'clBrandId',
+      field: 'clClientId',
       label: ''
     },
     {
-      field: 'clBrandName',
+      field: 'clClientName',
       label: 'Наименование'
     }
   ]
@@ -43,8 +41,9 @@ export default class AdminClientTypeRelationList extends Vue {
     return 'admin'
   }
 
-  private onBrandChecked (clBrandId: number, hasRelation: boolean) {
-    this.$emit('clienttypechecked', clBrandId, hasRelation)
+  private onChecked (clClientId: number, hasRelation: boolean) {
+    console.debug("1")
+    this.$emit('clienttypechecked', clClientId, hasRelation)
   }
 }
 </script>

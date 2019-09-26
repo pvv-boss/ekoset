@@ -43,7 +43,7 @@ export default class AdminActivityRelationList extends Vue {
   }
 
   private onChecked (clActivityId: number, hasRelation: boolean) {
-    this.$emit('brandchecked', clActivityId, hasRelation)
+    this.$emit('activitychecked', clActivityId, hasRelation)
   }
 }
 </script>

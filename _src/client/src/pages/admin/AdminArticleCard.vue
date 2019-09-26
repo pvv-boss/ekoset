@@ -1,10 +1,7 @@
 <template>
   <div>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <div class="brc-admin-card_admin">
-      <div class="brc-admin-card__editor">
-        <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
-      </div>
+    <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
@@ -14,14 +11,6 @@
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
           <AdminSiteSectionSelector v-model="article.siteSectionId"></AdminSiteSectionSelector>
         </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Услуга</div>
-          <AdminServiceSelector
-            v-model="article.businessServiceId"
-            :siteSectionId="article.siteSectionId"
-          ></AdminServiceSelector>
-        </div>
-
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Краткое описание</div>
           <input type="text" v-model="article.articleDescription" />
@@ -52,6 +41,13 @@
           <div class="brc-admin-card-attribute__caption">Дата</div>
           <input type="datetime" v-model="article.articlePublishDate" />
         </div>
+        <AdminServiceRelationList
+          :serviceRelationItems="serviceRelationList"
+          @activitychecked="activityChecked"
+        ></AdminServiceRelationList>
+      </div>
+      <div class="brc-admin-card__editor">
+        <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
       </div>
     </div>
     <div class="brc-admin-card__actions">
@@ -76,6 +72,7 @@ import BusinessService from '@/models/ekoset/BusinessService'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 
@@ -86,7 +83,8 @@ import AppStore from '@/store/AppStore'
     BreadCrumbs,
     AdminSiteSectionSelector,
     AdminServiceSelector,
-    AdminStatusSelector
+    AdminStatusSelector,
+    AdminServiceRelationList
   }
 })
 export default class AdminArticleCard extends Vue {
@@ -94,7 +92,7 @@ export default class AdminArticleCard extends Vue {
   private article: Article = new Article()
   private breadCrumbList: any[] = []
   private serviceList: BusinessService[] = []
-
+  private serviceRelationList: any[] = []
   private layout () {
     return 'admin'
   }
@@ -142,6 +140,7 @@ export default class AdminArticleCard extends Vue {
   private async asyncData (context: NuxtContext) {
     const articleSlug = context.params.article
     const article = articleSlug ? await getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
+    //const serviceRelations = getServiceContainer().articleService.adminGetServiceRelation()
     return {
       article
     }

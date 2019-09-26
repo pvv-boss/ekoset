@@ -28,8 +28,6 @@ export default class AdminBrandRelationList extends Vue {
   @Prop()
   private brandRelationItems
 
-  private brandAllItems: ClBrand[] = []
-
   private headerFields = [
     {
       field: 'clBrandId',

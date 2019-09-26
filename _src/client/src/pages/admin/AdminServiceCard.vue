@@ -25,7 +25,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Единица измерения</div>
-          <input type="number" v-model.number="serviceItem.businessServiceUnit" />
+          <input type="number" v-model="serviceItem.businessServiceUnit" />
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Цена</div>
@@ -87,16 +87,16 @@
         </div>
         <div>
           <h4>Типы клиентов</h4>
-          <!-- <div>{{clientTypeRelationList}}</div> -->
-          <!-- <AdminClientTypeRelationList
+          <AdminClientTypeRelationList
             :clientTypeRelationItems="clientTypeRelationList"
-            @brandchecked="brandChecked"
-          ></AdminClientTypeRelationList>-->
+            @clienttypechecked="clientTypeChecked"
+          ></AdminClientTypeRelationList>
           <h4>Направления деятельности</h4>
-          <!-- <div>{{activityRelationList}}</div> -->
-          <AdminActivityRelationList :activityRelationItems="activityRelationList"></AdminActivityRelationList>
+          <AdminActivityRelationList
+            :activityRelationItems="activityRelationList"
+            @activitychecked="activityChecked"
+          ></AdminActivityRelationList>
           <h4>Рекомендации</h4>
-          <div>{{brandRelationList}}</div>
           <AdminBrandRelationList
             :brandRelationItems="brandRelationList"
             @brandchecked="brandChecked"
@@ -116,6 +116,7 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
+import AdminClientTypeRelationList from '@/components/admin/AdminClientTypeRelationList.vue'
 import AdminActivityRelationList from '@/components/admin/AdminActivityRelationList.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
@@ -140,7 +141,8 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
     AdminSiteSectionSelector,
     AdminServiceSelector,
     AdminStatusSelector,
-    AdminActivityRelationList
+    AdminActivityRelationList,
+    AdminClientTypeRelationList
   }
 })
 export default class AdminServiceCard extends Vue {
@@ -148,7 +150,7 @@ export default class AdminServiceCard extends Vue {
   private serviceOtherList: BusinessService = new BusinessService()
   private brandRelationList: ClBrand[] = []
   private activityRelationList: ClActivity[] = []
-  private clientTypeRelationList: ClClient[] = []
+  private clientTypeRelationList: any[] = [1, 2, 3]
   private breadCrumbList: any[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
@@ -161,16 +163,16 @@ export default class AdminServiceCard extends Vue {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
     const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
-    const activityRelationList = getServiceContainer().businessServiceService.getAdminСlActivitiesForService(serviceItem.businessServiceUrl)
-    const clientTypeRelationList = getServiceContainer().businessServiceService.getAdminclClientsForService(serviceItem.businessServiceUrl)
+    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService(serviceItem.businessServiceUrl)
+    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService(serviceItem.businessServiceUrl)
 
-    const data = await Promise.all([brandRelationList, serviceOtherList, activityRelationList, clientTypeRelationList])
+    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, serviceOtherList])
     return {
       serviceItem,
       brandRelationList: data[0],
-      serviceOtherList: data[1],
-      activityRelationList: data[2],
-      clientTypeRelationList: data[3]
+      serviceOtherList: data[3],
+      activityRelationList: data[1],
+      clientTypeRelationList: data[2]
     }
   }
 
@@ -191,6 +193,20 @@ export default class AdminServiceCard extends Vue {
 
   private brandChecked (clBrandId: number, hasRelation: boolean) {
     getServiceContainer().publicEkosetService.addOrRemoveBrand2Service(clBrandId, this.serviceItem.businessServiceId, hasRelation)
+  }
+
+  private clientTypeChecked (clClientId: number, hasRelation: boolean) {
+    if (clClientId === 1) {
+      getServiceContainer().businessServiceService.addRemoveBusinessType2Service(this.serviceItem.businessServiceUrl, hasRelation)
+    }
+    else {
+      getServiceContainer().businessServiceService.addRemovePrivatePerson2Service(this.serviceItem.businessServiceUrl, hasRelation)
+    }
+
+  }
+
+  private activityChecked (clActivityId: number, hasRelation: boolean) {
+    getServiceContainer().businessServiceService.addRemoveActivityType2Service(this.serviceItem.businessServiceUrl, clActivityId, hasRelation)
   }
 
   private async updateServiceOtherList () {
