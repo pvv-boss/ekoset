@@ -15,7 +15,7 @@
           </div>
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Статус</div>
-            <AdminStatusSelector v-model="brandItem.clBrandStatus"></AdminStatusSelector>
+            <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
           </div>
         </div>
       </div>

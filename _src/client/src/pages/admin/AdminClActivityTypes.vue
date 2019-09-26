@@ -40,7 +40,7 @@
         </span>
         <AdminStatusSelector
           v-else-if="editModeList[props.row.originalIndex] && props.column.field === 'clActivityStatus'"
-          v-model="itemList[props.row.originalIndex][props.column.field]"
+          v-model.number="itemList[props.row.originalIndex][props.column.field]"
         ></AdminStatusSelector>
         <span v-else-if="editModeList[props.row.originalIndex]">
           <input type="text" v-model="itemList[props.row.originalIndex][props.column.field]" />

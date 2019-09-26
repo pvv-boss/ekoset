@@ -18,7 +18,7 @@
       </div>
       <div class="brc-article-attribute">
         <div class="brc-article-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model="newSiteSection.siteSectionStatus"></AdminStatusSelector>
+        <AdminStatusSelector v-model.number="newSiteSection.siteSectionStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNewSiteSection">Сохранить</button>
       <button @click="cancelSaveNewSiteSection">Отменить</button>

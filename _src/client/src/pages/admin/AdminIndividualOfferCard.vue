@@ -17,6 +17,10 @@
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
           <AdminSiteSectionSelector v-model="indOfferItem.siteSectionId"></AdminSiteSectionSelector>
         </div>
+        <div class="brc-service-attribute" v-if="isClientTypeMode">
+          <div class="brc-service-attribute__caption">Тип клиента</div>
+          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId"></AdminClientTypeSelector>
+        </div>
         <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
           <div class="brc-admin-card-attribute__caption">Направление деятельности</div>
           <AdminClActivitySelector v-model.number="indOfferItem.clActivityId"></AdminClActivitySelector>
@@ -27,7 +31,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model="indOfferItem.indOfferStatus"></AdminStatusSelector>
+          <AdminStatusSelector v-model.number="indOfferItem.indOfferStatus"></AdminStatusSelector>
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -74,6 +78,9 @@ import ClActivity from '@/models/ekoset/ClActivity'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
+import { returnStatement } from '@babel/types'
+
 
 @Component({
   components: {
@@ -83,18 +90,21 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
     AdminServiceChildList,
     BreadCrumbs,
     AdminClActivitySelector,
-    AdminStatusSelector
+    AdminStatusSelector,
+    AdminClientTypeSelector
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService = new BusinessService()
   private breadCrumbList: any[] = []
-  private isClientTypeMode = true
 
   private layout () {
     return 'admin'
   }
 
+  private get isClientTypeMode () {
+    return (!!this.indOfferItem.clClientId && this.indOfferItem.clClientId > 0)
+  }
 
   private async asyncData (context: NuxtContext) {
     let indOfferItem: IndividualOffer
@@ -119,8 +129,8 @@ export default class AdminIndividualOfferCard extends Vue {
     const data = await Promise.all([serviceList])
     return {
       indOfferItem,
-      serviceList: data[0],
-      isClientTypeMode
+      serviceList: data[0]
+
     }
   }
 
