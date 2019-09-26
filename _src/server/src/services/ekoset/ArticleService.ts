@@ -10,6 +10,7 @@ import { logger } from '@/utils/Logger';
 import * as cuid from 'cuid';
 import SortFilterPagination from '@/entities/SortFilterPagination';
 import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
+import ServiceContainer from '../ServiceContainer';
 
 export default class ArticleService extends BaseService {
 
@@ -135,17 +136,11 @@ export default class ArticleService extends BaseService {
     if (match) {
       const ext = match[1];
       const base64 = match[2];
-
-      const pathName = path.resolve('static', 'img', 'news');
-      const fileName = `news_${cuid()}.${ext}`;
-      const filePath = path.resolve(pathName, fileName);
-      if (!fs.existsSync(pathName)) {
-        fs.mkdirSync(pathName);
-      }
+      const imagePathAndFileName: string[] = ServiceContainer.MediaService.getImageFullPathAndFileName('news', 'img', ext);
 
       try {
-        await Base64.decode(base64, filePath);
-        const imageSrc = `/img/news/${fileName}`;
+        await Base64.decode(base64, imagePathAndFileName[0]);
+        const imageSrc = `/img/news/${imagePathAndFileName[1]}`;
         result = articleBody.replace(`data:image/${ext};base64,`, '').replace(base64, imageSrc)
       } catch (err) {
         logger.error(err);

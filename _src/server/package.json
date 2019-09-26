@@ -84,6 +84,7 @@
     "routing-controllers": "latest",
     "routing-controllers-openapi": "^1.7.0",
     "typeorm": "^0.2.19",
-    "winston": "latest"
+    "winston": "latest",
+    "mime-types": "latest"
   }
 }
