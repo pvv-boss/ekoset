@@ -147,7 +147,7 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 })
 export default class AdminServiceCard extends Vue {
   private serviceItem: BusinessService = new BusinessService()
-  private serviceOtherList: BusinessService = new BusinessService()
+  private serviceOtherList: BusinessService[] = []
   private brandRelationList: ClBrand[] = []
   private activityRelationList: ClActivity[] = []
   private clientTypeRelationList: any[] = [1, 2, 3]
@@ -223,6 +223,10 @@ export default class AdminServiceCard extends Vue {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
+    if (this.serviceItem.businessServiceParentId && this.serviceItem.businessServiceParentId > 0) {
+      const parentService = this.serviceOtherList.filter(obj => obj.businessServiceId == this.serviceItem.businessServiceParentId)[0]
+      this.breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
+    }
     this.breadCrumbList.push({ name: this.serviceItem.businessServiceName, link: '' })
   }
 

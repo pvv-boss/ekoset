@@ -135,7 +135,7 @@ export default class AdminClPartnerGroups extends Vue {
   private configBreadCrumbs () {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Справочник: Направления деятельности', link: '' })
+    this.breadCrumbList.push({ name: 'Справочник: Группы клиентов', link: '' })
   }
 }
 </script>

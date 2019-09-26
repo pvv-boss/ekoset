@@ -11,6 +11,8 @@ import AdminIndividualOfferList from '@/pages/admin/AdminIndividualOfferList.vue
 import AdminIndividualOfferCard from '@/pages/admin/AdminIndividualOfferCard.vue'
 import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
 import AdminClPartnerGroups from '@/pages/admin/AdminClPartnerGroups.vue'
+import AdminClientList from '@/pages/admin/AdminClientList.vue'
+import AdminClientCard from '@/pages/admin/AdminClientCard.vue'
 
 export const AdminRouter = [
   {
@@ -96,6 +98,20 @@ export const AdminRouter = [
     props: true,
     component: AdminIndividualOfferList,
     meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
+  },
+  {
+    name: 'admin-client-card',
+    path: '/admin/client/:client',
+    props: true,
+    component: AdminClientCard,
+    meta: { title: 'Экосеть: Панель управления - клиенты' }
+  },
+  {
+    name: 'admin-clients',
+    path: '/admin/client/',
+    props: true,
+    component: AdminClientList,
+    meta: { title: 'Экосеть: Панель управления - клиенты' }
   },
   {
     name: 'cl-activity-types',

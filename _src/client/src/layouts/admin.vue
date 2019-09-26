@@ -34,6 +34,12 @@
               <nuxt-link :to="{ name: 'admin-news'}" class="brc-admin-navigation__item-link">Новости</nuxt-link>
             </li>
             <li class="brc-admin-navigation__item">
+              <nuxt-link
+                :to="{ name: 'admin-clients'}"
+                class="brc-admin-navigation__item-link"
+              >Клиенты</nuxt-link>
+            </li>
+            <li class="brc-admin-navigation__item">
               <input
                 id="toogleClientTypeMenuVisible"
                 class="brc-admin-navigation__item-chk"
