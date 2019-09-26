@@ -5,12 +5,7 @@ import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
-import * as multer from 'multer';
-import FormMessageData from '@/entities/FormMessageData';
-import ClassTransform from '@/utils/ClassTransform';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
-
-const upload = multer();
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -168,20 +163,5 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response) {
     // const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
     // return BusinessServiceController.createSuccessResponse(result, response);
-  }
-
-  @UseBefore(upload.single('file'))
-  @Post('/user/message')
-  public async saveUserMessage (
-    @Body() body: any,
-    @Req() request: Request,
-    @Res() response: Response) {
-
-    const file = request.file;
-    const formData = JSON.parse(body.formMessageData);
-    const formDataInstance = ClassTransform.plainToClassInstanceOne<FormMessageData>(formData, FormMessageData);
-
-    const result = await ServiceContainer.MainEkosetService.saveUserMessage(formDataInstance, file);
-    return MainEkosetController.createSuccessResponse(result, response);
   }
 }

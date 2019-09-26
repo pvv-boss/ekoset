@@ -116,7 +116,4 @@ export default class MainEkosetService extends BaseService {
     // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
   }
 
-  public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {
-    return {}
-  }
 }
