@@ -45,7 +45,7 @@ export default class Prices extends Vue {
     if (siteSection) {
       serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection, false)
     } else {
-      serviceList = getServiceContainer().businessServiceService.getMainList()
+      serviceList = getServiceContainer().businessServiceService.getAll()
     }
     const data = await Promise.all([serviceList, apiSharedData])
 

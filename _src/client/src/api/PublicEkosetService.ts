@@ -73,7 +73,7 @@ export default class PublicEkosetService extends BaseService {
 
   public async getPartnerGroups () {
     const query = 'admin/panel/clients/groups'
-    return HttpUtil.httpPut(this.buildHttRequest(query))
+    return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
   public async savePartnerGroup (partnerGroup: PartnerGroup) {
