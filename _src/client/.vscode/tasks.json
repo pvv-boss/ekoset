@@ -45,6 +45,17 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+
+    {
+      "label": "lint",
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
