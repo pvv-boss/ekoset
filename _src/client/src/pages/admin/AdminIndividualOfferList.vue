@@ -14,10 +14,10 @@
         <input type="text" v-model="newIndividualOffer.indOfferName" />
       </div>
 
-      <div class="brc-service-attribute">
+      <!-- <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Тип клиента</div>
-        <input type="number" v-model.number="newIndividualOffer.clClientId" />
-      </div>
+        <AdminClientTypeSelector v-model.number="newIndividualOffer.clClientId"></AdminClientTypeSelector>
+      </div>-->
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Вид деятельности</div>
         <AdminClActivitySelector v-model="newIndividualOffer.clActivityId"></AdminClActivitySelector>
@@ -29,7 +29,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model="newIndividualOffer.indOfferStatus"></AdminStatusSelector>
+        <AdminStatusSelector v-model.number="newIndividualOffer.indOfferStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
@@ -60,13 +60,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
 
 @Component({
   components: {
     BreadCrumbs,
     AdminSiteSectionSelector,
     AdminClActivitySelector,
-    AdminStatusSelector
+    AdminStatusSelector,
+    AdminClientTypeSelector
   }
 })
 export default class AdminIndividualOfferList extends Vue {
@@ -105,6 +107,10 @@ export default class AdminIndividualOfferList extends Vue {
     return 'admin'
   }
 
+  private async updateIndOfferList () {
+    this.indOfferItems = await getServiceContainer().individualOfferService.adminGetAll()
+  }
+
   private async asyncData (context: NuxtContext) {
     const indOfferItems = getServiceContainer().individualOfferService.adminGetAll()
     const data = await Promise.all([indOfferItems])
@@ -126,6 +132,7 @@ export default class AdminIndividualOfferList extends Vue {
   private async saveNew () {
     await getServiceContainer().individualOfferService.save(this.newIndividualOffer)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.updateIndOfferList()
     this.newIndividualOffer = new IndividualOffer()
     this.createNewMode = false
   }

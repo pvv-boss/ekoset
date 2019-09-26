@@ -15,7 +15,7 @@
       </div>
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model="newBrand.clBrandStatus"></AdminStatusSelector>
+        <AdminStatusSelector v-model.number="newBrand.clBrandStatus"></AdminStatusSelector>
       </div>
       <button @click="saveNewBrand">Сохранить</button>
       <button @click="cancelSaveNewBrand">Отменить</button>

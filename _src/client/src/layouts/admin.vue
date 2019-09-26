@@ -52,6 +52,12 @@
                 </li>
                 <li class="brc-admin-navigation__item">
                   <nuxt-link
+                    :to="{ name: 'cl-partner-groups'}"
+                    class="brc-admin-navigation__item-link"
+                  >Группы клиентов</nuxt-link>
+                </li>
+                <li class="brc-admin-navigation__item">
+                  <nuxt-link
                     :to="{ name: 'cl-activity-types'}"
                     class="brc-admin-navigation__item-link"
                   >Направления деятельности</nuxt-link>

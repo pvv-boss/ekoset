@@ -5,7 +5,7 @@
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model="article.articleStatus"></AdminStatusSelector>
+          <AdminStatusSelector v-model.number="article.articleStatus"></AdminStatusSelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>

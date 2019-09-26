@@ -19,7 +19,7 @@
           </div>
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Статус</div>
-            <AdminStatusSelector v-model="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
+            <AdminStatusSelector v-model.number="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
           </div>
 
           <div class="brc-admin-card-attribute">

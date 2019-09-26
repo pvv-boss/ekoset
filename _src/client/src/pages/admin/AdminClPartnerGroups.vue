@@ -1,24 +1,17 @@
 <template>
   <div class="brc-site-section-list_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1>Направления деятельности</h1>
-    <button
-      @click="createNewItemMode = true"
-      v-show="!createNewItemMode"
-    >Создать направление деятельности</button>
+    <h1>Группы клиентов</h1>
+    <button @click="createNewItemMode = true" v-show="!createNewItemMode">Создать группу клиентов</button>
 
     <div v-if="createNewItemMode">
       <div class="brc-article-attribute">
         <div class="brc-article-attribute__caption">Наименование</div>
-        <input type="text" v-model="newItem.clActivityName" />
+        <input type="text" v-model="newItem.partnerGroupName" />
       </div>
       <div class="brc-article-attribute">
         <div class="brc-article-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newItem.clActivityPriority" />
-      </div>
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model="newItem.clActivityStatus"></AdminStatusSelector>
+        <input type="number" v-model.number="newItem.partnerGroupPriority" />
       </div>
       <button @click="saveNewItem">Сохранить</button>
       <button @click="cancelSaveNewItem">Отменить</button>
@@ -53,12 +46,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClActivity from '@/models/ekoset/ClActivity.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import PartnerGroup from '@/models/ekoset/PartnerGroup'
 
 @Component({
   components: {
@@ -67,25 +60,21 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 
   }
 })
-export default class AdminClActivityTypes extends Vue {
-  private itemList: ClActivity[] = []
+export default class AdminClPartnerGroups extends Vue {
+  private itemList: PartnerGroup[] = []
   private createNewItemMode = false
-  private newItem: ClActivity = new ClActivity()
   private breadCrumbList: any[] = []
   private editModeList: boolean[] = []
+  private newItem: PartnerGroup = new PartnerGroup()
 
   private headerFields = [
     {
-      field: "clActivityName",
+      field: "partnerGroupName",
       label: "Наименование"
     },
     {
-      field: "clActivityPriority",
+      field: "partnerGroupPriority",
       label: "Приоритет"
-    },
-    {
-      field: "clActivityStatus",
-      label: "Статус"
     },
     {
       field: "actions",
@@ -107,18 +96,18 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveChanges (rowIndex) {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.itemList[rowIndex])
+    await getServiceContainer().publicEkosetService.savePartnerGroup(this.itemList[rowIndex])
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.updateItems()
     this.$set(this.editModeList, rowIndex, false)
   }
 
   private async updateItems () {
-    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+    this.itemList = await getServiceContainer().publicEkosetService.getPartnerGroups()
   }
 
   private async asyncData () {
-    const itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+    const itemList = await getServiceContainer().publicEkosetService.getPartnerGroups()
 
     return {
       itemList: itemList,
@@ -127,15 +116,15 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveNewItem () {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.newItem)
+    await getServiceContainer().publicEkosetService.savePartnerGroup(this.newItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.createNewItemMode = false
     await this.updateItems()
-    this.newItem = new ClActivity()
+    this.newItem = new PartnerGroup()
   }
 
   private cancelSaveNewItem () {
-    this.newItem = new ClActivity()
+    this.newItem = new PartnerGroup()
     this.createNewItemMode = false
   }
 

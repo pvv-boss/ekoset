@@ -37,7 +37,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model="serviceItem.businessServiceStatus"></AdminStatusSelector>
+          <AdminStatusSelector v-model.number="serviceItem.businessServiceStatus"></AdminStatusSelector>
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -78,7 +78,7 @@
             </div>
             <div class="brc-service-attribute">
               <div class="brc-service-attribute__caption">Статус</div>
-              <input type="number" v-model.number="newService.businessServiceStatus" />
+              <AdminStatusSelector v-model.number="newService.businessServiceStatus"></AdminStatusSelector>
             </div>
             <button @click="saveNewService">Сохранить</button>
             <button @click="cancelSaveNewService">Отменить</button>
