@@ -2,7 +2,6 @@
   <div class="brc-admin-card_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList" v-if="breadCrumbList.length > 0"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
-    {{indOfferItem}}
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
@@ -124,7 +123,7 @@ export default class AdminIndividualOfferCard extends Vue {
         ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
         : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
     } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.indOfferUrl)
+      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.clActivityId)
     }
     const data = await Promise.all([serviceList])
     return {
