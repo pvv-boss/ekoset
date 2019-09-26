@@ -6,6 +6,7 @@ import AdminSiteSectionCard from '@/pages/admin/AdminSiteSectionCard.vue'
 import AdminServiceList from '@/pages/admin/AdminServiceList.vue'
 import AdminServiceCard from '@/pages/admin/AdminServiceCard.vue'
 import AdminBrandList from '@/pages/admin/AdminBrandList.vue'
+import AdminBrandCard from '@/pages/admin/AdminBrandCard.vue'
 import AdminIndividualOfferList from '@/pages/admin/AdminIndividualOfferList.vue'
 import AdminIndividualOfferCard from '@/pages/admin/AdminIndividualOfferCard.vue'
 import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
@@ -71,6 +72,13 @@ export const AdminRouter = [
     path: '/admin/brand/',
     props: true,
     component: AdminBrandList,
+    meta: { title: 'Экосеть: Панель управления - бренды' }
+  },
+  {
+    name: 'admin-brand-card',
+    path: '/admin/brand/:brand',
+    props: true,
+    component: AdminBrandCard,
     meta: { title: 'Экосеть: Панель управления - бренды' }
   },
   {
