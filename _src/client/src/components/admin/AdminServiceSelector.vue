@@ -30,7 +30,7 @@ export default class AdminServiceSelector extends Vue {
   }
 
   private async mounted () {
-    this.itemList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.siteSectionId)
+    this.updateServiceList()
   }
 }
 </script>
