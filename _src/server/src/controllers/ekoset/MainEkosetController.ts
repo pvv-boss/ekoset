@@ -8,6 +8,7 @@ import { ClBrand } from '@/entities/ekoset/ClBrand';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
 import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
+import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -41,6 +42,22 @@ export default class MainEkosetController extends BaseController {
     const result = await ServiceContainer.MainEkosetService.savePartner(partner);
     return MainEkosetController.createSuccessResponse(result, response);
   }
+
+  @Get('/admin/panel/clients/groups')
+  public async getPartnerGroups (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.getPartnerGroups();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/panel/clients/groups')
+  public async savePartnerGroup (
+    @Body() partnerGroup: PartnerGroup,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.savePartnerGroup(partnerGroup);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
 
   @Get('/admin/panel/brands/serivce/:serviceId')
   public async getAdminForBusinessServiceBrands (

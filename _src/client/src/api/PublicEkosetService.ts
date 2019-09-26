@@ -4,8 +4,9 @@ import { getServiceContainer } from './ServiceContainer'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
-import ClActivity from '@/models/ekoset/ClActivity'
-import Partner from '@/models/ekoset/Partner'
+import ClActivity from '@/models/ekoset/ClActivity';
+import Partner from '@/models/ekoset/Partner';
+import PartnerGroup from '@/models/ekoset/PartnerGroup';
 
 export default class PublicEkosetService extends BaseService {
 
@@ -65,9 +66,19 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  public async savePartners (partner: Partner) {
+  public async savePartner (partner: Partner) {
     const query = `clients`
     return HttpUtil.httpPut(this.buildHttRequest(query), partner)
+  }
+
+  public async getPartnerGroups () {
+    const query = 'admin/panel/clients/groups'
+    return HttpUtil.httpPut(this.buildHttRequest(query))
+  }
+
+  public async savePartnerGroup (partnerGroup: PartnerGroup) {
+    const query = 'admin/panel/clients/groups'
+    return HttpUtil.httpPut(this.buildHttRequest(query), partnerGroup)
   }
 
   public async getClActivityList () {
