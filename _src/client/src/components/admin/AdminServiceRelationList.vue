@@ -1,13 +1,13 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
-    <vue-good-table :columns="headerFields" :rows="brandRelationItems">
+    <vue-good-table :columns="headerFields" :rows="serviceRelationItems">
       <template #table-row="props">
         <input
-          v-if="props.column.field == 'clBrandId'"
+          v-if="props.column.field == 'businessServiceId'"
           type="checkbox"
-          :value="props.row.clBrandId"
+          :value="props.row.businessServiceId"
           :checked="props.row.hasRelation"
-          @change="onBrandChecked(props.row.clBrandId,$event.target.checked)"
+          @change="onChecked(props.row.businessServiceUrl,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -17,24 +17,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClBrand from '@/models/ekoset/ClBrand.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import BusinessServiceService from '@/api/BusinessServiceService';
+import BusinessServiceService from '@/api/BusinessServiceService'
 
 @Component({})
-export default class AdminBrandRelationList extends Vue {
+export default class AdminServiceRelationList extends Vue {
   @Prop()
-  private brandRelationItems
+  private serviceRelationItems
 
   private headerFields = [
     {
-      field: 'clBrandId',
+      field: 'businessServiceId',
       label: ''
     },
     {
-      field: 'clBrandName',
+      field: 'businessServiceName',
       label: 'Наименование'
     }
   ]
@@ -43,8 +42,8 @@ export default class AdminBrandRelationList extends Vue {
     return 'admin'
   }
 
-  private onBrandChecked (clBrandId: number, hasRelation: boolean) {
-    this.$emit('brandchecked', clBrandId, hasRelation)
+  private onChecked (businessServiceUrl: string, hasRelation: boolean) {
+    this.$emit('servicechecked', businessServiceUrl, hasRelation)
   }
 }
 </script>

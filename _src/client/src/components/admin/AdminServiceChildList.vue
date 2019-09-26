@@ -3,7 +3,7 @@
     <template slot="table-row" slot-scope="props">
       <nuxt-link
         v-if="props.column.field == 'businessServiceName'"
-        :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceUrl}}"
+        :to="{ name: 'admin-service-card', params: { siteSection: siteSection, service: props.row.businessServiceUrl}}"
       >{{props.row.businessServiceName}}</nuxt-link>
       <span v-else>{{props.formattedRow[props.column.field]}}</span>
     </template>
@@ -17,6 +17,9 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 export default class AdminServiceChildList extends Vue {
   @Prop()
   private serviceItems
+
+  @Prop()
+  private siteSection
 
   private headerFields = [
     {
