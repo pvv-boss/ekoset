@@ -113,11 +113,12 @@ export default class OfferCard extends Vue {
       otherOfferHeaderText = 'Индивидуальные предложения'
       otherOfferComponentName = 'BusinessTypeOfferList'
     } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl)
-      servicePriceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl, false)
+      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.clActivityId)
+      // servicePriceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSection, individualOffer.indOfferUrl, false)
     }
 
-    const data = await Promise.all([serviceList, otherOfferList, servicePriceList])
+    // const data = await Promise.all([serviceList, otherOfferList, servicePriceList])
+    const data = await Promise.all([serviceList, otherOfferList])
 
     return {
       individualOffer,
@@ -127,7 +128,7 @@ export default class OfferCard extends Vue {
       otherOfferHeaderText,
       otherOfferComponentName,
       otherOfferList: data[1],
-      servicePriceList: data[2]
+      servicePriceList: data[0]
     }
   }
 

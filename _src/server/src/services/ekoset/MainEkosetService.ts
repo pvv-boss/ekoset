@@ -13,8 +13,9 @@ export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
   private apiPartnersViewName = 'v_api_partner';
   private apiBrandsViewName = 'v_api_brand';
+  private apiBrandsForSitreSectionViewName = 'v_api_brand_site_section';
   private apiClActivityViewName = 'cl_activity';
-  private apiBrandsByBusinessService = 'v_api_business_service_brand'
+  private apiBrandsByBusinessService = 'v_api_business_service_brand';
 
   public async getSiteSections () {
     return this.getDbViewResult(this.apiViewName);
@@ -50,7 +51,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async getBrandsBySiteSection (siteSectionId: number) {
-    return this.getDbViewResult(this.apiBrandsViewName, null, 'site_section_id = $1', [siteSectionId]);
+    return this.getDbViewResult(this.apiBrandsForSitreSectionViewName, null, 'site_section_id = $1', [siteSectionId]);
   }
 
   public async getBrandsByBusinessService (businessServiceId: number) {

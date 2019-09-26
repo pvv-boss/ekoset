@@ -29,8 +29,9 @@ export default class BusinessServiceService extends BaseService {
   }
 
   // Для вида деятельности и раздела
-  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeSlug: string, excludeChild = true, pagination?: Pagination) {
-    return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), this.getIdBySlug(activityTypeSlug), excludeChild, pagination)
+  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
+    activityTypeId = !!activityTypeId ? activityTypeId : 0
+    return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), activityTypeId, excludeChild, pagination)
   }
 
   // Услуги для бизнеса по разделу

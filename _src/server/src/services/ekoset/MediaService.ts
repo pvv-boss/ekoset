@@ -49,8 +49,7 @@ export default class MediaService extends BaseService {
       }
       )
       return promise;
-    }
-    else {
+    } else {
       Promise.resolve(false);
     }
   }
