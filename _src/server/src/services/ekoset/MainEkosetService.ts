@@ -3,11 +3,12 @@ import { SiteSection } from '@/entities/ekoset/SiteSection';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import * as slugify from '@sindresorhus/slugify';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
-import FormMessageData from '@/entities/FormMessageData';
 import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import IndividualOfferService from './IndividualOfferService';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
+import { ClClient } from '@/entities/ekoset/ClClient';
+import { Partner } from '@/entities/ekoset/Partner';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -27,6 +28,11 @@ export default class MainEkosetService extends BaseService {
 
   public async getPartners () {
     return this.getDbViewResult(this.apiPartnersViewName);
+  }
+
+  public async savePartner (partner: Partner) {
+    partner.partnerGroup = Promise.resolve(2);
+    return TypeOrmManager.EntityManager.save(partner);
   }
 
   // Админка

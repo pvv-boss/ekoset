@@ -6,6 +6,8 @@ import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
+import { ClClient } from '@/entities/ekoset/ClClient';
+import { Partner } from '@/entities/ekoset/Partner';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -29,6 +31,14 @@ export default class MainEkosetController extends BaseController {
   public async getPartners (
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.getPartners();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Put('/clients')
+  public async savePartner (
+    @Body() partner: Partner,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.savePartner(partner);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 

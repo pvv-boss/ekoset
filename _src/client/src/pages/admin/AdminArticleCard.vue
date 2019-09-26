@@ -121,7 +121,7 @@ export default class AdminArticleCard extends Vue {
   @Watch('article.siteSectionId', { immediate: true })
   private async updateServiceList () {
     if (this.article.siteSectionId && this.article.siteSectionId > 0) {
-      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation('slug-' + this.article.siteSectionId, this.article.articleUrl)
+      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(this.article.siteSectionId, this.article.articleUrl)
     }
   }
 
@@ -137,8 +137,11 @@ export default class AdminArticleCard extends Vue {
     this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
   }
 
-  private serviceChecked (serviceUrl: string, hasRelation: boolean) {
-    getServiceContainer().articleService.adminAddRemoveServiceRelation(serviceUrl, this.article.articleUrl, hasRelation)
+  private serviceChecked (businessServiceId: number, hasRelation: boolean) {
+    // tslint:disable-next-line:no-console
+    console.log(businessServiceId)
+
+    getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
   }
 
   private async asyncData (context: NuxtContext) {
@@ -147,7 +150,7 @@ export default class AdminArticleCard extends Vue {
 
     let serviceRelations = []
     if (article.siteSectionId > 0) {
-      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation('slug-' + article.siteSectionId, articleUrl)
+      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation(article.siteSectionId, articleUrl)
     }
 
     return {

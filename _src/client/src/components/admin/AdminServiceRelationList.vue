@@ -7,7 +7,7 @@
           type="checkbox"
           :value="props.row.businessServiceId"
           :checked="props.row.hasRelation"
-          @change="onChecked(props.row.businessServiceUrl,$event.target.checked)"
+          @change="onChecked(props.row.businessServiceId,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -42,8 +42,8 @@ export default class AdminServiceRelationList extends Vue {
     return 'admin'
   }
 
-  private onChecked (businessServiceUrl: string, hasRelation: boolean) {
-    this.$emit('servicechecked', businessServiceUrl, hasRelation)
+  private onChecked (businessServiceId: number, hasRelation: boolean) {
+    this.$emit('servicechecked', businessServiceId, hasRelation)
   }
 }
 </script>

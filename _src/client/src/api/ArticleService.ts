@@ -22,14 +22,14 @@ export default class ArticleService extends BaseService {
   }
 
   // Для админки получить связи статьи с услугами
-  public async adminGetServiceRelation (siteSectionUrl: string, artcicleUrl: string) {
-    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/${this.getIdBySlug(siteSectionUrl)}/service`
+  public async adminGetServiceRelation (siteSectionId: number, artcicleUrl: string) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/${siteSectionId}/service`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
   // Для админки добавить связи статьи с услугой
-  public async adminAddRemoveServiceRelation (serviceUrl: string, artcicleUrl: string, isAdd: boolean) {
-    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/service/${this.getIdBySlug(serviceUrl)}`
+  public async adminAddRemoveServiceRelation (businessServiceId: number, artcicleUrl: string, isAdd: boolean) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/service/${businessServiceId}`
     if (isAdd) {
       return HttpUtil.httpPut(this.buildHttRequest(query))
     } else {
