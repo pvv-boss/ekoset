@@ -20,7 +20,15 @@
       <button @click="saveNewBrand">Сохранить</button>
       <button @click="cancelSaveNewBrand">Отменить</button>
     </div>
-    <vue-good-table :columns="headerFields" :rows="brandItems"></vue-good-table>
+    <vue-good-table :columns="headerFields" :rows="brandItems">
+      <template slot="table-row" slot-scope="props">
+        <nuxt-link
+          v-if="props.column.field == 'partnerName'"
+          :to="{ name: 'admin-brand-card', params: { brand: props.row.partnerId}}"
+        >{{props.row.partnerName}}</nuxt-link>
+        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+      </template>
+    </vue-good-table>
   </div>
 </template>
 
