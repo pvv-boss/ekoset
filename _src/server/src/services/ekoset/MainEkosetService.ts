@@ -9,6 +9,7 @@ import IndividualOfferService from './IndividualOfferService';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
 import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
+import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -31,8 +32,16 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async savePartner (partner: Partner) {
-    partner.partnerGroup = Promise.resolve(2);
+    partner.partnerGroup = Promise.resolve(partner.partnerGroupId);
     return TypeOrmManager.EntityManager.save(partner);
+  }
+
+  public async getPartnerGroups () {
+    return this.getDbViewResult('partner_group');
+  }
+
+  public async savePartnerGroup (partnerGroup: PartnerGroup) {
+    return TypeOrmManager.EntityManager.save(partnerGroup);
   }
 
   // Админка
