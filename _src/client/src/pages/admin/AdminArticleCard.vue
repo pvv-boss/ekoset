@@ -41,12 +41,13 @@
           <div class="brc-admin-card-attribute__caption">Дата</div>
           <input type="datetime" v-model="article.articlePublishDate" />
         </div>
+        <h4>Связанные услуги</h4>
         <AdminServiceRelationList
           :serviceRelationItems="serviceRelationList"
-          @activitychecked="activityChecked"
+          @servicechecked="serviceChecked"
         ></AdminServiceRelationList>
       </div>
-      <div class="brc-admin-card__editor">
+      <div class="brc-admin-card__relations brc-admin-card__editor">
         <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
       </div>
     </div>
@@ -91,7 +92,6 @@ export default class AdminArticleCard extends Vue {
 
   private article: Article = new Article()
   private breadCrumbList: any[] = []
-  private serviceList: BusinessService[] = []
   private serviceRelationList: any[] = []
   private layout () {
     return 'admin'
@@ -121,7 +121,7 @@ export default class AdminArticleCard extends Vue {
   @Watch('article.siteSectionId', { immediate: true })
   private async updateServiceList () {
     if (this.article.siteSectionId && this.article.siteSectionId > 0) {
-      this.serviceList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.article.siteSectionId)
+      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation('slug-' + this.article.siteSectionId, this.article.articleUrl)
     }
   }
 
@@ -137,12 +137,22 @@ export default class AdminArticleCard extends Vue {
     this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
   }
 
+  private serviceChecked (serviceUrl: string, hasRelation: boolean) {
+    getServiceContainer().articleService.adminAddRemoveServiceRelation(serviceUrl, this.article.articleUrl, hasRelation)
+  }
+
   private async asyncData (context: NuxtContext) {
-    const articleSlug = context.params.article
-    const article = articleSlug ? await getServiceContainer().articleService.getArticleBySlug(articleSlug) : new Article()
-    //const serviceRelations = getServiceContainer().articleService.adminGetServiceRelation()
+    const articleUrl = context.params.article
+    const article = articleUrl ? await getServiceContainer().articleService.getArticleBySlug(articleUrl) : new Article()
+
+    let serviceRelations = []
+    if (article.siteSectionId > 0) {
+      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation('slug-' + article.siteSectionId, articleUrl)
+    }
+
     return {
-      article
+      article,
+      serviceRelationList: serviceRelations
     }
   }
 }
