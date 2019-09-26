@@ -23,9 +23,9 @@
     <vue-good-table :columns="headerFields" :rows="brandItems">
       <template slot="table-row" slot-scope="props">
         <nuxt-link
-          v-if="props.column.field == 'partnerName'"
-          :to="{ name: 'admin-brand-card', params: { brand: props.row.partnerId}}"
-        >{{props.row.partnerName}}</nuxt-link>
+          v-if="props.column.field == 'clBrandName'"
+          :to="{ name: 'admin-brand-card', params: { brand: props.row.clBrandId}}"
+        >{{props.row.clBrandName}}</nuxt-link>
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
     </vue-good-table>
@@ -57,15 +57,15 @@ export default class AdminBrandList extends Vue {
 
   private headerFields = [
     {
-      field: 'partnerName',
+      field: 'clBrandName',
       label: 'Наименование'
     },
     {
-      field: 'partnerPriority',
+      field: 'clBrandPriority',
       label: 'Приоритет'
     },
     {
-      field: 'partnerStatus',
+      field: 'clBrandStatus',
       label: 'Статус'
     }
   ]
@@ -85,11 +85,11 @@ export default class AdminBrandList extends Vue {
   }
 
   private async updateBrandList () {
-    this.brandItems = await getServiceContainer().publicEkosetService.getPartners()
+    this.brandItems = await getServiceContainer().publicEkosetService.getAdminAllBands()
   }
 
   private async asyncData (context: NuxtContext) {
-    const data = await getServiceContainer().publicEkosetService.getPartners()
+    const data = await getServiceContainer().publicEkosetService.getAdminAllBands()
     return {
       brandItems: data
     }
