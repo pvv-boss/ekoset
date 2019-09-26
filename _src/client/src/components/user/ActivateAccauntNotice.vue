@@ -16,6 +16,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AuthStore from '@/store/AuthStore'
 import { NonAuthMessage } from '@/models/user/NonAuthMessage.ts'
 import { getModule } from 'vuex-module-decorators'
+import { getServiceContainer } from '@/api/ServiceContainer'
 
 @Component
 export default class ActivateAccauntNotice extends Vue {
@@ -30,8 +31,8 @@ export default class ActivateAccauntNotice extends Vue {
     return this.authStore.isAuthenticated
   }
 
-  private sentVerificationMail () {
-    this.authStore.sendConfirmRegEmail()
+  private async sentVerificationMail () {
+    await getServiceContainer().authService.sendConfirmRegEmail()
   }
 }
 </script>

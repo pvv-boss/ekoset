@@ -15,7 +15,7 @@ export default class ArticleService extends BaseService {
 
   private regexp = /<img\ssrc="data:image\/([a-z]*?)\;base64\,(.*?)".*?>/gm;
 
-  private apiListViewName = 'v_api_article_list';
+  private apiListViewName = 'v_api_admin_article_list';
   private apiViewName = 'v_api_article';
   private apiRelatedViewName = 'v_api_related_article';
   private apiBusinessServiceArticlesViewName = 'v_api_business_service_article';
@@ -73,6 +73,19 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult(this.apiBusinessServiceArticlesViewName, pagination, 'business_service_id = $1 AND article_status = 1', [serviceId]);
   }
 
+  // Для админки получиь связи статьи с услугами
+  public async adminGetServiceRelation (siteSectionId: number, articleId: number) {
+    return this.execFunction('f_admin_article_service', [articleId, siteSectionId]);
+  }
+
+  // Для админки установить\разорвать связи статьи с услугами
+  public async adminAddServiceRelation (serviceId: number, articleId: number) {
+    return this.execFunction('f_admin_add_article2service', [serviceId, articleId]);
+  }
+
+  public async adminRemoveServiceRelation (serviceId: number, articleId: number) {
+    return this.execFunction('f_admin_remove_service_from_article', [serviceId, articleId]);
+  }
 
   public async getById (id: number) {
     const updateStmt = 'update article set article_views_number=article_views_number+1 where article_id=$1';
@@ -104,16 +117,6 @@ export default class ArticleService extends BaseService {
       logger.error(err);
       return Promise.reject(err);
     }
-  }
-
-  public async publish (id: number) {
-    const update = 'UPDATE article SET article_status = 1 WHERE article_id=$1';
-    return PgUtls.execNone(update, id);
-  }
-
-  public async unpublish (id: number) {
-    const update = 'UPDATE article SET article_status = 0 WHERE article_id=$1';
-    return PgUtls.execNone(update, id);
   }
 
   public async moveToSiteSection (id: number, siteSectionId: number) {

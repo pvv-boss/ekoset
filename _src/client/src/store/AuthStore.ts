@@ -19,50 +19,50 @@ export default class AuthStore extends VuexModule {
   private changePasswordResultState: ChangePasswordResult = ChangePasswordResult.makeUnknownResult()
 
   @Mutation
-  public setSessionUser(sessionUser: SessionUser) {
+  public setSessionUser (sessionUser: SessionUser) {
     const setVal = sessionUser != null ? sessionUser : SessionUser.anonymousUser
     this.sessionUserState = setVal
   }
 
   @Mutation
-  public setTempSocialUser(sessionUser: SessionUser) {
+  public setTempSocialUser (sessionUser: SessionUser) {
     const setVal = sessionUser != null ? sessionUser : SessionUser.anonymousUser
     this.tempSocialUserState = setVal
   }
 
   @Mutation
-  public setLogonResult(logonResult: LogonResult) {
+  public setLogonResult (logonResult: LogonResult) {
     const setVal = logonResult != null ? logonResult : LogonResult.makeUnknownResult()
     this.logonResultState = setVal
   }
 
   @Mutation
-  public setRegistrationResult(registrationResult: RegistrationResult) {
+  public setRegistrationResult (registrationResult: RegistrationResult) {
     const setVal = registrationResult != null ? registrationResult : RegistrationResult.makeUnknownResult()
     this.registrationResultState = setVal
   }
 
   @Mutation
-  public setChangePasswordResult(result: ChangePasswordResult) {
+  public setChangePasswordResult (result: ChangePasswordResult) {
     const setVal = result != null ? result : ChangePasswordResult.makeUnknownResult()
     this.changePasswordResultState = setVal
   }
 
   @Action
-  public async startLogin({ authType, loginData }) {
+  public async startLogin ({ authType, loginData }) {
     this.context.commit('setLogonResult', LogonResult.makeUnknownResult())
     await getServiceContainer().authService.login(authType, loginData)
   }
 
   @Action
-  public async endLogin(logonResult: LogonResult) {
+  public async endLogin (logonResult: LogonResult) {
     logonResult.endProcess = true
     this.context.commit('setLogonResult', logonResult)
     this.context.dispatch('updateSessionUser')
   }
 
   @Action
-  public async register(registrationData: LoginData) {
+  public async register (registrationData: LoginData) {
     this.context.commit('setRegistrationResult', RegistrationResult.makeUnknownResult())
 
     const registrationResult = await getServiceContainer().authService.register(registrationData)
@@ -75,7 +75,7 @@ export default class AuthStore extends VuexModule {
   }
 
   @Action
-  public async logoff() {
+  public async logoff () {
     await getServiceContainer().authService.logoff()
 
     this.context.commit('setLogonResult', LogonResult.makeUnknownResult())
@@ -84,7 +84,7 @@ export default class AuthStore extends VuexModule {
   }
 
   @Action
-  public async resetPassword(email: string) {
+  public async resetPassword (email: string) {
     this.context.commit('setLogonResult', LogonResult.makeUnknownResult())
     this.context.commit('setRegistrationResult', RegistrationResult.makeUnknownResult())
 
@@ -93,7 +93,7 @@ export default class AuthStore extends VuexModule {
   }
 
   @Action
-  public async changePassword({ oldPassword, newPassword }) {
+  public async changePassword ({ oldPassword, newPassword }) {
     this.context.commit('setChangePasswordResult', ChangePasswordResult.makeUnknownResult())
 
     const result = await getServiceContainer().authService.changePassword(oldPassword, newPassword)
@@ -105,50 +105,45 @@ export default class AuthStore extends VuexModule {
   }
 
   @Action
-  public async sendConfirmRegEmail() {
-    await getServiceContainer().authService.sendConfirmRegEmail()
-  }
-
-  @Action
-  public async updateSessionUser() {
+  public async updateSessionUser () {
     const user = getServiceContainer().authService.getSessionUser()
     this.context.commit('setSessionUser', user)
   }
 
   @Action
-  public async clearTempSocialUserUser() {
+  public async clearTempSocialUserUser () {
     this.context.commit('setTempSocialUser', SessionUser.anonymousUser)
   }
 
-  public get passportStrategyDescriptorList() {
-    return getServiceContainer().authService.appConfig.enabledAuthProviders
+  public get passportStrategyDescriptorList () {
+    return getServiceContainer().authService.getConfig().enabledAuthProviders
   }
 
-  public get isAuthenticated() {
+  public get isAuthenticated () {
     return this.sessionUserState && this.sessionUserState.appUserId > 0
   }
 
-  public get sessionUser() {
+  public get sessionUser () {
     return this.sessionUserState
   }
 
-  public get isUserNotVerified() {
+  public get isUserNotVerified () {
     return getServiceContainer().authService.isUserNotVerified
   }
 
-  public get tempSocialUser() {
+  public get tempSocialUser () {
     return this.tempSocialUserState
   }
 
-  public get logonResult() {
+  public get logonResult () {
     return this.logonResultState
   }
 
-  public get registrationResult() {
+  public get registrationResult () {
     return this.registrationResultState
   }
 
-  public get changePasswordResult() {
+  public get changePasswordResult () {
     return this.changePasswordResultState
   }
 }

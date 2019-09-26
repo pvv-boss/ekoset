@@ -54,6 +54,9 @@ export default class Articles extends Vue {
     const startPagination = new Pagination()
     const articleList = siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
+    // tslint:disable-next-line:no-console
+    console.log(startPagination)
+
     const data = await Promise.all([articleList])
     return {
       apiSharedData,

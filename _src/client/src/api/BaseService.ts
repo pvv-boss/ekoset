@@ -3,13 +3,13 @@ import AppConfig from '@/AppConfig'
 import HttpUtil from '@/utils/HttpUtil'
 
 export default class BaseService {
-  public appConfig: AppConfig = new AppConfig()
+  private static appConfig: AppConfig = new AppConfig()
 
   public async initConfig () {
-    if (!this.appConfig.initialized) {
+    if (!BaseService.appConfig.initialized) {
       const config = await HttpUtil.httpGet(`${AppConfig.endPoint}/app/client/config`)
-      this.appConfig = config
-      this.appConfig.initialized = true
+      BaseService.appConfig = config
+      BaseService.appConfig.initialized = true
     }
   }
 
@@ -19,6 +19,10 @@ export default class BaseService {
     } catch {
       return 0
     }
+  }
+
+  public getConfig () {
+    return BaseService.appConfig
   }
 
   protected buildHttRequest (query: string, pagination?: Pagination): string {
@@ -36,9 +40,8 @@ export default class BaseService {
     // if (!!sort && sort.sortField) {
     //   request = request + `&sortfield=${sort.sortField}&sorttype=${sort.sortType || 'DESC'}`
     // }
-
     if (!!pagination) {
-      pagination.limit = pagination.limit > 0 ? pagination.limit : this.appConfig.defaultRowsLimit
+      pagination.limit = pagination.limit > 0 ? pagination.limit : this.getConfig().defaultRowsLimit
       request = request + `?offset=${this.getPaginationOffset(pagination) || 0}&limit=${pagination.limit}`
     }
 
