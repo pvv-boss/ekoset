@@ -4,7 +4,8 @@ import { getServiceContainer } from './ServiceContainer'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
-import ClActivity from '@/models/ekoset/ClActivity';
+import ClActivity from '@/models/ekoset/ClActivity'
+import Partner from '@/models/ekoset/Partner'
 
 export default class PublicEkosetService extends BaseService {
 
