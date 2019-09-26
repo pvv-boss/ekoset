@@ -8,10 +8,7 @@
  
 Услуга
   2. Картчока
-    2.4 Привязка к направлениЯМ деятельности (автосалон) - Маша API:  BusinessServiceService.addRemoveActivityType2Service
-    2.5 Привязка к типу клиента (бизнес, частные лица) - Маша API: BusinessServiceService.addRemovePrivatePerson2Service  и  BusinessServiceService.addRemoveBusinessType2Service 
-    API получения релейшн-данных BusinessServiceServic.getAdminСlActivitiesForService  и BusinessServiceServic.getAdminclClientsForService
-
+  
 Новости:
  3. Картчока - картинки - 2 шт - Маша
  4. Связь через хэштеги - Сергей => Маша

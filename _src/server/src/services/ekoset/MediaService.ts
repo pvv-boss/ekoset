@@ -14,7 +14,7 @@ export default class MediaService extends BaseService {
 
   public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {
     return await this.saveFileFromRequestBody(file, 'user', 'user');
-    // return сохраняем сами данные формы  
+    // return сохраняем сами данные формы
   }
 
   public getImageFullPathAndFileName (subDir: string, fileprefix: string, fileExt: string) {
@@ -40,15 +40,18 @@ export default class MediaService extends BaseService {
             if (err) {
               reject(err);
             } else {
-              resolve(file.buffer);
+              resolve(pathAndName);
             }
           })
         } else {
-          resolve(file.buffer);
+          resolve(pathAndName);
         }
       }
       )
       return promise;
+    }
+    else {
+      Promise.resolve(false);
     }
   }
 }
