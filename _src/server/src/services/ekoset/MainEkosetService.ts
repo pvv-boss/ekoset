@@ -58,6 +58,9 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async saveSiteSection (siteSection: SiteSection) {
+    siteSection.siteSectionSlug = slugify(siteSection.siteSectionName);
+    siteSection = await TypeOrmManager.EntityManager.save(siteSection);
+
     // Создаем два индивидуальных предложения (для бизнеса и частных лиц)
     const offerForBusiness = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionId(siteSection.siteSectionId);
     if (offerForBusiness.length === 0) {
@@ -77,8 +80,7 @@ export default class MainEkosetService extends BaseService {
       await ServiceContainer.IndividualOfferService.save(privatePersonIndividualOffer);
     }
 
-    siteSection.siteSectionSlug = slugify(siteSection.siteSectionName);
-    return TypeOrmManager.EntityManager.save(siteSection);
+    return siteSection;
   }
 
   public async deleteBrand (id: number) {
