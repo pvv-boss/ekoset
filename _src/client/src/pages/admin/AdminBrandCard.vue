@@ -4,22 +4,29 @@
     <h1>Бренд: {{brandItem.clBrandName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
-        <div class="brc-site-section-card__attributes">
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Наименование</div>
-            <input type="text" v-model="brandItem.clBrandName" />
-          </div>
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Приоритет</div>
-            <input type="number" v-model.number="brandItem.clBrandPriority" />
-          </div>
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Статус</div>
-            <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
-          </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Наименование</div>
+          <input type="text" v-model="brandItem.clBrandName" />
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Приоритет</div>
+          <input type="number" v-model.number="brandItem.clBrandPriority" />
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Статус</div>
+          <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
+        </div>
+        <div class="brc-admin-card__save">
+          <button type="button" @click="saveBrand">Сохранить</button>
+          <button type="button" @click="deleteBrand">Удалить</button>
         </div>
       </div>
-      <div class="brc-admin-card__relations"></div>
+      <div class="brc-admin-card__relations">
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Благодарственные письма</div>
+          <AdminFileUploader :maxFiles="10"></AdminFileUploader>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,11 +42,13 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 
 @Component({
   components: {
     AdminStatusSelector,
-    BreadCrumbs
+    BreadCrumbs,
+    AdminFileUploader
   }})
 
 export default class AdminBrandCard extends Vue {
@@ -66,6 +75,12 @@ export default class AdminBrandCard extends Vue {
 
   }
 
+  private saveBrand () {
+    //
+  }
+  private deleteBrand () {
+    //
+  }
 
   private mounted () {
     this.configBreadCrumbs()

@@ -8,7 +8,7 @@
       :meta="true"
       :accept="'image/*'"
       :maxSize="'10MB'"
-      :maxFiles="1"
+      :maxFiles="maxFiles"
       :helpText="'Выберите изображение'"
       :errorText="{
       type: 'Неверный тип файла. Загружать можно только изображения',
@@ -25,6 +25,9 @@ import vueFileAgent from 'vue-file-agent'
 
 @Component
 export default class AdminFileUploader extends Vue {
+  @Prop({ default: 1 })
+  private maxFiles
+
   private filesData = []
   private uploadUrl = 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3'
   private uploadHeaders = { 'X-Test-Header': 'vue-file-agent' }

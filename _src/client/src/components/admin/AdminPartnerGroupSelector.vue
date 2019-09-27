@@ -1,11 +1,14 @@
 <template>
-  <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
-    <option
-      v-for="partnerGroup in partnerGroupList"
-      :key="partnerGroup.partnerGroupId"
-      :value="partnerGroup.partnerGroupId"
-    >{{partnerGroup.partnerGroupName}}</option>
-  </select>
+  <div class="brc-select-wrapper">
+    <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
+      <option
+        v-for="partnerGroup in partnerGroupList"
+        :key="partnerGroup.partnerGroupId"
+        :value="partnerGroup.partnerGroupId"
+      >{{partnerGroup.partnerGroupName}}</option>
+    </select>
+    <span v-if="nullable" @click="$emit('input', null)">&times;</span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,6 +20,9 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 export default class AdminPartnerGroupSelector extends Vue {
   @Prop()
   private value
+
+  @Prop({ default: false })
+  private nullable
 
   private partnerGroupList: PartnerGroup[] = []
 
