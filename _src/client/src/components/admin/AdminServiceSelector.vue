@@ -1,11 +1,14 @@
 <template>
-  <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
-    <option
-      v-for="item in itemList"
-      :key="item.businessServiceId"
-      :value="item.businessServiceId"
-    >{{item.businessServiceName}}</option>
-  </select>
+  <div class="brc-select-wrapper">
+    <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
+      <option
+        v-for="item in itemList"
+        :key="item.businessServiceId"
+        :value="item.businessServiceId"
+      >{{item.businessServiceName}}</option>
+    </select>
+    <span v-if="nullable" @click="$emit('input', null)">&times;</span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,6 +22,9 @@ export default class AdminServiceSelector extends Vue {
   private value
   @Prop()
   private siteSectionId
+
+  @Prop({ default: false })
+  private nullable
 
   private itemList: BusinessService[] = []
 
@@ -34,5 +40,3 @@ export default class AdminServiceSelector extends Vue {
   }
 }
 </script>
-
-

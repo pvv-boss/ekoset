@@ -1,11 +1,14 @@
 <template>
-  <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
-    <option
-      v-for="siteSection in siteSectionList"
-      :key="siteSection.siteSectionId"
-      :value="siteSection.siteSectionId"
-    >{{siteSection.siteSectionName}}</option>
-  </select>
+  <div class="brc-select-wrapper">
+    <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
+      <option
+        v-for="siteSection in siteSectionList"
+        :key="siteSection.siteSectionId"
+        :value="siteSection.siteSectionId"
+      >{{siteSection.siteSectionName}}</option>
+    </select>
+    <span v-if="nullable" @click="$emit('input', null)">&times;</span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,6 +21,9 @@ export default class AdminSiteSectionSelector extends Vue {
   @Prop()
   private value
 
+  @Prop({ default: false })
+  private nullable
+
   private siteSectionList: SiteSection[] = []
 
   private async mounted () {
@@ -26,4 +32,17 @@ export default class AdminSiteSectionSelector extends Vue {
 }
 </script>
 
-
+<style lang="scss">
+.brc-select-wrapper {
+  display: inline-flex;
+  width: 100%;
+  select {
+    flex-grow: 1;
+  }
+  span {
+    flex-grow: 0;
+    padding: 0 5px;
+    cursor: pointer;
+  }
+}
+</style>
