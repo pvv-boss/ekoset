@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-price-table__wrapper" v-if="servicePriceList.length>0">
+  <div class="brc-service-price-table__wrapper">
     <table class="brc-service-price-table" cellspacing="0">
       <thead>
         <th>Услуга</th>
@@ -67,7 +67,7 @@ export default class ServicePriceTable extends Vue {
     if (this.serviceTopList.length > 0) {
       this.serviceTopList.forEach((item) => {
         list.push(item)
-        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId === item.businessServiceId).sort((obj1, obj2) => {
+        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId == item.businessServiceId).sort((obj1, obj2) => {
           return obj1.businessServicePriority - obj2.businessServicePriority;
         }))
       });

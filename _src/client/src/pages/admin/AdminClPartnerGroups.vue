@@ -24,7 +24,11 @@
             @click="editItem(props.row.originalIndex)"
             v-if="!editModeList[props.row.originalIndex]"
           >Редактировать</button>
-          <button type="button" v-if="editModeList[props.row.originalIndex]">Сохранить</button>
+          <button
+            type="button"
+            v-if="editModeList[props.row.originalIndex]"
+            @click="saveChanges(props.row.originalIndex)"
+          >Сохранить</button>
           <button
             type="button"
             @click="cancelSaveChanges(props.row.originalIndex)"
