@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
@@ -138,8 +138,9 @@ export default class AdminIndividualOfferCard extends Vue {
   }
 
   private configBreadCrumbs () {
-    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+
     const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
+    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
 
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
