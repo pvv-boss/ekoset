@@ -1,5 +1,6 @@
 <template>
   <div class="brc-feedback">
+    <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
     <h3>{{title}}</h3>
     <form class="brc-message-form">
       <div class="brc-message-form__data">
@@ -107,6 +108,9 @@ export default class MessageForm extends Vue {
   @Prop()
   private title
 
+  @Prop({ default: false })
+  private showCloseBtn
+
   private isBrowser = false
   private isSubmit = false
 
@@ -134,6 +138,7 @@ export default class MessageForm extends Vue {
     alert('Отправили сообщение')
   }
   // }
+
 }
 </script>
 

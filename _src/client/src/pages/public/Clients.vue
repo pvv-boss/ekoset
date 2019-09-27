@@ -88,7 +88,7 @@ export default class Clients extends Vue {
   justify-content: space-between;
   flex-wrap: wrap;
   > div {
-    min-width: 450px;
+    min-width: 300px;
     margin-top: 15px;
     > ul {
       margin-left: 30px;

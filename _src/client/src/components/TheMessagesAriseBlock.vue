@@ -1,12 +1,10 @@
 <template>
   <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
-      <div class="brc-message-arise__close" @click="closeForm">&times;</div>
-      <MessageForm title="Заказать услугу"></MessageForm>
+      <MessageForm title="Заказать услугу" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
-      <div class="brc-message-arise__close" @click="closeForm">&times;</div>
-      <MessageForm title="Задать вопрос эксперту"></MessageForm>
+      <MessageForm title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
   </div>
 </template>
@@ -75,7 +73,11 @@ export default class TheMessagesAriseBlock extends Vue {
   }
 
   .brc-message-arise__close {
-    display: none;
+    float: right;
+    margin-top: -30px;
+    font-size: 36px;
+    color: gray;
+    cursor: pointer;
   }
 }
 
@@ -101,9 +103,7 @@ export default class TheMessagesAriseBlock extends Vue {
     .brc-message-arise__close {
       position: absolute;
       right: 30px;
-      top: 20px;
-      font-size: 24px;
-      display: block;
+      top: 15px;
     }
   }
 }
