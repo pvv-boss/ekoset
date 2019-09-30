@@ -38,24 +38,18 @@ export default class ArticleService extends BaseService {
   }
 
   // Добавить/Убрать тэг
-  public async adminAddArticleTag (artcicleSlug: string, tag: ClArticleTag) {
-    const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}}/tags`
-    return HttpUtil.httpPost(this.buildHttRequest(query), tag)
-  }
-
-  public async adminRemoveArticleTag (artcicleSlug: string, tagId: number) {
+  public async adminAddRemoveArticleTag (artcicleSlug: string, tagId: number, isAdd: boolean) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}/tags/${tagId}`
-    return HttpUtil.httpDelete(this.buildHttRequest(query))
+    if (isAdd) {
+      return HttpUtil.httpPost(this.buildHttRequest(query))
+    } else {
+      return HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
   }
 
-  // Все тэги
-  public async getAllArticleTags () {
-    return HttpUtil.httpGet(this.buildHttRequest('admin/panel/news/tags'))
-  }
-
-  // Тэги для Новости
-  public async getArticleTags (artcicleSlug: string, tagId: number) {
-    const query = `news/${this.getIdBySlug(artcicleSlug)}/tags`
+  // Связка тэгов для Новости
+  public async getArticleTagsRelation (artcicleSlug: string) {
+    const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}/tags`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

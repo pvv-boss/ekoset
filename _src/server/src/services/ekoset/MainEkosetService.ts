@@ -55,7 +55,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async adminGetBrandById (brandId: number) {
-    return this.getOneById(this.apiPartnersViewName, 'cl_brand_id=$1', brandId)
+    return this.getOneById(this.apiBrandsViewName, 'cl_brand_id=$1', brandId)
   }
 
   public async getAdminForSiteSectionBrands (siteSectionId: number) {

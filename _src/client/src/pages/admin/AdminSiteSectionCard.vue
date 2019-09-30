@@ -24,11 +24,26 @@
 
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-            <AdminFileUploader v-model="siteSectionItem.siteSectionImgSmall"></AdminFileUploader>
+            <input
+              type="file"
+              name="smallImageFile"
+              id="smallImageFile"
+              ref="smallImageFile"
+              v-on:change="handleImageLoad(false)"
+            />
+            <button type="button" @click="saveSiteSectionImage(false)">Отправить</button>
           </div>
+
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-            <AdminFileUploader v-model="siteSectionItem.siteSectionImgBig"></AdminFileUploader>
+            <input
+              type="file"
+              name="bigImageFile"
+              id="bigImageFile"
+              ref="bigImageFile"
+              v-on:change="handleImageLoad(true)"
+            />
+            <button type="button" @click="saveSiteSectionImage(true)">Отправить</button>
           </div>
           <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
           <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
@@ -104,6 +119,14 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
   }})
 
 export default class AdminSiteSectionCard extends Vue {
+  public $refs!: {
+    bigImageFile: HTMLFormElement,
+    smallImageFile: HTMLFormElement
+  }
+
+  public bigImageFile = ''
+  public smallImageFile = ''
+
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceOtherList: BusinessService[] = []
   private offerList: IndividualOffer[] = []
@@ -131,6 +154,21 @@ export default class AdminSiteSectionCard extends Vue {
     }
 
 
+  }
+
+  // FIXME: Сергей. Временно
+  private handleImageLoad (isBig: boolean) {
+    if (isBig) {
+      this.bigImageFile = this.$refs.bigImageFile.files[0];
+    } else {
+      this.smallImageFile = this.$refs.smallImageFile.files[0];
+    }
+  }
+
+  private async saveSiteSectionImage (isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', isBig ? this.bigImageFile : this.smallImageFile)
+    getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
   }
 
   private saveSiteSection () {

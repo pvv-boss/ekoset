@@ -50,12 +50,12 @@ export default class ArticleController extends BaseController {
     return ArticleController.createSuccessResponse(result, response);
   }
 
-  @Get('/news/:artcicleId(\\d+)/tags')
-  public async getArticleTags (
+  @Get('/admin/panel/news/:artcicleId(\\d+)/tags')
+  public async getArticleTagsRelation (
     @Res() response: Response,
     @Param('artcicleId') artcicleId: number) {
 
-    const result = await ServiceContainer.ArticleService.getArticleTags(artcicleId);
+    const result = await ServiceContainer.ArticleService.getArticleTagsRelation(artcicleId);
     return ArticleController.createSuccessResponse(result, response);
   }
 
@@ -63,18 +63,18 @@ export default class ArticleController extends BaseController {
   @Get('/admin/panel/news/tags')
   public async getAllArticleTags (
     @Res() response: Response) {
-
     const result = await ServiceContainer.ArticleService.getAllArticleTags();
     return ArticleController.createSuccessResponse(result, response);
   }
 
-  @Post('/admin/panel/news/:artcicleId/tags')
+  @Post('/admin/panel/news/:artcicleId/tags/:tagId')
   public async adminAddArticleTag (
     @Body() clArticleTag: ClArticleTag,
+    @Param('tagId') tagId: number,
     @Param('artcicleId') artcicleId: number,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.ArticleService.adminAddArticleTag(artcicleId, clArticleTag);
+    const result = await ServiceContainer.ArticleService.adminAddArticleTag(artcicleId, tagId);
     return ArticleController.createSuccessResponse(result, response);
   }
 

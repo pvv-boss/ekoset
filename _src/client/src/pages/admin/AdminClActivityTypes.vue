@@ -80,20 +80,20 @@ export default class AdminClActivityTypes extends Vue {
 
   private headerFields = [
     {
-      field: "clActivityName",
-      label: "Наименование"
+      field: 'clActivityName',
+      label: 'Наименование'
     },
     {
-      field: "clActivityPriority",
-      label: "Приоритет"
+      field: 'clActivityPriority',
+      label: 'Приоритет'
     },
     {
-      field: "clActivityStatus",
-      label: "Статус"
+      field: 'clActivityStatus',
+      label: 'Статус'
     },
     {
-      field: "actions",
-      label: ""
+      field: 'actions',
+      label: ''
     }
   ]
 
@@ -125,7 +125,7 @@ export default class AdminClActivityTypes extends Vue {
     const itemList = await getServiceContainer().publicEkosetService.getClActivityList()
 
     return {
-      itemList: itemList,
+      itemList,
       editModeList: Array.from(itemList, x => false)
     }
   }

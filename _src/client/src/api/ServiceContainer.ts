@@ -5,6 +5,7 @@ import PublicEkosetService from './PublicEkosetService';
 import BusinessServiceService from './BusinessServiceService';
 import IndividualOfferService from './IndividualOfferService';
 import SeoMetaService from './SeoMetaService';
+import MediaService from './MediaService';
 
 
 export class ServiceContainer {
@@ -14,6 +15,7 @@ export class ServiceContainer {
   public businessServiceService: BusinessServiceService
   public individualOfferService: IndividualOfferService
   public seoMetaService: SeoMetaService
+  public mediaService: MediaService
 
   public initialized = false
 
@@ -23,8 +25,8 @@ export class ServiceContainer {
     this.businessServiceService = new BusinessServiceService()
     this.individualOfferService = new IndividualOfferService()
     this.seoMetaService = new SeoMetaService()
-
     this.articleService = new ArticleService()
+    this.mediaService = new MediaService()
 
     await this.authService.initConfig()
     this.initialized = true

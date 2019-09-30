@@ -7,10 +7,24 @@ import FormMessageData from '@/entities/FormMessageData';
 
 export default class MediaService extends BaseService {
 
-  public async saveSiteSectionSmallImage (siteSectionId: number, file: Express.Multer.File) {
-    return await this.saveFileFromRequestBody(file, 'user', 'user');
+  public async saveSiteSectionImage (siteSectionId: number, file: Express.Multer.File, bigOrSmall: string) {
+    if (bigOrSmall === 'big') {
+      return this.saveSiteSectionBigImage(siteSectionId, file);
+    }
+    if (bigOrSmall === 'small') {
+      return this.saveSiteSectionSmallImage(siteSectionId, file);
+    }
   }
 
+  public async saveSiteSectionSmallImage (siteSectionId: number, file: Express.Multer.File) {
+    const updateStmt = `UPDATE site_section SET site_section_img_small = $1 where site_section_id = ${siteSectionId}`;
+    return this.updateSmallOrBigImageFor(file, 'sitesection', 'small_' + siteSectionId, updateStmt);
+  }
+
+  public async saveSiteSectionBigImage (siteSectionId: number, file: Express.Multer.File) {
+    const updateStmt = `UPDATE site_section SET site_section_img_big = $1 where site_section_id = ${siteSectionId}`;
+    return this.updateSmallOrBigImageFor(file, 'sitesection', 'big_' + siteSectionId, updateStmt);
+  }
 
   public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {
     return await this.saveFileFromRequestBody(file, 'user', 'user');
@@ -51,6 +65,13 @@ export default class MediaService extends BaseService {
       return promise;
     } else {
       Promise.resolve(false);
+    }
+  }
+
+  private async updateSmallOrBigImageFor (file: Express.Multer.File, imageStaticSubFolderName: string, filePrefix: string, updateStmt: string) {
+    const pathAndName = await this.saveFileFromRequestBody(file, imageStaticSubFolderName, filePrefix);
+    if (pathAndName) {
+      return this.execNone(updateStmt, [`/img/${imageStaticSubFolderName}/${pathAndName[1]}`]);
     }
   }
 }

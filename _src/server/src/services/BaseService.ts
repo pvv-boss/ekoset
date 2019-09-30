@@ -29,6 +29,10 @@ export default class BaseService {
     return PgUtls.execFunction(funcNameWithArgs, params);
   }
 
+  public async execNone (sql: string, params?: any[]) {
+    return PgUtls.execNone(sql, params);
+  }
+
   public getOneEntityInstanceFromJson<T> (dbResult: {}, classType: new () => T): T {
     if (dbResult) {
       return ClassTransform.plainToClassInstanceOne<T>(dbResult, classType);

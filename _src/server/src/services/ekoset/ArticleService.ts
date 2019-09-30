@@ -28,17 +28,11 @@ export default class ArticleService extends BaseService {
   }
 
   // Добавить/Убрать тэг
-  public async adminAddArticleTag (articleId: number, tag: ClArticleTag) {
-    let tryFind = await PgUtls.getOneFromDatabse('cl_article_tag', 'cl_article_name = $1', [tag.clArticleName]);
-    if (!tryFind) {
-      tryFind = new ClArticleTag();
-      tryFind.clArticleName = tag.clArticleName;
-      tryFind = await TypeOrmManager.EntityManager.save(tryFind);
-    }
+  public async adminAddArticleTag (articleId: number, tagId: number) {
 
-    const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tryFind.clArticleId]);
+    const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tagId]);
     if (!tryAddedTag) {
-      const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tryFind.clArticleId})`;
+      const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tagId})`;
       PgUtls.execNone(insertStmt);
     }
 
@@ -54,9 +48,9 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult('cl_article_tag');
   }
 
-  // Тэги для статьи
-  public async getArticleTags (articleId: number) {
-    return this.getDbViewResult('v_api_article_tag', null, 'article_id=$1', [articleId]);
+  // Тэги для статьи связи
+  public async getArticleTagsRelation (articleId: number) {
+    return this.execFunction('f_admin_article_tags_relation'[articleId]);
   }
 
   // Для стратовой страницы (нет связит с разделом)
@@ -90,7 +84,7 @@ export default class ArticleService extends BaseService {
 
   public async getById (id: number) {
     const updateStmt = 'update article set article_views_number=article_views_number+1 where article_id=$1';
-    await PgUtls.execNone(updateStmt, id)
+    await PgUtls.execNone(updateStmt, [id])
     return this.getOneById(this.apiViewName, 'article_id = $1', id);
   }
 
@@ -113,6 +107,11 @@ export default class ArticleService extends BaseService {
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
       article.articleSlug = slugify(article.articleTitle);
       article.siteSection = Promise.resolve(article.siteSectionId);
+
+      if (article.siteSectionId === null) {
+        this.deleteById('business_service_article', 'article_id = $1', article.articleId);
+      }
+
       return TypeOrmManager.EntityManager.save(article);
     } catch (err) {
       logger.error(err);
@@ -120,13 +119,8 @@ export default class ArticleService extends BaseService {
     }
   }
 
-  public async moveToSiteSection (id: number, siteSectionId: number) {
-    const update = 'UPDATE article SET site_section_id = $1 WHERE article_id=$2';
-    return PgUtls.execNone(update, siteSectionId, id);
-  }
-
   public async delete (id: number) {
-    return this.deleteById(this.apiViewName, 'article_id = $1', id);
+    return this.deleteById('article', 'article_id = $1', id);
   }
 
   private async createImageFromBase64AndReplaceSrc (articleBody: string) {
