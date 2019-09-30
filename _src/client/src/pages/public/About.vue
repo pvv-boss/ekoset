@@ -3,12 +3,7 @@
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">О компании</h1>
     <figure>
-      <img
-        alt="Экосеть"
-        itemprop="image"
-        src="/images/start-page-banner.jpg"
-        class="brc-main-image"
-      />
+      <img alt="Экосеть" itemprop="image" src="/images/start-page-banner.jpg" class="brc-page-img" />
       <figcaption>Экосеть</figcaption>
     </figure>
     <TopDynamicBlock></TopDynamicBlock>
