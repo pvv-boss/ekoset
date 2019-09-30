@@ -4,7 +4,7 @@
     <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
     <figure>
       <img
-        class="brc-page-img"
+        class="brc-page-image"
         :src="businessService.businessServiceImgBig"
         :alt="businessService.businessServiceName"
         itemprop="image"

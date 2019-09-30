@@ -2,7 +2,12 @@
   <section>
     <!-- <h1 itemprop="headline name">Экосеть: главная страница</h1> -->
     <figure>
-      <img alt="Экосеть" itemprop="image" src="/images/start-page-banner.jpg" class="brc-page-img" />
+      <img
+        alt="Экосеть"
+        itemprop="image"
+        src="/images/start-page-banner.jpg"
+        class="brc-page-image"
+      />
       <figcaption>Экосеть</figcaption>
     </figure>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
@@ -56,7 +61,7 @@ export default class Main extends Vue {
   max-width: 100%;
   width: 100%;
   min-height: 160px;
-  border-radius: 9px;
+  border-radius: 9px !important;
 }
 .brc-page-img {
   min-height: 160px;

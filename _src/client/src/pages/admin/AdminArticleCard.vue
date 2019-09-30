@@ -49,7 +49,7 @@
           ></AdminServiceRelationList>
 
           <h4>Теги</h4>
-          <AdminTagRelationList :tagRelationItems="tagRelationList" @tagchecked="tagChecked"></AdminTagRelationList>
+          <AdminTagRelationList :articleUrl="article.articleUrl" @tagchecked="tagChecked"></AdminTagRelationList>
         </div>
       </div>
       <div class="brc-admin-card__relations brc-admin-card__editor">
@@ -151,8 +151,7 @@ export default class AdminArticleCard extends Vue {
   }
 
   private tagChecked (tagId: number, hasRelation: boolean) {
-    //TODO: связываем тег с новостью
-    //getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
+    getServiceContainer().articleService.adminAddRemoveArticleTag(this.article.articleUrl, tagId, hasRelation)
   }
 
   private async asyncData (context: NuxtContext) {
@@ -166,7 +165,7 @@ export default class AdminArticleCard extends Vue {
 
     return {
       article,
-      serviceRelationList: serviceRelations
+      serviceRelationList: serviceRelations,
     }
   }
 }

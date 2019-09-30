@@ -5,7 +5,7 @@
     <h1 itemprop="headline name">{{offerHeaderText}}</h1>
     <figure>
       <img
-        class="brc-page-img"
+        class="brc-page-image"
         :src="individualOffer.indOfferImgBig"
         :alt="individualOffer.indOfferName"
         itemprop="image"
