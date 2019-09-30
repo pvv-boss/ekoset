@@ -28,17 +28,11 @@ export default class ArticleService extends BaseService {
   }
 
   // Добавить/Убрать тэг
-  public async adminAddArticleTag (articleId: number, tag: ClArticleTag) {
-    let tryFind = await PgUtls.getOneFromDatabse('cl_article_tag', 'cl_article_name = $1', [tag.clArticleName]);
-    if (!tryFind) {
-      tryFind = new ClArticleTag();
-      tryFind.clArticleName = tag.clArticleName;
-      tryFind = await TypeOrmManager.EntityManager.save(tryFind);
-    }
+  public async adminAddArticleTag (articleId: number, tagId: number) {
 
-    const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tryFind.clArticleId]);
+    const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tagId]);
     if (!tryAddedTag) {
-      const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tryFind.clArticleId})`;
+      const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tagId})`;
       PgUtls.execNone(insertStmt);
     }
 
@@ -54,9 +48,9 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult('cl_article_tag');
   }
 
-  // Тэги для статьи
-  public async getArticleTags (articleId: number) {
-    return this.getDbViewResult('v_api_article_tag', null, 'article_id=$1', [articleId]);
+  // Тэги для статьи связи
+  public async getArticleTagsRelation (articleId: number) {
+    return this.execFunction('f_admin_article_tags_relation'[articleId]);
   }
 
   // Для стратовой страницы (нет связит с разделом)
