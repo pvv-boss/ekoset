@@ -81,14 +81,14 @@ export default class AdminClientList extends Vue {
     }
   }
 
-  private async saveNewService () {
+  private async saveNewClient () {
     await getServiceContainer().publicEkosetService.savePartner(this.newClient)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newClient = new Partner()
     this.createNewClientMode = false
   }
 
-  private cancelSaveNewService () {
+  private cancelSaveNewClient () {
     this.newClient = new Partner()
     this.createNewClientMode = false
   }

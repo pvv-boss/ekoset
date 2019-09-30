@@ -61,13 +61,7 @@ export default class AdminBrandCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
 
-    const brandItem = new ClBrand()//await getServiceContainer().publicEkosetService.getBrand(context.params.brand)
-
-    // const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(siteSectionItem.siteSectionId)
-    // const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
-    // const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
-
-    // const data = await Promise.all([serviceOtherList, brandRelationList, offerList])
+    const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))
     return {
       brandItem
     }
@@ -76,10 +70,18 @@ export default class AdminBrandCard extends Vue {
   }
 
   private saveBrand () {
-    //
+    getServiceContainer().publicEkosetService.saveBrand(this.brandItem)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
   private deleteBrand () {
-    //
+    const self = this
+    const okCallback = async () => {
+      //TODO: удаление партнера
+      await getServiceContainer().publicEkosetService.deleteBrand(this.brandItem.clBrandId)
+      self.$router.push({ name: 'admin-brands' })
+      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
 
   private mounted () {
