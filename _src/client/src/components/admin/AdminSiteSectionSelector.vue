@@ -1,13 +1,17 @@
 <template>
   <div class="brc-select-wrapper">
-    <select class="form-control" v-model="value" @change="$emit('input', $event.target.value)">
+    <select
+      class="form-control"
+      v-model="selectedSiteSectionId"
+      @change="$emit('input', selectedId)"
+    >
       <option
         v-for="siteSection in siteSectionList"
         :key="siteSection.siteSectionId"
         :value="siteSection.siteSectionId"
       >{{siteSection.siteSectionName}}</option>
     </select>
-    <span v-if="nullable" @click="$emit('input', null)">&times;</span>
+    <span v-if="nullable" @click="setSiteSectionNull">&times;</span>
   </div>
 </template>
 
@@ -21,13 +25,29 @@ export default class AdminSiteSectionSelector extends Vue {
   @Prop()
   private value
 
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   private nullable
+
+  private selectedId = null
+
+  private get selectedSiteSectionId () {
+    return this.selectedId
+  }
+
+  private set selectedSiteSectionId (id) {
+    this.selectedId = id
+  }
 
   private siteSectionList: SiteSection[] = []
 
   private async mounted () {
     this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
+    this.selectedId = this.value
+  }
+
+  private setSiteSectionNull () {
+    this.selectedSiteSectionId = null
+    this.$emit('input', null)
   }
 }
 </script>

@@ -69,12 +69,20 @@ export default class ArticleController extends BaseController {
 
   @Post('/admin/panel/news/:artcicleId/tags/:tagId')
   public async adminAddArticleTag (
-    @Body() clArticleTag: ClArticleTag,
     @Param('tagId') tagId: number,
     @Param('artcicleId') artcicleId: number,
     @Res() response: Response) {
 
     const result = await ServiceContainer.ArticleService.adminAddArticleTag(artcicleId, tagId);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+  @Post('/admin/panel/news/tags')
+  public async saveArticleTag (
+    @Body() clArticleTag: ClArticleTag,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.ArticleService.saveArticleTag(clArticleTag);
     return ArticleController.createSuccessResponse(result, response);
   }
 

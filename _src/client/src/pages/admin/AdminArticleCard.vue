@@ -9,7 +9,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector v-model="article.siteSectionId" nullable="true"></AdminSiteSectionSelector>
+          <AdminSiteSectionSelector v-model="article.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Краткое описание</div>

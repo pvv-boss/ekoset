@@ -53,6 +53,12 @@ export default class ArticleService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  // Сохрнаить тэг
+  public async saveArticleTag (tag: ClArticleTag) {
+    const query = `admin/panel/news/tags`
+    return HttpUtil.httpPost(this.buildHttRequest(query), tag)
+  }
+
   // Для главной страницы
   public async  getRootArticleList (pagination?: Pagination) {
     const query = 'news'

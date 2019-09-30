@@ -48,6 +48,11 @@ export default class ArticleService extends BaseService {
     return this.getDbViewResult('cl_article_tag');
   }
 
+  // Все Тэги
+  public async saveArticleTag (tag: ClArticleTag) {
+    return TypeOrmManager.EntityManager.save(tag);
+  }
+
   // Тэги для статьи связи
   public async getArticleTagsRelation (articleId: number) {
     return this.execFunction('f_admin_article_tags_relation', [articleId]);
