@@ -42,11 +42,11 @@
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-          <AdminFileUploader v-model="serviceItem.businessServiceImgSmall"></AdminFileUploader>
+          <AdminImageUploader id="bigServImageFile" @upload="saveServiceImage($event,false)"></AdminImageUploader>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-          <AdminFileUploader v-model="serviceItem.businessServiceImgBig"></AdminFileUploader>
+          <AdminImageUploader id="smallServImageFile" @upload="saveServiceImage($event,true)"></AdminImageUploader>
         </div>
         <div class="brc-admin-card__editor">
           <div class="brc-service-attribute__caption">Текстовый блок 1</div>
@@ -129,6 +129,8 @@ import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
+
 
 
 @Component({
@@ -142,7 +144,8 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
     AdminServiceSelector,
     AdminStatusSelector,
     AdminActivityRelationList,
-    AdminClientTypeRelationList
+    AdminClientTypeRelationList,
+    AdminImageUploader
   }
 })
 export default class AdminServiceCard extends Vue {
@@ -198,12 +201,18 @@ export default class AdminServiceCard extends Vue {
   private clientTypeChecked (clClientId: number, hasRelation: boolean) {
     if (clClientId === 1) {
       getServiceContainer().businessServiceService.addRemoveBusinessType2Service(this.serviceItem.businessServiceUrl, hasRelation)
-    }
-    else {
+    } else {
       getServiceContainer().businessServiceService.addRemovePrivatePerson2Service(this.serviceItem.businessServiceUrl, hasRelation)
     }
 
   }
+
+  private async saveServiceImage (imageFile: string, isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, formData, isBig)
+  }
+
 
   private activityChecked (clActivityId: number, hasRelation: boolean) {
     getServiceContainer().businessServiceService.addRemoveActivityType2Service(this.serviceItem.businessServiceUrl, clActivityId, hasRelation)
