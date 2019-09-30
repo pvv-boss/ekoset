@@ -35,6 +35,14 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/clients/:partnerId')
+  public async getPartnerById (
+    @Res() response: Response,
+    @Param('partnerId') partnerId: number) {
+    const result = await ServiceContainer.MainEkosetService.getPartnerById(partnerId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
   @Put('/clients')
   public async savePartner (
     @Body() partner: Partner,
@@ -72,6 +80,16 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response
   ) {
     const result = await ServiceContainer.MainEkosetService.getAdminAllBands();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/admin/panel/brands/:brandId')
+  public async adminGetBrandById (
+    @Param('brandId') brandId: number,
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.MainEkosetService.adminGetBrandById(brandId);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 

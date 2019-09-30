@@ -31,6 +31,11 @@ export default class MainEkosetService extends BaseService {
     return this.getDbViewResult(this.apiPartnersViewName);
   }
 
+  public async getPartnerById (partnerId: number) {
+    return this.getOneById(this.apiPartnersViewName, 'partner_id=$1', partnerId)
+  }
+
+
   public async savePartner (partner: Partner) {
     partner.partnerGroup = Promise.resolve(partner.partnerGroupId);
     return TypeOrmManager.EntityManager.save(partner);
@@ -48,6 +53,11 @@ export default class MainEkosetService extends BaseService {
   public async getAdminAllBands () {
     return this.getDbViewResult(this.apiBrandsViewName);
   }
+
+  public async adminGetBrandById (brandId: number) {
+    return this.getOneById(this.apiPartnersViewName, 'cl_brand_id=$1', brandId)
+  }
+
   public async getAdminForSiteSectionBrands (siteSectionId: number) {
     return this.execFunction('f_admin_brands_sitesection', [siteSectionId]);
   }

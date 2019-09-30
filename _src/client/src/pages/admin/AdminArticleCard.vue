@@ -138,9 +138,6 @@ export default class AdminArticleCard extends Vue {
   }
 
   private serviceChecked (businessServiceId: number, hasRelation: boolean) {
-    // tslint:disable-next-line:no-console
-    console.log(businessServiceId)
-
     getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
   }
 

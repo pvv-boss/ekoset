@@ -61,8 +61,15 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  // Клиенты
   public async getPartners () {
     const query = `clients`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  // Клиент
+  public async getPartnerById (id: number) {
+    const query = `clients/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
@@ -88,6 +95,11 @@ export default class PublicEkosetService extends BaseService {
 
   public async getAdminAllBands () {
     const query = `admin/panel/brands`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getBrandById (id: number) {
+    const query = `admin/panel/brands/${id}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

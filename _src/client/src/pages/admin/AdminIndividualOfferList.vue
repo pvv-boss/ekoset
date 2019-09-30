@@ -86,11 +86,11 @@ export default class AdminIndividualOfferList extends Vue {
       label: 'Наименование'
     },
     {
-      field: 'clClientId',
+      field: 'clClientName',
       label: 'Тип клиента'
     },
     {
-      field: 'clActivityId',
+      field: 'clActivityName',
       label: 'Вид деятельности'
     },
     {

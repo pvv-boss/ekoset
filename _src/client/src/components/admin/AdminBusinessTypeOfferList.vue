@@ -24,8 +24,8 @@ export default class AdminBusinessTypeOfferList extends Vue {
 
   private headerFields = [
     {
-      field: "indOfferName",
-      label: "Наименование"
+      field: 'indOfferName',
+      label: 'Наименование'
     }
   ]
 
