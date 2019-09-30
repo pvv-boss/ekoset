@@ -90,7 +90,7 @@ export default class ArticleService extends BaseService {
 
   public async getById (id: number) {
     const updateStmt = 'update article set article_views_number=article_views_number+1 where article_id=$1';
-    await PgUtls.execNone(updateStmt, id)
+    await PgUtls.execNone(updateStmt, [id])
     return this.getOneById(this.apiViewName, 'article_id = $1', id);
   }
 
@@ -113,6 +113,11 @@ export default class ArticleService extends BaseService {
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
       article.articleSlug = slugify(article.articleTitle);
       article.siteSection = Promise.resolve(article.siteSectionId);
+
+      if (article.siteSectionId === null) {
+        this.deleteById('business_service_article', 'article_id = $1', article.articleId);
+      }
+
       return TypeOrmManager.EntityManager.save(article);
     } catch (err) {
       logger.error(err);
@@ -120,13 +125,8 @@ export default class ArticleService extends BaseService {
     }
   }
 
-  public async moveToSiteSection (id: number, siteSectionId: number) {
-    const update = 'UPDATE article SET site_section_id = $1 WHERE article_id=$2';
-    return PgUtls.execNone(update, siteSectionId, id);
-  }
-
   public async delete (id: number) {
-    return this.deleteById(this.apiViewName, 'article_id = $1', id);
+    return this.deleteById('article', 'article_id = $1', id);
   }
 
   private async createImageFromBase64AndReplaceSrc (articleBody: string) {

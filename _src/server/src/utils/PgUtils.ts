@@ -73,7 +73,7 @@ class PgUtls {
   }
 
 
-  public async execNone (statement: string, ...params) {
+  public async execNone (statement: string, params?: any[]) {
     return this.postgrePromise.none(statement, params);
   }
 

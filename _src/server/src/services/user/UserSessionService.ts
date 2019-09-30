@@ -48,12 +48,12 @@ export default class UserSessionService extends BaseService {
 
   public async lockSession (token: string) {
     const update = 'UPDATE app_user_session SET user_session_block_ind = 1 WHERE user_session_token=$1';
-    return PgUtls.execNone(update, token);
+    return PgUtls.execNone(update, [token]);
   }
 
   public async lockAllUserSession (appUserId: number) {
     const update = 'UPDATE app_user_session SET user_session_block_ind = 1 WHERE app_user_id=$1';
-    return PgUtls.execNone(update, appUserId);
+    return PgUtls.execNone(update, [appUserId]);
   }
 
   public isExpired (session: AppUserSession) {

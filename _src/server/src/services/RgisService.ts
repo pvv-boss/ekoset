@@ -47,7 +47,7 @@ export default class RgisService {
 
   private async addToMeta (layerName: string, layerDescription: string) {
     const insertStmt = `INSERT INTO brc_geodata.layer_meta (layer_meta_layer_name,layer_meta_layer_description) values ($1,$2)`;
-    await PgUtls.execNone(insertStmt, layerName, layerDescription);
+    await PgUtls.execNone(insertStmt, [layerName, layerDescription]);
   }
 
   private async insertArticleZPM (zonaProtectModeGeoJsonString: string) {
