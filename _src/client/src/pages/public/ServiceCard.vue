@@ -21,9 +21,9 @@
       <ServiceList :serviceList="childServiceList"></ServiceList>
     </div>
 
-    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
+    <div class="brc-section__wrapper">
       <h2>Стоимость услуг</h2>
-      <ServicePriceTable :servicePriceList="childServiceList"></ServicePriceTable>
+      <ServicePriceTable :servicePriceList="getPriceServiceList"></ServicePriceTable>
     </div>
 
     <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
@@ -66,6 +66,7 @@ export default class ServiceCard extends Vue {
   private apiSharedData: ApiSharedData = new ApiSharedData()
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
+  private priceServiceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: any[] = []
 
@@ -88,6 +89,10 @@ export default class ServiceCard extends Vue {
 
   private get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSectionName
+  }
+
+  private get getPriceServiceList () {
+    return [...this.childServiceList, this.businessService]
   }
 
   @Watch('getCurrentSiteSection', { immediate: true })

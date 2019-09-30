@@ -60,7 +60,7 @@ export default class AdminClientCard extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const clientItem = new Partner() //await getServiceContainer().publicEkosetService.getPartners(context.params.service)
+    const clientItem = await getServiceContainer().publicEkosetService.getPartnerById(Number(context.params.client))
 
     return {
       clientItem
@@ -76,7 +76,7 @@ export default class AdminClientCard extends Vue {
     const self = this
     const okCallback = async () => {
       //TODO: удаление партнера
-      //await getServiceContainer().publicEkosetService.deletePartner(this.clientItem.partnerId)
+      //await getServiceContainer().publicEkosetService.de(this.clientItem.partnerId)
       self.$router.push({ name: 'admin-clients' })
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }

@@ -41,11 +41,19 @@
           <div class="brc-admin-card-attribute__caption">Дата</div>
           <input type="datetime" v-model="article.articlePublishDate" />
         </div>
-        <h4>Связанные услуги</h4>
-        <AdminServiceRelationList
-          :serviceRelationItems="serviceRelationList"
-          @servicechecked="serviceChecked"
-        ></AdminServiceRelationList>
+        <div v-if="article.articleId > 0">
+          <h4>Связанные услуги</h4>
+          <AdminServiceRelationList
+            :serviceRelationItems="serviceRelationList"
+            @servicechecked="serviceChecked"
+          ></AdminServiceRelationList>
+
+          <h4>Теги</h4>
+          <!-- <AdminTagRelationList
+            :serviceRelationItems="serviceRelationList"
+            @servicechecked="serviceChecked"
+          ></AdminTagRelationList>-->
+        </div>
       </div>
       <div class="brc-admin-card__relations brc-admin-card__editor">
         <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
@@ -97,8 +105,11 @@ export default class AdminArticleCard extends Vue {
     return 'admin'
   }
 
-  private saveArticle () {
-    getServiceContainer().articleService.saveArticle(this.article)
+  private async saveArticle () {
+    await getServiceContainer().articleService.saveArticle(this.article)
+    if (!this.article.articleId) {
+      this.$router.push({ name: 'admin-news' })
+    }
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
@@ -107,11 +118,7 @@ export default class AdminArticleCard extends Vue {
     const okCallback = async () => {
       const sectionId = self.article.siteSectionId
       await getServiceContainer().articleService.deleteArticle(this.article.articleId)
-      if (sectionId && sectionId > 0) {
-        self.$router.push({ name: 'admin-news-section', params: { siteSectionId: String(sectionId) } })
-      } else {
-        self.$router.push({ name: 'admin-news' })
-      }
+      self.$router.push({ name: 'admin-news' })
 
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
@@ -122,6 +129,9 @@ export default class AdminArticleCard extends Vue {
   private async updateServiceList () {
     if (this.article.siteSectionId && this.article.siteSectionId > 0) {
       this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(this.article.siteSectionId, this.article.articleUrl)
+    }
+    else {
+      this.serviceRelationList = []
     }
   }
 

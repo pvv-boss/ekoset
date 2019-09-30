@@ -92,10 +92,15 @@ export default class AdminSiteSectionList extends Vue {
     }
   }
 
+  private async updateItems () {
+    this.serviceItems = await getServiceContainer().businessServiceService.getAll()
+  }
+
   private async saveNewService () {
     await getServiceContainer().businessServiceService.save(this.newService)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newService = new BusinessService()
+    this.updateItems()
     this.createNewServiceMode = false
   }
 
