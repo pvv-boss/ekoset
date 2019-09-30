@@ -7,7 +7,7 @@
         alt="Экосеть"
         itemprop="image"
         src="/images/start-page-banner.jpg"
-        class="brc-main-image"
+        class="brc-page-image"
       />
       <figcaption>Экосеть</figcaption>
     </figure>

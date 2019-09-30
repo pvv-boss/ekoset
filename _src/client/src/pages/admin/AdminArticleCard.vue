@@ -49,10 +49,7 @@
           ></AdminServiceRelationList>
 
           <h4>Теги</h4>
-          <!-- <AdminTagRelationList
-            :serviceRelationItems="serviceRelationList"
-            @servicechecked="serviceChecked"
-          ></AdminTagRelationList>-->
+          <AdminTagRelationList :articleUrl="article.articleUrl" @tagchecked="tagChecked"></AdminTagRelationList>
         </div>
       </div>
       <div class="brc-admin-card__relations brc-admin-card__editor">
@@ -82,6 +79,7 @@ import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelecto
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
+import AdminTagRelationList from '@/components/admin/AdminTagRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 
@@ -93,7 +91,8 @@ import AppStore from '@/store/AppStore'
     AdminSiteSectionSelector,
     AdminServiceSelector,
     AdminStatusSelector,
-    AdminServiceRelationList
+    AdminServiceRelationList,
+    AdminTagRelationList
   }
 })
 export default class AdminArticleCard extends Vue {
@@ -151,6 +150,10 @@ export default class AdminArticleCard extends Vue {
     getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
   }
 
+  private tagChecked (tagId: number, hasRelation: boolean) {
+    getServiceContainer().articleService.adminAddRemoveArticleTag(this.article.articleUrl, tagId, hasRelation)
+  }
+
   private async asyncData (context: NuxtContext) {
     const articleUrl = context.params.article
     const article = articleUrl ? await getServiceContainer().articleService.getArticleBySlug(articleUrl) : new Article()
@@ -162,7 +165,7 @@ export default class AdminArticleCard extends Vue {
 
     return {
       article,
-      serviceRelationList: serviceRelations
+      serviceRelationList: serviceRelations,
     }
   }
 }

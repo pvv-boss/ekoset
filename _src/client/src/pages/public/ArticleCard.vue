@@ -9,7 +9,7 @@
         :src="article.articleHeaderImgSrc"
         :alt="article.articleTitle"
         itemprop="image"
-        class="brc-article-item__header-img"
+        class="brc-article-item__header-img brc-page-image"
       />
       <figcaption>{{article.articleTitle}}</figcaption>
     </figure>

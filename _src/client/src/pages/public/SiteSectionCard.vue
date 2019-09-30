@@ -4,7 +4,7 @@
     <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
     <figure>
       <img
-        class="brc-page-img"
+        class="brc-page-image"
         :src="siteSectionItem.siteSectionImgBig"
         :alt="siteSectionItem.siteSectionName"
         itemprop="image"
