@@ -72,5 +72,20 @@ export default class MediaController extends BaseController {
     const result = await ServiceContainer.MediaService.saveOfferImage(offerId, file, bigOrSmall === 'big');
     return MediaController.createSuccessResponse(result, response);
   }
+
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/brands/:brandId/image/:bigOrSmall(big|small)')
+  public async saveBrandImage (
+    @Body() body: any,
+    @Param('brandId') brandId: number,
+    @Param('bigOrSmall') bigOrSmall: string,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveBrandImage(brandId, file, bigOrSmall === 'big');
+    return MediaController.createSuccessResponse(result, response);
+  }
+
 }
 

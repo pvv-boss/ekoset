@@ -16,6 +16,10 @@
           <div class="brc-admin-card-attribute__caption">Статус</div>
           <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
         </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Логотип (изображение)</div>
+          <AdminImageUploader id="brandImageFile" @upload="saveBrandImage"></AdminImageUploader>
+        </div>
         <div class="brc-admin-card__save">
           <button type="button" @click="saveBrand">Сохранить</button>
           <button type="button" @click="deleteBrand">Удалить</button>
@@ -40,15 +44,14 @@ import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
-import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 
 @Component({
   components: {
     AdminStatusSelector,
     BreadCrumbs,
-    AdminFileUploader
+    AdminImageUploader
   }})
 
 export default class AdminBrandCard extends Vue {
@@ -60,28 +63,31 @@ export default class AdminBrandCard extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-
     const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))
     return {
       brandItem
     }
-
-
   }
 
   private saveBrand () {
     getServiceContainer().publicEkosetService.saveBrand(this.brandItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
+
+  private async saveBrandImage (imageFile: string) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveBrandImage(this.brandItem.clBrandId, formData, true)
+  }
+
   private deleteBrand () {
     const self = this
     const okCallback = async () => {
-      //TODO: удаление партнера
       await getServiceContainer().publicEkosetService.deleteBrand(this.brandItem.clBrandId)
       self.$router.push({ name: 'admin-brands' })
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
   }
 
   private mounted () {

@@ -122,7 +122,6 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity'
 import ClClient from '@/models/ekoset/ClClient'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
@@ -137,7 +136,6 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
   components: {
     AdminTextBlockEditor,
     AdminBrandRelationList,
-    AdminFileUploader,
     AdminServiceChildList,
     BreadCrumbs,
     AdminSiteSectionSelector,

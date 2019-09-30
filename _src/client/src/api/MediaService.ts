@@ -15,4 +15,8 @@ export default class MediaService extends BaseService {
     return HttpUtil.httpPostForm(`admin/panel/offer/${offerId}/image/${isBigImage ? 'big' : 'small'}`, formData)
   }
 
+  public async saveBrandImage (brandId: number, formData: FormData, isBigImage: boolean) {
+    return HttpUtil.httpPostForm(`admin/panel/brands/${brandId}/image/${isBigImage ? 'big' : 'small'}`, formData)
+  }
+
 }

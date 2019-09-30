@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="brc-image-uploader">
     <input type="file" :id="id" :ref="imageInputRef" v-on:change="handleImageLoad()" />
     <button type="button" @click="uploadImage()">Отправить</button>
   </div>
@@ -28,3 +28,15 @@ export default class AdminImageUploader extends Vue {
 }
 
 </script>
+
+<style lang="scss">
+@import "@/styles/variables.scss";
+@import "@/styles/typography.scss";
+
+.brc-image-uploader {
+  display: inline-flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
+ 

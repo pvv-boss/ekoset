@@ -83,7 +83,6 @@ import { getModule } from 'vuex-module-decorators'
 import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
@@ -98,7 +97,6 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
   components: {
     AdminTextBlockEditor,
     AdminBrandRelationList,
-    AdminFileUploader,
     AdminServiceChildList,
     AdminClientTypeOfferList,
     AdminBusinessTypeOfferList,

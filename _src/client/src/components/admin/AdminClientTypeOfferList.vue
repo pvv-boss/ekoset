@@ -21,19 +21,19 @@ export default class AdminClientTypeOfferList extends Vue {
 
   private headerFields = [
     {
-      field: "indOfferName",
-      label: "Наименование"
+      field: 'indOfferName',
+      label: 'Наименование'
     }
   ]
 
   private indOfferItems = [
     {
-      indOfferName: "Для бизнеса",
-      clientType: "business"
+      indOfferName: 'Для бизнеса',
+      clientType: 'business'
     },
     {
-      indOfferName: "Для частных лиц",
-      clientType: "person"
+      indOfferName: 'Для частных лиц',
+      clientType: 'person'
     }
   ]
 
