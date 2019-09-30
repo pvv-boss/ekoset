@@ -50,7 +50,7 @@ export default class ArticleService extends BaseService {
 
   // Тэги для статьи связи
   public async getArticleTagsRelation (articleId: number) {
-    return this.execFunction('f_admin_article_tags_relation'[articleId]);
+    return this.execFunction('f_admin_article_tags_relation', [articleId]);
   }
 
   // Для стратовой страницы (нет связит с разделом)

@@ -24,14 +24,7 @@
 
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-            <input
-              type="file"
-              name="smallImageFile"
-              id="smallImageFile"
-              ref="smallImageFile"
-              v-on:change="handleImageLoad(false)"
-            />
-            <button type="button" @click="saveSiteSectionImage(false)">Отправить</button>
+            <AdminImageUploader :id="smallImageFile" @upload="saveSiteSectionImage($event,false)"></AdminImageUploader>
           </div>
 
           <div class="brc-admin-card-attribute">
@@ -94,6 +87,7 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
