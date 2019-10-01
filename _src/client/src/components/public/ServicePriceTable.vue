@@ -3,8 +3,8 @@
     <table class="brc-service-price-table" cellspacing="0">
       <thead>
         <th>Услуга</th>
-        <th>Единица измерения</th>
-        <th>Цена</th>
+        <th width="10%">Ед.изм.</th>
+        <th width="20%">Цена</th>
       </thead>
       <tbody>
         <tr v-for="servicePrice in serviceResultList" :key="servicePrice.businessServiceId">
@@ -26,7 +26,7 @@
           <td v-if="servicePrice.businessServicePrice > 0">{{servicePrice.businessServiceUnit}}</td>
           <td
             v-if="servicePrice.businessServicePrice > 0"
-          >{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}} ₽</td>
+          >{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
         </tr>
       </tbody>
     </table>
@@ -116,6 +116,10 @@ export default class ServicePriceTable extends Vue {
     .brc-service-price-td_bold {
       font-weight: 500;
       text-align: left !important;
+      white-space: pre-wrap !important;
+    }
+    .brc-service-price-td_child {
+      white-space: pre-wrap !important;
     }
     .brc-service-price-table-link {
       text-decoration: none;

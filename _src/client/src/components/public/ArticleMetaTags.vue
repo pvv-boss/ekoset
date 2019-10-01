@@ -54,7 +54,7 @@ export default class ArticleMetaTags extends Vue {
   }
 
   public async mounted () {
-    this.tagList = await getServiceContainer().articleService.getArticleTags()
+    //this.tagList = await getServiceContainer().articleService.getArticleTags()
   }
 }
 </script>

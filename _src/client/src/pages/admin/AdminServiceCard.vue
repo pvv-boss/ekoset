@@ -25,7 +25,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Единица измерения</div>
-          <input type="number" v-model="serviceItem.businessServiceUnit" />
+          <input type="text" v-model="serviceItem.businessServiceUnit" />
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Цена</div>
