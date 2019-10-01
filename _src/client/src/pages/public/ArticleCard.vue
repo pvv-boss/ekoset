@@ -38,6 +38,7 @@
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
       </section>
     </div>
+    <ArticleMetaTags :articleUrl="article.articleUrl"></ArticleMetaTags>
     <div class="brc-article-item__yandex-share">
       <yandex-share :services="['vkontakte','facebook','odnoklassniki','twitter','skype']" counter />
     </div>
@@ -50,6 +51,7 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
+import ArticleMetaTags from '@/components/public/ArticleMetaTags.vue'
 import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -58,7 +60,8 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 @Component({
   components: {
     ArticleList,
-    BreadCrumbs
+    BreadCrumbs,
+    ArticleMetaTags
   }
 })
 export default class ArticleCard extends Vue {
@@ -187,7 +190,7 @@ export default class ArticleCard extends Vue {
   }
 }
 .brc-article-item__yandex-share {
-  margin-top: 15px;
+  margin-top: 30px;
 }
 @media (max-width: 768px) {
   .brc-article-wrapper {
