@@ -158,13 +158,22 @@ export default class ArticleController extends BaseController {
     }
   }
 
-
   @Get('/news/:id(\\d+)/related')
   public async getRelatedArticlesListById (
     @Res() response: Response,
     @Param('id') id: number) {
 
     const result = await ServiceContainer.ArticleService.getRelated(id);
+    return ArticleController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/news/:id(\\d+)/tags')
+  public async getArticleTags (
+    @Res() response: Response,
+    @Param('id') id: number) {
+
+    const result = await ServiceContainer.ArticleService.getArticleTags(id);
     return ArticleController.createSuccessResponse(result, response);
   }
 

@@ -21,6 +21,7 @@ export default class ArticleService extends BaseService {
   private apiRelatedViewName = 'v_api_related_article';
   private apiBusinessServiceArticlesViewName = 'v_api_business_service_article';
   private apiSiteSectionArticlesViewName = 'v_api_site_section_article';
+  private apiArticleTagsViewName = 'v_api_article_tag';
 
   // Все новости для админки
   public async adminGetAll () {
@@ -51,6 +52,11 @@ export default class ArticleService extends BaseService {
   // Все Тэги
   public async saveArticleTag (tag: ClArticleTag) {
     return TypeOrmManager.EntityManager.save(tag);
+  }
+
+  // Тэги для статьи
+  public async getArticleTags (articleId: number) {
+    return this.getDbViewResult(this.apiArticleTagsViewName, null, 'article_id=$1', [articleId]);
   }
 
   // Тэги для статьи связи
