@@ -1,6 +1,6 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
-    <button @click="createNewMode = true" v-show="!createNewMode">Создать тег</button>
+    <button @click="createNewMode = true" v-show="!createNewMode && !disabled">Создать тег</button>
 
     <div v-if="createNewMode">
       <div class="brc-service-attribute">
@@ -18,6 +18,7 @@
           :value="props.row.clArticleId"
           :checked="props.row.hasRelation"
           @change="onChecked(props.row.clArticleId,$event.target.checked)"
+          :disabled="disabled"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -38,9 +39,10 @@ export default class AdminTagRelationList extends Vue {
   @Prop()
   private articleUrl
 
+  @Prop({ type: Boolean, default: false })
+  private disabled
+
   private tagRelationItems: any[] = []
-
-
   private createNewMode = false
   private newItem: ClArticleTag = new ClArticleTag()
 

@@ -16,6 +16,15 @@
           <div class="brc-admin-card-attribute__caption">Статус</div>
           <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
         </div>
+        <div class="brc-admin-card-attribute brc-admin-card-attribute_chk">
+          <input
+            type="checkbox"
+            id="clBrandMainPageVisible"
+            v-model="isBrandMainPageVisible"
+            @change="setBrandMainPageVisible"
+          />
+          <label for="clBrandMainPageVisible">Отображать на главной странице</label>
+        </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Логотип (изображение)</div>
           <AdminImageUploader id="brandImageFile" @upload="saveBrandImage"></AdminImageUploader>
@@ -58,6 +67,8 @@ export default class AdminBrandCard extends Vue {
   private brandItem: ClBrand = new ClBrand()
   private breadCrumbList: any[] = []
 
+  private isBrandMainPageVisible = false
+
   private layout () {
     return 'admin'
   }
@@ -90,8 +101,13 @@ export default class AdminBrandCard extends Vue {
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
   }
 
+  private setBrandMainPageVisible () {
+    this.brandItem.clBrandMainPageVisible = this.isBrandMainPageVisible ? 1 : 0
+  }
+
   private mounted () {
     this.configBreadCrumbs()
+    this.isBrandMainPageVisible = Number(this.brandItem.clBrandMainPageVisible) === 1
   }
 
   private configBreadCrumbs () {
@@ -103,6 +119,15 @@ export default class AdminBrandCard extends Vue {
 
 }
 </script>
+
+<style lang="scss">
+.brc-admin-card-attribute_chk {
+  display: inline;
+  input {
+    width: min-content !important;
+  }
+}
+</style>
 
 
 

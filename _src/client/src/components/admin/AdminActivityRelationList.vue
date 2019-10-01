@@ -8,6 +8,7 @@
           :value="props.row.clActivityId"
           :checked="props.row.hasRelation"
           @change="onChecked(props.row.clActivityId,$event.target.checked)"
+          :disabled="disabled"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -26,6 +27,9 @@ import BusinessServiceService from '@/api/BusinessServiceService';
 export default class AdminActivityRelationList extends Vue {
   @Prop()
   private activityRelationItems
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private headerFields = [
     {

@@ -6,6 +6,7 @@
       value="1"
       v-model="selectedValueId"
       @change="$emit('input', selectedId)"
+      :disabled="disabled"
     />
     <label for="clientTypeSelector-1">Бизнес</label>
     <input
@@ -14,6 +15,7 @@
       value="3"
       v-model="selectedValueId"
       @change="$emit('input', selectedId)"
+      :disabled="disabled"
     />
     <label for="clientTypeSelector-3">Частные лица</label>
   </div>
@@ -27,6 +29,9 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 export default class AdminClientTypeSelector extends Vue {
   @Prop()
   private value
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private selectedId = null
 

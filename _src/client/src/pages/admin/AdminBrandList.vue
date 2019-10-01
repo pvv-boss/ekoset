@@ -17,8 +17,19 @@
         <div class="brc-service-attribute__caption">Статус</div>
         <AdminStatusSelector v-model.number="newBrand.clBrandStatus"></AdminStatusSelector>
       </div>
-      <button @click="saveNewBrand">Сохранить</button>
-      <button @click="cancelSaveNewBrand">Отменить</button>
+      <div class="brc-admin-card-attribute brc-admin-card-attribute_chk">
+        <input
+          type="checkbox"
+          id="clBrandMainPageVisible"
+          v-model="isBrandMainPageVisible"
+          @change="setBrandMainPageVisible"
+        />
+        <label for="clBrandMainPageVisible">Отображать на главной странице</label>
+      </div>
+      <div>
+        <button @click="saveNewBrand">Сохранить</button>
+        <button @click="cancelSaveNewBrand">Отменить</button>
+      </div>
     </div>
     <vue-good-table :columns="headerFields" :rows="brandItems">
       <template slot="table-row" slot-scope="props">
@@ -54,6 +65,7 @@ export default class AdminBrandList extends Vue {
   private createNewMode = false
   private newBrand: ClBrand = new ClBrand()
   private breadCrumbList: any[] = []
+  private isBrandMainPageVisible = false
 
   private headerFields = [
     {
@@ -95,17 +107,23 @@ export default class AdminBrandList extends Vue {
     }
   }
 
+  private setBrandMainPageVisible () {
+    this.newBrand.clBrandMainPageVisible = this.isBrandMainPageVisible ? 1 : 0
+  }
+
   private async saveNewBrand () {
     await getServiceContainer().publicEkosetService.saveBrand(this.newBrand)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newBrand = new ClBrand()
     this.createNewMode = false
+    this.isBrandMainPageVisible = false
     this.updateBrandList()
   }
 
   private cancelSaveNewBrand () {
     this.newBrand = new ClBrand()
     this.createNewMode = false
+    this.isBrandMainPageVisible = false
   }
 }
 </script>
