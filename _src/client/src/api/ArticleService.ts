@@ -81,6 +81,7 @@ export default class ArticleService extends BaseService {
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
   }
 
+
   // Тэги для заданной статьи
   public async getArticleTags (artcicleSlug: string) {
     const query = `news/${this.getIdBySlug(artcicleSlug)}/tags`
