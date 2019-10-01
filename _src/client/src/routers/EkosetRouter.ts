@@ -44,7 +44,7 @@ export const EkosetRouter = [
   },
   {
     name: 'offer-card',
-    path: '/:siteSection/:clienttype?/offers/:offer?',
+    path: '/:siteSection?/:clienttype?/offers/:offer?',
     props: true,
     component: OfferCard
   },
