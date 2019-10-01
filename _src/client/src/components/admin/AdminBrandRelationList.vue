@@ -8,6 +8,7 @@
           :value="props.row.clBrandId"
           :checked="props.row.hasRelation"
           @change="onBrandChecked(props.row.clBrandId,$event.target.checked)"
+          :disabled="disabled"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -27,6 +28,9 @@ import BusinessServiceService from '@/api/BusinessServiceService';
 export default class AdminBrandRelationList extends Vue {
   @Prop()
   private brandRelationItems
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private headerFields = [
     {

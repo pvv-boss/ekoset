@@ -4,6 +4,7 @@
       class="form-control"
       v-model="selectedSiteSectionId"
       @change="$emit('input', selectedId)"
+      :disabled="disabled"
     >
       <option
         v-for="siteSection in siteSectionList"
@@ -27,6 +28,9 @@ export default class AdminSiteSectionSelector extends Vue {
 
   @Prop({ type: Boolean, default: false })
   private nullable
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private selectedId = null
 

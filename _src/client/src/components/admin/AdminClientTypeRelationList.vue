@@ -7,6 +7,7 @@
         :value="props.row.clClientId"
         :checked="props.row.hasRelation"
         @change="onChecked(props.row.clClientId,$event.target.checked)"
+        :disabled="disabled"
       />
       <span v-else>{{props.formattedRow[props.column.field]}}</span>
     </template>
@@ -25,6 +26,9 @@ import BusinessServiceService from '@/api/BusinessServiceService';
 export default class AdminClientTypeRelationList extends Vue {
   @Prop()
   private clientTypeRelationItems
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private headerFields = [
     {
