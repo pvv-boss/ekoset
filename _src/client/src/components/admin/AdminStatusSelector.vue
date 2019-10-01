@@ -6,6 +6,7 @@
       value="0"
       v-model="selectedValueId"
       @change="$emit('input', selectedId)"
+      :disabled="disabled"
     />
     <label for="statusSelector-0">Неактивно</label>
     <input
@@ -14,6 +15,7 @@
       value="1"
       v-model="selectedValueId"
       @change="$emit('input', selectedId)"
+      :disabled="disabled"
     />
     <label for="statusSelector-1">Активно</label>
   </div>
@@ -27,6 +29,9 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 export default class AdminStatusSelector extends Vue {
   @Prop()
   private value
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private selectedId = null
 

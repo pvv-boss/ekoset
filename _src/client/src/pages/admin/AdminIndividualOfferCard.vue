@@ -18,7 +18,7 @@
         </div>
         <div class="brc-service-attribute" v-if="isClientTypeMode">
           <div class="brc-service-attribute__caption">Тип клиента</div>
-          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId"></AdminClientTypeSelector>
+          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId" disabled="true"></AdminClientTypeSelector>
         </div>
         <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
           <div class="brc-admin-card-attribute__caption">Направление деятельности</div>

@@ -1,6 +1,11 @@
 <template>
   <div class="brc-select-wrapper">
-    <select class="form-control" v-model="selectedValueId" @change="$emit('input', selectedId)">
+    <select
+      class="form-control"
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
+      :disabled="disabled"
+    >
       <option
         v-for="item in itemList"
         :key="item.clActivityId"
@@ -23,6 +28,9 @@ export default class AdminClActivitySelector extends Vue {
 
   @Prop({ type: Boolean, default: false })
   private nullable
+
+  @Prop({ type: Boolean, default: false })
+  private disabled
 
   private itemList: ClActivity[] = []
 

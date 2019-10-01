@@ -14,7 +14,10 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector v-model="serviceItem.siteSectionId"></AdminSiteSectionSelector>
+          <AdminSiteSectionSelector
+            v-model="serviceItem.siteSectionId"
+            :disabled="serviceItem.businessServiceParentId > 0"
+          ></AdminSiteSectionSelector>
         </div>
         <div class="brc-admin-card-attribute" v-if="serviceItem.businessServiceParentId > 0">
           <div class="brc-admin-card-attribute__caption">Головная услуга</div>
@@ -90,16 +93,19 @@
           <AdminClientTypeRelationList
             :clientTypeRelationItems="clientTypeRelationList"
             @clienttypechecked="clientTypeChecked"
+            :disabled="serviceItem.businessServiceParentId > 0"
           ></AdminClientTypeRelationList>
           <h4>Направления деятельности</h4>
           <AdminActivityRelationList
             :activityRelationItems="activityRelationList"
             @activitychecked="activityChecked"
+            :disabled="serviceItem.businessServiceParentId > 0"
           ></AdminActivityRelationList>
           <h4>Рекомендации</h4>
           <AdminBrandRelationList
             :brandRelationItems="brandRelationList"
             @brandchecked="brandChecked"
+            :disabled="serviceItem.businessServiceParentId > 0"
           ></AdminBrandRelationList>
         </div>
       </div>
@@ -162,10 +168,12 @@ export default class AdminServiceCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
-    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceItem.businessServiceId)
+
+    const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
     const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
-    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService(serviceItem.businessServiceUrl)
-    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService(serviceItem.businessServiceUrl)
+    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
+    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
+    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
 
     const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, serviceOtherList])
     return {

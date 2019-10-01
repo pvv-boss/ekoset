@@ -71,15 +71,8 @@ export default class ServiceListItem extends Vue {
   &:hover {
     border: 1px solid $red;
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
-    // h4 {
-    //   color: red;
-    // }
   }
 
-  // .brc-service-link {
-  //   display: flex;
-  //   flex-direction: row;
-  // }
   .brc-service-smallitem__price {
     font-weight: 500;
   }
@@ -92,7 +85,6 @@ export default class ServiceListItem extends Vue {
     text-align: center;
   }
   h4 {
-    //    flex-grow: 1;
     margin: auto;
     color: $text-color;
   }
@@ -128,6 +120,7 @@ export default class ServiceListItem extends Vue {
     &:hover {
       background-color: red;
       color: white;
+      cursor: pointer;
     }
   }
 }
