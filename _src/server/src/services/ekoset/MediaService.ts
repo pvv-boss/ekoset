@@ -7,23 +7,24 @@ import FormMessageData from '@/entities/FormMessageData';
 
 export default class MediaService extends BaseService {
 
-  public async saveSiteSectionImage (siteSectionId: number, file: Express.Multer.File, bigOrSmall: string) {
-    if (bigOrSmall === 'big') {
-      return this.saveSiteSectionBigImage(siteSectionId, file);
-    }
-    if (bigOrSmall === 'small') {
-      return this.saveSiteSectionSmallImage(siteSectionId, file);
-    }
+  public async saveSiteSectionImage (siteSectionId: number, file: Express.Multer.File, isBig: boolean) {
+    const updateStmt = `UPDATE site_section SET site_section_img_${isBig ? 'big' : 'small'} = $1 where site_section_id = ${siteSectionId}`;
+    return this.updateSmallOrBigImageFor(file, 'sitesection', `${isBig ? 'big' : 'small'}_${siteSectionId}`, updateStmt);
   }
 
-  public async saveSiteSectionSmallImage (siteSectionId: number, file: Express.Multer.File) {
-    const updateStmt = `UPDATE site_section SET site_section_img_small = $1 where site_section_id = ${siteSectionId}`;
-    return this.updateSmallOrBigImageFor(file, 'sitesection', 'small_' + siteSectionId, updateStmt);
+  public async saveServiceImage (serviceId: number, file: Express.Multer.File, isBig: boolean) {
+    const updateStmt = `UPDATE business_service SET business_service_img_${isBig ? 'big' : 'small'} = $1 where business_service_id = ${serviceId}`;
+    return this.updateSmallOrBigImageFor(file, 'service', `${isBig ? 'big' : 'small'}_${serviceId}`, updateStmt);
   }
 
-  public async saveSiteSectionBigImage (siteSectionId: number, file: Express.Multer.File) {
-    const updateStmt = `UPDATE site_section SET site_section_img_big = $1 where site_section_id = ${siteSectionId}`;
-    return this.updateSmallOrBigImageFor(file, 'sitesection', 'big_' + siteSectionId, updateStmt);
+  public async saveOfferImage (offerId: number, file: Express.Multer.File, isBig: boolean) {
+    const updateStmt = `UPDATE individual_offer SET ind_offer_img_${isBig ? 'big' : 'small'} = $1 where ind_offer_id = ${offerId}`;
+    return this.updateSmallOrBigImageFor(file, 'offer', `${isBig ? 'big' : 'small'}_${offerId}`, updateStmt);
+  }
+
+  public async saveBrandImage (brandId: number, file: Express.Multer.File, isBig: boolean) {
+    const updateStmt = `UPDATE cl_brand SET cl_brand_img_${isBig ? 'big' : 'small'} = $1 where cl_brand_id = ${brandId}`;
+    return this.updateSmallOrBigImageFor(file, 'brands', `${isBig ? 'big' : 'small'}_${brandId}`, updateStmt);
   }
 
   public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {

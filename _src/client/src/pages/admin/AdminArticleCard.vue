@@ -9,7 +9,7 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector v-model="article.siteSectionId" nullable="true"></AdminSiteSectionSelector>
+          <AdminSiteSectionSelector v-model="article.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Краткое описание</div>
@@ -18,14 +18,6 @@
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Заголовок</div>
           <input type="text" v-model="article.articleTitle" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-          <AdminFileUploader v-model="article.articlePreviewImgSrc"></AdminFileUploader>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-          <AdminFileUploader v-model="article.articleHeaderImgSrc"></AdminFileUploader>
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -86,7 +78,6 @@ import AppStore from '@/store/AppStore'
 @Component({
   components: {
     AdminArticleEditor,
-    AdminFileUploader,
     BreadCrumbs,
     AdminSiteSectionSelector,
     AdminServiceSelector,
@@ -128,8 +119,7 @@ export default class AdminArticleCard extends Vue {
   private async updateServiceList () {
     if (this.article.siteSectionId && this.article.siteSectionId > 0) {
       this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(this.article.siteSectionId, this.article.articleUrl)
-    }
-    else {
+    } else {
       this.serviceRelationList = []
     }
   }

@@ -24,27 +24,14 @@
 
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-            <input
-              type="file"
-              name="smallImageFile"
-              id="smallImageFile"
-              ref="smallImageFile"
-              v-on:change="handleImageLoad(false)"
-            />
-            <button type="button" @click="saveSiteSectionImage(false)">Отправить</button>
+            <AdminImageUploader id="smallImageFile" @upload="saveSiteSectionImage($event,false)"></AdminImageUploader>
           </div>
 
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-            <input
-              type="file"
-              name="bigImageFile"
-              id="bigImageFile"
-              ref="bigImageFile"
-              v-on:change="handleImageLoad(true)"
-            />
-            <button type="button" @click="saveSiteSectionImage(true)">Отправить</button>
+            <AdminImageUploader id="bigImageFile" @upload="saveSiteSectionImage($event,true)"></AdminImageUploader>
           </div>
+
           <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
           <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
           <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
@@ -94,8 +81,8 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
@@ -110,23 +97,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
   components: {
     AdminTextBlockEditor,
     AdminBrandRelationList,
-    AdminFileUploader,
     AdminServiceChildList,
     AdminClientTypeOfferList,
     AdminBusinessTypeOfferList,
     AdminStatusSelector,
+    AdminImageUploader,
     BreadCrumbs
   }})
 
 export default class AdminSiteSectionCard extends Vue {
-  public $refs!: {
-    bigImageFile: HTMLFormElement,
-    smallImageFile: HTMLFormElement
-  }
-
-  public bigImageFile = ''
-  public smallImageFile = ''
-
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceOtherList: BusinessService[] = []
   private offerList: IndividualOffer[] = []
@@ -153,21 +132,11 @@ export default class AdminSiteSectionCard extends Vue {
       offerList: data[2]
     }
 
-
   }
 
-  // FIXME: Сергей. Временно
-  private handleImageLoad (isBig: boolean) {
-    if (isBig) {
-      this.bigImageFile = this.$refs.bigImageFile.files[0];
-    } else {
-      this.smallImageFile = this.$refs.smallImageFile.files[0];
-    }
-  }
-
-  private async saveSiteSectionImage (isBig: boolean) {
+  private async saveSiteSectionImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
-    formData.append('file', isBig ? this.bigImageFile : this.smallImageFile)
+    formData.append('file', imageFile)
     getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
   }
 

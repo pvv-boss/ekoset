@@ -53,6 +53,12 @@ export default class ArticleService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  // Сохрнаить тэг
+  public async saveArticleTag (tag: ClArticleTag) {
+    const query = `admin/panel/news/tags`
+    return HttpUtil.httpPost(this.buildHttRequest(query), tag)
+  }
+
   // Для главной страницы
   public async  getRootArticleList (pagination?: Pagination) {
     const query = 'news'
@@ -74,6 +80,13 @@ export default class ArticleService extends BaseService {
     this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
   }
+
+  // Тэги для заданной статьи
+  public async getArticleTags (artcicleSlug: string) {
+    const query = `news/${this.getIdBySlug(artcicleSlug)}/tags`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
 
   public async saveArticle (article: Article) {
     const query = 'news'

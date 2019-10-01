@@ -5,7 +5,7 @@
     <div v-if="createNewMode">
       <div class="brc-service-attribute">
         <div class="brc-service-attribute__caption">Наименование</div>
-        <input type="text" v-model="newItem.clMetaTagName" />
+        <input type="text" v-model="newItem.clArticleName" />
       </div>
       <button @click="saveNewTag">Сохранить</button>
       <button @click="cancelSaveNewTag">Отменить</button>
@@ -31,7 +31,7 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
-import ClMetaTag from '@/models/ekoset/ClMetaTag'
+import ClArticleTag from '@/models/ekoset/ClArticleTag'
 
 @Component({})
 export default class AdminTagRelationList extends Vue {
@@ -42,7 +42,7 @@ export default class AdminTagRelationList extends Vue {
 
 
   private createNewMode = false
-  private newItem: ClMetaTag = new ClMetaTag()
+  private newItem: ClArticleTag = new ClArticleTag()
 
   private headerFields = [
     {
@@ -71,16 +71,14 @@ export default class AdminTagRelationList extends Vue {
   }
 
   private async saveNewTag () {
-    //await getServiceContainer().articleService.sa(this.newBrand)
-    alert('Сохранием тег')
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.newItem = new ClMetaTag()
+    await getServiceContainer().articleService.saveArticleTag(this.newItem)
+    this.newItem = new ClArticleTag()
     this.createNewMode = false
     this.updateTagList()
   }
 
   private cancelSaveNewTag () {
-    this.newItem = new ClMetaTag()
+    this.newItem = new ClArticleTag()
     this.createNewMode = false
   }
 }

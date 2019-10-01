@@ -35,12 +35,13 @@
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-          <AdminFileUploader v-model="indOfferItem.indOfferImgSmall"></AdminFileUploader>
+          <AdminImageUploader id="bigOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-          <AdminFileUploader v-model="indOfferItem.indOfferImgBig"></AdminFileUploader>
+          <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,true)"></AdminImageUploader>
         </div>
+
         <div class="brc-admin-card__editor">
           <div class="brc-service-attribute__caption">Текстовый блок 1</div>
           <AdminTextBlockEditor v-model="indOfferItem.indOfferFreeText1"></AdminTextBlockEditor>
@@ -68,7 +69,6 @@ import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
@@ -78,19 +78,19 @@ import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelecto
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
-import { returnStatement } from '@babel/types'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 
 
 @Component({
   components: {
     AdminTextBlockEditor,
     AdminSiteSectionSelector,
-    AdminFileUploader,
     AdminServiceChildList,
     BreadCrumbs,
     AdminClActivitySelector,
     AdminStatusSelector,
-    AdminClientTypeSelector
+    AdminClientTypeSelector,
+    AdminImageUploader
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()
@@ -154,6 +154,12 @@ export default class AdminIndividualOfferCard extends Vue {
   private saveOffer () {
     getServiceContainer().individualOfferService.save(this.indOfferItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  }
+
+  private async saveOfferImage (imageFile: string, isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveOfferImage(this.indOfferItem.indOfferId, formData, isBig)
   }
 
   private deleteOffer () {

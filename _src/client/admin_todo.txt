@@ -10,8 +10,8 @@
   2. Картчока +
   
 Новости:
- 4. Связь через хэштеги - Сергей => Маша
- 
+ 4. Контроль хэштегов для новости (как на макете) Маша
+ API - получить тэги для новости ArticleService.getArticleTags
 
 Отправка данных с формы 
  1. База, API для ведения заявок - Сергей
@@ -63,6 +63,9 @@
 25. Клиенты в Справочники - Маша
 
 26. Картчока Новость - при "очищении" раздела, убирать список услуг - Сергей
+
+27. Таблицу цен в норму (пример длиного наименования)
+http://ekoset.npobaltros.ru/test-dlya-zagruzki-kartinok-23/services/usluga-test-zagruzki-kartinok-test-zagruzki-kartinok-test-zagruzki-kartinok-test-zagruzki-kartinok-29
 
 
 
