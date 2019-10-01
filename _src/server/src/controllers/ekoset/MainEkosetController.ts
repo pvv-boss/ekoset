@@ -218,4 +218,13 @@ export default class MainEkosetController extends BaseController {
     // const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
     // return BusinessServiceController.createSuccessResponse(result, response);
   }
+
+  // Рекомендации
+  // @Get('/:sitesection/brands')
+  // public async getBrandsBySiteSection (
+  //   @Res() response: Response,
+  //   @Param('sitesection') siteSectionId: number) {
+  //   const result = await ServiceContainer.MainEkosetService.getBrandsBySiteSection(siteSectionId);
+  //   return MainEkosetController.createSuccessResponse(result, response);
+  // }
 }
