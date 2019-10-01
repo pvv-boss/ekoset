@@ -20,18 +20,18 @@ export class ClActivity {
   public clActivityName: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_activity_img_big'
-  })
-  public clActivityImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_activity_img_big'
+  // })
+  // public clActivityImgBig: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_activity_img_small'
-  })
-  public clActivityImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_activity_img_small'
+  // })
+  // public clActivityImgSmall: string | null;
 
 
   @Column('numeric', {

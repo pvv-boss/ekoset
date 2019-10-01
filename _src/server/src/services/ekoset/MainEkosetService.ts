@@ -23,6 +23,10 @@ export default class MainEkosetService extends BaseService {
     return this.getDbViewResult(this.apiViewName);
   }
 
+  public async getSiteSectionNameById (siteSectionId: number) {
+    return this.getOneOrNone('SELECT site_section_name FROM site_section WHERE site_section_id = $1', [siteSectionId]);
+  }
+
   public async getSiteSectionById (siteSectionId: number) {
     return this.getOneById(this.apiViewName, 'site_section_id = $1', siteSectionId);
   }

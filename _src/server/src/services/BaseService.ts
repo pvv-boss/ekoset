@@ -17,6 +17,10 @@ export default class BaseService {
     return PgUtls.getOneFromDatabse(viewName, whereStmt, [id]);
   }
 
+  public async getOneOrNone (selectStmt: string, whereParams?: any[]) {
+    return PgUtls.getOneOrNone(selectStmt, whereParams);
+  }
+
   public async getOneFromDatabse (viewName: string, whereStmt?: string, whereParams?: any[]) {
     return PgUtls.getOneFromDatabse(viewName, whereStmt, whereParams);
   }

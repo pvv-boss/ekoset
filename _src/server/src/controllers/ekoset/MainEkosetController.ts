@@ -28,6 +28,15 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/activities/query/name/:sitesection')
+  public async getSiteSectionNameById (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.MainEkosetService.getSiteSectionNameById(siteSectionId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+
   @Get('/clients')
   public async getPartners (
     @Res() response: Response) {

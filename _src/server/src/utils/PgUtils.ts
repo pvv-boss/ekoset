@@ -37,6 +37,12 @@ class PgUtls {
     });
   }
 
+  public async getOneOrNone (selectStmt: string, whereParams?: any[]) {
+    return this.postgrePromise.oneOrNone({
+      text: selectStmt,
+      values: whereParams
+    });
+  }
 
   public async execOneFromDatabse (select: string): Promise<any> {
     return this.postgrePromise.oneOrNone(select);

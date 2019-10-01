@@ -16,16 +16,16 @@ export class ClClient {
   })
   public clClientName: string | null;
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_client_img_small'
-  })
-  public clClientImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_client_img_small'
+  // })
+  // public clClientImgSmall: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_client_img_big'
-  })
-  public clClientImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_client_img_big'
+  // })
+  // public clClientImgBig: string | null;
 }
