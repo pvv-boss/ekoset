@@ -6,7 +6,7 @@
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
-          <input type="text" v-model="indOfferItem.indOfferName" />
+          <input type="text" v-model="indOfferItem.indOfferName" :disabled="isClientTypeMode" />
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Префикс</div>
