@@ -1,7 +1,7 @@
 <template>
   <div class="brc-article-list_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1>Новости раздела {{siteSectionSlug}}</h1>
+    <h1>Новости</h1>
     <nuxt-link :to="{ name: 'admin-news-article'}">Создать новость</nuxt-link>
     <vue-good-table :columns="headerFields" :rows="articleItems">
       <template slot="table-row" slot-scope="props">
@@ -32,7 +32,6 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 })
 export default class AdminArticleList extends Vue {
   private articleItems: Article[] = []
-  private siteSectionSlug = ''
   private breadCrumbList: any[] = []
 
   private headerFields = [
@@ -69,12 +68,9 @@ export default class AdminArticleList extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionSlug = context.params.siteSection
-
     const data = await getServiceContainer().articleService.adminGetAll()
     return {
-      articleItems: data,
-      siteSectionSlug
+      articleItems: data
     }
 
   }
