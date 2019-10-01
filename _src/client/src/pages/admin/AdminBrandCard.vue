@@ -77,7 +77,7 @@ export default class AdminBrandCard extends Vue {
   private async saveBrandImage (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveBrandImage(this.brandItem.clBrandId, formData, true)
+    getServiceContainer().mediaService.saveBrandImage(this.brandItem.clBrandId, formData, false)
   }
 
   private deleteBrand () {

@@ -64,6 +64,9 @@
 
 26. Картчока Новость - при "очищении" раздела, убирать список услуг - Сергей
 
+27. Таблицу цен в норму (пример длиного наименования)
+http://ekoset.npobaltros.ru/test-dlya-zagruzki-kartinok-23/services/usluga-test-zagruzki-kartinok-test-zagruzki-kartinok-test-zagruzki-kartinok-test-zagruzki-kartinok-29
+
 
 
 
