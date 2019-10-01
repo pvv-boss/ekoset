@@ -17,18 +17,18 @@ export class ClBrand {
   public clBrandName: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_brand_img_small'
-  })
-  public clBrandImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_brand_img_small'
+  // })
+  // public clBrandImgSmall: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'cl_brand_img_big'
-  })
-  public clBrandImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'cl_brand_img_big'
+  // })
+  // public clBrandImgBig: string | null;
 
 
   @Column('text', {

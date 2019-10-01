@@ -63,18 +63,18 @@ export class Article {
   public articleBody: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'article_preview_img_src'
-  })
-  public articlePreviewImgSrc: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'article_preview_img_src'
+  // })
+  // public articlePreviewImgSrc: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'article_header_img_src'
-  })
-  public articleHeaderImgSrc: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'article_header_img_src'
+  // })
+  // public articleHeaderImgSrc: string | null;
 
 
   @Column('text', {

@@ -25,18 +25,18 @@ export class SiteSection {
   public siteSectionSlug: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'site_section_img_big'
-  })
-  public siteSectionImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'site_section_img_big'
+  // })
+  // public siteSectionImgBig: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'site_section_img_small'
-  })
-  public siteSectionImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'site_section_img_small'
+  // })
+  // public siteSectionImgSmall: string | null;
 
 
   @Column('numeric', {

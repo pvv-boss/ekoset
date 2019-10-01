@@ -55,21 +55,3 @@ export default class Main extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.brc-page-image {
-  max-width: 100%;
-  width: 100%;
-  min-height: 30px;
-  border-radius: 9px !important;
-}
-.brc-page-img {
-  min-height: 30px;
-}
-@media (max-width: 768px) {
-  .brc-main-image,
-  .brc-page-img {
-    min-height: 30px;
-  }
-}
-</style>

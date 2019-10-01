@@ -51,10 +51,24 @@ a {
     text-align: center;
   }
 
-
-  .brc-page-img {
+  .brc-page-image {
     max-width: 100%;
     width: 100%;
+    min-height: 30px;
+    border-radius: 9px !important;
+    margin-top: 15px;
+  }
+
+  .brc-page-img {
+    min-height: 30px;
+  }
+
+  @media (max-width: 768px) {
+
+    .brc-main-image,
+    .brc-page-img {
+      min-height: 30px;
+    }
   }
 
   .brc-section__wrapper {

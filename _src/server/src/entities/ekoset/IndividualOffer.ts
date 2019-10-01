@@ -46,18 +46,18 @@ export class IndividualOffer {
   public indOfferSlug: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'ind_offer_img_small'
-  })
-  public indOfferImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'ind_offer_img_small'
+  // })
+  // public indOfferImgSmall: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'ind_offer_img_big'
-  })
-  public indOfferImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'ind_offer_img_big'
+  // })
+  // public indOfferImgBig: string | null;
 
 
   @Column('numeric', {

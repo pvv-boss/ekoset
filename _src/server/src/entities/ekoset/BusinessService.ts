@@ -49,18 +49,18 @@ export class BusinessService {
   public businessServicePrice: number | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_img_small'
-  })
-  public businessServiceImgSmall: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_img_small'
+  // })
+  // public businessServiceImgSmall: string | null;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_img_big'
-  })
-  public businessServiceImgBig: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_img_big'
+  // })
+  // public businessServiceImgBig: string | null;
 
 
   @Column('numeric', {
