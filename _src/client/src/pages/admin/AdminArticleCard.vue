@@ -40,7 +40,11 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Дата</div>
-          <input type="datetime" v-model="article.articlePublishDate" disabled="true" />
+          <input
+            type="datetime"
+            :value="article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : ''"
+            disabled="true"
+          />
         </div>
         <div v-if="article.articleId > 0">
           <h4>Связанные услуги</h4>
