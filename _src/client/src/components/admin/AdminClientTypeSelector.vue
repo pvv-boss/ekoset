@@ -4,16 +4,16 @@
       type="radio"
       id="clientTypeSelector-1"
       value="1"
-      v-model="value"
-      @change="$emit('input', $event.target.value)"
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
     />
     <label for="clientTypeSelector-1">Бизнес</label>
     <input
       type="radio"
       id="clientTypeSelector-3"
       value="3"
-      v-model="value"
-      @change="$emit('input', $event.target.value)"
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
     />
     <label for="clientTypeSelector-3">Частные лица</label>
   </div>
@@ -27,6 +27,20 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 export default class AdminClientTypeSelector extends Vue {
   @Prop()
   private value
+
+  private selectedId = null
+
+  private get selectedValueId () {
+    return this.selectedId
+  }
+
+  private set selectedValueId (id) {
+    this.selectedId = id
+  }
+
+  private async mounted () {
+    this.selectedId = this.value
+  }
 }
 </script>
 

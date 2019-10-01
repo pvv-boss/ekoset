@@ -15,27 +15,6 @@
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
     </vue-good-table>
-
-    <!-- <table class="brc-article-table_admin">
-      <thead>
-        <th>Заголовок</th>
-        <th>Дата</th>
-        <th>Статус</th>
-        <th>Просмотры</th>
-      </thead>
-      <tbody>
-        <tr v-for="articleItem in articleItems" :key="articleItem.articleId">
-          <td>
-            <nuxt-link
-              :to="{ name: 'admin-news-article-card', params: { article: articleItem.articleUrl}}"
-            >{{articleItem.articleTitle}}</nuxt-link>
-          </td>
-          <td></td>
-          <td>{{articleItem.articleStatus}}</td>
-          <td>{{articleItem.articleViewsNumber}}</td>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 </template>
 

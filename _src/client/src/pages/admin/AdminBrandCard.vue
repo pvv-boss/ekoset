@@ -28,7 +28,7 @@
       <div class="brc-admin-card__relations">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Благодарственные письма</div>
-          <AdminFileUploader :maxFiles="10"></AdminFileUploader>
+          <AdminImageUploader :maxFiles="10"></AdminImageUploader>
         </div>
       </div>
     </div>
