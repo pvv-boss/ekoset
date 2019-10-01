@@ -114,7 +114,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
@@ -165,6 +165,12 @@ export default class AdminServiceCard extends Vue {
     return 'admin'
   }
 
+  @Watch('serviceItem.businessServiceParentId', { immediate: true })
+  private async updateParentService () {
+    this.brandRelationList = await getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(Number(this.serviceItem.businessServiceParentId))
+    this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+    this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+  }
 
   private async asyncData (context: NuxtContext) {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
