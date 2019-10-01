@@ -104,6 +104,7 @@ export default class TheMessagesAriseBlock extends Vue {
       position: absolute;
       right: 30px;
       top: 15px;
+      margin-top: 0 !important;
     }
   }
 }
