@@ -21,6 +21,15 @@
         </div>
 
         <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Превью изображение</div>
+          <AdminImageUploader id="bigArticleImageFile" @upload="saveImage($event,false)"></AdminImageUploader>
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Основное изображение</div>
+          <AdminImageUploader id="smallArticleImageFile" @upload="saveImage($event,true)"></AdminImageUploader>
+        </div>
+
+        <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Источник</div>
           <input type="text" v-model="article.articleSource" />
         </div>
@@ -29,10 +38,10 @@
           <div class="brc-admin-card-attribute__caption">Автор</div>
           <input type="text" v-model="article.articleAuthor" />
         </div>
-        <div class="brc-admin-card-attribute">
+        <!-- <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Дата</div>
           <input type="datetime" v-model="article.articlePublishDate" />
-        </div>
+        </div>-->
         <div v-if="article.articleId > 0">
           <h4>Связанные услуги</h4>
           <AdminServiceRelationList
@@ -74,6 +83,7 @@ import AdminServiceRelationList from '@/components/admin/AdminServiceRelationLis
 import AdminTagRelationList from '@/components/admin/AdminTagRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
+import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 
 @Component({
   components: {
@@ -83,7 +93,8 @@ import AppStore from '@/store/AppStore'
     AdminServiceSelector,
     AdminStatusSelector,
     AdminServiceRelationList,
-    AdminTagRelationList
+    AdminTagRelationList,
+    AdminImageUploader
   }
 })
 export default class AdminArticleCard extends Vue {
@@ -113,6 +124,12 @@ export default class AdminArticleCard extends Vue {
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость?', 'Подтвердите удаление', okCallback)
+  }
+
+  private async saveImage (imageFile: string, isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveNewsImage(this.article.articleId, formData, isBig)
   }
 
   @Watch('article.siteSectionId', { immediate: true })

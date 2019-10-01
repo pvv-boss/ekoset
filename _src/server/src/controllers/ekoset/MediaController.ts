@@ -30,7 +30,6 @@ export default class MediaController extends BaseController {
   @UseBefore(upload.single('file'))
   @Post('/admin/panel/sitesection/:sitesectionId/image/:bigOrSmall(big|small)')
   public async saveSiteSectionImage (
-    @Body() body: any,
     @Param('sitesectionId') siteSectionId: number,
     @Param('bigOrSmall') bigOrSmall: string,
     @Req() request: Request,
@@ -48,7 +47,6 @@ export default class MediaController extends BaseController {
   @UseBefore(upload.single('file'))
   @Post('/admin/panel/service/:serviceId/image/:bigOrSmall(big|small)')
   public async saveServiceImage (
-    @Body() body: any,
     @Param('serviceId') serviceId: number,
     @Param('bigOrSmall') bigOrSmall: string,
     @Req() request: Request,
@@ -62,7 +60,6 @@ export default class MediaController extends BaseController {
   @UseBefore(upload.single('file'))
   @Post('/admin/panel/offer/:offerId/image/:bigOrSmall(big|small)')
   public async saveOfferImage (
-    @Body() body: any,
     @Param('offerId') offerId: number,
     @Param('bigOrSmall') bigOrSmall: string,
     @Req() request: Request,
@@ -76,7 +73,6 @@ export default class MediaController extends BaseController {
   @UseBefore(upload.single('file'))
   @Post('/admin/panel/brands/:brandId/image/:bigOrSmall(big|small)')
   public async saveBrandImage (
-    @Body() body: any,
     @Param('brandId') brandId: number,
     @Param('bigOrSmall') bigOrSmall: string,
     @Req() request: Request,
@@ -84,6 +80,20 @@ export default class MediaController extends BaseController {
 
     const file = request.file;
     const result = await ServiceContainer.MediaService.saveBrandImage(brandId, file, bigOrSmall === 'big');
+    return MediaController.createSuccessResponse(result, response);
+  }
+
+
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/news/:newsId/image/:bigOrSmall(big|small)')
+  public async saveNewsImage (
+    @Param('newsId') brandId: number,
+    @Param('bigOrSmall') bigOrSmall: string,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveNewsImage(brandId, file, bigOrSmall === 'big');
     return MediaController.createSuccessResponse(result, response);
   }
 
