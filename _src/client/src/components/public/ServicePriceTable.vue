@@ -1,36 +1,35 @@
 <template>
-  <div class="brc-service-price-table__wrapper">
-    <table class="brc-service-price-table" cellspacing="0">
-      <thead>
-        <th>Услуга</th>
-        <th width="10%">Ед.изм.</th>
-        <th width="20%">Цена</th>
-      </thead>
-      <tbody>
-        <tr v-for="servicePrice in serviceResultList" :key="servicePrice.businessServiceId">
-          <td
-            :colspan="servicePrice.businessServicePrice > 0 ? 1 : 3"
-            :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0, 'brc-service-price-td_bold':!servicePrice.businessServiceParentId}"
-          >
-            <nuxt-link
-              :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-              class="brc-service-price-table-link"
-            >{{servicePrice.businessServiceName}}</nuxt-link>
-          </td>
-          <td v-if="servicePrice.businessServicePrice > 0">{{servicePrice.businessServiceUnit}}</td>
-          <td
-            v-if="servicePrice.businessServicePrice > 0"
-          >{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="brc-all-prices-link__wrapper" v-if="!allPricesPage">
-      <nuxt-link
-        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
-        class="brc-all-prices-link"
-      >Все цены</nuxt-link>
+  <no-ssr>
+    <div class="brc-service-price-table__wrapper">
+      <table class="brc-service-price-table" cellspacing="0">
+        <thead>
+          <th>Услуга</th>
+          <th width="10%">Ед.изм.</th>
+          <th width="20%">Цена</th>
+        </thead>
+        <tbody>
+          <tr v-for="servicePrice in serviceResultList" :key="servicePrice.businessServiceId">
+            <td
+              :class="{'brc-service-price-td_child':servicePrice.businessServiceParentId>0, 'brc-service-price-td_bold':!servicePrice.businessServiceParentId}"
+            >
+              <nuxt-link
+                :to="{ name: 'service-card', params: { service: servicePrice.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+                class="brc-service-price-table-link"
+              >{{servicePrice.businessServiceName}}</nuxt-link>
+            </td>
+            <td>{{servicePrice.businessServiceUnit}}</td>
+            <td>{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="brc-all-prices-link__wrapper" v-show="!allPricesPage">
+        <nuxt-link
+          :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
+          class="brc-all-prices-link"
+        >Все цены</nuxt-link>
+      </div>
     </div>
-  </div>
+  </no-ssr>
 </template>
 
 
@@ -51,7 +50,7 @@ export default class ServicePriceTable extends Vue {
 
   private get serviceTopList () {
     return this.servicePriceList.filter((obj) => obj.businessServiceParentId == null).sort((obj1, obj2) => {
-      return obj1.businessServicePriority - obj2.businessServicePriority;
+      return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
     })
   }
 
@@ -61,13 +60,13 @@ export default class ServicePriceTable extends Vue {
     if (this.serviceTopList.length > 0) {
       this.serviceTopList.forEach((item) => {
         list.push(item)
-        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId === item.businessServiceId).sort((obj1, obj2) => {
-          return obj1.businessServicePriority - obj2.businessServicePriority;
+        list.push(...this.servicePriceList.filter((obj) => Number(obj.businessServiceParentId) === Number(item.businessServiceId)).sort((obj1, obj2) => {
+          return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
         }))
       });
     } else {
       list = this.servicePriceList.sort((obj1, obj2) => {
-        return obj1.businessServicePriority - obj2.businessServicePriority;
+        return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
       })
     }
     return list

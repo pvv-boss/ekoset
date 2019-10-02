@@ -2,7 +2,9 @@
   <section>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Цены</h1>
-    <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
+    <no-ssr>
+      <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
+    </no-ssr>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>
