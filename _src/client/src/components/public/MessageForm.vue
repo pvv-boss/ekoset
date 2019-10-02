@@ -6,24 +6,22 @@
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
-            <label for="name">Имя Фамилия</label>
-            <input type="text" v-model.lazy="formMessageData.name" />
+            <label for="userName">Имя Фамилия</label>
+            <input type="text" v-model.lazy="formMessageData.userName" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.name.length === 0 }"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.userName.length === 0 }"
             >Введите имя</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
-            <!-- <input type="tel" v-model.lazy="phone" /> -->
             <span class="brc-input-addon">
               <span>+7</span>
             </span>
             <input
               type="tel"
-              v-model="formMessageData.phone"
+              v-model.lazy="formMessageData.phone"
               name="phone"
-              id="phone"
               placeholder="(555) 555-5555"
               autocomplete="tel"
               maxlength="14"
@@ -32,28 +30,27 @@
               pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
               required
             />
-
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.phone.length > 0) && $v.phone.$invalid}"
-            >Введите телефон в формате +7 999 999-99-99</span>
+              :class="{'brc-error-message_visible': (isSubmit || formMessageData.phone.length > 0) && $v.formMessageData.phone.$invalid}"
+            >Введите телефон в формате +7 (999) 999-9999</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
             <input type="email" v-model.lazy="formMessageData.email" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.email.length > 0) && $v.email.$invalid}"
+              :class="{'brc-error-message_visible': (isSubmit || formMessageData.email.length > 0) && $v.formMessageData.email.$invalid}"
             >Введите настоящий email</span>
           </div>
         </div>
         <div class="brc-message-form__row">
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea v-model.lazy="formMessageData.message"></textarea>
+            <textarea v-model.lazy="formMessageData.caption"></textarea>
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.message.length === 0}"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.caption.length === 0}"
             >Напишите комментарий</span>
           </div>
         </div>
@@ -77,23 +74,27 @@ import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
 import { getServiceContainer } from '@/api/ServiceContainer';
 import FormMessageData from '@/models/ekoset/FormMessageData';
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
 @Component({
   validations: {
-    email: {
-      required,
-      validFormat: (val) => {
-        return emailTest.test(val);
+    formMessageData: {
+      email: {
+        required,
+        validFormat: (val) => {
+          return emailTest.test(val);
+        },
       },
-    },
-    phone: {
-      validFormat: (val) => phoneTest.test(val)
-    },
-    name: {
-      required
-    },
-    message: {
-      required
+      phone: {
+        required,
+        validFormat: (val) => phoneTest.test(val)
+      },
+      userName: {
+        required
+      },
+      caption: {
+        required
+      }
     }
   }
 })
@@ -102,8 +103,8 @@ export default class MessageForm extends Vue {
     file: HTMLFormElement
   }
 
-  public file = ''
-  public formMessageData: FormMessageData = new FormMessageData()
+  private file = ''
+  private formMessageData: FormMessageData = new FormMessageData()
 
   @Prop()
   private title
@@ -129,15 +130,18 @@ export default class MessageForm extends Vue {
   }
 
   private async sentMessage () {
-    //  if (this.validateForm()) {
-    const formData: FormData = new FormData()
-    formData.append('formMessageData', JSON.stringify(this.formMessageData))
-    formData.append('file', this.file)
-    getServiceContainer().publicEkosetService.sendFormMessage(formData)
+    if (this.validateForm()) {
+      const formData: FormData = new FormData()
+      formData.append('formMessageData', JSON.stringify(this.formMessageData))
+      formData.append('file', this.file)
+      getServiceContainer().publicEkosetService.sendFormMessage(formData)
 
-    alert('Отправили сообщение')
+      this.$BrcNotification(BrcDialogType.Success, `Отправили сообщение`)
+    }
+    else {
+      this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
+    }
   }
-  // }
 
 }
 </script>
