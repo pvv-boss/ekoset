@@ -14,6 +14,6 @@ export class ReccomendationLetter {
     nullable: true,
     name: 'cl_brand_id'
   })
-  public clBrandId: string | null;
+  public clBrandId: number | null;
 
 }
