@@ -37,7 +37,6 @@ export default class TheMessagesAriseBlock extends Vue {
         }
       })
     }
-
   }
 
   private closeForm () {
@@ -76,7 +75,7 @@ export default class TheMessagesAriseBlock extends Vue {
     float: right;
     margin-top: -30px;
     font-size: 36px;
-    color: gray;
+    color: lightgray;
     cursor: pointer;
   }
 }

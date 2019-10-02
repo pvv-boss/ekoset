@@ -137,6 +137,9 @@ export default class MessageForm extends Vue {
       getServiceContainer().publicEkosetService.sendFormMessage(formData)
 
       this.$BrcNotification(BrcDialogType.Success, `Отправили сообщение`)
+      if (this.showCloseBtn) {
+        this.$emit('closeForm')
+      }
     }
     else {
       this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
