@@ -10,6 +10,7 @@ import { ClActivity } from '@/entities/ekoset/ClActivity';
 import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
 import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
+import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -18,6 +19,7 @@ export default class MainEkosetService extends BaseService {
   private apiBrandsForSitreSectionViewName = 'v_api_brand_site_section';
   private apiClActivityViewName = 'cl_activity';
   private apiBrandsByBusinessService = 'v_api_business_service_brand';
+  private apiRecommendationLettersViewName = 'v_api_recommendation_letter';
 
   public async getSiteSections () {
     return this.getDbViewResult(this.apiViewName);
@@ -145,5 +147,19 @@ export default class MainEkosetService extends BaseService {
   public async deleteSiteSection (id: number) {
     // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
   }
+
+  // Рекомендации
+  public async getRecommendationLettersByBrand (brandId: number) {
+    return this.getDbViewResult(this.apiBrandsViewName, null, 'apiRecommendationLettersViewName = $1', [brandId]);
+  }
+
+  public async deleteRecommendationLetter (id: number) {
+    return this.deleteById('recommendation', 'recomm_id = $1', id);
+  }
+
+  public async saveRecommendation (reccomendationLetter: ReccomendationLetter) {
+    return TypeOrmManager.EntityManager.save(reccomendationLetter);
+  }
+
 
 }

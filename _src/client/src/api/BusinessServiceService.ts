@@ -18,7 +18,7 @@ export default class BusinessServiceService extends BaseService {
 
   // Для главной страницы
   public async  getMainList (pagination?: Pagination) {
-    const query = 'services'
+    const query = 'services/main'
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }

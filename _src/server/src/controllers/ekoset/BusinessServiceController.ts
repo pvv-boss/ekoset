@@ -15,6 +15,12 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/services/main')
+  public async getMainList (
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.getMainList();
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
 
   @Get('/:sitesection/services')
   public async getAllBySiteSectionId (

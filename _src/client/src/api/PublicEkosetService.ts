@@ -7,6 +7,7 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
 import Partner from '@/models/ekoset/Partner';
 import PartnerGroup from '@/models/ekoset/PartnerGroup';
+import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
 
 export default class PublicEkosetService extends BaseService {
 
@@ -169,6 +170,26 @@ export default class PublicEkosetService extends BaseService {
   public async deleteBrand (id: number) {
     return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
   }
+
+  // Рекомендации
+  public async getRecommendationLettersByBrand (brandId: number) {
+    const query = `brands/${brandId}/letters`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+
+  public async saveRecommendation (letter: ReccomendationLetter) {
+    const query = 'brands/letters'
+    return HttpUtil.httpPut(this.buildHttRequest(query))
+  }
+
+
+  public async deleteRecommendationLetter (id: number) {
+    const query = `brands/letters/${id}`
+    return HttpUtil.httpDelete(this.buildHttRequest(query))
+  }
+
+
 
   public async sendFormMessage (formData: FormData) {
     const result = HttpUtil.httpPostForm('user/message', formData)

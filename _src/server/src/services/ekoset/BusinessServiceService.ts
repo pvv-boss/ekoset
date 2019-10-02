@@ -17,6 +17,10 @@ export default class BusinessServiceService extends BaseService {
     return this.getDbViewResult(this.apiViewName);
   }
 
+  public async getMainList () {
+    return this.getDbViewResult(this.apiViewName, null, 'business_service_parent_id IS NULL');
+  }
+
   public async getAllBySiteSectionId (siteSectionId: number, excludeChild: boolean) {
     const selectStmt = excludeChild ? 'site_section_id = $1 and business_service_parent_id IS NULL' : 'site_section_id = $1'
     return this.getDbViewResult(this.apiViewName, null, selectStmt, [siteSectionId]);

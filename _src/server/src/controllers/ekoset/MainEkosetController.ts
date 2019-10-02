@@ -9,6 +9,7 @@ import { ClActivity } from '@/entities/ekoset/ClActivity';
 import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
 import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
+import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -220,11 +221,27 @@ export default class MainEkosetController extends BaseController {
   }
 
   // Рекомендации
-  // @Get('/:sitesection/brands')
-  // public async getBrandsBySiteSection (
-  //   @Res() response: Response,
-  //   @Param('sitesection') siteSectionId: number) {
-  //   const result = await ServiceContainer.MainEkosetService.getBrandsBySiteSection(siteSectionId);
-  //   return MainEkosetController.createSuccessResponse(result, response);
-  // }
+  @Get('/brands/:brandId/letters')
+  public async getRecommendationLettersByBrand (
+    @Res() response: Response,
+    @Param('brandId') brandId: number) {
+    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersByBrand(brandId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Put('/brands/letters')
+  public async saveRecommendation (
+    @Body() reccomendationLetter: ReccomendationLetter,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.saveRecommendation(reccomendationLetter);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/brands/letters/:id(\\d+)')
+  public async deleteRecommendationLetter (
+    @Param('id') id: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.deleteRecommendationLetter(id);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
 }

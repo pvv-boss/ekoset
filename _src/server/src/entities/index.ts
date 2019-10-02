@@ -15,11 +15,12 @@ import { SiteSocialNetwork } from './ekoset/SiteSocialNetwork';
 import { ClClient } from './ekoset/ClClient';
 import { PartnerGroup } from './ekoset/PartnerGroup';
 import { Partner } from './ekoset/Partner';
+import { ReccomendationLetter } from './ekoset/ReccomendationLetter';
 
 
 const entityModelMetadata = [
   AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, SiteSection, ClActivity, ClArticleTag, ClBrand,
-  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, PartnerGroup, Partner
+  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, PartnerGroup, Partner, ReccomendationLetter
 ];
 
 
