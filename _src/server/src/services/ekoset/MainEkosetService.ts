@@ -7,7 +7,6 @@ import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import IndividualOfferService from './IndividualOfferService';
 import { ClActivity } from '@/entities/ekoset/ClActivity';
-import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
 import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
@@ -150,7 +149,7 @@ export default class MainEkosetService extends BaseService {
 
   // Рекомендации
   public async getRecommendationLettersByBrand (brandId: number) {
-    return this.getDbViewResult(this.apiBrandsViewName, null, 'apiRecommendationLettersViewName = $1', [brandId]);
+    return this.getDbViewResult(this.apiRecommendationLettersViewName, null, 'cl_brand_id = $1', [brandId]);
   }
 
   public async deleteRecommendationLetter (id: number) {

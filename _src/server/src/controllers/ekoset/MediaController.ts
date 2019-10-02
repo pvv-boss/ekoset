@@ -97,5 +97,18 @@ export default class MediaController extends BaseController {
     return MediaController.createSuccessResponse(result, response);
   }
 
+
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/recommendation/:id/image')
+  public async saveRecommendationLetterImage (
+    @Param('id') id: number,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveRecommendationLetterImage(id, file);
+    return MediaController.createSuccessResponse(result, response);
+  }
+
 }
 

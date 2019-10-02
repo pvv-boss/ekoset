@@ -26,6 +26,9 @@ export default class PublicEkosetService extends BaseService {
       brandItems = this.getBrandsForHomePage()
     }
 
+    // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
+    // ReccomendationLetter
+
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any
     if (serviceSlug) {
@@ -49,6 +52,7 @@ export default class PublicEkosetService extends BaseService {
     result.brandItems = data[0]
     result.articleItems = data[1]
     result.seoMeta = data[2]
+    result.reccomendationLetters = []
 
     return result
   }
@@ -180,7 +184,7 @@ export default class PublicEkosetService extends BaseService {
 
   public async saveRecommendation (letter: ReccomendationLetter) {
     const query = 'brands/letters'
-    return HttpUtil.httpPut(this.buildHttRequest(query))
+    return HttpUtil.httpPut(this.buildHttRequest(query), letter)
   }
 
 

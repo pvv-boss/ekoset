@@ -10,7 +10,7 @@ export class ReccomendationLetter {
   })
   public recommId: number;
 
-  @Column('text', {
+  @Column('numeric', {
     nullable: true,
     name: 'cl_brand_id'
   })
