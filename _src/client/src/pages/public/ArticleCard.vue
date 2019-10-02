@@ -32,15 +32,18 @@
         :class="{'brc-article-item_full-width': realtedArticles.length===0}"
       >
         <article v-html="article.articleBody" itemprop="articleBody"></article>
+        <ArticleMetaTags :articleUrl="article.articleUrl"></ArticleMetaTags>
+        <div class="brc-article-item__yandex-share">
+          <yandex-share
+            :services="['vkontakte','facebook','odnoklassniki','twitter','skype']"
+            counter
+          />
+        </div>
       </section>
       <section class="brc-article-related" v-if="realtedArticles.length>0">
         <h2>Похожие новости</h2>
         <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
       </section>
-    </div>
-    <ArticleMetaTags :articleUrl="article.articleUrl"></ArticleMetaTags>
-    <div class="brc-article-item__yandex-share">
-      <yandex-share :services="['vkontakte','facebook','odnoklassniki','twitter','skype']" counter />
     </div>
   </div>
 </template>
@@ -141,16 +144,6 @@ export default class ArticleCard extends Vue {
   }
 }
 
-.brc-article-tags {
-  padding: 15px 0;
-  ul {
-    li {
-      display: inline;
-      list-style-type: "#";
-      color: lightgrey;
-    }
-  }
-}
 .brc-article-wrapper {
   display: flex;
   flex-direction: row;
@@ -191,6 +184,9 @@ export default class ArticleCard extends Vue {
 }
 .brc-article-item__yandex-share {
   margin-top: 30px;
+  ul {
+    margin-left: 0 !important;
+  }
 }
 @media (max-width: 768px) {
   .brc-article-wrapper {
@@ -201,6 +197,7 @@ export default class ArticleCard extends Vue {
   }
   .brc-article-related {
     padding-left: 0 !important;
+    margin-top: 30px;
   }
 }
 </style>
