@@ -30,15 +30,20 @@ export default class ArticleMetaTags extends Vue {
 <style lang="scss">
 .brc-article-tags {
   margin: 30px 0 0;
-
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 0 !important;
   li {
-    display: inline;
     margin-right: 15px;
+    margin-top: 15px;
     background-color: #f4f4f5;
     padding: 5px 15px;
-    color: gray;
+    color: grey;
     border-radius: 3px;
     font-size: 14px;
+    list-style: none;
+    width: min-content;
   }
 }
 </style>
