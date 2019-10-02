@@ -67,7 +67,7 @@ export default class ServicePriceTable extends Vue {
     if (this.serviceTopList.length > 0) {
       this.serviceTopList.forEach((item) => {
         list.push(item)
-        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId == item.businessServiceId).sort((obj1, obj2) => {
+        list.push(...this.servicePriceList.filter((obj) => obj.businessServiceParentId === item.businessServiceId).sort((obj1, obj2) => {
           return obj1.businessServicePriority - obj2.businessServicePriority;
         }))
       });
