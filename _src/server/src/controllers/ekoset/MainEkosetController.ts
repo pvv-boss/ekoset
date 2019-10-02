@@ -221,6 +221,7 @@ export default class MainEkosetController extends BaseController {
   }
 
   // Рекомендации
+  // Для бренда
   @Get('/brands/:brandId/letters')
   public async getRecommendationLettersByBrand (
     @Res() response: Response,
@@ -229,6 +230,31 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/letters')
+  public async getRecommendationLettersForHomePage (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersForHomePage();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/letters/sitesection/:sitesection')
+  public async getRecommendationLettersBySiteSection (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersBySiteSection(siteSectionId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/letters/services/:service(\\d+)')
+  public async getRecommendationLettersByBusinessService (
+    @Res() response: Response,
+    @Param('service') serviceId: number) {
+
+    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersByBusinessService(serviceId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  // Сохранить
   @Put('/brands/letters')
   public async saveRecommendation (
     @Body() reccomendationLetter: ReccomendationLetter,
@@ -237,6 +263,7 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  // Удалить
   @Delete('/brands/letters/:id(\\d+)')
   public async deleteRecommendationLetter (
     @Param('id') id: number,

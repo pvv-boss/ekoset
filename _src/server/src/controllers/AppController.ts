@@ -8,7 +8,6 @@ import { routingControllersToSpec } from 'routing-controllers-openapi'
 import { authorized } from '@/middlewares/AuthorizeMiddleware';
 import RgisService from '@/services/RgisService';
 
-
 @JsonController('/app')
 export default class AppController extends BaseController {
 
@@ -20,13 +19,13 @@ export default class AppController extends BaseController {
   @UseBefore(authorized())
   @Get('/spec')
   public async getApiSpec (@Res() response: Response) {
-    const storage = getMetadataArgsStorage();
+    const storage1 = getMetadataArgsStorage();
     const options = {
       defaultErrorHandler: true,
       routePrefix: AppConfig.serverConfig.restApiEndPoint
     }
-    const spec = routingControllersToSpec(storage, options);
-    return BaseController.createSuccessResponse(spec, response);
+    // const spec = routingControllersToSpec(storage1, options);
+    // return BaseController.createSuccessResponse(spec, response);
   }
 
   @Get('/rgis')

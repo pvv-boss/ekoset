@@ -152,6 +152,19 @@ export default class MainEkosetService extends BaseService {
     return this.getDbViewResult(this.apiRecommendationLettersViewName, null, 'cl_brand_id = $1', [brandId]);
   }
 
+  public async getRecommendationLettersForHomePage () {
+    return this.getDbViewResult(this.apiRecommendationLettersViewName, null, 'cl_brand_main_page_visible = 1');
+  }
+
+  public async getRecommendationLettersBySiteSection (siteSectionId: number) {
+    return this.getDbViewResult('v_api_recommendation_letter_site_section', null, 'site_section_id = $1', [siteSectionId]);
+
+  }
+
+  public async getRecommendationLettersByBusinessService (businessServiceId: number) {
+    return this.getDbViewResult('v_api_recommendation_letter_business_service', null, 'business_service_id = $1', [businessServiceId]);
+  }
+
   public async deleteRecommendationLetter (id: number) {
     return this.deleteById('recommendation', 'recomm_id = $1', id);
   }

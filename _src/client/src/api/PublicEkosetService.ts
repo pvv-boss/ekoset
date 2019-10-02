@@ -28,6 +28,18 @@ export default class PublicEkosetService extends BaseService {
 
     // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
     // ReccomendationLetter
+    let reccomendationLetterItems: any
+    if (serviceSlug) {
+      reccomendationLetterItems = this.getRecommendationLettersByBusinessServiceSlug(serviceSlug)
+    }
+
+    if (!serviceSlug && siteSectionSlug) {
+      reccomendationLetterItems = this.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
+    }
+
+    if (!reccomendationLetterItems) {
+      reccomendationLetterItems = this.getRecommendationLettersForHomePage()
+    }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any
@@ -46,13 +58,13 @@ export default class PublicEkosetService extends BaseService {
     // Мета
     const seoMeta = getServiceContainer().seoMetaService.getForHomePage()
 
-    const data = await Promise.all([brandItems, articleItems, seoMeta])
+    const data = await Promise.all([brandItems, articleItems, seoMeta, reccomendationLetterItems])
 
     const result = new ApiSharedData()
     result.brandItems = data[0]
     result.articleItems = data[1]
     result.seoMeta = data[2]
-    result.reccomendationLetters = []
+    result.reccomendationLetters = data[3]
 
     return result
   }
@@ -193,7 +205,22 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 
+  public async getRecommendationLettersByBusinessServiceSlug (serviceSlug: string) {
+    const query = `letters/services/${this.getIdBySlug(serviceSlug)}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
 
+  public async   getRecommendationLettersBySiteSectionSlug (siteSectionSlug: string) {
+    const query = `letters/sitesection/${this.getIdBySlug(siteSectionSlug)}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async  getRecommendationLettersForHomePage () {
+    const query = `letters`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  //
 
   public async sendFormMessage (formData: FormData) {
     const result = HttpUtil.httpPostForm('user/message', formData)
