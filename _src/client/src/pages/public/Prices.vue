@@ -3,7 +3,7 @@
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Цены</h1>
     <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <TheShared :apiSharedData="apiSharedData" showLetters="true"></TheShared>
   </section>
 </template>
 
