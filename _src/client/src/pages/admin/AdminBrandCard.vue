@@ -37,7 +37,20 @@
       <div class="brc-admin-card__relations">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Благодарственные письма</div>
-          <AdminImageUploader :maxFiles="10"></AdminImageUploader>
+          <AdminImageUploader @upload="saveLetterImage($event,true)"></AdminImageUploader>
+
+          <vue-good-table :columns="headerFields" :rows="recommendLetterList">
+            <template slot="table-row" slot-scope="props">
+              <a
+                v-if="props.column.field == 'recommBrandImg'"
+                :href="props.row.recommBrandImg"
+                target="_blank"
+              >{{props.row.recommBrandImg}}</a>
+              <span v-else>
+                <button type="button" @click="deleteRecommLetter(props.row.recommId)">Удалить</button>
+              </span>
+            </template>
+          </vue-good-table>
         </div>
       </div>
     </div>
@@ -53,6 +66,7 @@ import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
+import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 
@@ -66,6 +80,7 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 export default class AdminBrandCard extends Vue {
   private brandItem: ClBrand = new ClBrand()
   private breadCrumbList: any[] = []
+  private recommendLetterList: any[] = []
 
   private isBrandMainPageVisible = false
 
@@ -73,11 +88,47 @@ export default class AdminBrandCard extends Vue {
     return 'admin'
   }
 
+  private headerFields = [
+    {
+      field: 'recommBrandImg',
+      label: 'Изображение'
+    },
+    {
+      field: 'actions',
+      label: ''
+    }
+  ]
+
   private async asyncData (context: NuxtContext) {
     const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))
+    const recommendLetters = getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(Number(context.params.brand))
+
+    const data = await Promise.all([recommendLetters])
+
     return {
-      brandItem
+      brandItem,
+      recommendLetterList: data[0]
     }
+  }
+
+  private async updateLetterList () {
+    this.recommendLetterList = await getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(this.brandItem.clBrandId)
+  }
+
+  private async saveLetterImage (imageFile: string, isBig: boolean) {
+    const letter: ReccomendationLetter = new ReccomendationLetter()
+    letter.clBrandId = this.brandItem.clBrandId
+    const recommLetter = await getServiceContainer().publicEkosetService.saveRecommendation(letter)
+
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    await getServiceContainer().mediaService.saveRecommendationLetterImage(recommLetter.recommId, formData)
+    this.updateLetterList()
+  }
+
+  private async deleteRecommLetter (recommId: number) {
+    await getServiceContainer().publicEkosetService.deleteRecommendationLetter(recommId)
+    this.updateLetterList()
   }
 
   private saveBrand () {

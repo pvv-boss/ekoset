@@ -8,6 +8,10 @@
       v-if="apiSharedData.brandItems.length > 0"
       :brandList="apiSharedData.brandItems"
     ></RecommendationList>
+    <RecommLetterList
+      v-if="showLetters && apiSharedData.reccomendationLetters.length > 0"
+      :recommLetterList="apiSharedData.reccomendationLetters"
+    ></RecommLetterList>
     <div class="brc-section__wrapper" v-if="apiSharedData.articleItems.length > 0">
       <h2>Новости</h2>
       <ArticleList :articleList="apiSharedData.articleItems.slice(0, 3)" mode="columns"></ArticleList>
@@ -24,6 +28,7 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import ApiSharedData from '@/models/ekoset/ApiSharedData';
 import RecommendationList from '@/components/public/RecommendationList.vue'
+import RecommLetterList from '@/components/public/RecommLetterList.vue'
 import ArticleList from '@/components/public/ArticleList.vue'
 import MessageForm from '@/components/public/MessageForm.vue'
 import BottomDynamicBlock from '@/components/public/BottomDynamicBlock.vue'
@@ -32,12 +37,15 @@ import BottomDynamicBlock from '@/components/public/BottomDynamicBlock.vue'
     ArticleList,
     RecommendationList,
     MessageForm,
-    BottomDynamicBlock
+    BottomDynamicBlock,
+    RecommLetterList
   }
 })
 export default class TheShared extends Vue {
   @Prop()
   private apiSharedData
 
+  @Prop({ type: Boolean, default: false })
+  private showLetters
 }
 </script>

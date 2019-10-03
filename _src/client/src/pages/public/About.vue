@@ -12,7 +12,7 @@
       <figcaption>Экосеть</figcaption>
     </figure>
     <TopDynamicBlock></TopDynamicBlock>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <TheShared :apiSharedData="apiSharedData" showLetters="true"></TheShared>
   </section>
 </template>
 
