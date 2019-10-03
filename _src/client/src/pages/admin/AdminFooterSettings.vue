@@ -6,7 +6,7 @@
     <div>
       <h2>Для бизнеса</h2>
       <div class="brc-footer-service-list_wrapper">
-        <vue-good-table :columns="headerFields" :rows="brandRelationItems">
+        <vue-good-table :columns="headerFields" :rows="businessServiceItems">
           <template #table-row="props">
             <input
               v-if="props.column.field == 'businessServiceId'"
@@ -24,7 +24,7 @@
     <div>
       <h2>Для частных лиц</h2>
       <div class="brc-footer-service-list_wrapper">
-        <vue-good-table :columns="headerFields" :rows="brandRelationItems">
+        <vue-good-table :columns="headerFields" :rows="privateServiceItems">
           <template #table-row="props">
             <input
               v-if="props.column.field == 'businessServiceId'"
@@ -58,6 +58,8 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 })
 export default class AdminFooterSettings extends Vue {
   private breadCrumbList: any[] = []
+  private privateServiceItems: any[] = []
+  private businessServiceItems: any[] = []
 
   private layout () {
     return 'admin'
@@ -65,7 +67,8 @@ export default class AdminFooterSettings extends Vue {
 
   private async asyncData (context: NuxtContext) {
     //получаем список услуг
-    // const serviceItems = getServiceContainer().businessServiceService.getAll()
+    // const businessServiceItems = getServiceContainer().businessServiceService.getAll()
+    // const privateServiceItems = getServiceContainer().businessServiceService.getAll()
 
     // const data = await Promise.all([serviceItems])
     // return {
