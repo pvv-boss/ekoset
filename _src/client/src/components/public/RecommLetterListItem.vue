@@ -18,6 +18,7 @@
     >
       <div class="brc-letter-bigitem">
         <div class="brc-letter-bigitem__close" @click="showBigImg = false" title="Закрыть">&times;</div>
+        <p>{{recommLetter.recommTitle}}</p>
         <img
           :src="recommLetter.recommBrandImg"
           :alt="recommLetter.recommTitle"
