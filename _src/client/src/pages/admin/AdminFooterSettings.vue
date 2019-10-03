@@ -21,22 +21,32 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 })
 export default class AdminFooterSettings extends Vue {
   private breadCrumbList: any[] = []
+  private serviceListForPerson: any
+  private serviceListForBusiness: any
 
   private layout () {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
-    // const serviceItems = getServiceContainer().businessServiceService.getAll()
+  private async addRemovePrivatePersonServiceToFooter (serviceUrl: string, isRemove: boolean) {
+    await getServiceContainer().businessServiceService.addRemoveService2Footer(serviceUrl, 'private', isRemove)
+  }
 
-    // const data = await Promise.all([serviceItems])
-    // return {
-    //   serviceItems: data[0]
-    // }
+  private async addRemoveBusinessServiceToFooter (serviceUrl: string, isRemove: boolean) {
+    await getServiceContainer().businessServiceService.addRemoveService2Footer(serviceUrl, 'business', isRemove)
   }
 
   private mounted () {
     this.configBreadCrumbs()
+    this.updateData()
+  }
+
+  private async updateData () {
+    const serviceListForPersonPr = getServiceContainer().businessServiceService.getServicesForFooter('private')
+    const serviceListForBusinessPr = getServiceContainer().businessServiceService.getServicesForFooter('business')
+    const data = await Promise.all([serviceListForPersonPr, serviceListForBusinessPr])
+    this.serviceListForPerson = data[0];
+    this.serviceListForBusiness = data[1];
   }
 
   private configBreadCrumbs () {
