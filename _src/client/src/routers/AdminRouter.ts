@@ -13,6 +13,7 @@ import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
 import AdminClPartnerGroups from '@/pages/admin/AdminClPartnerGroups.vue'
 import AdminClientList from '@/pages/admin/AdminClientList.vue'
 import AdminClientCard from '@/pages/admin/AdminClientCard.vue'
+import AdminFooterSettings from '@/pages/admin/AdminFooterSettings.vue'
 
 export const AdminRouter = [
   {
@@ -130,6 +131,16 @@ export const AdminRouter = [
     component: AdminClPartnerGroups,
     meta: {
       title: 'Справочники: Группы клиентов',
+      // requiresAuth: true
+    }
+  },
+  {
+    name: 'admin-footer-settings',
+    path: '/admin/footer-settings',
+    props: true,
+    component: AdminFooterSettings,
+    meta: {
+      title: 'Настройки: Футер',
       // requiresAuth: true
     }
   }
