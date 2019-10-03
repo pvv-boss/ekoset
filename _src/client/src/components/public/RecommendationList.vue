@@ -35,7 +35,7 @@ export default class RecommendationList extends Vue {
   .brc-recommendations {
     margin: 30px -15px 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 </style>

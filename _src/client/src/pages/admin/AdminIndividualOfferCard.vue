@@ -14,7 +14,10 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector v-model="indOfferItem.siteSectionId"></AdminSiteSectionSelector>
+          <AdminSiteSectionSelector
+            v-model="indOfferItem.siteSectionId"
+            :disabled="isClientTypeMode"
+          ></AdminSiteSectionSelector>
         </div>
         <div class="brc-service-attribute" v-if="isClientTypeMode">
           <div class="brc-service-attribute__caption">Тип клиента</div>
