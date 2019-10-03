@@ -4,7 +4,7 @@
     <h1>Настройки футера</h1>
 
     <div>
-      <h2>Для бизнеса</h2>
+      <h4>Для бизнеса</h4>
       <div class="brc-footer-service-list_wrapper">
         <vue-good-table :columns="headerFields" :rows="businessServiceItems">
           <template #table-row="props">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div>
-      <h2>Для частных лиц</h2>
+      <h4>Для частных лиц</h4>
       <div class="brc-footer-service-list_wrapper">
         <vue-good-table :columns="headerFields" :rows="privateServiceItems">
           <template #table-row="props">
