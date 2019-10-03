@@ -34,7 +34,7 @@ export default class Login extends Vue {
     this.configBreadCrumbs()
   }
 
-  private async configBreadCrumbs () {
+  private configBreadCrumbs () {
     this.breadCrumbList = []
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
   }
