@@ -15,7 +15,7 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
-  @Get('/services/main')
+  @Get('/services/start/main')
   public async getMainList (
     @Res() response: Response) {
     const result = await ServiceContainer.BusinessServiceService.getMainList();

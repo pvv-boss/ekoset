@@ -81,8 +81,9 @@ class PgUtls {
     };
 
     const pgp: IMain = pgPromise(initOptions);
-    this.postgrePromise = pgp(AppConfig.dbConfig);
     pgp.pg.types.setTypeParser(TypeId.INT8, parseInt);
+    pgp.pg.types.setTypeParser(TypeId.NUMERIC, parseInt);
+    this.postgrePromise = pgp(AppConfig.dbConfig);
   }
 
 

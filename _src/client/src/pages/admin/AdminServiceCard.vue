@@ -32,11 +32,11 @@
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Цена</div>
-          <input type="number" v-model.number="serviceItem.businessServicePrice" />
+          <input type="number" required v-model.number="serviceItem.businessServicePrice" />
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Приоритет</div>
-          <input type="number" v-model.number="serviceItem.businessServicePriority" />
+          <input type="number" required v-model.number="serviceItem.businessServicePriority" />
         </div>
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Статус</div>
