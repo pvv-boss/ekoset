@@ -12,9 +12,6 @@ export function createRouter () {
   return new Router({
     mode: 'history',
     routes: [
-      ...UserRoute,
-      ...AdminRouter,
-      ...EkosetRouter,
       {
         name: 'not-found',
         path: '*',
@@ -25,7 +22,10 @@ export function createRouter () {
         path: '/app/error',
         component: BaseError,
         props: true
-      }
+      },
+      ...UserRoute,
+      ...AdminRouter,
+      ...EkosetRouter
     ],
     scrollBehavior (to, from, savedPosition) {
       return {
