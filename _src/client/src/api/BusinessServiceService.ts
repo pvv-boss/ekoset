@@ -120,9 +120,8 @@ export default class BusinessServiceService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(`admin/panel/footer/${clientType}`))
   }
 
-  public async addRemoveService2Footer (serviceUrl: string, clientType: string, isAdd: boolean) {
-    const id = this.getIdBySlug(serviceUrl)
-    const query = `admin/panel/footer/${clientType}/${id}`
+  public async addRemoveService2Footer (businessServiceId: number, clientType: string, isAdd: boolean) {
+    const query = `admin/panel/footer/${clientType}/${businessServiceId}`
     if (isAdd) {
       return HttpUtil.httpPut(this.buildHttRequest(query))
     } else {
