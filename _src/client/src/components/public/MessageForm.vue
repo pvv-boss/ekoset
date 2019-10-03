@@ -10,7 +10,7 @@
             <input type="text" v-model.lazy="formMessageData.userName" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userName.length === 0 }"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.userName.trim().length === 0 }"
             >Введите имя</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
@@ -50,7 +50,7 @@
             <textarea v-model.lazy="formMessageData.caption"></textarea>
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.caption.length === 0}"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.caption.trim().length === 0}"
             >Напишите комментарий</span>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default class MessageForm extends Vue {
 
   private validateForm (): boolean {
     this.isSubmit = true
-    return !this.$v.$invalid
+    return !this.$v.$invalid && this.formMessageData.caption.trim().length > 0 && this.formMessageData.userName.trim().length > 0
   }
 
   private async sentMessage () {
