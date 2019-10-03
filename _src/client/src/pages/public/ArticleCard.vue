@@ -42,7 +42,7 @@
       </section>
       <section class="brc-article-related" v-if="realtedArticles.length>0">
         <h2>Похожие новости</h2>
-        <ArticleList :articleList="realtedArticles" mode="vertical"></ArticleList>
+        <ArticleList :articleList="realtedArticles.slice(0, 3)" mode="vertical"></ArticleList>
       </section>
     </div>
   </div>

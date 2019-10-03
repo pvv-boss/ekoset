@@ -36,14 +36,11 @@
 
             <li class="brc-admin-navigation__item">
               <input
-                id="toogleClientTypeMenuVisible"
+                id="toogleClMenuVisible"
                 class="brc-admin-navigation__item-chk"
                 type="checkbox"
               />
-              <label
-                class="brc-admin-navigation-list-arrow"
-                for="toogleClientTypeMenuVisible"
-              >Справочники</label>
+              <label class="brc-admin-navigation-list-arrow" for="toogleClMenuVisible">Справочники</label>
               <ul class="brc-admin-navigation__second-list">
                 <li class="brc-admin-navigation__item">
                   <nuxt-link
@@ -71,9 +68,25 @@
                 </li>
               </ul>
             </li>
-            <!-- <li class="brc-admin-navigation__item">Контакты</li>
-            <li class="brc-admin-navigation__item">О компании</li>
-            <li class="brc-admin-navigation__item">Настройки футера</li>-->
+            <li class="brc-admin-navigation__item">
+              <input
+                id="toogleSettingsMenuVisible"
+                class="brc-admin-navigation__item-chk"
+                type="checkbox"
+              />
+              <label
+                class="brc-admin-navigation-list-arrow"
+                for="toogleSettingsMenuVisible"
+              >Настройки</label>
+              <ul class="brc-admin-navigation__second-list">
+                <li class="brc-admin-navigation__item">
+                  <nuxt-link
+                    :to="{ name: 'admin-footer-settings'}"
+                    class="brc-admin-navigation__item-link"
+                  >Футер</nuxt-link>
+                </li>
+              </ul>
+            </li>
           </ul>
         </nav>
         <div

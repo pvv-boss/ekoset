@@ -28,7 +28,7 @@ export default class RecommendationListItem extends Vue {
 .brc-recommend-smallitem__wrapper {
   padding: 15px;
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
   display: flex;
   justify-content: center;
 }
@@ -36,11 +36,11 @@ export default class RecommendationListItem extends Vue {
   border-radius: 5px;
   display: flex;
   justify-content: center;
-  background-color: #f4f4f5;
+  // background-color: #f4f4f5;
   width: 100%;
   padding: 15px 0;
   .brc-recommend-smallitem__preview-img {
-    max-width: 110px;
+    max-width: 150px;
     min-height: 30px;
     margin: auto;
     -webkit-filter: grayscale(100%);
