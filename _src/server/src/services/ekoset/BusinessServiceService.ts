@@ -96,4 +96,34 @@ export default class BusinessServiceService extends BaseService {
   public async removeActivityTypeFromService (businessServiceId: number, activityTypeId: number) {
     return this.execFunction('f_admin_remove_activitytypefromservice', [businessServiceId, activityTypeId]);
   }
+
+  public async adminGetFooterServicesForPrivateClient () {
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1';
+    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.PrivatePersonClientTypeId]);
+  }
+
+  public async adminGetFooterServicesForBusinessClient () {
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1';
+    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.businessClientTypeId]);
+  }
+
+  public async adminAddFooterServicesForPrivateClient (businessServiceId: number) {
+    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 1 where business_service_id = $1 and cl_client_id = $2`;
+    return this.execNone(updateStmt, [businessServiceId, this.PrivatePersonClientTypeId]);
+  }
+
+  public async adminAddFooterServicesForBusinessClient (businessServiceId: number) {
+    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 1 where business_service_id = $1 and cl_client_id = $2`;
+    return this.execNone(updateStmt, [businessServiceId, this.businessClientTypeId]);
+  }
+
+  public async adminRemoveFooterForPrivateClient (businessServiceId: number) {
+    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 1 where business_service_id = $1 and cl_client_id = $2`;
+    return this.execNone(updateStmt, [businessServiceId, this.PrivatePersonClientTypeId]);
+  }
+
+  public async adminRemoveFooterForBusinessClient (businessServiceId: number) {
+    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 0 where business_service_id = $1 and cl_client_id = $2`;
+    return this.execNone(updateStmt, [businessServiceId, this.businessClientTypeId]);
+  }
 }

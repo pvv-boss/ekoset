@@ -84,20 +84,9 @@ export default class TheLayoutFooter extends Vue {
   private serviceListForPerson: BusinessService[] = []
 
 
-  public get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSection
-  }
-
-  @Watch('getCurrentSiteSection', { immediate: true })
   private async configFooterList () {
-    const siteSection = this.getCurrentSiteSection
-    if (siteSection) {
-      this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSection)
-      this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSection)
-    } else {
-      this.serviceListForBusiness = await getServiceContainer().businessServiceService.getForBusinessByMainPage()
-      this.serviceListForPerson = await getServiceContainer().businessServiceService.getForPrivatePersonByMainPage()
-    }
+    this.serviceListForPerson = await getServiceContainer().businessServiceService.getServicesForFooter('private')
+    this.serviceListForBusiness = await getServiceContainer().businessServiceService.getServicesForFooter('business')
   }
 }
 </script>
