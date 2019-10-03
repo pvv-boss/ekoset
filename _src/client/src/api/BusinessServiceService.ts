@@ -72,7 +72,6 @@ export default class BusinessServiceService extends BaseService {
   }
 
   // Привязка к типу клиента или направлению деятельности
-
   public async getAdminСlActivitiesForService (serviceUrl: string) {
     const id = this.getIdBySlug(serviceUrl)
     const query = `admin/panel/service/${id}/clActivities`
@@ -108,6 +107,22 @@ export default class BusinessServiceService extends BaseService {
   public async addRemoveActivityType2Service (serviceUrl: string, activityTypeId: number, isAdd: boolean) {
     const id = this.getIdBySlug(serviceUrl)
     const query = `admin/panel/services/${id}/activitytype/${activityTypeId}`
+    if (isAdd) {
+      return HttpUtil.httpPut(this.buildHttRequest(query))
+    } else {
+      return HttpUtil.httpDelete(this.buildHttRequest(query))
+    }
+  }
+  // ---
+
+  // Для футера
+  public async getServicesForFooter (clientType: string) {
+    return HttpUtil.httpGet(this.buildHttRequest(`admin/panel/footer/${clientType}`))
+  }
+
+  public async addRemoveService2Footer (serviceUrl: string, clientType: string, isAdd: boolean) {
+    const id = this.getIdBySlug(serviceUrl)
+    const query = `admin/panel/footer/${clientType}/${id}`
     if (isAdd) {
       return HttpUtil.httpPut(this.buildHttRequest(query))
     } else {

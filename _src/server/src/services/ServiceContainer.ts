@@ -10,6 +10,7 @@ import IndividualOfferService from './ekoset/IndividualOfferService';
 import BusinessServiceService from './ekoset/BusinessServiceService';
 import SeoService from './ekoset/SeoService';
 import MediaService from './ekoset/MediaService';
+import CmsService from './ekoset/CmsService';
 
 class ServiceContainer {
   public static UserService: UserService = new UserService();
@@ -24,6 +25,8 @@ class ServiceContainer {
   public static BusinessServiceService: BusinessServiceService = new BusinessServiceService();
   public static SeoService: SeoService = new SeoService();
   public static MediaService: MediaService = new MediaService();
+  public static CmsService: CmsService = new CmsService();
+
 }
 
 export default ServiceContainer;
