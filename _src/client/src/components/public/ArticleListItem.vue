@@ -66,7 +66,7 @@ export default class ArticleListItem extends Vue {
 .brc-article-smallitem__preview-img {
   max-width: 100%;
   width: 100%;
-  max-height: 220px;
+  max-height: 180px;
   object-fit: cover;
   object-position: center;
   border-radius: 3px;
