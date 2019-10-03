@@ -61,6 +61,17 @@ export default class AdminFooterSettings extends Vue {
   private privateServiceItems: any[] = []
   private businessServiceItems: any[] = []
 
+  private headerFields = [
+    {
+      field: 'businessServiceId',
+      label: ''
+    },
+    {
+      field: 'businessServiceName',
+      label: 'Наименование'
+    }
+  ]
+
   private layout () {
     return 'admin'
   }
