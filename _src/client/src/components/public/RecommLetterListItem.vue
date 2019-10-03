@@ -1,6 +1,7 @@
 <template>
   <div class="brc-letter-smallitem__wrapper">
     <figure class="brc-letter-smallitem__preview" @click="showBigImg = true">
+      <p>{{recommLetter.recommTitle}}</p>
       <img
         :src="recommLetter.recommBrandImg"
         :alt="recommLetter.recommTitle"
@@ -41,7 +42,7 @@ export default class RecommLetterListItem extends Vue {
   private showBigImg: boolean = false
 
   private mounted () {
-    const ariseElement = document.getElementById('recLetterModal-'+this.recommLetter.recommId)
+    const ariseElement = document.getElementById('recLetterModal-' + this.recommLetter.recommId)
     if (ariseElement) {
       ariseElement.addEventListener('click', (e) => {
         if (!ariseElement.children[0].contains(e.target as HTMLElement)) {
@@ -56,6 +57,10 @@ export default class RecommLetterListItem extends Vue {
 </script>
 
 <style lang="scss">
+.brc-letter-smallitem__wrapper {
+  text-align: center;
+}
+
 .brc-letter-smallitem__preview {
   text-align: center;
   padding: 15px;
@@ -69,6 +74,7 @@ export default class RecommLetterListItem extends Vue {
   }
   .brc-letter-smallitem__preview-img {
     max-width: 100%;
+    min-height: 250px;
   }
 }
 
