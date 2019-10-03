@@ -99,8 +99,10 @@ export default class ServiceListItem extends Vue {
 
   img {
     width: 100%;
-    max-width: 100%;
-    // height: 90px;
+    object-fit: cover;
+    object-position: center;
+    max-height: 122px;
+    max-width: 122px;
   }
 
   .brc-service-smallitem__order {

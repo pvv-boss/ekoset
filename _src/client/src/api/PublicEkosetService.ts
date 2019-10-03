@@ -64,11 +64,7 @@ export default class PublicEkosetService extends BaseService {
     result.brandItems = data[0]
     result.articleItems = data[1]
     result.seoMeta = data[2]
-    result.reccomendationLetters = [
-      { recommId: 2, clBrandId: 12, recommTitle: null, recommDate: null, recommText: null, recommBrandImg: 'http://ekoset.npobaltros.ru/img/letters/letter_2_ck1970u1q0001swia7invhcd6.jpeg', recommBrandUrl: null, recommSlug: null, clBrandMainPageVisible: 1 },
-      { recommId: 3, clBrandId: 12, recommTitle: null, recommDate: null, recommText: null, recommBrandImg: 'http://ekoset.npobaltros.ru/img/letters/letter_3_ck197ts5b0002swiadq4w2vyz.jpeg', recommBrandUrl: null, recommSlug: null, clBrandMainPageVisible: 1 },
-      { recommId: 4, clBrandId: 12, recommTitle: null, recommDate: null, recommText: null, recommBrandImg: 'http://ekoset.npobaltros.ru/img/letters/letter_4_ck197zbk90003swia1vn15rak.jpeg', recommBrandUrl: null, recommSlug: null, clBrandMainPageVisible: 1 }
-    ]
+    result.reccomendationLetters = data[3]
 
     return result
   }
