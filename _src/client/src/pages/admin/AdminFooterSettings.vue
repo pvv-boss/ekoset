@@ -2,6 +2,43 @@
   <div class="brc-service-list_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Настройки футера</h1>
+
+    <div>
+      <h2>Для бизнеса</h2>
+      <div class="brc-footer-service-list_wrapper">
+        <vue-good-table :columns="headerFields" :rows="businessServiceItems">
+          <template #table-row="props">
+            <input
+              v-if="props.column.field == 'businessServiceId'"
+              type="checkbox"
+              :value="props.row.businessServiceId"
+              :checked="props.row.hasRelation"
+              @change="onChecked(props.row.businessServiceId,true,$event.target.checked)"
+              :disabled="disabled"
+            />
+            <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          </template>
+        </vue-good-table>
+      </div>
+    </div>
+    <div>
+      <h2>Для частных лиц</h2>
+      <div class="brc-footer-service-list_wrapper">
+        <vue-good-table :columns="headerFields" :rows="privateServiceItems">
+          <template #table-row="props">
+            <input
+              v-if="props.column.field == 'businessServiceId'"
+              type="checkbox"
+              :value="props.row.businessServiceId"
+              :checked="props.row.hasRelation"
+              @change="onChecked(props.row.businessServiceId,false,$event.target.checked)"
+              :disabled="disabled"
+            />
+            <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          </template>
+        </vue-good-table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,12 +65,16 @@ export default class AdminFooterSettings extends Vue {
     return 'admin'
   }
 
-  private async addRemovePrivatePersonServiceToFooter (serviceUrl: string, isRemove: boolean) {
-    await getServiceContainer().businessServiceService.addRemoveService2Footer(serviceUrl, 'private', isRemove)
+  private async addRemovePrivatePersonServiceToFooter (businessServiceId: number, isAdd: boolean) {
+    await getServiceContainer().businessServiceService.addRemoveService2Footer(businessServiceId, 'private', isAdd)
   }
 
-  private async addRemoveBusinessServiceToFooter (serviceUrl: string, isRemove: boolean) {
-    await getServiceContainer().businessServiceService.addRemoveService2Footer(serviceUrl, 'business', isRemove)
+  private async addRemoveBusinessServiceToFooter (businessServiceId: number, isAdd: boolean) {
+    await getServiceContainer().businessServiceService.addRemoveService2Footer(businessServiceId, 'business', isAdd)
+  }
+
+  private onChecked (businessServiceId: number, isBusiness: boolean, hasRelation: boolean) {
+    isBusiness ? this.addRemoveBusinessServiceToFooter(businessServiceId, !hasRelation) : this.addRemovePrivatePersonServiceToFooter(businessServiceId, !hasRelation)
   }
 
   private mounted () {
