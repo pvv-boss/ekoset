@@ -58,4 +58,15 @@ export default class CmsController extends BaseController {
     const result = ServiceContainer.BusinessServiceService.adminRemoveFooterForBusinessClient(serviceId);
     return CmsController.createSuccessResponse(result, response);
   }
+
+  @Get('/admin/panel/footer/relation/:clientType(private|business)')
+  public async adminGetFooterServicesRelation (
+    @Param('clientType') clientType: string,
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesRelation(clientType === 'business');
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  // adminGetFooterServicesRelation
 }

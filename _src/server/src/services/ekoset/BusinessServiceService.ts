@@ -97,6 +97,13 @@ export default class BusinessServiceService extends BaseService {
     return this.execFunction('f_admin_remove_activitytypefromservice', [businessServiceId, activityTypeId]);
   }
 
+
+  public async adminGetFooterServicesRelation (isBusinessClientType: boolean) {
+    const selectStmt = `cl_client_id = ${isBusinessClientType ? this.businessClientTypeId : this.PrivatePersonClientTypeId}`;
+    return this.getDbViewResult('v_api_client_business_service_relation', null, selectStmt);
+  }
+
+
   public async adminGetFooterServicesForPrivateClient () {
     const selectStmt = 'cl_client_id = $1 and footer_include_ind=1';
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.PrivatePersonClientTypeId]);
@@ -118,7 +125,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async adminRemoveFooterForPrivateClient (businessServiceId: number) {
-    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 1 where business_service_id = $1 and cl_client_id = $2`;
+    const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 0 where business_service_id = $1 and cl_client_id = $2`;
     return this.execNone(updateStmt, [businessServiceId, this.PrivatePersonClientTypeId]);
   }
 

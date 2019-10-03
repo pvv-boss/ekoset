@@ -47,7 +47,7 @@ export default class RecommLetterListItem extends Vue {
     if (ariseElement) {
       ariseElement.addEventListener('click', (e) => {
         if (!ariseElement.children[0].contains(e.target as HTMLElement)) {
-          //ariseElement.setAttribute('style', 'display:none')
+          // ariseElement.setAttribute('style', 'display:none')
           this.showBigImg = false
         }
       })

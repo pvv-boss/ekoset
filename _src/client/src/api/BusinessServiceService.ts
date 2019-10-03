@@ -128,6 +128,10 @@ export default class BusinessServiceService extends BaseService {
       return HttpUtil.httpDelete(this.buildHttRequest(query))
     }
   }
+
+  public async adminGetFooterServicesRelation (isBusinessType: boolean) {
+    return HttpUtil.httpGet(this.buildHttRequest(`admin/panel/footer/relation/${isBusinessType ? 'business' : 'private'}`))
+  }
   // ---
 
   private async getById (id: number) {

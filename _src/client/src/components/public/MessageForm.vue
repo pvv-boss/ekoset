@@ -140,8 +140,7 @@ export default class MessageForm extends Vue {
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }
-    }
-    else {
+    } else {
       this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
     }
   }

@@ -84,7 +84,7 @@ export default class TheLayoutFooter extends Vue {
   private serviceListForPerson: BusinessService[] = []
 
 
-  private async configFooterList () {
+  private async mounted () {
     this.serviceListForPerson = await getServiceContainer().businessServiceService.getServicesForFooter('private')
     this.serviceListForBusiness = await getServiceContainer().businessServiceService.getServicesForFooter('business')
   }
@@ -101,6 +101,10 @@ export default class TheLayoutFooter extends Vue {
   border-top: 1px solid lightgray;
   margin-top: 30px;
   padding-top: 30px;
+
+  .brc-footer-list-link {
+    margin-top: 15px;
+  }
 
   a {
     color: $text-color;
@@ -186,6 +190,7 @@ export default class TheLayoutFooter extends Vue {
     }
 
     .brc-footer-list-link {
+      margin-top: 15px;
       height: 0px;
       overflow: hidden;
       transition: height 0.5s;

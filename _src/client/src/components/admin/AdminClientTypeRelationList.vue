@@ -46,7 +46,6 @@ export default class AdminClientTypeRelationList extends Vue {
   }
 
   private onChecked (clClientId: number, hasRelation: boolean) {
-    console.debug("1")
     this.$emit('clienttypechecked', clClientId, hasRelation)
   }
 }
