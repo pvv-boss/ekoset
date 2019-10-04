@@ -26,7 +26,8 @@ const config: NuxtConfiguration = {
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
-    ]
+      // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
+    ],
   },
 
   pageTransition: {
@@ -57,9 +58,6 @@ const config: NuxtConfiguration = {
     },
     {
       src: '@/plugins/vue-good-table'
-    },
-    {
-      src: '@/plugins/vue-file-agent', mode: 'client'
     }
   ],
 

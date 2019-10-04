@@ -13,6 +13,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
+// import hljs from 'highlight.js'
+
+// hljs.configure({
+//   languages: ['javascript', 'python']
+// })
+
 @Component
 export default class AdminArticleEditor extends Vue {
   @Prop()
@@ -24,19 +30,24 @@ export default class AdminArticleEditor extends Vue {
     [{ list: 'ordered' }, { list: 'bullet' }],
     [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
     [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
-    [{ direction: 'rtl' }],                         // text direction
     [{ size: ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ header: [2, 3, 4, 5, 6, false] }],
+    [{ header: 2 }, { header: 3 }, { header: 4 }],
     [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
     [{ align: [] }],
     ['clean'],
     ['link', 'image', 'video'],
     ['html']
   ]
+
   private editorOptions = {
     theme: 'snow',
     debug: false,
     modules: {
+      // syntax: {
+      //   highlight: (text) => {
+      //     return hljs.highlightAuto(text).value;
+      //   }
+      // },
       toolbar: {
         container: this.toolbarOptions,
         handlers: {
