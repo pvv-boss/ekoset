@@ -1,8 +1,17 @@
 <template>
-  <div>
+  <AdminSlotLayout>
+    <template v-slot:header>
+      <h1>Хедер</h1>
+    </template>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div>Управление сайтом</div>
-  </div>
+    <template v-slot:aside>
+      <AdminLeftMenu></AdminLeftMenu>
+    </template>
+    <template v-slot:footer>
+      <p>Футер: Некая контактная информация</p>
+    </template>
+  </AdminSlotLayout>
 </template>
 
 <script lang="ts">
@@ -12,11 +21,15 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminLeftMenu from '@/components/admin/AdminLeftMenu.vue'
+import AdminSlotLayout from '@/layout/adminslot.vue'
 
 @Component({
   components: {
     LoginForm,
-    BreadCrumbs
+    BreadCrumbs,
+    AdminLeftMenu,
+    AdminSlotLayout
   }
 })
 export default class Login extends Vue {
@@ -24,7 +37,7 @@ export default class Login extends Vue {
   private breadCrumbList: any[] = []
 
   private layout () {
-    return 'admin'
+    return 'empty'
   }
   private get mode (): string {
     return this.$route.params.mode
