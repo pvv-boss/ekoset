@@ -4,9 +4,6 @@
     id="adminNavigation"
     :class="{'brc-admin-navigation_hidden': !isVisibleNavigation}"
   >
-    <nuxt-link :to="{name: 'main'}" class="brc-logo_main" id="brc-page-header-main-logo">
-      <img src="/images/logo.png" alt="Экосеть" />
-    </nuxt-link>
     <ul class="brc-admin-navigation__list">
       <li class="brc-admin-navigation__item">
         <nuxt-link

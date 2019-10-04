@@ -1,15 +1,22 @@
 <template>
   <AdminSlotLayout>
     <template v-slot:header>
-      <h1>Хедер</h1>
+      <nuxt-link :to="{name: 'main'}" class="brc-logo_main" id="brc-page-header-main-logo">
+        <img src="/images/logo.png" alt="Экосеть" />
+      </nuxt-link>
     </template>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div>Управление сайтом</div>
+    <b-field>
+      <b-numberinput v-model="Counter"></b-numberinput>
+    </b-field>
     <template v-slot:aside>
       <AdminLeftMenu></AdminLeftMenu>
     </template>
     <template v-slot:footer>
-      <p>Футер: Некая контактная информация</p>
+      <p>
+        <small>@2019</small>
+      </p>
     </template>
   </AdminSlotLayout>
 </template>
@@ -35,6 +42,8 @@ import AdminSlotLayout from '@/layout/adminslot.vue'
 export default class Login extends Vue {
   private appStore = getModule(AppStore, this.$store)
   private breadCrumbList: any[] = []
+
+  private Counter = 0
 
   private layout () {
     return 'empty'

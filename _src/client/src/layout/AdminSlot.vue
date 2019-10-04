@@ -9,7 +9,10 @@
     </header>
     <aside id="aside">
       <div class="brc-aside__toggler">
-        <button @click="toogleNavigation">Toggle</button>
+        <button @click="toogleNavigation">
+          <b-icon icon="arrow-collapse-left" v-show="isVisibleNavigation"></b-icon>
+          <b-icon icon="arrow-collapse-right" v-show="!isVisibleNavigation"></b-icon>
+        </button>
       </div>
       <div class="brc-aside__nav">
         <slot name="aside">Боковое меню</slot>
@@ -63,23 +66,28 @@ export default class AdminSlotLayout extends Vue {
     "header header"
     "aside main"
     "footer footer";
-  grid-template-rows: 60px 1fr 60px;
+  grid-template-rows: 40px 1fr 40px;
   grid-template-columns: 20% 1fr;
   grid-gap: 10px;
   height: 100vh;
   margin: 0;
 
-  header,
-  footer,
-  main,
-  aside {
-    background: gold;
+  button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
   }
   #header {
     grid-area: header;
+    background-color: #f0f0f0;
+    img {
+      max-height: 100%;
+    }
   }
   #footer {
     grid-area: footer;
+    background-color: #333;
+    color: white;
   }
   #main {
     grid-area: main;
@@ -96,7 +104,7 @@ export default class AdminSlotLayout extends Vue {
   }
 }
 .brc-admin-layout__wide {
-  grid-template-columns: 60px 1fr !important;
+  grid-template-columns: 30px 1fr !important;
   .brc-aside__nav {
     display: none;
   }
