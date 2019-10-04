@@ -88,6 +88,11 @@ export default class TheLayoutFooter extends Vue {
     this.serviceListForPerson = await getServiceContainer().businessServiceService.getServicesForFooter('private')
     this.serviceListForBusiness = await getServiceContainer().businessServiceService.getServicesForFooter('business')
   }
+
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
+  }
+
 }
 </script>
 
