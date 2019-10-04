@@ -25,6 +25,7 @@ const config: NuxtConfiguration = {
 
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/buefy/dist/buefy.min.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
       // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
     ],
@@ -67,7 +68,8 @@ const config: NuxtConfiguration = {
 
   modules: [
     'nuxt-purgecss',
-    ['@nuxtjs/router', { path: 'src/routers', fileName: 'index.ts' }]
+    ['@nuxtjs/router', { path: 'src/routers', fileName: 'index.ts' }],
+    'nuxt-buefy'
   ],
 
   build: {
