@@ -33,8 +33,12 @@ export default class MainEkosetController extends BaseController {
   public async getSiteSectionNameById (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.MainEkosetService.getSiteSectionNameById(siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    if (!!siteSectionId) {
+      const result = await ServiceContainer.MainEkosetService.getSiteSectionNameById(siteSectionId);
+      return MainEkosetController.createSuccessResponse(result, response);
+    } else {
+      MainEkosetController.createSuccessResponse({}, response)
+    }
   }
 
 

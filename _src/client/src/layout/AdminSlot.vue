@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-show="!loading"
-    class="brc-admin-layout"
-    :class="{'brc-admin-layout__wide': !isVisibleNavigation}"
-  >
+  <div class="brc-admin-layout" :class="{'brc-admin-layout__wide': !isVisibleNavigation}">
     <header id="header">
       <slot name="header">Header</slot>
     </header>
@@ -32,27 +28,11 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class AdminSlotLayout extends Vue {
-  private loading = true
   private isVisibleNavigation = true
 
 
-  private mounted () {
-    this.$nextTick(() => {
-      this.checkLoading()
-    })
-  }
-
   private toogleNavigation () {
     this.isVisibleNavigation = !this.isVisibleNavigation
-  }
-
-  private checkLoading () {
-    const el = document.getElementById('main')
-    if (el) {
-      this.loading = false
-    } else {
-      setTimeout(this.checkLoading, 1500)
-    }
   }
 }
 </script>
