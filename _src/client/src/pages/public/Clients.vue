@@ -10,7 +10,7 @@
         ></ClientList>
       </div>
     </div>
-    <TheShared :apiSharedData="apiSharedData" showLetters="true"></TheShared>
+    <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
   </section>
 </template>
 

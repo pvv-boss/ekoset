@@ -5,7 +5,7 @@
     <no-ssr>
       <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
     </no-ssr>
-    <TheShared :apiSharedData="apiSharedData" showLetters="true"></TheShared>
+    <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
   </section>
 </template>
 

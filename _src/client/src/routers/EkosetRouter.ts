@@ -17,6 +17,9 @@ export const EkosetRouter = [
     path: '/',
     props: true,
     component: Main
+    // meta: {
+    //   requiresAuth: true
+    // }
   },
   {
     name: 'about',
