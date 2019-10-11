@@ -7,6 +7,7 @@ import { JsonController, Get, Res, createParamDecorator, getMetadataArgsStorage,
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 import { authorized } from '@/middlewares/AuthorizeMiddleware';
 import RgisService from '@/services/RgisService';
+import { ActionMetadataArgs } from 'routing-controllers/metadata/args/ActionMetadataArgs';
 
 @JsonController('/app')
 export default class AppController extends BaseController {
@@ -19,12 +20,12 @@ export default class AppController extends BaseController {
   @UseBefore(authorized())
   @Get('/spec')
   public async getApiSpec (@Res() response: Response) {
-    const storage1 = getMetadataArgsStorage();
+    const storage = getMetadataArgsStorage();
     const options = {
       defaultErrorHandler: true,
       routePrefix: AppConfig.serverConfig.restApiEndPoint
     }
-    // const spec = routingControllersToSpec(storage1, options);
+    // const spec = routingControllersToSpec(storage as MetadataArgsStorage, options);
     // return BaseController.createSuccessResponse(spec, response);
   }
 
