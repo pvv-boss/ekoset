@@ -1,7 +1,7 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Список новостей</h1>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
     <BasePagination
       :total="pagination.total"

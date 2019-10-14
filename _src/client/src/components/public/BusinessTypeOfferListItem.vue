@@ -44,7 +44,7 @@ export default class BusinessTypeOfferListItem extends Vue {
     width: 100%;
     height: 100%;
     position: relative;
-    border-radius: 10px;
+    border-radius: 5px;
 
     overflow: hidden;
     display: block;

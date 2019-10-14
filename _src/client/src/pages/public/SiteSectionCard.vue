@@ -1,8 +1,6 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1 itemprop="headline name">{{siteSectionItem.siteSectionName}}</h1>
-    <figure>
+    <figure class="brc-page-image__wrapper">
       <img
         class="brc-page-image"
         :src="siteSectionItem.siteSectionImgBig"
@@ -10,7 +8,9 @@
         itemprop="image"
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionName}}</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock
       :leftBlock="siteSectionItem.siteSectionFreeText1"
       :rightBlock="siteSectionItem.siteSectionFreeText2"

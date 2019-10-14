@@ -1,11 +1,16 @@
 <template>
   <section class="brc-service-smallitem">
     <figure>
-      <img
-        :alt="serviceItem.businessServiceName"
-        itemprop="image"
-        :src="serviceItem.businessServiceImgSmall"
-      />
+      <nuxt-link
+        :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+        class="brc-service-smallitem__link"
+      >
+        <img
+          :alt="serviceItem.businessServiceName"
+          itemprop="image"
+          :src="serviceItem.businessServiceImgSmall"
+        />
+      </nuxt-link>
       <figcaption>{{serviceItem.businessServiceName}}</figcaption>
     </figure>
 
@@ -116,7 +121,7 @@ export default class ServiceListItem extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 3px;
+    border-radius: 5px;
     margin: auto;
 
     &:hover {

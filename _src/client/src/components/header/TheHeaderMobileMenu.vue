@@ -134,8 +134,9 @@ export default class TheHeaderMobileMenu2 extends Vue {
     .brc-page-header-mobile__logo {
       height: 40px;
       > img {
-        max-height: 40px;
-        height: 40px;
+        max-height: 60px;
+        height: 60px;
+        margin-top: -10px;
       }
     }
 

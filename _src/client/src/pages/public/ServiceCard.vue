@@ -1,8 +1,6 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1 itemprop="headline name">{{businessService.businessServiceName}}</h1>
-    <figure>
+    <figure class="brc-page-image__wrapper">
       <img
         class="brc-page-image"
         :src="businessService.businessServiceImgBig"
@@ -10,7 +8,9 @@
         itemprop="image"
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceName}}</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock
       :leftBlock="businessService.businessServiceFreeText1"
       :rightBlock="businessService.businessServiceFreeText2"

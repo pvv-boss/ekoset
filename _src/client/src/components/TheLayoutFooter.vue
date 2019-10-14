@@ -167,6 +167,10 @@ export default class TheLayoutFooter extends Vue {
   .brc-footer-log {
     height: 34px;
   }
+  .brc-page-footer img {
+    max-height: 60px;
+    height: 60px;
+  }
   .brc-footer-logo__wrapper {
     text-align: center;
   }
@@ -178,17 +182,24 @@ export default class TheLayoutFooter extends Vue {
     float: left;
     margin-top: 15px;
     font-weight: 500 !important;
+    font-size: 18px;
   }
   .brc-page-footer__menu,
   .brc-page-footer__private-activities,
   .brc-page-footer__business-activities {
     margin-top: 15px;
   }
+  .brc-page-footer__menu {
+    font-size: 18px;
+  }
   .brc-page-footer {
     padding-top: 0;
     margin-bottom: 100px;
     flex-direction: column;
 
+    h4 {
+      font-size: 22px !important;
+    }
     h4,
     label {
       display: inline;
@@ -199,6 +210,7 @@ export default class TheLayoutFooter extends Vue {
       height: 0px;
       overflow: hidden;
       transition: height 0.5s;
+      font-size: 16px;
     }
 
     .brc-footer-list-arrow {

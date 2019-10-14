@@ -84,7 +84,7 @@ export default class ServicePriceTable extends Vue {
   .brc-service-price-table {
     width: 100%;
     border: 1px solid #f4f4f5;
-    border-radius: 3px;
+    border-radius: 5px;
     thead {
       background-color: #f4f4f5;
     }
@@ -135,7 +135,7 @@ export default class ServicePriceTable extends Vue {
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 3px;
+      border-radius: 5px;
       margin: auto;
 
       &:hover {

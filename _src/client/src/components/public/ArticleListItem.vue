@@ -69,7 +69,7 @@ export default class ArticleListItem extends Vue {
   max-height: 180px;
   object-fit: cover;
   object-position: center;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 figcaption {
   display: none;

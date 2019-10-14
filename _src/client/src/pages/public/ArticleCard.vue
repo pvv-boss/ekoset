@@ -1,10 +1,6 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <header>
-      <h1 itemprop="headline name">{{article.articleTitle}}</h1>
-    </header>
-    <figure class="brc-article-item__header-img">
+    <figure class="brc-article-item__header-img brc-page-image__wrapper">
       <img
         :src="article.articleHeaderImgSrc"
         :alt="article.articleTitle"
@@ -12,7 +8,9 @@
         class="brc-article-item__header-img brc-page-image"
       />
       <figcaption>{{article.articleTitle}}</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">{{article.articleTitle}}</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-article-item__stat-info">
       <div class="brc-article-item__date">
         <span
