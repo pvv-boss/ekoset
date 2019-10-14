@@ -40,7 +40,7 @@ export default class ArticleMetaTags extends Vue {
     background-color: #f4f4f5;
     padding: 5px 15px;
     color: grey;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 14px;
     list-style: none;
     width: min-content;

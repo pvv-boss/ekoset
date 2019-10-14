@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- <h1 itemprop="headline name">Экосеть: главная страница</h1> -->
-    <figure>
+    <figure class="brc-page-image__wrapper">
       <img
         alt="Экосеть"
         itemprop="image"
@@ -9,6 +9,7 @@
         class="brc-page-image"
       />
       <figcaption>Экосеть</figcaption>
+      <h1 class="brc-page-title">Экосеть</h1>
     </figure>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
     <TheShared :apiSharedData="apiSharedData"></TheShared>

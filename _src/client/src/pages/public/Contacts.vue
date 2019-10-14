@@ -1,7 +1,7 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Контакты</h1>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TheShared :apiSharedData="apiSharedData"></TheShared>
   </section>
 </template>

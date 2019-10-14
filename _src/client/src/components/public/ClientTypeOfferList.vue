@@ -59,7 +59,7 @@ export default class ClientTypeOfferList extends Vue {
   min-width: 150px;
   height: 150px;
   position: relative;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
 
   img {

@@ -1,8 +1,6 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1 itemprop="headline name">О компании</h1>
-    <figure>
+    <figure class="brc-page-image__wrapper">
       <img
         alt="Экосеть"
         itemprop="image"
@@ -10,7 +8,9 @@
         class="brc-page-image"
       />
       <figcaption>Экосеть</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">О компании</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock></TopDynamicBlock>
     <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
   </section>

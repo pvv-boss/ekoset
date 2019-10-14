@@ -1,7 +1,7 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Наши клиенты</h1>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
         <h4>{{group.partnerGroupName}}</h4>

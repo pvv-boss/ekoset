@@ -28,7 +28,7 @@ export default class RecommendationListItem extends Vue {
 .brc-recommend-smallitem__wrapper {
   padding: 15px;
   flex: 1;
-  min-width: 180px;
+  min-width: 150px;
   display: flex;
   justify-content: center;
 }
