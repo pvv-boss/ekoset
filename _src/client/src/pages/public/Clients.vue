@@ -40,8 +40,10 @@ export default class Clients extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
 
   private get partnerGroupList () {
-    const groupList = Array.from(this.clientItems, x => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
-    return groupList.filter((group, i, arr) => arr.findIndex(g => g.partnerGroupId === group.partnerGroupId) === i).sort((obj1, obj2) => {
+    const groupList = Array.from(this.clientItems, (x) => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
+    return groupList.filter((group, i, arr) => arr.findIndex((g) => {
+      return g.partnerGroupId === group.partnerGroupId;
+    }) === i).sort((obj1, obj2) => {
       return obj1.partnerGroupPriority - obj2.partnerGroupPriority
     })
   }
