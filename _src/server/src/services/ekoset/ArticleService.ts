@@ -118,6 +118,7 @@ export default class ArticleService extends BaseService {
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
       article.articleSlug = slugify(article.articleTitle);
       article.siteSection = Promise.resolve(article.siteSectionId);
+      article.articleStatus = !!article.articleStatus ? article.articleStatus : 1;
 
       if (article.siteSectionId === null) {
         this.deleteById('business_service_article', 'article_id = $1', article.articleId);

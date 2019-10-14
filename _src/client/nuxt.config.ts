@@ -29,6 +29,11 @@ const config: NuxtConfiguration = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
       // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
     ],
+
+    bodyAttrs: {
+      itemscope: '',
+      itemtype: 'https://schema.org/WebPage'
+    }
   },
 
   pageTransition: {
