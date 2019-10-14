@@ -61,6 +61,7 @@
           <input type="file" name="file" id="file" ref="file" v-on:change="handleFileUpload()" />
           <span class="file-name">Прикрепить файл</span>
         </label>
+        <div class="clearfix"></div>
         <button type="button" @click="sentMessage">Отправить</button>
       </div>
     </form>
