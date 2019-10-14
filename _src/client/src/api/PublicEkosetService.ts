@@ -1,17 +1,18 @@
 import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
 import Partner from '@/models/ekoset/Partner';
 import PartnerGroup from '@/models/ekoset/PartnerGroup';
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
+import DynamicComponentInfo from '@/models/DynamicComponentInfo';
 
 export default class PublicEkosetService extends BaseService {
 
-  public async getApiSharedData (siteSectionSlug: string, serviceSlug?: string): Promise<ApiSharedData> {
+  public async getDynamicComponentsInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
+
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any
     if (serviceSlug) {
@@ -25,6 +26,7 @@ export default class PublicEkosetService extends BaseService {
     if (!brandItems) {
       brandItems = this.getBrandsForHomePage()
     }
+
 
     // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
     // ReccomendationLetter
@@ -41,6 +43,7 @@ export default class PublicEkosetService extends BaseService {
       reccomendationLetterItems = this.getRecommendationLettersForHomePage()
     }
 
+
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any
     if (serviceSlug) {
@@ -55,24 +58,54 @@ export default class PublicEkosetService extends BaseService {
       articleItems = getServiceContainer().articleService.getRootArticleList()
     }
 
+
+    // Прописываем данные в компопонте (в его пропы)
+    const data = await Promise.all([brandItems, articleItems, reccomendationLetterItems])
+
+    const componentsInfo: DynamicComponentInfo[] = await HttpUtil.httpGet('admin/panel/cms/blocks/info')
+
+    const newsCompoenentInfo = componentsInfo.find((iter) => {
+      return iter.id === 3
+    })
+    if (!!newsCompoenentInfo) {
+      newsCompoenentInfo.props.articleList = data[1]
+      newsCompoenentInfo.props.mode = 'columns'
+    }
+
+    const lettersCompoenentInfo = componentsInfo.find((iter) => {
+      return iter.id === 2
+    })
+    if (!!lettersCompoenentInfo) {
+      lettersCompoenentInfo.props.recommLetterList = data[2]
+    }
+
+    const recommendCompoenentInfo = componentsInfo.find((iter) => {
+      return iter.id === 1
+    })
+    if (!!recommendCompoenentInfo) {
+      recommendCompoenentInfo.props.brandList = data[0]
+    }
+
+    return componentsInfo
+
     // Мета
-    const seoMeta = getServiceContainer().seoMetaService.getForHomePage()
+    // const seoMeta = getServiceContainer().seoMetaService.getForHomePage()
 
-    const data = await Promise.all([brandItems, articleItems, seoMeta, reccomendationLetterItems])
+    // const data = await Promise.all([brandItems, articleItems, seoMeta, reccomendationLetterItems])
 
-    const result = new ApiSharedData()
-    result.brandItems = data[0]
-    result.articleItems = data[1]
-    result.seoMeta = data[2]
-    result.reccomendationLetters = data[3]
+    // const result = new ApiSharedData()
+    // result.brandItems = data[0]
+    // result.articleItems = data[1]
+    // result.seoMeta = data[2]
+    // result.reccomendationLetters = data[3]
 
-    return result
+    // return result
   }
+
 
   public async getSiteSectionBySlug (slug: string) {
     return this.getSiteSectionById(this.getIdBySlug(slug))
   }
-
 
   public async getSiteSectionNameBySlug (slug: string) {
     const query = `activities/query/name/${this.getIdBySlug(slug)}`

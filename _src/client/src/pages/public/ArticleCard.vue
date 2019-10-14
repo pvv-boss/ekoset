@@ -45,6 +45,7 @@
         <ArticleList :articleList="realtedArticles.slice(0, 3)" mode="vertical"></ArticleList>
       </section>
     </div>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </div>
 </template>
 
@@ -55,27 +56,30 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import ArticleList from '@/components/public/ArticleList.vue'
 import ArticleMetaTags from '@/components/public/ArticleMetaTags.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+
 
 @Component({
   components: {
     ArticleList,
     BreadCrumbs,
-    ArticleMetaTags
+    ArticleMetaTags,
+    DynamicComponentsContainer
   }
 })
 export default class ArticleCard extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private article = new Article()
   private realtedArticles: Article[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
 
     const articleUrl = context.params.article
     const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)
@@ -83,19 +87,19 @@ export default class ArticleCard extends Vue {
     const data = await Promise.all([articlePr, relatedListPr])
 
     return {
-      apiSharedData,
+      dynamicComponentInfo,
       article: data[0],
       realtedArticles: data[1]
     }
 
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 
   private get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSectionName

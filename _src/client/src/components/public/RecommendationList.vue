@@ -1,6 +1,5 @@
 <template>
   <div class="brc-recommendations__wrapper">
-    <h2>Нас рекомендуют</h2>
     <div class="brc-recommendations">
       <RecommendationListItem
         v-for="iterBrand in brandList"

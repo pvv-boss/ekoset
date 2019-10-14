@@ -9,6 +9,7 @@
       :limit="pagination.limit"
       @update:pagination="updatePagintaion"
     ></BasePagination>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -20,20 +21,22 @@ import Pagination from '@/models/Pagination'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 @Component({
   components: {
     ArticleList,
     BasePagination,
-    BreadCrumbs
+    BreadCrumbs,
+    DynamicComponentsContainer
   }
 })
 export default class Articles extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private pagination: Pagination = new Pagination()
   private articleItems: Article[] = []
   private breadCrumbList: any[] = []
@@ -50,13 +53,13 @@ export default class Articles extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(siteSection)
     const startPagination = new Pagination()
     const articleList = siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
     const data = await Promise.all([articleList])
     return {
-      apiSharedData,
+      dynamicComponentInfo,
       pagination: startPagination,
       articleItems: data[0]
     }
@@ -79,11 +82,11 @@ export default class Articles extends Vue {
     this.breadCrumbList.push({ name: 'Новости', link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>

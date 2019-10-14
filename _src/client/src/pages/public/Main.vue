@@ -11,7 +11,7 @@
       <figcaption>Экосеть</figcaption>
     </figure>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -22,34 +22,34 @@ import { NuxtContext } from 'vue/types/options'
 import Article from '@/models/ekoset/Article'
 import SeoMeta from '@/models/ekoset/SeoMeta'
 
-import TheShared from '@/components/TheShared.vue'
 import SiteSectionList from '@/components/public/SiteSectionList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 @Component({
   components: {
-    TheShared,
+    DynamicComponentsContainer,
     SiteSectionList
   }
 })
 export default class Main extends Vue {
   private siteSectionItems: SiteSection[] = []
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     return {
-      apiSharedData,
+      dynamicComponentInfo,
       siteSectionItems
     }
   }

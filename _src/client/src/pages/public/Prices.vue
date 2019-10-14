@@ -5,7 +5,7 @@
     <no-ssr>
       <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
     </no-ssr>
-    <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -14,8 +14,6 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 
-import TheShared from '@/components/TheShared.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
@@ -24,10 +22,12 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import BusinessService from '@/models/ekoset/BusinessService'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 @Component({
   components: {
-    TheShared,
+    DynamicComponentsContainer,
     BusinessTypeOfferList,
     ClientTypeOfferList,
     BreadCrumbs,
@@ -35,13 +35,13 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
   }
 })
 export default class Prices extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
   private serviceList: BusinessService[] = []
 
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     const siteSection = context.params.siteSection
     let serviceList: Promise<BusinessService>
     if (siteSection) {
@@ -49,10 +49,10 @@ export default class Prices extends Vue {
     } else {
       serviceList = getServiceContainer().businessServiceService.getMainList()
     }
-    const data = await Promise.all([serviceList, apiSharedData])
+    const data = await Promise.all([serviceList, dynamicComponentInfo])
 
     return {
-      apiSharedData: data[1],
+      dynamicComponentInfo: data[1],
       serviceList: data[0]
     }
   }
@@ -73,11 +73,11 @@ export default class Prices extends Vue {
     this.breadCrumbList.push({ name: 'Цены', link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>

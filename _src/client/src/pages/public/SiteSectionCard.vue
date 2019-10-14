@@ -31,7 +31,7 @@
         :offerList="busineesTypeOfferList"
       ></BusinessTypeOfferList>
     </div>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -40,21 +40,21 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import SiteSection from '@/models/ekoset/SiteSection'
-import TheShared from '@/components/TheShared.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessService from '@/models/ekoset/BusinessService'
 import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 @Component({
   components: {
-    TheShared,
+    DynamicComponentsContainer,
     BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList,
@@ -63,25 +63,25 @@ import AppStore from '@/store/AppStore'
   }
 })
 export default class SiteSectionCard extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceList: BusinessService[] = []
   private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
     const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
     const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
-    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList, apiSharedData])
+    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList, dynamicComponentInfo])
 
     return {
       siteSectionItem: data[0],
       serviceList: data[1],
       busineesTypeOfferList: data[2],
-      apiSharedData: data[3]
+      dynamicComponentInfo: data[3]
     }
   }
 
@@ -97,11 +97,11 @@ export default class SiteSectionCard extends Vue {
     this.breadCrumbList.push({ name: siteSectionName, link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>

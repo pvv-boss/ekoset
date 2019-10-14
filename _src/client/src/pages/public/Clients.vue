@@ -10,7 +10,7 @@
         ></ClientList>
       </div>
     </div>
-    <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -20,24 +20,24 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 
 import ClientList from '@/components/public/ClientList.vue'
-import TheShared from '@/components/TheShared.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import Partner from '@/models/ekoset/Partner'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 @Component({
   components: {
     ClientList,
-    TheShared,
+    DynamicComponentsContainer,
     BreadCrumbs
   }
 })
 export default class Clients extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
   private clientItems: Partner[] = []
   private breadCrumbList: any[] = []
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
 
   private get partnerGroupList () {
     const groupList = Array.from(this.clientItems, x => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
@@ -46,12 +46,12 @@ export default class Clients extends Vue {
     })
   }
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
     const data = await Promise.all([clientList])
     return {
-      apiSharedData,
+      dynamicComponentInfo,
       clientItems: data[0],
     }
   }
@@ -72,12 +72,12 @@ export default class Clients extends Vue {
     this.breadCrumbList.push({ name: 'Наши клиенты', link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>
 

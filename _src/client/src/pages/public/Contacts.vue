@@ -2,7 +2,7 @@
   <section>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Контакты</h1>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -10,26 +10,26 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import TheShared from '@/components/TheShared.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 @Component({
   components: {
-    TheShared,
-    BreadCrumbs
+    BreadCrumbs,
+    DynamicComponentsContainer
   }
 })
 export default class Contacts extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     return {
-      apiSharedData
+      dynamicComponentInfo
     }
   }
 
@@ -49,11 +49,11 @@ export default class Contacts extends Vue {
     this.breadCrumbList.push({ name: 'Контакты', link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>

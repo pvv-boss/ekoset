@@ -1,6 +1,5 @@
 <template>
   <div class="brc-letters__wrapper">
-    <h2>Благодарственные письма</h2>
     <div class="brc-letters">
       <RecommLetterListItem
         v-for="item in recommLetterList"

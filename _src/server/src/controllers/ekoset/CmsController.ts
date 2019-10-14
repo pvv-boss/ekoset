@@ -68,5 +68,12 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
-  // adminGetFooterServicesRelation
+  @Get('/admin/panel/cms/blocks/info')
+  public async adminGetDynamicComponentsInfo (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfo();
+    return CmsController.createSuccessResponse(result, response);
+  }
+
 }

@@ -11,8 +11,7 @@
       />
       <figcaption>Экосеть</figcaption>
     </figure>
-    <TopDynamicBlock></TopDynamicBlock>
-    <TheShared :apiSharedData="apiSharedData" :showLetters="true"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -20,8 +19,8 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import TheShared from '@/components/TheShared.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -29,19 +28,19 @@ import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
 
 @Component({
   components: {
-    TheShared,
+    DynamicComponentsContainer,
     BreadCrumbs,
     TopDynamicBlock
   }
 })
 export default class About extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
     return {
-      apiSharedData
+      dynamicComponentInfo
     }
   }
 
@@ -62,11 +61,11 @@ export default class About extends Vue {
   }
 
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>

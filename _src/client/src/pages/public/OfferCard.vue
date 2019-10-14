@@ -32,7 +32,7 @@
       <h2>{{otherOfferHeaderText}}</h2>
       <component :is="otherOfferComponentName" :offerList="otherOfferList"></component>
     </div>
-    <TheShared :apiSharedData="apiSharedData"></TheShared>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
@@ -40,8 +40,6 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import TheShared from '@/components/TheShared.vue'
-import ApiSharedData from '@/models/ekoset/ApiSharedData'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
@@ -52,21 +50,23 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 
 
 @Component({
   components: {
-    TheShared,
     ServicePriceTable,
     ServiceList,
     BusinessTypeOfferList,
     ClientTypeOfferList,
     TopDynamicBlock,
-    BreadCrumbs
+    BreadCrumbs,
+    DynamicComponentsContainer
   }
 })
 export default class OfferCard extends Vue {
-  private apiSharedData: ApiSharedData = new ApiSharedData()
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
   private individualOffer: IndividualOffer = new IndividualOffer()
   private otherOfferList: IndividualOffer[] = []
   private serviceList: BusinessService[] = []
@@ -79,7 +79,7 @@ export default class OfferCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const apiSharedData = await getServiceContainer().publicEkosetService.getApiSharedData(siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(siteSection)
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
     let otherOfferList: Promise<IndividualOffer[]> = Promise.resolve([new IndividualOffer()])
@@ -122,7 +122,7 @@ export default class OfferCard extends Vue {
 
     return {
       individualOffer,
-      apiSharedData,
+      dynamicComponentInfo,
       serviceList: data[0],
       offerHeaderText,
       otherOfferHeaderText,
@@ -148,11 +148,11 @@ export default class OfferCard extends Vue {
     this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
   }
 
-  private head () {
-    return {
-      title: this.apiSharedData.seoMeta.pageTitle,
-      meta: this.apiSharedData.seoMeta.metaTags
-    }
-  }
+  // private head () {
+  //   return {
+  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
+  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+  //   }
+  // }
 }
 </script>
