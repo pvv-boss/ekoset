@@ -34,6 +34,8 @@ export default class AdminPartnerGroupSelector extends Vue {
 
   private selectedId = null
 
+  private partnerGroupList: PartnerGroup[] = []
+
   private get selectedValueId () {
     return this.selectedId
   }
@@ -47,7 +49,6 @@ export default class AdminPartnerGroupSelector extends Vue {
     this.$emit('input', null)
   }
 
-  private partnerGroupList: PartnerGroup[] = []
 
   private async mounted () {
     this.partnerGroupList = await getServiceContainer().publicEkosetService.getPartnerGroups()

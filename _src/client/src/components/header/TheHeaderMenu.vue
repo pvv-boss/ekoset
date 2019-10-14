@@ -7,10 +7,7 @@
       <nuxt-link :to="{name: 'about'}" :class="{active: activeIndex === 'about'}">О компании</nuxt-link>
     </li>
     <li>
-      <nuxt-link
-        :to="{name: 'clients', params: {siteSection: getCurrentSiteSection}}"
-        :class="{active: activeIndex === 'clients'}"
-      >Наши клиенты</nuxt-link>
+      <nuxt-link :to="{name: 'clients'}" :class="{active: activeIndex === 'clients'}">Наши клиенты</nuxt-link>
     </li>
     <li>
       <nuxt-link
@@ -25,10 +22,7 @@
       >Новости</nuxt-link>
     </li>
     <li>
-      <nuxt-link
-        :to="{name: 'contacts', params: {siteSection: getCurrentSiteSection}}"
-        :class="{active: activeIndex === 'contacts'}"
-      >Контакты</nuxt-link>
+      <nuxt-link :to="{name: 'contacts'}" :class="{active: activeIndex === 'contacts'}">Контакты</nuxt-link>
     </li>
   </ul>
 </template>

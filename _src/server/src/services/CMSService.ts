@@ -13,16 +13,17 @@ export default class CMSService extends BaseService {
     news.id = 3;
     news.head = 'Новости';
     news.name = 'ArticleList';
+    news.visibleIndex = 1;
     news.props = {
       articleList: [],
       mode: 'columns'
     }
 
-
     const brandList = new DynamicComponentInfo();
     brandList.id = 1;
     brandList.head = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
+    brandList.visibleIndex = 2;
     brandList.props = {
       brandList: []
     }
@@ -32,6 +33,7 @@ export default class CMSService extends BaseService {
     letters.id = 2;
     letters.head = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
+    letters.visibleIndex = 3;
     letters.props = {
       recommLetterList: []
     }

@@ -49,12 +49,10 @@
     <div class="brc-page-footer__menu">
       <ul>
         <li>
-          <nuxt-link :to="{name: 'about', params:{siteSection: getCurrentSiteSection}}">О компании</nuxt-link>
+          <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
         </li>
         <li>
-          <nuxt-link
-            :to="{name: 'clients', params:{siteSection: getCurrentSiteSection}}"
-          >Наши клиенты</nuxt-link>
+          <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
         </li>
         <li>
           <nuxt-link :to="{name: 'prices', params:{siteSection: getCurrentSiteSection}}">Цены</nuxt-link>
@@ -63,7 +61,7 @@
           <nuxt-link :to="{name: 'news', params:{siteSection: getCurrentSiteSection}}">Новости</nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="{name: 'contacts', params:{siteSection: getCurrentSiteSection}}">Контакты</nuxt-link>
+          <nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>
         </li>
       </ul>
     </div>

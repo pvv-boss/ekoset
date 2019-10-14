@@ -65,12 +65,16 @@ export default class PublicEkosetService extends BaseService {
 
     const componentsInfo: DynamicComponentInfo[] = await HttpUtil.httpGet('admin/panel/cms/blocks/info')
 
+    componentsInfo.sort((a, b) => {
+      return a.visibleIndex - b.visibleIndex;
+    })
+
     const newsCompoenentInfo = componentsInfo.find((iter) => {
       return iter.id === 3
     })
     if (!!newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
-      newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 4) : newsCompoenentInfo.props.articleList
+      newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
       newsCompoenentInfo.props.mode = 'columns'
       newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0
     }
