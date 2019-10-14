@@ -4,8 +4,10 @@
       <a name="brcOfferForm" id="brcOfferForm"></a>
     </p>
     <template v-for="iterComponent in dynamicComponentInfo">
-      <h2 :key="iterComponent.id">{{iterComponent.head }}</h2>
-      <component :key="iterComponent.id" :is="iterComponent.name" v-bind="iterComponent.props"></component>
+      <div :key="iterComponent.id" class="brc-page__dynamic_block" v-show="iterComponent.visible">
+        <h2>{{iterComponent.head }}</h2>
+        <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
+      </div>
     </template>
   </section>
 </template>
@@ -31,3 +33,11 @@ export default class DynamicComponentsContainer extends Vue {
   private dynamicComponentInfo
 }
 </script>
+
+<style lang="scss">
+@import "@/styles/variables.scss";
+
+.brc-page__dynamic_block {
+  margin-top: 60px;
+}
+</style>

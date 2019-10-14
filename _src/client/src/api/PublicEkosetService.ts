@@ -14,12 +14,13 @@ export default class PublicEkosetService extends BaseService {
   public async getDynamicComponentsInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
 
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
-    let brandItems: any
-    if (serviceSlug) {
+    let brandItems: any = null
+
+    if (!!serviceSlug) {
       brandItems = this.getBrandsByBusinessServiceSlug(serviceSlug)
     }
 
-    if (!serviceSlug && siteSectionSlug) {
+    if (!serviceSlug && !!siteSectionSlug) {
       brandItems = this.getBrandsBySiteSectionSlug(siteSectionSlug)
     }
 
@@ -30,12 +31,12 @@ export default class PublicEkosetService extends BaseService {
 
     // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
     // ReccomendationLetter
-    let reccomendationLetterItems: any
-    if (serviceSlug) {
+    let reccomendationLetterItems: any = null
+    if (!!serviceSlug) {
       reccomendationLetterItems = this.getRecommendationLettersByBusinessServiceSlug(serviceSlug)
     }
 
-    if (!serviceSlug && siteSectionSlug) {
+    if (!serviceSlug && !!siteSectionSlug) {
       reccomendationLetterItems = this.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
     }
 
@@ -45,12 +46,12 @@ export default class PublicEkosetService extends BaseService {
 
 
     // Новости (для услуги или для раздела или для главной)
-    let articleItems: any
-    if (serviceSlug) {
+    let articleItems: any = null
+    if (!!serviceSlug) {
       articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
     }
 
-    if (!serviceSlug && siteSectionSlug) {
+    if (!serviceSlug && !!siteSectionSlug) {
       articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
     }
 
@@ -69,7 +70,9 @@ export default class PublicEkosetService extends BaseService {
     })
     if (!!newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
+      newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 4) : newsCompoenentInfo.props.articleList
       newsCompoenentInfo.props.mode = 'columns'
+      newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0
     }
 
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
@@ -77,6 +80,7 @@ export default class PublicEkosetService extends BaseService {
     })
     if (!!lettersCompoenentInfo) {
       lettersCompoenentInfo.props.recommLetterList = data[2]
+      lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.recommLetterList && lettersCompoenentInfo.props.recommLetterList.length > 0
     }
 
     const recommendCompoenentInfo = componentsInfo.find((iter) => {
@@ -84,22 +88,11 @@ export default class PublicEkosetService extends BaseService {
     })
     if (!!recommendCompoenentInfo) {
       recommendCompoenentInfo.props.brandList = data[0]
+      recommendCompoenentInfo.visible = !!recommendCompoenentInfo.props.brandList && recommendCompoenentInfo.props.brandList.length > 0
     }
 
     return componentsInfo
 
-    // Мета
-    // const seoMeta = getServiceContainer().seoMetaService.getForHomePage()
-
-    // const data = await Promise.all([brandItems, articleItems, seoMeta, reccomendationLetterItems])
-
-    // const result = new ApiSharedData()
-    // result.brandItems = data[0]
-    // result.articleItems = data[1]
-    // result.seoMeta = data[2]
-    // result.reccomendationLetters = data[3]
-
-    // return result
   }
 
 
