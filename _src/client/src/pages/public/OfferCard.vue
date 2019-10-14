@@ -1,9 +1,6 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-
-    <h1 itemprop="headline name">{{offerHeaderText}}</h1>
-    <figure>
+    <figure class="brc-page-image__wrapper">
       <img
         class="brc-page-image"
         :src="individualOffer.indOfferImgBig"
@@ -11,7 +8,9 @@
         itemprop="image"
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">{{offerHeaderText}}</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock
       :leftBlock="individualOffer.indOfferFreeText1"
       :rightBlock="individualOffer.indOfferFreeText2"

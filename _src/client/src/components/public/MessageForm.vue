@@ -152,7 +152,7 @@ export default class MessageForm extends Vue {
 @import "@/styles/variables.scss";
 .brc-feedback {
   border: 3px solid lightgrey;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 30px 15px;
   max-width: 900px;
   margin: 60px auto 0;
@@ -269,11 +269,13 @@ export default class MessageForm extends Vue {
   }
 
   .attach-file {
-    float: right;
-    line-height: 50px;
-    padding-right: 20px;
-    position: absolute;
-    right: 0;
+    float: right !important;
+    line-height: 40px !important;
+    padding-right: 20px !important;
+    position: relative !important;
+    right: 0 !important;
+    border: none !important;
+    margin-bottom: 5px;
 
     input {
       display: none;
@@ -288,6 +290,7 @@ export default class MessageForm extends Vue {
       background-repeat: no-repeat;
       background-position: right;
       transition: 0.3s;
+      border: none !important;
     }
   }
 }

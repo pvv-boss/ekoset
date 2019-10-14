@@ -1,7 +1,7 @@
 <template>
   <section>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1 itemprop="headline name">Цены</h1>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <no-ssr>
       <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
     </no-ssr>

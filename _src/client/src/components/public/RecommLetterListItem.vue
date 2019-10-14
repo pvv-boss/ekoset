@@ -67,7 +67,7 @@ export default class RecommLetterListItem extends Vue {
   padding: 15px;
   margin: 15px;
   border: 1px solid #efefef;
-  border-radius: 3px;
+  border-radius: 5px;
 
   &:hover {
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
@@ -96,7 +96,7 @@ export default class RecommLetterListItem extends Vue {
     margin: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
+    border-radius: 5px;
     outline: 0;
   }
 
