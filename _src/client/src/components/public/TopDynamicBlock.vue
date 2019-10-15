@@ -29,8 +29,8 @@ export default class TopDynamicBlock extends Vue {
   display: flex;
   flex-direction: row;
   margin: 0 -15px;
-  font-size: 15px;
-  letter-spacing: 0.025em !important;
+  // font-size: 15px;
+  // letter-spacing: 0.025em !important;
   > div {
     margin: 15px;
     flex-basis: 100%;
