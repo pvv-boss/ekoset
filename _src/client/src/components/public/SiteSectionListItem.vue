@@ -62,5 +62,11 @@ export default class SiteSectionListItem extends Vue {
     height: 90px;
   }
 }
+
+@media (max-width: 768px) {
+  .brc-site-section-smallitem {
+    margin: 15px 15px 0 !important;
+  }
+}
 </style>
 

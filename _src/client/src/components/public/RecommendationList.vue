@@ -2,10 +2,16 @@
   <div class="brc-recommendations__wrapper">
     <div class="brc-recommendations">
       <RecommendationListItem
-        v-for="iterBrand in brandList"
+        v-for="iterBrand in brandShowList"
         :key="iterBrand.clBrandId"
         :brand="iterBrand"
       ></RecommendationListItem>
+    </div>
+    <div class="brc-all-brands-link__wrapper" v-show="!allBrandsPage">
+      <nuxt-link
+        :to="{name: 'brands', params: {siteSection: getCurrentSiteSection}}"
+        class="brc-all-brands-link"
+      >Все рекомендации</nuxt-link>
     </div>
   </div>
 </template>
@@ -25,6 +31,22 @@ import { NuxtContext } from 'vue/types/options'
 export default class RecommendationList extends Vue {
   @Prop(Array)
   private brandList
+
+  @Prop({ default: false })
+  private allBrandsPage
+
+  private isMobile: boolean = false
+
+  private get brandShowList () {
+    return !this.allBrandsPage ? this.brandList.slice(0, this.isMobile ? 4 : 12) : this.brandList
+  }
+
+  private mounted () {
+    const bodyElement = document.getElementsByTagName('body')[0]
+    if (bodyElement && bodyElement.offsetWidth < 768) {
+      this.isMobile = true
+    }
+  }
 }
 </script>
 
@@ -40,6 +62,29 @@ export default class RecommendationList extends Vue {
   @media (max-width: 768px) {
     .brc-recommendations {
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+}
+
+.brc-all-brands-link__wrapper {
+  margin-top: 30px;
+
+  .brc-all-brands-link {
+    border: 1px solid red;
+    color: red;
+    text-decoration: none;
+    width: 200px;
+    max-width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin: auto;
+
+    &:hover {
+      background-color: red;
+      color: white;
     }
   }
 }
