@@ -57,6 +57,7 @@ export default class ArticleListItem extends Vue {
   border: 1px solid #efefef;
   padding: 15px;
   margin: 15px;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   &:hover {

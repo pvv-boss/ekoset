@@ -67,6 +67,7 @@ export default class ServiceListItem extends Vue {
   border-radius: 5px;
   padding: 15px;
   margin: 15px;
+  margin-top: 0px;
   flex: 1;
   min-width: 250px;
   text-align: center;

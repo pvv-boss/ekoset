@@ -29,7 +29,7 @@ export default class RecommLetterList extends Vue {
 
 <style lang="scss">
 .brc-letters__wrapper {
-  margin: 60px 0 0;
+  // margin: 60px 0 0;
   .brc-letters {
     margin: 30px -15px 0;
     display: grid;

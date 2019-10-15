@@ -6,7 +6,7 @@
     <MessageForm title="Заказать услугу"></MessageForm>
     <template v-for="iterComponent in dynamicComponentInfo">
       <div :key="iterComponent.id" class="brc-page__dynamic_block" v-show="iterComponent.visible">
-        <h2>{{iterComponent.head }}</h2>
+        <h2 v-show="!!iterComponent.head">{{iterComponent.head }}</h2>
         <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
       </div>
     </template>
@@ -21,6 +21,7 @@ import RecommLetterList from '@/components/public/RecommLetterList.vue'
 import ArticleList from '@/components/public/ArticleList.vue'
 import MessageForm from '@/components/public/MessageForm.vue'
 import BottomDynamicBlock from '@/components/public/BottomDynamicBlock.vue'
+
 @Component({
   components: {
     ArticleList,

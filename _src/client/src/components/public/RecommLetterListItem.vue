@@ -66,6 +66,7 @@ export default class RecommLetterListItem extends Vue {
   text-align: center;
   padding: 15px;
   margin: 15px;
+  margin-top: 0px;
   border: 1px solid #efefef;
   border-radius: 5px;
 
