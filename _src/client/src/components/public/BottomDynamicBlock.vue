@@ -24,6 +24,8 @@ export default class BottomDynamicBlock extends Vue {
   display: flex;
   flex-direction: row;
   margin: 60px -15px 0;
+  font-size: 15px;
+  letter-spacing: 0.025em !important;
 
   > div {
     flex-grow: 1;

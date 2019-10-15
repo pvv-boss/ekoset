@@ -12,6 +12,7 @@
 a {
   text-decoration: none;
   outline: none;
+  color: $link-color;
 
   &:hover {
     color: $red;
