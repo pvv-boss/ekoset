@@ -1,6 +1,24 @@
 <template>
   <div class="brc-select-wrapper">
-    <select
+    <b-field>
+      <b-select
+        placeholder
+        v-model="selectedValueId"
+        @change="$emit('input', selectedId)"
+        :disabled="disabled"
+        expanded
+      >
+        <option
+          v-for="partnerGroup in partnerGroupList"
+          :key="partnerGroup.partnerGroupId"
+          :value="partnerGroup.partnerGroupId"
+        >{{partnerGroup.partnerGroupName}}</option>
+      </b-select>
+      <span v-if="nullable" @click="setValueNull">
+        <b-icon icon="close"></b-icon>
+      </span>
+    </b-field>
+    <!-- <select
       class="form-control"
       v-model="selectedValueId"
       @change="$emit('input', selectedId)"
@@ -12,7 +30,7 @@
         :value="partnerGroup.partnerGroupId"
       >{{partnerGroup.partnerGroupName}}</option>
     </select>
-    <span v-if="nullable" @click="setValueNull">&times;</span>
+    <span v-if="nullable" @click="setValueNull">&times;</span>-->
   </div>
 </template>
 

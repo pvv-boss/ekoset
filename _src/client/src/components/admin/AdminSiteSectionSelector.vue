@@ -1,6 +1,25 @@
 <template>
   <div class="brc-select-wrapper">
-    <select
+    <b-field>
+      <b-select
+        placeholder="Подраздел сайта"
+        v-model="selectedSiteSectionId"
+        @change="$emit('input', selectedId)"
+        :disabled="disabled"
+        expanded
+      >
+        <option
+          v-for="siteSection in siteSectionList"
+          :key="siteSection.siteSectionId"
+          :value="siteSection.siteSectionId"
+        >{{siteSection.siteSectionName}}</option>
+      </b-select>
+      <span v-if="nullable" @click="setSiteSectionNull">
+        <b-icon icon="close"></b-icon>
+      </span>
+    </b-field>
+
+    <!-- <select
       class="form-control"
       v-model="selectedSiteSectionId"
       @change="$emit('input', selectedId)"
@@ -11,8 +30,7 @@
         :key="siteSection.siteSectionId"
         :value="siteSection.siteSectionId"
       >{{siteSection.siteSectionName}}</option>
-    </select>
-    <span v-if="nullable" @click="setSiteSectionNull">&times;</span>
+    </select>-->
   </div>
 </template>
 
@@ -60,6 +78,9 @@ export default class AdminSiteSectionSelector extends Vue {
 .brc-select-wrapper {
   display: inline-flex;
   width: 100%;
+  .field {
+    width: 100%;
+  }
   select {
     flex-grow: 1;
   }
