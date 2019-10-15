@@ -1,9 +1,10 @@
 <template>
   <div
     class="brc-page-description"
-    v-if="!!rightBlock && rightBlock.length > 0 && !!leftBlock && leftBlock.length > 0"
+    v-if="(!!rightBlock && rightBlock.length > 0) || (!!leftBlock && leftBlock.length > 0)"
   >
     <div
+      v-if="(!!leftBlock && leftBlock.length > 0)"
       v-html="leftBlock"
       :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
