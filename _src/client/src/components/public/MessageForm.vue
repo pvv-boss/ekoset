@@ -1,7 +1,7 @@
 <template>
   <div class="brc-feedback">
     <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
-    <h4>{{title}}</h4>
+    <h3>{{title}}</h3>
     <form class="brc-message-form">
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
