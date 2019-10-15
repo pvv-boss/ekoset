@@ -1,6 +1,21 @@
 <template>
   <div class="brc-admin-client-type-selector">
-    <input
+    <b-radio
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
+      :disabled="disabled"
+      name="name"
+      native-value="1"
+    >Бизнес</b-radio>
+    <b-radio
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
+      :disabled="disabled"
+      name="name"
+      native-value="3"
+    >Частные лица</b-radio>
+
+    <!-- <input
       type="radio"
       id="clientTypeSelector-1"
       value="1"
@@ -17,7 +32,7 @@
       @change="$emit('input', selectedId)"
       :disabled="disabled"
     />
-    <label for="clientTypeSelector-3">Частные лица</label>
+    <label for="clientTypeSelector-3">Частные лица</label>-->
   </div>
 </template>
 

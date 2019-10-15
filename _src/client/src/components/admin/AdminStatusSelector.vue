@@ -1,6 +1,20 @@
 <template>
   <div class="brc-admin-status-selector">
-    <input
+    <b-radio
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
+      :disabled="disabled"
+      name="name"
+      native-value="0"
+    >Неактивно</b-radio>
+    <b-radio
+      v-model="selectedValueId"
+      @change="$emit('input', selectedId)"
+      :disabled="disabled"
+      name="name"
+      native-value="1"
+    >Активно</b-radio>
+    <!-- <input
       type="radio"
       id="statusSelector-0"
       value="0"
@@ -17,7 +31,7 @@
       @change="$emit('input', selectedId)"
       :disabled="disabled"
     />
-    <label for="statusSelector-1">Активно</label>
+    <label for="statusSelector-1">Активно</label>-->
   </div>
 </template>
 
