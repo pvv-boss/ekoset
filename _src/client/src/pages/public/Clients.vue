@@ -48,7 +48,7 @@ export default class Clients extends Vue {
     })
   }
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection)
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
     const data = await Promise.all([clientList])

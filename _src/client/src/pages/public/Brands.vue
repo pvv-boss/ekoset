@@ -39,7 +39,7 @@ export default class Brands extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection)
+    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsWithoutBrandsInfo(context.params.siteSection)
     const siteSection = context.params.siteSection
     let brandList: Promise<Brands>
     if (siteSection) {

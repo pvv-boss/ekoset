@@ -60,7 +60,8 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
     BusinessTypeOfferList,
     ClientTypeOfferList,
     TopDynamicBlock,
-    BreadCrumbs
+    BreadCrumbs,
+    DynamicComponentsContainer
   }
 })
 export default class ServiceCard extends Vue {
@@ -75,7 +76,7 @@ export default class ServiceCard extends Vue {
     const siteSection = context.params.siteSection
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
-    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsInfo(context.params.siteSection, 'slug-' + serviceIdForRelations)
+    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection, 'slug-' + serviceIdForRelations)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
     const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
 
