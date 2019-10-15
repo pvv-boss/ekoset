@@ -14,25 +14,6 @@
       name="name"
       native-value="3"
     >Частные лица</b-radio>
-
-    <!-- <input
-      type="radio"
-      id="clientTypeSelector-1"
-      value="1"
-      v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
-      :disabled="disabled"
-    />
-    <label for="clientTypeSelector-1">Бизнес</label>
-    <input
-      type="radio"
-      id="clientTypeSelector-3"
-      value="3"
-      v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
-      :disabled="disabled"
-    />
-    <label for="clientTypeSelector-3">Частные лица</label>-->
   </div>
 </template>
 

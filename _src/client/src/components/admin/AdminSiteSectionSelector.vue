@@ -18,19 +18,6 @@
         <b-icon icon="close"></b-icon>
       </span>
     </b-field>
-
-    <!-- <select
-      class="form-control"
-      v-model="selectedSiteSectionId"
-      @change="$emit('input', selectedId)"
-      :disabled="disabled"
-    >
-      <option
-        v-for="siteSection in siteSectionList"
-        :key="siteSection.siteSectionId"
-        :value="siteSection.siteSectionId"
-      >{{siteSection.siteSectionName}}</option>
-    </select>-->
   </div>
 </template>
 

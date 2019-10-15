@@ -3,14 +3,12 @@
     <p>
       <a name="brcOfferForm" id="brcOfferForm"></a>
     </p>
-    <MessageForm title="Заказать услугу"></MessageForm>
     <template v-for="iterComponent in dynamicComponentInfo">
       <div :key="iterComponent.id" class="brc-page__dynamic_block" v-show="iterComponent.visible">
         <h2 v-show="!!iterComponent.head">{{iterComponent.head }}</h2>
         <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
       </div>
     </template>
-    <MessageForm title="Задать вопрос эксперту"></MessageForm>
   </section>
 </template>
 

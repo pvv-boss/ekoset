@@ -9,16 +9,6 @@ export default class CMSService extends BaseService {
 
     const result: DynamicComponentInfo[] = [];
 
-    const news = new DynamicComponentInfo();
-    news.id = 3;
-    news.head = 'Новости';
-    news.name = 'ArticleList';
-    news.visibleIndex = 1;
-    news.props = {
-      articleList: [],
-      mode: 'columns'
-    }
-
     const brandList = new DynamicComponentInfo();
     brandList.id = 1;
     brandList.head = 'Нас рекомендуют';
@@ -38,7 +28,34 @@ export default class CMSService extends BaseService {
       recommLetterList: []
     }
 
-    result.push(news, brandList, letters);
+    const news = new DynamicComponentInfo();
+    news.id = 3;
+    news.head = 'Новости';
+    news.name = 'ArticleList';
+    news.visibleIndex = 1;
+    news.props = {
+      articleList: [],
+      mode: 'columns'
+    }
+
+    const bayService = new DynamicComponentInfo();
+    bayService.id = 4;
+    bayService.name = 'MessageForm';
+    bayService.visibleIndex = 0;
+    bayService.props = {
+      title: 'Заказать услугу'
+    }
+
+
+    const askExpert = new DynamicComponentInfo();
+    askExpert.id = 5;
+    askExpert.name = 'MessageForm';
+    askExpert.visibleIndex = 4;
+    askExpert.props = {
+      title: 'Задать вопрос эксперту'
+    }
+
+    result.push(news, brandList, letters, bayService, askExpert);
 
     return result;
   }

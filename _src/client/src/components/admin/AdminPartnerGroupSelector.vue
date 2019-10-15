@@ -18,19 +18,7 @@
         <b-icon icon="close"></b-icon>
       </span>
     </b-field>
-    <!-- <select
-      class="form-control"
-      v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
-      :disabled="disabled"
-    >
-      <option
-        v-for="partnerGroup in partnerGroupList"
-        :key="partnerGroup.partnerGroupId"
-        :value="partnerGroup.partnerGroupId"
-      >{{partnerGroup.partnerGroupName}}</option>
-    </select>
-    <span v-if="nullable" @click="setValueNull">&times;</span>-->
+   
   </div>
 </template>
 

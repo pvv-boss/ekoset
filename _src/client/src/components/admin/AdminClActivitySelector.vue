@@ -10,9 +10,9 @@
       >
         <option
           v-for="item in itemList"
-          :key="item.businessServiceId"
-          :value="item.businessServiceId"
-        >{{item.businessServiceName}}</option>
+          :key="item.clActivityId"
+          :value="item.clActivityId"
+        >{{item.clActivityName}}</option>
       </b-select>
       <span v-if="nullable" @click="setValueNull">
         <b-icon icon="close"></b-icon>
@@ -22,22 +22,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import ClActivity from '@/models/ekoset/ClActivity'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import BusinessService from '@/models/ekoset/BusinessService'
 
 @Component
-export default class AdminServiceSelector extends Vue {
+export default class AdminClActivitySelector extends Vue {
   @Prop()
   private value
-  @Prop()
-  private siteSectionId
 
   @Prop({ type: Boolean, default: false })
   private nullable
 
   @Prop({ type: Boolean, default: false })
   private disabled
+
+  private itemList: ClActivity[] = []
 
   private selectedId = null
 
@@ -54,18 +54,13 @@ export default class AdminServiceSelector extends Vue {
     this.$emit('input', null)
   }
 
-  private itemList: BusinessService[] = []
-
-  @Watch('siteSectionId', { immediate: true })
-  private async updateServiceList () {
-    if (this.siteSectionId && this.siteSectionId > 0) {
-      this.itemList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.siteSectionId)
-    }
-  }
-
   private async mounted () {
-    this.updateServiceList()
+    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
     this.selectedId = this.value
   }
+
+
 }
 </script>
+
+
