@@ -93,6 +93,7 @@ export default class PublicEkosetService extends BaseService {
     })
     if (!!recommendCompoenentInfo) {
       recommendCompoenentInfo.props.brandList = data[0]
+      recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
       recommendCompoenentInfo.visible = !!recommendCompoenentInfo.props.brandList && recommendCompoenentInfo.props.brandList.length > 0
     }
 
