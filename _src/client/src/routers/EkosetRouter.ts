@@ -59,17 +59,17 @@ export const EkosetRouter = [
   },
 
   {
-    name: 'news-card',
-    path: '/:siteSection?/news/:article',
-    component: ArticleCard,
-    props: true
-  },
-
-  {
     name: 'news',
     path: '/:siteSection?/news',
     props: true,
     component: Articles
+  },
+
+  {
+    name: 'news-card',
+    path: '/:siteSection?/news/:article',
+    component: ArticleCard,
+    props: true
   },
 
   {

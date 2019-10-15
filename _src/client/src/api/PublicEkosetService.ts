@@ -11,7 +11,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo';
 
 export default class PublicEkosetService extends BaseService {
 
-  public async getDynamicComponentsInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
+  public async getDynamicComponentsInfo (siteSectionSlug: string, serviceSlug?: string, showNewsComponent = true): Promise<DynamicComponentInfo[]> {
 
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any = null
@@ -47,22 +47,27 @@ export default class PublicEkosetService extends BaseService {
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
-    if (!!serviceSlug) {
-      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
+    if (showNewsComponent) {
+      if (!!serviceSlug) {
+        articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
+      }
+
+      if (!serviceSlug && !!siteSectionSlug) {
+        articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
+      }
+
+      if (!articleItems) {
+        articleItems = getServiceContainer().articleService.getRootArticleList()
+      }
     }
 
-    if (!serviceSlug && !!siteSectionSlug) {
-      articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
-    }
+    const promises = [brandItems, articleItems, reccomendationLetterItems].filter((iter) => {
+      return !!iter
+    })
 
-    if (!articleItems) {
-      articleItems = getServiceContainer().articleService.getRootArticleList()
-    }
-
+    const data = await Promise.all(promises)
 
     // Прописываем данные в компопонте (в его пропы)
-    const data = await Promise.all([brandItems, articleItems, reccomendationLetterItems])
-
     const componentsInfo: DynamicComponentInfo[] = await HttpUtil.httpGet('admin/panel/cms/blocks/info')
 
     componentsInfo.sort((a, b) => {
@@ -73,10 +78,13 @@ export default class PublicEkosetService extends BaseService {
       return iter.id === 3
     })
     if (!!newsCompoenentInfo) {
-      newsCompoenentInfo.props.articleList = data[1]
-      newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
-      newsCompoenentInfo.props.mode = 'columns'
-      newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0
+      newsCompoenentInfo.visible = false
+      if (showNewsComponent) {
+        newsCompoenentInfo.props.articleList = data[1]
+        newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
+        newsCompoenentInfo.props.mode = 'columns'
+        newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0
+      }
     }
 
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
