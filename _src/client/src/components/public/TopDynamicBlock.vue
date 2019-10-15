@@ -26,7 +26,6 @@ export default class TopDynamicBlock extends Vue {
 <style lang="scss">
 .brc-page-description {
   display: flex;
-  font-size: 0.85rem;
   flex-direction: row;
   margin: 0 -15px;
 

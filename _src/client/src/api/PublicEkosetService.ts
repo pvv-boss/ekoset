@@ -84,6 +84,7 @@ export default class PublicEkosetService extends BaseService {
     })
     if (!!lettersCompoenentInfo) {
       lettersCompoenentInfo.props.recommLetterList = data[2]
+      lettersCompoenentInfo.props.recommLetterList = !!lettersCompoenentInfo.props.recommLetterList ? lettersCompoenentInfo.props.recommLetterList.slice(0, 3) : lettersCompoenentInfo.props.recommLetterList
       lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.recommLetterList && lettersCompoenentInfo.props.recommLetterList.length > 0
     }
 

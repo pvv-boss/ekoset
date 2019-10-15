@@ -25,7 +25,7 @@ export default class BreadCrumbs extends Vue {
 
 <style lang="scss">
 .brc-breadcrumb {
-  margin: 0 0 15px;
+  margin: 15px 0 15px;
   li {
     display: inline;
     list-style-type: none;
