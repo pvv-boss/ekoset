@@ -21,6 +21,8 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import { getServiceContainer } from '@/api/ServiceContainer'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
 import { NuxtContext } from 'vue/types/options'
 
 @Component({
@@ -36,6 +38,10 @@ export default class RecommendationList extends Vue {
   private allBrandsPage
 
   private isMobile: boolean = false
+
+  public get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSection
+  }
 
   private get brandShowList () {
     return !this.allBrandsPage ? this.brandList.slice(0, this.isMobile ? 4 : 12) : this.brandList
