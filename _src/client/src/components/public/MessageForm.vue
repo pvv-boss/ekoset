@@ -277,7 +277,6 @@ export default class MessageForm extends Vue {
     right: 0 !important;
     border: none !important;
     margin-bottom: 5px;
-
     input {
       display: none;
     }
@@ -309,10 +308,15 @@ export default class MessageForm extends Vue {
     }
   }
   .brc-message-form__button .attach-file {
-    float: none;
-    line-height: 50px;
-    padding-right: 0;
-    position: relative;
+    float: none !important;
+    line-height: 50px !important;
+    padding-right: 0 !important;
+    position: relative !important;
+    .file-name {
+      margin: 0 auto 15px;
+      max-width: 12em;
+      text-align: center;
+    }
   }
 }
 </style>
