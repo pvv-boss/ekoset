@@ -4,14 +4,14 @@
       v-model="selectedValueId"
       @input="$emit('input', selectedId)"
       :disabled="disabled"
-      name="name"
+      name="status-selector"
       native-value="0"
     >Неактивно</b-radio>
     <b-radio
       v-model="selectedValueId"
       @input="$emit('input', selectedId)"
       :disabled="disabled"
-      name="name"
+      name="status-selector"
       native-value="1"
     >Активно</b-radio>
   </div>
