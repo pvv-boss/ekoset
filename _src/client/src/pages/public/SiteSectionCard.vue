@@ -8,7 +8,7 @@
         itemprop="image"
       />
       <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionName}}</h1>
+      <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock

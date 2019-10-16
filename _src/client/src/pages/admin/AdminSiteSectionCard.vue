@@ -9,6 +9,12 @@
             <div class="brc-admin-card-attribute__caption">Наименование</div>
             <input type="text" v-model="siteSectionItem.siteSectionName" />
           </div>
+
+          <div class="brc-admin-card-attribute">
+            <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
+            <input type="text" v-model="siteSectionItem.siteSectionH1" />
+          </div>
+
           <div class="brc-admin-card-attribute">
             <div class="brc-admin-card-attribute__caption">Префикс</div>
             <input type="text" v-model="siteSectionItem.siteSectionSlug" disabled />

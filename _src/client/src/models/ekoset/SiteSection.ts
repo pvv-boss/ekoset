@@ -1,6 +1,7 @@
 export default class SiteSection {
   public siteSectionId: number;
   public siteSectionName: string;
+  public siteSectionH1: string;
   public siteSectionSlug: string | null;
   public siteSectionImgBig: string | null;
   public siteSectionImgSmall: string | null;

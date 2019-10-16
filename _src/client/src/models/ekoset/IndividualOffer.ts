@@ -4,6 +4,7 @@ export default class IndividualOffer {
   public clActivityId: number | null;
   public siteSectionId: number | null;
   public indOfferName: string;
+  public indOfferH1: string;
   public indOfferSlug: string | null;
   public indOfferImgSmall: string | null;
   public indOfferImgBig: string | null;

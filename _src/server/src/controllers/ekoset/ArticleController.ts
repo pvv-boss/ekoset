@@ -7,6 +7,7 @@ import { NotFound } from '@/exceptions/clientErrors/NotFound';
 import SortFilterPagination from '@/entities/SortFilterPagination';
 import { SortFilterPaginationFromRequest } from '../AppController';
 import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
+import { isNullOrUndefined } from 'util';
 
 @JsonController()
 export default class ArticleController extends BaseController {
@@ -151,7 +152,7 @@ export default class ArticleController extends BaseController {
     @Param('id') id: number) {
 
     const result = await ServiceContainer.ArticleService.getById(id);
-    if (!!result) {
+    if (!isNullOrUndefined(result)) {
       return ArticleController.createSuccessResponse(result, response);
     } else {
       return ArticleController.createFailureResponse(new NotFound(request.originalUrl), response)

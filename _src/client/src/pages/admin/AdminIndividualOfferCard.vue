@@ -8,10 +8,12 @@
           <div class="brc-admin-card-attribute__caption">Наименование</div>
           <input type="text" v-model="indOfferItem.indOfferName" :disabled="isClientTypeMode" />
         </div>
+
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Префикс</div>
-          <input type="text" v-model="indOfferItem.indOfferSlug" disabled />
+          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
+          <input type="text" v-model="indOfferItem.indOfferName" :disabled="isClientTypeMode" />
         </div>
+
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
           <AdminSiteSectionSelector

@@ -17,3 +17,6 @@ export const isEmpty = (value: any): boolean => {
   return value === '' || value === null || value === undefined;
 }
 
+export const isNullOrUndefined = <T> (obj: T | null | undefined): obj is null | undefined => {
+  return typeof obj === 'undefined' || obj === null;
+};

@@ -5,6 +5,7 @@ export default class Article {
   public articlePublishDate: string;
   public articleAuthor: string | null;
   public articleTitle: string;
+  public articleH1: string;
   public articleSlug: string | null;
   public articleDescription: string;
   public articleBody: string | null;

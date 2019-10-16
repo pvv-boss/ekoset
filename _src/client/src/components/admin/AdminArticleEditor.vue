@@ -18,7 +18,7 @@ export default class AdminArticleEditor extends Vue {
   @Prop()
   private value
 
-  private content: string = ""
+  private content: string = ''
 
   private editorSettings = {
     modules: {
@@ -52,7 +52,7 @@ export default class AdminArticleEditor extends Vue {
 .ql-html {
   width: 120px !important;
   &:after {
-    content: "Исходный Html" !important;
+    content: 'Исходный Html' !important;
   }
 }
 .ql-editor {

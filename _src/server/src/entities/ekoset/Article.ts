@@ -41,6 +41,12 @@ export class Article {
   })
   public articleTitle: string;
 
+  @Column('text', {
+    nullable: false,
+    name: 'article_h1'
+  })
+  public articleH1: string;
+
 
   @Column('text', {
     nullable: true,
@@ -61,21 +67,6 @@ export class Article {
     name: 'article_body'
   })
   public articleBody: string | null;
-
-
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'article_preview_img_src'
-  // })
-  // public articlePreviewImgSrc: string | null;
-
-
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'article_header_img_src'
-  // })
-  // public articleHeaderImgSrc: string | null;
-
 
   @Column('text', {
     nullable: true,

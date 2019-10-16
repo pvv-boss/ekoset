@@ -12,7 +12,7 @@ export default class AdminTextBlockEditor extends Vue {
   @Prop()
   private value
 
-  private content: string = ""
+  private content: string = ''
 
   private editorSettings = {
     modules: {
@@ -45,7 +45,7 @@ export default class AdminTextBlockEditor extends Vue {
 .ql-html {
   width: 120px !important;
   &:after {
-    content: "Исходный Html" !important;
+    content: 'Исходный Html' !important;
   }
 }
 </style>

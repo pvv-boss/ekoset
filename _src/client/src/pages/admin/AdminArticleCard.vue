@@ -11,13 +11,20 @@
           <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
           <AdminSiteSectionSelector v-model="article.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
         </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Краткое описание</div>
-          <input type="text" v-model="article.articleDescription" />
-        </div>
+
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Заголовок</div>
           <input type="text" v-model="article.articleTitle" />
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
+          <input type="text" v-model="article.articleH1" />
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Краткое описание</div>
+          <input type="text" v-model="article.articleDescription" />
         </div>
 
         <div class="brc-admin-card-attribute">

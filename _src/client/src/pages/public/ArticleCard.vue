@@ -8,7 +8,7 @@
         class="brc-article-item__header-img brc-page-image"
       />
       <figcaption>{{article.articleTitle}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{article.articleTitle}}</h1>
+      <h1 itemprop="headline name" class="brc-page-title">{{article.articleH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-article-item__stat-info">

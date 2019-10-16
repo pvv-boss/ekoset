@@ -8,7 +8,7 @@
         itemprop="image"
       />
       <figcaption>{{businessService.businessServiceName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceName}}</h1>
+      <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock
@@ -120,7 +120,7 @@ export default class ServiceCard extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 .brc-service-img {
   width: 100%;
 }

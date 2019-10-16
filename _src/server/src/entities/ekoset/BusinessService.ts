@@ -29,6 +29,13 @@ export class BusinessService {
 
 
   @Column('text', {
+    nullable: false,
+    name: 'business_service_h1'
+  })
+  public businessServiceH1: string;
+
+
+  @Column('text', {
     nullable: true,
     name: 'business_service_slug'
   })
@@ -47,20 +54,6 @@ export class BusinessService {
     name: 'business_service_price'
   })
   public businessServicePrice: number | null;
-
-
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_img_small'
-  // })
-  // public businessServiceImgSmall: string | null;
-
-
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_img_big'
-  // })
-  // public businessServiceImgBig: string | null;
 
 
   @Column('numeric', {
