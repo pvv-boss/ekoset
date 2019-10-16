@@ -95,14 +95,15 @@ const config: NuxtConfiguration = {
     plugins: [
       new webpack.ProvidePlugin({
         'window.Quill': 'quill/dist/quill.js',
-        'Quill': 'quill/dist/quill.js'
+        //   'Quill': 'quill/dist/quill.js'
       })
     ]
   },
 
   purgeCSS: {
     mode: 'postcss',
-    whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /file.*?$/, /grid.*?$/, /help.*?$/, /theme.*?$/]
+    // whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, , /file.*?$/, /grid.*?$/, /help.*?$/, ]
+    whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /theme.*?$/]
   },
 
   server: {

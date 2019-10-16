@@ -1,9 +1,10 @@
 <template>
   <div
     class="brc-page-description"
-    v-if="!!rightBlock && rightBlock.length > 0 && !!leftBlock && leftBlock.length > 0"
+    v-if="(!!rightBlock && rightBlock.length > 0) || (!!leftBlock && leftBlock.length > 0)"
   >
     <div
+      v-if="(!!leftBlock && leftBlock.length > 0)"
       v-html="leftBlock"
       :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
@@ -28,8 +29,8 @@ export default class TopDynamicBlock extends Vue {
   display: flex;
   flex-direction: row;
   margin: 0 -15px;
-  font-size: 15px;
-  letter-spacing: 0.025em !important;
+  // font-size: 15px;
+  // letter-spacing: 0.025em !important;
   > div {
     margin: 15px;
     flex-basis: 100%;
