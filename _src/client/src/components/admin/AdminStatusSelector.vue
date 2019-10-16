@@ -2,14 +2,14 @@
   <div class="brc-admin-status-selector">
     <b-radio
       v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
+      @input="$emit('input', selectedId)"
       :disabled="disabled"
       name="name"
       native-value="0"
     >Неактивно</b-radio>
     <b-radio
       v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
+      @input="$emit('input', selectedId)"
       :disabled="disabled"
       name="name"
       native-value="1"

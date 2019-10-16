@@ -2,14 +2,14 @@
   <div class="brc-admin-client-type-selector">
     <b-radio
       v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
+      @input="$emit('input', selectedId)"
       :disabled="disabled"
       name="name"
       native-value="1"
     >Бизнес</b-radio>
     <b-radio
       v-model="selectedValueId"
-      @change="$emit('input', selectedId)"
+      @input="$emit('input', selectedId)"
       :disabled="disabled"
       name="name"
       native-value="3"

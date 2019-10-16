@@ -4,7 +4,7 @@
       <b-select
         placeholder
         v-model="selectedValueId"
-        @change="$emit('input', selectedId)"
+        @input="$emit('input', selectedId)"
         :disabled="disabled"
         expanded
       >
@@ -18,7 +18,6 @@
         <b-icon icon="close"></b-icon>
       </span>
     </b-field>
-   
   </div>
 </template>
 

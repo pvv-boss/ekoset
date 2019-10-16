@@ -4,7 +4,7 @@
       <b-select
         placeholder="Подраздел сайта"
         v-model="selectedSiteSectionId"
-        @change="$emit('input', selectedId)"
+        @input="$emit('input', selectedId)"
         :disabled="disabled"
         expanded
       >
