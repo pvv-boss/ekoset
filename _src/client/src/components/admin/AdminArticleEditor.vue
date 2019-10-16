@@ -1,12 +1,6 @@
 <template>
   <div class="container" id="container">
-    <quill-editor
-      ref="articleQuillEditor"
-      class="quill-editor"
-      :content="value"
-      @change="onEditorChange($event)"
-      :options="editorOptions"
-    ></quill-editor>
+    <vue-editor v-model="content" @text-change="onEditorChange"></vue-editor>
   </div>
 </template>
 
@@ -24,83 +18,14 @@ export default class AdminArticleEditor extends Vue {
   @Prop()
   private value
 
-  private toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
-    [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
-    [{ size: ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ header: 2 }, { header: 3 }, { header: 4 }],
-    [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
-    [{ align: [] }],
-    ['clean'],
-    ['link', 'image', 'video'],
-    ['html']
-  ]
+  private content: string = ""
 
-  private editorOptions = {
-    theme: 'snow',
-    debug: false,
-    modules: {
-      // syntax: {
-      //   highlight: (text) => {
-      //     return hljs.highlightAuto(text).value;
-      //   }
-      // },
-      toolbar: {
-        container: this.toolbarOptions,
-        handlers: {
-          clean: this.cleanHandler,
-          html: this.htmlEditor
-        }
-      },
-      imageResize: {
-        displayStyles: {
-          backgroundColor: 'black',
-          border: 'none',
-          color: 'white'
-        },
-        modules: ['Resize', 'DisplaySize', 'Toolbar']
-      }
-    }
-  }
-
-  private txtArea
-
-
-
-
-  public get editor () {
-    // @ts-ignore
-    return this.$refs.articleQuillEditor.quill
-  }
-
-  private cleanHandler () {
-    const str = this.value
-    this.value = str.replace(/\s*(style|class)=\".*?\"/gm, '')
-  }
-
-  private htmlEditor () {
-    if (this.txtArea.style.display === '') {
-      const html = this.txtArea.value
-      this.editor.pasteHTML(html)
-    }
-    this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none'
-  }
-
-  private onEditorChange ({ editor, html, text }) {
-    this.$emit('input', html)
-    this.txtArea.value = html
+  private onEditorChange () {
+    this.$emit('input', this.content)
   }
 
   private mounted () {
-    this.txtArea = document.createElement('textarea');
-    this.txtArea.setAttribute('id', 'txtArea')
-    this.txtArea.style.cssText = 'width: 100%;height:100%;margin: 0px;background: rgb(29, 29, 29);box-sizing: border-box;color: rgb(204, 204, 204);font-size: 15px;outline: none;padding: 20px;line-height: 24px;font-family: Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace;position: absolute;top: 0;bottom: 0;border: none;display:none'
-
-    const htmlEditor = this.editor.addContainer('ql-custom')
-    htmlEditor.appendChild(this.txtArea)
+    this.content = this.value
   }
 }
 </script>
