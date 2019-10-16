@@ -9,7 +9,7 @@
     </div>
     <div class="brc-all-brands-link__wrapper" v-show="!allBrandsPage">
       <nuxt-link
-        :to="{name: 'brands', params: {siteSection: getCurrentSiteSection}}"
+        :to="{name: 'clients', params: {siteSection: getCurrentSiteSection}}"
         class="brc-all-brands-link"
       >Все рекомендации</nuxt-link>
     </div>

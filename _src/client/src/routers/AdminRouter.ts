@@ -87,8 +87,15 @@ export const AdminRouter = [
     meta: { title: 'Экосеть: Панель управления - бренды' }
   },
   {
+    name: 'admin-individual-offer-card-client-type',
+    path: '/admin/individual-offer/:siteSection/:clienttype(business|person)',
+    props: true,
+    component: AdminIndividualOfferCard,
+    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
+  },
+  {
     name: 'admin-individual-offer-card',
-    path: '/admin/individual-offer/:siteSection/:offer?/:clienttype?',
+    path: '/admin/individual-offer/:siteSection/:offer?',
     props: true,
     component: AdminIndividualOfferCard,
     meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }

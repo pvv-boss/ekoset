@@ -4,14 +4,14 @@
       v-model="selectedValueId"
       @input="$emit('input', selectedId)"
       :disabled="disabled"
-      name="name"
+      name="client-type"
       native-value="1"
     >Бизнес</b-radio>
     <b-radio
       v-model="selectedValueId"
       @input="$emit('input', selectedId)"
       :disabled="disabled"
-      name="name"
+      name="client-type"
       native-value="3"
     >Частные лица</b-radio>
   </div>
@@ -27,6 +27,7 @@ export default class AdminClientTypeSelector extends Vue {
   @Prop({ type: Boolean, default: false })
   private disabled
   private selectedId = null
+
   private get selectedValueId () {
     return this.selectedId
   }

@@ -53,35 +53,31 @@ const config = {
     css: false
   },
 
-  plugins: [{
-    src: '@/plugins/initialize-app'
-  },
-  {
-    src: '@/plugins/brc-dialog-plugin',
-    mode: 'client'
-  },
-  {
-    src: '@/plugins/vuelidate',
-    mode: 'client'
-  },
-  {
-    src: '@/plugins/nuxt-quill-plugin',
-    mode: 'client'
-  },
-  {
-    src: '@/plugins/brc-directives',
-    mode: 'client'
-  },
-  {
-    src: '@/plugins/yandex-share',
-    mode: 'client'
-  },
-  {
-    src: '@/plugins/brc-route-middleware'
-  },
-  {
-    src: '@/plugins/vue-good-table'
-  }
+  plugins: [
+    {
+      src: '@/plugins/initialize-app'
+    },
+    {
+      src: '@/plugins/brc-dialog-plugin', mode: 'client'
+    },
+    {
+      src: '@/plugins/vuelidate', mode: 'client'
+    },
+    {
+      src: '@/plugins/vue2-editor', mode: 'client'
+    },
+    {
+      src: '@/plugins/brc-directives', mode: 'client'
+    },
+    {
+      src: '@/plugins/yandex-share', mode: 'client'
+    },
+    {
+      src: '@/plugins/brc-route-middleware'
+    },
+    {
+      src: '@/plugins/vue-good-table'
+    }
   ],
 
   router: {
