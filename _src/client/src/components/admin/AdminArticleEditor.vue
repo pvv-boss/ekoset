@@ -1,6 +1,6 @@
 <template>
   <div class="container" id="container">
-    <vue-editor v-model="content" @text-change="onEditorChange"></vue-editor>
+    <vue-editor v-model="content" @text-change="onEditorChange" :editorOptions="editorSettings"></vue-editor>
   </div>
 </template>
 
@@ -20,6 +20,12 @@ export default class AdminArticleEditor extends Vue {
 
   private content: string = ""
 
+  private editorSettings = {
+    modules: {
+      blotFormatter: {}
+    }
+  }
+
   private onEditorChange () {
     this.$emit('input', this.content)
   }
@@ -34,6 +40,7 @@ export default class AdminArticleEditor extends Vue {
 <style lang="scss">
 .container {
   min-width: 300px;
+  max-width: 100%;
   //padding: 10px;
   background-color: white;
   .quill-editor {
@@ -47,5 +54,8 @@ export default class AdminArticleEditor extends Vue {
   &:after {
     content: "Исходный Html" !important;
   }
+}
+.ql-editor {
+  overflow-x: hidden;
 }
 </style>

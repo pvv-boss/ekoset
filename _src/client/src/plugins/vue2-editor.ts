@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import { VueEditor } from 'vue2-editor'
+import { VueEditor, Quill } from 'vue2-editor'
+import BlotFormatter from 'quill-blot-formatter'
 
-
-// Vue.use(VueEditor)
+Quill.register('modules/blotFormatter', BlotFormatter);
 Vue.component('vue-editor', VueEditor)
 
 
