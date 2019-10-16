@@ -1,21 +1,24 @@
 {
-  "extends": [
-    "@nuxtjs"
-  ],
-  "parserOptions": {
-    "parser": "@typescript-eslint/parser",
-    "ecmaVersion": 9
-  },
+  "root": true,
+
   "env": {
     "node": true
   },
+
+  "extends": [
+    "@nuxtjs",
+    "@nuxtjs/eslint-config-typescript",
+    "prettier",
+    "prettier/vue",
+    "plugin:prettier/recommended",
+    "plugin:nuxt/recommended"
+  ],
+
   "rules": {
     "comma-dangle": 2,
     "camelcase": 0,
     "no-unused-vars": "off"
   },
-  "root": true,
-
 
   "overrides": [{
     "files": ["*.vue"],

@@ -7,11 +7,11 @@
     </div>
     <TheMessagesAriseBlock v-once></TheMessagesAriseBlock>
     <TheLayoutFooter v-once></TheLayoutFooter>
-    <no-ssr>
+    <client-only>
       <!-- <BaseCookieNotice></BaseCookieNotice> -->
       <BaseBackToTop></BaseBackToTop>
       <!-- <ActivateAccauntNotice></ActivateAccauntNotice> -->
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 
@@ -39,5 +39,5 @@ export default class DefaultLayout extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/index.scss";
+@import '@/styles/index.scss';
 </style>

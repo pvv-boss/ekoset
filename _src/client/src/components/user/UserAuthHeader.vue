@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+   <client-only>
     <section>
       <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
         <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
@@ -13,7 +13,7 @@
         </nuxt-link>
       </div>
     </section>
-  </no-ssr>
+   </client-only>
 </template>
 
 <script lang="ts">

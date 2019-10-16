@@ -1,21 +1,25 @@
-import NuxtConfiguration from '@nuxt/config'
 import webpack = require('webpack')
 
-const config: NuxtConfiguration = {
+const config = {
   mode: 'universal',
   modern: true,
-  cache: true,
   srcDir: 'src/',
-  loading: { color: '#ac1315' },
+  loading: {
+    color: '#ac1315'
+  },
 
   head: {
     htmlAttrs: {
       prefix: 'og:http://ogp.me/ns#'
     },
 
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    meta: [{
+      charset: 'utf-8'
+    },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1'
+    }
     ],
 
     script: [
@@ -23,10 +27,19 @@ const config: NuxtConfiguration = {
       // { src: 'https://yastatic.net/share2/share.js' }
     ],
 
-    link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/buefy/dist/buefy.min.css' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
+    link: [{
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://unpkg.com/buefy/dist/buefy.min.css'
+    },
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.png'
+    }
       // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
     ],
 
@@ -40,40 +53,55 @@ const config: NuxtConfiguration = {
     css: false
   },
 
-  plugins: [
-    {
-      src: '@/plugins/initialize-app'
-    },
-    {
-      src: '@/plugins/brc-dialog-plugin', mode: 'client'
-    },
-    {
-      src: '@/plugins/vuelidate', mode: 'client'
-    },
-    {
-      src: '@/plugins/nuxt-quill-plugin', mode: 'client'
-    },
-    {
-      src: '@/plugins/brc-directives', mode: 'client'
-    },
-    {
-      src: '@/plugins/yandex-share', mode: 'client'
-    },
-    {
-      src: '@/plugins/brc-route-middleware'
-    },
-    {
-      src: '@/plugins/vue-good-table'
-    }
+  plugins: [{
+    src: '@/plugins/initialize-app'
+  },
+  {
+    src: '@/plugins/brc-dialog-plugin',
+    mode: 'client'
+  },
+  {
+    src: '@/plugins/vuelidate',
+    mode: 'client'
+  },
+  {
+    src: '@/plugins/nuxt-quill-plugin',
+    mode: 'client'
+  },
+  {
+    src: '@/plugins/brc-directives',
+    mode: 'client'
+  },
+  {
+    src: '@/plugins/yandex-share',
+    mode: 'client'
+  },
+  {
+    src: '@/plugins/brc-route-middleware'
+  },
+  {
+    src: '@/plugins/vue-good-table'
+  }
   ],
 
   router: {
     middleware: ['needAuthorize', 'baseMiddleware']
   },
 
+  buildModules: [
+    ['@nuxt/typescript-build', {
+      typeCheck: true,
+      ignoreNotFoundWarnings: true,
+      eslint: true
+    }]
+  ],
+
   modules: [
     'nuxt-purgecss',
-    ['@nuxtjs/router', { path: 'src/routers', fileName: 'index.ts' }],
+    ['@nuxtjs/router', {
+      path: 'src/routers',
+      fileName: 'index.ts'
+    }],
     'nuxt-buefy'
   ],
 
@@ -85,10 +113,15 @@ const config: NuxtConfiguration = {
     },
 
     filenames: {
-      css: ({ isDev }) => isDev ? '[contenthash].css' : '[contenthash].css',
+      css: ({
+        isDev
+      }) => isDev ? '[contenthash].css' : '[contenthash].css',
     },
 
-    extend (config, { isDev, isClient }) {
+    extend (config, {
+      isDev,
+      isClient
+    }) {
       return config
     },
 
@@ -98,6 +131,10 @@ const config: NuxtConfiguration = {
         'Quill': 'quill/dist/quill.js'
       })
     ]
+  },
+
+  render: {
+    compressor: false
   },
 
   purgeCSS: {

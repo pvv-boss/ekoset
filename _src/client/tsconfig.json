@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
-    "allowJs": false,
+    "allowJs": true,
     "importHelpers": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -26,6 +26,10 @@
       "esnext",
       "esnext.asynciterable",
       "dom"
+    ],
+    "types": [
+      "@types/node",
+      "@nuxt/types"
     ]
   },
   "include": [

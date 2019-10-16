@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <div class="brc-service-price-table__wrapper">
       <table class="brc-service-price-table" cellspacing="0">
         <thead>
@@ -29,7 +29,7 @@
         >Все цены</nuxt-link>
       </div>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 
 

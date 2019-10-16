@@ -23,9 +23,9 @@
 
     <div class="brc-section__wrapper">
       <h2>Стоимость услуг</h2>
-      <!-- <no-ssr> -->
+      <!--  <client-only> -->
       <ServicePriceTable :servicePriceList="getPriceServiceList"></ServicePriceTable>
-      <!-- </no-ssr> -->
+      <!--  </client-only> -->
     </div>
 
     <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">

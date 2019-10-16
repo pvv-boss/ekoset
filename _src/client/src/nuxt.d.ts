@@ -30,7 +30,7 @@ declare module 'vue/types/options' {
     redirect (path: string, query?: Route['query']): void
   }
 
-  export type Middleware = string | ((ctx: NuxtContext, cb: Function) => Promise<void> | void)
+  // export type Middleware = string | ((ctx: NuxtContext, cb: Function) => Promise<void> | void)
 
   export interface NuxtLoading extends Vue {
     fail?(): NuxtLoading
@@ -47,7 +47,7 @@ declare module 'vue/types/options' {
 
   export interface NuxtAppOptions extends ComponentOptions<Vue> {
     [key: string]: any
-    middleware?: string | string[]
+    middleware?: string | string[] | undefined
   }
 
 

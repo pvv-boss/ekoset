@@ -2,9 +2,9 @@
   <section>
     <h1 itemprop="headline name">Цены</h1>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <no-ssr>
+    <client-only>
       <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
-    </no-ssr>
+    </client-only>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
