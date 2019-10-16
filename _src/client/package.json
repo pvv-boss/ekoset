@@ -21,11 +21,13 @@
     "jwt-decode": "latest",
     "nuxt": "2.8.1",
     "nuxt-buefy": "^0.3.16",
+    "quill-better-table": "^1.2.2",
     "quill-image-resize-module": "latest",
     "vue-file-agent": "^1.2.0",
     "vue-good-table": "^2.18.0",
     "vue-quill-editor": "latest",
     "vue-router": "latest",
+    "vue2-editor": "^2.10.2",
     "vuelidate": "latest"
   },
   "devDependencies": {

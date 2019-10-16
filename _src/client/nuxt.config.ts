@@ -51,7 +51,7 @@ const config: NuxtConfiguration = {
       src: '@/plugins/vuelidate', mode: 'client'
     },
     {
-      src: '@/plugins/nuxt-quill-plugin', mode: 'client'
+      src: '@/plugins/vue2-editor', mode: 'client'
     },
     {
       src: '@/plugins/brc-directives', mode: 'client'
