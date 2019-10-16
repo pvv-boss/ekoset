@@ -27,6 +27,7 @@ export default class AdminClientTypeSelector extends Vue {
   @Prop({ type: Boolean, default: false })
   private disabled
   private selectedId = null
+
   private get selectedValueId () {
     return this.selectedId
   }
