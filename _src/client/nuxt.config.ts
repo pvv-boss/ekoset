@@ -50,9 +50,6 @@ const config: NuxtConfiguration = {
     {
       src: '@/plugins/vuelidate', mode: 'client'
     },
-    // {
-    //   src: '@/plugins/nuxt-quill-plugin', mode: 'client'
-    // },
     {
       src: '@/plugins/vue2-editor', mode: 'client'
     },
@@ -96,10 +93,10 @@ const config: NuxtConfiguration = {
     },
 
     plugins: [
-      // new webpack.ProvidePlugin({
-      //   // 'window.Quill': 'quill/dist/quill.js',
-      //   //   'Quill': 'quill/dist/quill.js'
-      // })
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
     ]
   },
 
