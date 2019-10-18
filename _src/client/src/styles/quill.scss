@@ -1,0 +1,35 @@
+@import "@/styles/variables.scss";
+
+.brc-article-item>article,.brc-page-description{
+  blockquote {
+    margin: 0;
+    color: #231E28;
+    margin: 15px 0 15px 0;
+    padding: 0px 5px 0px 10px;
+    border-left: 3px solid $blue;
+    position: relative;
+  }
+  
+  strong {
+    font-weight: $font-medium;
+  }
+  
+  ul{
+    li {
+      list-style-type: none; /* Прячем исходные маркеры */
+     }
+     li:before {
+      color: $red; /* Цвет маркера */
+      content: "■"; /* Сам маркер */
+      padding-right: 10px; /* Расстояние от маркера до текста */
+     }
+  }
+  
+  .ql-size-large{
+    font-size: $font-big;
+  }
+  
+  .ql-size-small{
+    font-size: $font-small;
+  }
+}
