@@ -1,6 +1,7 @@
 import Vue, { ComponentOptions } from 'vue'
 import { Store } from 'vuex'
 import VueRouter, { Route } from 'vue-router'
+import { Middleware } from '@nuxt/types';
 
 
 declare module 'vue/types/options' {
@@ -42,12 +43,12 @@ declare module 'vue/types/options' {
 
   export interface ComponentOptions<V extends Vue> {
     // This adds the `middleware` property to the existing `vue/types/options/ComponentOptions` type
-    middleware?: string | string[];
+    middleware?: Middleware | Middleware[]
   }
 
   export interface NuxtAppOptions extends ComponentOptions<Vue> {
     [key: string]: any
-    middleware?: string | string[] | undefined
+
   }
 
 

@@ -51,9 +51,9 @@ export default class ServiceListItem extends Vue {
   }
 
   private navigateToOfferForm (e) {
-    const formElement = document.getElementById("btnOrderPopupForm")
+    const formElement = document.getElementById('btnOrderPopupForm')
     if (formElement) {
-      formElement.setAttribute("style", "display:block");
+      formElement.setAttribute('style', 'display:block');
     }
     e.preventDefault()
   }
