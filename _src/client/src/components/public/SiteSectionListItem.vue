@@ -37,7 +37,7 @@ export default class SiteSectionListItem extends Vue {
   padding: 15px;
   margin: 15px;
   flex: 1;
-  min-width: 300px;
+  min-width: 270px;
 
   &:hover {
     border: 1px solid red;
