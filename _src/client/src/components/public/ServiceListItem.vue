@@ -69,7 +69,7 @@ export default class ServiceListItem extends Vue {
   margin: 15px;
   margin-top: 0px;
   flex: 1;
-  min-width: 250px;
+  min-width: 220px;
   text-align: center;
   display: flex;
   flex-direction: column;
