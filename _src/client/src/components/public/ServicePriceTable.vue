@@ -19,6 +19,7 @@
             </td>
             <td>{{servicePrice.businessServiceUnit}}</td>
             <td>{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
+            <td>{{servicePrice.businessServicePriority}}</td>
           </tr>
         </tbody>
       </table>
@@ -50,7 +51,7 @@ export default class ServicePriceTable extends Vue {
 
   private get serviceTopList () {
     return this.servicePriceList.filter((obj) => obj.businessServiceParentId == null).sort((obj1, obj2) => {
-      return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
+      return Number(obj2.businessServicePriority) - Number(obj1.businessServicePriority);
     })
   }
 
@@ -61,12 +62,12 @@ export default class ServicePriceTable extends Vue {
       this.serviceTopList.forEach((item) => {
         list.push(item)
         list.push(...this.servicePriceList.filter((obj) => Number(obj.businessServiceParentId) === Number(item.businessServiceId)).sort((obj1, obj2) => {
-          return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
+          return Number(obj2.businessServicePriority) - Number(obj1.businessServicePriority);
         }))
       });
     } else {
       list = this.servicePriceList.sort((obj1, obj2) => {
-        return Number(obj1.businessServicePriority) - Number(obj2.businessServicePriority);
+        return Number(obj2.businessServicePriority) - Number(obj1.businessServicePriority);
       })
     }
     return list

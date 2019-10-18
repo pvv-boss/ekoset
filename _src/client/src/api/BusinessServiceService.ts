@@ -44,19 +44,16 @@ export default class BusinessServiceService extends BaseService {
     return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug), excludeChild)
   }
 
-  // Для футера Услуги для Бизнеса на Главной странице
-  public async  getForBusinessByMainPage (excludeChild = true) {
-    return []
-  }
-
-  // Для футера Услуги для Частных лиц на Главной странице
-  public async  getForPrivatePersonByMainPage (excludeChild = true) {
-    return []
-  }
-
   // Услуги второго уровня
   public async getChildServicesByParentId (serviceId: number, pagination?: Pagination) {
     const query = `services/${serviceId}/children`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+    return result
+  }
+
+  // Услуги второго уровня (админка)
+  public async adminGetChildServicesByParentId (serviceId: number, pagination?: Pagination) {
+    const query = `admin/panel/services/${serviceId}/children`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }

@@ -17,20 +17,20 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async getForActivityBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL', [siteSectionId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL and ind_offer_status=1', [siteSectionId]);
   }
 
   public async getForBusinessBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.businessClientTypeId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2 and ind_offer_status=1', [siteSectionId, IndividualOfferService.businessClientTypeId]);
   }
 
   public async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.PrivatePersonClientTypeId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2 and ind_offer_status=1', [siteSectionId, IndividualOfferService.PrivatePersonClientTypeId]);
   }
 
 
   public async getForClientBySiteSectionId (siteSectionId: number) {
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id IS NOT NULL', [siteSectionId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id IS NOT NULL and ind_offer_status=1', [siteSectionId]);
   }
 
   public async getById (id: number) {

@@ -81,10 +81,10 @@ export default class AdminSiteSectionList extends Vue {
   }
 
   private async updateItems () {
-    this.siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
+    this.siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
   }
   private async asyncData () {
-    const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
+    const siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
 
     return {
       siteSectionItems

@@ -21,6 +21,13 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/activities')
+  public async adminGetSiteSections (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.adminGetSiteSections();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
   @Get('/activities/:sitesection')
   public async getSiteSectionById (
     @Res() response: Response,

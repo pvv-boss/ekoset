@@ -31,7 +31,6 @@ export default class ArticleService extends BaseService {
 
   // Добавить/Убрать тэг
   public async adminAddArticleTag (articleId: number, tagId: number) {
-
     const tryAddedTag = await PgUtls.getOneFromDatabse('article_cl_article_tag', 'article_id = $1 and cl_article_id=$2', [articleId, tagId]);
     if (!tryAddedTag) {
       const insertStmt = `INSERT INTO article_cl_article_tag (article_id, cl_article_id) VALUES (${articleId}, ${tagId})`;

@@ -180,7 +180,7 @@ export default class AdminServiceCard extends Vue {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
 
     const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
-    const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.getChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
+    const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
     const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
     const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
@@ -249,7 +249,9 @@ export default class AdminServiceCard extends Vue {
     this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
     if (this.serviceItem.businessServiceParentId && this.serviceItem.businessServiceParentId > 0) {
-      const parentService = this.serviceOtherList.filter(obj => obj.businessServiceId == this.serviceItem.businessServiceParentId)[0]
+      const parentService = this.serviceOtherList.filter((obj) => {
+        return obj.businessServiceId === this.serviceItem.businessServiceParentId;
+      })[0]
       this.breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
     }
     this.breadCrumbList.push({ name: this.serviceItem.businessServiceName, link: '' })

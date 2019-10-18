@@ -58,8 +58,8 @@ a {
     width: 100%;
     -o-object-fit: cover;
     object-fit: cover;
-    -o-object-position: center;
-    object-position: center;
+    -o-object-position: left;
+    object-position: left;
     max-width: 100%;
     border-radius: 5px !important;
   }
@@ -126,5 +126,5 @@ a {
     font-weight: $font-medium !important;
   }
 
- 
+
 }

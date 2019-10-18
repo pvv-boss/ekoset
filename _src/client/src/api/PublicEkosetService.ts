@@ -28,6 +28,7 @@ export default class PublicEkosetService extends BaseService {
     return this.getSiteSectionById(this.getIdBySlug(slug))
   }
 
+
   public async getSiteSectionNameBySlug (slug: string) {
     const query = `activities/query/name/${this.getIdBySlug(slug)}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
@@ -35,6 +36,11 @@ export default class PublicEkosetService extends BaseService {
 
   public async getSiteSections () {
     const query = `activities`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async adminGetSiteSections () {
+    const query = 'admin/panel/activities'
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

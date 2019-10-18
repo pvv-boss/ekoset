@@ -14,9 +14,6 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 
-import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
-import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -28,8 +25,6 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 @Component({
   components: {
     DynamicComponentsContainer,
-    BusinessTypeOfferList,
-    ClientTypeOfferList,
     BreadCrumbs,
     ServicePriceTable
   }

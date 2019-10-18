@@ -21,6 +21,10 @@ export default class MainEkosetService extends BaseService {
   private apiRecommendationLettersViewName = 'v_api_recommendation_letter';
 
   public async getSiteSections () {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_status=1');
+  }
+
+  public async adminGetSiteSections () {
     return this.getDbViewResult(this.apiViewName);
   }
 

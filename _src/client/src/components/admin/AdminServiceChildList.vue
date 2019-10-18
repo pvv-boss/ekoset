@@ -23,16 +23,16 @@ export default class AdminServiceChildList extends Vue {
 
   private headerFields = [
     {
-      field: "businessServiceName",
-      label: "Наименование"
+      field: 'businessServiceName',
+      label: 'Наименование'
     },
     {
-      field: "businessServicePriority",
-      label: "Приоритет"
+      field: 'businessServicePriority',
+      label: 'Приоритет'
     },
     {
-      field: "businessServiceStatus",
-      label: "Статус"
+      field: 'businessServiceStatus',
+      label: 'Статус'
     }
   ]
 

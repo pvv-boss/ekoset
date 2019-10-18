@@ -58,6 +58,7 @@ export default class IndividualOfferController extends BaseController {
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
+
   @Get('/:sitesection/clients/offers')
   public async getForClientBySiteSectionId (
     @Res() response: Response,

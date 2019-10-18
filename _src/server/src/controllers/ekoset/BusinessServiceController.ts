@@ -68,6 +68,14 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/services/:service/children')
+  public async adminGetChildServicesByParentId (
+    @Res() response: Response,
+    @Param('service') parentServiceId: number) {
+    const result = await ServiceContainer.BusinessServiceService.adminGetChildServicesByParentId(parentServiceId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
   @Get('/services/:service')
   public async getById (
     @Res() response: Response,

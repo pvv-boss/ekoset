@@ -8,44 +8,50 @@ export default class BusinessServiceService extends BaseService {
   private PrivatePersonClientTypeId = 3;
 
   private apiViewName = 'v_api_business_service';
+  private apiAdminViewName = 'v_api_admin_business_service'
   private apiClientServiceViewName = 'v_api_client_business_service';
   private apiActivityServiceViewName = 'v_api_activity_business_service';
   private apiChildServiceViewName = 'v_api_second_level_business_service';
 
 
   public async getAll () {
-    return this.getDbViewResult(this.apiViewName);
+    return this.getDbViewResult(this.apiAdminViewName);
   }
 
   public async getMainList () {
-    return this.getDbViewResult(this.apiViewName, null, 'business_service_parent_id IS NULL');
+    return this.getDbViewResult(this.apiViewName, null, 'business_service_parent_id IS NULL and business_service_status=1');
   }
 
   public async getAllBySiteSectionId (siteSectionId: number, excludeChild: boolean) {
-    const selectStmt = excludeChild ? 'site_section_id = $1 and business_service_parent_id IS NULL' : 'site_section_id = $1'
+    const selectStmt = excludeChild ? 'business_service_status=1 and site_section_id = $1 and business_service_parent_id IS NULL' : 'business_service_status=1 and site_section_id = $1'
     return this.getDbViewResult(this.apiViewName, null, selectStmt, [siteSectionId]);
   }
 
   // По виду объекта
   public async getByActivityAndBySiteSectionId (siteSectionId: number, activityId: number, excludeChild: boolean) {
-    const selectStmt = excludeChild ? 'site_section_id = $1 and cl_activity_id = $2 and business_service_parent_id IS NULL' : 'site_section_id = $1 and cl_activity_id = $2'
+    const selectStmt = excludeChild ? 'business_service_status=1 and site_section_id = $1 and cl_activity_id = $2 and business_service_parent_id IS NULL' : 'business_service_status=1 and site_section_id = $1 and cl_activity_id = $2'
     return this.getDbViewResult(this.apiActivityServiceViewName, null, selectStmt, [siteSectionId, activityId]);
   }
 
   // Услуги для Бизнеса
   public async getForBusinessBySiteSectionId (siteSectionId: number, excludeChild: boolean) {
-    const selectStmt = excludeChild ? 'site_section_id = $1 and cl_client_id = $2 and business_service_parent_id IS NULL' : 'site_section_id = $1 and cl_client_id = $2'
+    const selectStmt = excludeChild ? 'business_service_status=1 and site_section_id = $1 and cl_client_id = $2 and business_service_parent_id IS NULL' : 'business_service_status=1 and site_section_id = $1 and cl_client_id = $2'
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [siteSectionId, this.businessClientTypeId]);
   }
 
   // Услуги для частных лиц
   public async getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild: boolean) {
-    const selectStmt = excludeChild ? 'site_section_id = $1 and cl_client_id = $2 and business_service_parent_id IS NULL' : 'site_section_id = $1 and cl_client_id = $2'
+    const selectStmt = excludeChild ? 'business_service_status=1 and site_section_id = $1 and cl_client_id = $2 and business_service_parent_id IS NULL' : 'business_service_status=1 and site_section_id = $1 and cl_client_id = $2'
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [siteSectionId, this.PrivatePersonClientTypeId]);
   }
 
   // Получить услуги второго уровня
   public async getChildServicesByParentId (parentId: number) {
+    return this.getDbViewResult(this.apiChildServiceViewName, null, 'business_service_status=1 and business_service_parent_id = $1', [parentId]);
+  }
+
+  // Получить услуги второго уровня
+  public async adminGetChildServicesByParentId (parentId: number) {
     return this.getDbViewResult(this.apiChildServiceViewName, null, 'business_service_parent_id = $1', [parentId]);
   }
 
