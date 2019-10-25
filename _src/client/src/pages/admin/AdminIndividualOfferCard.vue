@@ -39,11 +39,12 @@
         </div>
 
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Превью изображение</div>
+          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
           <AdminImageUploader id="bigOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
         </div>
+
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Основное изображение</div>
+          <div class="brc-admin-card-attribute__caption">Фото в карточке предложения</div>
           <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,true)"></AdminImageUploader>
         </div>
 

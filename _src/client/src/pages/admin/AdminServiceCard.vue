@@ -46,13 +46,15 @@
         </div>
 
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Превью изображение</div>
+          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
           <AdminImageUploader id="bigServImageFile" @upload="saveServiceImage($event,false)"></AdminImageUploader>
         </div>
+
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Основное изображение</div>
+          <div class="brc-admin-card-attribute__caption">Фото в карточке услуги</div>
           <AdminImageUploader id="smallServImageFile" @upload="saveServiceImage($event,true)"></AdminImageUploader>
         </div>
+
         <div class="brc-admin-card__editor">
           <div class="brc-service-attribute__caption">Текстовый блок 1</div>
           <AdminTextBlockEditor v-model="serviceItem.businessServiceFreeText1"></AdminTextBlockEditor>

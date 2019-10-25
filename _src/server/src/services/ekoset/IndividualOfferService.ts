@@ -24,8 +24,16 @@ export default class IndividualOfferService extends BaseService {
     return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2 and ind_offer_status=1', [siteSectionId, IndividualOfferService.businessClientTypeId]);
   }
 
+  public async getForBusinessBySiteSectionIdWithoutCheckStatus (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.businessClientTypeId]);
+  }
+
   public async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
     return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2 and ind_offer_status=1', [siteSectionId, IndividualOfferService.PrivatePersonClientTypeId]);
+  }
+
+  public async getForPrivatePersonBySiteSectionIdWithoutCheckStatus (siteSectionId: number) {
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_client_id =$2', [siteSectionId, IndividualOfferService.PrivatePersonClientTypeId]);
   }
 
 

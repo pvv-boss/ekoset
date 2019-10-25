@@ -74,11 +74,13 @@ export default class AdminBrandList extends Vue {
     },
     {
       field: 'clBrandPriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     },
     {
       field: 'clBrandStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     }
   ]
 

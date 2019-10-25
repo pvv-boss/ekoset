@@ -45,11 +45,13 @@ export default class AdminArticleList extends Vue {
     },
     {
       field: 'articleStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     },
     {
       field: 'articleViewsNumber',
-      label: 'Просмотры'
+      label: 'Просмотры',
+      type: 'number'
     }
   ]
 

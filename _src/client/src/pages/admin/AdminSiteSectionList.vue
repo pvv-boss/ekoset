@@ -68,11 +68,13 @@ export default class AdminSiteSectionList extends Vue {
     },
     {
       field: 'siteSectionPriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     },
     {
       field: 'siteSectionStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     }
   ]
 

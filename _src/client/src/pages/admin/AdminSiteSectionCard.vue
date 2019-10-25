@@ -29,13 +29,13 @@
           </div>
 
           <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-            <AdminImageUploader id="smallImageFile" @upload="saveSiteSectionImage($event,false)"></AdminImageUploader>
+            <div class="brc-admin-card-attribute__caption">Фото на странице</div>
+            <AdminImageUploader id="bigImageFile" @upload="saveSiteSectionImage($event,true)"></AdminImageUploader>
           </div>
 
           <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-            <AdminImageUploader id="bigImageFile" @upload="saveSiteSectionImage($event,true)"></AdminImageUploader>
+            <div class="brc-admin-card-attribute__caption">Фото на карточке раздела</div>
+            <AdminImageUploader id="smallImageFile" @upload="saveSiteSectionImage($event,false)"></AdminImageUploader>
           </div>
 
           <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>

@@ -95,11 +95,13 @@ export default class AdminIndividualOfferList extends Vue {
     },
     {
       field: 'indOfferPriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     },
     {
       field: 'indOfferStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     }
   ]
 

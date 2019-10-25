@@ -97,7 +97,7 @@ export default class MainEkosetService extends BaseService {
     siteSection = await TypeOrmManager.EntityManager.save(siteSection);
 
     // Создаем два индивидуальных предложения (для бизнеса и частных лиц)
-    const offerForBusiness = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionId(siteSection.siteSectionId);
+    const offerForBusiness = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionIdWithoutCheckStatus(siteSection.siteSectionId);
     if (offerForBusiness.length === 0) {
       const businessIndividualOffer: IndividualOffer = new IndividualOffer();
       businessIndividualOffer.clClientId = IndividualOfferService.businessClientTypeId;
@@ -106,7 +106,7 @@ export default class MainEkosetService extends BaseService {
       await ServiceContainer.IndividualOfferService.save(businessIndividualOffer);
     }
 
-    const offerForPriviteClient = await ServiceContainer.IndividualOfferService.getForPrivatePersonBySiteSectionId(siteSection.siteSectionId);
+    const offerForPriviteClient = await ServiceContainer.IndividualOfferService.getForPrivatePersonBySiteSectionIdWithoutCheckStatus(siteSection.siteSectionId);
     if (offerForPriviteClient.length === 0) {
       const privatePersonIndividualOffer: IndividualOffer = new IndividualOffer();
       privatePersonIndividualOffer.clClientId = IndividualOfferService.PrivatePersonClientTypeId;

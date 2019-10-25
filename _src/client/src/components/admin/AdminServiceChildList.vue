@@ -28,11 +28,13 @@ export default class AdminServiceChildList extends Vue {
     },
     {
       field: 'businessServicePriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     },
     {
       field: 'businessServiceStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     }
   ]
 

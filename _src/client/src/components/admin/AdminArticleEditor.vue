@@ -20,11 +20,30 @@ export default class AdminArticleEditor extends Vue {
 
   private content: string = ''
 
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote'],
+    [{ header: 2 }, { header: 3 }],               // custom button values
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+    //  [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
+    [{ size: ['small', false, 'large'] }],  // custom dropdown
+    [{ header: [2, 3, 4, false] }],
+    ['link', 'image'],
+    [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
+    //  [{ font: [] }],
+    [{ align: [] }]
+    //    ['clean']                                         // remove formatting button
+  ];
+
   private editorSettings = {
     modules: {
+      // toolbar: this.toolbarOptions,
       blotFormatter: {}
-    }
+    },
+    theme: 'snow',
   }
+
 
   private onEditorChange () {
     this.$emit('input', this.content)

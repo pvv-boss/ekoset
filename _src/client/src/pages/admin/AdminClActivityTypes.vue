@@ -85,11 +85,13 @@ export default class AdminClActivityTypes extends Vue {
     },
     {
       field: 'clActivityPriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     },
     {
       field: 'clActivityStatus',
-      label: 'Статус'
+      label: 'Статус',
+      type: 'number'
     },
     {
       field: 'actions',

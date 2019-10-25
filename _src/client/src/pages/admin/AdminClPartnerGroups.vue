@@ -73,16 +73,17 @@ export default class AdminClPartnerGroups extends Vue {
 
   private headerFields = [
     {
-      field: "partnerGroupName",
-      label: "Наименование"
+      field: 'partnerGroupName',
+      label: 'Наименование'
     },
     {
-      field: "partnerGroupPriority",
-      label: "Приоритет"
+      field: 'partnerGroupPriority',
+      label: 'Приоритет',
+      type: 'number'
     },
     {
-      field: "actions",
-      label: ""
+      field: 'actions',
+      label: ''
     }
   ]
 
@@ -114,8 +115,8 @@ export default class AdminClPartnerGroups extends Vue {
     const itemList = await getServiceContainer().publicEkosetService.getPartnerGroups()
 
     return {
-      itemList: itemList,
-      editModeList: Array.from(itemList, x => false)
+      itemList,
+      editModeList: Array.from(itemList, (x) => false)
     }
   }
 

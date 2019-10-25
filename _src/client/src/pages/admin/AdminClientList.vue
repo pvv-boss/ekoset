@@ -64,7 +64,8 @@ export default class AdminClientList extends Vue {
     },
     {
       field: 'partnerPriority',
-      label: 'Приоритет'
+      label: 'Приоритет',
+      type: 'number'
     }
   ]
 

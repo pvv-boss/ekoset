@@ -19,7 +19,6 @@
             </td>
             <td>{{servicePrice.businessServiceUnit}}</td>
             <td>{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
-            <td>{{servicePrice.businessServicePriority}}</td>
           </tr>
         </tbody>
       </table>

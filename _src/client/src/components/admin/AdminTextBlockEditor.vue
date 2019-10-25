@@ -16,7 +16,10 @@ export default class AdminTextBlockEditor extends Vue {
 
   private editorSettings = {
     modules: {
-      blotFormatter: {}
+      blotFormatter: {},
+      clipboard: {
+        matchVisual: false
+      }
     }
   }
 
