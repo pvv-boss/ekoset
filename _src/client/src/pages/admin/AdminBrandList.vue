@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Бренды</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Добавить бренд</button>

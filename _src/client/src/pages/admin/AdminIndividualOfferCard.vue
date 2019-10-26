@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-admin-card_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList" v-if="breadCrumbList.length > 0"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
     <div class="brc-admin-card">
@@ -40,12 +40,12 @@
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-          <AdminImageUploader id="bigOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
+          <AdminImageUploader id="bigOfferImageFile" @upload="saveOfferImage($event,true)"></AdminImageUploader>
         </div>
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Фото в карточке предложения</div>
-          <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,true)"></AdminImageUploader>
+          <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
         </div>
 
         <div class="brc-admin-card__editor">

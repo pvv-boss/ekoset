@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-admin-card_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Клиент: {{clientItem.partnerName}}</h1>
     <div class="brc-admin-card">
@@ -22,7 +22,6 @@
         </div>
         <div class="brc-admin-card__save">
           <button type="button" @click="saveClient">Сохранить</button>
-          <button type="button" @click="deleteClient">Удалить</button>
         </div>
       </div>
       <div class="brc-admin-card__relations"></div>
@@ -70,17 +69,6 @@ export default class AdminClientCard extends Vue {
   private saveClient () {
     getServiceContainer().publicEkosetService.savePartner(this.clientItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-  }
-
-  private deleteClient () {
-    const self = this
-    const okCallback = async () => {
-      //TODO: удаление партнера
-      //await getServiceContainer().publicEkosetService.de(this.clientItem.partnerId)
-      self.$router.push({ name: 'admin-clients' })
-      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
 
   private mounted () {

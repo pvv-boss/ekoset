@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-admin-card_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Бренд: {{brandItem.clBrandName}}</h1>
     <div class="brc-admin-card">
@@ -84,10 +84,6 @@ export default class AdminBrandCard extends Vue {
 
   private isBrandMainPageVisible = false
 
-  private layout () {
-    return 'admin'
-  }
-
   private headerFields = [
     {
       field: 'recommBrandImg',
@@ -98,6 +94,10 @@ export default class AdminBrandCard extends Vue {
       label: ''
     }
   ]
+
+  private layout () {
+    return 'admin'
+  }
 
   private async asyncData (context: NuxtContext) {
     const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))

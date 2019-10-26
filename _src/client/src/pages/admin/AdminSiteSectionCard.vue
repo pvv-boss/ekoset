@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-admin-card_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h1>
     <div class="brc-admin-card">
@@ -52,6 +52,10 @@
       </div>
       <div class="brc-admin-card__relations">
         <div>
+          <h4>Услуги</h4>
+          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+        </div>
+        <div>
           <h4>Комплексные решения</h4>
           <AdminClientTypeOfferList :siteSection="siteSectionItem.siteSectionUrl">"</AdminClientTypeOfferList>
         </div>
@@ -61,10 +65,6 @@
             :siteSection="siteSectionItem.siteSectionUrl"
             :offerList="offerList"
           >"</AdminBusinessTypeOfferList>
-        </div>
-        <div>
-          <h4>Услуги</h4>
-          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
         </div>
         <div>
           <h4>Рекомендации</h4>
@@ -98,6 +98,7 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import BaseCard from '@/components/BaseCard.vue'
 
 @Component({
   components: {
@@ -108,7 +109,8 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
     AdminBusinessTypeOfferList,
     AdminStatusSelector,
     AdminImageUploader,
-    BreadCrumbs
+    BreadCrumbs,
+    BaseCard
   }})
 
 export default class AdminSiteSectionCard extends Vue {

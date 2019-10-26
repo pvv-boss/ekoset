@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-site-section-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Направления деятельности</h1>
     <button

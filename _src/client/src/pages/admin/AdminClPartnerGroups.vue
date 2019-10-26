@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-site-section-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Группы клиентов</h1>
     <button @click="createNewItemMode = true" v-show="!createNewItemMode">Создать группу клиентов</button>

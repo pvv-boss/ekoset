@@ -1,17 +1,17 @@
 <template>
-  <div class="brc-admin-card_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Наименование</div>
-          <input type="text" v-model="serviceItem.businessServiceName" />
+          <input type="text" required v-model="serviceItem.businessServiceName" />
         </div>
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-          <input type="text" v-model="serviceItem.businessServiceName" />
+          <input type="text" required v-model="serviceItem.businessServiceName" />
         </div>
 
         <div class="brc-admin-card-attribute">
@@ -47,12 +47,12 @@
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-          <AdminImageUploader id="bigServImageFile" @upload="saveServiceImage($event,false)"></AdminImageUploader>
+          <AdminImageUploader id="bigServImageFile" @upload="saveServiceImage($event,true)"></AdminImageUploader>
         </div>
 
         <div class="brc-admin-card-attribute">
           <div class="brc-admin-card-attribute__caption">Фото в карточке услуги</div>
-          <AdminImageUploader id="smallServImageFile" @upload="saveServiceImage($event,true)"></AdminImageUploader>
+          <AdminImageUploader id="smallServImageFile" @upload="saveServiceImage($event,false)"></AdminImageUploader>
         </div>
 
         <div class="brc-admin-card__editor">
@@ -279,31 +279,5 @@ export default class AdminServiceCard extends Vue {
 }
 </script>
 
-<style lang="scss">
-.brc-admin-card_wrapper {
-  width: 100%;
-}
-.brc-admin-card {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap-reverse;
-  flex: 2;
-  .brc-admin-card__attributes {
-    flex: 1;
-
-    input,
-    select {
-      width: 100%;
-    }
-    .ql-container {
-      height: 300px !important;
-    }
-  }
-  .brc-admin-card__relations {
-    flex: 1;
-  }
-}
-</style>
 
 

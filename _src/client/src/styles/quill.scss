@@ -1,37 +1,76 @@
 @import "@/styles/variables.scss";
 
-.brc-article-item>article,.brc-page-description{
+.ql-container {
+  padding: 20px;
+}
+
+.brc-article-item>article,
+.brc-page-description,
+.ql-editor {
   blockquote {
-    margin: 0;
-    color: #231E28;
-    margin: 15px 0 15px 0;
-    padding: 30px;
-    border: 1px solid $red;
-    position: relative;
+    margin: 0 !important;
+    color: #231E28 !important;
+    margin: 15px 0 15px 0 !important;
+    padding: 30px !important;
+    border: 1px solid $red !important;
     font-weight: $font-medium;
     position: relative;
   }
-  
+
   strong {
     font-weight: $font-medium;
   }
-  
-  ul{
-    li {
-      list-style-type: none; /* Прячем исходные маркеры */
-     }
-     li:before {
-      color: $red; /* Цвет маркера */
-      content: "■"; /* Сам маркер */
-      padding-right: 10px; /* Расстояние от маркера до текста */
-     }
+
+  ol {
+    li[data-list='bullet'] {
+      list-style-type: none;
+
+      span:before {
+        content: "" !important;
+      }
+    }
+
+    li[data-list='bullet']:before {
+      color: $red;
+      /* Цвет маркера */
+      content: "■";
+      /* Сам маркер */
+      padding-right: 10px;
+      /* Расстояние от маркера до текста */
+    }
+
   }
-  
-  .ql-size-large{
+
+  ol {
+    padding: 0px !important;
+
+    li[data-list='ordered'] {
+      padding: 0px !important;
+      margin-left: 16px;
+    }
+  }
+
+  ul {
+    li {
+      list-style-type: none;
+      /* Прячем исходные маркеры */
+    }
+
+    li:before {
+      color: $red;
+      /* Цвет маркера */
+      content: "■";
+      /* Сам маркер */
+      padding-right: 10px;
+      /* Расстояние от маркера до текста */
+    }
+  }
+
+  .ql-size-large {
     font-size: $font-big;
   }
-  
-  .ql-size-small{
+
+  .ql-size-small {
     font-size: $font-small;
   }
 }

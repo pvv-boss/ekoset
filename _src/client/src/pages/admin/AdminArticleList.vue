@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-article-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Новости</h1>
     <nuxt-link :to="{ name: 'admin-news-article'}">Создать новость</nuxt-link>

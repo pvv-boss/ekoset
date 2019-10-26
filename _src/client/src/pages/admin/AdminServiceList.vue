@@ -1,38 +1,43 @@
 <template>
-  <div class="brc-service-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1>Услуги</h1>
-    <button @click="createNewServiceMode = true" v-show="!createNewServiceMode">Создать услугу</button>
-
-    <div v-if="createNewServiceMode">
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Наименование</div>
-        <input type="text" v-model="newService.businessServiceName" />
-      </div>
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Подраздел</div>
-        <AdminSiteSectionSelector v-model="newService.siteSectionId"></AdminSiteSectionSelector>
-      </div>
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newService.businessServicePriority" />
-      </div>
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model.number="newService.businessServiceStatus"></AdminStatusSelector>
-      </div>
-      <button @click="saveNewService">Сохранить</button>
-      <button @click="cancelSaveNewService">Отменить</button>
-    </div>
-    <vue-good-table :columns="headerFields" :rows="serviceItems">
-      <template slot="table-row" slot-scope="props">
-        <nuxt-link
-          v-if="props.column.field == 'businessServiceName'"
-          :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceSlug+'-'+props.row.businessServiceId}}"
-        >{{props.row.businessServiceName}}</nuxt-link>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+    <BaseCard>
+      <template #header>
+        <h1>Услуги</h1>
+        <button @click="createNewServiceMode = true" v-show="!createNewServiceMode">Создать услугу</button>
       </template>
-    </vue-good-table>
+      <template #content>
+        <div v-if="createNewServiceMode">
+          <div class="brc-service-attribute">
+            <div class="brc-service-attribute__caption">Наименование</div>
+            <input type="text" v-model="newService.businessServiceName" />
+          </div>
+          <div class="brc-service-attribute">
+            <div class="brc-service-attribute__caption">Подраздел</div>
+            <AdminSiteSectionSelector v-model="newService.siteSectionId"></AdminSiteSectionSelector>
+          </div>
+          <div class="brc-service-attribute">
+            <div class="brc-service-attribute__caption">Приоритет</div>
+            <input type="number" v-model.number="newService.businessServicePriority" />
+          </div>
+          <div class="brc-service-attribute">
+            <div class="brc-service-attribute__caption">Статус</div>
+            <AdminStatusSelector v-model.number="newService.businessServiceStatus"></AdminStatusSelector>
+          </div>
+          <button @click="saveNewService">Сохранить</button>
+          <button @click="cancelSaveNewService">Отменить</button>
+        </div>
+        <vue-good-table :columns="headerFields" :rows="serviceItems">
+          <template slot="table-row" slot-scope="props">
+            <nuxt-link
+              v-if="props.column.field == 'businessServiceName'"
+              :to="{ name: 'admin-service-card', params: { service: props.row.businessServiceSlug+'-'+props.row.businessServiceId}}"
+            >{{props.row.businessServiceName}}</nuxt-link>
+            <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          </template>
+        </vue-good-table>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -47,12 +52,14 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import BaseCard from '@/components/BaseCard.vue'
 
 @Component({
   components: {
     BreadCrumbs,
     AdminSiteSectionSelector,
-    AdminStatusSelector
+    AdminStatusSelector,
+    BaseCard
   }
 })
 export default class AdminSiteSectionList extends Vue {

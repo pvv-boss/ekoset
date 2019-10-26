@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Клиенты</h1>
     <button @click="createNewClientMode = true" v-show="!createNewClientMode">Создать клиента</button>

@@ -1,6 +1,6 @@
 <template>
-  <div v-show="!loading" class="brc-page-container brc-page-container_admin">
-    <!-- <TheLayoutHeader></TheLayoutHeader> -->
+  <div class="brc-page-container brc-page-container_admin">
+    <TheAdminLayoutHeader v-once></TheAdminLayoutHeader>
     <main class="brc-body brc-body_admin">
       <div class="brc-admin-navigation__wrapper">
         <nav
@@ -8,9 +8,6 @@
           id="adminNavigation"
           :class="{'brc-admin-navigation_hidden': !isVisibleNavigation}"
         >
-          <nuxt-link :to="{name: 'main'}" class="brc-logo_main" id="brc-page-header-main-logo">
-            <img src="/images/logo.png" alt="Экосеть" />
-          </nuxt-link>
           <ul class="brc-admin-navigation__list">
             <li class="brc-admin-navigation__item">
               <nuxt-link
@@ -97,49 +94,39 @@
       </div>
       <nuxt></nuxt>
     </main>
-    <!-- <TheLayoutFooter v-if="!loading"></TheLayoutFooter> -->
+    <TheAdminLayoutFooter v-once></TheAdminLayoutFooter>
+    <client-only>
+      <BaseBackToTop></BaseBackToTop>
+    </client-only>
   </div>
 </template>
 
 <script  lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import TheLayoutHeader from '@/components/header/TheLayoutHeader.vue'
-import TheLayoutFooter from '@/components/TheLayoutFooter.vue'
+import TheAdminLayoutHeader from '@/components/TheAdminLayoutHeader.vue'
+import TheAdminLayoutFooter from '@/components/TheAdminLayoutFooter.vue'
+import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
+
 
 
 @Component({
   components: {
-    TheLayoutHeader,
-    TheLayoutFooter
+    TheAdminLayoutHeader,
+    TheAdminLayoutFooter,
+    BaseBackToTop
   }
 })
 export default class AdminLayout extends Vue {
-  private loading = true
   private isVisibleNavigation = true
-
-  private mounted () {
-    this.$nextTick(() => {
-      this.checkLoading()
-    })
-  }
 
   private toogleNavigation () {
     this.isVisibleNavigation = !this.isVisibleNavigation
-  }
-
-  private checkLoading () {
-    const el = document.getElementsByClassName('brc-body')
-    if (el && el.length > 0) {
-      this.loading = false
-    } else {
-      setTimeout(this.checkLoading, 1500)
-    }
   }
 }
 </script>
 
 <style lang="scss">
-@import "@/styles/index.scss";
+@import '@/styles/index.scss';
 .brc-page-container_admin {
   max-width: 100% !important;
   padding: 0 !important;
@@ -153,6 +140,8 @@ export default class AdminLayout extends Vue {
   .brc-admin-navigation__wrapper {
     display: flex;
     flex-direction: row;
+    background-color: $admin-nav-bar-color;
+    color: white;
     img {
       max-width: 150px !important;
       margin: 10px !important;
@@ -172,13 +161,13 @@ export default class AdminLayout extends Vue {
         background-color: #f0f0f0;
       }
       &:after {
-        content: url("/images/arrow.svg");
+        content: url('/images/arrow.svg');
         transform: rotate(180deg);
         display: inline-block;
       }
       &.brc-admin-navigation__lt_hidden {
         &:after {
-          content: url("/images/arrow.svg");
+          content: url('/images/arrow.svg');
           transform: rotate(0deg);
           display: inline-block;
         }
@@ -222,13 +211,13 @@ export default class AdminLayout extends Vue {
     }
 
     .brc-admin-navigation-list-arrow:after {
-      content: url("/images/arrow-small.svg");
+      content: url('/images/arrow-small.svg');
       padding-left: 5px;
     }
 
     .brc-admin-navigation__item-chk:checked ~ .brc-admin-navigation-list-arrow {
       &:after {
-        content: url("/images/arrow-small.svg");
+        content: url('/images/arrow-small.svg');
         transform: rotate(90deg);
         display: inline-block;
       }

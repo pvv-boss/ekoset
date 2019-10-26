@@ -1,0 +1,63 @@
+@import "@/styles/variables.scss";
+
+.brc-admin-navigation__wrapper {
+  a {
+    text-decoration: none;
+    outline: none;
+    color: white;
+
+    &:hover {
+      color: $red;
+    }
+  }
+
+}
+
+.brc-admin_page_wrapper {
+  width: 100%;
+  padding: 20px;
+  background-color: #e9e9e9;
+
+  tr {
+    &:hover {
+      background-color: lightgoldenrodyellow;
+    }
+
+    td {
+      border: 1px solid lightgray;
+      margin: 0;
+      padding: 5px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    td:first-child {
+      text-align: left;
+    }
+  }
+}
+
+.brc-admin-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  flex: 2;
+
+  .brc-admin-card__attributes {
+    flex: 1;
+
+    input,
+    select {
+      width: 100%;
+    }
+
+    .ql-container {
+      height: 300px !important;
+    }
+  }
+
+  .brc-admin-card__relations {
+    flex: 1;
+  }
+}

@@ -28,6 +28,11 @@
       <!--  </client-only> -->
     </div>
 
+    <div class="brc-section__wrapper">
+      <h2>Комплексные решения</h2>
+      <ClientTypeOfferList></ClientTypeOfferList>
+    </div>
+
     <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
       <h2>Индивидуальные предложения</h2>
       <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
@@ -76,9 +81,9 @@ export default class ServiceCard extends Vue {
     const siteSection = context.params.siteSection
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
-    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection, 'slug-' + serviceIdForRelations)
+    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(siteSection, 'slug-' + serviceIdForRelations)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
+    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
 
     const data = await Promise.all([childServiceList, busineesTypeOfferList, dynamicComponentInfo])
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-service-list_wrapper">
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальные предложения</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Создать индивидуальное предложение</button>
@@ -34,7 +34,7 @@
       <button @click="saveNew">Сохранить</button>
       <button @click="cancelSaveNew">Отменить</button>
     </div>
-    <div>
+    <div v-if="createNewMode === false">
       <vue-good-table :columns="headerFields" :rows="indOfferItems">
         <template slot="table-row" slot-scope="props">
           <nuxt-link

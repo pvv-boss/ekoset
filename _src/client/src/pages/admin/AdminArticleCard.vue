@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="brc-admin_page_wrapper">
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -26,14 +26,14 @@
           <div class="brc-admin-card-attribute__caption">Краткое описание</div>
           <input type="text" v-model="article.articleDescription" />
         </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
+          <AdminImageUploader id="bigArticleImageFile" @upload="saveImage($event,true)"></AdminImageUploader>
+        </div>
 
         <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Превью изображение</div>
-          <AdminImageUploader id="bigArticleImageFile" @upload="saveImage($event,false)"></AdminImageUploader>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Основное изображение</div>
-          <AdminImageUploader id="smallArticleImageFile" @upload="saveImage($event,true)"></AdminImageUploader>
+          <div class="brc-admin-card-attribute__caption">Фото в карточке новости</div>
+          <AdminImageUploader id="smallArticleImageFile" @upload="saveImage($event,false)"></AdminImageUploader>
         </div>
 
         <div class="brc-admin-card-attribute">
