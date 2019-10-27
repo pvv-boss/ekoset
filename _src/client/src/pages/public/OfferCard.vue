@@ -8,7 +8,7 @@
         itemprop="image"
       />
       <figcaption>{{individualOffer.indOfferName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{offerHeaderH1}}</h1>
+      <h1 itemprop="headline name" class="brc-page-title">{{individualOffer.indOfferH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <TopDynamicBlock

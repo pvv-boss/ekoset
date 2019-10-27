@@ -22,8 +22,15 @@
   }
 
   ol {
+    li {
+      margin-left: 2em;
+    }
+  }
+
+  ol {
     li[data-list='bullet'] {
       list-style-type: none;
+      margin-left: 1em !important;
 
       span:before {
         content: "" !important;
@@ -38,7 +45,6 @@
       padding-right: 10px;
       /* Расстояние от маркера до текста */
     }
-
   }
 
   ol {
@@ -46,7 +52,6 @@
 
     li[data-list='ordered'] {
       padding: 0px !important;
-      margin-left: 16px;
     }
   }
 
