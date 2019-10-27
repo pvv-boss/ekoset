@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -139,6 +138,7 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
+import AdminStore from '@/store/AdminStore'
 
 
 
@@ -162,7 +162,6 @@ export default class AdminServiceCard extends Vue {
   private brandRelationList: ClBrand[] = []
   private activityRelationList: ClActivity[] = []
   private clientTypeRelationList: any[] = [1, 2, 3]
-  private breadCrumbList: any[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
   private layout () {
@@ -180,18 +179,33 @@ export default class AdminServiceCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
+    const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(serviceItem.siteSectionUrl)
 
     const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
-    const serviceOtherList = serviceItem.businessServiceParentId == null ? getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : getServiceContainer().businessServiceService.getMainList()
+    const serviceOtherList = serviceItem.businessServiceParentId == null ? await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : await getServiceContainer().businessServiceService.getMainList()
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
     const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
     const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
 
-    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, serviceOtherList])
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
+    breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
+    if (serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0) {
+      const parentService = (serviceOtherList as BusinessService[]).filter((obj) => {
+        return obj.businessServiceId === serviceItem.businessServiceParentId;
+      })[0]
+      breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
+    }
+    breadCrumbList.push({ name: serviceItem.businessServiceName, link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
+
+    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation])
     return {
       serviceItem,
       brandRelationList: data[0],
-      serviceOtherList: data[3],
+      serviceOtherList,
       activityRelationList: data[1],
       clientTypeRelationList: data[2]
     }
@@ -241,22 +255,8 @@ export default class AdminServiceCard extends Vue {
   }
 
   private mounted () {
-    this.configBreadCrumbs()
     this.newService.siteSectionId = this.serviceItem.siteSectionId
     this.newService.businessServiceParentId = this.serviceItem.businessServiceId
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
-    if (this.serviceItem.businessServiceParentId && this.serviceItem.businessServiceParentId > 0) {
-      const parentService = this.serviceOtherList.filter((obj) => {
-        return obj.businessServiceId === this.serviceItem.businessServiceParentId;
-      })[0]
-      this.breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
-    }
-    this.breadCrumbList.push({ name: this.serviceItem.businessServiceName, link: '' })
   }
 
   private async saveNewService () {

@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Бренд: {{brandItem.clBrandName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -69,6 +68,7 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -79,7 +79,6 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 
 export default class AdminBrandCard extends Vue {
   private brandItem: ClBrand = new ClBrand()
-  private breadCrumbList: any[] = []
   private recommendLetterList: any[] = []
 
   private isBrandMainPageVisible = false
@@ -102,6 +101,13 @@ export default class AdminBrandCard extends Vue {
   private async asyncData (context: NuxtContext) {
     const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))
     const recommendLetters = getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(Number(context.params.brand))
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
+    breadCrumbList.push({ name: brandItem.clBrandName, link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
 
     const data = await Promise.all([recommendLetters])
 
@@ -157,15 +163,7 @@ export default class AdminBrandCard extends Vue {
   }
 
   private mounted () {
-    this.configBreadCrumbs()
     this.isBrandMainPageVisible = Number(this.brandItem.clBrandMainPageVisible) === 1
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
-    this.breadCrumbList.push({ name: this.brandItem.clBrandName, link: '' })
   }
 
 }

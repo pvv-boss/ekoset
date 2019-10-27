@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Клиенты</h1>
     <button @click="createNewClientMode = true" v-show="!createNewClientMode">Создать клиента</button>
 
@@ -38,13 +37,13 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import Partner from '@/models/ekoset/Partner'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminPartnerGroupSelector from '@/components/admin/AdminPartnerGroupSelector.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 
 @Component({
   components: {
-    BreadCrumbs,
     AdminPartnerGroupSelector
   }
 })
@@ -76,6 +75,11 @@ export default class AdminClientList extends Vue {
   private async asyncData (context: NuxtContext) {
     const clientItems = getServiceContainer().publicEkosetService.getPartners()
 
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Клиенты', link: 'admin-clients' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     const data = await Promise.all([clientItems])
     return {
       clientItems: data[0]
@@ -94,15 +98,7 @@ export default class AdminClientList extends Vue {
     this.createNewClientMode = false
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
 
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Клиенты', link: 'admin-clients' })
-  }
 }
 </script>
 

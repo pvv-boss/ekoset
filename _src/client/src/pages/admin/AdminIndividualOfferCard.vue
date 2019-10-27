@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList" v-if="breadCrumbList.length > 0"></BreadCrumbs>
     <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -23,7 +22,7 @@
         </div>
         <div class="brc-service-attribute" v-if="isClientTypeMode">
           <div class="brc-service-attribute__caption">Тип клиента</div>
-          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId" disabled="true"></AdminClientTypeSelector>
+          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId" :disabled="true"></AdminClientTypeSelector>
         </div>
         <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
           <div class="brc-admin-card-attribute__caption">Направление деятельности</div>
@@ -85,6 +84,7 @@ import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
+import AdminStore from '@/store/AdminStore'
 
 
 @Component({
@@ -123,6 +123,14 @@ export default class AdminIndividualOfferCard extends Vue {
       indOfferItem = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     }
 
+    const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug('SLUG-' + indOfferItem.siteSectionId)
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
+    breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     let serviceList: Promise<BusinessService>
     if (isClientTypeMode) {
       serviceList = context.params.clienttype === 'business'
@@ -137,24 +145,6 @@ export default class AdminIndividualOfferCard extends Vue {
       serviceList: data[0]
 
     }
-  }
-
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-
-    const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
-    const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
-
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
-    if (siteSectionSlug) {
-      this.breadCrumbList.push({ name: siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSectionSlug } })
-    }
-    this.breadCrumbList.push({ name: this.indOfferItem.indOfferName })
   }
 
   private saveOffer () {

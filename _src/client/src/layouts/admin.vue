@@ -1,100 +1,12 @@
 <template>
-  <div class="brc-page-container brc-page-container_admin">
-    <TheAdminLayoutHeader v-once></TheAdminLayoutHeader>
-    <main class="brc-body brc-body_admin">
-      <div class="brc-admin-navigation__wrapper">
-        <nav
-          class="brc-admin-navigation"
-          id="adminNavigation"
-          :class="{'brc-admin-navigation_hidden': !isVisibleNavigation}"
-        >
-          <ul class="brc-admin-navigation__list">
-            <li class="brc-admin-navigation__item">
-              <nuxt-link
-                :to="{ name: 'admin-site-sections'}"
-                class="brc-admin-navigation__item-link"
-              >Подразделы</nuxt-link>
-            </li>
-            <li class="brc-admin-navigation__item">
-              <nuxt-link
-                :to="{ name: 'admin-services'}"
-                class="brc-admin-navigation__item-link"
-              >Услуги</nuxt-link>
-            </li>
-            <li class="brc-admin-navigation__item">
-              <nuxt-link
-                :to="{ name: 'admin-individual-offers'}"
-                class="brc-admin-navigation__item-link"
-              >Инд. предложения</nuxt-link>
-            </li>
-            <li class="brc-admin-navigation__item">
-              <nuxt-link :to="{ name: 'admin-news'}" class="brc-admin-navigation__item-link">Новости</nuxt-link>
-            </li>
-
-            <li class="brc-admin-navigation__item">
-              <input
-                id="toogleClMenuVisible"
-                class="brc-admin-navigation__item-chk"
-                type="checkbox"
-              />
-              <label class="brc-admin-navigation-list-arrow" for="toogleClMenuVisible">Справочники</label>
-              <ul class="brc-admin-navigation__second-list">
-                <li class="brc-admin-navigation__item">
-                  <nuxt-link
-                    :to="{ name: 'admin-brands'}"
-                    class="brc-admin-navigation__item-link"
-                  >Бренды</nuxt-link>
-                </li>
-                <li class="brc-admin-navigation__item">
-                  <nuxt-link
-                    :to="{ name: 'cl-partner-groups'}"
-                    class="brc-admin-navigation__item-link"
-                  >Группы клиентов</nuxt-link>
-                </li>
-                <li class="brc-admin-navigation__item">
-                  <nuxt-link
-                    :to="{ name: 'admin-clients'}"
-                    class="brc-admin-navigation__item-link"
-                  >Клиенты</nuxt-link>
-                </li>
-                <li class="brc-admin-navigation__item">
-                  <nuxt-link
-                    :to="{ name: 'cl-activity-types'}"
-                    class="brc-admin-navigation__item-link"
-                  >Направления деятельности</nuxt-link>
-                </li>
-              </ul>
-            </li>
-            <li class="brc-admin-navigation__item">
-              <input
-                id="toogleSettingsMenuVisible"
-                class="brc-admin-navigation__item-chk"
-                type="checkbox"
-              />
-              <label
-                class="brc-admin-navigation-list-arrow"
-                for="toogleSettingsMenuVisible"
-              >Настройки</label>
-              <ul class="brc-admin-navigation__second-list">
-                <li class="brc-admin-navigation__item">
-                  <nuxt-link
-                    :to="{ name: 'admin-footer-settings'}"
-                    class="brc-admin-navigation__item-link"
-                  >Футер</nuxt-link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <div
-          class="brc-admin-navigation__lt"
-          @click="toogleNavigation"
-          :class="{'brc-admin-navigation__lt_hidden': !isVisibleNavigation}"
-        ></div>
-      </div>
+  <div class="brc-admin-container">
+    <client-only>
+      <TheAdminSideBar class="brc-admin-container__nav"></TheAdminSideBar>
+      <TheAdminLayoutHeader v-once class="brc-admin-container__header"></TheAdminLayoutHeader>
+    </client-only>
+    <section class="brc-admin-container__content">
       <nuxt></nuxt>
-    </main>
-    <TheAdminLayoutFooter v-once></TheAdminLayoutFooter>
+    </section>
     <client-only>
       <BaseBackToTop></BaseBackToTop>
     </client-only>
@@ -104,124 +16,45 @@
 <script  lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import TheAdminLayoutHeader from '@/components/TheAdminLayoutHeader.vue'
-import TheAdminLayoutFooter from '@/components/TheAdminLayoutFooter.vue'
+import TheAdminSideBar from '@/components/TheAdminSideBar.vue'
 import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
-
-
 
 @Component({
   components: {
     TheAdminLayoutHeader,
-    TheAdminLayoutFooter,
-    BaseBackToTop
+    BaseBackToTop,
+    TheAdminSideBar
   }
 })
 export default class AdminLayout extends Vue {
   private isVisibleNavigation = true
 
-  private toogleNavigation () {
-    this.isVisibleNavigation = !this.isVisibleNavigation
-  }
+
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/index.scss';
-.brc-page-container_admin {
-  max-width: 100% !important;
-  padding: 0 !important;
+.brc-admin-container {
+  display: grid;
+  grid-template-rows: 64px calc(100vh - 64px);
+  grid-template-columns: 260px 1fr;
+  grid-template-areas:
+    'nav header'
+    'nav content';
 }
-.brc-body_admin {
-  display: flex;
-  flex-direction: row !important;
-  max-width: 100% !important;
-  margin: 0 !important;
 
-  .brc-admin-navigation__wrapper {
-    display: flex;
-    flex-direction: row;
-    background-color: $admin-nav-bar-color;
-    color: white;
-    img {
-      max-width: 150px !important;
-      margin: 10px !important;
-    }
+.brc-admin-container__nav {
+  grid-area: nav;
+}
 
-    .brc-admin-navigation_hidden {
-      display: none;
-    }
+.brc-admin-container__header {
+  grid-area: header;
+}
 
-    .brc-admin-navigation__lt {
-      width: 15px;
-      text-align: center;
-      box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.12);
-      cursor: pointer;
-      padding-top: 45vh;
-      &:hover {
-        background-color: #f0f0f0;
-      }
-      &:after {
-        content: url('/images/arrow.svg');
-        transform: rotate(180deg);
-        display: inline-block;
-      }
-      &.brc-admin-navigation__lt_hidden {
-        &:after {
-          content: url('/images/arrow.svg');
-          transform: rotate(0deg);
-          display: inline-block;
-        }
-      }
-    }
-  }
-  .brc-admin-navigation {
-    .brc-admin-navigation__list {
-      list-style-type: none;
-      .brc-admin-navigation__item {
-        padding: 10px;
-        white-space: nowrap;
-        // &:hover {
-        //   color: red;
-        // }
-      }
-    }
-
-    input {
-      display: none;
-      visibility: hidden;
-    }
-    label {
-      display: inline;
-    }
-
-    .brc-admin-navigation__second-list {
-      height: 0px;
-      overflow: hidden;
-      transition: height 0.5s;
-    }
-
-    .brc-admin-navigation-list-arrow {
-      display: inline;
-      cursor: pointer;
-    }
-
-    .brc-admin-navigation__item-chk:checked
-      ~ .brc-admin-navigation__second-list {
-      height: min-content;
-    }
-
-    .brc-admin-navigation-list-arrow:after {
-      content: url('/images/arrow-small.svg');
-      padding-left: 5px;
-    }
-
-    .brc-admin-navigation__item-chk:checked ~ .brc-admin-navigation-list-arrow {
-      &:after {
-        content: url('/images/arrow-small.svg');
-        transform: rotate(90deg);
-        display: inline-block;
-      }
-    }
-  }
+.brc-admin-container__content {
+  grid-area: content;
+  background-color: #e9ebee;
+  overflow: auto; /* overflow condition on parent */
 }
 </style>

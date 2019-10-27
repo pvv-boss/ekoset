@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <BaseCard>
       <template #header>
         <h1>Подразделы сайта</h1>
@@ -48,13 +47,14 @@ import SiteSection from '@/models/ekoset/SiteSection.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import BaseCard from '@/components/BaseCard.vue'
+import AdminStore from '@/store/AdminStore'
+import { getModule } from 'vuex-module-decorators'
+
 
 @Component({
   components: {
-    BreadCrumbs,
     AdminStatusSelector,
     BaseCard
   }
@@ -63,7 +63,6 @@ export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false
   private newSiteSection: SiteSection = new SiteSection()
-  private breadCrumbList: any[] = []
 
   private headerFields = [
     {
@@ -93,9 +92,14 @@ export default class AdminSiteSectionList extends Vue {
   private async updateItems () {
     this.siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
   }
-  private async asyncData () {
-    const siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
 
+  private async asyncData (context: NuxtContext) {
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Резделы сайта', link: 'admin-site-sections' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
+    const siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
     return {
       siteSectionItems
     }
@@ -112,16 +116,6 @@ export default class AdminSiteSectionList extends Vue {
   private cancelSaveNewSiteSection () {
     this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
-  }
-
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Подразделы', link: 'admin-site-sections' })
   }
 }
 </script>

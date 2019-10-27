@@ -1,7 +1,6 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1>Настройки футера</h1>
+    <h1>Настройки футера (список услуг)</h1>
 
     <div>
       <h2>Для бизнеса</h2>
@@ -29,6 +28,8 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -37,7 +38,6 @@ import AdminServiceRelationList from '@/components/admin/AdminServiceRelationLis
   }
 })
 export default class AdminFooterSettings extends Vue {
-  private breadCrumbList: any[] = []
   private serviceListForPerson: any[] = []
   private serviceListForBusiness: any[] = []
 
@@ -58,7 +58,11 @@ export default class AdminFooterSettings extends Vue {
   }
 
   private mounted () {
-    this.configBreadCrumbs()
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Настройки футера', link: 'admin-footer-settings' })
+    getModule(AdminStore, this.$store).changeBreadCrumbList(breadCrumbList)
+
     this.updateData()
   }
 
@@ -70,11 +74,6 @@ export default class AdminFooterSettings extends Vue {
     this.serviceListForBusiness = data[1];
   }
 
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Настройки футера', link: 'admin-footer-settings' })
-  }
 }
 </script>
 

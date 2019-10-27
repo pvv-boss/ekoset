@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Направления деятельности</h1>
     <button
       @click="createNewItemMode = true"
@@ -61,21 +60,19 @@ import ClActivity from '@/models/ekoset/ClActivity.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
-    BreadCrumbs,
     AdminStatusSelector
-
   }
 })
 export default class AdminClActivityTypes extends Vue {
   private itemList: ClActivity[] = []
   private createNewItemMode = false
   private newItem: ClActivity = new ClActivity()
-  private breadCrumbList: any[] = []
   private editModeList: boolean[] = []
 
   private headerFields = [
@@ -123,8 +120,13 @@ export default class AdminClActivityTypes extends Vue {
     this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
   }
 
-  private async asyncData () {
+  private async asyncData (context: NuxtContext) {
     const itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Направления деятельности', link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     return {
       itemList,
@@ -145,15 +147,6 @@ export default class AdminClActivityTypes extends Vue {
     this.createNewItemMode = false
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Справочник: Направления деятельности', link: '' })
-  }
 }
 </script>
 

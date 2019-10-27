@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Клиент: {{clientItem.partnerName}}</h1>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
@@ -40,6 +39,7 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import Partner from '@/models/ekoset/Partner'
 import AdminPartnerGroupSelector from '@/components/admin/AdminPartnerGroupSelector.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import AdminStore from '@/store/AdminStore'
 
 
 @Component({
@@ -50,7 +50,6 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 })
 export default class AdminClientCard extends Vue {
   private clientItem: Partner = new Partner()
-  private breadCrumbList: any[] = []
   private createNewItemMode = false
   private newService: BusinessService = new BusinessService()
   private layout () {
@@ -60,6 +59,12 @@ export default class AdminClientCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const clientItem = await getServiceContainer().publicEkosetService.getPartnerById(Number(context.params.client))
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Клиенты', link: 'admin-clients' })
+    breadCrumbList.push({ name: clientItem.partnerName, link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     return {
       clientItem
@@ -71,15 +76,5 @@ export default class AdminClientCard extends Vue {
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Клиенты', link: 'admin-clients' })
-    this.breadCrumbList.push({ name: this.clientItem.partnerName, link: '' })
-  }
 }
 </script>

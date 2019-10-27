@@ -44,6 +44,15 @@ export default class BaseCard extends Vue {
   .brc-card__header {
     border-bottom: 1px solid #ccc;
     padding: 1rem;
+
+    .brc-card__header__toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      > button {
+        font-size: 14px;
+      }
+    }
   }
 
   .brc-card__content {

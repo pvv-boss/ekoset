@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <BaseCard>
       <template #header>
         <h1>Услуги</h1>
@@ -53,6 +52,8 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import BaseCard from '@/components/BaseCard.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -66,7 +67,6 @@ export default class AdminSiteSectionList extends Vue {
   private serviceItems: BusinessService[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
-  private breadCrumbList: any[] = []
   private headerFields = [
     {
       field: 'siteSectionName',
@@ -95,6 +95,11 @@ export default class AdminSiteSectionList extends Vue {
   private async asyncData (context: NuxtContext) {
     const serviceItems = getServiceContainer().businessServiceService.getAll()
 
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     const data = await Promise.all([serviceItems])
     return {
       serviceItems: data[0]
@@ -118,15 +123,6 @@ export default class AdminSiteSectionList extends Vue {
     this.createNewServiceMode = false
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
-  }
 }
 </script>
 

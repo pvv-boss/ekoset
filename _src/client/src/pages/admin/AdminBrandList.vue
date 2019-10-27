@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Бренды</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Добавить бренд</button>
 
@@ -53,6 +52,8 @@ import BusinessServiceService from '@/api/BusinessServiceService'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -64,7 +65,6 @@ export default class AdminBrandList extends Vue {
   private brandItems: ClBrand[] = []
   private createNewMode = false
   private newBrand: ClBrand = new ClBrand()
-  private breadCrumbList: any[] = []
   private isBrandMainPageVisible = false
 
   private headerFields = [
@@ -88,21 +88,16 @@ export default class AdminBrandList extends Vue {
     return 'admin'
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
-  }
-
   private async updateBrandList () {
     this.brandItems = await getServiceContainer().publicEkosetService.getAdminAllBands()
   }
 
   private async asyncData (context: NuxtContext) {
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     const data = await getServiceContainer().publicEkosetService.getAdminAllBands()
     return {
       brandItems: data

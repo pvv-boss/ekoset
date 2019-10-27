@@ -1,23 +1,53 @@
 <template>
   <header class="brc-admin_page__header">
-    <nuxt-link :to="{name: 'main'}" class="brc-logo_main" id="brc-page-header-main-logo">
-      <img src="/images/logo.png" alt="Экосеть" />
-    </nuxt-link>
-    <h3>Здесь будет гамбургер для меню, ссылка на ЛК админа, заголовок, хлебные крошки...</h3>
+    <svg
+      data-v-49e15297
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      width="60"
+      height="60"
+      class="brc-admin-humburger is-active"
+    >
+      <path
+        data-v-49e15297
+        d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
+      />
+    </svg>
+    <BreadCrumbs :breadCrumbs="breadCrumbList" class="admin-breadcrumbs"></BreadCrumbs>
   </header>
 </template>
 
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import AppStore from '@/store/AppStore'
+import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
+import BreadCrumbs from '@/components/BreadCrumbs.vue'
+
 
 @Component({
+  components: {
+    BreadCrumbs
+  }
 })
 export default class TheAdminLayoutHeader extends Vue {
+
+  private breadCrumbList: any[] = []
+
+  // private mounted () {
+  //   this.configBreadCrumbs()
+  // }
+
+  private get getStoreBreadCrumbList () {
+    return getModule(AdminStore, this.$store).breadCrumbList
+  }
+
+  @Watch('getStoreBreadCrumbList', { immediate: true })
+  private configBreadCrumbs () {
+    this.breadCrumbList = this.getStoreBreadCrumbList
+  }
 
 }
 </script>
@@ -26,19 +56,28 @@ export default class TheAdminLayoutHeader extends Vue {
 @import '@/styles/variables.scss';
 
 .brc-admin_page__header {
-  height: min-content;
   padding: 15px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $delimiter-light-color;
+  // justify-content: center;
 
-  > h3 {
-    position: absolute !important;
-    bottom: 50% !important;
-    left: 40% !important;
+  .admin-breadcrumbs {
+    margin: 0px !important;
+    // margin-left: 30px !important;
+    margin-left: auto !important;
+    padding-bottom: 5px;
   }
+}
 
-  .a,
-  img {
-    max-height: 64px;
+.brc-admin-humburger {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+
+  .is-active {
+    transform: rotate(180deg);
   }
 }
 </style>

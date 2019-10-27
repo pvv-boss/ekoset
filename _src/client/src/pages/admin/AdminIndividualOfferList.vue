@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Индивидуальные предложения</h1>
     <button @click="createNewMode = true" v-show="!createNewMode">Создать индивидуальное предложение</button>
 
@@ -61,6 +60,8 @@ import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelecto
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -72,7 +73,6 @@ import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.
   }
 })
 export default class AdminIndividualOfferList extends Vue {
-  private breadCrumbList: any[] = []
   private indOfferItems: IndividualOffer[] = []
   private createNewMode = false
   private newIndividualOffer: IndividualOffer = new IndividualOffer()
@@ -114,21 +114,16 @@ export default class AdminIndividualOfferList extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     const indOfferItems = getServiceContainer().individualOfferService.adminGetAll()
     const data = await Promise.all([indOfferItems])
     return {
       indOfferItems: data[0]
     }
-  }
-
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
   }
 
   private async saveNew () {

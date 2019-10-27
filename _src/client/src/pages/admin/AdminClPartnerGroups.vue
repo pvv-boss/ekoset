@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Группы клиентов</h1>
     <button @click="createNewItemMode = true" v-show="!createNewItemMode">Создать группу клиентов</button>
 
@@ -56,6 +55,8 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import PartnerGroup from '@/models/ekoset/PartnerGroup'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -67,7 +68,6 @@ import PartnerGroup from '@/models/ekoset/PartnerGroup'
 export default class AdminClPartnerGroups extends Vue {
   private itemList: PartnerGroup[] = []
   private createNewItemMode = false
-  private breadCrumbList: any[] = []
   private editModeList: boolean[] = []
   private newItem: PartnerGroup = new PartnerGroup()
 
@@ -111,8 +111,13 @@ export default class AdminClPartnerGroups extends Vue {
     this.itemList = await getServiceContainer().publicEkosetService.getPartnerGroups()
   }
 
-  private async asyncData () {
+  private async asyncData (context: NuxtContext) {
     const itemList = await getServiceContainer().publicEkosetService.getPartnerGroups()
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Группы клиентов', link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     return {
       itemList,
@@ -133,15 +138,6 @@ export default class AdminClPartnerGroups extends Vue {
     this.createNewItemMode = false
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Справочник: Группы клиентов', link: '' })
-  }
 }
 </script>
 

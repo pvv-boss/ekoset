@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-admin-card">
       <div class="brc-admin-card__attributes">
         <div class="brc-admin-card-attribute">
@@ -95,6 +94,7 @@ import AdminTagRelationList from '@/components/admin/AdminTagRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -111,7 +111,6 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 export default class AdminArticleCard extends Vue {
 
   private article: Article = new Article()
-  private breadCrumbList: any[] = []
   private serviceRelationList: any[] = []
   private layout () {
     return 'admin'
@@ -153,16 +152,9 @@ export default class AdminArticleCard extends Vue {
   }
 
   private mounted () {
-    this.configBreadCrumbs()
     this.updateServiceList()
   }
 
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-    this.breadCrumbList.push({ name: this.article.articleTitle, link: '' })
-  }
 
   private serviceChecked (businessServiceId: number, hasRelation: boolean) {
     getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
@@ -175,6 +167,12 @@ export default class AdminArticleCard extends Vue {
   private async asyncData (context: NuxtContext) {
     const articleUrl = context.params.article
     const article = articleUrl ? await getServiceContainer().articleService.getArticleBySlug(articleUrl) : new Article()
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
+    breadCrumbList.push({ name: article.articleTitle, link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     let serviceRelations = []
     if (article.siteSectionId > 0) {

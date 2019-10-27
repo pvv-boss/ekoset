@@ -1,80 +1,90 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <h1>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h1>
-    <div class="brc-admin-card">
-      <div class="brc-admin-card__attributes">
-        <div class="brc-site-section-card__attributes">
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Наименование</div>
-            <input type="text" v-model="siteSectionItem.siteSectionName" />
-          </div>
-
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-            <input type="text" v-model="siteSectionItem.siteSectionH1" />
-          </div>
-
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Префикс</div>
-            <input type="text" v-model="siteSectionItem.siteSectionSlug" disabled />
-          </div>
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Приоритет</div>
-            <input type="number" v-model.number="siteSectionItem.siteSectionPriority" />
-          </div>
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Статус</div>
-            <AdminStatusSelector v-model.number="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
-          </div>
-
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-            <AdminImageUploader id="bigImageFile" @upload="saveSiteSectionImage($event,true)"></AdminImageUploader>
-          </div>
-
-          <div class="brc-admin-card-attribute">
-            <div class="brc-admin-card-attribute__caption">Фото на карточке раздела</div>
-            <AdminImageUploader id="smallImageFile" @upload="saveSiteSectionImage($event,false)"></AdminImageUploader>
-          </div>
-
-          <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
-          <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
-          <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
-          <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminTextBlockEditor>
-          <button type="button" @click="saveSiteSection">Сохранить</button>
-          <button
-            v-if="siteSectionItem.siteSectionId > 0"
-            type="button"
-            @click="deleteSiteSection"
-          >Удалить</button>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h2>
+          <b-button type="is-primary" @click="saveSiteSection">Сохранить</b-button>
         </div>
-      </div>
-      <div class="brc-admin-card__relations">
-        <div>
-          <h4>Услуги</h4>
-          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
-        </div>
-        <div>
-          <h4>Комплексные решения</h4>
-          <AdminClientTypeOfferList :siteSection="siteSectionItem.siteSectionUrl">"</AdminClientTypeOfferList>
-        </div>
-        <div>
-          <h4>Индивидуальные предложения</h4>
-          <AdminBusinessTypeOfferList
-            :siteSection="siteSectionItem.siteSectionUrl"
-            :offerList="offerList"
-          >"</AdminBusinessTypeOfferList>
-        </div>
-        <div>
-          <h4>Рекомендации</h4>
-          <AdminBrandRelationList
-            :brandRelationItems="brandRelationList"
-            @brandchecked="brandChecked"
-          ></AdminBrandRelationList>
-        </div>
-      </div>
-    </div>
+      </template>
+      <template #content>
+        <b-tabs v-model="activeTab">
+          <b-tab-item label="Оформление">
+            <div class="brc-admin-card">
+              <div class="brc-admin-card__attributes">
+                <div class="brc-site-section-card__attributes">
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Наименование</div>
+                    <input type="text" v-model="siteSectionItem.siteSectionName" />
+                  </div>
+
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
+                    <input type="text" v-model="siteSectionItem.siteSectionH1" />
+                  </div>
+
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Префикс</div>
+                    <input type="text" v-model="siteSectionItem.siteSectionSlug" disabled />
+                  </div>
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Приоритет</div>
+                    <input type="number" v-model.number="siteSectionItem.siteSectionPriority" />
+                  </div>
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Статус</div>
+                    <AdminStatusSelector v-model.number="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
+                  </div>
+
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Фото на странице</div>
+                    <AdminImageUploader
+                      id="bigImageFile"
+                      @upload="saveSiteSectionImage($event,true)"
+                    ></AdminImageUploader>
+                  </div>
+
+                  <div class="brc-admin-card-attribute">
+                    <div class="brc-admin-card-attribute__caption">Фото на карточке раздела</div>
+                    <AdminImageUploader
+                      id="smallImageFile"
+                      @upload="saveSiteSectionImage($event,false)"
+                    ></AdminImageUploader>
+                  </div>
+
+                  <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
+                  <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
+                  <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
+                  <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminTextBlockEditor>
+                </div>
+              </div>
+            </div>
+          </b-tab-item>
+
+          <b-tab-item label="Услуги">
+            <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+          </b-tab-item>
+
+          <b-tab-item label="Комплексные решения">
+            <AdminClientTypeOfferList :siteSection="siteSectionItem.siteSectionUrl">"</AdminClientTypeOfferList>
+          </b-tab-item>
+
+          <b-tab-item label="Индивидуальные предложения">
+            <AdminBusinessTypeOfferList
+              :siteSection="siteSectionItem.siteSectionUrl"
+              :offerList="offerList"
+            >"</AdminBusinessTypeOfferList>
+          </b-tab-item>
+
+          <b-tab-item label="Рекомендации">
+            <AdminBrandRelationList
+              :brandRelationItems="brandRelationList"
+              @brandchecked="brandChecked"
+            ></AdminBrandRelationList>
+          </b-tab-item>
+        </b-tabs>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -99,6 +109,7 @@ import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import BaseCard from '@/components/BaseCard.vue'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -118,7 +129,7 @@ export default class AdminSiteSectionCard extends Vue {
   private serviceOtherList: BusinessService[] = []
   private offerList: IndividualOffer[] = []
   private brandRelationList: ClBrand[] = []
-  private breadCrumbList: any[] = []
+  private activeTab = 0
 
   private layout () {
     return 'admin'
@@ -127,6 +138,12 @@ export default class AdminSiteSectionCard extends Vue {
   private async asyncData (context: NuxtContext) {
 
     const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
+
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Резделы сайта', link: 'admin-site-sections' })
+    breadCrumbList.push({ name: siteSectionItem.siteSectionName, link: '' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(siteSectionItem.siteSectionId)
     const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
@@ -137,7 +154,8 @@ export default class AdminSiteSectionCard extends Vue {
       siteSectionItem,
       serviceOtherList: data[0],
       brandRelationList: data[1],
-      offerList: data[2]
+      offerList: data[2],
+      activeTab: 0
     }
 
   }
@@ -167,17 +185,6 @@ export default class AdminSiteSectionCard extends Vue {
 
   private brandChecked (clBrandId: number, hasRelation: boolean) {
     getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(clBrandId, this.siteSectionItem.siteSectionId, hasRelation)
-  }
-
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Подразделы', link: 'admin-site-sections' })
-    this.breadCrumbList.push({ name: this.siteSectionItem.siteSectionName, link: '' })
   }
 
 }

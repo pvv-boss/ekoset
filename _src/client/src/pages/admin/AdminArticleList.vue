@@ -1,6 +1,5 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <h1>Новости</h1>
     <nuxt-link :to="{ name: 'admin-news-article'}">Создать новость</nuxt-link>
     <vue-good-table :columns="headerFields" :rows="articleItems">
@@ -24,6 +23,8 @@ import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import { getModule } from 'vuex-module-decorators'
+import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
@@ -32,7 +33,6 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 })
 export default class AdminArticleList extends Vue {
   private articleItems: Article[] = []
-  private breadCrumbList: any[] = []
 
   private headerFields = [
     {
@@ -59,17 +59,12 @@ export default class AdminArticleList extends Vue {
     return 'admin'
   }
 
-  private mounted () {
-    this.configBreadCrumbs()
-  }
-
-  private configBreadCrumbs () {
-    this.breadCrumbList = []
-    this.breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    this.breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-  }
-
   private async asyncData (context: NuxtContext) {
+    const breadCrumbList: any[] = []
+    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
+    breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+
     const data = await getServiceContainer().articleService.adminGetAll()
     return {
       articleItems: data
