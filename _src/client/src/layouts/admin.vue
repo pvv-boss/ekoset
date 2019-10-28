@@ -1,16 +1,19 @@
 <template>
-  <div class="brc-admin-container">
+  <section class="brc-admin-container" :class="{sidebarclose:!sidebaropen}">
     <client-only>
-      <TheAdminSideBar class="brc-admin-container__nav"></TheAdminSideBar>
-      <TheAdminLayoutHeader v-once class="brc-admin-container__header"></TheAdminLayoutHeader>
+      <TheAdminSideBar :sidebaropen="sidebaropen" class="brc-admin-container__nav"></TheAdminSideBar>
+      <TheAdminLayoutHeader
+        @humburger:open="sidebaropen=$event"
+        class="brc-admin-container__header"
+      ></TheAdminLayoutHeader>
     </client-only>
-    <section class="brc-admin-container__content">
+    <main class="brc-admin-container__content">
       <nuxt></nuxt>
-    </section>
+    </main>
     <client-only>
       <BaseBackToTop></BaseBackToTop>
     </client-only>
-  </div>
+  </section>
 </template>
 
 <script  lang="ts">
@@ -27,9 +30,7 @@ import BaseBackToTop from '@/components/base/BaseBackToTop.vue'
   }
 })
 export default class AdminLayout extends Vue {
-  private isVisibleNavigation = true
-
-
+  private sidebaropen = true
 }
 </script>
 
@@ -37,11 +38,16 @@ export default class AdminLayout extends Vue {
 @import '@/styles/index.scss';
 .brc-admin-container {
   display: grid;
-  grid-template-rows: 64px calc(100vh - 64px);
-  grid-template-columns: 260px 1fr;
+  grid-template-rows: 64px calc(100vw - 64px);
+  // grid-template-columns: 260px 1fr;
+  grid-template-columns: auto 100%;
   grid-template-areas:
     'nav header'
     'nav content';
+
+  // &.sidebarclose {
+  //   grid-template-columns: 0px 1fr;
+  // }
 }
 
 .brc-admin-container__nav {

@@ -2,7 +2,7 @@
   <nav
     class="brc-admin-navigation__wrapper"
     id="adminNavigation"
-    :class="{'brc-admin-navigation_hidden': !isVisibleNavigation}"
+    :class="{'brc-admin-navigation_hidden': !sidebaropen}"
   >
     <b-menu>
       <b-menu-list>
@@ -60,16 +60,17 @@
 
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
 
-@Component({
-})
+@Component({})
 export default class TheAdminSideBar extends Vue {
-  private isVisibleNavigation = true
+  @Prop()
+  private sidebaropen
+
   private isActive = false
   private isSettingsActive = false
 }
@@ -79,6 +80,9 @@ export default class TheAdminSideBar extends Vue {
 @import '@/styles/variables.scss';
 
 .brc-admin-navigation__wrapper {
+  transition: all 0.1s ease-in-out;
+  width: 260px;
+  transform: none;
   background-color: #2c3e50;
 
   a {
@@ -91,5 +95,10 @@ export default class TheAdminSideBar extends Vue {
       color: $red;
     }
   }
+}
+
+.brc-admin-navigation_hidden {
+  width: 0px;
+  transform: translateX(-270px);
 }
 </style>

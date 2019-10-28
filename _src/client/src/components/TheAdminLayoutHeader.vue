@@ -6,7 +6,9 @@
       xmlns="http://www.w3.org/2000/svg"
       width="60"
       height="60"
-      class="brc-admin-humburger is-active"
+      class="brc-admin-humburger"
+      :class="{active:sidebaropen}"
+      @click="humburgecClick"
     >
       <path
         data-v-49e15297
@@ -26,29 +28,27 @@ import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 
-
 @Component({
   components: {
     BreadCrumbs
   }
 })
 export default class TheAdminLayoutHeader extends Vue {
-
   private breadCrumbList: any[] = []
+  private sidebaropen = true
 
-  // private mounted () {
-  //   this.configBreadCrumbs()
-  // }
-
-  private get getStoreBreadCrumbList () {
+  private get getStoreBreadCrumbList() {
     return getModule(AdminStore, this.$store).breadCrumbList
   }
 
   @Watch('getStoreBreadCrumbList', { immediate: true })
-  private configBreadCrumbs () {
+  private configBreadCrumbs() {
     this.breadCrumbList = this.getStoreBreadCrumbList
   }
-
+  private humburgecClick() {
+    this.sidebaropen = !this.sidebaropen
+    this.$emit('humburger:open', this.sidebaropen)
+  }
 }
 </script>
 
@@ -75,8 +75,8 @@ export default class TheAdminLayoutHeader extends Vue {
   vertical-align: middle;
   width: 20px;
   height: 20px;
-
-  .is-active {
+  transform: none;
+  &.active {
     transform: rotate(180deg);
   }
 }

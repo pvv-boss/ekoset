@@ -24,10 +24,6 @@
                   </div>
 
                   <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Префикс</div>
-                    <input type="text" v-model="siteSectionItem.siteSectionSlug" disabled />
-                  </div>
-                  <div class="brc-admin-card-attribute">
                     <div class="brc-admin-card-attribute__caption">Приоритет</div>
                     <input type="number" v-model.number="siteSectionItem.siteSectionPriority" />
                   </div>
