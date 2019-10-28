@@ -1,6 +1,12 @@
 <template>
-  <div class="container" id="container">
-    <vue-editor v-model="content" @text-change="onEditorChange" :editorOptions="editorSettings"></vue-editor>
+  <div class="brc-text-editor_simple">
+    <vue-editor
+      v-model="content"
+      @text-change="onEditorChange"
+      :editorOptions="editorSettings"
+      class="brc-vue-editor"
+      :id="id"
+    ></vue-editor>
   </div>
 </template>
 
@@ -12,22 +18,22 @@ export default class AdminTextBlockEditor extends Vue {
   @Prop()
   private value
 
+  @Prop()
+  private id
+
   private content: string = ''
 
   private editorSettings = {
     modules: {
-      blotFormatter: {},
-      clipboard: {
-        matchVisual: false
-      }
+      blotFormatter: {}
     }
   }
 
-  private onEditorChange () {
+  private onEditorChange() {
     this.$emit('input', this.content)
   }
 
-  private mounted () {
+  private mounted() {
     this.content = this.value
   }
 }
@@ -35,20 +41,5 @@ export default class AdminTextBlockEditor extends Vue {
 
 
 <style lang="scss">
-.container {
-  min-width: 300px;
-  //padding: 10px;
-  background-color: white;
-  .quill-editor {
-    //height: 600px;
-    overflow-y: auto;
-  }
-}
-
-.ql-html {
-  width: 120px !important;
-  &:after {
-    content: 'Исходный Html' !important;
-  }
-}
+@import '@/styles/variables.scss';
 </style>

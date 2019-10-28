@@ -76,6 +76,7 @@ export default class TheAdminLayoutHeader extends Vue {
   width: 20px;
   height: 20px;
   transform: none;
+  cursor: pointer;
   &.active {
     transform: rotate(180deg);
   }

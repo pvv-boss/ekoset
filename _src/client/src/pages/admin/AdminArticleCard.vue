@@ -109,14 +109,13 @@ import AdminStore from '@/store/AdminStore'
   }
 })
 export default class AdminArticleCard extends Vue {
-
   private article: Article = new Article()
   private serviceRelationList: any[] = []
-  private layout () {
+  private layout() {
     return 'admin'
   }
 
-  private async saveArticle () {
+  private async saveArticle() {
     await getServiceContainer().articleService.saveArticle(this.article)
     if (!this.article.articleId) {
       this.$router.push({ name: 'admin-news' })
@@ -124,49 +123,72 @@ export default class AdminArticleCard extends Vue {
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private deleteArticle () {
+  private deleteArticle() {
     const self = this
     const okCallback = async () => {
       const sectionId = self.article.siteSectionId
-      await getServiceContainer().articleService.deleteArticle(this.article.articleId)
+      await getServiceContainer().articleService.deleteArticle(
+        this.article.articleId
+      )
       self.$router.push({ name: 'admin-news' })
 
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость?', 'Подтвердите удаление', okCallback)
+    this.$BrcAlert(
+      BrcDialogType.Warning,
+      'Удалить новость?',
+      'Подтвердите удаление',
+      okCallback
+    )
   }
 
-  private async saveImage (imageFile: string, isBig: boolean) {
+  private async saveImage(imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveNewsImage(this.article.articleId, formData, isBig)
+    getServiceContainer().mediaService.saveNewsImage(
+      this.article.articleId,
+      formData,
+      isBig
+    )
   }
 
   @Watch('article.siteSectionId', { immediate: true })
-  private async updateServiceList () {
+  private async updateServiceList() {
     if (this.article.siteSectionId && this.article.siteSectionId > 0) {
-      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(this.article.siteSectionId, this.article.articleUrl)
+      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(
+        this.article.siteSectionId,
+        this.article.articleUrl
+      )
     } else {
       this.serviceRelationList = []
     }
   }
 
-  private mounted () {
+  private mounted() {
     this.updateServiceList()
   }
 
-
-  private serviceChecked (businessServiceId: number, hasRelation: boolean) {
-    getServiceContainer().articleService.adminAddRemoveServiceRelation(businessServiceId, this.article.articleUrl, hasRelation)
+  private serviceChecked(businessServiceId: number, hasRelation: boolean) {
+    getServiceContainer().articleService.adminAddRemoveServiceRelation(
+      businessServiceId,
+      this.article.articleUrl,
+      hasRelation
+    )
   }
 
-  private tagChecked (tagId: number, hasRelation: boolean) {
-    getServiceContainer().articleService.adminAddRemoveArticleTag(this.article.articleUrl, tagId, hasRelation)
+  private tagChecked(tagId: number, hasRelation: boolean) {
+    getServiceContainer().articleService.adminAddRemoveArticleTag(
+      this.article.articleUrl,
+      tagId,
+      hasRelation
+    )
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData(context: NuxtContext) {
     const articleUrl = context.params.article
-    const article = articleUrl ? await getServiceContainer().articleService.getArticleBySlug(articleUrl) : new Article()
+    const article = articleUrl
+      ? await getServiceContainer().articleService.getArticleBySlug(articleUrl)
+      : new Article()
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -176,41 +198,16 @@ export default class AdminArticleCard extends Vue {
 
     let serviceRelations = []
     if (article.siteSectionId > 0) {
-      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation(article.siteSectionId, articleUrl)
+      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation(
+        article.siteSectionId,
+        articleUrl
+      )
     }
 
     return {
       article,
-      serviceRelationList: serviceRelations,
+      serviceRelationList: serviceRelations
     }
   }
 }
 </script>
-
-<style lang="scss">
-.brc-article__form {
-  width: 100%;
-  .brc-article-card__save {
-    padding: 20px;
-  }
-}
-.brc-article-card_admin {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap-reverse;
-  flex: 2;
-
-  .brc-article-card__editor,
-  .brc-article-card__attributes {
-    padding: 10px;
-    flex: 1;
-  }
-}
-.ql-container {
-  height: 600px !important;
-}
-
-input {
-  width: 100%;
-}
-</style>

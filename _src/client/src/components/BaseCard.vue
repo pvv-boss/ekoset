@@ -56,7 +56,7 @@ export default class BaseCard extends Vue {}
 
   .brc-card__content {
     flex-grow: 1;
-    margin-top: 15px;
+    // margin-top: 15px;
     padding: 1rem;
   }
 }

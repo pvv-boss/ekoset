@@ -1,62 +1,80 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BaseCard>
+    <BaseCard class="brc-eko-sitesection">
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Раздел сайта: {{siteSectionItem.siteSectionName}}</h2>
+          <AdminStatusSelector
+            statusCaption="Активен"
+            v-model.number="siteSectionItem.siteSectionStatus"
+          ></AdminStatusSelector>
+
+          <b-field label="Приоритет" horizontal>
+            <b-input
+              placeholder="Приоритет"
+              type="number"
+              v-model.number="siteSectionItem.siteSectionPriority"
+            ></b-input>
+          </b-field>
+
           <b-button type="is-primary" @click="saveSiteSection">Сохранить</b-button>
         </div>
       </template>
       <template #content>
         <b-tabs v-model="activeTab">
           <b-tab-item label="Оформление">
-            <div class="brc-admin-card">
-              <div class="brc-admin-card__attributes">
-                <div class="brc-site-section-card__attributes">
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Наименование</div>
-                    <input type="text" v-model="siteSectionItem.siteSectionName" />
-                  </div>
+            <div class="brc-admin-field-list_column brc-admin-panel__site">
+              <b-field label="Наименование">
+                <b-input
+                  placeholder="Наименование"
+                  type="text"
+                  required
+                  validation-message="Наименование раздела не может быть пустым"
+                  v-model="siteSectionItem.siteSectionName"
+                ></b-input>
+              </b-field>
 
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-                    <input type="text" v-model="siteSectionItem.siteSectionH1" />
-                  </div>
+              <b-field label="Заголовок H1">
+                <b-input
+                  placeholder="Заголовок H1"
+                  type="text"
+                  required
+                  validation-message="Заголовок H1 не может быть пустым"
+                  v-model="siteSectionItem.siteSectionH1"
+                ></b-input>
+              </b-field>
 
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Приоритет</div>
-                    <input type="number" v-model.number="siteSectionItem.siteSectionPriority" />
-                  </div>
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Статус</div>
-                    <AdminStatusSelector v-model.number="siteSectionItem.siteSectionStatus"></AdminStatusSelector>
-                  </div>
+              <b-field label="Фото на странице">
+                <AdminImageUploader
+                  id="bigImageFile"
+                  :srcImage="siteSectionItem.siteSectionImgBig"
+                  :onImageText="siteSectionItem.siteSectionH1"
+                  @upload="saveSiteSectionImage($event,true)"
+                ></AdminImageUploader>
+              </b-field>
 
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-                    <AdminImageUploader
-                      id="bigImageFile"
-                      :srcImage="siteSectionItem.siteSectionImgBig"
-                      :onImageText="siteSectionItem.siteSectionH1"
-                      @upload="saveSiteSectionImage($event,true)"
-                    ></AdminImageUploader>
-                  </div>
+              <b-field label="Фото на карточке раздела">
+                <AdminImageUploader
+                  id="smallImageFile"
+                  :srcImage="siteSectionItem.siteSectionImgSmall"
+                  :onImageText="siteSectionItem.siteSectionName"
+                  @upload="saveSiteSectionImage($event,false)"
+                ></AdminImageUploader>
+              </b-field>
 
-                  <div class="brc-admin-card-attribute">
-                    <div class="brc-admin-card-attribute__caption">Фото на карточке раздела</div>
-                    <AdminImageUploader
-                      id="smallImageFile"
-                      :srcImage="siteSectionItem.siteSectionImgSmall"
-                      :onImageText="siteSectionItem.siteSectionName"
-                      @upload="saveSiteSectionImage($event,false)"
-                    ></AdminImageUploader>
-                  </div>
-
-                  <div class="brc-admin-card-attribute__caption">Текстовый блок 1</div>
-                  <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText1"></AdminTextBlockEditor>
-                  <div class="brc-admin-card-attribute__caption">Текстовый блок 2</div>
-                  <AdminTextBlockEditor v-model="siteSectionItem.siteSectionFreeText2"></AdminTextBlockEditor>
-                </div>
+              <div class="brc-admin-field-list_row">
+                <b-field label="Левый блок-конструктор">
+                  <AdminTextBlockEditor
+                    v-model="siteSectionItem.siteSectionFreeText1"
+                    id="siteSectionFreeText1"
+                  ></AdminTextBlockEditor>
+                </b-field>
+                <b-field label="Правый блок-конструктор">
+                  <AdminTextBlockEditor
+                    v-model="siteSectionItem.siteSectionFreeText2"
+                    id="siteSectionFreeText2"
+                  ></AdminTextBlockEditor>
+                </b-field>
               </div>
             </div>
           </b-tab-item>
@@ -215,6 +233,17 @@ export default class AdminSiteSectionCard extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+@import '@/styles/variables.scss';
+
+.brc-eko-sitesection {
+  *.ql-editor {
+    height: 400px;
+  }
+}
+</style>
+
 
 
 

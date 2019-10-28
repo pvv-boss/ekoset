@@ -1,7 +1,22 @@
 @import "@/styles/variables.scss";
 
+.brc-text-editor_simple {
+  min-width: 300px;
+  //padding: 10px;
+  background-color: white;
+}
+
+.brc-vue-editor{
+  min-width: 300px;
+  max-width: 100%;
+  background-color: white;
+  overflow: hidden;
+}
+
 .ql-container {
-  padding: 20px;
+  padding: 1em;
+  overflow-y: auto;
+  background-color: white;
 }
 
 .brc-article-item>article,
@@ -14,7 +29,7 @@
     padding: 30px !important;
     border: 1px solid $red !important;
     font-weight: $font-medium;
-    position: relative;
+ position: relative;
   }
 
   strong {

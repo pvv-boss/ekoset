@@ -1,19 +1,15 @@
 <template>
   <div class="brc-admin-status-selector">
-    <b-radio
-      v-model="selectedValueId"
-      @input="$emit('input', selectedId)"
-      :disabled="disabled"
-      name="status-selector"
-      native-value="0"
-    >Неактивно</b-radio>
-    <b-radio
-      v-model="selectedValueId"
-      @input="$emit('input', selectedId)"
-      :disabled="disabled"
-      name="status-selector"
-      native-value="1"
-    >Активно</b-radio>
+    <div class="field">
+      <b-switch
+        v-model="selectedValueId"
+        @input="$emit('input', selectedId)"
+        :disabled="disabled"
+        true-value="1"
+        false-value="0"
+        type="is-success"
+      >{{caption}}</b-switch>
+    </div>
   </div>
 </template>
 
@@ -29,20 +25,24 @@ export default class AdminStatusSelector extends Vue {
   @Prop({ type: Boolean, default: false })
   private disabled
 
-  private selectedId = null
+  @Prop()
+  private statusCaption
 
-  private get selectedValueId () {
+  private selectedId = 1
+
+  private get selectedValueId() {
     return this.selectedId
   }
 
-  private set selectedValueId (id) {
+  private set selectedValueId(id) {
     this.selectedId = id
   }
-
-  private async mounted () {
+  private get caption() {
+    return this.statusCaption ? this.statusCaption : 'Активно'
+  }
+  private async mounted() {
     this.selectedId = this.value
   }
-
 }
 </script>
 

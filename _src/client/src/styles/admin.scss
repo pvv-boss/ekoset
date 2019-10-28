@@ -32,6 +32,23 @@
   }
 }
 
+.brc-admin-field-list_column{
+  display: grid;
+    row-gap: 0.25em;
+    
+}
+
+.brc-admin-field-list_row{
+  display: grid;
+  grid-auto-flow:column;
+  column-gap: 1em;
+}
+
+.brc-admin-panel__site {
+  width: 100%;
+  max-width: 1100px;
+}
+
 .brc-admin-card {
   width: 100%;
   display: flex;

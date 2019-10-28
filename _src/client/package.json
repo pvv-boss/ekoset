@@ -25,7 +25,6 @@
     "quill-better-table": "^1.2.4",
     "quill-blot-formatter": "^1.0.5",
     "vue-good-table": "^2.18.0",
-    "vue-quill-editor": "latest",
     "vue-router": "latest",
     "vue2-editor": "^2.10.2",
     "vuelidate": "latest"
