@@ -1,12 +1,7 @@
 <template>
   <section class="brc-admin-container" :class="{sidebarclose:!sidebaropen}">
-    <client-only>
-      <TheAdminSideBar :sidebaropen="sidebaropen" class="brc-admin-container__nav"></TheAdminSideBar>
-      <TheAdminLayoutHeader
-        @humburger:open="sidebaropen=$event"
-        class="brc-admin-container__header"
-      ></TheAdminLayoutHeader>
-    </client-only>
+    <TheAdminSideBar :sidebaropen="sidebaropen" class="brc-admin-container__nav"></TheAdminSideBar>
+    <TheAdminLayoutHeader @humburger:open="sidebaropen=$event" class="brc-admin-container__header"></TheAdminLayoutHeader>
     <main class="brc-admin-container__content">
       <nuxt></nuxt>
     </main>
@@ -38,9 +33,9 @@ export default class AdminLayout extends Vue {
 @import '@/styles/index.scss';
 .brc-admin-container {
   display: grid;
-  grid-template-rows: 64px calc(100vw - 64px);
+  grid-template-rows: 64px calc(100vh - 64px);
   // grid-template-columns: 260px 1fr;
-  grid-template-columns: auto 100%;
+  grid-template-columns: auto 1fr;
   grid-template-areas:
     'nav header'
     'nav content';

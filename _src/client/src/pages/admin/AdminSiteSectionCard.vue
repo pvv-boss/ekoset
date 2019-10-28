@@ -3,7 +3,7 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Подраздел сайта: {{siteSectionItem.siteSectionName}}</h2>
+          <h2>Раздел сайта: {{siteSectionItem.siteSectionName}}</h2>
           <b-button type="is-primary" @click="saveSiteSection">Сохранить</b-button>
         </div>
       </template>
@@ -36,6 +36,8 @@
                     <div class="brc-admin-card-attribute__caption">Фото на странице</div>
                     <AdminImageUploader
                       id="bigImageFile"
+                      :srcImage="siteSectionItem.siteSectionImgBig"
+                      :onImageText="siteSectionItem.siteSectionH1"
                       @upload="saveSiteSectionImage($event,true)"
                     ></AdminImageUploader>
                   </div>
@@ -44,6 +46,8 @@
                     <div class="brc-admin-card-attribute__caption">Фото на карточке раздела</div>
                     <AdminImageUploader
                       id="smallImageFile"
+                      :srcImage="siteSectionItem.siteSectionImgSmall"
+                      :onImageText="siteSectionItem.siteSectionName"
                       @upload="saveSiteSectionImage($event,false)"
                     ></AdminImageUploader>
                   </div>
@@ -118,8 +122,8 @@ import AdminStore from '@/store/AdminStore'
     AdminImageUploader,
     BreadCrumbs,
     BaseCard
-  }})
-
+  }
+})
 export default class AdminSiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
   private serviceOtherList: BusinessService[] = []
@@ -127,13 +131,14 @@ export default class AdminSiteSectionCard extends Vue {
   private brandRelationList: ClBrand[] = []
   private activeTab = 0
 
-  private layout () {
+  private layout() {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
-
-    const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
+  private async asyncData(context: NuxtContext) {
+    const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(
+      context.params.siteSection
+    )
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -141,11 +146,21 @@ export default class AdminSiteSectionCard extends Vue {
     breadCrumbList.push({ name: siteSectionItem.siteSectionName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(siteSectionItem.siteSectionId)
-    const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
-    const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
+    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(
+      siteSectionItem.siteSectionId
+    )
+    const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(
+      context.params.siteSection
+    )
+    const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(
+      context.params.siteSection
+    )
 
-    const data = await Promise.all([serviceOtherList, brandRelationList, offerList])
+    const data = await Promise.all([
+      serviceOtherList,
+      brandRelationList,
+      offerList
+    ])
     return {
       siteSectionItem,
       serviceOtherList: data[0],
@@ -153,36 +168,51 @@ export default class AdminSiteSectionCard extends Vue {
       offerList: data[2],
       activeTab: 0
     }
-
   }
 
-  private async saveSiteSectionImage (imageFile: string, isBig: boolean) {
+  private async saveSiteSectionImage(imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
+    getServiceContainer().mediaService.saveSiteSectionImage(
+      this.siteSectionItem.siteSectionId,
+      formData,
+      isBig
+    )
   }
 
-  private saveSiteSection () {
-    getServiceContainer().publicEkosetService.saveSiteSection(this.siteSectionItem)
+  private saveSiteSection() {
+    getServiceContainer().publicEkosetService.saveSiteSection(
+      this.siteSectionItem
+    )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private deleteSiteSection () {
+  private deleteSiteSection() {
     const self = this
     const okCallback = async () => {
       if (this.siteSectionItem.siteSectionSlug) {
-        await getServiceContainer().publicEkosetService.deleteSiteSection(this.siteSectionItem.siteSectionSlug)
+        await getServiceContainer().publicEkosetService.deleteSiteSection(
+          this.siteSectionItem.siteSectionSlug
+        )
       }
       self.$router.push({ name: 'admin-site-sections' })
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел?', 'Подтвердите удаление', okCallback)
+    this.$BrcAlert(
+      BrcDialogType.Warning,
+      'Удалить раздел?',
+      'Подтвердите удаление',
+      okCallback
+    )
   }
 
-  private brandChecked (clBrandId: number, hasRelation: boolean) {
-    getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(clBrandId, this.siteSectionItem.siteSectionId, hasRelation)
+  private brandChecked(clBrandId: number, hasRelation: boolean) {
+    getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(
+      clBrandId,
+      this.siteSectionItem.siteSectionId,
+      hasRelation
+    )
   }
-
 }
 </script>
 

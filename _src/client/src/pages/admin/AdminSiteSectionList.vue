@@ -2,7 +2,7 @@
   <div class="brc-admin_page_wrapper">
     <BaseCard>
       <template #header>
-        <h1>Подразделы сайта</h1>
+        <h1>Разделы сайта</h1>
         <button
           @click="createNewSiteSectionMode = true"
           v-show="!createNewSiteSectionMode"
@@ -52,7 +52,6 @@ import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 
-
 @Component({
   components: {
     AdminStatusSelector,
@@ -85,15 +84,15 @@ export default class AdminSiteSectionList extends Vue {
     }
   ]
 
-  private layout () {
+  private layout() {
     return 'admin'
   }
 
-  private async updateItems () {
+  private async updateItems() {
     this.siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData(context: NuxtContext) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Резделы сайта', link: 'admin-site-sections' })
@@ -105,15 +104,17 @@ export default class AdminSiteSectionList extends Vue {
     }
   }
 
-  private async saveNewSiteSection () {
-    await getServiceContainer().publicEkosetService.saveSiteSection(this.newSiteSection)
+  private async saveNewSiteSection() {
+    await getServiceContainer().publicEkosetService.saveSiteSection(
+      this.newSiteSection
+    )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.createNewSiteSectionMode = false
     await this.updateItems()
     this.newSiteSection = new SiteSection()
   }
 
-  private cancelSaveNewSiteSection () {
+  private cancelSaveNewSiteSection() {
     this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
   }

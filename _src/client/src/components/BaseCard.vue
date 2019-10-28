@@ -27,8 +27,7 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class BaseCard extends Vue {
-}
+export default class BaseCard extends Vue {}
 </script>
 
 <style lang="scss">
