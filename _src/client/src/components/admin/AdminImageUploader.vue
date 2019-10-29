@@ -1,24 +1,20 @@
 <template>
-  <div class="brc-image-uploader">
-    <figure class="brc-page-image__wrapper">
-      <img class="brc-page-image" :src="displayImageSrc" />
-      <h1 class="brc-page-title">{{onImageText}}</h1>
-    </figure>
-    <div class="brc-image-uploader__loader">
+  <div class="brc-image-uploader" :class="{inlinemode:isInlineMode}">
+    <slot :imageSrc="displayImageSrc"></slot>
+    <div class="brc-image-uploader__loader" :class="{inlinemode:isInlineMode}">
       <b-field class="file">
-        <b-upload v-model="imageFile" drag-drop>
-          <section class="section">
-            <div class="content has-text-centered">
-              <p>
-                <b-icon icon="upload" size="is-small"></b-icon>
-              </p>
-              <p>Перетащите сюда файл или кликните в области</p>
-            </div>
-          </section>
+        <b-upload v-model="imageFile">
+          <a class="button is-link">
+            <b-icon icon="upload"></b-icon>
+            <span>Загрузить</span>
+          </a>
         </b-upload>
       </b-field>
-      <span class="file-name" v-if="imageFile">{{ imageFile.name }}</span>
-      <b-button type="is-primary" outlined @click="uploadImage">Сохранить</b-button>
+      <b-button
+        class="brc-image-uploader__save-button"
+        type="is-primary"
+        @click="uploadImage"
+      >Сохранить</b-button>
     </div>
   </div>
 </template>
@@ -35,15 +31,15 @@ export default class AdminImageUploader extends Vue {
   private srcImage
 
   @Prop()
-  private onImageText
+  private isInlineMode
 
   private imageInputRef = `brc-admin-image-${this.id}`
   private imageFile = null
 
-  private get displayImageSrc() {
+  private get displayImageSrc () {
     return this.imageFile ? URL.createObjectURL(this.imageFile) : this.srcImage
   }
-  private uploadImage() {
+  private uploadImage () {
     this.$emit('upload', this.imageFile)
   }
 }
@@ -56,15 +52,29 @@ export default class AdminImageUploader extends Vue {
 .brc-image-uploader {
   position: relative;
 
-  .brc-image-uploader__loader {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+  &.inlinemode {
     display: flex;
     flex-direction: column;
-    * {
-      color: white !important;
+  }
+
+  .brc-image-uploader__loader {
+    position: absolute;
+    bottom: 0px;
+    right: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    &.inlinemode {
+      bottom: 0px;
+      right: 0px;
+      position: initial;
+      margin-top: 1rem;
     }
+  }
+
+  .brc-image-uploader__save-button {
+    margin-left: 10px;
   }
 }
 </style>

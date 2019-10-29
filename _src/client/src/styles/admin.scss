@@ -30,17 +30,21 @@
       text-align: left;
     }
   }
+
+  *.label {
+    font-weight: $font-medium;
+  }
 }
 
-.brc-admin-field-list_column{
+.brc-admin-field-list_column {
   display: grid;
-    row-gap: 0.25em;
-    
+  row-gap: 0.25em;
+
 }
 
-.brc-admin-field-list_row{
+.brc-admin-field-list_row {
   display: grid;
-  grid-auto-flow:column;
+  grid-auto-flow: column;
   column-gap: 1em;
 }
 

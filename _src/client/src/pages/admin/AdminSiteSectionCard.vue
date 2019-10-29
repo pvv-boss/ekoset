@@ -23,58 +23,94 @@
       <template #content>
         <b-tabs v-model="activeTab">
           <b-tab-item label="Оформление">
-            <div class="brc-admin-field-list_column brc-admin-panel__site">
-              <b-field label="Наименование">
-                <b-input
-                  placeholder="Наименование"
-                  type="text"
-                  required
-                  validation-message="Наименование раздела не может быть пустым"
-                  v-model="siteSectionItem.siteSectionName"
-                ></b-input>
-              </b-field>
-
-              <b-field label="Заголовок H1">
-                <b-input
-                  placeholder="Заголовок H1"
-                  type="text"
-                  required
-                  validation-message="Заголовок H1 не может быть пустым"
-                  v-model="siteSectionItem.siteSectionH1"
-                ></b-input>
-              </b-field>
-
-              <b-field label="Фото на странице">
-                <AdminImageUploader
-                  id="bigImageFile"
-                  :srcImage="siteSectionItem.siteSectionImgBig"
-                  :onImageText="siteSectionItem.siteSectionH1"
-                  @upload="saveSiteSectionImage($event,true)"
-                ></AdminImageUploader>
-              </b-field>
-
-              <b-field label="Фото на карточке раздела">
-                <AdminImageUploader
-                  id="smallImageFile"
-                  :srcImage="siteSectionItem.siteSectionImgSmall"
-                  :onImageText="siteSectionItem.siteSectionName"
-                  @upload="saveSiteSectionImage($event,false)"
-                ></AdminImageUploader>
-              </b-field>
-
-              <div class="brc-admin-field-list_row">
-                <b-field label="Левый блок-конструктор">
-                  <AdminTextBlockEditor
-                    v-model="siteSectionItem.siteSectionFreeText1"
-                    id="siteSectionFreeText1"
-                  ></AdminTextBlockEditor>
+            <div class="brc-admin-sitesection-two-column">
+              <div class="brc-admin-field-list_column brc-admin-panel__site">
+                <b-field label="Наименование">
+                  <b-input
+                    placeholder="Наименование"
+                    type="text"
+                    required
+                    validation-message="Наименование раздела не может быть пустым"
+                    v-model="siteSectionItem.siteSectionName"
+                  ></b-input>
                 </b-field>
-                <b-field label="Правый блок-конструктор">
-                  <AdminTextBlockEditor
-                    v-model="siteSectionItem.siteSectionFreeText2"
-                    id="siteSectionFreeText2"
-                  ></AdminTextBlockEditor>
+
+                <b-field label="Заголовок H1">
+                  <b-input
+                    placeholder="Заголовок H1"
+                    type="text"
+                    required
+                    validation-message="Заголовок H1 не может быть пустым"
+                    v-model="siteSectionItem.siteSectionH1"
+                  ></b-input>
                 </b-field>
+
+                <b-field label="Фото на странице">
+                  <AdminImageUploader
+                    id="bigImageFile"
+                    :srcImage="siteSectionItem.siteSectionImgBig"
+                    :onImageText="siteSectionItem.siteSectionH1"
+                    @upload="saveSiteSectionImage($event,true)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <figure class="brc-page-image__wrapper">
+                        <img class="brc-page-image" :src="imageSrc" />
+                        <h1 class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
+                      </figure>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
+
+                <div class="brc-admin-field-list_row">
+                  <b-field label="Левый блок-конструктор">
+                    <AdminTextBlockEditor
+                      v-model="siteSectionItem.siteSectionFreeText1"
+                      id="siteSectionFreeText1"
+                    ></AdminTextBlockEditor>
+                  </b-field>
+                  <b-field label="Правый блок-конструктор">
+                    <AdminTextBlockEditor
+                      v-model="siteSectionItem.siteSectionFreeText2"
+                      id="siteSectionFreeText2"
+                    ></AdminTextBlockEditor>
+                  </b-field>
+                </div>
+              </div>
+
+              <div class="brc-admin-sitesection-two-column_right">
+                <div class="brc-admin-field-list_column">
+                  <div class="brc-admin-sitesection-small-image">
+                    <b-field label="Фото на карточке раздела">
+                      <AdminImageUploader
+                        id="smallImageFile"
+                        :srcImage="siteSectionItem.siteSectionImgSmall"
+                        :isInlineMode="true"
+                        @upload="saveSiteSectionImage($event,false)"
+                      >
+                        <SiteSectionListItem
+                          :siteSectionItem="siteSectionItem"
+                          style="width:347px;margin:0px"
+                        ></SiteSectionListItem>
+                      </AdminImageUploader>
+                    </b-field>
+                  </div>
+
+                  <!-- <b-field label="Видимость блоков" class="brc-admin-field-list_column">
+                    <b-switch true-value="1" false-value="0" type="is-success">Заказать услугу</b-switch>
+                    <b-switch true-value="1" false-value="0" type="is-success">Нас рекомендуют</b-switch>
+                    <b-switch
+                      true-value="1"
+                      false-value="0"
+                      type="is-success"
+                    >Благодарственные письма</b-switch>
+                    <b-switch
+                      true-value="1"
+                      false-value="0"
+                      type="is-success"
+                    >Задать вопрос эксперту</b-switch>
+                    <b-switch true-value="1" false-value="0" type="is-success">Новости</b-switch>
+                  </b-field>-->
+                </div>
               </div>
             </div>
           </b-tab-item>
@@ -128,6 +164,7 @@ import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
+import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 
 @Component({
   components: {
@@ -139,7 +176,8 @@ import AdminStore from '@/store/AdminStore'
     AdminStatusSelector,
     AdminImageUploader,
     BreadCrumbs,
-    BaseCard
+    BaseCard,
+    SiteSectionListItem
   }
 })
 export default class AdminSiteSectionCard extends Vue {
@@ -149,11 +187,11 @@ export default class AdminSiteSectionCard extends Vue {
   private brandRelationList: ClBrand[] = []
   private activeTab = 0
 
-  private layout() {
+  private layout () {
     return 'admin'
   }
 
-  private async asyncData(context: NuxtContext) {
+  private async asyncData (context: NuxtContext) {
     const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(
       context.params.siteSection
     )
@@ -188,7 +226,7 @@ export default class AdminSiteSectionCard extends Vue {
     }
   }
 
-  private async saveSiteSectionImage(imageFile: string, isBig: boolean) {
+  private async saveSiteSectionImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
     getServiceContainer().mediaService.saveSiteSectionImage(
@@ -198,14 +236,14 @@ export default class AdminSiteSectionCard extends Vue {
     )
   }
 
-  private saveSiteSection() {
+  private saveSiteSection () {
     getServiceContainer().publicEkosetService.saveSiteSection(
       this.siteSectionItem
     )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private deleteSiteSection() {
+  private deleteSiteSection () {
     const self = this
     const okCallback = async () => {
       if (this.siteSectionItem.siteSectionSlug) {
@@ -224,7 +262,7 @@ export default class AdminSiteSectionCard extends Vue {
     )
   }
 
-  private brandChecked(clBrandId: number, hasRelation: boolean) {
+  private brandChecked (clBrandId: number, hasRelation: boolean) {
     getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(
       clBrandId,
       this.siteSectionItem.siteSectionId,
@@ -237,9 +275,27 @@ export default class AdminSiteSectionCard extends Vue {
 <style lang="scss">
 @import '@/styles/variables.scss';
 
+.brc-admin-sitesection-two-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.brc-admin-sitesection-two-column_right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.brc-admin-sitesection-small-image {
+  // margin-left: 30px;
+}
+
 .brc-eko-sitesection {
   *.ql-editor {
     height: 400px;
+  }
+  *.button {
+    font-size: 14px;
   }
 }
 </style>

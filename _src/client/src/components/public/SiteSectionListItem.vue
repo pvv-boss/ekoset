@@ -18,6 +18,7 @@
   </section>
 </template>
 
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection';
@@ -30,7 +31,7 @@ export default class SiteSectionListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 .brc-site-section-smallitem {
   border: 1px solid lightgrey;
   border-radius: 5px;
