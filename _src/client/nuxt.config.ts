@@ -77,6 +77,9 @@ const config = {
     },
     {
       src: '@/plugins/vue-good-table'
+    },
+    {
+      src: '@/plugins/dragable-plugin'
     }
   ],
 

@@ -28,6 +28,14 @@ import BusinessService from '@/models/ekoset/BusinessService'
 
 @Component
 export default class AdminServiceSelector extends Vue {
+
+  private get selectedValueId () {
+    return this.selectedId
+  }
+
+  private set selectedValueId (id) {
+    this.selectedId = id
+  }
   @Prop()
   private value
   @Prop()
@@ -41,20 +49,12 @@ export default class AdminServiceSelector extends Vue {
 
   private selectedId = null
 
-  private get selectedValueId () {
-    return this.selectedId
-  }
-
-  private set selectedValueId (id) {
-    this.selectedId = id
-  }
+  private itemList: BusinessService[] = []
 
   private setValueNull () {
     this.selectedValueId = null
     this.$emit('input', null)
   }
-
-  private itemList: BusinessService[] = []
 
   @Watch('siteSectionId', { immediate: true })
   private async updateServiceList () {

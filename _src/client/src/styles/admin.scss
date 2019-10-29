@@ -34,6 +34,10 @@
   *.label {
     font-weight: $font-medium;
   }
+
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 }
 
 .brc-admin-field-list_column {

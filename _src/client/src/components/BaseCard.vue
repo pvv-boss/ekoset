@@ -27,7 +27,7 @@ import MessageForm from '@/components/public/MessageForm.vue'
     MessageForm
   }
 })
-export default class BaseCard extends Vue {}
+export default class BaseCard extends Vue { }
 </script>
 
 <style lang="scss">
@@ -44,6 +44,10 @@ export default class BaseCard extends Vue {}
     border-bottom: 1px solid #ccc;
     padding: 1rem;
 
+    @media (max-width: 768px) {
+      padding: 5px;
+    }
+
     .brc-card__header__toolbar {
       display: flex;
       align-items: center;
@@ -56,8 +60,10 @@ export default class BaseCard extends Vue {}
 
   .brc-card__content {
     flex-grow: 1;
-    // margin-top: 15px;
     padding: 1rem;
+    @media (max-width: 768px) {
+      padding: 5px;
+    }
   }
 }
 </style>

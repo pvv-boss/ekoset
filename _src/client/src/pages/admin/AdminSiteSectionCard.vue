@@ -95,21 +95,13 @@
                     </b-field>
                   </div>
 
-                  <!-- <b-field label="Видимость блоков" class="brc-admin-field-list_column">
-                    <b-switch true-value="1" false-value="0" type="is-success">Заказать услугу</b-switch>
-                    <b-switch true-value="1" false-value="0" type="is-success">Нас рекомендуют</b-switch>
-                    <b-switch
-                      true-value="1"
-                      false-value="0"
-                      type="is-success"
-                    >Благодарственные письма</b-switch>
-                    <b-switch
-                      true-value="1"
-                      false-value="0"
-                      type="is-success"
-                    >Задать вопрос эксперту</b-switch>
-                    <b-switch true-value="1" false-value="0" type="is-success">Новости</b-switch>
-                  </b-field>-->
+                  <b-field
+                    label="Настройка блоков"
+                    class="brc-admin-field-list_column"
+                    style="margin-top:15px;"
+                  >
+                    <AdminFreeBlockContainer :dynamicComponentInfoList="dynamicComponentInfo"></AdminFreeBlockContainer>
+                  </b-field>
                 </div>
               </div>
             </div>
@@ -158,6 +150,7 @@ import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
+import AdminFreeBlockContainer from '@/components/admin/AdminFreeBlockContainer.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
@@ -165,6 +158,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 @Component({
   components: {
@@ -177,7 +171,8 @@ import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
     AdminImageUploader,
     BreadCrumbs,
     BaseCard,
-    SiteSectionListItem
+    SiteSectionListItem,
+    AdminFreeBlockContainer
   }
 })
 export default class AdminSiteSectionCard extends Vue {
@@ -186,6 +181,7 @@ export default class AdminSiteSectionCard extends Vue {
   private offerList: IndividualOffer[] = []
   private brandRelationList: ClBrand[] = []
   private activeTab = 0
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
 
   private layout () {
     return 'admin'
@@ -202,6 +198,8 @@ export default class AdminSiteSectionCard extends Vue {
     breadCrumbList.push({ name: siteSectionItem.siteSectionName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
+    const dynaComponents = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(siteSectionItem.siteSectionUrl)
+
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(
       siteSectionItem.siteSectionId
     )
@@ -215,13 +213,15 @@ export default class AdminSiteSectionCard extends Vue {
     const data = await Promise.all([
       serviceOtherList,
       brandRelationList,
-      offerList
+      offerList,
+      dynaComponents
     ])
     return {
       siteSectionItem,
       serviceOtherList: data[0],
       brandRelationList: data[1],
       offerList: data[2],
+      dynamicComponentInfo: data[3],
       activeTab: 0
     }
   }
@@ -279,20 +279,19 @@ export default class AdminSiteSectionCard extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .brc-admin-sitesection-two-column_right {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.brc-admin-sitesection-small-image {
-  // margin-left: 30px;
+  flex-wrap: wrap;
 }
 
 .brc-eko-sitesection {
   *.ql-editor {
-    height: 400px;
+    height: 300px;
   }
   *.button {
     font-size: 14px;

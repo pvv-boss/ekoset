@@ -40,6 +40,7 @@ export default class CMSService extends BaseService {
 
     const bayService = new DynamicComponentInfo();
     bayService.id = 4;
+    bayService.head = 'Заказать услугу';
     bayService.name = 'MessageForm';
     bayService.visibleIndex = 0;
     bayService.props = {
@@ -49,6 +50,7 @@ export default class CMSService extends BaseService {
 
     const askExpert = new DynamicComponentInfo();
     askExpert.id = 5;
+    askExpert.head = 'Задать вопрос эксперту';
     askExpert.name = 'MessageForm';
     askExpert.visibleIndex = 4;
     askExpert.props = {
