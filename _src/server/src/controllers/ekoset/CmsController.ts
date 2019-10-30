@@ -1,7 +1,8 @@
 import { BaseController } from '../BaseController';
-import { JsonController, Get, Res, Put, Param, Delete } from 'routing-controllers';
+import { JsonController, Get, Res, Put, Param, Delete, Post, Body } from 'routing-controllers';
 import ServiceContainer from '@/services/ServiceContainer';
 import { Request, Response } from 'express';
+import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
 
 @JsonController()
 export default class CmsController extends BaseController {
@@ -68,12 +69,48 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
-  @Get('/admin/panel/cms/blocks/info')
-  public async adminGetDynamicComponentsInfo (
+  @Get('/admin/panel/cms/blocks/info/sitesection/:sitesectionId')
+  public async adminGetDynamicComponentsInfoSiteSection (
+    @Param('sitesectionId') sitesectionId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfo();
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoSiteSection(sitesectionId);
     return CmsController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/cms/blocks/info/service/:serviceId')
+  public async adminGetDynamicComponentsInfoService (
+    @Param('serviceId') serviceId: number,
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoService(serviceId);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/cms/blocks/info/offer/:offerId')
+  public async adminGetDynamicComponentsInfoOffer (
+    @Param('offerId') offerId: number,
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoOffer(offerId);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/cms/blocks/info/default/0')
+  public async adminGetDynamicComponentsInfoDefault (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoDefault();
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Post('/admin/panel/cms/blocks/info/sitesection/:sitesectionId')
+  public async adminSaveDynamicComponentsSiteSection (
+    @Res() response: Response,
+    @Param('sitesectionId') sitesectionId: number,
+    @Body() infos: DynamicComponentInfo[], ) {
+
+    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsSiteSection(sitesectionId, infos);
+    return CmsController.createSuccessResponse(result, response);
+  }
 }

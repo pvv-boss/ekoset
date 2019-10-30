@@ -8,6 +8,7 @@
         true-value="1"
         false-value="0"
         type="is-success"
+        size="is-small"
       >{{caption}}</b-switch>
     </div>
   </div>
@@ -30,17 +31,17 @@ export default class AdminStatusSelector extends Vue {
 
   private selectedId = 1
 
-  private get selectedValueId() {
+  private get selectedValueId () {
     return this.selectedId
   }
 
-  private set selectedValueId(id) {
+  private set selectedValueId (id) {
     this.selectedId = id
   }
-  private get caption() {
+  private get caption () {
     return this.statusCaption ? this.statusCaption : 'Активно'
   }
-  private async mounted() {
+  private async mounted () {
     this.selectedId = this.value
   }
 }

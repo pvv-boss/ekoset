@@ -14,11 +14,12 @@ export default class BaseService {
   }
 
   public getIdBySlug (slug: string) {
-    try {
-      return Number(slug.split('-').pop())
-    } catch {
-      return 0
+    let result = 0;
+    if (!!slug && slug.indexOf('-') > -1) {
+      const tryGet = Number(slug.split('-').pop())
+      result = Number.isNaN(tryGet) ? 0 : tryGet
     }
+    return result
   }
 
   public getConfig () {

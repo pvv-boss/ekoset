@@ -70,7 +70,7 @@ export default class SiteSectionCard extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
     const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)

@@ -36,10 +36,10 @@ export default class Prices extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection)
     const siteSection = context.params.siteSection
+    const dynamicComponentInfo = !!siteSection ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection) : getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
     let serviceList: Promise<BusinessService>
-    if (siteSection) {
+    if (!!siteSection) {
       serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection, false)
     } else {
       serviceList = getServiceContainer().businessServiceService.getMainList()

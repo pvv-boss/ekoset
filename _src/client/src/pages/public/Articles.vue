@@ -53,15 +53,15 @@ export default class Articles extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsWithoutNewsInfo(siteSection)
+    const dynamicComponentInfo = !!siteSection ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection) : getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
     const startPagination = new Pagination()
-    const articleList = siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
+    const articleList = !!siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
 
-    const data = await Promise.all([articleList])
+    const data = await Promise.all([articleList, dynamicComponentInfo])
     return {
-      dynamicComponentInfo,
       pagination: startPagination,
-      articleItems: data[0]
+      articleItems: data[0],
+      dynamicComponentInfo: data[1]
     }
   }
 

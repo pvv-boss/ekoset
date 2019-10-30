@@ -48,7 +48,7 @@ export default class Main extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
     return {
       dynamicComponentInfo,
       siteSectionItems

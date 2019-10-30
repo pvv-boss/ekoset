@@ -26,7 +26,7 @@ export default class Contacts extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
     return {
       dynamicComponentInfo
     }

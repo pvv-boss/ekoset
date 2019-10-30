@@ -9,7 +9,7 @@
         <img
           :alt="siteSectionItem.siteSectionName"
           itemprop="image"
-          :src="siteSectionItem.siteSectionImgSmall"
+          :src="imageSrc"
           class="brc-site-section-img"
         />
         <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
@@ -27,6 +27,13 @@ import SiteSection from '@/models/ekoset/SiteSection';
 export default class SiteSectionListItem extends Vue {
   @Prop()
   private siteSectionItem: SiteSection
+
+  @Prop()
+  private imageSrcForDesignMode: string
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.siteSectionItem.siteSectionImgSmall
+  }
 }
 </script>
 

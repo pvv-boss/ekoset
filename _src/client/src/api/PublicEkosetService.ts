@@ -11,18 +11,6 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo';
 
 export default class PublicEkosetService extends BaseService {
 
-  public async getDynamicComponentsAllInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
-    return this.getDynamicComponentsInfo(siteSectionSlug, serviceSlug)
-  }
-
-  public async getDynamicComponentsWithoutNewsInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
-    return this.getDynamicComponentsInfo(siteSectionSlug, serviceSlug, false)
-  }
-
-  public async getDynamicComponentsWithoutBrandsInfo (siteSectionSlug: string, serviceSlug?: string): Promise<DynamicComponentInfo[]> {
-    return this.getDynamicComponentsInfo(siteSectionSlug, serviceSlug, true, false)
-  }
-
   //
   public async getSiteSectionBySlug (slug: string) {
     return this.getSiteSectionById(this.getIdBySlug(slug))
@@ -187,110 +175,6 @@ export default class PublicEkosetService extends BaseService {
     return result
   }
 
-
-  private async getDynamicComponentsInfo (siteSectionSlug: string, serviceSlug?: string, showNewsComponent = true, showBrandsComponent = true): Promise<DynamicComponentInfo[]> {
-
-    // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
-    let brandItems: any = null
-    let reccomendationLetterItems: any = null
-    if (showBrandsComponent) {
-      if (!!serviceSlug) {
-        brandItems = this.getBrandsByBusinessServiceSlug(serviceSlug)
-      }
-
-      if (!serviceSlug && !!siteSectionSlug) {
-        brandItems = this.getBrandsBySiteSectionSlug(siteSectionSlug)
-      }
-
-      if (!brandItems) {
-        brandItems = this.getBrandsForHomePage()
-      }
-
-      // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
-      // ReccomendationLetter
-      if (!!serviceSlug) {
-        reccomendationLetterItems = this.getRecommendationLettersByBusinessServiceSlug(serviceSlug)
-      }
-
-      if (!serviceSlug && !!siteSectionSlug) {
-        reccomendationLetterItems = this.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
-      }
-
-      if (!reccomendationLetterItems) {
-        reccomendationLetterItems = this.getRecommendationLettersForHomePage()
-      }
-    }
-
-    // Новости (для услуги или для раздела или для главной)
-    let articleItems: any = null
-    if (showNewsComponent) {
-      if (!!serviceSlug) {
-        articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
-      }
-
-      if (!serviceSlug && !!siteSectionSlug) {
-        articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
-      }
-
-      if (!articleItems) {
-        articleItems = getServiceContainer().articleService.getRootArticleList()
-      }
-    }
-
-    const promises = [brandItems, articleItems, reccomendationLetterItems]
-    // .filter((iter) => {
-    //  return !!iter
-    // })
-
-    const data = await Promise.all(promises)
-
-    // Прописываем данные в компопонте (в его пропы)
-    const componentsInfo: DynamicComponentInfo[] = await HttpUtil.httpGet('admin/panel/cms/blocks/info')
-
-    componentsInfo.sort((a, b) => {
-      return a.visibleIndex - b.visibleIndex;
-    })
-
-    const newsCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 3
-    })
-    if (!!newsCompoenentInfo) {
-      newsCompoenentInfo.visible = false
-      if (showNewsComponent) {
-        newsCompoenentInfo.props.articleList = data[1]
-        newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
-        newsCompoenentInfo.props.mode = 'columns'
-        newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0
-      }
-    }
-
-    const lettersCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 2
-    })
-    if (!!lettersCompoenentInfo) {
-      lettersCompoenentInfo.visible = false
-      if (showBrandsComponent) {
-        lettersCompoenentInfo.props.recommLetterList = data[2]
-        lettersCompoenentInfo.props.recommLetterList = !!lettersCompoenentInfo.props.recommLetterList ? lettersCompoenentInfo.props.recommLetterList.slice(0, 3) : lettersCompoenentInfo.props.recommLetterList
-        lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.recommLetterList && lettersCompoenentInfo.props.recommLetterList.length > 0
-      }
-    }
-
-    const recommendCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 1
-    })
-    if (!!recommendCompoenentInfo) {
-      recommendCompoenentInfo.visible = false
-      if (showBrandsComponent) {
-        recommendCompoenentInfo.props.brandList = data[0]
-        recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
-        recommendCompoenentInfo.visible = !!recommendCompoenentInfo.props.brandList && recommendCompoenentInfo.props.brandList.length > 0
-      }
-    }
-
-    return componentsInfo
-
-  }
 
   private async getBrandsBySiteSection (siteSectionId: number) {
     const query = `${siteSectionId}/brands`

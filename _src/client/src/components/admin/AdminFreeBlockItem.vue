@@ -1,7 +1,13 @@
 <template>
   <div class="brc_admin-freeblock-item">
-    <span>{{dynamicComponentInfo.head}}</span>
-    <b-switch v-model="dynamicComponentInfoState.visible" type="is-success" size="is-small"></b-switch>
+    <span>{{dynamicComponentInfo.dispalyName}}</span>
+    <b-switch
+      v-model="dynamicComponentInfoState.visible"
+      true-value="1"
+      false-value="0"
+      type="is-success"
+      size="is-small"
+    ></b-switch>
   </div>
 </template>
 

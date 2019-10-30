@@ -6,9 +6,10 @@ import BusinessServiceService from './BusinessServiceService';
 import IndividualOfferService from './IndividualOfferService';
 import SeoMetaService from './SeoMetaService';
 import MediaService from './MediaService';
+import DynamicComponentsService from './DynamicComponentsService';
 
 
-export class ServiceContainer {
+class ServiceContainer {
   public authService: AuthService
   public articleService: ArticleService
   public publicEkosetService: PublicEkosetService
@@ -16,6 +17,7 @@ export class ServiceContainer {
   public individualOfferService: IndividualOfferService
   public seoMetaService: SeoMetaService
   public mediaService: MediaService
+  public dynamicComponentsService: DynamicComponentsService
 
   public initialized = false
 
@@ -27,6 +29,7 @@ export class ServiceContainer {
     this.seoMetaService = new SeoMetaService()
     this.articleService = new ArticleService()
     this.mediaService = new MediaService()
+    this.dynamicComponentsService = new DynamicComponentsService()
 
     await this.authService.initConfig()
     this.initialized = true

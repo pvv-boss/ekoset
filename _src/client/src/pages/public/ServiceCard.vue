@@ -81,7 +81,7 @@ export default class ServiceCard extends Vue {
     const siteSection = context.params.siteSection
     const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
-    const dynamicComponentInfo = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(siteSection, 'slug-' + serviceIdForRelations)
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection, 'slug-' + serviceIdForRelations)
     const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
     const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
 

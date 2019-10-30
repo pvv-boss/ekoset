@@ -76,8 +76,7 @@ export default class ArticleCard extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const siteSection = context.params.siteSection
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsWithoutNewsInfo(context.params.siteSection)
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
 
     const articleUrl = context.params.article
     const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)

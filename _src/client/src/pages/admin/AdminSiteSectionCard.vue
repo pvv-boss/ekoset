@@ -49,7 +49,6 @@
                   <AdminImageUploader
                     id="bigImageFile"
                     :srcImage="siteSectionItem.siteSectionImgBig"
-                    :onImageText="siteSectionItem.siteSectionH1"
                     @upload="saveSiteSectionImage($event,true)"
                   >
                     <template v-slot="{imageSrc}">
@@ -62,13 +61,13 @@
                 </b-field>
 
                 <div class="brc-admin-field-list_row">
-                  <b-field label="Левый блок-конструктор">
+                  <b-field label="Верхний левый блок-конструктор">
                     <AdminTextBlockEditor
                       v-model="siteSectionItem.siteSectionFreeText1"
                       id="siteSectionFreeText1"
                     ></AdminTextBlockEditor>
                   </b-field>
-                  <b-field label="Правый блок-конструктор">
+                  <b-field label="Верхний правый блок-конструктор">
                     <AdminTextBlockEditor
                       v-model="siteSectionItem.siteSectionFreeText2"
                       id="siteSectionFreeText2"
@@ -87,20 +86,23 @@
                         :isInlineMode="true"
                         @upload="saveSiteSectionImage($event,false)"
                       >
-                        <SiteSectionListItem
-                          :siteSectionItem="siteSectionItem"
-                          style="width:347px;margin:0px"
-                        ></SiteSectionListItem>
+                        <template v-slot="{imageSrc}">
+                          <SiteSectionListItem
+                            :siteSectionItem="siteSectionItem"
+                            :imageSrcForDesignMode="imageSrc"
+                            style="width:347px;margin:0px"
+                          ></SiteSectionListItem>
+                        </template>
                       </AdminImageUploader>
                     </b-field>
                   </div>
 
                   <b-field
-                    label="Настройка блоков"
+                    label="Настройка стандартных блоков"
                     class="brc-admin-field-list_column"
                     style="margin-top:15px;"
                   >
-                    <AdminFreeBlockContainer :dynamicComponentInfoList="dynamicComponentInfo"></AdminFreeBlockContainer>
+                    <AdminFreeBlockContainer v-model="dynamicComponentInfo"></AdminFreeBlockContainer>
                   </b-field>
                 </div>
               </div>
@@ -198,7 +200,7 @@ export default class AdminSiteSectionCard extends Vue {
     breadCrumbList.push({ name: siteSectionItem.siteSectionName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const dynaComponents = getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(siteSectionItem.siteSectionUrl)
+    const dynaComponents = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSectionItem.siteSectionUrl, true)
 
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(
       siteSectionItem.siteSectionId
@@ -240,6 +242,8 @@ export default class AdminSiteSectionCard extends Vue {
     getServiceContainer().publicEkosetService.saveSiteSection(
       this.siteSectionItem
     )
+    getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
+
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 

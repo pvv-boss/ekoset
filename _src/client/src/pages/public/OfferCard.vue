@@ -78,7 +78,6 @@ export default class OfferCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = await getServiceContainer().publicEkosetService.getDynamicComponentsAllInfo(siteSection)
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
     let otherOfferList: Promise<IndividualOffer[]> = Promise.resolve([new IndividualOffer()])
@@ -90,6 +89,8 @@ export default class OfferCard extends Vue {
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
     }
+
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection, individualOffer.indOfferUrl)
 
     let offerHeaderText = individualOffer.indOfferName
     let otherOfferHeaderText = 'Комплексные решения'

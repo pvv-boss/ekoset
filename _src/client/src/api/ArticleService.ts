@@ -75,8 +75,8 @@ export default class ArticleService extends BaseService {
   }
 
   // Для услуги
-  public async  getArticleListByBusinessServiceSlug (siteSectionSlug: string, serviceSlug: string, pagination?: Pagination) {
-    const siteSectionId = this.getIdBySlug(siteSectionSlug)
+  public async  getArticleListByBusinessServiceSlug (siteSectionUrl: string | null, serviceSlug: string, pagination?: Pagination) {
+    const siteSectionId = !!siteSectionUrl ? this.getIdBySlug(siteSectionUrl) : 0
     this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
   }
@@ -127,7 +127,7 @@ export default class ArticleService extends BaseService {
     }
   }
 
-  private async getArticlesCount (siteSectionId?: number | null) {
+  private async getArticlesCount (siteSectionId: number | null) {
     const query = siteSectionId && siteSectionId > 0 ? `${siteSectionId}/news/count` : 'news/count'
     const result = await HttpUtil.httpGet(this.buildHttRequest(query))
     return result
