@@ -1,118 +1,166 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Услуга: {{serviceItem.businessServiceName}}</h1>
-    <div class="brc-admin-card">
-      <div class="brc-admin-card__attributes">
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Наименование</div>
-          <input type="text" required v-model="serviceItem.businessServiceName" />
-        </div>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Услуга: {{serviceItem.businessServiceName}}</h2>
+          <AdminStatusSelector
+            statusCaption="Активна"
+            v-model.number="serviceItem.businessServiceStatus"
+          ></AdminStatusSelector>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-          <input type="text" required v-model="serviceItem.businessServiceH1" />
-        </div>
+          <b-field label="Ед. измерения" horizontal style="margin-bottom:0px">
+            <b-input placeholder="Единица измерения" v-model="serviceItem.businessServiceUnit"></b-input>
+          </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector
-            v-model="serviceItem.siteSectionId"
-            :disabled="serviceItem.businessServiceParentId > 0"
-          ></AdminSiteSectionSelector>
-        </div>
-        <div class="brc-admin-card-attribute" v-if="serviceItem.businessServiceParentId > 0">
-          <div class="brc-admin-card-attribute__caption">Головная услуга</div>
-          <AdminServiceSelector
-            v-model="serviceItem.businessServiceParentId"
-            :siteSectionId="serviceItem.siteSectionId"
-          ></AdminServiceSelector>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Единица измерения</div>
-          <input type="text" v-model="serviceItem.businessServiceUnit" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Цена</div>
-          <input type="number" required v-model.number="serviceItem.businessServicePrice" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Приоритет</div>
-          <input type="number" required v-model.number="serviceItem.businessServicePriority" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model.number="serviceItem.businessServiceStatus"></AdminStatusSelector>
-        </div>
+          <b-field label="Цена, руб." horizontal style="margin-bottom:0px">
+            <b-input
+              placeholder="Цена, руб."
+              type="number"
+              v-model.number="serviceItem.businessServicePrice"
+            ></b-input>
+          </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-          <AdminImageUploader id="bigServImageFile" @upload="saveServiceImage($event,true)"></AdminImageUploader>
+          <b-button type="is-primary" @click="saveService">Сохранить</b-button>
         </div>
+      </template>
+      <template #content>
+        <b-tabs v-model="activeTab">
+          <b-tab-item label="Оформление">
+            <div class="brc-admin-card_two-column">
+              <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+                <b-field label="Наименование">
+                  <b-input
+                    placeholder="Наименование"
+                    type="text"
+                    required
+                    validation-message="Наименование услуги не может быть пустым"
+                    v-model="serviceItem.businessServiceName"
+                  ></b-input>
+                </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото в карточке услуги</div>
-          <AdminImageUploader id="smallServImageFile" @upload="saveServiceImage($event,false)"></AdminImageUploader>
-        </div>
+                <b-field label="Заголовок H1">
+                  <b-input
+                    placeholder="Заголовок H1"
+                    type="text"
+                    required
+                    validation-message="Заголовок H1 не может быть пустым"
+                    v-model="serviceItem.businessServiceH1"
+                  ></b-input>
+                </b-field>
 
-        <div class="brc-admin-card__editor">
-          <div class="brc-service-attribute__caption">Текстовый блок 1</div>
-          <AdminTextBlockEditor v-model="serviceItem.businessServiceFreeText1"></AdminTextBlockEditor>
-          <div class="brc-service-attribute__caption">Текстовый блок 2</div>
-          <AdminTextBlockEditor v-model="serviceItem.businessServiceFreeText2"></AdminTextBlockEditor>
-        </div>
-        <div class="brc-admin-card__save">
-          <button type="button" @click="saveService">Сохранить</button>
-          <button type="button" @click="deleteService">Удалить</button>
-        </div>
-      </div>
-      <div class="brc-admin-card__relations">
-        <div v-if="serviceItem.businessServiceParentId == null">
-          <h4>Услуги второго уровня</h4>
-          <button
-            @click="createNewServiceMode = true"
-            v-show="!createNewServiceMode"
-          >Создать услугу второго уровня</button>
+                <b-field label="Фото на странице">
+                  <AdminImageUploader
+                    id="bigImageFile"
+                    :srcImage="serviceItem.businessServiceImgBig"
+                    @upload="saveServiceImage($event,true)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <figure class="brc-admin-card-image__wrapper">
+                        <img class="brc-admin-image" :src="imageSrc" />
+                        <h1 class="brc-admin-card-image-title">{{serviceItem.businessServiceH1}}</h1>
+                      </figure>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
 
-          <div v-if="createNewServiceMode">
-            <div class="brc-service-attribute">
-              <div class="brc-service-attribute__caption">Наименование</div>
-              <input type="text" v-model="newService.businessServiceName" />
+                <div class="brc-admin-card-field-list_column">
+                  <b-field label="Верхний левый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="serviceItem.businessServiceFreeText1"
+                      id="siteSectionFreeText1"
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                  <b-field label="Верхний правый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="serviceItem.businessServiceFreeText2"
+                      id="siteSectionFreeText2"
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                </div>
+
+                <div class="brc-admin-card-field-list_column">
+                  <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="serviceItem.businessServiceFooterContentLeft"
+                      id="siteSectionFreeText11"
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                  <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="serviceItem.businessServiceFooterContentRight"
+                      id="siteSectionFreeText12"
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                </div>
+              </div>
+
+              <div class="brc-admin-card-field-list_row">
+                <div>
+                  <b-field label="Фото на карточке услуги">
+                    <AdminImageUploader
+                      id="smallImageFile"
+                      :srcImage="serviceItem.businessServiceImgSmall"
+                      :isInlineMode="true"
+                      @upload="saveServiceImage($event,false)"
+                    >
+                      <template v-slot="{imageSrc}">
+                        <ServiceListItem
+                          :serviceItem="serviceItem"
+                          :imageSrcForDesignMode="imageSrc"
+                          style="width:252px;height:349px;margin:0px"
+                        ></ServiceListItem>
+                      </template>
+                    </AdminImageUploader>
+                  </b-field>
+                </div>
+
+                <b-field
+                  label="Настройка стандартных блоков"
+                  class="brc-admin-field-list_column"
+                  style="margin-top:15px;"
+                >
+                  <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
+                </b-field>
+              </div>
             </div>
-            <div class="brc-service-attribute">
-              <div class="brc-service-attribute__caption">Приоритет</div>
-              <input type="number" v-model.number="newService.businessServicePriority" />
+          </b-tab-item>
+
+          <b-tab-item label="Услуги второго уровня">
+            <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+          </b-tab-item>
+
+          <b-tab-item label="Тип клиента, объекта">
+            <div class="brc-admin-card-field-list_column">
+              <b-field label="Типы клиентов">
+                <AdminClientTypeRelationList
+                  class="col-2"
+                  :clientTypeRelationItems="clientTypeRelationList"
+                  @clienttypechecked="clientTypeChecked"
+                  :disabled="serviceItem.businessServiceParentId > 0"
+                ></AdminClientTypeRelationList>
+              </b-field>
+              <b-field label="Направления деятельности">
+                <AdminActivityRelationList
+                  class="col-2"
+                  :activityRelationItems="activityRelationList"
+                  @activitychecked="activityChecked"
+                  :disabled="serviceItem.businessServiceParentId > 0"
+                ></AdminActivityRelationList>
+              </b-field>
             </div>
-            <div class="brc-service-attribute">
-              <div class="brc-service-attribute__caption">Статус</div>
-              <AdminStatusSelector v-model.number="newService.businessServiceStatus"></AdminStatusSelector>
-            </div>
-            <button @click="saveNewService">Сохранить</button>
-            <button @click="cancelSaveNewService">Отменить</button>
-          </div>
-          <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
-        </div>
-        <div>
-          <h4>Типы клиентов</h4>
-          <AdminClientTypeRelationList
-            :clientTypeRelationItems="clientTypeRelationList"
-            @clienttypechecked="clientTypeChecked"
-            :disabled="serviceItem.businessServiceParentId > 0"
-          ></AdminClientTypeRelationList>
-          <h4>Направления деятельности</h4>
-          <AdminActivityRelationList
-            :activityRelationItems="activityRelationList"
-            @activitychecked="activityChecked"
-            :disabled="serviceItem.businessServiceParentId > 0"
-          ></AdminActivityRelationList>
-          <h4>Рекомендации</h4>
-          <AdminBrandRelationList
-            :brandRelationItems="brandRelationList"
-            @brandchecked="brandChecked"
-            :disabled="serviceItem.businessServiceParentId > 0"
-          ></AdminBrandRelationList>
-        </div>
-      </div>
-    </div>
+          </b-tab-item>
+
+          <b-tab-item label="Рекомендации">
+            <AdminBrandRelationList
+              :brandRelationItems="brandRelationList"
+              @brandchecked="brandChecked"
+              :disabled="serviceItem.businessServiceParentId > 0"
+            ></AdminBrandRelationList>
+          </b-tab-item>
+        </b-tabs>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -123,7 +171,6 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminClientTypeRelationList from '@/components/admin/AdminClientTypeRelationList.vue'
 import AdminActivityRelationList from '@/components/admin/AdminActivityRelationList.vue'
@@ -132,28 +179,31 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity'
 import ClClient from '@/models/ekoset/ClClient'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
-import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
-import SiteSection from '@/models/ekoset/SiteSection'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-
-
+import BaseCard from '@/components/BaseCard.vue'
+import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
+import ServiceListItem from '@/components/public/ServiceListItem.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 
 @Component({
   components: {
-    AdminTextBlockEditor,
     AdminBrandRelationList,
     AdminServiceChildList,
     BreadCrumbs,
-    AdminSiteSectionSelector,
     AdminServiceSelector,
     AdminStatusSelector,
     AdminActivityRelationList,
     AdminClientTypeRelationList,
-    AdminImageUploader
+    AdminImageUploader,
+    BaseCard,
+    AdminFreeContentBlockEditor,
+    ServiceListItem,
+    AdminDynamicComponentsContainer
   }
 })
 export default class AdminServiceCard extends Vue {
@@ -164,6 +214,9 @@ export default class AdminServiceCard extends Vue {
   private clientTypeRelationList: any[] = [1, 2, 3]
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
+  private activeTab = 0
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
+
   private layout () {
     return 'admin'
   }
@@ -190,7 +243,7 @@ export default class AdminServiceCard extends Vue {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
-    breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
+    //  breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
     if (serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0) {
       const parentService = (serviceOtherList as BusinessService[]).filter((obj) => {
         return obj.businessServiceId === serviceItem.businessServiceParentId;
@@ -200,19 +253,24 @@ export default class AdminServiceCard extends Vue {
     breadCrumbList.push({ name: serviceItem.businessServiceName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
+    const dynaComponents = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection.siteSectionUrl, serviceItem.businessServiceUrl, true)
 
-    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation])
+    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, dynaComponents])
     return {
       serviceItem,
       brandRelationList: data[0],
       serviceOtherList,
       activityRelationList: data[1],
-      clientTypeRelationList: data[2]
+      clientTypeRelationList: data[2],
+      dynamicComponentInfo: data[3],
     }
   }
 
   private saveService () {
     getServiceContainer().businessServiceService.save(this.serviceItem)
+
+    getServiceContainer().dynamicComponentsService.saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
+
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 

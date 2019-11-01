@@ -19,6 +19,7 @@ import RecommLetterList from '@/components/public/RecommLetterList.vue'
 import ArticleList from '@/components/public/ArticleList.vue'
 import MessageForm from '@/components/public/MessageForm.vue'
 
+
 @Component({
   components: {
     ArticleList,
@@ -42,19 +43,10 @@ export default class BaseCard extends Vue { }
 
   .brc-card__header {
     border-bottom: 1px solid #ccc;
-    padding: 1rem;
+    padding: 0.9rem;
 
     @media (max-width: 768px) {
       padding: 5px;
-    }
-
-    .brc-card__header__toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      > button {
-        font-size: 14px;
-      }
     }
   }
 

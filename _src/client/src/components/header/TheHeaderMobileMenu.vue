@@ -100,8 +100,8 @@ export default class TheHeaderMobileMenu2 extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 .main-content_hidden {
   display: none;

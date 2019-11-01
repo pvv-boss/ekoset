@@ -1,6 +1,7 @@
 <template>
   <div
     class="brc-page-description"
+    :class="{bottom:bottomPosition}"
     v-if="(!!rightBlock && rightBlock.length > 0) || (!!leftBlock && leftBlock.length > 0)"
   >
     <div
@@ -16,12 +17,15 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class TopDynamicBlock extends Vue {
+export default class FreeContentBlock extends Vue {
   @Prop()
   private leftBlock
 
   @Prop()
   private rightBlock
+
+  @Prop()
+  private bottomPosition
 }
 </script>
 <style lang="scss">
@@ -29,8 +33,6 @@ export default class TopDynamicBlock extends Vue {
   display: flex;
   flex-direction: row;
   margin: 0 -15px;
-  // font-size: 15px;
-  // letter-spacing: 0.025em !important;
   > div {
     margin: 15px;
     flex-basis: 100%;
@@ -38,16 +40,16 @@ export default class TopDynamicBlock extends Vue {
 
   .column-block {
     max-width: 100%;
-    // -webkit-column-count: 2;
-    // -moz-column-count: 2;
-    // column-count: 2;
-    // -webkit-column-gap: 30px;
     -moz-column-gap: 30px;
     column-gap: 30px;
 
     img {
       max-width: 100%;
     }
+  }
+
+  &.bottom {
+    margin-top: 30px;
   }
 }
 

@@ -8,7 +8,6 @@
         true-value="1"
         false-value="0"
         type="is-success"
-        size="is-small"
       >{{caption}}</b-switch>
     </div>
   </div>

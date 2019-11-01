@@ -69,8 +69,13 @@ export default class BusinessServiceService extends BaseService {
   }
 
 
-  // Тип клиента и тип направления деятельности для услуги
+  // Не учитывая статус
+  public async adminGetAllBySiteSectionId (siteSectionId: number) {
+    const selectStmt = 'site_section_id = $1 and business_service_parent_id IS NULL';
+    return this.getDbViewResult(this.apiViewName, null, selectStmt, [siteSectionId]);
+  }
 
+  // Тип клиента и тип направления деятельности для услуги
   public async getAdminСlActivitiesForService (businessServiceId: number) {
     return this.execFunction('f_admin_cl_activities_service', [businessServiceId]);
   }

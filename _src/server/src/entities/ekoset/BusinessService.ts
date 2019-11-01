@@ -88,4 +88,16 @@ export class BusinessService {
   })
   public businessServiceFreeText2: string | null;
 
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_footer_content_left'
+  })
+  public businessServiceFooterContentLeft: string | null;
+
+  @Column('text', {
+    nullable: true,
+    name: 'business_service_footer_content_right'
+  })
+  public businessServiceFooterContentRight: string | null;
 }

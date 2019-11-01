@@ -1,6 +1,6 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BaseCard class="brc-eko-sitesection">
+    <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Раздел сайта: {{siteSectionItem.siteSectionName}}</h2>
@@ -23,8 +23,8 @@
       <template #content>
         <b-tabs v-model="activeTab">
           <b-tab-item label="Оформление">
-            <div class="brc-admin-sitesection-two-column">
-              <div class="brc-admin-field-list_column brc-admin-panel__site">
+            <div class="brc-admin-card_two-column">
+              <div class="brc-admin-card-field-list_row brc-admin-panel__site">
                 <b-field label="Наименование">
                   <b-input
                     placeholder="Наименование"
@@ -52,65 +52,82 @@
                     @upload="saveSiteSectionImage($event,true)"
                   >
                     <template v-slot="{imageSrc}">
-                      <figure class="brc-page-image__wrapper">
-                        <img class="brc-page-image" :src="imageSrc" />
-                        <h1 class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
+                      <figure class="brc-admin-card-image__wrapper">
+                        <img class="brc-admin-image" :src="imageSrc" />
+                        <h1 class="brc-admin-card-image-title">{{siteSectionItem.siteSectionH1}}</h1>
                       </figure>
                     </template>
                   </AdminImageUploader>
                 </b-field>
 
-                <div class="brc-admin-field-list_row">
-                  <b-field label="Верхний левый блок-конструктор">
-                    <AdminTextBlockEditor
+                <div class="brc-admin-card-field-list_column">
+                  <b-field label="Верхний левый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
                       v-model="siteSectionItem.siteSectionFreeText1"
                       id="siteSectionFreeText1"
-                    ></AdminTextBlockEditor>
+                    ></AdminFreeContentBlockEditor>
                   </b-field>
-                  <b-field label="Верхний правый блок-конструктор">
-                    <AdminTextBlockEditor
+                  <b-field label="Верхний правый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
                       v-model="siteSectionItem.siteSectionFreeText2"
                       id="siteSectionFreeText2"
-                    ></AdminTextBlockEditor>
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                </div>
+
+                <div class="brc-admin-card-field-list_column">
+                  <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="siteSectionItem.siteSectionFooterContentLeft"
+                      id="siteSectionFreeText11"
+                    ></AdminFreeContentBlockEditor>
+                  </b-field>
+                  <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
+                    <AdminFreeContentBlockEditor
+                      v-model="siteSectionItem.siteSectionFooterContentRight"
+                      id="siteSectionFreeText12"
+                    ></AdminFreeContentBlockEditor>
                   </b-field>
                 </div>
               </div>
 
-              <div class="brc-admin-sitesection-two-column_right">
-                <div class="brc-admin-field-list_column">
-                  <div class="brc-admin-sitesection-small-image">
-                    <b-field label="Фото на карточке раздела">
-                      <AdminImageUploader
-                        id="smallImageFile"
-                        :srcImage="siteSectionItem.siteSectionImgSmall"
-                        :isInlineMode="true"
-                        @upload="saveSiteSectionImage($event,false)"
-                      >
-                        <template v-slot="{imageSrc}">
-                          <SiteSectionListItem
-                            :siteSectionItem="siteSectionItem"
-                            :imageSrcForDesignMode="imageSrc"
-                            style="width:347px;margin:0px"
-                          ></SiteSectionListItem>
-                        </template>
-                      </AdminImageUploader>
-                    </b-field>
-                  </div>
-
-                  <b-field
-                    label="Настройка стандартных блоков"
-                    class="brc-admin-field-list_column"
-                    style="margin-top:15px;"
-                  >
-                    <AdminFreeBlockContainer v-model="dynamicComponentInfo"></AdminFreeBlockContainer>
+              <div class="brc-admin-card-field-list_row">
+                <div>
+                  <b-field label="Фото на карточке раздела">
+                    <AdminImageUploader
+                      id="smallImageFile"
+                      :srcImage="siteSectionItem.siteSectionImgSmall"
+                      :isInlineMode="true"
+                      @upload="saveSiteSectionImage($event,false)"
+                    >
+                      <template v-slot="{imageSrc}">
+                        <SiteSectionListItem
+                          :siteSectionItem="siteSectionItem"
+                          :imageSrcForDesignMode="imageSrc"
+                          style="width:347px;margin:0px"
+                        ></SiteSectionListItem>
+                      </template>
+                    </AdminImageUploader>
                   </b-field>
                 </div>
+
+                <b-field
+                  label="Настройка стандартных блоков"
+                  class="brc-admin-field-list_column"
+                  style="margin-top:15px;"
+                >
+                  <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
+                </b-field>
               </div>
             </div>
           </b-tab-item>
 
           <b-tab-item label="Услуги">
-            <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+            <AdminServiceListContainer
+              v-model="serviceOtherList"
+              :siteSection="siteSectionItem"
+              @newservice:saved="refreshServiceList"
+            ></AdminServiceListContainer>
           </b-tab-item>
 
           <b-tab-item label="Комплексные решения">
@@ -144,15 +161,18 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
+import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
+
+import AdminServiceListContainer from '@/components/admin/AdminServiceListContainer.vue'
+
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import AdminFreeBlockContainer from '@/components/admin/AdminFreeBlockContainer.vue'
+import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { returnStatement } from '@babel/types'
@@ -164,7 +184,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 @Component({
   components: {
-    AdminTextBlockEditor,
+    AdminDynamicComponentsContainer,
     AdminBrandRelationList,
     AdminServiceChildList,
     AdminClientTypeOfferList,
@@ -174,7 +194,8 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
     BreadCrumbs,
     BaseCard,
     SiteSectionListItem,
-    AdminFreeBlockContainer
+    AdminFreeContentBlockEditor,
+    AdminServiceListContainer
   }
 })
 export default class AdminSiteSectionCard extends Vue {
@@ -205,8 +226,8 @@ export default class AdminSiteSectionCard extends Vue {
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(
       siteSectionItem.siteSectionId
     )
-    const serviceOtherList = getServiceContainer().businessServiceService.getBySiteSectionSlug(
-      context.params.siteSection
+    const serviceOtherList = getServiceContainer().businessServiceService.adminGetBySiteSectionId(
+      siteSectionItem.siteSectionId
     )
     const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(
       context.params.siteSection
@@ -244,6 +265,8 @@ export default class AdminSiteSectionCard extends Vue {
     )
     getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
 
+    getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
+
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
@@ -273,34 +296,15 @@ export default class AdminSiteSectionCard extends Vue {
       hasRelation
     )
   }
+
+  private async refreshServiceList (newService) {
+    this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetBySiteSectionId(this.siteSectionItem.siteSectionId)
+  }
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/variables.scss';
-
-.brc-admin-sitesection-two-column {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.brc-admin-sitesection-two-column_right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.brc-eko-sitesection {
-  *.ql-editor {
-    height: 300px;
-  }
-  *.button {
-    font-size: 14px;
-  }
-}
 </style>
 
 

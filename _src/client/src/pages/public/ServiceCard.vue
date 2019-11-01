@@ -11,10 +11,10 @@
       <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <TopDynamicBlock
+    <FreeContentBlock
       :leftBlock="businessService.businessServiceFreeText1"
       :rightBlock="businessService.businessServiceFreeText2"
-    ></TopDynamicBlock>
+    ></FreeContentBlock>
 
     <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
       <h2>Список услуг</h2>
@@ -38,6 +38,11 @@
       <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
     </div>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <FreeContentBlock
+      :bottomPosition="true"
+      :leftBlock="businessService.businessServiceFooterContentLeft"
+      :rightBlock="businessService.businessServiceFooterContentRight"
+    ></FreeContentBlock>
   </section>
 </template>
 
@@ -51,12 +56,13 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
+import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+
 
 @Component({
   components: {
@@ -64,7 +70,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
     ServicePriceTable,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    TopDynamicBlock,
+    FreeContentBlock,
     BreadCrumbs,
     DynamicComponentsContainer
   }

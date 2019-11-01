@@ -23,7 +23,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
     AdminFreeBlockItem
   }
 })
-export default class AdminFreeBlockContainer extends Vue {
+export default class AdminDynamicComponentsContainer extends Vue {
   @Prop()
   private value
 
@@ -45,7 +45,6 @@ export default class AdminFreeBlockContainer extends Vue {
 .brc_admin-freeblock-container {
   display: flex;
   flex-direction: column;
-  margin-top: -10px;
   border-top: 1px solid #ccc;
 
   .brc_admin-freeblock-item {

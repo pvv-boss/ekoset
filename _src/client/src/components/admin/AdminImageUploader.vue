@@ -55,6 +55,7 @@ export default class AdminImageUploader extends Vue {
   &.inlinemode {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .brc-image-uploader__loader {
@@ -64,6 +65,7 @@ export default class AdminImageUploader extends Vue {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    margin-left: auto;
 
     &.inlinemode {
       bottom: 0px;

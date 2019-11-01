@@ -15,5 +15,8 @@ export default class BusinessService {
   public businessServiceUrl: string;
   public businessServiceFreeText1: string;
   public businessServiceFreeText2: string;
+  public businessServiceFooterContentLeft: string;
+  public businessServiceFooterContentRight: string;
 }
+
 

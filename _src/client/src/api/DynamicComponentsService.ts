@@ -25,6 +25,10 @@ export default class DynamicComponentsService extends BaseService {
     return HttpUtil.httpPost(this.createRequestQueryString('slug-' + siteSectionId, null, null), infos)
   }
 
+  public async saveServiceDynamicComponentsInfo (serviceId: number, infos: DynamicComponentInfo[]) {
+    return HttpUtil.httpPost(this.createRequestQueryString(null, 'slug-' + serviceId, null), infos)
+  }
+
   private async adminGetDynamicComponentsInfo (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null): Promise<DynamicComponentInfo[]> {
     return HttpUtil.httpGet(this.createRequestQueryString(siteSectionUrl, serviceUrl, indOfferUrl))
   }
@@ -97,11 +101,12 @@ export default class DynamicComponentsService extends BaseService {
       newsCompoenentInfo.props.articleList = data[1]
       newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
       newsCompoenentInfo.props.mode = 'columns'
-      if (!adminMode) {
+      if (!adminMode && newsCompoenentInfo.visible === 1) {
         newsCompoenentInfo.visible = 0
         newsCompoenentInfo.visible = !!newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.length > 0 ? 1 : 0
       }
     }
+
 
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
       return iter.id === 2
@@ -110,7 +115,7 @@ export default class DynamicComponentsService extends BaseService {
       lettersCompoenentInfo.props.recommLetterList = data[2]
       lettersCompoenentInfo.props.recommLetterList = !!lettersCompoenentInfo.props.recommLetterList ? lettersCompoenentInfo.props.recommLetterList.slice(0, 3) : lettersCompoenentInfo.props.recommLetterList
 
-      if (!adminMode) {
+      if (!adminMode && lettersCompoenentInfo.visible === 1) {
         lettersCompoenentInfo.visible = 0
         lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.recommLetterList && lettersCompoenentInfo.props.recommLetterList.length > 0 ? 1 : 0
       }
@@ -119,7 +124,7 @@ export default class DynamicComponentsService extends BaseService {
     const recommendCompoenentInfo = componentsInfo.find((iter) => {
       return iter.id === 1
     })
-    if (!!recommendCompoenentInfo) {
+    if (!!recommendCompoenentInfo && recommendCompoenentInfo.visible === 1) {
       recommendCompoenentInfo.props.brandList = data[0]
       recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
 

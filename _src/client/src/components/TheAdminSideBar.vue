@@ -7,15 +7,15 @@
     <b-menu>
       <b-menu-list>
         <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections'}"></b-menu-item>
-        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-services'}" label="Услуги"></b-menu-item>
+        <!-- <b-menu-item tag="nuxt-link" :to="{ name: 'admin-services'}" label="Услуги"></b-menu-item>
         <b-menu-item
           tag="nuxt-link"
           :to="{ name: 'admin-individual-offers'}"
           label="Инд. предложения"
         ></b-menu-item>
-        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>-->
 
-        <b-menu-item
+        <!-- <b-menu-item
           icon="settings"
           :active="isActive"
           :expanded="isActive"
@@ -24,17 +24,11 @@
           <template slot="label" slot-scope="props">
             Справочники
             <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
-          </template>
+        </template>-->
 
-          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>
-          <b-menu-item tag="nuxt-link" :to="{ name: 'cl-partner-groups'}" label="Группы клиентов"></b-menu-item>
-          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты"></b-menu-item>
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'cl-activity-types'}"
-            label="Направления деятельности"
-          ></b-menu-item>
-        </b-menu-item>
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты"></b-menu-item>
+        <!-- </b-menu-item> -->
 
         <b-menu-item
           icon="link"
@@ -51,6 +45,13 @@
             tag="nuxt-link"
             :to="{ name: 'admin-footer-settings'}"
             label="Услуги для Футера"
+          ></b-menu-item>
+
+          <b-menu-item tag="nuxt-link" :to="{ name: 'cl-partner-groups'}" label="Группы клиентов"></b-menu-item>
+          <b-menu-item
+            tag="nuxt-link"
+            :to="{ name: 'cl-activity-types'}"
+            label="Направления деятельности"
           ></b-menu-item>
         </b-menu-item>
       </b-menu-list>

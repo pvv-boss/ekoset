@@ -11,10 +11,10 @@
       <h1 itemprop="headline name" class="brc-page-title">{{individualOffer.indOfferH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <TopDynamicBlock
+    <FreeContentBlock
       :leftBlock="individualOffer.indOfferFreeText1"
       :rightBlock="individualOffer.indOfferFreeText2"
-    ></TopDynamicBlock>
+    ></FreeContentBlock>
 
     <div class="brc-section__wrapper" v-if="serviceList.length > 0">
       <h2>Список услуг</h2>
@@ -43,7 +43,7 @@ import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
-import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
+import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import BusinessService from '../../models/ekoset/BusinessService'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -59,7 +59,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
     ServiceList,
     BusinessTypeOfferList,
     ClientTypeOfferList,
-    TopDynamicBlock,
+    FreeContentBlock,
     BreadCrumbs,
     DynamicComponentsContainer
   }

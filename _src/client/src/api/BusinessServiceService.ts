@@ -28,6 +28,13 @@ export default class BusinessServiceService extends BaseService {
     return this.getBySiteSection(this.getIdBySlug(siteSectionSlug), excludeChild, pagination)
   }
 
+  // Для админки без учета статуса
+  public async  adminGetBySiteSectionId (siteSectionId: number) {
+    const query = `admin/panel/${siteSectionId}/services`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
   // Для вида деятельности и раздела
   public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
     activityTypeId = !!activityTypeId ? activityTypeId : 0
@@ -56,6 +63,13 @@ export default class BusinessServiceService extends BaseService {
     const query = `admin/panel/services/${serviceId}/children`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
+  }
+
+
+  public async saveAll (businessServiceList: BusinessService[]) {
+    businessServiceList.forEach((iterService) => {
+      this.save(iterService)
+    });
   }
 
   public async save (businessService: BusinessService) {

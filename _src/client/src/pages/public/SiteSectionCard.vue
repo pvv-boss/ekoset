@@ -11,10 +11,10 @@
       <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <TopDynamicBlock
+    <FreeContentBlock
       :leftBlock="siteSectionItem.siteSectionFreeText1"
       :rightBlock="siteSectionItem.siteSectionFreeText2"
-    ></TopDynamicBlock>
+    ></FreeContentBlock>
 
     <div class="brc-section__wrapper">
       <h2 v-if="serviceList.length>0">Услуги</h2>
@@ -32,6 +32,11 @@
       ></BusinessTypeOfferList>
     </div>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <FreeContentBlock
+      :bottomPosition="true"
+      :leftBlock="siteSectionItem.siteSectionFooterContentLeft"
+      :rightBlock="siteSectionItem.siteSectionFooterContentRight"
+    ></FreeContentBlock>
   </section>
 </template>
 
@@ -45,7 +50,7 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import BusinessService from '@/models/ekoset/BusinessService'
-import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
+import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -58,7 +63,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
     BusinessTypeOfferList,
     ClientTypeOfferList,
     ServiceList,
-    TopDynamicBlock,
+    FreeContentBlock,
     BreadCrumbs
   }
 })

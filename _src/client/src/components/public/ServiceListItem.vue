@@ -5,11 +5,7 @@
         :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
         class="brc-service-smallitem__link"
       >
-        <img
-          :alt="serviceItem.businessServiceName"
-          itemprop="image"
-          :src="serviceItem.businessServiceImgSmall"
-        />
+        <img :alt="serviceItem.businessServiceName" itemprop="image" :src="imageSrc" />
       </nuxt-link>
       <figcaption>{{serviceItem.businessServiceName}}</figcaption>
     </figure>
@@ -45,6 +41,12 @@ export default class ServiceListItem extends Vue {
   @Prop()
   private serviceItem: BusinessService
 
+  @Prop()
+  private imageSrcForDesignMode: string
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.serviceItem.businessServiceImgSmall
+  }
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
@@ -61,7 +63,7 @@ export default class ServiceListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 .brc-service-smallitem {
   border: 1px solid lightgrey;
   border-radius: 5px;

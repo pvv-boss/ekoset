@@ -14,7 +14,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class AdminTextBlockEditor extends Vue {
+export default class AdminFreeContentBlockEditor extends Vue {
   @Prop()
   private value
 
@@ -29,11 +29,11 @@ export default class AdminTextBlockEditor extends Vue {
     }
   }
 
-  private onEditorChange() {
+  private onEditorChange () {
     this.$emit('input', this.content)
   }
 
-  private mounted() {
+  private mounted () {
     this.content = this.value
   }
 }

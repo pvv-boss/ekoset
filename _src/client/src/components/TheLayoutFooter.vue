@@ -95,14 +95,14 @@ export default class TheLayoutFooter extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 
 .brc-page-footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   border-top: 1px solid lightgray;
-  margin-top: 60px;
+  margin-top: 30px;
   padding-top: 30px;
 
   .brc-footer-list-link {
@@ -222,13 +222,13 @@ export default class TheLayoutFooter extends Vue {
     }
 
     .brc-footer-list-arrow:after {
-      content: "\25bc";
+      content: '\25bc';
     }
 
     #toogleClientTypeMenuVisible:checked ~ .brc-footer-list-arrow,
     #toogleBusinessTypeMenuVisible:checked ~ .brc-footer-list-arrow {
       &:after {
-        content: "\25ba";
+        content: '\25ba';
       }
     }
   }

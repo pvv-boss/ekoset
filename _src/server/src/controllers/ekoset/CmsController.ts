@@ -113,4 +113,14 @@ export default class CmsController extends BaseController {
     const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsSiteSection(sitesectionId, infos);
     return CmsController.createSuccessResponse(result, response);
   }
+
+  @Post('/admin/panel/cms/blocks/info/service/:serviceId')
+  public async adminSaveDynamicComponentsService (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number,
+    @Body() infos: DynamicComponentInfo[], ) {
+
+    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsService(serviceId, infos);
+    return CmsController.createSuccessResponse(result, response);
+  }
 }

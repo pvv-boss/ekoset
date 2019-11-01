@@ -10,4 +10,6 @@ export default class SiteSection {
   public siteSectionUrl: string;
   public siteSectionFreeText1: string;
   public siteSectionFreeText2: string;
+  public siteSectionFooterContentLeft: string;
+  public siteSectionFooterContentRight: string;
 }

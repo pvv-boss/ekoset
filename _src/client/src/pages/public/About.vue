@@ -23,13 +23,13 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import TopDynamicBlock from '@/components/public/TopDynamicBlock.vue'
+import FreeContentBlock from '@/components/FreeContentBlock.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
     BreadCrumbs,
-    TopDynamicBlock
+    FreeContentBlock
   }
 })
 export default class About extends Vue {

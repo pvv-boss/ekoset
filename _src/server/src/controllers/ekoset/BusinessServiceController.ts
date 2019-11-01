@@ -32,6 +32,16 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/:sitesection/services')
+  public async adminGetAllBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+
+    const result = await ServiceContainer.BusinessServiceService.adminGetAllBySiteSectionId(siteSectionId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+
   @Get('/:sitesection/activity/:activityType/services')
   public async getByActivityAndBySiteSectionId (
     @Res() response: Response,

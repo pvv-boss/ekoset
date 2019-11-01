@@ -47,12 +47,6 @@
           <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
         </div>
 
-        <div class="brc-admin-card__editor">
-          <div class="brc-service-attribute__caption">Текстовый блок 1</div>
-          <AdminTextBlockEditor v-model="indOfferItem.indOfferFreeText1"></AdminTextBlockEditor>
-          <div class="brc-service-attribute__caption">Текстовый блок 2</div>
-          <AdminTextBlockEditor v-model="indOfferItem.indOfferFreeText2"></AdminTextBlockEditor>
-        </div>
         <div class="brc-admin-card__save">
           <button type="button" @click="saveOffer">Сохранить</button>
           <button type="button" @click="deleteOffer">Удалить</button>
@@ -70,7 +64,6 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import AdminTextBlockEditor from '@/components/admin/AdminTextBlockEditor.vue'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
@@ -89,7 +82,6 @@ import AdminStore from '@/store/AdminStore'
 
 @Component({
   components: {
-    AdminTextBlockEditor,
     AdminSiteSectionSelector,
     AdminServiceChildList,
     BreadCrumbs,

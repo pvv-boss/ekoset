@@ -55,4 +55,18 @@ export class SiteSection {
   })
   public siteSectionFreeText2: string;
 
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_footer_content_left'
+  })
+  public siteSectionFooterContentLeft: string;
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_footer_content_right'
+  })
+  public siteSectionFooterContentRight: string;
+
+
+
 }

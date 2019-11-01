@@ -32,7 +32,7 @@ $ms7: $ratio * $ms6;
 html {
   // font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
   font-size: 16px;
-  line-height: 1.56 !important;
+  line-height: 1.563 em !important;
   color: $text-color !important;
   text-rendering: optimizeLegibility;
   letter-spacing: 0.03em;

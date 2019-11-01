@@ -2,31 +2,33 @@
   <div class="brc-admin_page_wrapper">
     <BaseCard>
       <template #header>
-        <h1>Разделы сайта</h1>
-        <button
-          @click="createNewSiteSectionMode = true"
-          v-show="!createNewSiteSectionMode"
-        >Создать подраздел</button>
+        <div class="brc-card__header__toolbar">
+          <h2>Разделы сайта</h2>
+
+          <div v-if="createNewSiteSectionMode" class="brc-admin-card-create-row">
+            <b-field label="Наименование раздела:" horizontal>
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование раздела не может быть пустым"
+                v-model="newSiteSection.siteSectionName"
+              ></b-input>
+            </b-field>
+            <b-button @click="saveNewSiteSection" type="is-primary">Сохранить</b-button>
+            <b-button @click="cancelSaveNewSiteSection">Отмена</b-button>
+          </div>
+
+          <b-button
+            type="is-primary"
+            outlined
+            @click="createNewSiteSectionMode = true"
+            v-show="!createNewSiteSectionMode"
+          >Создать</b-button>
+        </div>
       </template>
 
       <template #content>
-        <div v-if="createNewSiteSectionMode">
-          <div class="brc-article-attribute">
-            <div class="brc-article-attribute__caption">Наименование</div>
-            <input type="text" v-model="newSiteSection.siteSectionName" />
-          </div>
-          <div class="brc-article-attribute">
-            <div class="brc-article-attribute__caption">Приоритет</div>
-            <input type="number" v-model.number="newSiteSection.siteSectionPriority" />
-          </div>
-          <div class="brc-article-attribute">
-            <div class="brc-article-attribute__caption">Статус</div>
-            <AdminStatusSelector v-model.number="newSiteSection.siteSectionStatus"></AdminStatusSelector>
-          </div>
-          <button @click="saveNewSiteSection">Сохранить</button>
-          <button @click="cancelSaveNewSiteSection">Отменить</button>
-        </div>
-
         <vue-good-table :columns="headerFields" :rows="siteSectionItems">
           <template slot="table-row" slot-scope="props">
             <nuxt-link
@@ -69,10 +71,6 @@ export default class AdminSiteSectionList extends Vue {
       label: 'Наименование'
     },
     {
-      field: 'siteSectionSlug',
-      label: 'Префикс'
-    },
-    {
       field: 'siteSectionPriority',
       label: 'Приоритет',
       type: 'number'
@@ -84,15 +82,15 @@ export default class AdminSiteSectionList extends Vue {
     }
   ]
 
-  private layout() {
+  private layout () {
     return 'admin'
   }
 
-  private async updateItems() {
+  private async updateItems () {
     this.siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
   }
 
-  private async asyncData(context: NuxtContext) {
+  private async asyncData (context: NuxtContext) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Резделы сайта', link: 'admin-site-sections' })
@@ -104,7 +102,7 @@ export default class AdminSiteSectionList extends Vue {
     }
   }
 
-  private async saveNewSiteSection() {
+  private async saveNewSiteSection () {
     await getServiceContainer().publicEkosetService.saveSiteSection(
       this.newSiteSection
     )
@@ -114,7 +112,7 @@ export default class AdminSiteSectionList extends Vue {
     this.newSiteSection = new SiteSection()
   }
 
-  private cancelSaveNewSiteSection() {
+  private cancelSaveNewSiteSection () {
     this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
   }
