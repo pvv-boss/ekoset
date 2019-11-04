@@ -67,7 +67,6 @@ import { getModule } from 'vuex-module-decorators'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
-import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
@@ -83,7 +82,6 @@ import AdminStore from '@/store/AdminStore'
 @Component({
   components: {
     AdminSiteSectionSelector,
-    AdminServiceChildList,
     BreadCrumbs,
     AdminClActivitySelector,
     AdminStatusSelector,

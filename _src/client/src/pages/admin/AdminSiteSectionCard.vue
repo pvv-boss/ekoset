@@ -49,7 +49,7 @@
                   <AdminImageUploader
                     id="bigImageFile"
                     :srcImage="siteSectionItem.siteSectionImgBig"
-                    @upload="saveSiteSectionImage($event,true)"
+                    @uploader:newimageloaded="addSiteSectionImage($event,true)"
                   >
                     <template v-slot="{imageSrc}">
                       <figure class="brc-admin-card-image__wrapper">
@@ -97,8 +97,7 @@
                     <AdminImageUploader
                       id="smallImageFile"
                       :srcImage="siteSectionItem.siteSectionImgSmall"
-                      :isInlineMode="true"
-                      @upload="saveSiteSectionImage($event,false)"
+                      @uploader:newimageloaded="addSiteSectionImage($event,false)"
                     >
                       <template v-slot="{imageSrc}">
                         <SiteSectionListItem
@@ -165,10 +164,7 @@ import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComp
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
-import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
-
 import AdminServiceListContainer from '@/components/admin/AdminServiceListContainer.vue'
-
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
@@ -186,7 +182,6 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
   components: {
     AdminDynamicComponentsContainer,
     AdminBrandRelationList,
-    AdminServiceChildList,
     AdminClientTypeOfferList,
     AdminBusinessTypeOfferList,
     AdminStatusSelector,
@@ -249,14 +244,14 @@ export default class AdminSiteSectionCard extends Vue {
     }
   }
 
-  private async saveSiteSectionImage (imageFile: string, isBig: boolean) {
+  private async addSiteSectionImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSiteSectionImage(
-      this.siteSectionItem.siteSectionId,
-      formData,
-      isBig
-    )
+    if (isBig) {
+      this.siteSectionItem.bigImageFormData = formData
+    } else {
+      this.siteSectionItem.smallImageFormData = formData
+    }
   }
 
   private saveSiteSection () {
@@ -266,6 +261,13 @@ export default class AdminSiteSectionCard extends Vue {
     getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
 
     getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
+
+    if (!!this.siteSectionItem.smallImageFormData) {
+      getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, this.siteSectionItem.smallImageFormData, false)
+    }
+    if (!!this.siteSectionItem.bigImageFormData) {
+      getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, this.siteSectionItem.bigImageFormData, true)
+    }
 
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }

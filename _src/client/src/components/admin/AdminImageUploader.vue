@@ -1,26 +1,26 @@
 <template>
-  <div class="brc-image-uploader" :class="{inlinemode:isInlineMode}">
+  <div class="brc-image-uploader">
     <slot :imageSrc="displayImageSrc"></slot>
-    <div class="brc-image-uploader__loader" :class="{inlinemode:isInlineMode}">
-      <b-field class="file">
-        <b-upload v-model="imageFile">
-          <a class="button is-link">
-            <b-icon icon="upload"></b-icon>
-            <span>Загрузить</span>
-          </a>
-        </b-upload>
-      </b-field>
-      <b-button
+    <div class="brc-image-uploader__loader" :class="{left:isLeft}">
+      <!-- <b-field class="file"> -->
+      <b-upload v-model="imageFile">
+        <a class="button is-link">
+          <b-icon icon="upload"></b-icon>
+          <!-- <span>Загрузить</span> -->
+        </a>
+      </b-upload>
+      <!-- </b-field> -->
+      <!-- <b-button
         class="brc-image-uploader__save-button"
         type="is-primary"
         @click="uploadImage"
-      >Сохранить</b-button>
+      >Сохранить</b-button>-->
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 
 @Component
 export default class AdminImageUploader extends Vue {
@@ -31,10 +31,15 @@ export default class AdminImageUploader extends Vue {
   private srcImage
 
   @Prop()
-  private isInlineMode
+  private isLeft
 
   private imageInputRef = `brc-admin-image-${this.id}`
   private imageFile = null
+
+  @Watch('imageFile')
+  private imageLoaded (newImageFile) {
+    this.$emit("uploader:newimageloaded", newImageFile)
+  }
 
   private get displayImageSrc () {
     return this.imageFile ? URL.createObjectURL(this.imageFile) : this.srcImage
@@ -52,26 +57,16 @@ export default class AdminImageUploader extends Vue {
 .brc-image-uploader {
   position: relative;
 
-  &.inlinemode {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .brc-image-uploader__loader {
     position: absolute;
-    bottom: 0px;
-    right: 15px;
+    opacity: 0.5;
+    bottom: 10px;
+    right: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    margin-left: auto;
-
-    &.inlinemode {
-      bottom: 0px;
-      right: 0px;
-      position: initial;
-      margin-top: 1rem;
+    &.left {
+      left: 5px;
+      bottom: 5px;
     }
   }
 

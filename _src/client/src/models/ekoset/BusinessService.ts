@@ -17,6 +17,9 @@ export default class BusinessService {
   public businessServiceFreeText2: string;
   public businessServiceFooterContentLeft: string;
   public businessServiceFooterContentRight: string;
+
+  public smallImageFormData: FormData | null;
+  public bigImageFormData: FormData | null;
 }
 
 

@@ -53,7 +53,7 @@
                   <AdminImageUploader
                     id="bigImageFile"
                     :srcImage="serviceItem.businessServiceImgBig"
-                    @upload="saveServiceImage($event,true)"
+                    @uploader:newimageloaded="addServiceImage($event,true)"
                   >
                     <template v-slot="{imageSrc}">
                       <figure class="brc-admin-card-image__wrapper">
@@ -101,8 +101,8 @@
                     <AdminImageUploader
                       id="smallImageFile"
                       :srcImage="serviceItem.businessServiceImgSmall"
-                      :isInlineMode="true"
-                      @upload="saveServiceImage($event,false)"
+                      :isLeft="true"
+                      @uploader:newimageloaded="addServiceImage($event,false)"
                     >
                       <template v-slot="{imageSrc}">
                         <ServiceListItem
@@ -116,6 +116,7 @@
                 </div>
 
                 <b-field
+                  v-if="!serviceItem.businessServiceParentId"
                   label="Настройка стандартных блоков"
                   class="brc-admin-field-list_column"
                   style="margin-top:15px;"
@@ -126,7 +127,7 @@
             </div>
           </b-tab-item>
 
-          <b-tab-item label="Услуги второго уровня">
+          <b-tab-item label="Услуги второго уровня" v-if="!serviceItem.businessServiceParentId">
             <AdminServiceListContainer
               v-model="serviceOtherList"
               :siteSection="siteSection"
@@ -135,7 +136,7 @@
             ></AdminServiceListContainer>
           </b-tab-item>
 
-          <b-tab-item label="Тип клиента, объекта">
+          <b-tab-item label="Тип клиента, объекта" v-if="!serviceItem.businessServiceParentId">
             <div class="brc-admin-card-field-list_column">
               <b-field label="Типы клиентов">
                 <AdminClientTypeRelationList
@@ -156,7 +157,7 @@
             </div>
           </b-tab-item>
 
-          <b-tab-item label="Рекомендации">
+          <b-tab-item label="Рекомендации" v-if="!serviceItem.businessServiceParentId">
             <AdminBrandRelationList
               :brandRelationItems="brandRelationList"
               @brandchecked="brandChecked"
@@ -276,6 +277,15 @@ export default class AdminServiceCard extends Vue {
 
     getServiceContainer().dynamicComponentsService.saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
 
+    getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
+
+    if (!!this.serviceItem.smallImageFormData) {
+      getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, this.serviceItem.smallImageFormData, false)
+    }
+    if (!!this.serviceItem.bigImageFormData) {
+      getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, this.serviceItem.bigImageFormData, true)
+    }
+
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
@@ -302,10 +312,14 @@ export default class AdminServiceCard extends Vue {
 
   }
 
-  private async saveServiceImage (imageFile: string, isBig: boolean) {
+  private async addServiceImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, formData, isBig)
+    if (isBig) {
+      this.serviceItem.bigImageFormData = formData
+    } else {
+      this.serviceItem.smallImageFormData = formData
+    }
   }
 
 

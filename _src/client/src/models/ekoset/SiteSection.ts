@@ -12,4 +12,8 @@ export default class SiteSection {
   public siteSectionFreeText2: string;
   public siteSectionFooterContentLeft: string;
   public siteSectionFooterContentRight: string;
+
+
+  public smallImageFormData: FormData | null;
+  public bigImageFormData: FormData | null;
 }
