@@ -2,6 +2,7 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import BusinessService from '@/models/ekoset/BusinessService';
+import { getServiceContainer } from './ServiceContainer';
 
 export default class BusinessServiceService extends BaseService {
 
@@ -74,7 +75,14 @@ export default class BusinessServiceService extends BaseService {
 
   public async save (businessService: BusinessService) {
     const query = 'services'
-    return HttpUtil.httpPut(this.buildHttRequest(query), businessService)
+    HttpUtil.httpPut(this.buildHttRequest(query), businessService)
+
+    if (!!businessService.smallImageFormData) {
+      getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.smallImageFormData, false)
+    }
+    if (!!businessService.bigImageFormData) {
+      getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.bigImageFormData, true)
+    }
   }
 
   public async delete (id: number) {

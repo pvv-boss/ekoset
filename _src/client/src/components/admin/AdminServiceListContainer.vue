@@ -30,6 +30,8 @@
     <div class="brc_admin-service-list">
       <div class="brc_admin-service-list-item">
         <span>Наименование услуги</span>
+        <span>Фото на странице</span>
+        <span>Фото на карточке</span>
         <span>Ед.измерения</span>
         <span>Цена, руб.</span>
         <span>Статус</span>
@@ -44,6 +46,18 @@
           <nuxt-link
             :to="{ name: 'admin-service-card', params: { siteSection: siteSection.siteSectionUrl, service: iterService.businessServiceUrl}}"
           >{{iterService.businessServiceName}}</nuxt-link>
+
+          <b-upload @input="addServiceImage(...arguments,iterService,true)">
+            <a class="button is-link">
+              <b-icon icon="upload"></b-icon>
+            </a>
+          </b-upload>
+
+          <b-upload @input="addServiceImage(...arguments,iterService,false)">
+            <a class="button is-link">
+              <b-icon icon="upload"></b-icon>
+            </a>
+          </b-upload>
 
           <b-input placeholder="Единица измерения" v-model="iterService.businessServiceUnit"></b-input>
 
@@ -122,6 +136,16 @@ export default class AdminServiceListContainer extends Vue {
     this.createNewServiceMode = false
   }
 
+  private async addServiceImage (imageFile: string, serviceItem: BusinessService, isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    if (isBig) {
+      serviceItem.bigImageFormData = formData
+    } else {
+      serviceItem.smallImageFormData = formData
+    }
+  }
+
 }
 </script>
 
@@ -132,17 +156,12 @@ export default class AdminServiceListContainer extends Vue {
   display: flex;
   flex-direction: column;
 
-  // .brc_admin-service-list {
-  //   display: grid;
-  //   grid-template-columns: 1fr 100px 100 px 100px;
-  // }
-
   .brc_admin-service-list-item {
     margin-top: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 200px 200px 50px;
-    grid-column-gap: 15px;
+    grid-template-columns: 1fr 180px 180px 200px 200px 50px;
+    grid-column-gap: 20px;
     justify-content: flex-end;
 
     padding: 5px;

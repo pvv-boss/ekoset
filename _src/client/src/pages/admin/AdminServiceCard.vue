@@ -279,13 +279,6 @@ export default class AdminServiceCard extends Vue {
 
     getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
 
-    if (!!this.serviceItem.smallImageFormData) {
-      getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, this.serviceItem.smallImageFormData, false)
-    }
-    if (!!this.serviceItem.bigImageFormData) {
-      getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, this.serviceItem.bigImageFormData, true)
-    }
-
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
