@@ -2,6 +2,7 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
+import { getServiceContainer } from './ServiceContainer';
 
 export default class IndividualOfferService extends BaseService {
 
@@ -32,7 +33,14 @@ export default class IndividualOfferService extends BaseService {
 
   public async save (individualOffer: IndividualOffer) {
     const query = 'offers'
-    return HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
+    HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
+
+    if (!!individualOffer.smallImageFormData) {
+      getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
+    }
+    if (!!individualOffer.bigImageFormData) {
+      getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
+    }
   }
 
   public async delete (id: number) {

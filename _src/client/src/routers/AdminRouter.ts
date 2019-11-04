@@ -94,13 +94,6 @@ export const AdminRouter = [
     meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
   {
-    name: 'admin-individual-offers',
-    path: '/admin/individual-offer/',
-    props: true,
-    component: AdminIndividualOfferList,
-    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
-  },
-  {
     name: 'admin-client-card',
     path: '/admin/client/:client',
     props: true,

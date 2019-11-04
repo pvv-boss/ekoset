@@ -13,4 +13,9 @@ export default class IndividualOffer {
   public indOfferUrl: string;
   public indOfferFreeText1: string;
   public indOfferFreeText2: string;
+  public indOfferFooterContentLeft: string;
+  public indOfferFooterContentRight: string;
+
+  public smallImageFormData: FormData | null;
+  public bigImageFormData: FormData | null;
 }

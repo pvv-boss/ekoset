@@ -5,7 +5,7 @@
       class="brc-business-type-offer-item"
     >
       <img
-        :src="offerItem.indOfferImgSmall"
+        :src="imageSrc"
         :alt="offerItem.indOfferName"
         :title="offerItem.indOfferName"
         itemprop="image"
@@ -25,6 +25,13 @@ import { getModule } from 'vuex-module-decorators'
 export default class BusinessTypeOfferListItem extends Vue {
   @Prop()
   private offerItem: IndividualOffer
+
+ @Prop()
+  private imageSrcForDesignMode: string
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.offerItem.indOfferImgSmall
+  }
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection

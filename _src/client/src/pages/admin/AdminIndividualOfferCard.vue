@@ -1,59 +1,113 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h1>
-    <div class="brc-admin-card">
-      <div class="brc-admin-card__attributes">
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Наименование</div>
-          <input type="text" v-model="indOfferItem.indOfferName" :disabled="isClientTypeMode" />
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h2>
+          <AdminStatusSelector statusCaption="Активно" v-model.number="indOfferItem.indOfferStatus"></AdminStatusSelector>
+          <b-button type="is-primary" @click="saveOffer">Сохранить</b-button>
         </div>
+      </template>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-          <input type="text" v-model="indOfferItem.indOfferH1" :disabled="isClientTypeMode" />
-        </div>
+      <template #content>
+        <div class="brc-admin-card_two-column">
+          <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+            <b-field label="Наименование">
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование не может быть пустым"
+                v-model="indOfferItem.indOfferName"
+              ></b-input>
+            </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector
-            v-model="indOfferItem.siteSectionId"
-            :disabled="isClientTypeMode"
-          ></AdminSiteSectionSelector>
-        </div>
-        <div class="brc-service-attribute" v-if="isClientTypeMode">
-          <div class="brc-service-attribute__caption">Тип клиента</div>
-          <AdminClientTypeSelector v-model.number="indOfferItem.clClientId" :disabled="true"></AdminClientTypeSelector>
-        </div>
-        <div class="brc-admin-card-attribute" v-if="!isClientTypeMode">
-          <div class="brc-admin-card-attribute__caption">Направление деятельности</div>
-          <AdminClActivitySelector v-model.number="indOfferItem.clActivityId"></AdminClActivitySelector>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Приоритет</div>
-          <input type="number" v-model.number="indOfferItem.indOfferPriority" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model.number="indOfferItem.indOfferStatus"></AdminStatusSelector>
-        </div>
+            <b-field label="Заголовок H1">
+              <b-input
+                placeholder="Заголовок H1"
+                type="text"
+                required
+                validation-message="Заголовок H1 не может быть пустым"
+                v-model="indOfferItem.indOfferH1"
+              ></b-input>
+            </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-          <AdminImageUploader id="bigOfferImageFile" @upload="saveOfferImage($event,true)"></AdminImageUploader>
-        </div>
+            <b-field label="Фото на странице">
+              <AdminImageUploader
+                id="bigImageFile"
+                :srcImage="indOfferItem.indOfferImgBig"
+                @uploader:newimageloaded="addOfferImage($event,true)"
+              >
+                <template v-slot="{imageSrc}">
+                  <figure class="brc-admin-card-image__wrapper">
+                    <img class="brc-admin-image" :src="imageSrc" />
+                    <h1 class="brc-admin-card-image-title">{{indOfferItem.indOfferH1}}</h1>
+                  </figure>
+                </template>
+              </AdminImageUploader>
+            </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото в карточке предложения</div>
-          <AdminImageUploader id="smallOfferImageFile" @upload="saveOfferImage($event,false)"></AdminImageUploader>
-        </div>
+            <div class="brc-admin-card-field-list_column">
+              <b-field label="Верхний левый блок-конструктор" class="col-2">
+                <AdminFreeContentBlockEditor
+                  v-model="indOfferItem.indOfferFreeText1"
+                  id="siteSectionFreeText1"
+                ></AdminFreeContentBlockEditor>
+              </b-field>
+              <b-field label="Верхний правый блок-конструктор" class="col-2">
+                <AdminFreeContentBlockEditor
+                  v-model="indOfferItem.indOfferFreeText2"
+                  id="siteSectionFreeText2"
+                ></AdminFreeContentBlockEditor>
+              </b-field>
+            </div>
 
-        <div class="brc-admin-card__save">
-          <button type="button" @click="saveOffer">Сохранить</button>
-          <button type="button" @click="deleteOffer">Удалить</button>
+            <div class="brc-admin-card-field-list_column">
+              <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
+                <AdminFreeContentBlockEditor
+                  v-model="indOfferItem.indOfferFooterContentLeft"
+                  id="siteSectionFreeText11"
+                ></AdminFreeContentBlockEditor>
+              </b-field>
+              <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
+                <AdminFreeContentBlockEditor
+                  v-model="indOfferItem.indOfferFooterContentRight"
+                  id="siteSectionFreeText12"
+                ></AdminFreeContentBlockEditor>
+              </b-field>
+            </div>
+          </div>
+          <div class="brc-admin-card-field-list_row">
+            <div>
+              <b-field label="Фото на карточке услуги">
+                <AdminImageUploader
+                  id="smallImageFile"
+                  :srcImage="indOfferItem.indOfferImgSmall"
+                  :isLeft="true"
+                  @uploader:newimageloaded="addOfferImage($event,false)"
+                >
+                  <template v-slot="{imageSrc}">
+                    <BusinessTypeOfferListItem
+                      :offerItem="indOfferItem"
+                      :imageSrcForDesignMode="imageSrc"
+                      style="width:252px;height:142px;margin:0px"
+                    ></BusinessTypeOfferListItem>
+                  </template>
+                </AdminImageUploader>
+              </b-field>
+            </div>
+
+            <b-field
+              label="Настройка стандартных блоков"
+              class="brc-admin-field-list_column"
+              style="margin-top:15px;"
+            >
+              <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
+            </b-field>
+          </div>
         </div>
-      </div>
-      <div class="brc-admin-card__relations"></div>
-    </div>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -75,8 +129,13 @@ import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelecto
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
+import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
+import BaseCard from '@/components/BaseCard.vue'
+import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferListItem.vue'
 
 
 @Component({
@@ -86,12 +145,16 @@ import AdminStore from '@/store/AdminStore'
     AdminClActivitySelector,
     AdminStatusSelector,
     AdminClientTypeSelector,
-    AdminImageUploader
+    AdminImageUploader,
+    AdminDynamicComponentsContainer,
+    BaseCard,
+    AdminFreeContentBlockEditor,
+    BusinessTypeOfferListItem
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()
   private serviceList: BusinessService = new BusinessService()
-  private breadCrumbList: any[] = []
+  private dynamicComponentInfo: DynamicComponentInfo[] = []
 
   private layout () {
     return 'admin'
@@ -118,22 +181,15 @@ export default class AdminIndividualOfferCard extends Vue {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
-    breadCrumbList.push({ name: 'Индивидуальные предложения', link: 'admin-individual-offers' })
+    breadCrumbList.push({ name: indOfferItem.indOfferName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    let serviceList: Promise<BusinessService>
-    if (isClientTypeMode) {
-      serviceList = context.params.clienttype === 'business'
-        ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(context.params.siteSection)
-        : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
-    } else {
-      serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(context.params.siteSection, indOfferItem.clActivityId)
-    }
-    const data = await Promise.all([serviceList])
+    const dynaComponents = getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection.siteSectionUrl, indOfferItem.indOfferUrl, true)
+    const data = await Promise.all([dynaComponents])
+
     return {
       indOfferItem,
-      serviceList: data[0]
-
+      dynamicComponentInfo: data[0]
     }
   }
 
@@ -142,10 +198,14 @@ export default class AdminIndividualOfferCard extends Vue {
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private async saveOfferImage (imageFile: string, isBig: boolean) {
+  private async addOfferImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveOfferImage(this.indOfferItem.indOfferId, formData, isBig)
+    if (isBig) {
+      this.indOfferItem.bigImageFormData = formData
+    } else {
+      this.indOfferItem.smallImageFormData = formData
+    }
   }
 
   private deleteOffer () {
