@@ -127,7 +127,12 @@
           </b-tab-item>
 
           <b-tab-item label="Услуги второго уровня">
-            <AdminServiceChildList :serviceItems="serviceOtherList"></AdminServiceChildList>
+            <AdminServiceListContainer
+              v-model="serviceOtherList"
+              :siteSection="siteSection"
+              :parentServiceId="serviceItem.businessServiceId"
+              @newservice:saved="refreshServiceList"
+            ></AdminServiceListContainer>
           </b-tab-item>
 
           <b-tab-item label="Тип клиента, объекта">
@@ -178,7 +183,7 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity'
 import ClClient from '@/models/ekoset/ClClient'
-import AdminServiceChildList from '@/components/admin/AdminServiceChildList.vue'
+import AdminServiceListContainer from '@/components/admin/AdminServiceListContainer.vue'
 import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
@@ -189,11 +194,12 @@ import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBloc
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
+import SiteSection from '../../models/ekoset/SiteSection'
 
 @Component({
   components: {
     AdminBrandRelationList,
-    AdminServiceChildList,
+    AdminServiceListContainer,
     BreadCrumbs,
     AdminServiceSelector,
     AdminStatusSelector,
@@ -207,6 +213,7 @@ import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComp
   }
 })
 export default class AdminServiceCard extends Vue {
+  private siteSection: SiteSection = new SiteSection()
   private serviceItem: BusinessService = new BusinessService()
   private serviceOtherList: BusinessService[] = []
   private brandRelationList: ClBrand[] = []
@@ -235,7 +242,7 @@ export default class AdminServiceCard extends Vue {
     const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(serviceItem.siteSectionUrl)
 
     const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
-    const serviceOtherList = serviceItem.businessServiceParentId == null ? await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : await getServiceContainer().businessServiceService.getMainList()
+    const serviceOtherList = serviceItem.businessServiceParentId == null ? await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : []
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
     const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
     const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
@@ -243,11 +250,8 @@ export default class AdminServiceCard extends Vue {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
-    //  breadCrumbList.push({ name: 'Услуги', link: 'admin-services' })
     if (serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0) {
-      const parentService = (serviceOtherList as BusinessService[]).filter((obj) => {
-        return obj.businessServiceId === serviceItem.businessServiceParentId;
-      })[0]
+      const parentService = await getServiceContainer().businessServiceService.getBySlug('slug-' + serviceItem.businessServiceParentId)
       breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
     }
     breadCrumbList.push({ name: serviceItem.businessServiceName, link: '' })
@@ -263,6 +267,7 @@ export default class AdminServiceCard extends Vue {
       activityRelationList: data[1],
       clientTypeRelationList: data[2],
       dynamicComponentInfo: data[3],
+      siteSection
     }
   }
 
@@ -308,30 +313,13 @@ export default class AdminServiceCard extends Vue {
     getServiceContainer().businessServiceService.addRemoveActivityType2Service(this.serviceItem.businessServiceUrl, clActivityId, hasRelation)
   }
 
-  private async updateServiceOtherList () {
-    this.serviceOtherList = await getServiceContainer().businessServiceService.getChildServicesByParentId(this.serviceItem.businessServiceId)
+  private async refreshServiceList () {
+    this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(this.serviceItem.businessServiceId)
   }
 
   private mounted () {
     this.newService.siteSectionId = this.serviceItem.siteSectionId
     this.newService.businessServiceParentId = this.serviceItem.businessServiceId
-  }
-
-  private async saveNewService () {
-    await getServiceContainer().businessServiceService.save(this.newService)
-    this.updateServiceOtherList()
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.newService = new BusinessService()
-    this.newService.siteSectionId = this.serviceItem.siteSectionId
-    this.newService.businessServiceParentId = this.serviceItem.businessServiceId
-    this.createNewServiceMode = false
-  }
-
-  private cancelSaveNewService () {
-    this.newService = new BusinessService()
-    this.newService.siteSectionId = this.serviceItem.siteSectionId
-    this.newService.businessServiceParentId = this.serviceItem.businessServiceId
-    this.createNewServiceMode = false
   }
 
 }
