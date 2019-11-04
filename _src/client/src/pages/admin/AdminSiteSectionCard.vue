@@ -134,10 +134,11 @@
           </b-tab-item>
 
           <b-tab-item label="Индивидуальные предложения">
-            <AdminBusinessTypeOfferList
-              :siteSection="siteSectionItem.siteSectionUrl"
-              :offerList="offerList"
-            >"</AdminBusinessTypeOfferList>
+            <AdminIndividualOfferList
+              :siteSection="siteSectionItem"
+              v-model="offerList"
+              @newoffer:saved="refreshOfferList"
+            >"</AdminIndividualOfferList>
           </b-tab-item>
 
           <b-tab-item label="Рекомендации">
@@ -166,7 +167,7 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
 import AdminServiceListContainer from '@/components/admin/AdminServiceListContainer.vue'
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
-import AdminBusinessTypeOfferList from '@/components/admin/AdminBusinessTypeOfferList.vue'
+import AdminIndividualOfferList from '@/components/admin/AdminIndividualOfferList.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
@@ -183,7 +184,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
     AdminDynamicComponentsContainer,
     AdminBrandRelationList,
     AdminClientTypeOfferList,
-    AdminBusinessTypeOfferList,
+    AdminIndividualOfferList,
     AdminStatusSelector,
     AdminImageUploader,
     BreadCrumbs,
@@ -262,12 +263,7 @@ export default class AdminSiteSectionCard extends Vue {
 
     getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
 
-    if (!!this.siteSectionItem.smallImageFormData) {
-      getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, this.siteSectionItem.smallImageFormData, false)
-    }
-    if (!!this.siteSectionItem.bigImageFormData) {
-      getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, this.siteSectionItem.bigImageFormData, true)
-    }
+    getServiceContainer().individualOfferService.saveAll(this.offerList)
 
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
@@ -301,6 +297,14 @@ export default class AdminSiteSectionCard extends Vue {
 
   private async refreshServiceList (newService) {
     this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetBySiteSectionId(this.siteSectionItem.siteSectionId)
+  }
+
+  private async refreshOfferList (newOffer) {
+    this.offerList = await getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(
+      'slug-' + this.siteSectionItem.siteSectionId
+    )
+
+    console.log(this.offerList)
   }
 }
 </script>

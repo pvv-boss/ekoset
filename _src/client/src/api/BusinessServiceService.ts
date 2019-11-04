@@ -75,7 +75,7 @@ export default class BusinessServiceService extends BaseService {
 
   public async save (businessService: BusinessService) {
     const query = 'services'
-    HttpUtil.httpPut(this.buildHttRequest(query), businessService)
+    const resultPr = HttpUtil.httpPut(this.buildHttRequest(query), businessService)
 
     if (!!businessService.smallImageFormData) {
       getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.smallImageFormData, false)
@@ -83,6 +83,8 @@ export default class BusinessServiceService extends BaseService {
     if (!!businessService.bigImageFormData) {
       getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.bigImageFormData, true)
     }
+
+    return resultPr
   }
 
   public async delete (id: number) {

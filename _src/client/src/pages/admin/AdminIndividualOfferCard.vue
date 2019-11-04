@@ -19,6 +19,7 @@
                 required
                 validation-message="Наименование не может быть пустым"
                 v-model="indOfferItem.indOfferName"
+                :disabled="indOfferItem.clClientId>0"
               ></b-input>
             </b-field>
 
@@ -30,6 +31,10 @@
                 validation-message="Заголовок H1 не может быть пустым"
                 v-model="indOfferItem.indOfferH1"
               ></b-input>
+            </b-field>
+
+            <b-field label="Направление деятельности">
+              <AdminClActivitySelector v-model="indOfferItem.clActivityId"></AdminClActivitySelector>
             </b-field>
 
             <b-field label="Фото на странице">
@@ -79,7 +84,7 @@
           </div>
           <div class="brc-admin-card-field-list_row">
             <div>
-              <b-field label="Фото на карточке услуги">
+              <b-field label="Фото на карточке предложения">
                 <AdminImageUploader
                   id="smallImageFile"
                   :srcImage="indOfferItem.indOfferImgSmall"

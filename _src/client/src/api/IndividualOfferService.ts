@@ -31,9 +31,15 @@ export default class IndividualOfferService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest('admin/panel/offers'))
   }
 
+  public async saveAll (list: IndividualOffer[]) {
+    list.forEach((iter) => {
+      this.save(iter)
+    })
+  }
+
   public async save (individualOffer: IndividualOffer) {
     const query = 'offers'
-    HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
+    const resultPr = HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
 
     if (!!individualOffer.smallImageFormData) {
       getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
@@ -41,6 +47,8 @@ export default class IndividualOfferService extends BaseService {
     if (!!individualOffer.bigImageFormData) {
       getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
     }
+
+    return resultPr
   }
 
   public async delete (id: number) {

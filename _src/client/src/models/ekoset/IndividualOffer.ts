@@ -8,7 +8,7 @@ export default class IndividualOffer {
   public indOfferSlug: string | null;
   public indOfferImgSmall: string | null;
   public indOfferImgBig: string | null;
-  public indOfferPriority: string | null;
+  public indOfferPriority: number;
   public indOfferStatus: number | null;
   public indOfferUrl: string;
   public indOfferFreeText1: string;

@@ -98,7 +98,16 @@ export default class PublicEkosetService extends BaseService {
   }
 
   public async saveSiteSection (siteSection: SiteSection) {
-    return HttpUtil.httpPut(this.buildHttRequest('activities'), siteSection)
+    const resPr = HttpUtil.httpPut(this.buildHttRequest('activities'), siteSection)
+
+    if (!!siteSection.smallImageFormData) {
+      getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
+    }
+    if (!!siteSection.bigImageFormData) {
+      getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
+    }
+
+    return resPr
   }
 
   public async deleteSiteSection (slug: string) {
