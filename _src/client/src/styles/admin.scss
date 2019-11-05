@@ -1,6 +1,6 @@
 @import "@/styles/variables.scss";
 
-
+/* purgecss ignore */
 .brc-admin_page_wrapper {
   width: 100%;
   padding: 20px;
@@ -52,10 +52,6 @@
   @media (max-width: 768px) {
     padding: 0px;
   }
-}
-
-.brc-card-wrapper {
-  // height: 100%;
 }
 
 .brc-admin-panel__site {

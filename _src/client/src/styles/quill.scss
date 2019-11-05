@@ -1,12 +1,14 @@
 @import "@/styles/variables.scss";
 
+/* purgecss ignore */
+
 .brc-text-editor_simple {
   min-width: 300px;
   //padding: 10px;
   background-color: white;
 }
 
-.brc-vue-editor{
+.brc-vue-editor {
   min-width: 300px;
   max-width: 100%;
   background-color: white;
@@ -29,7 +31,7 @@
     padding: 30px !important;
     border: 1px solid $red !important;
     font-weight: $font-medium;
- position: relative;
+    position: relative;
   }
 
   strong {
