@@ -225,9 +225,7 @@ export default class AdminSiteSectionCard extends Vue {
     const serviceOtherList = getServiceContainer().businessServiceService.adminGetBySiteSectionId(
       siteSectionItem.siteSectionId
     )
-    const offerList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(
-      context.params.siteSection
-    )
+    const offerList = getServiceContainer().individualOfferService.adminGetAllBySiteSectionId(siteSectionItem.siteSectionId)
 
     const data = await Promise.all([
       serviceOtherList,
@@ -300,11 +298,7 @@ export default class AdminSiteSectionCard extends Vue {
   }
 
   private async refreshOfferList (newOffer) {
-    this.offerList = await getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(
-      'slug-' + this.siteSectionItem.siteSectionId
-    )
-
-    console.log(this.offerList)
+    this.offerList = await getServiceContainer().individualOfferService.adminGetAllBySiteSectionId(this.siteSectionItem.siteSectionId)
   }
 }
 </script>

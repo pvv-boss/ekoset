@@ -7,6 +7,7 @@ export default class IndividualOfferService extends BaseService {
   public static businessClientTypeId = 1;
   public static PrivatePersonClientTypeId = 3;
   private apiViewName = 'v_api_individual_offer';
+  private apiAdminViewName = 'v_api_admin_individual_offer'
 
   public async getAll () {
     return this.getDbViewResult(this.apiViewName);
@@ -17,8 +18,7 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async getForActivityBySiteSectionId (siteSectionId: number) {
-    // return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL and ind_offer_status=1', [siteSectionId]);
-    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL ', [siteSectionId]);
+    return this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL and ind_offer_status=1', [siteSectionId]);
   }
 
   public async getForBusinessBySiteSectionId (siteSectionId: number) {
@@ -50,7 +50,12 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async adminGetAll () {
-    return this.getDbViewResult('v_api_admin_individual_offer');
+    return this.getDbViewResult(this.apiAdminViewName);
+  }
+
+
+  public async adminGetAllBySiteSectionId (siteSectionId: number) {
+    return this.getDbViewResult(this.apiAdminViewName, null, 'site_section_id = $1 and cl_activity_id IS NOT NULL ', [siteSectionId]);
   }
 
   public async save (individualOffer: IndividualOffer) {

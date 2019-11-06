@@ -15,6 +15,10 @@ export default class IndividualOfferService extends BaseService {
     return this.getForActivityBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
+  public async  adminGetAllBySiteSectionId (siteSectionId: number) {
+    return HttpUtil.httpGet(`admin/panel/${siteSectionId}/offers`)
+  }
+
   // Для Частных лиц и раздела
   public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
     const offers = await this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))

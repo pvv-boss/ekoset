@@ -78,4 +78,18 @@ export class IndividualOffer {
   })
   public indOfferFreeText2: string | null;
 
+
+  @Column('text', {
+    nullable: true,
+    name: 'ind_offer_footer_content_right'
+  })
+  public indOfferFooterContentRight: string | null;
+
+  @Column('text', {
+    nullable: true,
+    name: 'ind_offer_footer_content_left'
+  })
+  public indOfferFooterContentLeft: string | null;
+
+
 }

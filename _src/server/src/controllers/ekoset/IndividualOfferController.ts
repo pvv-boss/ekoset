@@ -50,6 +50,14 @@ export default class IndividualOfferController extends BaseController {
     return IndividualOfferController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/:sitesection/offers')
+  public async adminGetAllBySiteSectionId (
+    @Res() response: Response,
+    @Param('sitesection') siteSectionId: number) {
+    const result = await ServiceContainer.IndividualOfferService.adminGetAllBySiteSectionId(siteSectionId);
+    return IndividualOfferController.createSuccessResponse(result, response);
+  }
+
   @Get('/:sitesection/activity/offers')
   public async getForActivityBySiteSectionId (
     @Res() response: Response,
