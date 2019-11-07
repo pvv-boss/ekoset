@@ -4,7 +4,11 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h2>
-          <AdminStatusSelector statusCaption="Активно" v-model.number="indOfferItem.indOfferStatus"></AdminStatusSelector>
+          <AdminStatusSelector
+            statusCaption="Активно"
+            v-model.number="indOfferItem.indOfferStatus"
+            v-if="!isClientTypeMode"
+          ></AdminStatusSelector>
           <b-button type="is-primary" @click="saveOffer">Сохранить</b-button>
         </div>
       </template>
@@ -12,14 +16,14 @@
       <template #content>
         <div class="brc-admin-card_two-column">
           <div class="brc-admin-card-field-list_row brc-admin-panel__site">
-            <b-field label="Наименование">
+            <b-field label="Наименование" v-if="!isClientTypeMode">
               <b-input
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
                 v-model="indOfferItem.indOfferName"
-                :disabled="indOfferItem.clClientId>0"
+                v-if="!isClientTypeMode"
               ></b-input>
             </b-field>
 
@@ -33,7 +37,7 @@
               ></b-input>
             </b-field>
 
-            <b-field label="Направление деятельности">
+            <b-field label="Направление деятельности" v-if="!isClientTypeMode">
               <AdminClActivitySelector v-model="indOfferItem.clActivityId"></AdminClActivitySelector>
             </b-field>
 
@@ -83,7 +87,7 @@
             </div>
           </div>
           <div class="brc-admin-card-field-list_row">
-            <div>
+            <div v-if="!isClientTypeMode">
               <b-field label="Фото на карточке предложения">
                 <AdminImageUploader
                   id="smallImageFile"
@@ -166,7 +170,7 @@ export default class AdminIndividualOfferCard extends Vue {
   }
 
   private get isClientTypeMode () {
-    return (!!this.indOfferItem.clClientId && this.indOfferItem.clClientId > 0)
+    return this.indOfferItem.clClientId > 0
   }
 
   private async asyncData (context: NuxtContext) {
@@ -200,6 +204,9 @@ export default class AdminIndividualOfferCard extends Vue {
 
   private saveOffer () {
     getServiceContainer().individualOfferService.save(this.indOfferItem)
+
+    getServiceContainer().dynamicComponentsService.adminSaveDynamicComponentsOffer(this.indOfferItem.indOfferId, this.dynamicComponentInfo)
+
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 

@@ -1,6 +1,6 @@
 @import "@/styles/variables.scss";
 
-/* purgecss ignore */
+/*! purgecss start ignore */
 html {
   overflow-y: auto;
 }
@@ -131,3 +131,5 @@ h3 {
 th {
   font-weight: $font-medium !important;
 }
+
+/*! purgecss end ignore */

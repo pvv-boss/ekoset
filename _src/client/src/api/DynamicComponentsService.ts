@@ -29,6 +29,10 @@ export default class DynamicComponentsService extends BaseService {
     return HttpUtil.httpPost(this.createRequestQueryString(null, 'slug-' + serviceId, null), infos)
   }
 
+  public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
+    return HttpUtil.httpPost(this.createRequestQueryString(null, null, 'slug-' + offerId), infos)
+  }
+
   private async adminGetDynamicComponentsInfo (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null): Promise<DynamicComponentInfo[]> {
     return HttpUtil.httpGet(this.createRequestQueryString(siteSectionUrl, serviceUrl, indOfferUrl))
   }

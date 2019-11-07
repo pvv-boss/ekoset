@@ -1,6 +1,6 @@
 export default class IndividualOffer {
   public indOfferId: number;
-  public clClientId: number | null;
+  public clClientId: number;
   public clActivityId: number | null;
   public siteSectionId: number | null;
   public indOfferName: string;

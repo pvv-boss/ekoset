@@ -87,6 +87,7 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
+
   @Get('/admin/panel/cms/blocks/info/offer/:offerId')
   public async adminGetDynamicComponentsInfoOffer (
     @Param('offerId') offerId: number,
@@ -123,4 +124,15 @@ export default class CmsController extends BaseController {
     const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsService(serviceId, infos);
     return CmsController.createSuccessResponse(result, response);
   }
+
+  @Post('/admin/panel/cms/blocks/info/offer/:offerId')
+  public async adminSaveDynamicComponentsOffer (
+    @Res() response: Response,
+    @Param('offerId') offerId: number,
+    @Body() infos: DynamicComponentInfo[], ) {
+
+    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsOffer(offerId, infos);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
 }

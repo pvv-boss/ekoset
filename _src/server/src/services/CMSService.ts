@@ -30,6 +30,16 @@ export default class CMSService extends BaseService {
     return {}
   }
 
+  public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
+    if (!!infos) {
+      infos.forEach((iterComponentInfo) => {
+        this.execFunction('f_admin_add_block_info_offer', [offerId, iterComponentInfo.id, iterComponentInfo.visible, iterComponentInfo.visibleIndex]);
+      })
+    }
+    return {}
+  }
+
+
   public async adminSaveDynamicComponentsService (serviceId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
       infos.forEach((iterComponentInfo) => {

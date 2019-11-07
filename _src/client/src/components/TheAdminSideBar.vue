@@ -25,6 +25,7 @@
             Справочники
             <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
         </template>-->
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
 
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты"></b-menu-item>

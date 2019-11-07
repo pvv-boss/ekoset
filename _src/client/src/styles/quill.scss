@@ -1,6 +1,6 @@
 @import "@/styles/variables.scss";
 
-/* purgecss ignore */
+/*! purgecss start ignore */
 
 .brc-text-editor_simple {
   min-width: 300px;
@@ -96,3 +96,5 @@
     font-size: $font-small;
   }
 }
+
+/*! purgecss end ignore */
