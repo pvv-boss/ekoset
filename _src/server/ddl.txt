@@ -1,0 +1,35 @@
+CREATE TABLE brc_ekoset.site_page (
+  site_page_id SERIAL, 
+  site_page_name TEXT, 
+  site_page_code NUMERIC, 
+  site_page_h1 TEXT, 
+  site_page_footer_content_right TEXT, 
+  site_page_footer_content_left TEXT, 
+  site_page_free_text1 TEXT, 
+  site_page_free_text2 TEXT, 
+  CONSTRAINT pk_site_page PRIMARY KEY(site_page_id)
+) WITHOUT OIDS;
+
+
+CREATE TABLE brc_ekoset.site_block (
+  site_block_id SERIAL, 
+  cl_site_block_d INTEGER, 
+  site_page_id INTEGER, 
+  site_section_id INTEGER, 
+  business_service_id INTEGER, 
+  ind_offer_id INTEGER, 
+  site_block_name TEXT, 
+  site_block_header TEXT, 
+  site_block_content TEXT, 
+  site_block_visible_ind NUMERIC, 
+  site_block_position NUMERIC, 
+  CONSTRAINT pk_site_block PRIMARY KEY(site_block_id), 
+
+
+  CREATE TABLE brc_ekoset.cl_site_block (
+  cl_site_block_id INTEGER DEFAULT nextval('brc_ekoset.cl_site_block_cl_site_block_d_seq'::regclass) NOT NULL, 
+  cl_site_block_name TEXT, 
+  cl_site_block_code NUMERIC, 
+  cl_site_block_memo TEXT, 
+  CONSTRAINT pk_cl_site_block PRIMARY KEY(cl_site_block_id)
+) WITHOUT OIDS;
