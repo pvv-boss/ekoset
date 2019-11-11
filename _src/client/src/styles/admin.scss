@@ -83,6 +83,7 @@
   flex-wrap: wrap;
 }
 
+
 .brc-admin-card-field-list_column {
   display: flex;
   flex-direction: row;
@@ -147,6 +148,13 @@
 
 .brc-admin-card-img {
   min-height: 30px;
+}
+
+.brc-admin-card__help {
+  font-size: 0.78rem;
+  line-height: 18px;
+  letter-spacing: 0.48px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 768px) {

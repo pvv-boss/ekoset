@@ -1,58 +1,76 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Бренд: {{brandItem.clBrandName}}</h1>
-    <div class="brc-admin-card">
-      <div class="brc-admin-card__attributes">
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Наименование</div>
-          <input type="text" v-model="brandItem.clBrandName" />
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Бренд: {{brandItem.clBrandName}}</h2>
+          <AdminStatusSelector statusCaption="Активен" v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
+          <div class="field">
+            <b-switch
+              v-model="brandItem.clBrandMainPageVisible"
+              true-value="1"
+              false-value="0"
+              type="is-success"
+            >Отображать на главной странице</b-switch>
+          </div>
+          <b-button type="is-primary" @click="saveBrand">Сохранить</b-button>
         </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Приоритет</div>
-          <input type="number" v-model.number="brandItem.clBrandPriority" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
-        </div>
-        <div class="brc-admin-card-attribute brc-admin-card-attribute_chk">
-          <input
-            type="checkbox"
-            id="clBrandMainPageVisible"
-            v-model="isBrandMainPageVisible"
-            @change="setBrandMainPageVisible"
-          />
-          <label for="clBrandMainPageVisible">Отображать на главной странице</label>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Логотип (изображение)</div>
-          <AdminImageUploader id="brandImageFile" @upload="saveBrandImage"></AdminImageUploader>
-        </div>
-        <div class="brc-admin-card__save">
-          <button type="button" @click="saveBrand">Сохранить</button>
-          <button type="button" @click="deleteBrand">Удалить</button>
-        </div>
-      </div>
-      <div class="brc-admin-card__relations">
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Благодарственные письма</div>
-          <AdminImageUploader @upload="saveLetterImage($event,true)"></AdminImageUploader>
+      </template>
+      <template #content>
+        <div class="brc-admin-card_two-column">
+          <div class="brc-admin-card-field-list_row" style="flex:1;">
+            <b-field label="Наименование">
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование не может быть пустым"
+                v-model="brandItem.clBrandName"
+              ></b-input>
+            </b-field>
+            <b-field label="Фото на карточке (логотип)">
+              <AdminImageUploader
+                id="clBrandImgSmall"
+                :isLeft="true"
+                :srcImage="brandItem.clBrandImgSmall"
+                @uploader:newimageloaded="saveBrandImage"
+              >
+                <template v-slot="{imageSrc}">
+                  <RecommendationListItem
+                    :brand="brandItem"
+                    :imageSrcForDesignMode="imageSrc"
+                    style="width:158px;height:116px;margin:0px;padding:0px;"
+                  ></RecommendationListItem>
+                </template>
+              </AdminImageUploader>
+            </b-field>
+          </div>
 
-          <vue-good-table :columns="headerFields" :rows="recommendLetterList">
-            <template slot="table-row" slot-scope="props">
-              <a
-                v-if="props.column.field == 'recommBrandImg'"
-                :href="props.row.recommBrandImg"
-                target="_blank"
-              >{{props.row.recommBrandImg}}</a>
-              <span v-else>
-                <button type="button" @click="deleteRecommLetter(props.row.recommId)">Удалить</button>
-              </span>
-            </template>
-          </vue-good-table>
+          <div style="flex:2; margin-left:30px;">
+            <b-button type="is-primary" style="float:right" outlined @click="addNewLetter">Добавить</b-button>
+            <b-field label="Благодарственные письма"></b-field>
+            <div class="brc-admin-card-recomm-letter-list">
+              <div v-for="iterLetter in recommendLetterList" :key="iterLetter.recommId">
+                <AdminImageUploader
+                  :id="iterLetter.recommId"
+                  :showDeleteButton="true"
+                  :srcImage="iterLetter.recommBrandImg"
+                  @uploader:newimageloaded="saveLetterImage($event,iterLetter)"
+                  @uploader:delete="deleteRecommLetter(iterLetter)"
+                >
+                  <template v-slot="{imageSrc}">
+                    <RecommLetterListItem
+                      :recommLetter="iterLetter"
+                      :imageSrcForDesignMode="imageSrc"
+                    ></RecommLetterListItem>
+                  </template>
+                </AdminImageUploader>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -69,30 +87,23 @@ import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
+import BaseCard from '@/components/BaseCard.vue'
+import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
+import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
 
 @Component({
   components: {
     AdminStatusSelector,
     BreadCrumbs,
-    AdminImageUploader
+    AdminImageUploader,
+    BaseCard,
+    RecommendationListItem,
+    RecommLetterListItem
   }})
 
 export default class AdminBrandCard extends Vue {
   private brandItem: ClBrand = new ClBrand()
   private recommendLetterList: any[] = []
-
-  private isBrandMainPageVisible = false
-
-  private headerFields = [
-    {
-      field: 'recommBrandImg',
-      label: 'Изображение'
-    },
-    {
-      field: 'actions',
-      label: ''
-    }
-  ]
 
   private layout () {
     return 'admin'
@@ -120,20 +131,28 @@ export default class AdminBrandCard extends Vue {
   private async updateLetterList () {
     this.recommendLetterList = await getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(this.brandItem.clBrandId)
   }
-
-  private async saveLetterImage (imageFile: string, isBig: boolean) {
+  private async addNewLetter () {
     const letter: ReccomendationLetter = new ReccomendationLetter()
+    letter.clBrandId = this.brandItem.clBrandId
+    this.recommendLetterList.push(letter)
+  }
+
+  private async saveLetterImage (imageFile: string, letter: ReccomendationLetter) {
+    // const letter: ReccomendationLetter = new ReccomendationLetter()
     letter.clBrandId = this.brandItem.clBrandId
     const recommLetter = await getServiceContainer().publicEkosetService.saveRecommendation(letter)
 
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
+    recommLetter.smallImageFormData = formData
     await getServiceContainer().mediaService.saveRecommendationLetterImage(recommLetter.recommId, formData)
     this.updateLetterList()
   }
 
-  private async deleteRecommLetter (recommId: number) {
-    await getServiceContainer().publicEkosetService.deleteRecommendationLetter(recommId)
+  private async deleteRecommLetter (letter: ReccomendationLetter) {
+    if (!!letter.recommId) {
+      await getServiceContainer().publicEkosetService.deleteRecommendationLetter(letter.recommId)
+    }
     this.updateLetterList()
   }
 
@@ -145,7 +164,7 @@ export default class AdminBrandCard extends Vue {
   private async saveBrandImage (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveBrandImage(this.brandItem.clBrandId, formData, false)
+    this.brandItem.smallImageFormData = formData
   }
 
   private deleteBrand () {
@@ -158,25 +177,20 @@ export default class AdminBrandCard extends Vue {
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
   }
 
-  private setBrandMainPageVisible () {
-    this.brandItem.clBrandMainPageVisible = this.isBrandMainPageVisible ? 1 : 0
-  }
-
-  private mounted () {
-    this.isBrandMainPageVisible = Number(this.brandItem.clBrandMainPageVisible) === 1
-  }
-
 }
 </script>
 
 <style lang="scss">
-.brc-admin-card-attribute_chk {
-  display: inline;
-  input {
-    width: min-content !important;
-  }
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
+
+.brc-admin-card-recomm-letter-list {
+  margin: 30px -15px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 </style>
+
 
 
 

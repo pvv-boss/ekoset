@@ -3,7 +3,7 @@
     <figure class="brc-letter-smallitem__preview" @click="showBigImg = true">
       <p>{{recommLetter.recommTitle}}</p>
       <img
-        :src="recommLetter.recommBrandImg"
+        :src="imageSrc"
         :alt="recommLetter.recommTitle"
         :title="recommLetter.recommTitle"
         itemprop="image"
@@ -39,6 +39,12 @@ import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
 export default class RecommLetterListItem extends Vue {
   @Prop()
   private recommLetter: ReccomendationLetter
+  @Prop()
+  private imageSrcForDesignMode: string
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.recommLetter.recommBrandImg
+  }
 
   private showBigImg: boolean = false
 

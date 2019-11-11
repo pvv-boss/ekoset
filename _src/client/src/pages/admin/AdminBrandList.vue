@@ -1,50 +1,74 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Бренды</h1>
-    <button @click="createNewMode = true" v-show="!createNewMode">Добавить бренд</button>
+    <div class="brc_admin-brand-list-container">
+      <div class="brc-card__header__toolbar">
+        <h2>Бренды</h2>
+        <span class="brc_admin-brand-list-container__help">
+          <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
+        </span>
 
-    <div v-if="createNewMode">
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Наименование</div>
-        <input type="text" v-model="newBrand.clBrandName" />
+        <div v-if="createNewBrandMode" class="brc-admin-card-create-row">
+          <b-field label="Наименование:" horizontal>
+            <b-input
+              placeholder="Наименование"
+              type="text"
+              required
+              validation-message="Наименование не может быть пустым"
+              v-model="newBrand.clBrandName"
+            ></b-input>
+          </b-field>
+          <b-button @click="saveNewBrand" type="is-primary">Сохранить</b-button>
+          <b-button @click="cancelSaveNewBrand">Отмена</b-button>
+        </div>
+
+        <b-button
+          type="is-primary"
+          outlined
+          @click="createNewBrandMode = true"
+          v-show="!createNewBrandMode"
+        >Создать</b-button>
       </div>
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newBrand.clBrandPriority" />
-      </div>
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model.number="newBrand.clBrandStatus"></AdminStatusSelector>
-      </div>
-      <div class="brc-admin-card-attribute brc-admin-card-attribute_chk">
-        <input
-          type="checkbox"
-          id="clBrandMainPageVisible"
-          v-model="isBrandMainPageVisible"
-          @change="setBrandMainPageVisible"
-        />
-        <label for="clBrandMainPageVisible">Отображать на главной странице</label>
-      </div>
-      <div>
-        <button @click="saveNewBrand">Сохранить</button>
-        <button @click="cancelSaveNewBrand">Отменить</button>
+
+      <div class="brc_admin-brand-list">
+        <div class="brc_admin-brand-list-item">
+          <span>Наименование</span>
+          <span>Фото (логотип)</span>
+          <span>Статус</span>
+        </div>
+
+        <draggable v-model="brandList" @change="handleChange">
+          <div
+            class="brc_admin-brand-list-item"
+            v-for="iterBrand in brandList"
+            :key="iterBrand.clBrandId"
+          >
+            <nuxt-link
+              :to="{ name: 'admin-brand-card',params:{brand:iterBrand.clBrandId}}"
+            >{{iterBrand.clBrandName}}</nuxt-link>
+
+            <b-upload @input="saveBrandImage(...arguments,iterBrand)">
+              <a class="button is-link">
+                <b-icon icon="upload"></b-icon>
+              </a>
+            </b-upload>
+
+            <b-switch
+              v-model="iterBrand.clBrandStatus"
+              true-value="1"
+              false-value="0"
+              type="is-success"
+              size="is-small"
+              style="justify-content: flex-end;"
+            ></b-switch>
+          </div>
+        </draggable>
       </div>
     </div>
-    <vue-good-table :columns="headerFields" :rows="brandItems">
-      <template slot="table-row" slot-scope="props">
-        <nuxt-link
-          v-if="props.column.field == 'clBrandName'"
-          :to="{ name: 'admin-brand-card', params: { brand: props.row.clBrandId}}"
-        >{{props.row.clBrandName}}</nuxt-link>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
-      </template>
-    </vue-good-table>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
@@ -62,34 +86,17 @@ import AdminStore from '@/store/AdminStore'
   }
 })
 export default class AdminBrandList extends Vue {
-  private brandItems: ClBrand[] = []
-  private createNewMode = false
+  private brandList: ClBrand[] = []
+  private createNewBrandMode = false
   private newBrand: ClBrand = new ClBrand()
-  private isBrandMainPageVisible = false
 
-  private headerFields = [
-    {
-      field: 'clBrandName',
-      label: 'Наименование'
-    },
-    {
-      field: 'clBrandPriority',
-      label: 'Приоритет',
-      type: 'number'
-    },
-    {
-      field: 'clBrandStatus',
-      label: 'Статус',
-      type: 'number'
-    }
-  ]
 
   private layout () {
     return 'admin'
   }
 
   private async updateBrandList () {
-    this.brandItems = await getServiceContainer().publicEkosetService.getAdminAllBands()
+    this.brandList = await getServiceContainer().publicEkosetService.getAdminAllBands()
   }
 
   private async asyncData (context: NuxtContext) {
@@ -100,31 +107,82 @@ export default class AdminBrandList extends Vue {
 
     const data = await getServiceContainer().publicEkosetService.getAdminAllBands()
     return {
-      brandItems: data
+      brandList: data
     }
-  }
-
-  private setBrandMainPageVisible () {
-    this.newBrand.clBrandMainPageVisible = this.isBrandMainPageVisible ? 1 : 0
   }
 
   private async saveNewBrand () {
     await getServiceContainer().publicEkosetService.saveBrand(this.newBrand)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newBrand = new ClBrand()
-    this.createNewMode = false
-    this.isBrandMainPageVisible = false
+    this.createNewBrandMode = false
     this.updateBrandList()
   }
 
   private cancelSaveNewBrand () {
     this.newBrand = new ClBrand()
-    this.createNewMode = false
-    this.isBrandMainPageVisible = false
+    this.createNewBrandMode = false
+  }
+
+  private async handleChange () {
+    for (let i = 0; i < this.brandList.length; i++) {
+      this.brandList[i].clBrandPriority = this.brandList.length - i;
+      await getServiceContainer().publicEkosetService.saveBrand(this.brandList[i])
+    }
+  }
+
+  private async saveBrandImage (imageFile: string, brandItem: ClBrand) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    brandItem.smallImageFormData = formData
+
+    await getServiceContainer().publicEkosetService.saveBrand(brandItem)
   }
 }
 </script>
 
 
+<style lang="scss">
+@import '@/styles/variables.scss';
+
+.brc_admin-brand-list-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  // width: 100%;
+  box-shadow: $box-shadow;
+  background-color: white;
+
+  .brc_admin-brand-list-item {
+    margin-top: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 280px 80px;
+    grid-column-gap: 20px;
+    justify-content: flex-end;
+
+    padding: 5px;
+    padding-left: 10px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    line-height: 2em;
+
+    * {
+      margin-bottom: 0px !important;
+      font-weight: $font-regular !important;
+      font-size: 15px !important;
+    }
+
+    cursor: move;
+  }
+
+  .brc_admin-brand-list-container__help {
+    font-size: 0.78rem;
+    line-height: 18px;
+    letter-spacing: 0.48px;
+    margin-bottom: 5px;
+  }
+}
+</style>  
 
 

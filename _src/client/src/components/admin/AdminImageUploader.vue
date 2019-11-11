@@ -2,19 +2,17 @@
   <div class="brc-image-uploader">
     <slot :imageSrc="displayImageSrc"></slot>
     <div class="brc-image-uploader__loader" :class="{left:isLeft}">
-      <!-- <b-field class="file"> -->
       <b-upload v-model="imageFile">
         <a class="button is-link">
           <b-icon icon="upload"></b-icon>
-          <!-- <span>Загрузить</span> -->
         </a>
       </b-upload>
-      <!-- </b-field> -->
-      <!-- <b-button
+
+      <b-button
+        v-if="showDeleteButton===true"
         class="brc-image-uploader__save-button"
-        type="is-primary"
-        @click="uploadImage"
-      >Сохранить</b-button>-->
+        @click="deleteImage"
+      >Удалить</b-button>
     </div>
   </div>
 </template>
@@ -33,6 +31,9 @@ export default class AdminImageUploader extends Vue {
   @Prop()
   private isLeft
 
+  @Prop()
+  private showDeleteButton
+
   private imageInputRef = `brc-admin-image-${this.id}`
   private imageFile = null
 
@@ -44,8 +45,9 @@ export default class AdminImageUploader extends Vue {
   private get displayImageSrc () {
     return this.imageFile ? URL.createObjectURL(this.imageFile) : this.srcImage
   }
-  private uploadImage () {
-    this.$emit('upload', this.imageFile)
+
+  private deleteImage () {
+    this.$emit('uploader:delete')
   }
 }
 </script>

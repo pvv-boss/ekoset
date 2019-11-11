@@ -115,7 +115,13 @@ export default class PublicEkosetService extends BaseService {
   }
 
   public async saveBrand (brand: ClBrand) {
-    return HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
+    const resultPr = HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
+
+    if (!!brand.smallImageFormData) {
+      getServiceContainer().mediaService.saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
+    }
+
+    return resultPr
   }
 
   public async saveClActivity (clActivity: ClActivity) {

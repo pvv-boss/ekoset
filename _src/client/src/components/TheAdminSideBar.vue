@@ -6,25 +6,10 @@
   >
     <b-menu>
       <b-menu-list>
-        <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections'}"></b-menu-item>
-        <!-- <b-menu-item tag="nuxt-link" :to="{ name: 'admin-services'}" label="Услуги"></b-menu-item>
-        <b-menu-item
-          tag="nuxt-link"
-          :to="{ name: 'admin-individual-offers'}"
-          label="Инд. предложения"
-        ></b-menu-item>
-        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>-->
+        <b-menu-item tag="nuxt-link" label="Переход на Сайт" :to="{ name: 'main'}"></b-menu-item>
 
-        <!-- <b-menu-item
-          icon="settings"
-          :active="isActive"
-          :expanded="isActive"
-          @click="isActive = !isActive"
-        >
-          <template slot="label" slot-scope="props">
-            Справочники
-            <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
-        </template>-->
+        <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections'}"></b-menu-item>
+
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
 
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>

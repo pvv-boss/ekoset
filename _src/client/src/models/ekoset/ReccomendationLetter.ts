@@ -9,4 +9,6 @@ export default class ReccomendationLetter {
   public recommBrandUrl: string | null
   public recommSlug: string | null
   public clBrandMainPageVisible: number | null
+
+  public smallImageFormData: FormData | null;
 }

@@ -137,23 +137,28 @@
           </b-tab-item>
 
           <b-tab-item label="Тип клиента, объекта" v-if="!serviceItem.businessServiceParentId">
-            <div class="brc-admin-card-field-list_column">
-              <b-field label="Типы клиентов">
+            <div class="brc-admin-card-field-list_column" style="justify-content: flex-start;">
+              <b-field label="Типы клиентов" style="flex:1">
                 <AdminClientTypeRelationList
-                  class="col-2"
                   :clientTypeRelationItems="clientTypeRelationList"
                   @clienttypechecked="clientTypeChecked"
                   :disabled="serviceItem.businessServiceParentId > 0"
                 ></AdminClientTypeRelationList>
               </b-field>
-              <b-field label="Направления деятельности">
+              <b-field label="Направления деятельности" style="flex:1">
                 <AdminActivityRelationList
-                  class="col-2"
                   :activityRelationItems="activityRelationList"
                   @activitychecked="activityChecked"
                   :disabled="serviceItem.businessServiceParentId > 0"
                 ></AdminActivityRelationList>
               </b-field>
+
+              <div class="brc-admin-card__help" style="display:flex; flex-direction:column; flex:1">
+                <span>Тип клиента определяет будет ли данная услуга выводиться в списке услуг комплексных решений (по типу клиента) данного раздела</span>
+                <span>
+                  <br />Направление деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного направления деятельности)
+                </span>
+              </div>
             </div>
           </b-tab-item>
 

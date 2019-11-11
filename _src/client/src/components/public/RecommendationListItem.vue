@@ -2,7 +2,7 @@
   <div class="brc-recommend-smallitem__wrapper">
     <figure class="brc-recommend-smallitem__preview">
       <img
-        :src="brand.clBrandImgSmall"
+        :src="imageSrc"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"
         itemprop="image"
@@ -21,6 +21,13 @@ import ClBrand from '@/models/ekoset/ClBrand'
 export default class RecommendationListItem extends Vue {
   @Prop()
   private brand: ClBrand
+
+  @Prop()
+  private imageSrcForDesignMode: string
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgSmall
+  }
 }
 </script>
 
