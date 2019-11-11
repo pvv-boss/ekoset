@@ -23,7 +23,7 @@
           @click="isSettingsActive = !isSettingsActive"
         >
           <template slot="label" slot-scope="props">
-            Настройки
+            Справочники
             <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
           </template>
 
@@ -67,6 +67,7 @@ export default class TheAdminSideBar extends Vue {
 @import '@/styles/variables.scss';
 
 .brc-admin-navigation__wrapper {
+  padding-top: 15px;
   transition: all 0.1s ease-in-out;
   width: 260px;
   transform: none;

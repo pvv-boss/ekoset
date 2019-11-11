@@ -1,21 +1,31 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Настройки футера (список услуг)</h1>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Настройки футера (список услуг)</h2>
+        </div>
+      </template>
 
-    <div>
-      <h2>Для бизнеса</h2>
-      <AdminServiceRelationList
-        :serviceRelationItems="serviceListForBusiness"
-        @servicechecked="onChecked(...arguments, true)"
-      ></AdminServiceRelationList>
-    </div>
-    <div>
-      <h2>Для частных лиц</h2>
-      <AdminServiceRelationList
-        :serviceRelationItems="serviceListForPerson"
-        @servicechecked="onChecked(...arguments, false)"
-      ></AdminServiceRelationList>
-    </div>
+      <template #content>
+        <div class="brc-admin-card-field-list_column">
+          <div class="col-2">
+            <h3>Для бизнеса</h3>
+            <AdminServiceRelationList
+              :serviceRelationItems="serviceListForBusiness"
+              @servicechecked="onChecked(...arguments, true)"
+            ></AdminServiceRelationList>
+          </div>
+          <div class="col-2">
+            <h3>Для частных лиц</h3>
+            <AdminServiceRelationList
+              :serviceRelationItems="serviceListForPerson"
+              @servicechecked="onChecked(...arguments, false)"
+            ></AdminServiceRelationList>
+          </div>
+        </div>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -30,11 +40,13 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
+import BaseCard from '@/components/BaseCard.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    AdminServiceRelationList
+    AdminServiceRelationList,
+    BaseCard
   }
 })
 export default class AdminFooterSettings extends Vue {

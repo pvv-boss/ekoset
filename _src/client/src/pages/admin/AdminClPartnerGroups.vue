@@ -1,49 +1,64 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Группы клиентов</h1>
-    <button @click="createNewItemMode = true" v-show="!createNewItemMode">Создать группу клиентов</button>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Группы клиентов</h2>
 
-    <div v-if="createNewItemMode">
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Наименование</div>
-        <input type="text" v-model="newItem.partnerGroupName" />
-      </div>
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newItem.partnerGroupPriority" />
-      </div>
-      <button @click="saveNewItem">Сохранить</button>
-      <button @click="cancelSaveNewItem">Отменить</button>
-    </div>
-    <vue-good-table :columns="headerFields" :rows="itemList">
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'actions'">
-          <button
-            type="button"
-            @click="editItem(props.row.originalIndex)"
-            v-if="!editModeList[props.row.originalIndex]"
-          >Редактировать</button>
-          <button
-            type="button"
-            v-if="editModeList[props.row.originalIndex]"
-            @click="saveChanges(props.row.originalIndex)"
-          >Сохранить</button>
-          <button
-            type="button"
-            @click="cancelSaveChanges(props.row.originalIndex)"
-            v-if="editModeList[props.row.originalIndex]"
-          >Отменить</button>
-        </span>
-        <AdminStatusSelector
-          v-else-if="editModeList[props.row.originalIndex] && props.column.field === 'clActivityStatus'"
-          v-model.number="itemList[props.row.originalIndex][props.column.field]"
-        ></AdminStatusSelector>
-        <span v-else-if="editModeList[props.row.originalIndex]">
-          <input type="text" v-model="itemList[props.row.originalIndex][props.column.field]" />
-        </span>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          <div v-if="createNewMode" class="brc-admin-card-create-row">
+            <b-field label="Наименование:" horizontal>
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование не может быть пустым"
+                v-model="newPartnerGroup.partnerGroupName"
+              ></b-input>
+            </b-field>
+            <b-button @click="save" type="is-primary">Сохранить</b-button>
+            <b-button @click="cancel">Отмена</b-button>
+          </div>
+
+          <b-button
+            type="is-primary"
+            outlined
+            class="brc-card-button__partner-create"
+            @click="createNewMode = true"
+            v-show="!createNewMode"
+          >Создать</b-button>
+          <b-button
+            type="is-primary"
+            @click="saveAll"
+            v-show="!createNewMode"
+            class="brc-card-button__partner-save"
+          >Сохранить</b-button>
+        </div>
       </template>
-    </vue-good-table>
+
+      <template #content>
+        <div class="brc_admin-partner-list">
+          <!-- <div class="brc_admin-partner-list-item">
+            <h3>Наименование</h3>
+          </div>-->
+
+          <draggable v-model="itemList">
+            <div
+              class="brc_admin-partner-list-item"
+              v-for="iterItem in itemList"
+              :key="iterItem.partnerGroupId"
+            >
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование не может быть пустым"
+                v-model="iterItem.partnerGroupName"
+              ></b-input>
+            </div>
+          </draggable>
+        </div>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
@@ -57,54 +72,44 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import PartnerGroup from '@/models/ekoset/PartnerGroup'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
+import BaseCard from '@/components/BaseCard.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    AdminStatusSelector
-
+    AdminStatusSelector,
+    BaseCard
   }
 })
 export default class AdminClPartnerGroups extends Vue {
   private itemList: PartnerGroup[] = []
-  private createNewItemMode = false
-  private editModeList: boolean[] = []
-  private newItem: PartnerGroup = new PartnerGroup()
-
-  private headerFields = [
-    {
-      field: 'partnerGroupName',
-      label: 'Наименование'
-    },
-    {
-      field: 'partnerGroupPriority',
-      label: 'Приоритет',
-      type: 'number'
-    },
-    {
-      field: 'actions',
-      label: ''
-    }
-  ]
+  private createNewMode = false
+  private newPartnerGroup: PartnerGroup = new PartnerGroup()
 
   private layout () {
     return 'admin'
   }
 
-  private editItem (rowIndex) {
-    this.$set(this.editModeList, rowIndex, true)
+  private async saveAll () {
+    for (let i = 0; i < this.itemList.length; i++) {
+      this.itemList[i].partnerGroupPriority = this.itemList.length - i;
+      await getServiceContainer().publicEkosetService.savePartnerGroup(this.itemList[i])
+    }
   }
 
-  private cancelSaveChanges (rowIndex) {
-    this.updateItems()
-    this.$set(this.editModeList, rowIndex, false)
+  private cancel () {
+    this.newPartnerGroup = new PartnerGroup()
+    this.createNewMode = false
   }
 
-  private async saveChanges (rowIndex) {
-    await getServiceContainer().publicEkosetService.savePartnerGroup(this.itemList[rowIndex])
+  private async save () {
+    await getServiceContainer().publicEkosetService.savePartnerGroup(this.newPartnerGroup)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+
+    this.newPartnerGroup = new PartnerGroup()
+    this.createNewMode = false
+
     this.updateItems()
-    this.$set(this.editModeList, rowIndex, false)
   }
 
   private async updateItems () {
@@ -120,26 +125,43 @@ export default class AdminClPartnerGroups extends Vue {
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     return {
-      itemList,
-      editModeList: Array.from(itemList, (x) => false)
+      itemList
     }
-  }
-
-  private async saveNewItem () {
-    await getServiceContainer().publicEkosetService.savePartnerGroup(this.newItem)
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.createNewItemMode = false
-    await this.updateItems()
-    this.newItem = new PartnerGroup()
-  }
-
-  private cancelSaveNewItem () {
-    this.newItem = new PartnerGroup()
-    this.createNewItemMode = false
   }
 
 }
 </script>
 
+<style lang="scss">
+@import '@/styles/variables.scss';
+.brc-card-button__partner-create {
+  margin-left: auto;
+}
 
+.brc-card-button__partner-save {
+  margin-left: 20px;
+}
 
+.brc_admin-partner-list-item {
+  margin-top: 10px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 20px;
+  justify-content: flex-end;
+
+  // padding: 5px;
+  padding-left: 10px;
+  // border: 1px solid lightgrey;
+  // border-radius: 2px;
+  line-height: 2em;
+
+  * {
+    margin-bottom: 0px !important;
+    font-weight: $font-regular !important;
+    font-size: 15px !important;
+  }
+
+  cursor: move;
+}
+</style>  
