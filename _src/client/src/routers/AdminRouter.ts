@@ -3,7 +3,6 @@ import AdminArticleList from '@/pages/admin/AdminArticleList.vue'
 import AdminArticleCard from '@/pages/admin/AdminArticleCard.vue'
 import AdminSiteSectionList from '@/pages/admin/AdminSiteSectionList.vue'
 import AdminSiteSectionCard from '@/pages/admin/AdminSiteSectionCard.vue'
-import AdminServiceList from '@/pages/admin/AdminServiceList.vue'
 import AdminServiceCard from '@/pages/admin/AdminServiceCard.vue'
 import AdminBrandList from '@/pages/admin/AdminBrandList.vue'
 import AdminBrandCard from '@/pages/admin/AdminBrandCard.vue'
@@ -11,7 +10,6 @@ import AdminIndividualOfferCard from '@/pages/admin/AdminIndividualOfferCard.vue
 import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
 import AdminClPartnerGroups from '@/pages/admin/AdminClPartnerGroups.vue'
 import AdminClientList from '@/pages/admin/AdminClientList.vue'
-import AdminClientCard from '@/pages/admin/AdminClientCard.vue'
 import AdminFooterSettings from '@/pages/admin/AdminFooterSettings.vue'
 
 export const AdminRouter = [
@@ -92,13 +90,7 @@ export const AdminRouter = [
     component: AdminIndividualOfferCard,
     meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
-  {
-    name: 'admin-client-card',
-    path: '/admin/client/:client',
-    props: true,
-    component: AdminClientCard,
-    meta: { title: 'Экосеть: Панель управления - клиенты' }
-  },
+
   {
     name: 'admin-clients',
     path: '/admin/client/',

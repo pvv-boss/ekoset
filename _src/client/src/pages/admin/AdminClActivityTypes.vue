@@ -1,154 +1,161 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <h1>Направления деятельности</h1>
-    <button
-      @click="createNewItemMode = true"
-      v-show="!createNewItemMode"
-    >Создать направление деятельности</button>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Направления деятельности</h2>
 
-    <div v-if="createNewItemMode">
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Наименование</div>
-        <input type="text" v-model="newItem.clActivityName" />
-      </div>
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Приоритет</div>
-        <input type="number" v-model.number="newItem.clActivityPriority" />
-      </div>
-      <div class="brc-article-attribute">
-        <div class="brc-article-attribute__caption">Статус</div>
-        <AdminStatusSelector v-model="newItem.clActivityStatus"></AdminStatusSelector>
-      </div>
-      <button @click="saveNewItem">Сохранить</button>
-      <button @click="cancelSaveNewItem">Отменить</button>
-    </div>
-    <vue-good-table :columns="headerFields" :rows="itemList">
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'actions'">
-          <button
-            type="button"
-            @click="editItem(props.row.originalIndex)"
-            v-if="!editModeList[props.row.originalIndex]"
-          >Редактировать</button>
-          <button
-            type="button"
-            v-if="editModeList[props.row.originalIndex]"
-            @click="saveChanges(props.row.originalIndex)"
-          >Сохранить</button>
-          <button
-            type="button"
-            @click="cancelSaveChanges(props.row.originalIndex)"
-            v-if="editModeList[props.row.originalIndex]"
-          >Отменить</button>
-        </span>
-        <AdminStatusSelector
-          v-else-if="editModeList[props.row.originalIndex] && props.column.field === 'clActivityStatus'"
-          v-model.number="itemList[props.row.originalIndex][props.column.field]"
-        ></AdminStatusSelector>
-        <span v-else-if="editModeList[props.row.originalIndex]">
-          <input type="text" v-model="itemList[props.row.originalIndex][props.column.field]" />
-        </span>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          <div v-if="createNewMode" class="brc-admin-card-create-row">
+            <b-field label="Наименование:" horizontal>
+              <b-input
+                placeholder="Наименование"
+                type="text"
+                required
+                validation-message="Наименование не может быть пустым"
+                v-model="newActivity.clActivityName"
+              ></b-input>
+            </b-field>
+
+            <b-button @click="save" type="is-primary">Сохранить</b-button>
+            <b-button @click="cancel">Отмена</b-button>
+          </div>
+
+          <b-button
+            type="is-primary"
+            outlined
+            class="brc-card-button__active-create"
+            @click="createNewMode = true"
+            v-show="!createNewMode"
+          >Создать</b-button>
+          <b-button
+            type="is-primary"
+            @click="saveAll"
+            v-show="!createNewMode"
+            class="brc-card-button__active-save"
+          >Сохранить</b-button>
+        </div>
       </template>
-    </vue-good-table>
+
+      <template #content>
+        <div class="brc_admin-active-list">
+          <div
+            class="brc_admin-active-list-item"
+            v-for="iterItem in itemList"
+            :key="iterItem.clActivityId"
+          >
+            <b-input
+              placeholder="Наименование"
+              type="text"
+              required
+              validation-message="Наименование не может быть пустым"
+              v-model="iterItem.clActivityName"
+            ></b-input>
+          </div>
+        </div>
+      </template>
+    </BaseCard>
   </div>
 </template>
 
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClActivity from '@/models/ekoset/ClActivity.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
+import BaseCard from '@/components/BaseCard.vue'
+import ClActivity from '@/models/ekoset/ClActivity'
+
 
 @Component({
   components: {
-    AdminStatusSelector
+    BaseCard
   }
 })
 export default class AdminClActivityTypes extends Vue {
   private itemList: ClActivity[] = []
-  private createNewItemMode = false
-  private newItem: ClActivity = new ClActivity()
-  private editModeList: boolean[] = []
-
-  private headerFields = [
-    {
-      field: 'clActivityName',
-      label: 'Наименование'
-    },
-    {
-      field: 'clActivityPriority',
-      label: 'Приоритет',
-      type: 'number'
-    },
-    {
-      field: 'clActivityStatus',
-      label: 'Статус',
-      type: 'number'
-    },
-    {
-      field: 'actions',
-      label: ''
-    }
-  ]
+  private createNewMode = false
+  private newActivity: ClActivity = new ClActivity()
+  private breadCrumbList: any[] = []
 
   private layout () {
     return 'admin'
   }
 
-  private editItem (rowIndex) {
-    this.$set(this.editModeList, rowIndex, true)
-  }
-
-  private cancelSaveChanges (rowIndex) {
-    this.updateItems()
-    this.$set(this.editModeList, rowIndex, false)
-  }
-
-  private async saveChanges (rowIndex) {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.itemList[rowIndex])
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.updateItems()
-    this.$set(this.editModeList, rowIndex, false)
-  }
-
-  private async updateItems () {
-    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
-  }
-
   private async asyncData (context: NuxtContext) {
-    const itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+    const itemList = getServiceContainer().publicEkosetService.getClActivityList()
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Направления деятельности', link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
+    const data = await Promise.all([itemList])
     return {
-      itemList,
-      editModeList: Array.from(itemList, x => false)
+      itemList: data[0]
     }
   }
 
-  private async saveNewItem () {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.newItem)
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.createNewItemMode = false
-    await this.updateItems()
-    this.newItem = new ClActivity()
+  private async updateItems () {
+    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
   }
 
-  private cancelSaveNewItem () {
-    this.newItem = new ClActivity()
-    this.createNewItemMode = false
+  private async save () {
+    await getServiceContainer().publicEkosetService.saveClActivity(this.newActivity)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.newActivity = new ClActivity()
+    this.createNewMode = false
+    this.updateItems()
   }
+
+  private async saveAll () {
+    for (let i = 0; i < this.itemList.length; i++) {
+      await getServiceContainer().publicEkosetService.saveClActivity(this.itemList[i])
+    }
+  }
+
+  private cancel () {
+    this.newActivity = new ClActivity()
+    this.createNewMode = false
+  }
+
 
 }
 </script>
 
 
+
+<style lang="scss">
+@import '@/styles/variables.scss';
+.brc-card-button__active-create {
+  margin-left: auto;
+}
+
+.brc-card-button__active-save {
+  margin-left: 20px;
+}
+
+.brc_admin-active-list-item {
+  margin-top: 10px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 20px;
+  justify-content: flex-end;
+
+  padding: 5px;
+  padding-left: 10px;
+  // border: 1px solid lightgrey;
+  // border-radius: 2px;
+  line-height: 2em;
+
+  * {
+    margin-bottom: 0px !important;
+    font-weight: $font-regular !important;
+    font-size: 15px !important;
+  }
+}
+</style>  
 
