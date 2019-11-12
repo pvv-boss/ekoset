@@ -37,10 +37,6 @@
 
       <template #content>
         <div class="brc_admin-partner-list">
-          <!-- <div class="brc_admin-partner-list-item">
-            <h3>Наименование</h3>
-          </div>-->
-
           <draggable v-model="itemList">
             <div
               class="brc_admin-partner-list-item"
