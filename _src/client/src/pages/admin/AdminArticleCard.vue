@@ -100,6 +100,14 @@
               </div>
             </div>
           </b-tab-item>
+          <b-tab-item label="Содержание">
+            <div class="brc-admin-panel__article">
+              <AdminArticleEditor
+                v-model="articleItem.articleBody"
+                style="max-width:75% !important;"
+              ></AdminArticleEditor>
+            </div>
+          </b-tab-item>
         </b-tabs>
       </template>
     </BaseCard>
@@ -232,3 +240,20 @@ export default class AdminArticleCard extends Vue {
   }
 }
 </script>
+
+<style scoped>
+</style>
+
+<style lang="scss">
+@import '@/styles/variables.scss';
+.brc-admin-panel__article {
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  *.ql-editor {
+    height: 60vh !important;
+    // height: 100% !important;
+  }
+}
+</style>  
