@@ -1,15 +1,25 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
-    <button @click="createNewMode = true" v-show="!createNewMode && !disabled">Создать тег</button>
+    <b-button
+      type="is-primary"
+      outlined
+      @click="createNewMode = true"
+      v-show="!createNewMode"
+      style="margin-bottom:10px"
+    >Создать</b-button>
 
-    <div v-if="createNewMode">
-      <div class="brc-service-attribute">
-        <div class="brc-service-attribute__caption">Наименование</div>
-        <input type="text" v-model="newItem.clArticleName" />
-      </div>
-      <button @click="saveNewTag">Сохранить</button>
-      <button @click="cancelSaveNewTag">Отменить</button>
+    <div v-if="createNewMode" class="brc-admin-card-create-row" style="margin-bottom:10px">
+      <b-input
+        placeholder="Наименование"
+        type="text"
+        required
+        validation-message="Наименование не может быть пустым"
+        v-model="newItem.clArticleName"
+      ></b-input>
+      <b-button @click="saveNewTag" type="is-primary">OK</b-button>
+      <b-button @click="cancelSaveNewTag">Отмена</b-button>
     </div>
+
     <vue-good-table :columns="headerFields" :rows="tagRelationItems">
       <template #table-row="props">
         <input
@@ -25,6 +35,7 @@
     </vue-good-table>
   </div>
 </template>
+
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
