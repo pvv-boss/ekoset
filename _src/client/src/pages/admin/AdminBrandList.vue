@@ -33,7 +33,7 @@
         <div class="brc_admin-brand-list-item">
           <span>Наименование</span>
           <span>Фото (логотип)</span>
-          <span>Статус</span>
+          <!-- <span>Статус</span> -->
         </div>
 
         <draggable v-model="brandList" @change="handleChange">
@@ -52,14 +52,14 @@
               </a>
             </b-upload>
 
-            <b-switch
+            <!-- <b-switch
               v-model="iterBrand.clBrandStatus"
               true-value="1"
               false-value="0"
               type="is-success"
               size="is-small"
               style="justify-content: flex-end;"
-            ></b-switch>
+            ></b-switch>-->
           </div>
         </draggable>
       </div>
@@ -149,7 +149,6 @@ export default class AdminBrandList extends Vue {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  // width: 100%;
   box-shadow: $box-shadow;
   background-color: white;
 
@@ -157,7 +156,8 @@ export default class AdminBrandList extends Vue {
     margin-top: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 280px 80px;
+    //  grid-template-columns: 1fr 280px 80px;
+    grid-template-columns: 1fr 280px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

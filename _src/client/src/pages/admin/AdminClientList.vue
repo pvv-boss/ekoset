@@ -66,15 +66,14 @@
               ></b-input>
 
               <AdminPartnerGroupSelector v-model="iterItem.partnerGroupId"></AdminPartnerGroupSelector>
-              <!-- <b-switch
-                v-model="iterItem."
+              <b-switch
+                v-model="iterItem.partnerStatus"
                 true-value="1"
                 false-value="0"
                 type="is-success"
                 size="is-small"
                 style="justify-content: flex-end;"
-              ></b-switch>-->
-              <span>ff</span>
+              ></b-switch>
             </div>
           </draggable>
         </div>
@@ -113,7 +112,7 @@ export default class AdminClientList extends Vue {
   }
 
   private async asyncData (context: NuxtContext) {
-    const itemList = getServiceContainer().publicEkosetService.getPartners()
+    const itemList = getServiceContainer().publicEkosetService.adminGetPartners()
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -127,7 +126,7 @@ export default class AdminClientList extends Vue {
   }
 
   private async updateItems () {
-    this.itemList = await getServiceContainer().publicEkosetService.getPartners()
+    this.itemList = await getServiceContainer().publicEkosetService.adminGetPartners()
   }
 
   private async save () {

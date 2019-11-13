@@ -37,8 +37,13 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async getPartners () {
+    return this.getDbViewResult(this.apiPartnersViewName, null, 'partner_status=1');
+  }
+
+  public async adminGetPartners () {
     return this.getDbViewResult(this.apiPartnersViewName);
   }
+
 
   public async getPartnerById (partnerId: number) {
     return this.getOneById(this.apiPartnersViewName, 'partner_id=$1', partnerId)
@@ -51,7 +56,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async getPartnerGroups () {
-    return this.getDbViewResult('partner_group');
+    return this.getDbViewResult('v_partner_group');
   }
 
   public async savePartnerGroup (partnerGroup: PartnerGroup) {

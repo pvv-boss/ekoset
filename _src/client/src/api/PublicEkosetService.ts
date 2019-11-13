@@ -38,6 +38,12 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  public async adminGetPartners () {
+    const query = `admin/panel/clients`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+
   // Клиент
   public async getPartnerById (id: number) {
     const query = `clients/${id}`

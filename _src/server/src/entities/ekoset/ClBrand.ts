@@ -50,4 +50,11 @@ export class ClBrand {
     name: 'cl_brand_main_page_visible'
   })
   public clBrandMainPageVisible: number | null;
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'cl_brand_status'
+  })
+  public clBrandStatus: number | null;
+
 }

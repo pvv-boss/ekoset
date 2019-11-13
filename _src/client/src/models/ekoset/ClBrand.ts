@@ -9,4 +9,5 @@ export default class ç {
   public clBrandMainPageVisible: number | null;
 
   public smallImageFormData: FormData | null;
+
 }

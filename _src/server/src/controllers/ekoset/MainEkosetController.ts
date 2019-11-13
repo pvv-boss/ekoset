@@ -56,6 +56,14 @@ export default class MainEkosetController extends BaseController {
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/clients')
+  public async adminGetPartners (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MainEkosetService.adminGetPartners();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+
   @Get('/clients/:partnerId')
   public async getPartnerById (
     @Res() response: Response,

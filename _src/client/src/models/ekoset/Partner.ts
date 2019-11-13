@@ -7,4 +7,6 @@ export default class Partner {
 
   public partnerGroupName: string | null;
   public partnerGroupPriority: number;
+
+  public partnerStatus: number;
 }

@@ -40,4 +40,11 @@ export class Partner {
   })
   public partnerPriority: number | null;
 
+  @Column('numeric', {
+    nullable: true,
+    name: 'partner_status'
+  })
+  public partnerStatus: number | null;
+
+
 }
