@@ -5,7 +5,7 @@
         :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
       >
         <img
-          :src="articleItem.articlePreviewImgSrc"
+          :src="imageSrc"
           :alt="articleItem.articleTitle"
           itemprop="image"
           class="brc-article-smallitem__preview-img"
@@ -46,8 +46,15 @@ export default class ArticleListItem extends Vue {
   @Prop()
   private articleItem
 
+  @Prop()
+  private imageSrcForDesignMode: string
+
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
+  }
+
+  private get imageSrc () {
+    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.articleItem.articlePreviewImgSrc
   }
 }
 </script>

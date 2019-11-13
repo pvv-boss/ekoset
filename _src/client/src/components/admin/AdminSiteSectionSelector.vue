@@ -1,8 +1,8 @@
 <template>
   <div class="brc-select-wrapper">
-    <b-field>
+    <b-field style="align-items:center">
       <b-select
-        placeholder="Подраздел сайта"
+        placeholder="Раздел сайта"
         v-model="selectedSiteSectionId"
         @input="$emit('input', selectedId)"
         :disabled="disabled"

@@ -1,78 +1,111 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <div class="brc-admin-card">
-      <div class="brc-admin-card__attributes">
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Статус</div>
-          <AdminStatusSelector v-model.number="article.articleStatus"></AdminStatusSelector>
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
-          <AdminSiteSectionSelector v-model="article.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
-        </div>
+    <BaseCard>
+      <template #header>
+        <div class="brc-card__header__toolbar">
+          <h2>Новость: {{articleItem.articleTitle}}</h2>
+          <AdminStatusSelector statusCaption="Активна" v-model.number="articleItem.articleStatus"></AdminStatusSelector>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Заголовок</div>
-          <input type="text" v-model="article.articleTitle" />
+          <b-button type="is-primary" @click="save">Сохранить</b-button>
         </div>
+      </template>
+      <template #content>
+        <b-tabs v-model="activeTab">
+          <b-tab-item label="Оформление">
+            <div class="brc-admin-card_two-column">
+              <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+                <b-field label="Фото на странице">
+                  <AdminImageUploader
+                    id="bigImageFile"
+                    :srcImage="articleItem.articleHeaderImgSrc"
+                    @uploader:newimageloaded="addImage($event,true)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <figure class="brc-admin-card-image__wrapper">
+                        <img class="brc-admin-image" :src="imageSrc" />
+                        <h1 class="brc-admin-card-image-title">{{articleItem.articleH1}}</h1>
+                      </figure>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
+                <b-field label="Заголовок (на карточке новости)">
+                  <b-input
+                    placeholder="Заголовок"
+                    type="text"
+                    required
+                    validation-message="Заголовок не может быть пустым"
+                    v-model="articleItem.articleTitle"
+                  ></b-input>
+                </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
-          <input type="text" v-model="article.articleH1" />
-        </div>
+                <b-field label="Заголовок H1">
+                  <b-input
+                    placeholder="Заголовок H1"
+                    type="text"
+                    required
+                    validation-message="Заголовок H1 не может быть пустым"
+                    v-model="articleItem.articleH1"
+                  ></b-input>
+                </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Краткое описание</div>
-          <input type="text" v-model="article.articleDescription" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
-          <AdminImageUploader id="bigArticleImageFile" @upload="saveImage($event,true)"></AdminImageUploader>
-        </div>
+                <b-field label="Автор">
+                  <b-input placeholder="Автор" type="text" v-model="articleItem.articleAuthor"></b-input>
+                </b-field>
+                <b-field label="Источник">
+                  <b-input placeholder="Источник" type="text" v-model="articleItem.articleSource"></b-input>
+                </b-field>
+                <b-field label="Краткое описание">
+                  <b-input
+                    placeholder="Краткое описание"
+                    type="textarea"
+                    required
+                    validation-message="Краткое описание не может быть пустым"
+                    v-model="articleItem.articleDescription"
+                  ></b-input>
+                </b-field>
+                <b-field label="Раздел сайта">
+                  <AdminSiteSectionSelector v-model="articleItem.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
+                </b-field>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Фото в карточке новости</div>
-          <AdminImageUploader id="smallArticleImageFile" @upload="saveImage($event,false)"></AdminImageUploader>
-        </div>
+                <b-field label="Связанные услуги" v-if="articleItem.articleId > 0">
+                  <AdminServiceRelationList
+                    :serviceRelationItems="serviceRelationList"
+                    @servicechecked="serviceChecked"
+                  ></AdminServiceRelationList>
+                </b-field>
+              </div>
 
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Источник</div>
-          <input type="text" v-model="article.articleSource" />
-        </div>
-
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Автор</div>
-          <input type="text" v-model="article.articleAuthor" />
-        </div>
-        <div class="brc-admin-card-attribute">
-          <div class="brc-admin-card-attribute__caption">Дата</div>
-          <input
-            type="datetime"
-            :value="article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : ''"
-            disabled="true"
-          />
-        </div>
-        <div v-if="article.articleId > 0">
-          <h4>Связанные услуги</h4>
-          <AdminServiceRelationList
-            :serviceRelationItems="serviceRelationList"
-            @servicechecked="serviceChecked"
-          ></AdminServiceRelationList>
-
-          <h4>Теги</h4>
-          <AdminTagRelationList :articleUrl="article.articleUrl" @tagchecked="tagChecked"></AdminTagRelationList>
-        </div>
-      </div>
-      <div class="brc-admin-card__relations brc-admin-card__editor">
-        <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
-      </div>
-    </div>
-    <div class="brc-admin-card__actions">
-      <button type="button" @click="saveArticle">Сохранить</button>
-      <button v-if="article.articleId > 0" type="button" @click="deleteArticle">Удалить</button>
-    </div>
+              <div class="brc-admin-card-field-list_row">
+                <b-field label="Фото на карточке новости">
+                  <AdminImageUploader
+                    id="smallImageFile"
+                    :srcImage="articleItem.articlePreviewImgSrc"
+                    @uploader:newimageloaded="addImage($event,false)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <ArticleListItem
+                        :articleItem="articleItem"
+                        :imageSrcForDesignMode="imageSrc"
+                        style="width:350px;margin:0px"
+                      ></ArticleListItem>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
+                <b-field label="Теги">
+                  <AdminTagRelationList
+                    :articleUrl="articleItem.articleUrl"
+                    @tagchecked="tagChecked"
+                  ></AdminTagRelationList>
+                </b-field>
+              </div>
+            </div>
+          </b-tab-item>
+        </b-tabs>
+      </template>
+    </BaseCard>
   </div>
 </template>
+
 
 
 <script lang="ts">
@@ -95,6 +128,8 @@ import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
+import BaseCard from '@/components/BaseCard.vue'
+import ArticleListItem from '@/components/public/ArticleListItem.vue'
 
 @Component({
   components: {
@@ -105,107 +140,93 @@ import AdminStore from '@/store/AdminStore'
     AdminStatusSelector,
     AdminServiceRelationList,
     AdminTagRelationList,
-    AdminImageUploader
+    AdminImageUploader,
+    BaseCard,
+    ArticleListItem
   }
 })
 export default class AdminArticleCard extends Vue {
-  private article: Article = new Article()
+  private articleItem: Article = new Article()
   private serviceRelationList: any[] = []
-  private layout() {
+  private activeTab = 0
+
+  private layout () {
     return 'admin'
   }
 
-  private async saveArticle() {
-    await getServiceContainer().articleService.saveArticle(this.article)
-    if (!this.article.articleId) {
+  private async save () {
+    await getServiceContainer().articleService.saveArticle(this.articleItem)
+    if (!this.articleItem.articleId) {
       this.$router.push({ name: 'admin-news' })
     }
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private deleteArticle() {
-    const self = this
-    const okCallback = async () => {
-      const sectionId = self.article.siteSectionId
-      await getServiceContainer().articleService.deleteArticle(
-        this.article.articleId
-      )
-      self.$router.push({ name: 'admin-news' })
 
-      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    }
-    this.$BrcAlert(
-      BrcDialogType.Warning,
-      'Удалить новость?',
-      'Подтвердите удаление',
-      okCallback
-    )
-  }
-
-  private async saveImage(imageFile: string, isBig: boolean) {
+  private async addImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
     getServiceContainer().mediaService.saveNewsImage(
-      this.article.articleId,
+      this.articleItem.articleId,
       formData,
       isBig
     )
   }
 
-  @Watch('article.siteSectionId', { immediate: true })
-  private async updateServiceList() {
-    if (this.article.siteSectionId && this.article.siteSectionId > 0) {
+  @Watch('articleItem.siteSectionId', { immediate: true })
+  private async updateServiceList () {
+    if (this.articleItem.siteSectionId && this.articleItem.siteSectionId > 0) {
       this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(
-        this.article.siteSectionId,
-        this.article.articleUrl
+        this.articleItem.siteSectionId,
+        this.articleItem.articleUrl
       )
     } else {
       this.serviceRelationList = []
     }
   }
 
-  private mounted() {
+  private mounted () {
     this.updateServiceList()
   }
 
-  private serviceChecked(businessServiceId: number, hasRelation: boolean) {
+  private serviceChecked (businessServiceId: number, hasRelation: boolean) {
     getServiceContainer().articleService.adminAddRemoveServiceRelation(
       businessServiceId,
-      this.article.articleUrl,
+      this.articleItem.articleUrl,
       hasRelation
     )
   }
 
-  private tagChecked(tagId: number, hasRelation: boolean) {
+  private tagChecked (tagId: number, hasRelation: boolean) {
     getServiceContainer().articleService.adminAddRemoveArticleTag(
-      this.article.articleUrl,
+      this.articleItem.articleUrl,
       tagId,
       hasRelation
     )
   }
 
-  private async asyncData(context: NuxtContext) {
+  private async asyncData (context: NuxtContext) {
     const articleUrl = context.params.article
-    const article = articleUrl
+    const articleItem = articleUrl
       ? await getServiceContainer().articleService.getArticleBySlug(articleUrl)
       : new Article()
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-    breadCrumbList.push({ name: article.articleTitle, link: '' })
+    breadCrumbList.push({ name: articleItem.articleTitle, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     let serviceRelations = []
-    if (article.siteSectionId > 0) {
+    if (articleItem.siteSectionId > 0) {
       serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation(
-        article.siteSectionId,
+        articleItem.siteSectionId,
         articleUrl
       )
     }
 
     return {
-      article,
+      articleItem,
       serviceRelationList: serviceRelations
     }
   }

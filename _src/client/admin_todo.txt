@@ -55,3 +55,91 @@
 
 ====== Разное ======
 Vue можно ли наследоваться от своих компонент?
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="brc-admin_page_wrapper">
+    <div class="brc-admin-card">
+      <div class="brc-admin-card__attributes">
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Статус</div>
+          <AdminStatusSelector v-model.number="article.articleStatus"></AdminStatusSelector>
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Раздел сайта</div>
+          <AdminSiteSectionSelector v-model="article.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Заголовок</div>
+          <input type="text" v-model="article.articleTitle" />
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Заголовок H1</div>
+          <input type="text" v-model="article.articleH1" />
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Краткое описание</div>
+          <input type="text" v-model="article.articleDescription" />
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Фото на странице</div>
+          <AdminImageUploader id="bigArticleImageFile" @upload="saveImage($event,true)"></AdminImageUploader>
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Фото в карточке новости</div>
+          <AdminImageUploader id="smallArticleImageFile" @upload="saveImage($event,false)"></AdminImageUploader>
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Источник</div>
+          <input type="text" v-model="article.articleSource" />
+        </div>
+
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Автор</div>
+          <input type="text" v-model="article.articleAuthor" />
+        </div>
+        <div class="brc-admin-card-attribute">
+          <div class="brc-admin-card-attribute__caption">Дата</div>
+          <input
+            type="datetime"
+            :value="article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : ''"
+            disabled="true"
+          />
+        </div>
+        <div v-if="article.articleId > 0">
+          <h4>Связанные услуги</h4>
+          <AdminServiceRelationList
+            :serviceRelationItems="serviceRelationList"
+            @servicechecked="serviceChecked"
+          ></AdminServiceRelationList>
+
+          <h4>Теги</h4>
+          <AdminTagRelationList :articleUrl="article.articleUrl" @tagchecked="tagChecked"></AdminTagRelationList>
+        </div>
+      </div>
+      <div class="brc-admin-card__relations brc-admin-card__editor">
+        <AdminArticleEditor v-model="article.articleBody"></AdminArticleEditor>
+      </div>
+    </div>
+    <div class="brc-admin-card__actions">
+      <button type="button" @click="saveArticle">Сохранить</button>
+      <button v-if="article.articleId > 0" type="button" @click="deleteArticle">Удалить</button>
+    </div>
+  </div>
+</template>
