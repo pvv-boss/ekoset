@@ -104,6 +104,7 @@ export default class AdminArticleList extends Vue {
 
   private async save () {
     this.newArticle.articleDescription = this.newArticle.articleTitle
+    this.newArticle.articleH1 = this.newArticle.articleTitle
     await getServiceContainer().articleService.saveArticle(
       this.newArticle
     )

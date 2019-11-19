@@ -31,9 +31,10 @@
 
       <div class="brc_admin-brand-list">
         <div class="brc_admin-brand-list-item">
+          <span>Статус</span>
           <span>Наименование</span>
           <span>Фото (логотип)</span>
-          <!-- <span>Статус</span> -->
+          <span>Удалить</span>
         </div>
 
         <draggable v-model="brandList" @change="handleChange">
@@ -42,6 +43,16 @@
             v-for="iterBrand in brandList"
             :key="iterBrand.clBrandId"
           >
+            <b-switch
+              v-model="iterBrand.clBrandStatus"
+              true-value="1"
+              false-value="0"
+              type="is-success"
+              size="is-small"
+              style="justify-content: flex-end;"
+              @input="saveBrand(iterBrand)"
+            ></b-switch>
+
             <nuxt-link
               :to="{ name: 'admin-brand-card',params:{brand:iterBrand.clBrandId}}"
             >{{iterBrand.clBrandName}}</nuxt-link>
@@ -52,14 +63,7 @@
               </a>
             </b-upload>
 
-            <!-- <b-switch
-              v-model="iterBrand.clBrandStatus"
-              true-value="1"
-              false-value="0"
-              type="is-success"
-              size="is-small"
-              style="justify-content: flex-end;"
-            ></b-switch>-->
+            <b-button type="is-danger" icon-right="delete" @click="deleteBrand(iterBrand)"></b-button>
           </div>
         </draggable>
       </div>
@@ -119,6 +123,18 @@ export default class AdminBrandList extends Vue {
     this.updateBrandList()
   }
 
+  private async saveBrand (brand: ClBrand) {
+    await getServiceContainer().publicEkosetService.saveBrand(brand)
+  }
+
+  private async deleteBrand (brand: ClBrand) {
+    const okCallback = async () => {
+      await getServiceContainer().publicEkosetService.deleteBrand(brand.clBrandId)
+      this.updateBrandList()
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
+  }
+
   private cancelSaveNewBrand () {
     this.newBrand = new ClBrand()
     this.createNewBrandMode = false
@@ -157,7 +173,7 @@ export default class AdminBrandList extends Vue {
 
     display: grid;
     //  grid-template-columns: 1fr 280px 80px;
-    grid-template-columns: 1fr 280px;
+    grid-template-columns: 50px 1fr 280px 60px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

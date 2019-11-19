@@ -12,8 +12,6 @@
 
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
 
-        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>
-        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты"></b-menu-item>
         <!-- </b-menu-item> -->
 
         <b-menu-item
@@ -34,11 +32,9 @@
           ></b-menu-item>
 
           <b-menu-item tag="nuxt-link" :to="{ name: 'cl-partner-groups'}" label="Группы клиентов"></b-menu-item>
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'cl-activity-types'}"
-            label="Направления деятельности"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'cl-activity-types'}" label="Виды деятельности"></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands'}" label="Бренды"></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты"></b-menu-item>
         </b-menu-item>
       </b-menu-list>
     </b-menu>

@@ -34,11 +34,12 @@ V<template>
 
     <div class="brc_admin-offer-list">
       <div class="brc_admin-offer-list-item">
+        <span>Статус</span>
         <span>Наименование предложения</span>
         <span>Направление деятельности</span>
         <span>Фото на странице</span>
         <span>Фото на карточке</span>
-        <span>Статус</span>
+        <span>Удалить</span>
       </div>
 
       <draggable v-model="offerList" @change="handleChange">
@@ -47,6 +48,15 @@ V<template>
           v-for="iterOffer in offerList"
           :key="iterOffer.indOfferId"
         >
+          <b-switch
+            v-model="iterOffer.indOfferStatus"
+            true-value="1"
+            false-value="0"
+            type="is-success"
+            size="is-small"
+            style="justify-content: flex-end;"
+          ></b-switch>
+
           <nuxt-link
             :to="{ name: 'admin-individual-offer-card', params: { siteSection: siteSection.siteSectionUrl, offer: iterOffer.indOfferUrl}}"
           >{{iterOffer.indOfferName}}</nuxt-link>
@@ -65,14 +75,7 @@ V<template>
             </a>
           </b-upload>
 
-          <b-switch
-            v-model="iterOffer.indOfferStatus"
-            true-value="1"
-            false-value="0"
-            type="is-success"
-            size="is-small"
-            style="justify-content: flex-end;"
-          ></b-switch>
+          <b-button type="is-danger" icon-right="delete" @click="deleteOffer(iterOffer)"></b-button>
         </div>
       </draggable>
     </div>
@@ -118,6 +121,7 @@ export default class AdminIndividualOfferList extends Vue {
 
   private async saveNewOffer () {
     this.newOffer.siteSectionId = this.siteSection.siteSectionId
+    this.newOffer.indOfferH1 = this.newOffer.indOfferName
 
     const saved = await getServiceContainer().individualOfferService.save(this.newOffer)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
@@ -141,6 +145,14 @@ export default class AdminIndividualOfferList extends Vue {
     }
   }
 
+  private async deleteOffer (offer: IndividualOffer) {
+    const okCallback = async () => {
+      await getServiceContainer().individualOfferService.delete(offer.indOfferId)
+      this.$emit('offer:deleted')
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить индивидуальное предложение?', 'Подтвердите удаление', okCallback)
+  }
+
 }
 </script>
 
@@ -155,7 +167,7 @@ export default class AdminIndividualOfferList extends Vue {
     margin-top: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 350px 180px 180px 50px;
+    grid-template-columns: 50px 1fr 350px 180px 180px 70px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

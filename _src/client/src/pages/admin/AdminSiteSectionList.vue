@@ -103,6 +103,7 @@ export default class AdminSiteSectionList extends Vue {
   }
 
   private async saveNewSiteSection () {
+    this.newSiteSection.siteSectionH1 = this.newSiteSection.siteSectionName
     await getServiceContainer().publicEkosetService.saveSiteSection(
       this.newSiteSection
     )

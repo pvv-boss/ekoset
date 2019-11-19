@@ -145,7 +145,7 @@
                   :disabled="serviceItem.businessServiceParentId > 0"
                 ></AdminClientTypeRelationList>
               </b-field>
-              <b-field label="Направления деятельности" style="flex:1">
+              <b-field label="Виды деятельности" style="flex:1">
                 <AdminActivityRelationList
                   :activityRelationItems="activityRelationList"
                   @activitychecked="activityChecked"
@@ -156,7 +156,7 @@
               <div class="brc-admin-card__help" style="display:flex; flex-direction:column; flex:1">
                 <span>Тип клиента определяет будет ли данная услуга выводиться в списке услуг комплексных решений (по типу клиента) данного раздела</span>
                 <span>
-                  <br />Направление деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного направления деятельности)
+                  <br />Вид деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного вида деятельности)
                 </span>
               </div>
             </div>

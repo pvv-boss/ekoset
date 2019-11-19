@@ -29,12 +29,13 @@
 
     <div class="brc_admin-service-list">
       <div class="brc_admin-service-list-item">
+        <span>Статус</span>
         <span>Наименование услуги</span>
         <span>Фото на странице</span>
         <span>Фото на карточке</span>
         <span>Ед.измерения</span>
         <span>Цена, руб.</span>
-        <span>Статус</span>
+        <span>Удалить</span>
       </div>
 
       <draggable v-model="serviceList" @change="handleChange">
@@ -43,6 +44,14 @@
           v-for="iterService in serviceList"
           :key="iterService.businessServiceId"
         >
+          <b-switch
+            v-model="iterService.businessServiceStatus"
+            true-value="1"
+            false-value="0"
+            type="is-success"
+            size="is-small"
+            style="justify-content: flex-end;"
+          ></b-switch>
           <nuxt-link
             :to="{ name: 'admin-service-card', params: { siteSection: siteSection.siteSectionUrl, service: iterService.businessServiceUrl}}"
           >{{iterService.businessServiceName}}</nuxt-link>
@@ -67,14 +76,7 @@
             v-model.number="iterService.businessServicePrice"
           ></b-input>
 
-          <b-switch
-            v-model="iterService.businessServiceStatus"
-            true-value="1"
-            false-value="0"
-            type="is-success"
-            size="is-small"
-            style="justify-content: flex-end;"
-          ></b-switch>
+          <b-button type="is-danger" icon-right="delete" @click="deleteService(iterService)"></b-button>
         </div>
       </draggable>
     </div>
@@ -121,6 +123,7 @@ export default class AdminServiceListContainer extends Vue {
 
   private async saveNewService () {
     this.newService.siteSectionId = this.siteSection.siteSectionId
+    this.newService.businessServiceH1 = this.newService.businessServiceName
     if (!!this.parentServiceId) {
       this.newService.businessServiceParentId = this.parentServiceId
     }
@@ -146,6 +149,14 @@ export default class AdminServiceListContainer extends Vue {
     }
   }
 
+  private async deleteService (service: BusinessService) {
+    const okCallback = async () => {
+      await getServiceContainer().businessServiceService.delete(service.businessServiceId)
+      this.$emit('service:deleted')
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
+  }
+
 }
 </script>
 
@@ -160,7 +171,7 @@ export default class AdminServiceListContainer extends Vue {
     margin-top: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 180px 180px 200px 200px 50px;
+    grid-template-columns: 50px 1fr 180px 180px 200px 200px 70px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

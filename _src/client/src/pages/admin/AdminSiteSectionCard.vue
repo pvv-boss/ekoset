@@ -126,6 +126,7 @@
               v-model="serviceOtherList"
               :siteSection="siteSectionItem"
               @newservice:saved="refreshServiceList"
+              @service:deleted="refreshServiceList"
             ></AdminServiceListContainer>
           </b-tab-item>
 
@@ -138,6 +139,7 @@
               :siteSection="siteSectionItem"
               v-model="offerList"
               @newoffer:saved="refreshOfferList"
+              @offer:deleted="refreshOfferList"
             >"</AdminIndividualOfferList>
           </b-tab-item>
 
