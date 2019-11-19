@@ -29,12 +29,53 @@
       </template>
 
       <template #content>
-        <vue-good-table :columns="headerFields" :rows="articleItems">
+        <vue-good-table
+          :columns="headerFields"
+          :rows="articleItems"
+          :search-options="{enabled: true, placeholder: 'Поиск по всем полям'}"
+          :fixed-header="true"
+        >
           <template slot="table-row" slot-scope="props">
+            <b-switch
+              v-model="props.row.articleStatus"
+              @input="changeArticleStatus(props.row)"
+              true-value="1"
+              false-value="0"
+              type="is-success"
+              size="is-small"
+              v-if="props.column.field == 'articleStatus'"
+            ></b-switch>
+
             <nuxt-link
-              v-if="props.column.field == 'articleTitle'"
+              v-else-if="props.column.field == 'articleTitle'"
               :to="{ name: 'admin-news-article-card', params: { article: props.row.articleUrl}}"
             >{{props.row.articleTitle}}</nuxt-link>
+
+            <b-button
+              v-else-if="props.column.field == 'removeNews'"
+              type="is-danger"
+              icon-right="delete"
+              @click="deleteArticle(props.row)"
+            ></b-button>
+
+            <b-upload
+              v-else-if="props.column.field == 'addMainImage'"
+              @input="addMainImage(...arguments,props.row)"
+            >
+              <a class="button is-link">
+                <b-icon icon="upload"></b-icon>
+              </a>
+            </b-upload>
+
+            <b-upload
+              v-else-if="props.column.field == 'addSmallImage'"
+              @input="addSmallImage(...arguments,props.row)"
+            >
+              <a class="button is-link">
+                <b-icon icon="upload"></b-icon>
+              </a>
+            </b-upload>
+
             <span v-else>{{props.formattedRow[props.column.field]}}</span>
           </template>
         </vue-good-table>
@@ -67,23 +108,51 @@ export default class AdminArticleList extends Vue {
 
   private headerFields = [
     {
-      field: 'articleTitle',
-      label: 'Заголовок'
+      field: 'articleStatus',
+      label: 'Статус',
+      type: 'number',
+      tdClass: 'brc-admin-centered-td'
     },
     {
       field: 'articlePublishDate',
       label: 'Дата'
     },
     {
-      field: 'articleStatus',
-      label: 'Статус',
-      type: 'number'
+      field: 'articleTitle',
+      label: 'Заголовок',
+      filterOptions: {
+        enabled: true,
+        placeholder: 'Введите часть наименования заголовка',
+      }
     },
     {
-      field: 'articleViewsNumber',
-      label: 'Просмотры',
-      type: 'number'
+      field: 'siteSectionName',
+      label: 'Раздел',
+      filterOptions: {
+        enabled: true,
+        placeholder: 'Введите часть наименования раздела',
+      }
+    },
+    {
+      field: 'addMainImage',
+      label: 'Фото на странце',
+      tdClass: 'brc-admin-centered-td'
+    },
+    {
+      field: 'addSmallImage',
+      label: 'Фото в карточке',
+      tdClass: 'brc-admin-centered-td'
+    },
+    {
+      field: 'removeNews',
+      label: 'Удалить',
+      tdClass: 'brc-admin-centered-td'
     }
+    // {
+    //   field: 'articleViewsNumber',
+    //   label: 'Просмотры',
+    //   type: 'number'
+    // }
   ]
 
   private layout () {
@@ -117,6 +186,38 @@ export default class AdminArticleList extends Vue {
   private cancelSaveNewSiteSection () {
     this.newArticle = new Article()
     this.createNewMode = false
+  }
+
+  private async changeArticleStatus (article: Article) {
+    await getServiceContainer().articleService.saveArticle(article)
+  }
+
+  private async deleteArticle (article: Article) {
+    const okCallback = async () => {
+      await getServiceContainer().articleService.deleteArticle(article.articleId)
+      this.updateItems()
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость ?', 'Подтвердите удаление', okCallback)
+  }
+
+  private async addMainImage (imageFile: string, article: Article) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveNewsImage(
+      article.articleId,
+      formData,
+      true
+    )
+  }
+
+  private async addSmallImage (imageFile: string, article: Article) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveNewsImage(
+      article.articleId,
+      formData,
+      false
+    )
   }
 
   private async updateItems () {
