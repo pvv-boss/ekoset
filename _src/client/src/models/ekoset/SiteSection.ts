@@ -5,7 +5,7 @@ export default class SiteSection {
   public siteSectionSlug: string | null;
   public siteSectionImgBig: string | null;
   public siteSectionImgSmall: string | null;
-  public siteSectionPriority: string | null;
+  public siteSectionPriority: number;
   public siteSectionStatus: number | null;
   public siteSectionUrl: string;
   public siteSectionFreeText1: string;

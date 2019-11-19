@@ -4,6 +4,9 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Разделы сайта</h2>
+          <span class="brc-admin-card__help">
+            <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
+          </span>
 
           <div v-if="createNewSiteSectionMode" class="brc-admin-card-create-row">
             <b-field label="Наименование раздела:" horizontal>
@@ -29,15 +32,49 @@
       </template>
 
       <template #content>
-        <vue-good-table :columns="headerFields" :rows="siteSectionItems">
-          <template slot="table-row" slot-scope="props">
-            <nuxt-link
-              v-if="props.column.field == 'siteSectionName'"
-              :to="{ name: 'admin-site-section-card', params: { siteSection: props.row.siteSectionUrl}}"
-            >{{props.row.siteSectionName}}</nuxt-link>
-            <span v-else>{{props.formattedRow[props.column.field]}}</span>
-          </template>
-        </vue-good-table>
+        <div class="brc_admin-sitesection-list">
+          <div class="brc_admin-sitesection-list-item">
+            <span>Статус</span>
+            <span>Наименование</span>
+            <span>Фото на странице</span>
+            <span>Фото в карточке</span>
+            <span>Удалить</span>
+          </div>
+
+          <draggable v-model="siteSectionItems" @change="handleDragChange">
+            <div
+              class="brc_admin-sitesection-list-item"
+              v-for="iterItem in siteSectionItems"
+              :key="iterItem.siteSectionId"
+            >
+              <b-switch
+                v-model="iterItem.siteSectionStatus"
+                true-value="1"
+                false-value="0"
+                type="is-success"
+                size="is-small"
+                @input="changeStatus(iterItem)"
+              ></b-switch>
+              <nuxt-link
+                :to="{ name: 'admin-site-section-card', params: { siteSection: iterItem.siteSectionUrl}}"
+              >{{iterItem.siteSectionName}}</nuxt-link>
+
+              <b-upload @input="addImage(...arguments,iterItem,true)">
+                <a class="button is-link">
+                  <b-icon icon="upload"></b-icon>
+                </a>
+              </b-upload>
+
+              <b-upload @input="addImage(...arguments,iterItem,false)">
+                <a class="button is-link">
+                  <b-icon icon="upload"></b-icon>
+                </a>
+              </b-upload>
+
+              <b-button type="is-danger" icon-right="delete" @click="deleteSiteSection(iterItem)"></b-button>
+            </div>
+          </draggable>
+        </div>
       </template>
     </BaseCard>
   </div>
@@ -64,23 +101,6 @@ export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false
   private newSiteSection: SiteSection = new SiteSection()
-
-  private headerFields = [
-    {
-      field: 'siteSectionName',
-      label: 'Наименование'
-    },
-    {
-      field: 'siteSectionPriority',
-      label: 'Приоритет',
-      type: 'number'
-    },
-    {
-      field: 'siteSectionStatus',
-      label: 'Статус',
-      type: 'number'
-    }
-  ]
 
   private layout () {
     return 'admin'
@@ -117,7 +137,61 @@ export default class AdminSiteSectionList extends Vue {
     this.newSiteSection = new SiteSection()
     this.createNewSiteSectionMode = false
   }
+
+  private async addImage (imageFile: string, siteSection: SiteSection, isBig: boolean) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, formData, isBig)
+  }
+
+  private async changeStatus (siteSection: SiteSection) {
+    await getServiceContainer().publicEkosetService.saveSiteSection(
+      siteSection
+    )
+  }
+
+  private async deleteSiteSection (siteSection: SiteSection) {
+    const okCallback = async () => {
+      await getServiceContainer().publicEkosetService.deleteSiteSection(siteSection.siteSectionUrl)
+      this.updateItems()
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел ?', 'Подтвердите удаление', okCallback)
+  }
+
+  private async handleDragChange () {
+    for (let i = 0; i < this.siteSectionItems.length; i++) {
+      this.siteSectionItems[i].siteSectionPriority = this.siteSectionItems.length - i;
+      await getServiceContainer().publicEkosetService.saveSiteSection(this.siteSectionItems[i])
+    }
+  }
+
 }
 </script>
 
+
+
+<style lang="scss">
+@import '@/styles/variables.scss';
+
+.brc_admin-sitesection-list-item {
+  margin-top: 10px;
+
+  display: grid;
+  grid-template-columns: 50px 1fr 220px 220px 60px;
+  grid-column-gap: 20px;
+  padding: 5px;
+  padding-left: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  line-height: 2em;
+
+  * {
+    margin-bottom: 0px !important;
+    font-weight: $font-regular !important;
+    font-size: 15px !important;
+  }
+
+  cursor: move;
+}
+</style>  
 

@@ -46,9 +46,9 @@
       <template #content>
         <div class="brc_admin-client-list">
           <div class="brc_admin-client-list-item">
+            <span>Статус</span>
             <span>Наименование</span>
             <span>Группа</span>
-            <span>Статус</span>
           </div>
 
           <draggable v-model="itemList">
@@ -57,6 +57,15 @@
               v-for="iterItem in itemList"
               :key="iterItem.partnerId"
             >
+              <b-switch
+                v-model="iterItem.partnerStatus"
+                true-value="1"
+                false-value="0"
+                type="is-success"
+                size="is-small"
+                style="justify-content: flex-end;"
+              ></b-switch>
+
               <b-input
                 placeholder="Наименование"
                 type="text"
@@ -66,14 +75,6 @@
               ></b-input>
 
               <AdminPartnerGroupSelector v-model="iterItem.partnerGroupId"></AdminPartnerGroupSelector>
-              <b-switch
-                v-model="iterItem.partnerStatus"
-                true-value="1"
-                false-value="0"
-                type="is-success"
-                size="is-small"
-                style="justify-content: flex-end;"
-              ></b-switch>
             </div>
           </draggable>
         </div>
@@ -169,7 +170,7 @@ export default class AdminClientList extends Vue {
   margin-top: 10px;
 
   display: grid;
-  grid-template-columns: 1fr 450px 80px;
+  grid-template-columns: 50px 1fr 450px;
   grid-column-gap: 20px;
   justify-content: flex-end;
 
