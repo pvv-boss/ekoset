@@ -3,7 +3,7 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Направления деятельности</h2>
+          <h2>Виды деятельности</h2>
 
           <div v-if="createNewMode" class="brc-admin-card-create-row">
             <b-field label="Наименование:" horizontal>
@@ -89,7 +89,7 @@ export default class AdminClActivityTypes extends Vue {
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    breadCrumbList.push({ name: 'Направления деятельности', link: '' })
+    breadCrumbList.push({ name: 'Вид деятельности', link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     const data = await Promise.all([itemList])
