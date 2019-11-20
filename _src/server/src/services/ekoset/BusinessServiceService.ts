@@ -65,7 +65,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async delete (id: number) {
-    return this.deleteById(this.apiViewName, 'business_service_id = $1', id);
+    return this.deleteById('business_service', 'business_service_id = $1', id);
   }
 
 

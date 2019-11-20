@@ -4,7 +4,8 @@
       :columns="headerFields"
       :rows="activityRelationItems"
       :sort-options="{
-          enabled: true
+          enabled: true,
+          initialSortBy: {field: 'clActivityName', type: 'asc'}
       }"
     >
       <template #table-row="props">
@@ -45,8 +46,7 @@ export default class AdminActivityRelationList extends Vue {
     },
     {
       field: 'clActivityName',
-      label: 'Наименование',
-      type: "text"
+      label: 'Наименование'
     }
   ]
 

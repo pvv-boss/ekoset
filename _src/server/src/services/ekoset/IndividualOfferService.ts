@@ -64,6 +64,6 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async delete (id: number) {
-    return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
+    return this.deleteById('individual_offer', 'ind_offer_id = $1', id);
   }
 }

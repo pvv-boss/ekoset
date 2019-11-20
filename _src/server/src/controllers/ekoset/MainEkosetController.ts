@@ -220,7 +220,7 @@ export default class MainEkosetController extends BaseController {
     @Param('id') id: number,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.deleteBrand(id);
-    // return MainEkosetController.createSuccessResponse(result, response);
+    return MainEkosetController.createSuccessResponse(result, response);
   }
 
   @Put('/activities')
@@ -235,8 +235,8 @@ export default class MainEkosetController extends BaseController {
   public async deleteSiteSection (
     @Param('id') id: number,
     @Res() response: Response) {
-    // const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
-    // return BusinessServiceController.createSuccessResponse(result, response);
+    const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
+    return BusinessServiceController.createSuccessResponse(result, response);
   }
 
   // Рекомендации

@@ -35,8 +35,8 @@
           :search-options="{enabled: true, placeholder: 'Поиск по всем полям'}"
           :fixed-header="true"
           :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'articlePublishDate', type: 'desc'}
+          enabled: true //,
+          // initialSortBy: {field: 'articlePublishDate', type: 'desc'}
       }"
         >
           <template slot="table-row" slot-scope="props">
@@ -118,8 +118,12 @@ export default class AdminArticleList extends Vue {
       tdClass: 'brc-admin-centered-td'
     },
     {
-      field: 'articlePublishDate',
-      label: 'Дата'
+      // field: 'articlePublishDate',
+      label: 'Дата',
+      field: (rowObj) => {
+        return rowObj.articlePublishDate ? (new Date(rowObj.articlePublishDate)).toLocaleDateString('ru-RU') : ''
+      }
+
     },
     {
       field: 'articleTitle',

@@ -124,7 +124,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async deleteBrand (id: number) {
-    // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
+    return this.deleteById('cl_brand', 'cl_brand_id = $1', id);
   }
 
   public async saveBrand (clBrand: ClBrand) {
@@ -153,7 +153,7 @@ export default class MainEkosetService extends BaseService {
 
 
   public async deleteSiteSection (id: number) {
-    // return this.deleteById(this.apiViewName, 'ind_offer_id = $1', id);
+    return this.deleteById('site_section', 'site_section_id = $1', id);
   }
 
   // Рекомендации
