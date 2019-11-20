@@ -1,5 +1,12 @@
 <template>
-  <vue-good-table :columns="headerFields" :rows="clientTypeRelationItems">
+  <vue-good-table
+    :columns="headerFields"
+    :rows="clientTypeRelationItems"
+    :sort-options="{
+          enabled: true,
+          initialSortBy: {field: 'clClientName', type: 'asc'}
+      }"
+  >
     <template #table-row="props">
       <input
         v-if="props.column.field == 'clClientId'"
@@ -30,10 +37,12 @@ export default class AdminClientTypeRelationList extends Vue {
   @Prop({ type: Boolean, default: false })
   private disabled
 
+
   private headerFields = [
     {
       field: 'clClientId',
-      label: ''
+      label: '',
+      sortable: false
     },
     {
       field: 'clClientName',

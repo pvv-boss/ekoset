@@ -60,7 +60,8 @@ export default class AdminTagRelationList extends Vue {
   private headerFields = [
     {
       field: 'clArticleId',
-      label: ''
+      label: '',
+      sortable: false
     },
     {
       field: 'clArticleName',

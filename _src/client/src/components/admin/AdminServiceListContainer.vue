@@ -51,6 +51,7 @@
             type="is-success"
             size="is-small"
             style="justify-content: flex-end;"
+            @input="saveService(iterService)"
           ></b-switch>
           <nuxt-link
             :to="{ name: 'admin-service-card', params: { siteSection: siteSection.siteSectionUrl, service: iterService.businessServiceUrl}}"
@@ -68,12 +69,17 @@
             </a>
           </b-upload>
 
-          <b-input placeholder="Единица измерения" v-model="iterService.businessServiceUnit"></b-input>
+          <b-input
+            placeholder="Единица измерения"
+            v-model.lazy="iterService.businessServiceUnit"
+            @blur="saveService(iterService)"
+          ></b-input>
 
           <b-input
             placeholder="Цена, руб."
             type="number"
-            v-model.number="iterService.businessServicePrice"
+            v-model.lazy.number="iterService.businessServicePrice"
+            @blur="saveService(iterService)"
           ></b-input>
 
           <b-button type="is-danger" icon-right="delete" @click="deleteService(iterService)"></b-button>
@@ -117,6 +123,7 @@ export default class AdminServiceListContainer extends Vue {
   private handleChange () {
     for (let i = 0; i < this.serviceList.length; i++) {
       this.serviceList[i].businessServicePriority = this.serviceList.length - i;
+      this.saveService(this.serviceList[i])
     }
     this.$emit('input', this.serviceList)
   }
@@ -142,11 +149,12 @@ export default class AdminServiceListContainer extends Vue {
   private async addServiceImage (imageFile: string, serviceItem: BusinessService, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    if (isBig) {
-      serviceItem.bigImageFormData = formData
-    } else {
-      serviceItem.smallImageFormData = formData
-    }
+    getServiceContainer().mediaService.saveServiceImage(serviceItem.businessServiceId, formData, isBig)
+  }
+
+  private async saveService (serviceItem: BusinessService) {
+    const saved = await getServiceContainer().businessServiceService.save(serviceItem)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteService (service: BusinessService) {

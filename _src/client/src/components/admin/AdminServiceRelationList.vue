@@ -1,6 +1,13 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
-    <vue-good-table :columns="headerFields" :rows="serviceRelationItems">
+    <vue-good-table
+      :columns="headerFields"
+      :rows="serviceRelationItems"
+      :sort-options="{
+          enabled: true,
+          initialSortBy: {field: 'businessServiceName', type: 'asc'}
+      }"
+    >
       <template #table-row="props">
         <input
           v-if="props.column.field == 'businessServiceId'"
@@ -34,11 +41,16 @@ export default class AdminServiceRelationList extends Vue {
   private headerFields = [
     {
       field: 'businessServiceId',
-      label: ''
+      label: '',
+      sortable: false
     },
     {
       field: 'businessServiceName',
-      label: 'Наименование'
+      label: 'Наименование',
+      filterOptions: {
+        enabled: true,
+        placeholder: 'Введите часть наименования',
+      }
     }
   ]
 

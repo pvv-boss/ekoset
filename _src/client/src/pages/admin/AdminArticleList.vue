@@ -34,6 +34,10 @@
           :rows="articleItems"
           :search-options="{enabled: true, placeholder: 'Поиск по всем полям'}"
           :fixed-header="true"
+          :sort-options="{
+          enabled: true,
+          initialSortBy: {field: 'articlePublishDate', type: 'desc'}
+      }"
         >
           <template slot="table-row" slot-scope="props">
             <b-switch
@@ -190,6 +194,7 @@ export default class AdminArticleList extends Vue {
 
   private async changeArticleStatus (article: Article) {
     await getServiceContainer().articleService.saveArticle(article)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteArticle (article: Article) {

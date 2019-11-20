@@ -8,15 +8,6 @@
             statusCaption="Активен"
             v-model.number="siteSectionItem.siteSectionStatus"
           ></AdminStatusSelector>
-
-          <b-field label="Приоритет" horizontal>
-            <b-input
-              placeholder="Приоритет"
-              type="number"
-              v-model.number="siteSectionItem.siteSectionPriority"
-            ></b-input>
-          </b-field>
-
           <b-button type="is-primary" @click="saveSiteSection">Сохранить</b-button>
         </div>
       </template>
@@ -248,11 +239,12 @@ export default class AdminSiteSectionCard extends Vue {
   private async addSiteSectionImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    if (isBig) {
-      this.siteSectionItem.bigImageFormData = formData
-    } else {
-      this.siteSectionItem.smallImageFormData = formData
-    }
+    getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
+    // if (isBig) {
+    //   this.siteSectionItem.bigImageFormData = formData
+    // } else {
+    //   this.siteSectionItem.smallImageFormData = formData
+    // }
   }
 
   private saveSiteSection () {

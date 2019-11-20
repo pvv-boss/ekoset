@@ -137,7 +137,6 @@ import ClActivity from '@/models/ekoset/ClActivity'
 import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import AdminClientTypeSelector from '@/components/admin/AdminClientTypeSelector.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
@@ -153,7 +152,6 @@ import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferList
     BreadCrumbs,
     AdminClActivitySelector,
     AdminStatusSelector,
-    AdminClientTypeSelector,
     AdminImageUploader,
     AdminDynamicComponentsContainer,
     BaseCard,
@@ -213,11 +211,7 @@ export default class AdminIndividualOfferCard extends Vue {
   private async addOfferImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    if (isBig) {
-      this.indOfferItem.bigImageFormData = formData
-    } else {
-      this.indOfferItem.smallImageFormData = formData
-    }
+    getServiceContainer().mediaService.saveOfferImage(this.indOfferItem.indOfferId, formData, isBig)
   }
 
   private deleteOffer () {

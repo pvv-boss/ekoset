@@ -164,17 +164,7 @@ export default class AdminBrandCard extends Vue {
   private async saveBrandImage (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    this.brandItem.smallImageFormData = formData
-  }
-
-  private deleteBrand () {
-    const self = this
-    const okCallback = async () => {
-      await getServiceContainer().publicEkosetService.deleteBrand(this.brandItem.clBrandId)
-      self.$router.push({ name: 'admin-brands' })
-      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
+    getServiceContainer().mediaService.saveBrandImage(this.brandItem.clBrandId, formData, false)
   }
 
 }

@@ -137,28 +137,34 @@
           </b-tab-item>
 
           <b-tab-item label="Тип клиента, объекта" v-if="!serviceItem.businessServiceParentId">
-            <div class="brc-admin-card-field-list_column" style="justify-content: flex-start;">
+            <div class="brc-admin-card-field-list_column">
               <b-field label="Типы клиентов" style="flex:1">
-                <AdminClientTypeRelationList
-                  :clientTypeRelationItems="clientTypeRelationList"
-                  @clienttypechecked="clientTypeChecked"
-                  :disabled="serviceItem.businessServiceParentId > 0"
-                ></AdminClientTypeRelationList>
-              </b-field>
-              <b-field label="Виды деятельности" style="flex:1">
-                <AdminActivityRelationList
-                  :activityRelationItems="activityRelationList"
-                  @activitychecked="activityChecked"
-                  :disabled="serviceItem.businessServiceParentId > 0"
-                ></AdminActivityRelationList>
+                <div
+                  class="brc-admin-card__help"
+                  style="display:flex; flex-direction:column; flex:1"
+                >
+                  <span>Тип клиента определяет будет ли данная услуга выводиться в списке услуг комплексных решений (по типу клиента) данного раздела</span>
+                  <AdminClientTypeRelationList
+                    :clientTypeRelationItems="clientTypeRelationList"
+                    @clienttypechecked="clientTypeChecked"
+                    :disabled="serviceItem.businessServiceParentId > 0"
+                  ></AdminClientTypeRelationList>
+                </div>
               </b-field>
 
-              <div class="brc-admin-card__help" style="display:flex; flex-direction:column; flex:1">
-                <span>Тип клиента определяет будет ли данная услуга выводиться в списке услуг комплексных решений (по типу клиента) данного раздела</span>
-                <span>
-                  <br />Вид деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного вида деятельности)
-                </span>
-              </div>
+              <b-field label="Виды деятельности" style="flex:1;margin-left:30px;">
+                <div
+                  class="brc-admin-card__help"
+                  style="display:flex; flex-direction:column; flex:1"
+                >
+                  <span>Вид деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного вида деятельности)</span>
+                  <AdminActivityRelationList
+                    :activityRelationItems="activityRelationList"
+                    @activitychecked="activityChecked"
+                    :disabled="serviceItem.businessServiceParentId > 0"
+                  ></AdminActivityRelationList>
+                </div>
+              </b-field>
             </div>
           </b-tab-item>
 
@@ -287,16 +293,6 @@ export default class AdminServiceCard extends Vue {
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private deleteService () {
-    const self = this
-    const okCallback = async () => {
-      await getServiceContainer().businessServiceService.delete(this.serviceItem.businessServiceId)
-      self.$router.push({ name: 'admin-services' })
-      self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
-  }
-
   private brandChecked (clBrandId: number, hasRelation: boolean) {
     getServiceContainer().publicEkosetService.addOrRemoveBrand2Service(clBrandId, this.serviceItem.businessServiceId, hasRelation)
   }
@@ -313,11 +309,7 @@ export default class AdminServiceCard extends Vue {
   private async addServiceImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    if (isBig) {
-      this.serviceItem.bigImageFormData = formData
-    } else {
-      this.serviceItem.smallImageFormData = formData
-    }
+    getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, formData, isBig)
   }
 
 

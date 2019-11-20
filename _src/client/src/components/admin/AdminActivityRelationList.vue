@@ -1,6 +1,12 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
-    <vue-good-table :columns="headerFields" :rows="activityRelationItems">
+    <vue-good-table
+      :columns="headerFields"
+      :rows="activityRelationItems"
+      :sort-options="{
+          enabled: true
+      }"
+    >
       <template #table-row="props">
         <input
           v-if="props.column.field == 'clActivityId'"
@@ -34,11 +40,13 @@ export default class AdminActivityRelationList extends Vue {
   private headerFields = [
     {
       field: 'clActivityId',
-      label: ''
+      label: '',
+      sortable: false
     },
     {
       field: 'clActivityName',
-      label: 'Наименование'
+      label: 'Наименование',
+      type: "text"
     }
   ]
 

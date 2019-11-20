@@ -16,7 +16,7 @@ V<template>
           ></b-input>
         </b-field>
 
-        <b-field label="Направление:" horizontal>
+        <b-field label="Вид деятельности:" horizontal>
           <AdminClActivitySelector v-model="newOffer.clActivityId"></AdminClActivitySelector>
         </b-field>
 
@@ -36,7 +36,7 @@ V<template>
       <div class="brc_admin-offer-list-item">
         <span>Статус</span>
         <span>Наименование предложения</span>
-        <span>Направление деятельности</span>
+        <span>Вид деятельности</span>
         <span>Фото на странице</span>
         <span>Фото на карточке</span>
         <span>Удалить</span>
@@ -55,13 +55,14 @@ V<template>
             type="is-success"
             size="is-small"
             style="justify-content: flex-end;"
+            @input="saveOffer(iterOffer)"
           ></b-switch>
 
           <nuxt-link
             :to="{ name: 'admin-individual-offer-card', params: { siteSection: siteSection.siteSectionUrl, offer: iterOffer.indOfferUrl}}"
           >{{iterOffer.indOfferName}}</nuxt-link>
 
-          <AdminClActivitySelector v-model="iterOffer.clActivityId"></AdminClActivitySelector>
+          <AdminClActivitySelector v-model="iterOffer.clActivityId" @input="saveOffer(iterOffer)"></AdminClActivitySelector>
 
           <b-upload @input="addOfferImage(...arguments,iterOffer,true)">
             <a class="button is-link">
@@ -115,6 +116,7 @@ export default class AdminIndividualOfferList extends Vue {
   private handleChange () {
     for (let i = 0; i < this.offerList.length; i++) {
       this.offerList[i].indOfferPriority = this.offerList.length - i;
+      this.saveOffer(this.offerList[i])
     }
     this.$emit('input', this.offerList)
   }
@@ -130,6 +132,11 @@ export default class AdminIndividualOfferList extends Vue {
     this.$emit('newoffer:saved', saved)
   }
 
+  private async saveOffer (offer: IndividualOffer) {
+    getServiceContainer().individualOfferService.save(offer)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  }
+
   private cancelSaveNewOffer () {
     this.newOffer = new IndividualOffer()
     this.createNewOfferMode = false
@@ -138,11 +145,7 @@ export default class AdminIndividualOfferList extends Vue {
   private async addOfferImage (imageFile: string, offerItem: IndividualOffer, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    if (isBig) {
-      offerItem.bigImageFormData = formData
-    } else {
-      offerItem.smallImageFormData = formData
-    }
+    getServiceContainer().mediaService.saveOfferImage(offerItem.indOfferId, formData, isBig)
   }
 
   private async deleteOffer (offer: IndividualOffer) {
