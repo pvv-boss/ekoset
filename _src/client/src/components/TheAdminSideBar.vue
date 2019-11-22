@@ -6,7 +6,7 @@
   >
     <b-menu>
       <b-menu-list>
-        <b-menu-item tag="nuxt-link" label="Переход на Сайт" :to="{ name: 'main'}"></b-menu-item>
+        <b-menu-item tag="nuxt-link" label="Переход на Сайт" :to="{ name: 'main'}" target="_blank"></b-menu-item>
 
         <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections'}"></b-menu-item>
 

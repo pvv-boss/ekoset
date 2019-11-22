@@ -120,6 +120,7 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables.scss';
 .brc-article-list_vertical {
   margin-top: 0;
 }
@@ -194,6 +195,16 @@ export default class ArticleCard extends Vue {
   .brc-article-related {
     padding-left: 0 !important;
     margin-top: 30px;
+  }
+  blockquote {
+    margin: 0 !important;
+    color: #231e28 !important;
+    margin: 15px 0 15px 0 !important;
+    padding: 30px !important;
+    border: 1px solid $red !important;
+    font-weight: $font-medium;
+    font-size: 17px;
+    position: relative;
   }
 }
 </style>
