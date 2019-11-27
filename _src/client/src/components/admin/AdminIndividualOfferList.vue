@@ -20,8 +20,12 @@ V<template>
           <AdminClActivitySelector v-model="newOffer.clActivityId"></AdminClActivitySelector>
         </b-field>
 
-        <b-button @click="saveNewOffer" type="is-primary">Сохранить</b-button>
-        <b-button @click="cancelSaveNewOffer">Отмена</b-button>
+        <b-button @click="saveNewOffer" type="is-primary">
+          <b-icon icon="check"></b-icon>
+        </b-button>
+        <b-button @click="cancelSaveNewOffer">
+          <b-icon icon="cancel"></b-icon>
+        </b-button>
       </div>
 
       <b-button

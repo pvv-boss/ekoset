@@ -15,6 +15,15 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
+
+  @Get('/admin/panel/footer/business')
+  public async adminGetFooterServicesForBusinessClient (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForBusinessClient();
+    return CmsController.createSuccessResponse(result, response);
+  }
+
   @Put('/admin/panel/footer/private/:serviceId')
   public async adminAddFooterServicesForPrivateClient (
     @Res() response: Response,
@@ -33,14 +42,6 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
-
-  @Get('/admin/panel/footer/business')
-  public async adminGetFooterServicesForBusinessClient (
-    @Res() response: Response
-  ) {
-    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForBusinessClient();
-    return CmsController.createSuccessResponse(result, response);
-  }
 
   @Put('/admin/panel/footer/business/:serviceId')
   public async adminAddFooterServicesForBusinessClient (

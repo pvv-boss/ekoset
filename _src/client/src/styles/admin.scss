@@ -7,7 +7,7 @@
   background-color: #e9ebee;
 
   .brc-admin-centered-td {
-    vertical-align:middle;
+    vertical-align: middle;
     text-align: center;
   }
 
@@ -47,7 +47,8 @@
   }
 
   *.field-label {
-    flex-basis: auto
+    flex-basis: auto;
+    margin-right: 10px;
   }
 
   @media (max-width: 768px) {

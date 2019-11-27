@@ -138,6 +138,11 @@ export default class BusinessServiceService extends BaseService {
 
   // Для футера
   public async getServicesForFooter (clientType: string) {
+    return HttpUtil.httpGet(this.buildHttRequest(`services/footer/${clientType}`))
+  }
+
+  // Для футера админка
+  public async adminGetServicesForFooter (clientType: string) {
     return HttpUtil.httpGet(this.buildHttRequest(`admin/panel/footer/${clientType}`))
   }
 

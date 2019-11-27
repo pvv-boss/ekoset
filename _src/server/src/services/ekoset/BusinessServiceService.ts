@@ -125,6 +125,17 @@ export default class BusinessServiceService extends BaseService {
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.businessClientTypeId]);
   }
 
+  public async getFooterServicesForPrivateClient () {
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1';
+    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.PrivatePersonClientTypeId]);
+  }
+
+  public async getFooterServicesForBusinessClient () {
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1';
+    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.businessClientTypeId]);
+  }
+
+
   public async adminAddFooterServicesForPrivateClient (businessServiceId: number) {
     const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 1 where business_service_id = $1 and cl_client_id = $2`;
     return this.execNone(updateStmt, [businessServiceId, this.PrivatePersonClientTypeId]);

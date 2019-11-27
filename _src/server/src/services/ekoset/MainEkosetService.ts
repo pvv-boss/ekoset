@@ -86,15 +86,15 @@ export default class MainEkosetService extends BaseService {
   //
 
   public async getBrandsForHomePage () {
-    return this.getDbViewResult(this.apiBrandsViewName, null, 'cl_brand_main_page_visible = 1');
+    return this.getDbViewResult(this.apiBrandsViewName, null, 'cl_brand_main_page_visible = 1 and cl_brand_status=1');
   }
 
   public async getBrandsBySiteSection (siteSectionId: number) {
-    return this.getDbViewResult(this.apiBrandsForSitreSectionViewName, null, 'site_section_id = $1', [siteSectionId]);
+    return this.getDbViewResult(this.apiBrandsForSitreSectionViewName, null, 'site_section_id = $1 and cl_brand_status=1', [siteSectionId]);
   }
 
   public async getBrandsByBusinessService (businessServiceId: number) {
-    return this.getDbViewResult(this.apiBrandsByBusinessService, null, 'business_service_id = $1', [businessServiceId]);
+    return this.getDbViewResult(this.apiBrandsByBusinessService, null, 'business_service_id = $1 and cl_brand_status=1', [businessServiceId]);
   }
 
   public async saveSiteSection (siteSection: SiteSection) {

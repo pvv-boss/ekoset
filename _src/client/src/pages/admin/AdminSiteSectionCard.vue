@@ -240,11 +240,6 @@ export default class AdminSiteSectionCard extends Vue {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
     getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
-    // if (isBig) {
-    //   this.siteSectionItem.bigImageFormData = formData
-    // } else {
-    //   this.siteSectionItem.smallImageFormData = formData
-    // }
   }
 
   private saveSiteSection () {

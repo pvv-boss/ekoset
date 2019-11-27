@@ -12,7 +12,7 @@
 
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
 
-        <!-- </b-menu-item> -->
+        <!-- <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Главная страница"></b-menu-item> -->
 
         <b-menu-item
           icon="link"

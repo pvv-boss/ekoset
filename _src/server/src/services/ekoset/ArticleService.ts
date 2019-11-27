@@ -112,7 +112,7 @@ export default class ArticleService extends BaseService {
   }
 
   public async save (article: Article) {
-    article.articlePublishDate = new Date(Date.now()).toUTCString();
+    article.articlePublishDate = !article.articlePublishDate ? new Date(Date.now()).toUTCString() : article.articlePublishDate;
     try {
       // Заменяем встроенные картинки Base64 на URL
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);

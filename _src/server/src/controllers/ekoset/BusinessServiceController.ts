@@ -70,6 +70,23 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/services/footer/private')
+  public async getFooterServicesForPrivateClient (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.BusinessServiceService.getFooterServicesForPrivateClient();
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/services/footer/business')
+  public async getFooterServicesForBusinessClient (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.BusinessServiceService.getFooterServicesForBusinessClient();
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
   @Get('/services/:service/children')
   public async getChildServicesByParentId (
     @Res() response: Response,

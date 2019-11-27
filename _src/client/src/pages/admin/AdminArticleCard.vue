@@ -48,6 +48,21 @@
                   ></b-input>
                 </b-field>
 
+                <b-field label="Дата публикации">
+                  <b-datepicker
+                    v-model="articleDateDate"
+                    :day-names="dayNamesRu"
+                    :month-names="monthNamesRu"
+                    :first-day-of-week="1"
+                    placeholder="Выберите дату ..."
+                  >
+                    <button class="button is-primary" @click="date = new Date()">
+                      <b-icon icon="calendar-today"></b-icon>
+                      <span>Сегодня</span>
+                    </button>
+                  </b-datepicker>
+                </b-field>
+
                 <b-field label="Автор">
                   <b-input placeholder="Автор" type="text" v-model="articleItem.articleAuthor"></b-input>
                 </b-field>
@@ -138,6 +153,7 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
+import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
 
 @Component({
   components: {
@@ -157,6 +173,17 @@ export default class AdminArticleCard extends Vue {
   private articleItem: Article = new Article()
   private serviceRelationList: any[] = []
   private activeTab = 0
+
+  private get articleDateDate () {
+    return !!this.articleItem.articlePublishDate ? new Date(this.articleItem.articlePublishDate) : new Date(Date.now())
+  }
+
+  private set articleDateDate (selectedDate: Date) {
+    this.articleItem.articlePublishDate = selectedDate.toUTCString()
+  }
+
+  private dayNamesRu = dayNamesRu
+  private monthNamesRu = monthNamesRu
 
   private layout () {
     return 'admin'

@@ -39,7 +39,7 @@
                   <RecommendationListItem
                     :brand="brandItem"
                     :imageSrcForDesignMode="imageSrc"
-                    style="width:158px;height:116px;margin:0px;padding:0px;"
+                    style="margin:0px;padding:0px;"
                   ></RecommendationListItem>
                 </template>
               </AdminImageUploader>
