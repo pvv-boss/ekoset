@@ -28,23 +28,25 @@
     margin: 0 !important;
     color: #231E28 !important;
     margin: 15px 0 15px 0 !important;
-    
+    padding: 60px !important;
     border: 1px solid $red !important;
     font-weight: $font-medium;
     font-size: 17px;
     position: relative;
   }
+
   @media (max-width: 768px) {
     blockquote {
       padding: 40px !important;
     }
   }
-  
+
   h1,
   h2,
   h3 {
     text-align: unset !important;
   }
+
   strong {
     font-weight: $font-medium;
   }
