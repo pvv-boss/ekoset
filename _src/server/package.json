@@ -25,6 +25,7 @@
     "@types/passport-local": "latest",
     "@types/request": "^2.48.3",
     "@types/request-promise-native": "^1.0.17",
+    "class-validator": "latest",
     "awesome-typescript-loader": "latest",
     "babel-cli": "latest",
     "babel-loader": "^8.0.6",
@@ -55,7 +56,7 @@
   },
   "dependencies": {
     "@sindresorhus/slugify": "latest",
-    "bcrypt": "latest",
+    "bcrypt": "3.0.6",
     "body-parser": "^1.19.0",
     "camelcase-keys": "latest",
     "class-transformer": "^0.2.3",
