@@ -91,6 +91,7 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
+  -moz-column-gap: 20px;
 
   .col-2 {
     flex: 2
@@ -103,6 +104,8 @@
   justify-content: space-between;
   // align-items: baseline;
   gap: 5px;
+  -moz-column-gap: 5px;
+  -webkit-column-gap: 5x;
 
   *.field-body {
     width: 500px;

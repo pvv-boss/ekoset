@@ -1,6 +1,5 @@
 <template>
   <div class="brc_admin-freeblock-item">
-    <span>{{dynamicComponentInfo.dispalyName}}</span>
     <b-switch
       v-model="dynamicComponentInfoState.visible"
       true-value="1"
@@ -8,6 +7,19 @@
       type="is-success"
       size="is-small"
     ></b-switch>
+    <span style="margin-right:auto;">{{dynamicComponentInfo.dispalyName}}</span>
+    <b-button
+      v-if="dynamicComponentInfoState.code===6"
+      size="is-small"
+      icon-right="pencil"
+      @click="$emit('componentinfo:edit', dynamicComponentInfoState)"
+    ></b-button>
+    <b-button
+      v-if="dynamicComponentInfoState.code===6"
+      size="is-small"
+      icon-right="delete"
+      @click="$emit('componentinfo:delete', dynamicComponentInfoState)"
+    ></b-button>
   </div>
 </template>
 
@@ -34,13 +46,22 @@ export default class AdminFreeBlockItem extends Vue {
 .brc_admin-freeblock-item {
   display: flex;
   justify-content: space-between;
-
-  padding-left: 5px;
+  align-items: center;
   border: 1px solid lightgrey;
   border-radius: 2px;
   font-size: $font-small;
-  line-height: 2em;
+  white-space: nowrap;
+  padding: 10px;
+  column-gap: 10px;
+  -moz-column-gap: 10px;
+  gap: 5px;
+  -webkit-column-gap: 10px;
 
   cursor: move;
+
+  > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 </style>  

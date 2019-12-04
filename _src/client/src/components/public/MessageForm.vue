@@ -33,7 +33,7 @@
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || formMessageData.phone.length > 0) && $v.formMessageData.phone.$invalid}"
-            >Введите телефон в формате +7 (999) 999-9999</span>
+            >Введите телефон</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
@@ -150,7 +150,7 @@ export default class MessageForm extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 .brc-feedback {
   border: 3px solid lightgrey;
   border-radius: 5px;
@@ -178,7 +178,7 @@ export default class MessageForm extends Vue {
     }
     textarea {
       width: 100%;
-      height: 115px;
+      height: 110px;
       margin: 0;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
@@ -196,7 +196,7 @@ export default class MessageForm extends Vue {
 
     input {
       width: 100%;
-      height: 48px;
+      height: 45px;
       margin: 0;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
@@ -254,7 +254,7 @@ export default class MessageForm extends Vue {
     text-decoration: none;
     width: 200px;
     max-width: 100%;
-    height: 50px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -286,7 +286,7 @@ export default class MessageForm extends Vue {
       font-size: 12px;
       cursor: pointer;
       padding-right: 20px;
-      background-image: url("/images/clip-icon.png");
+      background-image: url('/images/clip-icon.png');
       background-repeat: no-repeat;
       background-position: right;
       transition: 0.3s;

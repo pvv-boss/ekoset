@@ -18,7 +18,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { returnStatement } from '@babel/types';
 
 @Component
 export default class BasePagination extends Vue {

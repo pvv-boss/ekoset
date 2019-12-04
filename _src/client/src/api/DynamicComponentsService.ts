@@ -91,7 +91,7 @@ export default class DynamicComponentsService extends BaseService {
     const promises = [brandItems, articleItems, reccomendationLetterItems]
     const data = await Promise.all(promises)
 
-    // Прописываем данные в компопонте (в его пропы)
+    // Прописываем данные в компопонте (в его пропы) - для динамических. Формы и конструкторы уже с данными придут из баазы
     const componentsInfo: DynamicComponentInfo[] = await httpResultPr
 
     componentsInfo.sort((a, b) => {
@@ -99,7 +99,7 @@ export default class DynamicComponentsService extends BaseService {
     })
 
     const newsCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 3
+      return iter.code === 3
     })
     if (!!newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
@@ -113,7 +113,7 @@ export default class DynamicComponentsService extends BaseService {
 
 
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 2
+      return iter.code === 2
     })
     if (!!lettersCompoenentInfo) {
       lettersCompoenentInfo.props.recommLetterList = data[2]
@@ -126,7 +126,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const recommendCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.id === 1
+      return iter.code === 1
     })
     if (!!recommendCompoenentInfo && recommendCompoenentInfo.visible === 1) {
       recommendCompoenentInfo.props.brandList = data[0]

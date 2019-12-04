@@ -102,7 +102,7 @@
                 </div>
 
                 <b-field
-                  label="Настройка стандартных блоков"
+                  label="Управление блоками"
                   class="brc-admin-field-list_column"
                   style="margin-top:15px;"
                 >
@@ -111,6 +111,10 @@
               </div>
             </div>
           </b-tab-item>
+
+          <!-- <b-tab-item label="Управление блоками">
+            <import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue' v-model="dynamicComponentInfo"></import>
+          </b-tab-item>-->
 
           <b-tab-item label="Услуги">
             <AdminServiceListContainer
@@ -165,12 +169,12 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
-import { returnStatement } from '@babel/types'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue'
 
 @Component({
   components: {
@@ -184,7 +188,8 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
     BaseCard,
     SiteSectionListItem,
     AdminFreeContentBlockEditor,
-    AdminServiceListContainer
+    AdminServiceListContainer,
+    AdminFreeBlockInfoEditor
   }
 })
 export default class AdminSiteSectionCard extends Vue {

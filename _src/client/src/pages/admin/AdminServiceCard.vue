@@ -117,7 +117,7 @@
 
                 <b-field
                   v-if="!serviceItem.businessServiceParentId"
-                  label="Настройка стандартных блоков"
+                  label="Управление блоками"
                   class="brc-admin-field-list_column"
                   style="margin-top:15px;"
                 >

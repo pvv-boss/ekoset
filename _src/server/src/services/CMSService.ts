@@ -24,7 +24,22 @@ export default class CMSService extends BaseService {
   public async adminSaveDynamicComponentsSiteSection (siteSectionId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
       infos.forEach((iterComponentInfo) => {
-        this.execFunction('f_admin_add_block_info_sitesection', [siteSectionId, iterComponentInfo.id, iterComponentInfo.visible, iterComponentInfo.visibleIndex]);
+        try {
+          this.execFunction('f_admin_add_block_info_sitesection',
+            [
+              siteSectionId,
+              iterComponentInfo.code,
+              iterComponentInfo.visible,
+              iterComponentInfo.visibleIndex,
+              !!iterComponentInfo.dispalyName ? iterComponentInfo.dispalyName : '',
+              !!iterComponentInfo.head ? iterComponentInfo.head : '',
+              !!iterComponentInfo.props && !!iterComponentInfo.props.leftBlock ? iterComponentInfo.props.leftBlock : '',
+              !!iterComponentInfo.props && !!iterComponentInfo.props.rightBlock ? iterComponentInfo.props.rightBlock : '',
+              iterComponentInfo.id
+            ]);
+        } catch (exc) {
+          const r = exc;
+        }
       })
     }
     return {}
@@ -53,7 +68,8 @@ export default class CMSService extends BaseService {
     const result: DynamicComponentInfo[] = [];
 
     const brandList = new DynamicComponentInfo();
-    brandList.id = 1;
+    brandList.id = 0;
+    brandList.code = 1;
     brandList.head = 'Нас рекомендуют';
     brandList.dispalyName = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
@@ -65,7 +81,8 @@ export default class CMSService extends BaseService {
 
 
     const letters = new DynamicComponentInfo();
-    letters.id = 2;
+    letters.id = 0;
+    letters.code = 2;
     letters.head = 'Благодарственные письма';
     letters.dispalyName = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
@@ -76,7 +93,8 @@ export default class CMSService extends BaseService {
     }
 
     const news = new DynamicComponentInfo();
-    news.id = 3;
+    news.id = 0;
+    news.code = 3
     news.head = 'Новости';
     news.dispalyName = 'Новости';
     news.name = 'ArticleList';
@@ -88,7 +106,8 @@ export default class CMSService extends BaseService {
     }
 
     const bayService = new DynamicComponentInfo();
-    bayService.id = 4;
+    bayService.id = 0;
+    bayService.code = 4;
     bayService.name = 'MessageForm';
     bayService.dispalyName = 'Заказать услугу'
     bayService.visible = 1;
@@ -99,7 +118,8 @@ export default class CMSService extends BaseService {
 
 
     const askExpert = new DynamicComponentInfo();
-    askExpert.id = 5;
+    askExpert.id = 0;
+    askExpert.code = 5;
     askExpert.name = 'MessageForm';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
@@ -117,11 +137,17 @@ export default class CMSService extends BaseService {
     const result: DynamicComponentInfo[] = this.adminGetDynamicComponentsInfoDefault();
 
     dvViewResult.forEach((iterData) => {
-      const iterCompoentnInfo = this.getDynamicComponentInfoByCode(result, iterData.clSiteBlockCode);
-      if (!!iterCompoentnInfo) {
-        iterCompoentnInfo.visible = iterData.siteBlockVisibleInd
-        iterCompoentnInfo.visibleIndex = iterData.siteBlockPosition
-        iterCompoentnInfo.dispalyName = iterData.clSiteBlockName
+      if (iterData.clSiteBlockCode === 6) {
+        const freeBlockInfo = this.getFreeContentBlockDynamicComponentInfo(iterData);
+        result.push(freeBlockInfo);
+      } else {
+        const iterCompoentnInfo = this.getDynamicComponentInfoByCode(result, iterData.clSiteBlockCode);
+        if (!!iterCompoentnInfo) {
+          iterCompoentnInfo.id = iterData.siteBlockId
+          iterCompoentnInfo.visible = iterData.siteBlockVisibleInd
+          iterCompoentnInfo.visibleIndex = iterData.siteBlockPosition
+          iterCompoentnInfo.dispalyName = iterData.clSiteBlockName
+        }
       }
     });
 
@@ -129,6 +155,24 @@ export default class CMSService extends BaseService {
   }
 
   private getDynamicComponentInfoByCode (infos: DynamicComponentInfo[], code: number): DynamicComponentInfo {
-    return infos.find((iter) => iter.id === code);
+    return infos.find((iter) => iter.code === code);
+  }
+
+  private getFreeContentBlockDynamicComponentInfo (iterData: any): DynamicComponentInfo {
+    const freeContentBlock = new DynamicComponentInfo();
+    freeContentBlock.id = iterData.siteBlockId;
+    freeContentBlock.code = 6;
+    freeContentBlock.name = 'FreeContentBlock';
+    freeContentBlock.head = iterData.siteBlockHeader;
+    freeContentBlock.dispalyName = !!iterData.siteBlockName ? iterData.siteBlockName : 'Конструктор'
+    freeContentBlock.visible = iterData.siteBlockVisibleInd;
+    freeContentBlock.visibleIndex = iterData.siteBlockPosition;
+    freeContentBlock.props = {
+      bottomPosition: true,
+      leftBlock: iterData.siteBlockContent,
+      rightBlock: iterData.siteBlockContentRight
+    }
+
+    return freeContentBlock;
   }
 }

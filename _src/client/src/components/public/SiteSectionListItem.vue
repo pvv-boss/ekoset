@@ -66,7 +66,7 @@ export default class SiteSectionListItem extends Vue {
   }
 
   img {
-    max-width: 100%;
+    max-width: none;
     height: 90px;
   }
 }

@@ -5,5 +5,6 @@ export default class DynamicComponentInfo {
   public name: string
   public visibleIndex: number = 0
   public visible: number = 1
-  public props: {}
+  public props: any
+  public code: number
 }
