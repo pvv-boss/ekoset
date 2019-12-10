@@ -70,6 +70,17 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
+
+  @Delete('/admin/panel/cms/blocks/:id')
+  public async adminDeleteDynamicComponent (
+    @Param('id') serviceId: number,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.CMSService.adminDeleteDynamicComponent(serviceId);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+
   @Get('/admin/panel/cms/blocks/info/sitesection/:sitesectionId')
   public async adminGetDynamicComponentsInfoSiteSection (
     @Param('sitesectionId') sitesectionId: number,

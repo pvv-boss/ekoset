@@ -1,7 +1,7 @@
 <template>
   <div class="brc-feedback">
     <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
-    <h2>{{title}}</h2>
+    <h2 style="text-align: center !important;">{{title}}</h2>
     <form class="brc-message-form">
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
@@ -157,6 +157,11 @@ export default class MessageForm extends Vue {
   padding: 30px 15px;
   max-width: 900px;
   margin: 60px auto 0;
+
+  h2,
+  h3 {
+    text-align: center !important;
+  }
 }
 
 .brc-message-form__data {

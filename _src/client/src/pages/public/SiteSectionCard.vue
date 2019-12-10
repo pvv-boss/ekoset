@@ -11,32 +11,10 @@
       <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <FreeContentBlock
-      :leftBlock="siteSectionItem.siteSectionFreeText1"
-      :rightBlock="siteSectionItem.siteSectionFreeText2"
-    ></FreeContentBlock>
 
     <div class="brc-section__wrapper">
-      <h2 v-if="serviceList.length>0">Услуги</h2>
-      <ServiceList v-if="serviceList.length>0" :serviceList="serviceList"></ServiceList>
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>
-    <div class="brc-section__wrapper">
-      <h2>Комплексные решения</h2>
-      <ClientTypeOfferList></ClientTypeOfferList>
-    </div>
-    <div class="brc-section__wrapper">
-      <h2 v-if="busineesTypeOfferList.length>0">Индивидуальные предложения</h2>
-      <BusinessTypeOfferList
-        v-if="busineesTypeOfferList.length>0"
-        :offerList="busineesTypeOfferList"
-      ></BusinessTypeOfferList>
-    </div>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-    <FreeContentBlock
-      :bottomPosition="true"
-      :leftBlock="siteSectionItem.siteSectionFooterContentLeft"
-      :rightBlock="siteSectionItem.siteSectionFooterContentRight"
-    ></FreeContentBlock>
   </section>
 </template>
 
@@ -45,12 +23,6 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import SiteSection from '@/models/ekoset/SiteSection'
-import ServiceList from '@/components/public/ServiceList.vue'
-import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
-import IndividualOffer from '@/models/ekoset/IndividualOffer'
-import BusinessService from '@/models/ekoset/BusinessService'
-import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -60,33 +32,23 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 @Component({
   components: {
     DynamicComponentsContainer,
-    BusinessTypeOfferList,
-    ClientTypeOfferList,
-    ServiceList,
-    FreeContentBlock,
     BreadCrumbs
   }
 })
 export default class SiteSectionCard extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private siteSectionItem: SiteSection = new SiteSection()
-  private serviceList: BusinessService[] = []
-  private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
 
-    const serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(context.params.siteSection)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(context.params.siteSection)
-    const data = await Promise.all([siteSectionItem, serviceList, busineesTypeOfferList, dynamicComponentInfo])
+    const data = await Promise.all([siteSectionItem, dynamicComponentInfo])
 
     return {
       siteSectionItem: data[0],
-      serviceList: data[1],
-      busineesTypeOfferList: data[2],
-      dynamicComponentInfo: data[3]
+      dynamicComponentInfo: data[1]
     }
   }
 

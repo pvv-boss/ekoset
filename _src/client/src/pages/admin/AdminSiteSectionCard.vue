@@ -7,8 +7,8 @@
           <AdminStatusSelector
             statusCaption="Активен"
             v-model.number="siteSectionItem.siteSectionStatus"
+            @input="saveSiteSection"
           ></AdminStatusSelector>
-          <b-button type="is-primary" @click="saveSiteSection">Сохранить</b-button>
         </div>
       </template>
       <template #content>
@@ -50,36 +50,6 @@
                     </template>
                   </AdminImageUploader>
                 </b-field>
-
-                <div class="brc-admin-card-field-list_column">
-                  <b-field label="Верхний левый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="siteSectionItem.siteSectionFreeText1"
-                      id="siteSectionFreeText1"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                  <b-field label="Верхний правый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="siteSectionItem.siteSectionFreeText2"
-                      id="siteSectionFreeText2"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                </div>
-
-                <div class="brc-admin-card-field-list_column">
-                  <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="siteSectionItem.siteSectionFooterContentLeft"
-                      id="siteSectionFreeText11"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                  <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="siteSectionItem.siteSectionFooterContentRight"
-                      id="siteSectionFreeText12"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                </div>
               </div>
 
               <div class="brc-admin-card-field-list_row">
@@ -101,20 +71,14 @@
                   </b-field>
                 </div>
 
-                <b-field
-                  label="Управление блоками"
-                  class="brc-admin-field-list_column"
-                  style="margin-top:15px;"
-                >
-                  <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
-                </b-field>
+                <AdminDynamicComponentsContainer
+                  v-model="dynamicComponentInfo"
+                  @freecomponent:save="saveSiteSectionDynamicComponentsInfo"
+                  @freecomponent:delete="refreshDynamicComponentsInfo"
+                ></AdminDynamicComponentsContainer>
               </div>
             </div>
           </b-tab-item>
-
-          <!-- <b-tab-item label="Управление блоками">
-            <import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue' v-model="dynamicComponentInfo"></import>
-          </b-tab-item>-->
 
           <b-tab-item label="Услуги">
             <AdminServiceListContainer
@@ -251,11 +215,10 @@ export default class AdminSiteSectionCard extends Vue {
     getServiceContainer().publicEkosetService.saveSiteSection(
       this.siteSectionItem
     )
-    getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
 
-    getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
+    // getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
 
-    getServiceContainer().individualOfferService.saveAll(this.offerList)
+    // getServiceContainer().individualOfferService.saveAll(this.offerList)
 
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
@@ -279,6 +242,11 @@ export default class AdminSiteSectionCard extends Vue {
     )
   }
 
+  private async saveSiteSectionDynamicComponentsInfo () {
+    await getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
+    await this.refreshDynamicComponentsInfo()
+  }
+
   private brandChecked (clBrandId: number, hasRelation: boolean) {
     getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(
       clBrandId,
@@ -293,6 +261,10 @@ export default class AdminSiteSectionCard extends Vue {
 
   private async refreshOfferList (newOffer) {
     this.offerList = await getServiceContainer().individualOfferService.adminGetAllBySiteSectionId(this.siteSectionItem.siteSectionId)
+  }
+
+  private async refreshDynamicComponentsInfo () {
+    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionUrl, true)
   }
 }
 </script>

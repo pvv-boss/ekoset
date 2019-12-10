@@ -11,10 +11,6 @@
       <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <FreeContentBlock
-      :leftBlock="businessService.businessServiceFreeText1"
-      :rightBlock="businessService.businessServiceFreeText2"
-    ></FreeContentBlock>
 
     <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
       <h2>Список услуг</h2>
@@ -23,9 +19,7 @@
 
     <div class="brc-section__wrapper">
       <h2>Стоимость услуг</h2>
-      <!--  <client-only> -->
       <ServicePriceTable :servicePriceList="getPriceServiceList"></ServicePriceTable>
-      <!--  </client-only> -->
     </div>
 
     <div class="brc-section__wrapper">
@@ -37,12 +31,6 @@
       <h2>Индивидуальные предложения</h2>
       <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
     </div>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-    <FreeContentBlock
-      :bottomPosition="true"
-      :leftBlock="businessService.businessServiceFooterContentLeft"
-      :rightBlock="businessService.businessServiceFooterContentRight"
-    ></FreeContentBlock>
   </section>
 </template>
 

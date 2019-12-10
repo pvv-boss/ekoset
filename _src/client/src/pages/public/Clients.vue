@@ -10,7 +10,6 @@
         ></ClientList>
       </div>
     </div>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

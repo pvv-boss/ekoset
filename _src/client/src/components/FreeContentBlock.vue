@@ -28,13 +28,14 @@ export default class FreeContentBlock extends Vue {
   private bottomPosition
 }
 </script>
+
 <style lang="scss">
 .brc-page-description {
   display: flex;
   flex-direction: row;
   margin: 0 -15px;
   > div {
-    // margin: 15px;
+    margin: 15px;
     flex-basis: 100%;
   }
 

@@ -11,10 +11,6 @@
       <h1 itemprop="headline name" class="brc-page-title">{{individualOffer.indOfferH1}}</h1>
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <FreeContentBlock
-      :leftBlock="individualOffer.indOfferFreeText1"
-      :rightBlock="individualOffer.indOfferFreeText2"
-    ></FreeContentBlock>
 
     <div class="brc-section__wrapper" v-if="serviceList.length > 0">
       <h2>Список услуг</h2>
@@ -31,7 +27,6 @@
       <h2>{{otherOfferHeaderText}}</h2>
       <component :is="otherOfferComponentName" :offerList="otherOfferList"></component>
     </div>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

@@ -1,7 +1,8 @@
 <template>
   <div class="brc_admin-freeblock-item">
     <b-switch
-      v-model="dynamicComponentInfoState.visible"
+      v-model="dynamicComponentInfo.visible"
+      @input="$emit('componentinfo:status:changed', dynamicComponentInfo)"
       true-value="1"
       false-value="0"
       type="is-success"
@@ -9,16 +10,16 @@
     ></b-switch>
     <span style="margin-right:auto;">{{dynamicComponentInfo.dispalyName}}</span>
     <b-button
-      v-if="dynamicComponentInfoState.code===6"
+      v-if="dynamicComponentInfo.code===6"
       size="is-small"
       icon-right="pencil"
-      @click="$emit('componentinfo:edit', dynamicComponentInfoState)"
+      @click="$emit('componentinfo:edit', dynamicComponentInfo)"
     ></b-button>
     <b-button
-      v-if="dynamicComponentInfoState.code===6"
+      v-if="dynamicComponentInfo.code===6"
       size="is-small"
       icon-right="delete"
-      @click="$emit('componentinfo:delete', dynamicComponentInfoState)"
+      @click="$emit('componentinfo:delete', dynamicComponentInfo)"
     ></b-button>
   </div>
 </template>
@@ -33,8 +34,6 @@ export default class AdminFreeBlockItem extends Vue {
 
   @Prop()
   private dynamicComponentInfo
-
-  private dynamicComponentInfoState = this.dynamicComponentInfo
 
 }
 </script>

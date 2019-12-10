@@ -33,6 +33,10 @@ export default class DynamicComponentsService extends BaseService {
     return HttpUtil.httpPost(this.createRequestQueryString(null, null, 'slug-' + offerId), infos)
   }
 
+  public async adminDeleteDynamicComponent (blockId: number) {
+    return HttpUtil.httpDelete(`admin/panel/cms/blocks/${blockId}`)
+  }
+
   private async adminGetDynamicComponentsInfo (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null): Promise<DynamicComponentInfo[]> {
     return HttpUtil.httpGet(this.createRequestQueryString(siteSectionUrl, serviceUrl, indOfferUrl))
   }
@@ -88,7 +92,19 @@ export default class DynamicComponentsService extends BaseService {
       articleItems = getServiceContainer().articleService.getRootArticleList()
     }
 
-    const promises = [brandItems, articleItems, reccomendationLetterItems]
+    // Индивидуальные предложения
+    let busineesTypeOfferList: any = null
+    if (!!siteSectionSlug) {
+      busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSectionSlug)
+    }
+
+    // Услуги
+    let serviceList: any = null
+    if (!!siteSectionSlug) {
+      serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true)
+    }
+
+    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList]
     const data = await Promise.all(promises)
 
     // Прописываем данные в компопонте (в его пропы) - для динамических. Формы и конструкторы уже с данными придут из баазы
@@ -135,6 +151,42 @@ export default class DynamicComponentsService extends BaseService {
       if (!adminMode) {
         recommendCompoenentInfo.visible = 0
         recommendCompoenentInfo.visible = !!recommendCompoenentInfo.props.brandList && recommendCompoenentInfo.props.brandList.length > 0 ? 1 : 0
+      }
+    }
+
+    const busineesTypeOfferListInfo = componentsInfo.find((iter) => {
+      return iter.code === 8
+    })
+    if (!!busineesTypeOfferListInfo && busineesTypeOfferListInfo.visible === 1) {
+      busineesTypeOfferListInfo.props.offerList = data[3]
+
+      if (!adminMode) {
+        busineesTypeOfferListInfo.visible = 0
+        busineesTypeOfferListInfo.visible = !!busineesTypeOfferListInfo.props.offerList && busineesTypeOfferListInfo.props.offerList.length > 0 ? 1 : 0
+      }
+    }
+
+    const serviceInfo = componentsInfo.find((iter) => {
+      return iter.code === 9
+    })
+    if (!!serviceInfo && serviceInfo.visible === 1) {
+      serviceInfo.props.serviceList = data[4]
+
+      if (!adminMode) {
+        serviceInfo.visible = 0
+        serviceInfo.visible = !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 0 ? 1 : 0
+      }
+    }
+
+    const servicePriceInfo = componentsInfo.find((iter) => {
+      return iter.code === 10
+    })
+    if (!!servicePriceInfo && servicePriceInfo.visible === 1) {
+      servicePriceInfo.props.servicePriceList = data[4]
+
+      if (!adminMode) {
+        servicePriceInfo.visible = 0
+        servicePriceInfo.visible = !!servicePriceInfo.props.servicePriceList && servicePriceInfo.props.servicePriceList.length > 0 ? 1 : 0
       }
     }
 

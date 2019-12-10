@@ -43,7 +43,6 @@
         <ArticleList :articleList="realtedArticles.slice(0, 3)" mode="vertical"></ArticleList>
       </section>
     </div>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </div>
 </template>
 

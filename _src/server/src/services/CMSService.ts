@@ -23,26 +23,32 @@ export default class CMSService extends BaseService {
 
   public async adminSaveDynamicComponentsSiteSection (siteSectionId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
-      infos.forEach((iterComponentInfo) => {
-        try {
-          this.execFunction('f_admin_add_block_info_sitesection',
-            [
-              siteSectionId,
-              iterComponentInfo.code,
-              iterComponentInfo.visible,
-              iterComponentInfo.visibleIndex,
-              !!iterComponentInfo.dispalyName ? iterComponentInfo.dispalyName : '',
-              !!iterComponentInfo.head ? iterComponentInfo.head : '',
-              !!iterComponentInfo.props && !!iterComponentInfo.props.leftBlock ? iterComponentInfo.props.leftBlock : '',
-              !!iterComponentInfo.props && !!iterComponentInfo.props.rightBlock ? iterComponentInfo.props.rightBlock : '',
-              iterComponentInfo.id
-            ]);
-        } catch (exc) {
-          const r = exc;
-        }
-      })
+      const promises = [];
+      infos.forEach(
+        (iterComponentInfo) => {
+          const pr = this.adminSaveDynamicComponentSiteSection(siteSectionId, iterComponentInfo);
+          promises.push(pr);
+        })
+
+      await Promise.all(promises);
+      return {}
     }
     return {}
+  }
+
+  public async adminSaveDynamicComponentSiteSection (siteSectionId: number, info: DynamicComponentInfo) {
+    return this.execFunction('f_admin_add_block_info_sitesection',
+      [
+        siteSectionId,
+        info.code,
+        !!info.visible ? info.visible : 0,
+        !!info.visibleIndex ? info.visibleIndex : 0,
+        !!info.dispalyName ? info.dispalyName : '',
+        !!info.head ? info.head : '',
+        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
+        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
+        info.id
+      ]);
   }
 
   public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
@@ -64,6 +70,10 @@ export default class CMSService extends BaseService {
     return {}
   }
 
+  public async adminDeleteDynamicComponent (id: number) {
+    return await this.deleteById('site_block', 'site_block_id=$1', id);
+  }
+
   public adminGetDynamicComponentsInfoDefault () {
     const result: DynamicComponentInfo[] = [];
 
@@ -71,6 +81,7 @@ export default class CMSService extends BaseService {
     brandList.id = 0;
     brandList.code = 1;
     brandList.head = 'Нас рекомендуют';
+    brandList.headCentered = true;
     brandList.dispalyName = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
     brandList.visible = 1;
@@ -84,6 +95,7 @@ export default class CMSService extends BaseService {
     letters.id = 0;
     letters.code = 2;
     letters.head = 'Благодарственные письма';
+    letters.headCentered = true;
     letters.dispalyName = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
     letters.visible = 1;
@@ -96,10 +108,11 @@ export default class CMSService extends BaseService {
     news.id = 0;
     news.code = 3
     news.head = 'Новости';
+    news.headCentered = true;
     news.dispalyName = 'Новости';
     news.name = 'ArticleList';
     news.visible = 1;
-    news.visibleIndex = 1;
+    news.visibleIndex = 6;
     news.props = {
       articleList: [],
       mode: 'columns'
@@ -111,7 +124,7 @@ export default class CMSService extends BaseService {
     bayService.name = 'MessageForm';
     bayService.dispalyName = 'Заказать услугу'
     bayService.visible = 1;
-    bayService.visibleIndex = 0;
+    bayService.visibleIndex = 1;
     bayService.props = {
       title: 'Заказать услугу'
     }
@@ -123,12 +136,62 @@ export default class CMSService extends BaseService {
     askExpert.name = 'MessageForm';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
-    askExpert.visibleIndex = 4;
+    askExpert.visibleIndex = 7;
     askExpert.props = {
       title: 'Задать вопрос эксперту'
     }
 
-    result.push(news, brandList, letters, bayService, askExpert);
+    const clientTypeOfferList = new DynamicComponentInfo();
+    clientTypeOfferList.id = 0;
+    clientTypeOfferList.code = 7;
+    clientTypeOfferList.head = 'Комплексные решения';
+    clientTypeOfferList.headCentered = true;
+    clientTypeOfferList.name = 'ClientTypeOfferList';
+    clientTypeOfferList.dispalyName = 'Комплексные решения'
+    clientTypeOfferList.visible = 1;
+    clientTypeOfferList.visibleIndex = 4;
+
+    const businessTypeOfferList = new DynamicComponentInfo();
+    businessTypeOfferList.id = 0;
+    businessTypeOfferList.code = 8;
+    businessTypeOfferList.head = 'Индивидуальные предложения';
+    businessTypeOfferList.headCentered = true;
+    businessTypeOfferList.name = 'BusinessTypeOfferList';
+    businessTypeOfferList.dispalyName = 'Индивидуальные предложения'
+    businessTypeOfferList.visible = 1;
+    businessTypeOfferList.visibleIndex = 5;
+    businessTypeOfferList.props = {
+      offerList: []
+    }
+
+    const serviceList = new DynamicComponentInfo();
+    serviceList.id = 0;
+    serviceList.code = 9;
+    serviceList.head = 'Список услуг';
+    serviceList.headCentered = true;
+    serviceList.name = 'ServiceList';
+    serviceList.dispalyName = 'Список услуг'
+    serviceList.visible = 1;
+    serviceList.visibleIndex = 0;
+    serviceList.props = {
+      serviceList: []
+    }
+
+    const servicePriceTable = new DynamicComponentInfo();
+    servicePriceTable.id = 0;
+    servicePriceTable.code = 10;
+    servicePriceTable.head = 'Стоимость услуг';
+    servicePriceTable.headCentered = true;
+    servicePriceTable.name = 'ServicePriceTable';
+    servicePriceTable.dispalyName = 'Стоимость услуг'
+    servicePriceTable.visible = 1;
+    servicePriceTable.visibleIndex = 1;
+    servicePriceTable.props = {
+      servicePriceList: [],
+      allPricesPage: true
+    }
+
+    result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable);
 
     return result;
   }
@@ -168,7 +231,7 @@ export default class CMSService extends BaseService {
     freeContentBlock.visible = iterData.siteBlockVisibleInd;
     freeContentBlock.visibleIndex = iterData.siteBlockPosition;
     freeContentBlock.props = {
-      bottomPosition: true,
+      //  bottomPosition: true,
       leftBlock: iterData.siteBlockContent,
       rightBlock: iterData.siteBlockContentRight
     }

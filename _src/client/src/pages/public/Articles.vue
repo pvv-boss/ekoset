@@ -9,7 +9,6 @@
       :limit="pagination.limit"
       @update:pagination="updatePagintaion"
     ></BasePagination>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

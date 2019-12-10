@@ -12,7 +12,6 @@
       <h1 class="brc-page-title">Экосеть</h1>
     </figure>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

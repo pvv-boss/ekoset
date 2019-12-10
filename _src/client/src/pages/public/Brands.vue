@@ -3,7 +3,6 @@
     <h1 itemprop="headline name">Нас рекомендуют</h1>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <RecommendationList :brandList="brandList" :allBrandsPage="true"></RecommendationList>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

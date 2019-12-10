@@ -10,7 +10,6 @@
       <figcaption>Экосеть</figcaption>
       <h1 itemprop="headline name" class="brc-page-title">О компании</h1>
     </figure>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

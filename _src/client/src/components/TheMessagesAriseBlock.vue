@@ -55,7 +55,7 @@ export default class TheMessagesAriseBlock extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 .brc-message-arise__wrapper {
   position: fixed;
   z-index: 10;
@@ -69,6 +69,10 @@ export default class TheMessagesAriseBlock extends Vue {
 
   > .brc-feedback {
     background-color: white;
+    h2,
+    h3 {
+      text-align: center !important;
+    }
   }
 
   .brc-message-arise__close {

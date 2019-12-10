@@ -5,7 +5,6 @@
     <client-only>
       <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
     </client-only>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 
