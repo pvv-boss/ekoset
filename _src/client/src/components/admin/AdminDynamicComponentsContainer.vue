@@ -34,7 +34,10 @@
     </span>
 
     <draggable v-model="dynamicComponentInfoListState" @change="handleChange">
-      <div v-for="iterComponentInfo in dynamicComponentInfoListState" :key="iterComponentInfo.id">
+      <div
+        v-for="iterComponentInfo in dynamicComponentInfoListState"
+        :key="iterComponentInfo.id + iterComponentInfo.dispalyName"
+      >
         <AdminFreeBlockItem
           :dynamicComponentInfo="iterComponentInfo"
           @componentinfo:edit="freeBlockEdit(iterComponentInfo)"

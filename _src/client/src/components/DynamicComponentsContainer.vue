@@ -4,7 +4,11 @@
       <a name="brcOfferForm" id="brcOfferForm"></a>
     </p>
     <template v-for="iterComponent in dynamicComponentInfo">
-      <div :key="iterComponent.id" class="brc-page__dynamic_block" v-if="iterComponent.visible===1">
+      <div
+        :key="iterComponent.id + iterComponent.dispalyName"
+        class="brc-page__dynamic_block"
+        v-if="iterComponent.visible===1"
+      >
         <h2
           v-if="!!iterComponent.head"
           :class="{'brc-page__dynamic_block_center': iterComponent.headCentered === true}"

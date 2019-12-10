@@ -63,36 +63,6 @@
                     </template>
                   </AdminImageUploader>
                 </b-field>
-
-                <div class="brc-admin-card-field-list_column">
-                  <b-field label="Верхний левый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="serviceItem.businessServiceFreeText1"
-                      id="siteSectionFreeText1"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                  <b-field label="Верхний правый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="serviceItem.businessServiceFreeText2"
-                      id="siteSectionFreeText2"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                </div>
-
-                <div class="brc-admin-card-field-list_column">
-                  <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="serviceItem.businessServiceFooterContentLeft"
-                      id="siteSectionFreeText11"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                  <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
-                    <AdminFreeContentBlockEditor
-                      v-model="serviceItem.businessServiceFooterContentRight"
-                      id="siteSectionFreeText12"
-                    ></AdminFreeContentBlockEditor>
-                  </b-field>
-                </div>
               </div>
 
               <div class="brc-admin-card-field-list_row">
@@ -115,14 +85,11 @@
                   </b-field>
                 </div>
 
-                <b-field
-                  v-if="!serviceItem.businessServiceParentId"
-                  label="Управление блоками"
-                  class="brc-admin-field-list_column"
-                  style="margin-top:15px;"
-                >
-                  <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
-                </b-field>
+                <AdminDynamicComponentsContainer
+                  v-model="dynamicComponentInfo"
+                  @freecomponent:save="saveDynamicComponentsInfo"
+                  @freecomponent:delete="refreshDynamicComponentsInfo"
+                ></AdminDynamicComponentsContainer>
               </div>
             </div>
           </b-tab-item>
@@ -286,11 +253,19 @@ export default class AdminServiceCard extends Vue {
   private saveService () {
     getServiceContainer().businessServiceService.save(this.serviceItem)
 
-    getServiceContainer().dynamicComponentsService.saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
-
     getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
 
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  }
+
+
+  private async saveDynamicComponentsInfo () {
+    await getServiceContainer().dynamicComponentsService.saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
+    await this.refreshDynamicComponentsInfo()
+  }
+
+  private async refreshDynamicComponentsInfo () {
+    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(this.serviceItem.siteSectionUrl, this.serviceItem.businessServiceUrl, true)
   }
 
   private brandChecked (clBrandId: number, hasRelation: boolean) {

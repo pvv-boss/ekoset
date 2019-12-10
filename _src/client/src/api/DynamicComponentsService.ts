@@ -49,11 +49,19 @@ export default class DynamicComponentsService extends BaseService {
   }
 
   private async getDynamicComponentsInfo (httpResultPr: Promise<DynamicComponentInfo[]>, siteSectionSlug: string | null, serviceSlug: string | null, adminMode: boolean): Promise<DynamicComponentInfo[]> {
+
+    // Услуга м.б. второго уровня, если так, то данные берем от его предка
+    let serviceIdForRelations = 0
+    if (!!serviceSlug) {
+      const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
+      serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
+    }
+
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any = null
     let reccomendationLetterItems: any = null
-    if (!!serviceSlug) {
-      brandItems = getServiceContainer().publicEkosetService.getBrandsByBusinessServiceSlug(serviceSlug)
+    if (serviceIdForRelations > 0) {
+      brandItems = getServiceContainer().publicEkosetService.getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
     }
 
     if (!brandItems && !!siteSectionSlug) {
@@ -66,8 +74,8 @@ export default class DynamicComponentsService extends BaseService {
 
     // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
     // ReccomendationLetter
-    if (!!serviceSlug) {
-      reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersByBusinessServiceSlug(serviceSlug)
+    if (serviceIdForRelations > 0) {
+      reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersByBusinessServiceSlug('slug-' + serviceIdForRelations)
     }
 
     if (!reccomendationLetterItems && !!siteSectionSlug) {
@@ -80,8 +88,8 @@ export default class DynamicComponentsService extends BaseService {
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
-    if (!!serviceSlug) {
-      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, serviceSlug)
+    if (serviceIdForRelations > 0) {
+      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, 'slug-' + serviceIdForRelations)
     }
 
     if (!articleItems && !!siteSectionSlug) {
@@ -100,7 +108,15 @@ export default class DynamicComponentsService extends BaseService {
 
     // Услуги
     let serviceList: any = null
-    if (!!siteSectionSlug) {
+    let serviceHasParent = false
+    if (!!serviceSlug) {
+      const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
+      const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
+      serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
+      serviceHasParent = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0
+    }
+
+    if (!serviceList && !!siteSectionSlug) {
       serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true)
     }
 
@@ -174,7 +190,7 @@ export default class DynamicComponentsService extends BaseService {
 
       if (!adminMode) {
         serviceInfo.visible = 0
-        serviceInfo.visible = !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 0 ? 1 : 0
+        serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
       }
     }
 

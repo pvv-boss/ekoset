@@ -12,24 +12,8 @@
     </figure>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
 
-    <div class="brc-section__wrapper" v-if="childServiceList.length > 0">
-      <h2>Список услуг</h2>
-      <ServiceList :serviceList="childServiceList"></ServiceList>
-    </div>
-
     <div class="brc-section__wrapper">
-      <h2>Стоимость услуг</h2>
-      <ServicePriceTable :servicePriceList="getPriceServiceList"></ServicePriceTable>
-    </div>
-
-    <div class="brc-section__wrapper">
-      <h2>Комплексные решения</h2>
-      <ClientTypeOfferList></ClientTypeOfferList>
-    </div>
-
-    <div class="brc-section__wrapper" v-if="busineesTypeOfferList.length > 0">
-      <h2>Индивидуальные предложения</h2>
-      <BusinessTypeOfferList :offerList="busineesTypeOfferList"></BusinessTypeOfferList>
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>
   </section>
 </template>
@@ -41,10 +25,6 @@ import { NuxtContext } from 'vue/types/options'
 import BusinessService from '@/models/ekoset/BusinessService'
 import ServiceList from '@/components/public/ServiceList.vue'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
-import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
-import IndividualOffer from '@/models/ekoset/IndividualOffer'
-import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -54,11 +34,6 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 
 @Component({
   components: {
-    ServiceList,
-    ServicePriceTable,
-    BusinessTypeOfferList,
-    ClientTypeOfferList,
-    FreeContentBlock,
     BreadCrumbs,
     DynamicComponentsContainer
   }
@@ -68,24 +43,18 @@ export default class ServiceCard extends Vue {
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
   private priceServiceList: BusinessService[] = []
-  private busineesTypeOfferList: IndividualOffer[] = []
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
-    const serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection, 'slug-' + serviceIdForRelations)
-    const childServiceList = getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
-    const busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSection)
+    const businessService = getServiceContainer().businessServiceService.getBySlug(context.params.service)
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection, context.params.service)
 
-    const data = await Promise.all([childServiceList, busineesTypeOfferList, dynamicComponentInfo])
+    const data = await Promise.all([dynamicComponentInfo, businessService])
 
     return {
-      dynamicComponentInfo: data[2],
-      businessService,
-      childServiceList: data[0],
-      busineesTypeOfferList: data[1]
+      dynamicComponentInfo: data[0],
+      businessService: data[1]
     }
   }
 

@@ -53,21 +53,62 @@ export default class CMSService extends BaseService {
 
   public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
-      infos.forEach((iterComponentInfo) => {
-        this.execFunction('f_admin_add_block_info_offer', [offerId, iterComponentInfo.id, iterComponentInfo.visible, iterComponentInfo.visibleIndex]);
-      })
+      const promises = [];
+      infos.forEach(
+        (iterComponentInfo) => {
+          const pr = this.adminSaveDynamicComponentOffer(offerId, iterComponentInfo);
+          promises.push(pr);
+        })
+
+      await Promise.all(promises);
+      return {}
     }
     return {}
   }
 
+  public async adminSaveDynamicComponentOffer (offerId: number, info: DynamicComponentInfo) {
+    return this.execFunction('f_admin_add_block_info_offer',
+      [
+        offerId,
+        info.code,
+        !!info.visible ? info.visible : 0,
+        !!info.visibleIndex ? info.visibleIndex : 0,
+        !!info.dispalyName ? info.dispalyName : '',
+        !!info.head ? info.head : '',
+        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
+        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
+        info.id
+      ]);
+  }
 
   public async adminSaveDynamicComponentsService (serviceId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
-      infos.forEach((iterComponentInfo) => {
-        this.execFunction('f_admin_add_block_info_service', [serviceId, iterComponentInfo.id, iterComponentInfo.visible, iterComponentInfo.visibleIndex]);
-      })
+      const promises = [];
+      infos.forEach(
+        (iterComponentInfo) => {
+          const pr = this.adminSaveDynamicComponentService(serviceId, iterComponentInfo);
+          promises.push(pr);
+        })
+
+      await Promise.all(promises);
+      return {}
     }
     return {}
+  }
+
+  public async adminSaveDynamicComponentService (serviceId: number, info: DynamicComponentInfo) {
+    return this.execFunction('f_admin_add_block_info_service',
+      [
+        serviceId,
+        info.code,
+        !!info.visible ? info.visible : 0,
+        !!info.visibleIndex ? info.visibleIndex : 0,
+        !!info.dispalyName ? info.dispalyName : '',
+        !!info.head ? info.head : '',
+        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
+        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
+        info.id
+      ]);
   }
 
   public async adminDeleteDynamicComponent (id: number) {
@@ -85,7 +126,7 @@ export default class CMSService extends BaseService {
     brandList.dispalyName = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
     brandList.visible = 1;
-    brandList.visibleIndex = 2;
+    brandList.visibleIndex = 3;
     brandList.props = {
       brandList: []
     }
@@ -99,7 +140,7 @@ export default class CMSService extends BaseService {
     letters.dispalyName = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
     letters.visible = 1;
-    letters.visibleIndex = 3;
+    letters.visibleIndex = 4;
     letters.props = {
       recommLetterList: []
     }
@@ -112,7 +153,7 @@ export default class CMSService extends BaseService {
     news.dispalyName = 'Новости';
     news.name = 'ArticleList';
     news.visible = 1;
-    news.visibleIndex = 6;
+    news.visibleIndex = 7;
     news.props = {
       articleList: [],
       mode: 'columns'
@@ -124,7 +165,7 @@ export default class CMSService extends BaseService {
     bayService.name = 'MessageForm';
     bayService.dispalyName = 'Заказать услугу'
     bayService.visible = 1;
-    bayService.visibleIndex = 1;
+    bayService.visibleIndex = 2;
     bayService.props = {
       title: 'Заказать услугу'
     }
@@ -136,7 +177,7 @@ export default class CMSService extends BaseService {
     askExpert.name = 'MessageForm';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
-    askExpert.visibleIndex = 7;
+    askExpert.visibleIndex = 8;
     askExpert.props = {
       title: 'Задать вопрос эксперту'
     }
@@ -149,7 +190,7 @@ export default class CMSService extends BaseService {
     clientTypeOfferList.name = 'ClientTypeOfferList';
     clientTypeOfferList.dispalyName = 'Комплексные решения'
     clientTypeOfferList.visible = 1;
-    clientTypeOfferList.visibleIndex = 4;
+    clientTypeOfferList.visibleIndex = 5;
 
     const businessTypeOfferList = new DynamicComponentInfo();
     businessTypeOfferList.id = 0;
@@ -159,7 +200,7 @@ export default class CMSService extends BaseService {
     businessTypeOfferList.name = 'BusinessTypeOfferList';
     businessTypeOfferList.dispalyName = 'Индивидуальные предложения'
     businessTypeOfferList.visible = 1;
-    businessTypeOfferList.visibleIndex = 5;
+    businessTypeOfferList.visibleIndex = 6;
     businessTypeOfferList.props = {
       offerList: []
     }
@@ -188,7 +229,7 @@ export default class CMSService extends BaseService {
     servicePriceTable.visibleIndex = 1;
     servicePriceTable.props = {
       servicePriceList: [],
-      allPricesPage: true
+      allPricesPage: false
     }
 
     result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable);
