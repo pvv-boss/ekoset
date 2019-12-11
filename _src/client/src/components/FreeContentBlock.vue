@@ -35,7 +35,7 @@ export default class FreeContentBlock extends Vue {
   flex-direction: row;
   margin: 0 -15px;
   > div {
-    margin: 15px;
+    margin: 15px 15px 0 15px;
     flex-basis: 100%;
   }
 

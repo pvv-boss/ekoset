@@ -39,7 +39,7 @@ export default class AdminImageUploader extends Vue {
 
   @Watch('imageFile')
   private imageLoaded (newImageFile) {
-    this.$emit("uploader:newimageloaded", newImageFile)
+    this.$emit('uploader:newimageloaded', newImageFile)
   }
 
   private get displayImageSrc () {

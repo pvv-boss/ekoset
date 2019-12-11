@@ -7,6 +7,7 @@
           <AdminStatusSelector
             statusCaption="Активна"
             v-model.number="serviceItem.businessServiceStatus"
+            @input="saveService"
           ></AdminStatusSelector>
 
           <b-field label="Ед. измерения" horizontal style="margin-bottom:0px">
@@ -18,10 +19,9 @@
               placeholder="Цена, руб."
               type="number"
               v-model.number="serviceItem.businessServicePrice"
+              @blur="saveService"
             ></b-input>
           </b-field>
-
-          <b-button type="is-primary" @click="saveService">Сохранить</b-button>
         </div>
       </template>
       <template #content>
@@ -36,6 +36,7 @@
                     required
                     validation-message="Наименование услуги не может быть пустым"
                     v-model="serviceItem.businessServiceName"
+                    @blur="saveService"
                   ></b-input>
                 </b-field>
 
@@ -46,6 +47,7 @@
                     required
                     validation-message="Заголовок H1 не может быть пустым"
                     v-model="serviceItem.businessServiceH1"
+                    @blur="saveService"
                   ></b-input>
                 </b-field>
 

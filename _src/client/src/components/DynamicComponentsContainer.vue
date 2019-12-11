@@ -60,5 +60,9 @@ export default class DynamicComponentsContainer extends Vue {
   .brc-page__dynamic_block_center {
     text-align: center !important;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 30px;
+  }
 }
 </style>

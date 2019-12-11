@@ -3,13 +3,13 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Индивидуальное предложение: {{indOfferItem.indOfferName}}</h2>
+          <h2>Индивидуальное (комплексное) предложение: {{indOfferItem.indOfferName}}</h2>
           <AdminStatusSelector
             statusCaption="Активно"
             v-model.number="indOfferItem.indOfferStatus"
             v-if="!isClientTypeMode"
+            @input="saveOffer"
           ></AdminStatusSelector>
-          <b-button type="is-primary" @click="saveOffer">Сохранить</b-button>
         </div>
       </template>
 
@@ -24,6 +24,7 @@
                 validation-message="Наименование не может быть пустым"
                 v-model="indOfferItem.indOfferName"
                 v-if="!isClientTypeMode"
+                @blur="saveOffer"
               ></b-input>
             </b-field>
 
@@ -34,11 +35,12 @@
                 required
                 validation-message="Заголовок H1 не может быть пустым"
                 v-model="indOfferItem.indOfferH1"
+                @blur="saveOffer"
               ></b-input>
             </b-field>
 
             <b-field label="Направление деятельности" v-if="!isClientTypeMode">
-              <AdminClActivitySelector v-model="indOfferItem.clActivityId"></AdminClActivitySelector>
+              <AdminClActivitySelector v-model="indOfferItem.clActivityId" @input="saveOffer"></AdminClActivitySelector>
             </b-field>
 
             <b-field label="Фото на странице">
@@ -55,36 +57,6 @@
                 </template>
               </AdminImageUploader>
             </b-field>
-
-            <div class="brc-admin-card-field-list_column">
-              <b-field label="Верхний левый блок-конструктор" class="col-2">
-                <AdminFreeContentBlockEditor
-                  v-model="indOfferItem.indOfferFreeText1"
-                  id="siteSectionFreeText1"
-                ></AdminFreeContentBlockEditor>
-              </b-field>
-              <b-field label="Верхний правый блок-конструктор" class="col-2">
-                <AdminFreeContentBlockEditor
-                  v-model="indOfferItem.indOfferFreeText2"
-                  id="siteSectionFreeText2"
-                ></AdminFreeContentBlockEditor>
-              </b-field>
-            </div>
-
-            <div class="brc-admin-card-field-list_column">
-              <b-field label="Нижний (футер) левый блок-конструктор" class="col-2">
-                <AdminFreeContentBlockEditor
-                  v-model="indOfferItem.indOfferFooterContentLeft"
-                  id="siteSectionFreeText11"
-                ></AdminFreeContentBlockEditor>
-              </b-field>
-              <b-field label="Нижний (футер) правый блок-конструктор" class="col-2">
-                <AdminFreeContentBlockEditor
-                  v-model="indOfferItem.indOfferFooterContentRight"
-                  id="siteSectionFreeText12"
-                ></AdminFreeContentBlockEditor>
-              </b-field>
-            </div>
           </div>
           <div class="brc-admin-card-field-list_row">
             <div v-if="!isClientTypeMode">
@@ -106,13 +78,11 @@
               </b-field>
             </div>
 
-            <b-field
-              label="Управление блоками"
-              class="brc-admin-field-list_column"
-              style="margin-top:15px;"
-            >
-              <AdminDynamicComponentsContainer v-model="dynamicComponentInfo"></AdminDynamicComponentsContainer>
-            </b-field>
+            <AdminDynamicComponentsContainer
+              v-model="dynamicComponentInfo"
+              @freecomponent:save="saveDynamicComponentsInfo"
+              @freecomponent:delete="refreshDynamicComponentsInfo"
+            ></AdminDynamicComponentsContainer>
           </div>
         </div>
       </template>
@@ -191,7 +161,8 @@ export default class AdminIndividualOfferCard extends Vue {
     breadCrumbList.push({ name: indOfferItem.indOfferName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const dynaComponents = getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection.siteSectionUrl, indOfferItem.indOfferUrl, true)
+    const dynaComponents = getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection.siteSectionUrl, indOfferItem.indOfferUrl, context.params.clienttype, indOfferItem.clActivityId, true)
+
     const data = await Promise.all([dynaComponents])
 
     return {
@@ -202,11 +173,19 @@ export default class AdminIndividualOfferCard extends Vue {
 
   private saveOffer () {
     getServiceContainer().individualOfferService.save(this.indOfferItem)
-
-    getServiceContainer().dynamicComponentsService.adminSaveDynamicComponentsOffer(this.indOfferItem.indOfferId, this.dynamicComponentInfo)
-
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
+
+  private async saveDynamicComponentsInfo () {
+    await getServiceContainer().dynamicComponentsService.adminSaveDynamicComponentsOffer(this.indOfferItem.indOfferId, this.dynamicComponentInfo)
+    await this.refreshDynamicComponentsInfo()
+  }
+
+  private async refreshDynamicComponentsInfo () {
+    const clienttype = !!this.indOfferItem.clClientId ? (this.indOfferItem.clClientId === 1 ? 'business' : 'person') : null
+    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo('slug-' + this.indOfferItem.siteSectionId, this.indOfferItem.indOfferUrl, clienttype, this.indOfferItem.clActivityId, true)
+  }
+
 
   private async addOfferImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()

@@ -23,6 +23,7 @@
                     required
                     validation-message="Наименование раздела не может быть пустым"
                     v-model="siteSectionItem.siteSectionName"
+                    @blur="saveSiteSection"
                   ></b-input>
                 </b-field>
 
@@ -33,6 +34,7 @@
                     required
                     validation-message="Заголовок H1 не может быть пустым"
                     v-model="siteSectionItem.siteSectionH1"
+                    @blur="saveSiteSection"
                   ></b-input>
                 </b-field>
 
@@ -215,11 +217,6 @@ export default class AdminSiteSectionCard extends Vue {
     getServiceContainer().publicEkosetService.saveSiteSection(
       this.siteSectionItem
     )
-
-    // getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
-
-    // getServiceContainer().individualOfferService.saveAll(this.offerList)
-
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
