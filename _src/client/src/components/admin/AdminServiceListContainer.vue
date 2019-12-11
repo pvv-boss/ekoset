@@ -57,17 +57,40 @@
             :to="{ name: 'admin-service-card', params: { siteSection: siteSection.siteSectionUrl, service: iterService.businessServiceUrl}}"
           >{{iterService.businessServiceName}}</nuxt-link>
 
-          <b-upload @input="addServiceImage(...arguments,iterService,true)">
-            <a class="button is-link">
-              <b-icon icon="upload"></b-icon>
-            </a>
-          </b-upload>
+          <div>
+            <b-upload @input="addServiceImage(...arguments,iterService,true)">
+              <a class="button is-link">
+                <b-icon icon="upload"></b-icon>
+              </a>
+            </b-upload>
 
-          <b-upload @input="addServiceImage(...arguments,iterService,false)">
-            <a class="button is-link">
-              <b-icon icon="upload"></b-icon>
-            </a>
-          </b-upload>
+            <b-button
+              @click="showBigImage(iterService)"
+              v-if="!!iterService.businessServiceImgBig && iterService.businessServiceImgBig !='/img/empty-image-big.png'"
+              icon-right="file-find"
+              style="float:right;margin-right:70px;"
+              type="is-success"
+              size="is-medium"
+              outlined
+            ></b-button>
+          </div>
+          <div>
+            <b-upload @input="addServiceImage(...arguments,iterService,false)">
+              <a class="button is-link">
+                <b-icon icon="upload"></b-icon>
+              </a>
+            </b-upload>
+
+            <b-button
+              @click="showSmallImage(iterService)"
+              v-if="!!iterService.businessServiceImgSmall && iterService.businessServiceImgSmall !='/img/empty-image.png'"
+              icon-right="file-find"
+              style="float:right;;margin-right:70px;"
+              type="is-success"
+              size="is-medium"
+              outlined
+            ></b-button>
+          </div>
 
           <b-input
             placeholder="Единица измерения"
@@ -86,6 +109,20 @@
         </div>
       </draggable>
     </div>
+
+    <b-modal :active.sync="isShowSmallImageActive" :can-cancel="true" :width="300">
+      <ServiceListItem
+        :serviceItem="previewSmallService"
+        style="width:252px;height:349px;margin:0px;background-color:white;"
+      ></ServiceListItem>
+    </b-modal>
+
+    <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
+      <figure class="brc-admin-card-image__wrapper" style="background-color:white;">
+        <img class="brc-admin-image" :src="previewBigService.businessServiceImgBig" />
+        <h1 class="brc-admin-card-image-title">{{previewBigService.businessServiceH1}}</h1>
+      </figure>
+    </b-modal>
   </div>
 </template>
 
@@ -95,10 +132,12 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
+import ServiceListItem from '@/components/public/ServiceListItem.vue'
+
 
 @Component({
   components: {
-
+    ServiceListItem
   }
 })
 export default class AdminServiceListContainer extends Vue {
@@ -115,9 +154,24 @@ export default class AdminServiceListContainer extends Vue {
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
 
+  private previewSmallService: BusinessService = new BusinessService()
+  private isShowSmallImageActive = false
+  private previewBigService: BusinessService = new BusinessService()
+  private isShowBigImageActive = false
+
   @Watch('value', { immediate: true })
   private async updateServiceList () {
     this.serviceList = this.value
+  }
+
+  private showSmallImage (service: BusinessService) {
+    this.previewSmallService = service
+    this.isShowSmallImageActive = !this.isShowSmallImageActive
+  }
+
+  private showBigImage (service: BusinessService) {
+    this.previewBigService = service
+    this.isShowBigImageActive = !this.isShowBigImageActive
   }
 
   private handleChange () {
