@@ -59,17 +59,39 @@
                 :to="{ name: 'admin-site-section-card', params: { siteSection: iterItem.siteSectionUrl}}"
               >{{iterItem.siteSectionName}}</nuxt-link>
 
-              <b-upload @input="addImage(...arguments,iterItem,true)">
-                <a class="button is-link">
-                  <b-icon icon="upload"></b-icon>
-                </a>
-              </b-upload>
+              <div>
+                <b-upload @input="addImage(...arguments,iterItem,true)">
+                  <a class="button is-link">
+                    <b-icon icon="upload"></b-icon>
+                  </a>
+                </b-upload>
+                <b-button
+                  @click="showBigImage(iterItem)"
+                  v-if="!!iterItem.siteSectionImgBig && iterItem.siteSectionImgBig !='/img/empty-image-big.png'"
+                  icon-right="file-find"
+                  style="float:right;margin-right:100px;"
+                  type="is-success"
+                  size="is-medium"
+                  outlined
+                ></b-button>
+              </div>
 
-              <b-upload @input="addImage(...arguments,iterItem,false)">
-                <a class="button is-link">
-                  <b-icon icon="upload"></b-icon>
-                </a>
-              </b-upload>
+              <div>
+                <b-upload @input="addImage(...arguments,iterItem,false)">
+                  <a class="button is-link">
+                    <b-icon icon="upload"></b-icon>
+                  </a>
+                </b-upload>
+                <b-button
+                  @click="showSmallImage(iterItem)"
+                  v-if="!!iterItem.siteSectionImgSmall && iterItem.siteSectionImgSmall !='/img/empty-image.png'"
+                  icon-right="file-find"
+                  style="float:right;;margin-right:100px;"
+                  type="is-success"
+                  size="is-medium"
+                  outlined
+                ></b-button>
+              </div>
 
               <b-button type="is-danger" icon-right="delete" @click="deleteSiteSection(iterItem)"></b-button>
             </div>
@@ -77,6 +99,20 @@
         </div>
       </template>
     </BaseCard>
+
+    <b-modal :active.sync="isShowSmallImageActive" :can-cancel="true" :width="400">
+      <SiteSectionListItem
+        :siteSectionItem="previewSmallSiteSection"
+        style="width:347px;margin:0px;background-color:white;"
+      ></SiteSectionListItem>
+    </b-modal>
+
+    <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
+      <figure class="brc-admin-card-image__wrapper" style="background-color:white;">
+        <img class="brc-admin-image" :src="previewBigSiteSection.siteSectionImgBig" />
+        <h1 class="brc-admin-card-image-title">{{previewBigSiteSection.siteSectionH1}}</h1>
+      </figure>
+    </b-modal>
   </div>
 </template>
 
@@ -90,11 +126,13 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
+import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 
 @Component({
   components: {
     AdminStatusSelector,
-    BaseCard
+    BaseCard,
+    SiteSectionListItem
   }
 })
 export default class AdminSiteSectionList extends Vue {
@@ -102,8 +140,23 @@ export default class AdminSiteSectionList extends Vue {
   private createNewSiteSectionMode = false
   private newSiteSection: SiteSection = new SiteSection()
 
+  private previewSmallSiteSection: SiteSection = new SiteSection()
+  private isShowSmallImageActive = false
+  private previewBigSiteSection: SiteSection = new SiteSection()
+  private isShowBigImageActive = false
+
   private layout () {
     return 'admin'
+  }
+
+  private showSmallImage (siteSection: SiteSection) {
+    this.previewSmallSiteSection = siteSection
+    this.isShowSmallImageActive = !this.isShowSmallImageActive
+  }
+
+  private showBigImage (siteSection: SiteSection) {
+    this.previewBigSiteSection = siteSection
+    this.isShowBigImageActive = !this.isShowBigImageActive
   }
 
   private async updateItems () {

@@ -175,12 +175,12 @@ export default class TheHeaderMobileMenu2 extends Vue {
 }
 
 .brc-page-header-mobile__menu {
+  display: none;
+  transform: translateY(-120%);
   box-sizing: border-box;
   position: fixed;
   top: 0px;
   left: 0px;
-  transform: translateY(-120%);
-  display: none;
   flex-direction: column;
   background-color: white;
   overflow-y: scroll;
