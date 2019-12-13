@@ -36,7 +36,7 @@
           <div class="brc_admin-topmenu-list-item">
             <span>Статус</span>
             <span>Наименование</span>
-            <span>Банер на странице</span>
+            <span>Баннер на странице</span>
             <span>Удалить</span>
           </div>
 

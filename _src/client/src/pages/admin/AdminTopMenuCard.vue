@@ -14,7 +14,7 @@
       <template #content>
         <div class="brc-admin-card_two-column">
           <div class="brc-admin-card-field-list_row brc-admin-panel__site">
-            <b-field label="Банер">
+            <b-field label="Баннер">
               <AdminImageUploader
                 id="bigImageFile"
                 :srcImage="sitePageItem.sitePageBanner"
