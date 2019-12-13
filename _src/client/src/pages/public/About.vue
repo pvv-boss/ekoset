@@ -10,6 +10,7 @@
       <figcaption>{{sidePageInfo.sitePageName}}</figcaption>
       <h1 itemprop="headline name" class="brc-page-title">{{sidePageInfo.sitePageH1}}</h1>
     </figure>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-section__wrapper">
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>

@@ -43,8 +43,6 @@
               <b-input
                 placeholder="Заголовок H1"
                 type="text"
-                required
-                validation-message="Заголовок H1 не может быть пустым"
                 @blur="save"
                 v-model="sitePageItem.sitePageH1"
               ></b-input>
