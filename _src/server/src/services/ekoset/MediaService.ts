@@ -38,7 +38,7 @@ export default class MediaService extends BaseService {
   }
 
   public async saveSitePageImage (sitePageId: number, file: Express.Multer.File) {
-    const updateStmt = `UPDATE site_page SET site_page_banner = $1 where recomm_id = ${sitePageId}`;
+    const updateStmt = `UPDATE site_page SET site_page_banner = $1 where site_page_id = ${sitePageId}`;
     return this.updateSmallOrBigImageFor(file, 'main', `page_${sitePageId}`, updateStmt);
   }
 
