@@ -1,10 +1,99 @@
 import BaseService from './BaseService';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
+import SitePage, { SitePageType } from '@/entities/ekoset/SitePage';
+import TypeOrmManager from '@/utils/TypeOrmManager';
 
 
 export default class CMSService extends BaseService {
 
   private apiViewName = 'v_api_admin_site_block_info'
+  private apiSitePageViewName = 'v_api_site_page'
+
+  public async adminGetSitePages () {
+    return this.getDbViewResult(this.apiSitePageViewName);
+  }
+
+  public async adminGetSitePageById (sitePageId: number) {
+    return this.getOneById(this.apiSitePageViewName, 'site_page_id = $1', sitePageId);
+  }
+
+  public async adminGetSitePageByCode (sitePageCode: number) {
+    return this.getOneById(this.apiSitePageViewName, 'site_page_code = $1', sitePageCode);
+  }
+
+  public async adminSaveSitePage (sitePage: SitePage) {
+    return TypeOrmManager.EntityManager.save(sitePage);
+  }
+
+  public async adminDeleteSitePage (sitePageId: number) {
+    return this.deleteById('site_page', 'site_page_id = $1', sitePageId);
+  }
+
+  public async adminGetDynamicComponentsInfoSitePage (sitePageId: number) {
+    const result = await this.getDbViewResult(this.apiViewName, null, 'site_page_id = $1', [sitePageId]);
+    const blockInfoList = this.getDynamicComponentInfoFromDataBase(result);
+
+    const getBlockIndex = (infoList: DynamicComponentInfo[], code: number) => {
+      return infoList.findIndex((iter) => {
+        return iter.code === code;
+      })
+    }
+
+    const removeBlock = (infoList: DynamicComponentInfo[], code: number) => {
+      const newBlockList = [...infoList];
+      const blockIndex = getBlockIndex(infoList, code)
+      if (blockIndex > -1) {
+        newBlockList.splice(blockIndex, 1);
+      }
+      return newBlockList;
+    }
+
+    switch (sitePageId) {
+
+      case SitePageType.ABOUT: {
+        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        return resultBlockList;
+      }
+
+      case SitePageType.CLIENTS: {
+        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        return resultBlockList;
+      }
+
+      case SitePageType.CONTACTS: {
+        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        return resultBlockList;
+      }
+
+      case SitePageType.MAIN: {
+        return blockInfoList;
+      }
+
+      case SitePageType.NEWS: {
+        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = removeBlock(resultBlockList, BlockType.LETTERS);
+        resultBlockList = removeBlock(resultBlockList, BlockType.BRANDS);
+        return resultBlockList;
+      }
+
+      case SitePageType.PRICES: {
+        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        // let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_PRICE);
+        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        return resultBlockList;
+      }
+
+      default: {
+        return blockInfoList;
+      }
+    }
+  }
 
   public async adminGetDynamicComponentsInfoSiteSection (siteSectionId: number) {
     const result = await this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
@@ -20,6 +109,27 @@ export default class CMSService extends BaseService {
     const result = await this.getDbViewResult(this.apiViewName, null, 'ind_offer_id = $1', [indOfferId]);
     return this.getDynamicComponentInfoFromDataBase(result);
   }
+
+  // ---
+
+  public async adminSaveDynamicComponentsSitePage (sitePageId: number, infos: DynamicComponentInfo[]) {
+    if (!!infos) {
+      const promises = [];
+      infos.forEach(
+        (iterComponentInfo) => {
+          const pr = this.adminSaveDynamicComponentSitePage(sitePageId, iterComponentInfo);
+          promises.push(pr);
+        })
+
+      await Promise.all(promises);
+      return {}
+    }
+    return {}
+  }
+  public async adminSaveDynamicComponentSitePage (sitePageId: number, info: DynamicComponentInfo) {
+    return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_page', sitePageId, info);
+  }
+
 
   public async adminSaveDynamicComponentsSiteSection (siteSectionId: number, infos: DynamicComponentInfo[]) {
     if (!!infos) {
@@ -37,18 +147,7 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentSiteSection (siteSectionId: number, info: DynamicComponentInfo) {
-    return this.execFunction('f_admin_add_block_info_sitesection',
-      [
-        siteSectionId,
-        info.code,
-        !!info.visible ? info.visible : 0,
-        !!info.visibleIndex ? info.visibleIndex : 0,
-        !!info.dispalyName ? info.dispalyName : '',
-        !!info.head ? info.head : '',
-        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
-        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
-        info.id
-      ]);
+    return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_sitesection', siteSectionId, info);
   }
 
   public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
@@ -67,18 +166,7 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentOffer (offerId: number, info: DynamicComponentInfo) {
-    return this.execFunction('f_admin_add_block_info_offer',
-      [
-        offerId,
-        info.code,
-        !!info.visible ? info.visible : 0,
-        !!info.visibleIndex ? info.visibleIndex : 0,
-        !!info.dispalyName ? info.dispalyName : '',
-        !!info.head ? info.head : '',
-        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
-        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
-        info.id
-      ]);
+    return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_offer', offerId, info);
   }
 
   public async adminSaveDynamicComponentsService (serviceId: number, infos: DynamicComponentInfo[]) {
@@ -97,18 +185,7 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentService (serviceId: number, info: DynamicComponentInfo) {
-    return this.execFunction('f_admin_add_block_info_service',
-      [
-        serviceId,
-        info.code,
-        !!info.visible ? info.visible : 0,
-        !!info.visibleIndex ? info.visibleIndex : 0,
-        !!info.dispalyName ? info.dispalyName : '',
-        !!info.head ? info.head : '',
-        !!info.props && !!info.props.leftBlock ? info.props.leftBlock : '',
-        !!info.props && !!info.props.rightBlock ? info.props.rightBlock : '',
-        info.id
-      ]);
+    return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_service', serviceId, info);
   }
 
   public async adminDeleteDynamicComponent (id: number) {
@@ -120,7 +197,7 @@ export default class CMSService extends BaseService {
 
     const brandList = new DynamicComponentInfo();
     brandList.id = 0;
-    brandList.code = 1;
+    brandList.code = BlockType.BRANDS;
     brandList.head = 'Нас рекомендуют';
     brandList.headCentered = true;
     brandList.dispalyName = 'Нас рекомендуют';
@@ -134,7 +211,7 @@ export default class CMSService extends BaseService {
 
     const letters = new DynamicComponentInfo();
     letters.id = 0;
-    letters.code = 2;
+    letters.code = BlockType.LETTERS;
     letters.head = 'Благодарственные письма';
     letters.headCentered = true;
     letters.dispalyName = 'Благодарственные письма';
@@ -147,7 +224,7 @@ export default class CMSService extends BaseService {
 
     const news = new DynamicComponentInfo();
     news.id = 0;
-    news.code = 3
+    news.code = BlockType.NEWS
     news.head = 'Новости';
     news.headCentered = true;
     news.dispalyName = 'Новости';
@@ -161,7 +238,7 @@ export default class CMSService extends BaseService {
 
     const bayService = new DynamicComponentInfo();
     bayService.id = 0;
-    bayService.code = 4;
+    bayService.code = BlockType.BUY_FORM;
     bayService.name = 'MessageForm';
     bayService.dispalyName = 'Заказать услугу'
     bayService.visible = 1;
@@ -173,7 +250,7 @@ export default class CMSService extends BaseService {
 
     const askExpert = new DynamicComponentInfo();
     askExpert.id = 0;
-    askExpert.code = 5;
+    askExpert.code = BlockType.ASKEXPERT_FORM;
     askExpert.name = 'MessageForm';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
@@ -184,7 +261,7 @@ export default class CMSService extends BaseService {
 
     const clientTypeOfferList = new DynamicComponentInfo();
     clientTypeOfferList.id = 0;
-    clientTypeOfferList.code = 7;
+    clientTypeOfferList.code = BlockType.CLIENTTYPE_OFFER;
     clientTypeOfferList.head = 'Комплексные решения';
     clientTypeOfferList.headCentered = true;
     clientTypeOfferList.name = 'ClientTypeOfferList';
@@ -194,7 +271,7 @@ export default class CMSService extends BaseService {
 
     const businessTypeOfferList = new DynamicComponentInfo();
     businessTypeOfferList.id = 0;
-    businessTypeOfferList.code = 8;
+    businessTypeOfferList.code = BlockType.BUSINESSTYPE_OFFER;
     businessTypeOfferList.head = 'Индивидуальные предложения';
     businessTypeOfferList.headCentered = true;
     businessTypeOfferList.name = 'BusinessTypeOfferList';
@@ -207,7 +284,7 @@ export default class CMSService extends BaseService {
 
     const serviceList = new DynamicComponentInfo();
     serviceList.id = 0;
-    serviceList.code = 9;
+    serviceList.code = BlockType.SERVICE_LIST;
     serviceList.head = 'Список услуг';
     serviceList.headCentered = true;
     serviceList.name = 'ServiceList';
@@ -220,7 +297,7 @@ export default class CMSService extends BaseService {
 
     const servicePriceTable = new DynamicComponentInfo();
     servicePriceTable.id = 0;
-    servicePriceTable.code = 10;
+    servicePriceTable.code = BlockType.SERVICE_PRICE;
     servicePriceTable.head = 'Стоимость услуг';
     servicePriceTable.headCentered = true;
     servicePriceTable.name = 'ServicePriceTable';
@@ -241,7 +318,7 @@ export default class CMSService extends BaseService {
     const result: DynamicComponentInfo[] = this.adminGetDynamicComponentsInfoDefault();
 
     dvViewResult.forEach((iterData) => {
-      if (iterData.clSiteBlockCode === 6) {
+      if (iterData.clSiteBlockCode === BlockType.FREE_CONTENT) {
         const freeBlockInfo = this.getFreeContentBlockDynamicComponentInfo(iterData);
         result.push(freeBlockInfo);
       } else {
@@ -279,4 +356,33 @@ export default class CMSService extends BaseService {
 
     return freeContentBlock;
   }
+
+  private async execAddBlockUnfoDbFunction (funcName: string, firstId: number, blockInfo: DynamicComponentInfo) {
+    const standartArgs = [
+      blockInfo.code,
+      !!blockInfo.visible ? blockInfo.visible : 0,
+      !!blockInfo.visibleIndex ? blockInfo.visibleIndex : 0,
+      !!blockInfo.dispalyName ? blockInfo.dispalyName : '',
+      !!blockInfo.head ? blockInfo.head : '',
+      !!blockInfo.props && !!blockInfo.props.leftBlock ? blockInfo.props.leftBlock : '',
+      !!blockInfo.props && !!blockInfo.props.rightBlock ? blockInfo.props.rightBlock : '',
+      blockInfo.id
+    ]
+    const funcArgc = [firstId, ...standartArgs];
+    return this.execFunction(funcName, funcArgc);
+  }
+}
+
+enum BlockType {
+  UFO = 0,
+  BRANDS = 1,
+  LETTERS = 2,
+  NEWS = 3,
+  BUY_FORM = 4,
+  ASKEXPERT_FORM = 5,
+  FREE_CONTENT = 6,
+  CLIENTTYPE_OFFER = 7,
+  BUSINESSTYPE_OFFER = 8,
+  SERVICE_LIST = 9,
+  SERVICE_PRICE = 10
 }

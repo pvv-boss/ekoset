@@ -2,13 +2,18 @@
   <section>
     <h1 itemprop="headline name">Список новостей</h1>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
+
+    <div class="brc-section__wrapper">
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    </div>
+
+    <!-- <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
     <BasePagination
       :total="pagination.total"
       :currentPage.sync="pagination.currentPage"
       :limit="pagination.limit"
       @update:pagination="updatePagintaion"
-    ></BasePagination>
+    ></BasePagination>-->
   </section>
 </template>
 
@@ -25,6 +30,7 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -52,9 +58,14 @@ export default class Articles extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = !!siteSection ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection) : getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = !!siteSection
+      ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection)
+      : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
+
     const startPagination = new Pagination()
-    const articleList = !!siteSection ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination) : getServiceContainer().articleService.getRootArticleList(startPagination)
+    const articleList = !!siteSection
+      ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination)
+      : getServiceContainer().articleService.getRootArticleList(startPagination)
 
     const data = await Promise.all([articleList, dynamicComponentInfo])
     return {

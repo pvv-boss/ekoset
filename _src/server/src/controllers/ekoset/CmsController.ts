@@ -3,6 +3,7 @@ import { JsonController, Get, Res, Put, Param, Delete, Post, Body } from 'routin
 import ServiceContainer from '@/services/ServiceContainer';
 import { Request, Response } from 'express';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
+import SitePage from '@/entities/ekoset/SitePage';
 
 @JsonController()
 export default class CmsController extends BaseController {
@@ -117,6 +118,25 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/cms/blocks/info/pages/:sitePageId')
+  public async adminGetDynamicComponentsInfoSitePage (
+    @Param('sitePageId') sitePageId: number,
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoSitePage(sitePageId);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Post('/admin/panel/cms/blocks/info/pages/:sitePageId')
+  public async adminSaveDynamicComponentsSitePage (
+    @Res() response: Response,
+    @Param('sitePageId') sitePageId: number,
+    @Body() infos: DynamicComponentInfo[], ) {
+
+    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsSitePage(sitePageId, infos);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
   @Post('/admin/panel/cms/blocks/info/sitesection/:sitesectionId')
   public async adminSaveDynamicComponentsSiteSection (
     @Res() response: Response,
@@ -147,4 +167,38 @@ export default class CmsController extends BaseController {
     return CmsController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/cms/pages')
+  public async adminGetSitePages (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetSitePages();
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/cms/pages/:id')
+  public async adminGetSitePageById (
+    @Res() response: Response,
+    @Param('id') id: number,
+  ) {
+    const result = await ServiceContainer.CMSService.adminGetSitePageById(id);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/panel/cms/pages')
+  public async saveSitePage (
+    @Body() sitePage: SitePage,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.CMSService.adminSaveSitePage(sitePage);
+    return CmsController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/cms/pages/:sitePageId')
+  public async adminDeleteSitePage (
+    @Param('sitePageId') sitePageId: number,
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.CMSService.adminDeleteSitePage(sitePageId);
+    return CmsController.createSuccessResponse(result, response);
+  }
 }

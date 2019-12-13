@@ -20,6 +20,7 @@ import BusinessService from '@/models/ekoset/BusinessService'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -36,7 +37,10 @@ export default class Prices extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = !!siteSection ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection) : getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = !!siteSection
+      ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection)
+      : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.PRICES)
+
     let serviceList: Promise<BusinessService>
     if (!!siteSection) {
       serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection, false)

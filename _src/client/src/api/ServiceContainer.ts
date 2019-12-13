@@ -7,6 +7,7 @@ import IndividualOfferService from './IndividualOfferService';
 import SeoMetaService from './SeoMetaService';
 import MediaService from './MediaService';
 import DynamicComponentsService from './DynamicComponentsService';
+import TopMenuService from './TopMenuService';
 
 
 class ServiceContainer {
@@ -18,6 +19,7 @@ class ServiceContainer {
   public seoMetaService: SeoMetaService
   public mediaService: MediaService
   public dynamicComponentsService: DynamicComponentsService
+  public topMenuService: TopMenuService
 
   public initialized = false
 
@@ -30,6 +32,7 @@ class ServiceContainer {
     this.articleService = new ArticleService()
     this.mediaService = new MediaService()
     this.dynamicComponentsService = new DynamicComponentsService()
+    this.topMenuService = new TopMenuService()
 
     await this.authService.initConfig()
     this.initialized = true

@@ -230,7 +230,7 @@ export default class AdminSiteSectionList extends Vue {
   margin-top: 10px;
 
   display: grid;
-  grid-template-columns: 50px 1fr 220px 220px 60px;
+  grid-template-columns: 50px 1fr 220px 220px 70px;
   grid-column-gap: 20px;
   padding: 5px;
   padding-left: 10px;

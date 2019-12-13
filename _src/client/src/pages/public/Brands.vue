@@ -21,6 +21,7 @@ import BusinessService from '@/models/ekoset/BusinessService'
 import RecommendationList from '@/components/public/RecommendationList.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -38,7 +39,7 @@ export default class Brands extends Vue {
 
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CLIENTS)
     const siteSection = context.params.siteSection
     let brandList: Promise<Brands>
     if (siteSection) {

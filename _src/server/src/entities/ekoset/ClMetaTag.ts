@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId } from 'typeorm';
-import { MetaTagContent } from './MetaTagContent';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 
 @Entity('cl_meta_tag')

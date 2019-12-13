@@ -14,6 +14,8 @@
 
         <!-- <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Главная страница"></b-menu-item> -->
 
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-top-menu-list'}" label="Верхнее меню"></b-menu-item>
+
         <b-menu-item
           icon="link"
           :active="isSettingsActive"

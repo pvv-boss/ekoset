@@ -37,6 +37,11 @@ export default class MediaService extends BaseService {
     return this.updateSmallOrBigImageFor(file, 'letters', `letter_${recommendationId}`, updateStmt);
   }
 
+  public async saveSitePageImage (sitePageId: number, file: Express.Multer.File) {
+    const updateStmt = `UPDATE site_page SET site_page_banner = $1 where recomm_id = ${sitePageId}`;
+    return this.updateSmallOrBigImageFor(file, 'main', `page_${sitePageId}`, updateStmt);
+  }
+
   public async saveUserMessage (formMessageData: FormMessageData, file: Express.Multer.File) {
     return await this.saveFileFromRequestBody(file, 'user', 'user');
     // return сохраняем сами данные формы

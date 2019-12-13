@@ -13,6 +13,7 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -25,7 +26,7 @@ export default class Contacts extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CONTACTS)
     return {
       dynamicComponentInfo
     }

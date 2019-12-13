@@ -25,6 +25,7 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -47,13 +48,13 @@ export default class Clients extends Vue {
     })
   }
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CLIENTS)
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
-    const data = await Promise.all([clientList])
+    const data = await Promise.all([clientList, dynamicComponentInfo])
     return {
-      dynamicComponentInfo,
-      clientItems: data[0],
+      dynamicComponentInfo: data[1],
+      clientItems: data[0]
     }
   }
 

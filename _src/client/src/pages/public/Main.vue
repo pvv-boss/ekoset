@@ -1,6 +1,5 @@
 <template>
   <section>
-    <!-- <h1 itemprop="headline name">Экосеть: главная страница</h1> -->
     <figure class="brc-page-image__wrapper">
       <img
         alt="Экосеть"
@@ -9,7 +8,7 @@
         class="brc-page-image"
       />
       <figcaption>Экосеть</figcaption>
-      <h1 class="brc-page-title">Экосеть</h1>
+      <h1 itemprop="headline name" class="brc-page-title">Экосеть</h1>
     </figure>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
   </section>
@@ -27,6 +26,7 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -46,11 +46,12 @@ export default class Main extends Vue {
   // }
 
   private async asyncData (context: NuxtContext) {
-    const siteSectionItems = await getServiceContainer().publicEkosetService.getSiteSections()
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const siteSectionItems = getServiceContainer().publicEkosetService.getSiteSections()
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.MAIN)
+    const data = await Promise.all([siteSectionItems, dynamicComponentInfo])
     return {
-      dynamicComponentInfo,
-      siteSectionItems
+      dynamicComponentInfop: data[1],
+      siteSectionItems: data[0]
     }
   }
 }

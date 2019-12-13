@@ -2,14 +2,17 @@
   <section>
     <figure class="brc-page-image__wrapper">
       <img
-        alt="Экосеть"
+        :alt="sidePageInfo.sitePageName"
         itemprop="image"
-        src="/images/start-page-banner.jpg"
+        :src="sidePageInfo.sitePageBanner"
         class="brc-page-image"
       />
-      <figcaption>Экосеть</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">О компании</h1>
+      <figcaption>{{sidePageInfo.sitePageName}}</figcaption>
+      <h1 itemprop="headline name" class="brc-page-title">{{sidePageInfo.sitePageH1}}</h1>
     </figure>
+    <div class="brc-section__wrapper">
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    </div>
   </section>
 </template>
 
@@ -23,6 +26,7 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import FreeContentBlock from '@/components/FreeContentBlock.vue'
+import SitePage, { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -33,12 +37,17 @@ import FreeContentBlock from '@/components/FreeContentBlock.vue'
 })
 export default class About extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
+  private sidePageInfo: SitePage = new SitePage()
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.ABOUT)
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.ABOUT)
+    const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
+
     return {
-      dynamicComponentInfo
+      dynamicComponentInfo: data[0],
+      sidePageInfo: data[1]
     }
   }
 

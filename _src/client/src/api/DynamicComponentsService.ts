@@ -2,6 +2,7 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer';
 import DynamicComponentInfo from '@/models/DynamicComponentInfo';
+import SitePage, { SitePageType } from '@/models/SitePage';
 
 export default class DynamicComponentsService extends BaseService {
 
@@ -17,8 +18,13 @@ export default class DynamicComponentsService extends BaseService {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(null, null, indOfferUrl), siteSectionUrl, null, adminMode, indOfferUrl, offerForClentType, clActivityId)
   }
 
-  public async getTopMenuDynamicComponents (adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
-    return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(null, null, null), null, null, adminMode, null, null, null)
+  public async getSitePageDynamicComponents (sitePageId: number, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+    const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
+    return this.getDynamicComponentsInfo(httpResponse, null, null, adminMode, null, null, null)
+  }
+
+  public async saveSitePageDynamicComponentsInfo (sitePage: number, infos: DynamicComponentInfo[]) {
+    return HttpUtil.httpPost(`admin/panel/cms/blocks/info/pages/${sitePage}`, infos)
   }
 
   public async saveSiteSectionDynamicComponentsInfo (siteSectionId: number, infos: DynamicComponentInfo[]) {
@@ -34,7 +40,7 @@ export default class DynamicComponentsService extends BaseService {
   }
 
   public async adminDeleteDynamicComponent (blockId: number) {
-    return HttpUtil.httpDelete(`admin/panel/cms/blocks/${blockId}`)
+    return HttpUtil.httpDelete(`admin/panel/cms/blocks/ ${blockId} `)
   }
 
   private async adminGetDynamicComponentsInfo (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null): Promise<DynamicComponentInfo[]> {
@@ -151,7 +157,7 @@ export default class DynamicComponentsService extends BaseService {
     })
 
     const newsCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.code === 3
+      return iter.code === BlockType.NEWS
     })
     if (!!newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
@@ -166,7 +172,7 @@ export default class DynamicComponentsService extends BaseService {
 
 
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.code === 2
+      return iter.code === BlockType.LETTERS
     })
     if (!!lettersCompoenentInfo) {
       lettersCompoenentInfo.props.recommLetterList = data[2]
@@ -179,7 +185,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const recommendCompoenentInfo = componentsInfo.find((iter) => {
-      return iter.code === 1
+      return iter.code === BlockType.BRANDS
     })
     if (!!recommendCompoenentInfo && recommendCompoenentInfo.visible === 1) {
       recommendCompoenentInfo.props.brandList = data[0]
@@ -192,7 +198,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const busineesTypeOfferListInfo = componentsInfo.find((iter) => {
-      return iter.code === 8
+      return iter.code === BlockType.BUSINESSTYPE_OFFER
     })
     if (!!busineesTypeOfferListInfo && busineesTypeOfferListInfo.visible === 1) {
       busineesTypeOfferListInfo.props.offerList = data[3]
@@ -209,7 +215,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const clientTypeOfferListInfo = componentsInfo.find((iter) => {
-      return iter.code === 7
+      return iter.code === BlockType.CLIENTTYPE_OFFER
     })
     if (!!clientTypeOfferListInfo && clientTypeOfferListInfo.visible === 1) {
       // Для типов клиентов нет
@@ -219,7 +225,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const serviceInfo = componentsInfo.find((iter) => {
-      return iter.code === 9
+      return iter.code === BlockType.SERVICE_LIST
     })
     if (!!serviceInfo && serviceInfo.visible === 1) {
       serviceInfo.props.serviceList = data[4]
@@ -231,7 +237,7 @@ export default class DynamicComponentsService extends BaseService {
     }
 
     const servicePriceInfo = componentsInfo.find((iter) => {
-      return iter.code === 10
+      return iter.code === BlockType.SERVICE_PRICE
     })
     if (!!servicePriceInfo && servicePriceInfo.visible === 1) {
       servicePriceInfo.props.servicePriceList = data[4]
@@ -245,4 +251,18 @@ export default class DynamicComponentsService extends BaseService {
     return componentsInfo
 
   }
+}
+
+enum BlockType {
+  UFO = 0,
+  BRANDS = 1,
+  LETTERS = 2,
+  NEWS = 3,
+  BUY_FORM = 4,
+  ASKEXPERT_FORM = 5,
+  FREE_CONTENT = 6,
+  CLIENTTYPE_OFFER = 7,
+  BUSINESSTYPE_OFFER = 8,
+  SERVICE_LIST = 9,
+  SERVICE_PRICE = 10
 }

@@ -11,6 +11,8 @@ import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
 import AdminClPartnerGroups from '@/pages/admin/AdminClPartnerGroups.vue'
 import AdminClientList from '@/pages/admin/AdminClientList.vue'
 import AdminFooterSettings from '@/pages/admin/AdminFooterSettings.vue'
+import AdminTopMenuList from '@/pages/admin/AdminTopMenuList.vue'
+import AdminTopMenuCard from '@/pages/admin/AdminTopMenuCard.vue'
 
 export const AdminRouter = [
   {
@@ -55,6 +57,20 @@ export const AdminRouter = [
     component: AdminSiteSectionList,
     meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
   },
+
+  {
+    name: 'admin-top-menu-list',
+    path: '/admin/topmenu',
+    props: true,
+    component: AdminTopMenuList
+  },
+  {
+    name: 'admin-top-menu-card',
+    path: '/admin/topmenu/:sitePageId',
+    props: true,
+    component: AdminTopMenuCard
+  },
+
   {
     name: 'admin-service-card',
     path: '/admin/service/:service',

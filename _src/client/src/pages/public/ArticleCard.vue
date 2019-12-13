@@ -58,6 +58,7 @@ import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import { SitePageType } from '@/models/SitePage'
 
 
 @Component({
@@ -75,7 +76,7 @@ export default class ArticleCard extends Vue {
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getTopMenuDynamicComponents()
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
 
     const articleUrl = context.params.article
     const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)
