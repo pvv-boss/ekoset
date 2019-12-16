@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Наши клиенты</h1>
+    <TheBanner h1="Наши клиенты" alt="Наши клиенты" :imageSrc="sitePageInfo.sitePageBanner"></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
@@ -25,18 +25,21 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import { SitePageType } from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     ClientList,
     DynamicComponentsContainer,
-    BreadCrumbs
+    BreadCrumbs,
+    TheBanner
   }
 })
 export default class Clients extends Vue {
   private clientItems: Partner[] = []
   private breadCrumbList: any[] = []
+  private sitePageInfo: SitePage = new SitePage()
   private dynamicComponentInfo: DynamicComponentInfo[] = []
 
   private get partnerGroupList () {
@@ -49,12 +52,14 @@ export default class Clients extends Vue {
   }
   private async asyncData (context: NuxtContext) {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CLIENTS)
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.CLIENTS)
     const clientList = getServiceContainer().publicEkosetService.getPartners()
 
-    const data = await Promise.all([clientList, dynamicComponentInfo])
+    const data = await Promise.all([clientList, dynamicComponentInfo, sitePageInfo])
     return {
       dynamicComponentInfo: data[1],
-      clientItems: data[0]
+      clientItems: data[0],
+      sitePageInfo: data[2]
     }
   }
 

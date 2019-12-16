@@ -31,7 +31,7 @@ export default class CMSService extends BaseService {
 
   public async adminGetDynamicComponentsInfoSitePage (sitePageId: number) {
     const result = await this.getDbViewResult(this.apiViewName, null, 'site_page_id = $1', [sitePageId]);
-    const blockInfoList = this.getDynamicComponentInfoFromDataBase(result);
+    let blockInfoList = this.getDynamicComponentInfoFromDataBase(result);
 
     const getBlockIndex = (infoList: DynamicComponentInfo[], code: number) => {
       return infoList.findIndex((iter) => {
@@ -47,6 +47,9 @@ export default class CMSService extends BaseService {
       }
       return newBlockList;
     }
+
+    blockInfoList = removeBlock(blockInfoList, BlockType.BUSINESSTYPE_OFFER);
+    blockInfoList = removeBlock(blockInfoList, BlockType.CLIENTTYPE_OFFER);
 
     switch (sitePageId) {
 

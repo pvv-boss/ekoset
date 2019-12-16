@@ -1,15 +1,10 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper">
-      <img
-        :alt="sidePageInfo.sitePageName"
-        itemprop="image"
-        :src="sidePageInfo.sitePageBanner"
-        class="brc-page-image"
-      />
-      <figcaption>{{sidePageInfo.sitePageName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{sidePageInfo.sitePageH1}}</h1>
-    </figure>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-section__wrapper">
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
@@ -28,17 +23,19 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
     BreadCrumbs,
-    FreeContentBlock
+    FreeContentBlock,
+    TheBanner
   }
 })
 export default class About extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
-  private sidePageInfo: SitePage = new SitePage()
+  private sitePageInfo: SitePage = new SitePage()
   private breadCrumbList: any[] = []
 
   private async asyncData (context: NuxtContext) {
@@ -48,7 +45,7 @@ export default class About extends Vue {
 
     return {
       dynamicComponentInfo: data[0],
-      sidePageInfo: data[1]
+      sitePageInfo: data[1]
     }
   }
 

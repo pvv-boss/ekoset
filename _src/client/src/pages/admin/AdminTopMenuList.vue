@@ -15,7 +15,7 @@
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="newSitePage.sitePageNme"
+                v-model="newSitePage.sitePageName"
               ></b-input>
             </b-field>
             <b-button @click="savenewSitePage" type="is-primary">Сохранить</b-button>
