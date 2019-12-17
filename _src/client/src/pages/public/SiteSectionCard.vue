@@ -1,15 +1,10 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper">
-      <img
-        class="brc-page-image"
-        :src="siteSectionItem.siteSectionImgBig"
-        :alt="siteSectionItem.siteSectionName"
-        itemprop="image"
-      />
-      <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{siteSectionItem.siteSectionH1}}</h1>
-    </figure>
+    <TheBanner
+      :h1="siteSectionItem.siteSectionH1"
+      :alt="siteSectionItem.siteSectionName"
+      :imageSrc="siteSectionItem.siteSectionImgBig"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
 
     <div class="brc-section__wrapper">
@@ -28,11 +23,13 @@ import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
-    BreadCrumbs
+    BreadCrumbs,
+    TheBanner
   }
 })
 export default class SiteSectionCard extends Vue {

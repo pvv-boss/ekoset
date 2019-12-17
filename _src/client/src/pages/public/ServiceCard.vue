@@ -1,15 +1,10 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper">
-      <img
-        class="brc-page-image"
-        :src="businessService.businessServiceImgBig"
-        :alt="businessService.businessServiceName"
-        itemprop="image"
-      />
-      <figcaption>{{businessService.businessServiceName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{businessService.businessServiceH1}}</h1>
-    </figure>
+    <TheBanner
+      :h1="businessService.businessServiceH1"
+      :alt="businessService.businessServiceName"
+      :imageSrc="businessService.businessServiceImgBig"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
 
     <div class="brc-section__wrapper">
@@ -29,12 +24,13 @@ import AppStore from '@/store/AppStore'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    DynamicComponentsContainer
+    DynamicComponentsContainer,
+    TheBanner
   }
 })
 export default class ServiceCard extends Vue {

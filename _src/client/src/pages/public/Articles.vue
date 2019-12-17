@@ -1,19 +1,15 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Список новостей</h1>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
 
     <div class="brc-section__wrapper">
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>
-
-    <!-- <ArticleList :articleList="articleItems" mode="columns"></ArticleList>
-    <BasePagination
-      :total="pagination.total"
-      :currentPage.sync="pagination.currentPage"
-      :limit="pagination.limit"
-      @update:pagination="updatePagintaion"
-    ></BasePagination>-->
   </section>
 </template>
 
@@ -30,48 +26,42 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import { SitePageType } from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     ArticleList,
     BasePagination,
     BreadCrumbs,
-    DynamicComponentsContainer
+    DynamicComponentsContainer,
+    TheBanner
   }
 })
 export default class Articles extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
-  private pagination: Pagination = new Pagination()
-  private articleItems: Article[] = []
   private breadCrumbList: any[] = []
-
-  private updatePagintaion () {
-    this.updateArticleList()
-  }
-
-  private async updateArticleList () {
-    const activitySlug = getModule(AppStore, this.$store).currentSiteSection
-    const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
-    this.articleItems = articleList
-  }
+  private sitePageInfo: SitePage = new SitePage()
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
     const dynamicComponentInfo = !!siteSection
-      ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection)
+      ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.NEWS)
       : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
+
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.NEWS)
 
     const startPagination = new Pagination()
     const articleList = !!siteSection
       ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination)
       : getServiceContainer().articleService.getRootArticleList(startPagination)
 
-    const data = await Promise.all([articleList, dynamicComponentInfo])
+    const data = await Promise.all([articleList, dynamicComponentInfo, sitePageInfo])
     return {
       pagination: startPagination,
       articleItems: data[0],
-      dynamicComponentInfo: data[1]
+      dynamicComponentInfo: data[1],
+      sitePageInfo: data[2]
     }
   }
 

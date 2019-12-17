@@ -23,6 +23,11 @@ export default class DynamicComponentsService extends BaseService {
     return this.getDynamicComponentsInfo(httpResponse, null, null, adminMode, null, null, null)
   }
 
+  public async getSitePageDynamicComponentsWithSiteSection (siteSectionUrl: string, sitePageId: number, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+    const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
+    return this.getDynamicComponentsInfo(httpResponse, siteSectionUrl, null, adminMode, null, null, null)
+  }
+
   public async saveSitePageDynamicComponentsInfo (sitePage: number, infos: DynamicComponentInfo[]) {
     return HttpUtil.httpPost(`admin/panel/cms/blocks/info/pages/${sitePage}`, infos)
   }

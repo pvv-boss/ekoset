@@ -191,7 +191,7 @@ export default class AdminArticleList extends Vue {
     this.newArticle = new Article()
   }
 
-  private cancelSaveNewSiteSection () {
+  private cancel () {
     this.newArticle = new Article()
     this.createNewMode = false
   }

@@ -1,6 +1,10 @@
 <template>
   <section>
-    <TheBanner h1="Наши клиенты" alt="Наши клиенты" :imageSrc="sitePageInfo.sitePageBanner"></TheBanner>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">

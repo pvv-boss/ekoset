@@ -1,16 +1,12 @@
 <template>
   <div itemscope itemtype="http://schema.org/Article">
-    <figure class="brc-article-item__header-img brc-page-image__wrapper">
-      <img
-        :src="article.articleHeaderImgSrc"
-        :alt="article.articleTitle"
-        itemprop="image"
-        class="brc-article-item__header-img brc-page-image"
-      />
-      <figcaption>{{article.articleTitle}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{article.articleH1}}</h1>
-    </figure>
+    <TheBanner
+      :h1="article.articleH1"
+      :alt="article.articleTitle"
+      :imageSrc="article.articleHeaderImgSrc"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+
     <div class="brc-article-item__stat-info">
       <div class="brc-article-item__date">
         <span
@@ -59,14 +55,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { SitePageType } from '@/models/SitePage'
-
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     ArticleList,
     BreadCrumbs,
     ArticleMetaTags,
-    DynamicComponentsContainer
+    DynamicComponentsContainer,
+    TheBanner
   }
 })
 export default class ArticleCard extends Vue {

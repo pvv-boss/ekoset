@@ -1,15 +1,10 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper">
-      <img
-        class="brc-page-image"
-        :src="individualOffer.indOfferImgBig"
-        :alt="individualOffer.indOfferName"
-        itemprop="image"
-      />
-      <figcaption>{{individualOffer.indOfferName}}</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">{{individualOffer.indOfferH1}}</h1>
-    </figure>
+    <TheBanner
+      :h1="individualOffer.indOfferH1"
+      :alt="individualOffer.indOfferName"
+      :imageSrc="individualOffer.indOfferImgBig"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
 
     <div class="brc-section__wrapper">
@@ -29,13 +24,15 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 
 @Component({
   components: {
     FreeContentBlock,
     BreadCrumbs,
-    DynamicComponentsContainer
+    DynamicComponentsContainer,
+    TheBanner
   }
 })
 export default class OfferCard extends Vue {

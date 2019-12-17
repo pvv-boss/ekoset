@@ -1,15 +1,13 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper">
-      <img
-        alt="Экосеть"
-        itemprop="image"
-        src="/images/start-page-banner.jpg"
-        class="brc-page-image"
-      />
-      <figcaption>Экосеть</figcaption>
-      <h1 itemprop="headline name" class="brc-page-title">Экосеть</h1>
-    </figure>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
+    <div class="brc-section__wrapper">
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    </div>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
   </section>
 </template>
@@ -26,17 +24,21 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import { SitePageType } from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
-    SiteSectionList
+    SiteSectionList,
+    TheBanner
   }
 })
 export default class Main extends Vue {
   private siteSectionItems: SiteSection[] = []
   private dynamicComponentInfo: DynamicComponentInfo[] = []
+  private sitePageInfo: SitePage = new SitePage()
+
 
   // private head () {
   //   return {
@@ -48,10 +50,13 @@ export default class Main extends Vue {
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = getServiceContainer().publicEkosetService.getSiteSections()
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.MAIN)
-    const data = await Promise.all([siteSectionItems, dynamicComponentInfo])
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
+
+    const data = await Promise.all([siteSectionItems, dynamicComponentInfo, sitePageInfo])
     return {
+      siteSectionItems: data[0],
       dynamicComponentInfop: data[1],
-      siteSectionItems: data[0]
+      sitePageInfo: data[2]
     }
   }
 }

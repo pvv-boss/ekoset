@@ -1,6 +1,14 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Контакты</h1>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
+    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+    <div class="brc-section__wrapper">
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    </div>
   </section>
 </template>
 
@@ -13,22 +21,29 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import { SitePageType } from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    DynamicComponentsContainer
+    DynamicComponentsContainer,
+    TheBanner
   }
 })
 export default class Contacts extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
+  private sitePageInfo: SitePage = new SitePage()
 
   private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CONTACTS)
+    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CONTACTS)
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.CONTACTS)
+
+    const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {
-      dynamicComponentInfo
+      dynamicComponentInfo: data[0],
+      sitePageInfo: data[1]
     }
   }
 

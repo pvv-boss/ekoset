@@ -1,9 +1,15 @@
 <template>
   <section>
-    <h1 itemprop="headline name">Цены</h1>
+    <TheBanner
+      :h1="sitePageInfo.sitePageH1"
+      :alt="sitePageInfo.sitePageName"
+      :imageSrc="sitePageInfo.sitePageBanner"
+    ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <client-only>
-      <ServicePriceTable :servicePriceList="serviceList" :allPricesPage="true"></ServicePriceTable>
+      <div class="brc-section__wrapper">
+        <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+      </div>
     </client-only>
   </section>
 </template>
@@ -16,42 +22,37 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import BusinessService from '@/models/ekoset/BusinessService'
-import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import { SitePageType } from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
+import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
     BreadCrumbs,
-    ServicePriceTable
+    TheBanner
   }
 })
 export default class Prices extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
-  private serviceList: BusinessService[] = []
+  private sitePageInfo: SitePage = new SitePage()
 
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
     const dynamicComponentInfo = !!siteSection
-      ? getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSection)
+      ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.PRICES)
       : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.PRICES)
 
-    let serviceList: Promise<BusinessService>
-    if (!!siteSection) {
-      serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSection, false)
-    } else {
-      serviceList = getServiceContainer().businessServiceService.getMainList()
-    }
-    const data = await Promise.all([serviceList, dynamicComponentInfo])
+    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.PRICES)
+
+    const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
 
     return {
-      dynamicComponentInfo: data[1],
-      serviceList: data[0]
+      dynamicComponentInfo: data[0],
+      sitePageInfo: data[1]
     }
   }
 

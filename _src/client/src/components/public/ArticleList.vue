@@ -5,6 +5,12 @@
       :key="articleItem.articleId"
       :articleItem="articleItem"
     ></ArticleListItem>
+    <BasePagination
+      :total="pagination.total"
+      :currentPage.sync="pagination.currentPage"
+      :limit="pagination.limit"
+      @update:pagination="updatePagintaion"
+    ></BasePagination>-->
   </div>
 </template>
 
@@ -13,7 +19,10 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
+import { getModule } from 'vuex-module-decorators'
 import { NuxtContext } from 'vue/types/options'
+import AppStore from '@/store/AppStore'
+import Pagination from '@/models/Pagination'
 
 @Component({
   components: {
@@ -26,6 +35,18 @@ export default class ArticleList extends Vue {
 
   @Prop(String)
   private mode
+
+  private pagination: Pagination = new Pagination()
+
+  private updatePagintaion () {
+    this.updateArticleList()
+  }
+
+  private async updateArticleList () {
+    const activitySlug = getModule(AppStore, this.$store).currentSiteSection
+    const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
+    this.articleItems = articleList
+  }
 
 }
 </script>

@@ -107,10 +107,10 @@ h3 {
   }
 
   .brc-page-image__wrapper {
-    min-height: 210px;
-    max-height: 300px;
-    overflow: hidden;
     width: 100vw;
+    max-height: 300px;
+    min-height: 210px;
+    overflow: hidden;
     position: relative;
     border-radius: 0;
     margin-left: -16px;
