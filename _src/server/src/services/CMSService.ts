@@ -2,7 +2,7 @@ import BaseService from './BaseService';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
 import SitePage, { SitePageType } from '@/entities/ekoset/SitePage';
 import TypeOrmManager from '@/utils/TypeOrmManager';
-
+import * as slugify from '@sindresorhus/slugify';
 
 export default class CMSService extends BaseService {
 
@@ -22,6 +22,10 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveSitePage (sitePage: SitePage) {
+    if (sitePage.sitePageId > 10) {
+      sitePage.sitePageRouteName = 'custom-page';
+    }
+    sitePage.sitePageMenuName = slugify(sitePage.sitePageName);
     return TypeOrmManager.EntityManager.save(sitePage);
   }
 

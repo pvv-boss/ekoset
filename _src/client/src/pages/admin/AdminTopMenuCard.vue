@@ -28,7 +28,7 @@
                 </template>
               </AdminImageUploader>
             </b-field>
-            <b-field label="Наименование">
+            <b-field label="Наименование пункта">
               <b-input
                 placeholder="Наименование"
                 type="text"
@@ -39,7 +39,7 @@
               ></b-input>
             </b-field>
 
-            <b-field label="Заголовок H1">
+            <b-field label="Заголовок H1 (на связанной странице)">
               <b-input
                 placeholder="Заголовок H1"
                 type="text"

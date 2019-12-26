@@ -180,12 +180,12 @@ export default class AdminTopMenuList extends Vue {
       await getServiceContainer().topMenuService.adminDeleteSitePage(sitePage.sitePageId)
       this.updateItems()
     }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить пункт меню ?', 'Подтвердите удаление', okCallback)
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить пункт меню и связанную страницу ?', 'Подтвердите удаление', okCallback)
   }
 
   private async handleDragChange () {
     for (let i = 0; i < this.sitePageItems.length; i++) {
-      this.sitePageItems[i].sitePageMenuPosition = this.sitePageItems.length - i;
+      this.sitePageItems[i].sitePageMenuPosition = i;
       await getServiceContainer().topMenuService.adminSaveSitePage(this.sitePageItems[i])
     }
   }

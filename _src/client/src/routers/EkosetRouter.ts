@@ -11,6 +11,8 @@ import Contacts from '@/pages/public/Contacts.vue'
 import Prices from '@/pages/public/Prices.vue'
 import Brands from '@/pages/public/Brands.vue'
 import About from '@/pages/public/About.vue'
+import DynamicPage from '@/pages/public/DynamicPage.vue'
+
 
 export const EkosetRouter = [
   {
@@ -90,11 +92,7 @@ export const EkosetRouter = [
     name: 'user',
     path: '/user/:privacyType(disinfectionwork|research|document)?',
     props: true,
-    component: Privacy,
-    meta: {
-      title: 'Экосеть: Личный кабинет',
-      // requiresAuth: true
-    }
+    component: Privacy
   },
   {
     name: 'user-settings',
@@ -105,5 +103,13 @@ export const EkosetRouter = [
       title: 'Экосеть: Настройки пользователя',
       // requiresAuth: true
     }
+  },
+
+  {
+    name: 'custom-page',
+    path: '/:siteSection?/pages/:page',
+    props: true,
+    component: DynamicPage
   }
+
 ]

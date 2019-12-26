@@ -6,6 +6,11 @@
       :imageSrc="sitePageInfo.sitePageBanner"
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+
+    <div class="brc-section__wrapper">
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    </div>
+
     <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
         <h4>{{group.partnerGroupName}}</h4>

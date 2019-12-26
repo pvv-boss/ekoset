@@ -25,6 +25,7 @@
     "@types/passport-local": "latest",
     "@types/request": "^2.48.3",
     "@types/request-promise-native": "^1.0.17",
+    "@types/puppeteer": "latest",
     "awesome-typescript-loader": "latest",
     "babel-cli": "latest",
     "babel-loader": "^8.0.6",
@@ -33,7 +34,7 @@
     "babel-preset-env": "latest",
     "class-validator": "^0.11.0",
     "clean-webpack-plugin": "^2.0.2",
-    "compression-webpack-plugin": "latest",
+    "compression-webpack-plugin": "^3.0.1",
     "cross-env": "^6.0.3",
     "eslint": "^5.15.3",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
@@ -87,6 +88,10 @@
     "routing-controllers": "^0.8.0",
     "routing-controllers-openapi": "^1.7.0",
     "typeorm": "^0.2.19",
-    "winston": "latest"
+    "winston": "latest",
+    "puppeteer": "latest",
+    "proxy-lists": "latest",
+    "proxy-verifier": "latest",
+    "https-proxy-agent": "latest"
   }
 }

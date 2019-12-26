@@ -6,7 +6,9 @@ export default class SitePage {
   public sitePageBanner: string
   public sitePageMenuPosition: number
   public sitePageStatus: number
-  public siteSectionId: number
+  public siteSectionId: number | null
+  public sitePageRouteName: string
+  public sitePageUrl: string
 }
 
 export enum SitePageType {

@@ -110,6 +110,7 @@ export default class DynamicComponentsService extends BaseService {
       articleItems = getServiceContainer().articleService.getRootArticleList()
     }
 
+
     // Услуги для услуги (сама услуга или вторго уровня)
     let serviceList: any = null
     let serviceHasParent = false

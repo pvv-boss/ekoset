@@ -33,6 +33,12 @@ export default class SitePage {
   })
   public sitePageBanner: string
 
+  @Column('text', {
+    nullable: true,
+    name: 'site_page_route_name'
+  })
+  public sitePageRouteName: string
+
   @Column('numeric', {
     nullable: true,
     name: 'site_page_menu_position'

@@ -3,34 +3,32 @@
     class="brc-page-header__main-menu"
     :class="{ 'brc-main-menu_active': isMainMenuActive === true }"
   >
-    <li>
-      <nuxt-link :to="{name: 'about'}" :class="{active: activeIndex === 'about'}">О компании</nuxt-link>
-    </li>
-    <li>
-      <nuxt-link :to="{name: 'clients'}" :class="{active: activeIndex === 'clients'}">Наши клиенты</nuxt-link>
-    </li>
-    <li>
+    <li
+      v-for="iterMenuItem in sitePageItems"
+      :key="iterMenuItem.sitePageId"
+      v-show="isMenuItemEnablede(iterMenuItem)"
+    >
       <nuxt-link
-        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
-        :class="{active: activeIndex === 'prices'}"
-      >Цены</nuxt-link>
-    </li>
-    <li>
-      <nuxt-link
-        :to="{name: 'news', params: {siteSection: getCurrentSiteSection}}"
-        :class="{active: activeIndex === 'news'}"
-      >Новости</nuxt-link>
-    </li>
-    <li>
-      <nuxt-link :to="{name: 'contacts'}" :class="{active: activeIndex === 'contacts'}">Контакты</nuxt-link>
+        :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
+              params: 
+                {
+                  siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
+                  page: iterMenuItem.sitePageUrl
+                }
+              }"
+        :class="{active: activeIndex === iterMenuItem.sitePageRouteName}"
+      >{{iterMenuItem.sitePageName}}</nuxt-link>
     </li>
   </ul>
 </template>
+
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
+import { getServiceContainer } from '@/api/ServiceContainer'
+import SitePage, { SitePageType } from '@/models/SitePage'
 
 @Component({
   components: {
@@ -38,24 +36,30 @@ import { getModule } from 'vuex-module-decorators'
 })
 export default class TheHeaderMenu extends Vue {
   public isMainMenuActive = false
+  public sitePageItems: SitePage[] = []
 
   private get activeIndex () {
     return this.$route.name ? this.$route.name.split('-')[0] : ''
   }
 
-  public toogleMenuVisible () {
-    this.isMainMenuActive = !this.isMainMenuActive
-  }
-
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
+  }
+
+  public isMenuItemEnablede (pageMenuItem: SitePage) {
+    const currentSiteSectionId = !!this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
+    return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
+  }
+
+  public async mounted () {
+    this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 $menu_item_padding_left: 15px;
 

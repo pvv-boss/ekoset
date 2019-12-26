@@ -16,9 +16,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import BasePagination from '@/components/base/BasePagination.vue'
-import ArticleList from '@/components/public/ArticleList.vue'
 import Pagination from '@/models/Pagination'
-import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
@@ -31,7 +29,6 @@ import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
-    ArticleList,
     BasePagination,
     BreadCrumbs,
     DynamicComponentsContainer,
@@ -51,17 +48,15 @@ export default class Articles extends Vue {
 
     const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.NEWS)
 
-    const startPagination = new Pagination()
-    const articleList = !!siteSection
-      ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination)
-      : getServiceContainer().articleService.getRootArticleList(startPagination)
+    // const startPagination = new Pagination()
+    // const articleList = !!siteSection
+    //   ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination)
+    //   : getServiceContainer().articleService.getRootArticleList(startPagination)
 
-    const data = await Promise.all([articleList, dynamicComponentInfo, sitePageInfo])
+    const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {
-      pagination: startPagination,
-      articleItems: data[0],
-      dynamicComponentInfo: data[1],
-      sitePageInfo: data[2]
+      dynamicComponentInfo: data[0],
+      sitePageInfo: data[1]
     }
   }
 

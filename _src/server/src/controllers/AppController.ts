@@ -3,11 +3,13 @@ import { Response } from 'express';
 import ClientAppConfig from '@/ClientAppConfig';
 import AppConfig from '@/utils/Config';
 import { DisplayFormatType } from '@/entities/DisplayFormatType';
-import { JsonController, Get, Res, createParamDecorator, getMetadataArgsStorage, UseBefore } from 'routing-controllers';
+import { JsonController, Get, Res, createParamDecorator, getMetadataArgsStorage, UseBefore, Post, Param, Put, Body } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 import { authorized } from '@/middlewares/AuthorizeMiddleware';
 import RgisService from '@/services/RgisService';
 import { ActionMetadataArgs } from 'routing-controllers/metadata/args/ActionMetadataArgs';
+import ProxyService from '@/services/ProxyService';
+import ServiceContainer from '@/services/ServiceContainer';
 
 @JsonController('/app')
 export default class AppController extends BaseController {
@@ -34,6 +36,37 @@ export default class AppController extends BaseController {
     new RgisService().start();
     return BaseController.createSuccessResponse('', response);
   }
+
+  @Post('/admin/proxy/list')
+  public async updateProxies (@Res() response: Response) {
+    ServiceContainer.ProxyService.updateProxies();
+    return BaseController.createSuccessResponse({}, response);
+  }
+
+  @Get('/admin/proxy/list')
+  public async getProxies (@Res() response: Response) {
+    const result = await ServiceContainer.ProxyService.getProxies();
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/proxy/request')
+  public async sendRequest (
+    @Res() response: Response,
+    @Body() requestInfo: any,
+  ) {
+    const result = await ServiceContainer.ProxyService.sendRequest(requestInfo);
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/proxy/test')
+  public async testRequest (@Res() response: Response) {
+    const requestInfo: any = {};
+    requestInfo.url = 'http://npobaltros.ru/';
+    const result = await ServiceContainer.ProxyService.sendRequest(requestInfo);
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+
 }
 
 export const DisplayFormatTypeFromRequest = (options?: { required?: boolean }) => {

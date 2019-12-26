@@ -21,7 +21,6 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
 
@@ -29,7 +28,6 @@ import TheBanner from '@/components/header/TheBanner.vue'
   components: {
     DynamicComponentsContainer,
     BreadCrumbs,
-    FreeContentBlock,
     TheBanner
   }
 })

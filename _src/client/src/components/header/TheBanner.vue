@@ -1,8 +1,8 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper" v-show="!!imageSrc">
-      <img :alt="alt" itemprop="image" :src="imageSrc" class="brc-page-image" />
-      <h1 v-show="!!h1" itemprop="headline name" class="brc-page-title">{{h1}}</h1>
+    <figure class="brc-page-image__wrapper" v-if="!!imageSrc">
+      <img itemprop="image" :src="imageSrc" class="brc-page-image" />
+      <h1 v-if="!!h1" itemprop="headline name" class="brc-page-title">{{h1}}</h1>
     </figure>
     <h1 v-show="!imageSrc && !!h1" itemprop="headline name">{{h1}}</h1>
   </section>
