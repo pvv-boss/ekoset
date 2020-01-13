@@ -1,4 +1,3 @@
-import { getModule } from 'vuex-module-decorators'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import HttpUtil from '@/utils/HttpUtil'
 import { NuxtContext } from 'vue/types/options'

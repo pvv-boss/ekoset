@@ -1,4 +1,4 @@
-<template>
+<template >
   <div class="brc-article-list" :class="{ 'brc-article-list_vertical': mode === 'vertical'}">
     <ArticleListItem
       v-for="articleItem in articleList"
@@ -14,15 +14,15 @@
   </div>
 </template>
 
-<script lang="ts">
+ <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
-import Article from '@/models/ekoset/Article'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { getModule } from 'vuex-module-decorators'
-import { NuxtContext } from 'vue/types/options'
-import AppStore from '@/store/AppStore'
-// import Pagination from '@/models/Pagination'
+// import Article from '@/models/ekoset/Article'
+// import { getServiceContainer } from '@/api/ServiceContainer'
+// import { getModule } from 'vuex-module-decorators'
+// import { NuxtContext } from 'vue/types/options'
+// import AppStore from '@/store/AppStore'
+// // import Pagination from '@/models/Pagination'
 
 @Component({
   components: {
@@ -38,18 +38,19 @@ export default class ArticleList extends Vue {
 
   // private pagination: Pagination = new Pagination()
 
-  // private updatePagintaion () {
-  //   this.updateArticleList()
-  // }
+  //   // private updatePagintaion () {
+  //   //   this.updateArticleList()
+  //   // }
 
-  // private async updateArticleList () {
-  //   const activitySlug = getModule(AppStore, this.$store).currentSiteSection
-  //   const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
-  //   // this.articleItems = articleList
-  // }
+  //   // private async updateArticleList () {
+  //   //   const activitySlug = getModule(AppStore, this.$store).currentSiteSection
+  //   //   const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
+  //   //   // this.articleItems = articleList
+  //  }
 
 }
 </script>
+
 
 <style lang="scss">
 .brc-article-list {

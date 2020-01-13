@@ -11,14 +11,14 @@
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>
 
-    <div class="brc-clients__wrapper">
+    <!-- <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
         <h4>{{group.partnerGroupName}}</h4>
         <ClientList
           :clientList="clientItems.filter(obj => obj.partnerGroupId === group.partnerGroupId)"
         ></ClientList>
       </div>
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -27,7 +27,7 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 
-import ClientList from '@/components/public/ClientList.vue'
+// import ClientList from '@/components/public/ClientList.vue'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import Partner from '@/models/ekoset/Partner'
 import AppStore from '@/store/AppStore'
@@ -39,36 +39,38 @@ import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
-    ClientList,
+   // ClientList,
     DynamicComponentsContainer,
     BreadCrumbs,
     TheBanner
   }
 })
 export default class Clients extends Vue {
-  private clientItems: Partner[] = []
+  // private clientItems: Partner[] = []
   private breadCrumbList: any[] = []
   private sitePageInfo: SitePage = new SitePage()
   private dynamicComponentInfo: DynamicComponentInfo[] = []
 
-  private get partnerGroupList () {
-    const groupList = Array.from(this.clientItems, (x) => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
-    return groupList.filter((group, i, arr) => arr.findIndex((g) => {
-      return g.partnerGroupId === group.partnerGroupId;
-    }) === i).sort((obj1, obj2) => {
-      return obj1.partnerGroupPriority - obj2.partnerGroupPriority
-    })
-  }
+  // private get partnerGroupList () {
+  //   const groupList = Array.from(this.clientItems, (x) => Object.assign({}, { partnerGroupName: x.partnerGroupName, partnerGroupId: x.partnerGroupId, partnerGroupPriority: x.partnerGroupPriority }))
+  //   return groupList.filter((group, i, arr) => arr.findIndex((g) => {
+  //     return g.partnerGroupId === group.partnerGroupId;
+  //   }) === i).sort((obj1, obj2) => {
+  //     return obj1.partnerGroupPriority - obj2.partnerGroupPriority
+  //   })
+  // }
+
   private async asyncData (context: NuxtContext) {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CLIENTS)
     const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.CLIENTS)
-    const clientList = getServiceContainer().publicEkosetService.getPartners()
+    // const clientList = getServiceContainer().publicEkosetService.getPartners()
 
-    const data = await Promise.all([clientList, dynamicComponentInfo, sitePageInfo])
+//    const data = await Promise.all([clientList, dynamicComponentInfo, sitePageInfo])
+    const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {
-      dynamicComponentInfo: data[1],
-      clientItems: data[0],
-      sitePageInfo: data[2]
+      dynamicComponentInfo: data[0],
+      // clientItems: data[0],
+      sitePageInfo: data[1]
     }
   }
 

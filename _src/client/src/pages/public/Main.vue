@@ -5,10 +5,10 @@
       :alt="sitePageInfo.sitePageName"
       :imageSrc="sitePageInfo.sitePageBanner"
     ></TheBanner>
+    <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
     <div class="brc-section__wrapper">
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </div>
-    <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
   </section>
 </template>
 
