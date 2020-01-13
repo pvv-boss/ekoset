@@ -1,3 +1,7 @@
+@import "@/styles/variables.scss";
+
+/*! purgecss start ignore */
+
 $golden:1.618;
 $double-octave:4;
 $major-twelfth: 3;
@@ -111,3 +115,5 @@ html {
     }
   }
 }
+
+/*! purgecss end ignore */

@@ -183,14 +183,13 @@ export default class TheHeaderMobileMenu2 extends Vue {
   left: 0px;
   flex-direction: column;
   background-color: white;
+  height: max-content;
   overflow-y: scroll;
   z-index: 1000;
   transform-style: flat;
   transition: transform 0.3s ease-in-out;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-
   width: 100vw;
-  height: max-content;
 
   .brc-page-header-mobile-menu__title {
     display: flex;

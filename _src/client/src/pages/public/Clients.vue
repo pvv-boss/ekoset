@@ -6,10 +6,7 @@
       :imageSrc="sitePageInfo.sitePageBanner"
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-
-    <div class="brc-section__wrapper">
-      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-    </div>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
 
     <!-- <div class="brc-clients__wrapper">
       <div v-for="group in partnerGroupList" :key="group.partnerGroupId">
@@ -18,7 +15,7 @@
           :clientList="clientItems.filter(obj => obj.partnerGroupId === group.partnerGroupId)"
         ></ClientList>
       </div>
-    </div> -->
+    </div>-->
   </section>
 </template>
 
@@ -39,7 +36,7 @@ import TheBanner from '@/components/header/TheBanner.vue'
 
 @Component({
   components: {
-   // ClientList,
+    // ClientList,
     DynamicComponentsContainer,
     BreadCrumbs,
     TheBanner
@@ -65,7 +62,7 @@ export default class Clients extends Vue {
     const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.CLIENTS)
     // const clientList = getServiceContainer().publicEkosetService.getPartners()
 
-//    const data = await Promise.all([clientList, dynamicComponentInfo, sitePageInfo])
+    //    const data = await Promise.all([clientList, dynamicComponentInfo, sitePageInfo])
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {
       dynamicComponentInfo: data[0],

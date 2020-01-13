@@ -1,3 +1,4 @@
+// const Articles = () => import('@/pages/public/Articles.vue').default
 import Articles from '@/pages/public/Articles.vue'
 import SiteSectionCard from '@/pages/public/SiteSectionCard.vue'
 import OfferCard from '@/pages/public/OfferCard.vue'

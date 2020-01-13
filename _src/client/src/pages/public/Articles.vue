@@ -6,10 +6,7 @@
       :imageSrc="sitePageInfo.sitePageBanner"
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-
-    <div class="brc-section__wrapper">
-      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-    </div>
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </section>
 </template>
 

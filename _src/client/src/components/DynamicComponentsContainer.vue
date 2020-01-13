@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div class="brc-section__wrapper">
     <p>
       <a name="brcOfferForm" id="brcOfferForm"></a>
     </p>
@@ -16,7 +16,7 @@
         <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
       </div>
     </template>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,15 +54,17 @@ export default class DynamicComponentsContainer extends Vue {
 <style lang="scss">
 @import '@/styles/variables.scss';
 
-.brc-page__dynamic_block {
+.brc-page__dynamic_block + .brc-page__dynamic_block {
   margin-top: 60px;
-
-  .brc-page__dynamic_block_center {
-    text-align: center !important;
-  }
 
   @media (max-width: 768px) {
     margin-top: 30px;
+  }
+}
+
+.brc-page__dynamic_block {
+  .brc-page__dynamic_block_center {
+    text-align: center !important;
   }
 }
 </style>

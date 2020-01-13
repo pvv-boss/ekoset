@@ -7,9 +7,7 @@
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <client-only>
-      <div class="brc-section__wrapper">
-        <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-      </div>
+      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </client-only>
   </section>
 </template>
