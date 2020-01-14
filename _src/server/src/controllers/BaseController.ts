@@ -6,6 +6,8 @@ import { Exception } from '@/exceptions/Exception';
 import AppConfig from '@/utils/Config';
 import TokenUtil from '@/utils/TokenUtil';
 import ClientNotifyMessage from './ClientNotifyMessage';
+import { createParamDecorator } from 'routing-controllers';
+import { DisplayFormatType } from '@/entities/DisplayFormatType';
 
 export class BaseController {
 
@@ -110,4 +112,32 @@ export class BaseController {
     return this.createSuccessResponse({}, response.location(loc), 302);
   }
 }
+export const DisplayFormatTypeFromRequest = (options?: { required?: boolean }) => {
+  return createParamDecorator({
+    required: options && options.required ? true : false,
+    value: (action) => {
+      return action.request.query.format === DisplayFormatType.Grid ? DisplayFormatType.Grid : DisplayFormatType.Tile;
+    }
+  })
+}
+
+export const SortFilterPaginationFromRequest = (options?: { required?: boolean }) => {
+  return createParamDecorator({
+    required: options && options.required ? true : false,
+    value: (action) => {
+      return {
+        sort: {
+          sortField: action.request.query.sortfield || null,
+          sortType: action.request.query.sorttype || 'DESC'
+        },
+        pagination:
+        {
+          offset: (action.request.query.offset != null && action.request.query.offset !== 'undefined') ? action.request.query.offset : 0,
+          limit: (action.request.query.limit != null && action.request.query.limit !== 'undefined') ? action.request.query.limit : 20
+        },
+      };
+    }
+  })
+}
+
 
