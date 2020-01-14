@@ -5,6 +5,10 @@ html {
   overflow-y: auto;
 }
 
+body {
+  color: $text-color !important;
+}
+
 *,
 *:after,
 *:before {
@@ -53,10 +57,10 @@ a {
   margin-top: 15px;
 }
 
-h2,
-h3 {
-  text-align: center;
-}
+// h2,
+// h3 {
+//   text-align: center;
+// }
 
 .brc-page-image {
   // min-height: 210px;

@@ -36,10 +36,9 @@ $ms7: $ratio * $ms6;
 html {
   // font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
   font-size: 16px;
-  line-height: 1.563 em !important;
-  color: $text-color !important;
+  line-height: 1.56 em !important;
   text-rendering: optimizeLegibility;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
 
   h1 {
     // font-size: $base-rem * $ms4;
@@ -87,7 +86,7 @@ html {
   }
 
   @media (max-width: 768px) {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.44;
 
     h1 {
@@ -109,7 +108,7 @@ html {
     }
 
     h4 {
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.278;
       // font-size: $base-rem * $ms1;
     }
