@@ -66,25 +66,38 @@ export default class ServiceListItem extends Vue {
 @import '@/styles/variables.scss';
 .brc-service-smallitem {
   border: 1px solid lightgrey;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 5px;
+  padding: 5px;
   // margin: 15px;
   margin-top: 0px;
   flex: 1;
   // min-width: 220px;
-  min-width: 180px;
+  // min-width: 180px;
   text-align: center;
   display: flex;
   flex-direction: column;
 
   @media (max-width: 768px) {
     padding: 10px;
-    min-width: 160px;
+    // min-width: 160px;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 545px) {
+    //  min-width: 140px;
+  }
+
+  @media (max-width: 483px) {
+    // min-width: 120px;
+  }
+
+  @media (max-width: 423px) {
     padding: 8px;
-    min-width: 140px;
+    // min-width: 110px;
+  }
+
+  @media (max-width: 393px) {
+    padding: 8px;
+    // min-width: 100px;
   }
 
   &:hover {
@@ -94,6 +107,13 @@ export default class ServiceListItem extends Vue {
 
   .brc-service-smallitem__price {
     font-weight: 500;
+    margin-bottom: 10px;
+    @media (max-width: 768px) {
+      margin-bottom: 5px;
+    }
+    @media (max-width: 500px) {
+      font-size: 14px;
+    }
   }
   .brc-service-smallitem__price,
   .brc-service-smallitem__order-wrapper,
@@ -106,7 +126,12 @@ export default class ServiceListItem extends Vue {
   h4 {
     margin: auto;
     color: $text-color;
-    word-wrap: break-word;
+    word-wrap: anywhere;
+    flex-grow: 1;
+    @media (max-width: 500px) {
+      font-weight: $font-regular;
+      font-size: 12px;
+    }
   }
   .brc-service-smallitem__link {
     color: $text-color;
@@ -116,13 +141,16 @@ export default class ServiceListItem extends Vue {
     // &:hover {
     //   color: $text-color;
     // }
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 
   img {
     // width: 100%;
     object-fit: cover;
     object-position: center;
-    height: 122px;
+    max-height: 122px;
     // max-width: 122px;
   }
 
