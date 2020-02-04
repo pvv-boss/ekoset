@@ -5,7 +5,7 @@ import ServiceContainer from '@/services/ServiceContainer';
 import { Article } from '@/entities/ekoset/Article';
 import { NotFound } from '@/exceptions/clientErrors/NotFound';
 import SortFilterPagination from '@/entities/SortFilterPagination';
-import { SortFilterPaginationFromRequest } from '../AppController';
+import { SortFilterPaginationFromRequest } from '@/controllers/BaseController';
 import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
 import { isNullOrUndefined } from 'util';
 

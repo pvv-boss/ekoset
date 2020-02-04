@@ -1,32 +1,32 @@
 <template>
   <section class="brc-service-smallitem">
-    <figure>
-      <nuxt-link
-        :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-        class="brc-service-smallitem__link"
-      >
+    <nuxt-link
+      :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+      class="brc-service-smallitem__link"
+    >
+      <figure>
         <img :alt="serviceItem.businessServiceName" itemprop="image" :src="imageSrc" />
-      </nuxt-link>
-      <figcaption>{{serviceItem.businessServiceName}}</figcaption>
-    </figure>
+        <figcaption>{{serviceItem.businessServiceName}}</figcaption>
+      </figure>
 
-    <h4>{{serviceItem.businessServiceName}}</h4>
-    <div
-      class="brc-service-smallitem__price"
-    >от&nbsp;{{Number(serviceItem.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</div>
-    <div class="brc-service-smallitem__order-wrapper">
+      <h4>{{serviceItem.businessServiceName}}</h4>
+      <div
+        class="brc-service-smallitem__price"
+      >от&nbsp;{{Number(serviceItem.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</div>
+    </nuxt-link>
+    <!-- <div class="brc-service-smallitem__order-wrapper">
       <button
         type="button"
         class="brc-service-smallitem__order"
         @click="navigateToOfferForm"
       >Заказать</button>
-    </div>
-    <div class="brc-service-smallitem__link-wrapper">
+    </div>-->
+    <!-- <div class="brc-service-smallitem__link-wrapper">
       <nuxt-link
         :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
         class="brc-service-smallitem__link"
       >Подробнее</nuxt-link>
-    </div>
+    </div>-->
   </section>
 </template>
 
@@ -66,15 +66,26 @@ export default class ServiceListItem extends Vue {
 @import '@/styles/variables.scss';
 .brc-service-smallitem {
   border: 1px solid lightgrey;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 15px;
-  margin: 15px;
+  // margin: 15px;
   margin-top: 0px;
   flex: 1;
-  min-width: 220px;
+  // min-width: 220px;
+  min-width: 180px;
   text-align: center;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    min-width: 160px;
+  }
+
+  @media (max-width: 360px) {
+    padding: 8px;
+    min-width: 140px;
+  }
 
   &:hover {
     border: 1px solid $red;
@@ -95,14 +106,16 @@ export default class ServiceListItem extends Vue {
   h4 {
     margin: auto;
     color: $text-color;
+    word-wrap: break-word;
   }
   .brc-service-smallitem__link {
-    color: $text-muted;
-    text-decoration: underline;
-    font-size: $font-small;
-    &:hover {
-      color: $text-color;
-    }
+    color: $text-color;
+    // color: $text-muted;
+    // text-decoration: underline;
+    // font-size: $font-small;
+    // &:hover {
+    //   color: $text-color;
+    // }
   }
 
   img {

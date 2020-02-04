@@ -14,6 +14,15 @@
       "name": "Launch by Node",
       "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/debug/main.js"
+    },
+
+    {
+      "preLaunchTask": "webpack debug",
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch by firefox",
+      "file": "${workspaceFolder}/debug/main.js"
     }
 
   ]

@@ -4,7 +4,7 @@ import * as responseTime from 'response-time';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 import * as compression from 'compression'
-import helmet from 'helmet';
+import * as helmet from 'helmet';
 import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 
@@ -23,7 +23,7 @@ export default class Application {
     const app = express();
 
     await TypeOrmManager.initConnection();
-    await ServiceContainer.PassportProviders.initialize(ClientAppConfig);
+    ServiceContainer.PassportProviders.initialize(ClientAppConfig);
 
     app.set('trust proxy', 1);
     app.use(helmet());

@@ -29,7 +29,18 @@ export default class ServiceList extends Vue {
 <style lang="scss">
 .brc-service-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  margin: 30px -15px 0;
+  // grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  // margin: 30px -15px 0;
+  margin: 30px 0 0 0;
+  grid-gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  @media (max-width: 360px) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
 }
 </style>

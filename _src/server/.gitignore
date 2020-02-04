@@ -13,4 +13,8 @@ debug
 # config
 config
 
+
+# mail
+mail
+
 static

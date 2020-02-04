@@ -33,26 +33,5 @@ export default class AppController extends BaseController {
     new RgisService().start();
     return BaseController.createSuccessResponse('', response);
   }
-
-  @Post('/admin/proxy/list')
-  public async updateProxies (@Res() response: Response) {
-    ServiceContainer.ProxyService.updateProxies();
-    return BaseController.createSuccessResponse({}, response);
-  }
-
-  @Get('/admin/proxy/list')
-  public async getProxies (@Res() response: Response) {
-    const result = await ServiceContainer.ProxyService.getProxies();
-    return BaseController.createSuccessResponse(result, response);
-  }
-
-  @Put('/admin/proxy/request')
-  public async sendRequest (
-    @Res() response: Response,
-    @Body() requestInfo: any,
-  ) {
-    const result = await ServiceContainer.ProxyService.sendRequest(requestInfo);
-    return BaseController.createSuccessResponse(result, response);
-  }
 }
 

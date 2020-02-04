@@ -1,29 +1,31 @@
 {
-    "editor.formatOnSave": true,
-    "svn.ignoreMissingSvnWarning": true,
-    "workbench.startupEditor": "newUntitledFile",
-    "window.zoomLevel": 0,
-    "editor.fontSize": 13,
-    "typescript.suggest.autoImports": true,
-    "typescript.suggest.completeFunctionCalls": true,
-    "files.autoSave": "off",
-    "explorer.confirmDragAndDrop": false,
-    "files.exclude": {
-        "node_modules/*.*": true,
-        "**/.git": true,
-        "**/.gradle": true,
-        "**/.idea": true,
-        "**/.mvn": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/.DS_Store": true,
-        "**/node_modules": true
-    },
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "typescript.preferences.quoteStyle": "single",
-    "javascript.preferences.quoteStyle": "single",
-    "eslint.autoFixOnSave": true,
-    "vetur.format.defaultFormatter.ts": "vscode-typescript",
-    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-    "typescript.format.insertSpaceBeforeFunctionParenthesis": true
+  "editor.formatOnSave": true,
+  "svn.ignoreMissingSvnWarning": true,
+  "workbench.startupEditor": "newUntitledFile",
+  "window.zoomLevel": 0,
+  "editor.fontSize": 13,
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "files.autoSave": "off",
+  "explorer.confirmDragAndDrop": false,
+  "files.exclude": {
+    "node_modules/*.*": true,
+    "**/.git": true,
+    "**/.gradle": true,
+    "**/.idea": true,
+    "**/.mvn": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+  "vetur.format.defaultFormatter.ts": "vscode-typescript",
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

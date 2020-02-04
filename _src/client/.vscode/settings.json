@@ -26,5 +26,8 @@
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "svn.ignoreMissingSvnWarning": true,
   "typescript.format.insertSpaceAfterConstructor": true,
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
