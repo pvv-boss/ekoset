@@ -17,8 +17,7 @@
           <b-field label="Цена, руб." horizontal style="margin-bottom:0px">
             <b-input
               placeholder="Цена, руб."
-              type="number"
-              v-model.number="serviceItem.businessServicePrice"
+              v-model="serviceItem.businessServicePrice"
               @blur="saveService"
             ></b-input>
           </b-field>
@@ -80,7 +79,7 @@
                         <ServiceListItem
                           :serviceItem="serviceItem"
                           :imageSrcForDesignMode="imageSrc"
-                          style="width:252px;height:349px;margin:0px"
+                          style="width:263px;height:212px;margin:0px"
                         ></ServiceListItem>
                       </template>
                     </AdminImageUploader>

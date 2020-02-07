@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <main>
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
@@ -7,7 +7,7 @@
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-  </section>
+  </main>
 </template>
 
 <script lang="ts">

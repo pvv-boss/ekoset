@@ -7,6 +7,10 @@ export default class MediaService extends BaseService {
     return HttpUtil.httpPostForm(`admin/panel/sitesection/${siteSectionId}/image/${isBigImage ? 'big' : 'small'}`, formData)
   }
 
+  public async saveSiteSectionLogo (siteSectionId: number, formData: FormData) {
+    return HttpUtil.httpPostForm(`admin/panel/sitesection/${siteSectionId}/image/logo`, formData)
+  }
+
   public async saveServiceImage (serviceId: number, formData: FormData, isBigImage: boolean) {
     return HttpUtil.httpPostForm(`admin/panel/service/${serviceId}/image/${isBigImage ? 'big' : 'small'}`, formData)
   }

@@ -6,7 +6,7 @@ export default class BusinessService {
   public businessServiceH1: string;
   public businessServiceSlug: string | null;
   public businessServiceUnit: string | null;
-  public businessServicePrice: number | null;
+  public businessServicePrice: string | null;
   public businessServiceImgSmall: string | null;
   public businessServiceImgBig: string | null;
   public businessServiceStatus: number | null;

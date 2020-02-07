@@ -18,7 +18,7 @@
               >{{servicePrice.businessServiceName}}</nuxt-link>
             </td>
             <td>{{servicePrice.businessServiceUnit}}</td>
-            <td>{{Number(servicePrice.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</td>
+            <td>{{servicePrice.businessServicePrice}}</td>
           </tr>
         </tbody>
       </table>

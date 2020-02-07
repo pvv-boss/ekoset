@@ -1,4 +1,4 @@
-export default class ç {
+export default class ClBrand {
   public clBrandId: number;
   public clBrandName: string | null;
   public clBrandImgSmall: string | null;

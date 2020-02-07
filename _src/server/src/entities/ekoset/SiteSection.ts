@@ -67,6 +67,10 @@ export class SiteSection {
   })
   public siteSectionFooterContentRight: string;
 
-
+  @Column('text', {
+    nullable: true,
+    name: 'site_section_logo'
+  })
+  public siteSectionLogo: string;
 
 }

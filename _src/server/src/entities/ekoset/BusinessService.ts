@@ -53,7 +53,7 @@ export class BusinessService {
     nullable: true,
     name: 'business_service_price'
   })
-  public businessServicePrice: number | null;
+  public businessServicePrice: string | null;
 
 
   @Column('numeric', {

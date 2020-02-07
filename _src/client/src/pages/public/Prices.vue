@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <main>
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
@@ -9,7 +9,7 @@
     <client-only>
       <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
     </client-only>
-  </section>
+  </main>
 </template>
 
 <script lang="ts">

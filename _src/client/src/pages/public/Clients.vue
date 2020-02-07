@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <main>
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
@@ -16,7 +16,7 @@
         ></ClientList>
       </div>
     </div>-->
-  </section>
+  </main>
 </template>
 
 <script lang="ts">

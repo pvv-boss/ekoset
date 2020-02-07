@@ -56,6 +56,19 @@
 
               <div class="brc-admin-card-field-list_row">
                 <div>
+                  <b-field label="Логотип в шапке сайта">
+                    <AdminImageUploader
+                      id="siteSectionLogo"
+                      :srcImage="siteSectionItem.siteSectionLogo"
+                      @uploader:newimageloaded="addSiteSectionLogo($event)"
+                    >
+                      <template v-slot="{imageSrc}">
+                        <TheHeaderLogo :disignMode="true" :imageSrcForDesignMode="imageSrc"></TheHeaderLogo>
+                      </template>
+                    </AdminImageUploader>
+                  </b-field>
+                </div>
+                <div styel="margin-top:10px;">
                   <b-field label="Фото на карточке раздела">
                     <AdminImageUploader
                       id="smallImageFile"
@@ -141,6 +154,7 @@ import AdminStore from '@/store/AdminStore'
 import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue'
+import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
 @Component({
   components: {
@@ -155,7 +169,8 @@ import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEdito
     SiteSectionListItem,
     AdminFreeContentBlockEditor,
     AdminServiceListContainer,
-    AdminFreeBlockInfoEditor
+    AdminFreeBlockInfoEditor,
+    TheHeaderLogo
   }
 })
 export default class AdminSiteSectionCard extends Vue {
@@ -211,6 +226,12 @@ export default class AdminSiteSectionCard extends Vue {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
     getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
+  }
+
+  private async addSiteSectionLogo (imageFile: string) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveSiteSectionLogo(this.siteSectionItem.siteSectionId, formData)
   }
 
   private saveSiteSection () {

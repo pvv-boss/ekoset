@@ -100,8 +100,7 @@
 
           <b-input
             placeholder="Цена, руб."
-            type="number"
-            v-model.lazy.number="iterService.businessServicePrice"
+            v-model.lazy="iterService.businessServicePrice"
             @blur="saveService(iterService)"
           ></b-input>
 

@@ -1,9 +1,9 @@
 <template>
-  <section>
+  <main>
     <h1 itemprop="headline name">Нас рекомендуют</h1>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <RecommendationList :brandList="brandList" :allBrandsPage="true"></RecommendationList>
-  </section>
+  </main>
 </template>
 
 <script lang="ts">

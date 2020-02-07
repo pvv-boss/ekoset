@@ -63,7 +63,9 @@ export default class SiteSectionListItem extends Vue {
     flex-grow: 1;
     margin: auto;
     color: $text-color;
-    word-wrap: anywhere;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   img {

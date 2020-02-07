@@ -1,25 +1,17 @@
 <template>
-  <section>
-    <div class="brc-page-header-mobile">
-      <nuxt-link
-        :to="{name: 'main'}"
-        class="brc-page-header-mobile__logo"
-        :class="{active: activeIndex === 'main'}"
-      >
-        <img src="/images/logo.png" alt="Экосеть" />
+  <header class="brc-page-header-mobile">
+    <TheHeaderLogo></TheHeaderLogo>
+
+    <div class="brc-page-header-mobile__user">
+      <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
+        <img src="/images/user-icon.png" title="Вход на сайт" />
       </nuxt-link>
+    </div>
 
-      <div class="brc-page-header-mobile__user">
-        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
-          <img src="/images/user-icon.png" title="Вход на сайт" />
-        </nuxt-link>
-      </div>
-
-      <div class="brc-page-header-mobile_expander" v-click-outside="closeMenu" @click="openMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+    <div class="brc-page-header-mobile_expander" v-click-outside="closeMenu" @click="openMenu">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
 
     <!-- Само меню. Живет с фиксед позишн !!! -->
@@ -57,7 +49,7 @@
 
     <!-- Для закрытия основного контента -->
     <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
-  </section>
+  </header>
 </template>
 
 
@@ -69,6 +61,7 @@ import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
 import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
 import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
 import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue'
+import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
 @Component({
   components: {
@@ -77,7 +70,8 @@ import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue
     TheHeaderCallMe,
     TheHeaderOrder,
     TheHeaderInviteTender,
-    TheHeaderAskQuestion
+    TheHeaderAskQuestion,
+    TheHeaderLogo
   }
 })
 export default class TheHeaderMobileMenu2 extends Vue {
@@ -120,24 +114,35 @@ export default class TheHeaderMobileMenu2 extends Vue {
   }
 }
 
+@media (max-width: 900px) {
+  .brc-body {
+    margin-top: 81px !important;
+  }
+}
+
 .brc-page-header-mobile {
   display: none;
-  font-size: 1rem !important;
-  letter-spacing: 0.02rem !important;
 
   @media (max-width: 900px) {
     display: flex !important;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-size: 1rem !important;
+    letter-spacing: 0.02rem !important;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 14px;
+    z-index: 1000;
+    background: white;
+    border-bottom: 1px solid lightgray;
 
-    .brc-page-header-mobile__logo {
-      height: 40px;
-      > img {
-        max-height: 60px;
-        height: 60px;
-        margin-top: -10px;
-      }
+    .brc_bo .brc-page-header-mobile__logo {
+      height: 40px !important;
     }
 
     .brc-page-header-mobile__user {

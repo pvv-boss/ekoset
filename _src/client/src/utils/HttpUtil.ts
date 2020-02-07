@@ -118,8 +118,6 @@ class HttpUtil {
     } else {
       errorResponse = { message: error.message ? error.message : error, status: error.status ? error.status : 500 }
     }
-    // tslint:disable-next-line:no-console
-    console.log(error)
     this.redirect(errorResponse)
     return { message: errorResponse.message, status: errorResponse.status, success: false }
   }

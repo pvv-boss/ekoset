@@ -36,10 +36,19 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    // const formData = JSON.parse(body.formMessageData);
-    // const formDataInstance = ClassTransform.plainToClassInstanceOne<FormMessageData>(formData, FormMessageData);
-
     const result = await ServiceContainer.MediaService.saveSiteSectionImage(siteSectionId, file, bigOrSmall === 'big');
+    return MediaController.createSuccessResponse(result, response);
+  }
+
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/sitesection/:sitesectionId/image/logo')
+  public async saveSiteSectionLogo (
+    @Param('sitesectionId') siteSectionId: number,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveSiteSectionLogo(siteSectionId, file);
     return MediaController.createSuccessResponse(result, response);
   }
 

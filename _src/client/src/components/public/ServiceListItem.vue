@@ -10,9 +10,7 @@
       </figure>
 
       <h4>{{serviceItem.businessServiceName}}</h4>
-      <div
-        class="brc-service-smallitem__price"
-      >от&nbsp;{{Number(serviceItem.businessServicePrice).toLocaleString('ru-RU')}}&nbsp;₽</div>
+      <div class="brc-service-smallitem__price">{{serviceItem.businessServicePrice}}</div>
     </nuxt-link>
     <!-- <div class="brc-service-smallitem__order-wrapper">
       <button
@@ -68,36 +66,19 @@ export default class ServiceListItem extends Vue {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 5px;
-  // margin: 15px;
   margin-top: 0px;
   flex: 1;
-  // min-width: 220px;
-  // min-width: 180px;
   text-align: center;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     padding: 10px;
-    // min-width: 160px;
-  }
-
-  @media (max-width: 545px) {
-    //  min-width: 140px;
-  }
-
-  @media (max-width: 483px) {
-    // min-width: 120px;
   }
 
   @media (max-width: 423px) {
     padding: 8px;
-    // min-width: 110px;
-  }
-
-  @media (max-width: 393px) {
-    padding: 8px;
-    // min-width: 100px;
   }
 
   &:hover {
@@ -126,7 +107,9 @@ export default class ServiceListItem extends Vue {
   h4 {
     margin: auto;
     color: $text-color;
-    word-wrap: anywhere;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
     flex-grow: 1;
     @media (max-width: 500px) {
       font-weight: $font-regular;
@@ -135,12 +118,6 @@ export default class ServiceListItem extends Vue {
   }
   .brc-service-smallitem__link {
     color: $text-color;
-    // color: $text-muted;
-    // text-decoration: underline;
-    // font-size: $font-small;
-    // &:hover {
-    //   color: $text-color;
-    // }
     display: flex;
     flex-direction: column;
     flex-grow: 1;

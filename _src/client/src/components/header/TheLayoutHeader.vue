@@ -1,34 +1,28 @@
 <template>
-  <header class="brc-page-header">
-    <div id="page-header" class="brc-page-header_mobile-hide">
-      <nuxt-link
-        :to="{name: 'main'}"
-        class="brc-logo_main"
-        :class="{active: activeIndex === 'main'}"
-        id="brc-page-header-main-logo"
-      >
-        <img src="/images/logo.png" alt="Экосеть" />
-      </nuxt-link>
-      <div id="brc-page-header-logon">
-        <UserAuthHeader></UserAuthHeader>
+  <section>
+    <header class="brc-page-header brc-page-header_mobile-hide">
+      <div id="page-header" class="brc-page-header_mobile-hide">
+        <TheHeaderLogo></TheHeaderLogo>
+        <div id="brc-page-header-logon">
+          <UserAuthHeader></UserAuthHeader>
+        </div>
+
+        <div id="brc-page-header-order">
+          <TheHeaderCallMe></TheHeaderCallMe>
+          <TheHeaderOrder></TheHeaderOrder>
+        </div>
       </div>
 
-      <div id="brc-page-header-order">
-        <TheHeaderCallMe></TheHeaderCallMe>
-        <TheHeaderOrder></TheHeaderOrder>
-      </div>
-    </div>
-
-    <nav id="brc-page-header-actions" class="brc-page-header_mobile-hide">
-      <TheHeaderMenu></TheHeaderMenu>
-      <div id="brc-page-header-invitetender">
-        <TheHeaderAskQuestion class="p_small"></TheHeaderAskQuestion>
-        <TheHeaderInviteTender class="p_small"></TheHeaderInviteTender>
-      </div>
-    </nav>
-
+      <nav id="brc-page-header-actions" class="brc-page-header_mobile-hide">
+        <TheHeaderMenu></TheHeaderMenu>
+        <div id="brc-page-header-invitetender">
+          <TheHeaderAskQuestion class="p_small"></TheHeaderAskQuestion>
+          <TheHeaderInviteTender class="p_small"></TheHeaderInviteTender>
+        </div>
+      </nav>
+    </header>
     <TheHeaderMobileMenu></TheHeaderMobileMenu>
-  </header>
+  </section>
 </template>
 
 <script lang="ts">
@@ -40,6 +34,8 @@ import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
 import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
 import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
 import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue'
+import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
+
 
 
 @Component({
@@ -50,7 +46,8 @@ import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue
     TheHeaderOrder,
     TheHeaderCallMe,
     TheHeaderAskQuestion,
-    TheHeaderInviteTender
+    TheHeaderInviteTender,
+    TheHeaderLogo
   }
 })
 export default class TheLayoutHeader extends Vue {
@@ -61,8 +58,8 @@ export default class TheLayoutHeader extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 $header_margin_top: 15px;
 .brc-page-header {
