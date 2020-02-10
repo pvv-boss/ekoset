@@ -7,13 +7,8 @@
     <b-menu>
       <b-menu-list>
         <b-menu-item tag="nuxt-link" label="Переход на Сайт" :to="{ name: 'main'}" target="_blank"></b-menu-item>
-
         <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections'}"></b-menu-item>
-
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Новости"></b-menu-item>
-
-        <!-- <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news'}" label="Главная страница"></b-menu-item> -->
-
         <b-menu-item tag="nuxt-link" :to="{ name: 'admin-top-menu-list'}" label="Верхнее меню"></b-menu-item>
 
         <b-menu-item
@@ -40,7 +35,7 @@
             :to="{ name: 'cl-partner-groups'}"
             label="Группы клиентов (временно)"
           ></b-menu-item>
-          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты (временно)"></b-menu-item> -->
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients'}" label="Клиенты (временно)"></b-menu-item>-->
         </b-menu-item>
       </b-menu-list>
     </b-menu>

@@ -1,5 +1,6 @@
 export default class SitePage {
   public sitePageId: number
+  public sitePageCode: number
   public sitePageName: string
   public sitePageH1: string
   public sitePageMenuName: string

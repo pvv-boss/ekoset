@@ -1,7 +1,7 @@
 <template>
   <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
-      <MessageForm title="Заказать услугу" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageForm title="Пригласиь на тендер" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
       <MessageForm title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
@@ -56,6 +56,10 @@ export default class TheMessagesAriseBlock extends Vue {
 
 <style lang="scss">
 @import '@/styles/variables.scss';
+.brc-message-arise__outer {
+  z-index: 3000;
+}
+
 .brc-message-arise__wrapper {
   position: fixed;
   z-index: 10;

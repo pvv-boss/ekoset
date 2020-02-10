@@ -48,7 +48,7 @@
               ></b-input>
             </b-field>
 
-            <b-field label="Раздел сайта">
+            <b-field label="Раздел сайта" v-show="!isStandartMenuItem">
               <AdminSiteSectionSelector
                 v-model="sitePageItem.siteSectionId"
                 :nullable="true"
@@ -87,7 +87,7 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
 import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
-import SitePage from '@/models/SitePage'
+import SitePage, { SitePageType } from '@/models/SitePage'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
@@ -125,6 +125,10 @@ export default class AdminTopMenuCard extends Vue {
       this.sitePageItem.sitePageId,
       formData
     )
+  }
+
+  private get isStandartMenuItem () {
+    return this.sitePageItem.sitePageCode in SitePageType
   }
 
   private async asyncData (context: NuxtContext) {
