@@ -37,43 +37,30 @@ export default class CMSService extends BaseService {
     const result = await this.getDbViewResult(this.apiViewName, null, 'site_page_id = $1', [sitePageId]);
     let blockInfoList = this.getDynamicComponentInfoFromDataBase(result);
 
-    const getBlockIndex = (infoList: DynamicComponentInfo[], code: number) => {
-      return infoList.findIndex((iter) => {
-        return iter.code === code;
-      })
-    }
 
-    const removeBlock = (infoList: DynamicComponentInfo[], code: number) => {
-      const newBlockList = [...infoList];
-      const blockIndex = getBlockIndex(infoList, code)
-      if (blockIndex > -1) {
-        newBlockList.splice(blockIndex, 1);
-      }
-      return newBlockList;
-    }
-
-    blockInfoList = removeBlock(blockInfoList, BlockType.BUSINESSTYPE_OFFER);
-    blockInfoList = removeBlock(blockInfoList, BlockType.CLIENTTYPE_OFFER);
+    blockInfoList = this.removeBlock(blockInfoList, BlockType.BUSINESSTYPE_OFFER);
+    blockInfoList = this.removeBlock(blockInfoList, BlockType.CLIENTTYPE_OFFER);
+    blockInfoList = this.removeBlock(blockInfoList, BlockType.RELATED_SERVICE);
 
     switch (sitePageId) {
 
       case SitePageType.ABOUT: {
-        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
-        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        let resultBlockList = this.removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
         return resultBlockList;
       }
 
       case SitePageType.CLIENTS: {
-        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
-        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
-        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        let resultBlockList = this.removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.NEWS);
         return resultBlockList;
       }
 
       case SitePageType.CONTACTS: {
-        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
-        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
-        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        let resultBlockList = this.removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.NEWS);
         return resultBlockList;
       }
 
@@ -82,17 +69,17 @@ export default class CMSService extends BaseService {
       }
 
       case SitePageType.NEWS: {
-        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
-        resultBlockList = removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
-        resultBlockList = removeBlock(resultBlockList, BlockType.LETTERS);
-        resultBlockList = removeBlock(resultBlockList, BlockType.BRANDS);
+        let resultBlockList = this.removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.SERVICE_PRICE);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.LETTERS);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.BRANDS);
         return resultBlockList;
       }
 
       case SitePageType.PRICES: {
-        let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_LIST);
+        let resultBlockList = this.removeBlock(blockInfoList, BlockType.SERVICE_LIST);
         // let resultBlockList = removeBlock(blockInfoList, BlockType.SERVICE_PRICE);
-        resultBlockList = removeBlock(resultBlockList, BlockType.NEWS);
+        resultBlockList = this.removeBlock(resultBlockList, BlockType.NEWS);
         return resultBlockList;
       }
 
@@ -104,7 +91,7 @@ export default class CMSService extends BaseService {
 
   public async adminGetDynamicComponentsInfoSiteSection (siteSectionId: number) {
     const result = await this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
-    return this.getDynamicComponentInfoFromDataBase(result);
+    return this.removeBlock(this.getDynamicComponentInfoFromDataBase(result), BlockType.RELATED_SERVICE);
   }
 
   public async adminGetDynamicComponentsInfoService (serviceId: number) {
@@ -114,7 +101,7 @@ export default class CMSService extends BaseService {
 
   public async adminGetDynamicComponentsInfoOffer (indOfferId: number) {
     const result = await this.getDbViewResult(this.apiViewName, null, 'ind_offer_id = $1', [indOfferId]);
-    return this.getDynamicComponentInfoFromDataBase(result);
+    return this.removeBlock(this.getDynamicComponentInfoFromDataBase(result), BlockType.RELATED_SERVICE);
   }
 
   // ---
@@ -316,7 +303,20 @@ export default class CMSService extends BaseService {
       allPricesPage: false
     }
 
-    result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable);
+    const relatedService = new DynamicComponentInfo();
+    relatedService.id = 0;
+    relatedService.code = BlockType.RELATED_SERVICE;
+    relatedService.head = 'Вы также можете заказать';
+    relatedService.headCentered = true;
+    relatedService.name = 'RelatedService';
+    relatedService.dispalyName = 'Вы также можете заказать'
+    relatedService.visible = 1;
+    relatedService.visibleIndex = 100;
+    relatedService.props = {
+      serviceList: []
+    }
+
+    result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable, relatedService);
 
     return result;
   }
@@ -378,6 +378,21 @@ export default class CMSService extends BaseService {
     const funcArgc = [firstId, ...standartArgs];
     return this.execFunction(funcName, funcArgc);
   }
+
+  private getBlockIndex (infoList: DynamicComponentInfo[], code: number) {
+    return infoList.findIndex((iter) => {
+      return iter.code === code;
+    })
+  }
+
+  private removeBlock (infoList: DynamicComponentInfo[], code: number) {
+    const newBlockList = [...infoList];
+    const blockIndex = this.getBlockIndex(infoList, code)
+    if (blockIndex > -1) {
+      newBlockList.splice(blockIndex, 1);
+    }
+    return newBlockList;
+  }
 }
 
 enum BlockType {
@@ -391,5 +406,6 @@ enum BlockType {
   CLIENTTYPE_OFFER = 7,
   BUSINESSTYPE_OFFER = 8,
   SERVICE_LIST = 9,
-  SERVICE_PRICE = 10
+  SERVICE_PRICE = 10,
+  RELATED_SERVICE = 11
 }

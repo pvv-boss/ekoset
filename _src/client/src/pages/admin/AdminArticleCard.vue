@@ -268,9 +268,6 @@ export default class AdminArticleCard extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
-
 <style lang="scss">
 @import '@/styles/variables.scss';
 .brc-admin-panel__article {

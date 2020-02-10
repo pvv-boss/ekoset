@@ -111,8 +111,8 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveAll () {
-    for (let i = 0; i < this.itemList.length; i++) {
-      await getServiceContainer().publicEkosetService.saveClActivity(this.itemList[i])
+    for (const iterActiv of this.itemList) {
+      await getServiceContainer().publicEkosetService.saveClActivity(iterActiv)
     }
   }
 

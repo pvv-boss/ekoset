@@ -30,6 +30,7 @@ import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue
 import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
 import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
+import RelatedService from '@/components/public/RelatedService.vue'
 
 
 @Component({
@@ -42,7 +43,8 @@ import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
     ClientTypeOfferList,
     BusinessTypeOfferList,
     ServiceList,
-    ServicePriceTable
+    ServicePriceTable,
+    RelatedService
   }
 })
 export default class DynamicComponentsContainer extends Vue {

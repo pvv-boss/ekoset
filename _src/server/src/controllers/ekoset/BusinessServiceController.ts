@@ -195,4 +195,40 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
+  @Get('/admin/panel/services/:serviceId/relation')
+  public async adminGetServiceRelation (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number) {
+    const result = await ServiceContainer.BusinessServiceService.adminGetServiceRelation(serviceId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Get('/admin/panel/services/:serviceId/related')
+  public async adminGetRelated (
+    @Res() response: Response,
+    @Param('serviceId') serviceId: number) {
+    const result = await ServiceContainer.BusinessServiceService.adminGetRelated(serviceId);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Put('/admin/panel/services/:serviceId/related/:relatedServiceId/:priority')
+  public async adminAddRelated (
+    @Param('serviceId') serviceId: number,
+    @Param('relatedServiceId') relatedServiceId: number,
+    @Param('priority') priority: number,
+    @Res() response: Response) {
+    const result = await ServiceContainer.BusinessServiceService.adminAddRemoveRelated(serviceId, relatedServiceId, priority, true);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
+  @Delete('/admin/panel/services/:serviceId/related/:relatedServiceId/:priority')
+  public async adminRemoveRelated (
+    @Param('serviceId') serviceId: number,
+    @Param('relatedServiceId') relatedServiceId: number,
+    @Res() response: Response,
+    @Param('priority') priority: number) {
+    const result = await ServiceContainer.BusinessServiceService.adminAddRemoveRelated(serviceId, relatedServiceId, priority, false);
+    return BusinessServiceController.createSuccessResponse(result, response);
+  }
+
 }

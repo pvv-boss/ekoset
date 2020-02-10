@@ -79,6 +79,7 @@ export default class ServicePriceTable extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables.scss';
 .brc-service-price-table__wrapper {
   margin: 30px 0 0;
   .brc-service-price-table {
@@ -116,7 +117,7 @@ export default class ServicePriceTable extends Vue {
     }
     .brc-service-price-table-link {
       text-decoration: none;
-      color: #292929;
+      color: $text-color;
       &:hover {
         color: red;
       }

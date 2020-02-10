@@ -104,6 +104,15 @@
             ></AdminServiceListContainer>
           </b-tab-item>
 
+          <b-tab-item label="Связанные услуги">
+            <AdminRelatedService
+              :serviceRelationList="serviceRelationList"
+              :relatedServiceList="relatedServiceList"
+              @service:checked="relatedServiceSelected"
+              @service:priortity:changed="relatedServicePriorityChanged"
+            ></AdminRelatedService>
+          </b-tab-item>
+
           <b-tab-item label="Тип клиента, объекта" v-if="!serviceItem.businessServiceParentId">
             <div class="brc-admin-card-field-list_column">
               <b-field label="Типы клиентов" style="flex:1">
@@ -171,6 +180,7 @@ import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
+import AdminRelatedService from '@/components/admin/AdminRelatedService.vue'
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
@@ -189,7 +199,8 @@ import SiteSection from '../../models/ekoset/SiteSection'
     BaseCard,
     AdminFreeContentBlockEditor,
     ServiceListItem,
-    AdminDynamicComponentsContainer
+    AdminDynamicComponentsContainer,
+    AdminRelatedService
   }
 })
 export default class AdminServiceCard extends Vue {
@@ -203,6 +214,8 @@ export default class AdminServiceCard extends Vue {
   private newService: BusinessService = new BusinessService()
   private activeTab = 0
   private dynamicComponentInfo: DynamicComponentInfo[] = []
+  private serviceRelationList: any[] = []
+  private relatedServiceList: any[] = []
 
   private layout () {
     return 'admin'
@@ -239,7 +252,10 @@ export default class AdminServiceCard extends Vue {
 
     const dynaComponents = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection.siteSectionUrl, serviceItem.businessServiceUrl, true)
 
-    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, dynaComponents])
+    const serviceRelationListPr = getServiceContainer().businessServiceService.adminGetServiceRelation(serviceItem.businessServiceId)
+    const adminGetRelatedPr = getServiceContainer().businessServiceService.adminGetRelated(serviceItem.businessServiceId)
+
+    const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, dynaComponents, serviceRelationListPr, adminGetRelatedPr])
     return {
       serviceItem,
       brandRelationList: data[0],
@@ -247,6 +263,8 @@ export default class AdminServiceCard extends Vue {
       activityRelationList: data[1],
       clientTypeRelationList: data[2],
       dynamicComponentInfo: data[3],
+      serviceRelationList: data[4],
+      relatedServiceList: data[5],
       siteSection
     }
   }
@@ -295,6 +313,26 @@ export default class AdminServiceCard extends Vue {
 
   private async refreshServiceList () {
     this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(this.serviceItem.businessServiceId)
+  }
+
+  private async relatedServiceSelected (serviceId: number, selected: boolean) {
+    await getServiceContainer().businessServiceService.adminAddRemoveRelated(this.serviceItem.businessServiceId, serviceId, 0, selected)
+    this.refreshRelatedService()
+  }
+
+  private relatedServicePriorityChanged (relatedServiceList: any[]) {
+    relatedServiceList.map((iter) => {
+      getServiceContainer().businessServiceService.adminAddRemoveRelated(this.serviceItem.businessServiceId, iter.businessServiceId, iter.businessServicePriority, true)
+    })
+  }
+
+  private async refreshRelatedService () {
+    // const serviceRelationListPr = getServiceContainer().businessServiceService.adminGetServiceRelation(this.serviceItem.businessServiceId)
+    const adminGetRelatedPr = getServiceContainer().businessServiceService.adminGetRelated(this.serviceItem.businessServiceId)
+    // const data = await Promise.all([serviceRelationListPr, adminGetRelatedPr])
+    const data = await Promise.all([adminGetRelatedPr])
+    // this.serviceRelationList = data[0]
+    this.relatedServiceList = data[0]
   }
 
   private mounted () {

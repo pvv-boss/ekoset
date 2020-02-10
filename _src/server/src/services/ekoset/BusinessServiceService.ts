@@ -68,6 +68,15 @@ export default class BusinessServiceService extends BaseService {
     return this.deleteById('business_service', 'business_service_id = $1', id);
   }
 
+  // Получить Вы также можете заказать (без учета статуса)
+  public async adminGetRelated (id: number) {
+    return this.getDbViewResult('v_related_service', null, 'business_service_id_for_rel = $1', [id]);
+  }
+
+  // Добавить, удалить услугу в Вы также можете заказать
+  public async adminAddRemoveRelated (serviceId: number, relatedServiceId: number, priority: number, isAdd: boolean) {
+    return isAdd ? this.execFunction('f_admin_add_related_service', [serviceId, relatedServiceId, priority]) : this.execFunction('f_admin_remove_related_service', [serviceId, relatedServiceId]);
+  }
 
   // Не учитывая статус
   public async adminGetAllBySiteSectionId (siteSectionId: number) {
@@ -155,4 +164,9 @@ export default class BusinessServiceService extends BaseService {
     const updateStmt = `UPDATE business_service_cl_client SET footer_include_ind = 0 where business_service_id = $1 and cl_client_id = $2`;
     return this.execNone(updateStmt, [businessServiceId, this.businessClientTypeId]);
   }
+
+  public async adminGetServiceRelation (businessServiceId: number) {
+    return this.execFunction('f_admin_related_service', [businessServiceId]);
+  }
+
 }

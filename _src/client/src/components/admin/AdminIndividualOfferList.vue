@@ -1,4 +1,4 @@
-V<template>
+<template>
   <div class="brc_admin-offer-list-container">
     <div class="brc-card__header__toolbar">
       <span class="brc_admin-offer-list-container__help" v-if="!createNewOfferMode">

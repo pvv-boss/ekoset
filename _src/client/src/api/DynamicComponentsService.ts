@@ -2,7 +2,6 @@ import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer';
 import DynamicComponentInfo from '@/models/DynamicComponentInfo';
-import SitePage, { SitePageType } from '@/models/SitePage';
 
 export default class DynamicComponentsService extends BaseService {
 
@@ -114,11 +113,14 @@ export default class DynamicComponentsService extends BaseService {
     // Услуги для услуги (сама услуга или вторго уровня)
     let serviceList: any = null
     let serviceHasParent = false
+    let relatedServiceList: any = null
     if (!!serviceSlug) {
       const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
       const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
       serviceHasParent = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0
+
+      relatedServiceList = getServiceContainer().businessServiceService.adminGetRelated(businessService.businessServiceId)
     }
 
     // Услуги для инд.предложения
@@ -152,7 +154,7 @@ export default class DynamicComponentsService extends BaseService {
       busineesTypeOfferList = null
     }
 
-    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList]
+    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList, relatedServiceList]
     const data = await Promise.all(promises)
 
     // Прописываем данные в компопонте (в его пропы) - для динамических. Формы и конструкторы уже с данными придут из баазы
@@ -254,6 +256,17 @@ export default class DynamicComponentsService extends BaseService {
       }
     }
 
+    const relatedServiceInfo = componentsInfo.find((iter) => {
+      return iter.code === BlockType.RELATED_SERVICE
+    })
+    if (!!relatedServiceInfo && relatedServiceInfo.visible === 1) {
+      relatedServiceInfo.props.serviceList = data[5]
+      if (!adminMode) {
+        relatedServiceInfo.visible = 0
+        relatedServiceInfo.visible = !!relatedServiceInfo.props.serviceList && relatedServiceInfo.props.serviceList.length > 0 ? 1 : 0
+      }
+    }
+
     return componentsInfo
 
   }
@@ -270,5 +283,6 @@ enum BlockType {
   CLIENTTYPE_OFFER = 7,
   BUSINESSTYPE_OFFER = 8,
   SERVICE_LIST = 9,
-  SERVICE_PRICE = 10
+  SERVICE_PRICE = 10,
+  RELATED_SERVICE = 11
 }

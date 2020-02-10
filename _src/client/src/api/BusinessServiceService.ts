@@ -59,13 +59,33 @@ export default class BusinessServiceService extends BaseService {
     return result
   }
 
+  // Вы также можете заказать - список для связки
+  public async adminGetServiceRelation (serviceId: number) {
+    const query = `admin/panel/services/${serviceId}/relation`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
+  // Вы также можете заказать
+  public async adminGetRelated (serviceId: number) {
+    const query = `admin/panel/services/${serviceId}/related`
+    const result = HttpUtil.httpGet(this.buildHttRequest(query))
+    return result
+  }
+
+  public async adminAddRemoveRelated (serviceId: number, relatedServiceId: number, priority: number, isAdd: boolean) {
+    const query = `admin/panel/services/${serviceId}/related/${relatedServiceId}/${priority}`
+    const result = isAdd ? HttpUtil.httpPut(this.buildHttRequest(query)) : HttpUtil.httpDelete(this.buildHttRequest(query))
+    return result
+  }
+
+
   // Услуги второго уровня (админка)
   public async adminGetChildServicesByParentId (serviceId: number, pagination?: Pagination) {
     const query = `admin/panel/services/${serviceId}/children`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
-
 
   public async saveAll (businessServiceList: BusinessService[]) {
     businessServiceList.forEach((iterService) => {
