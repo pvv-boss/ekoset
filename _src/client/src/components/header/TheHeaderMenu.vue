@@ -61,7 +61,7 @@ export default class TheHeaderMenu extends Vue {
 @import '@/styles/variables.scss';
 @import '@/styles/typography.scss';
 
-$menu_item_padding_left: 15px;
+$menu_item_padding: 15px;
 
 .brc-page-header__main-menu {
   text-transform: uppercase;
@@ -85,10 +85,11 @@ $menu_item_padding_left: 15px;
     list-style-type: none;
   }
 
-  > li + li {
-    padding-left: $menu_item_padding_left;
+  > li {
+    padding-right: $menu_item_padding;
     @media (max-width: 1024px) {
-      padding-left: $menu_item_padding_left - 5px;
+      padding-left: 0px;
+      padding-right: $menu_item_padding - 5px;
     }
   }
 }

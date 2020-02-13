@@ -78,6 +78,12 @@ export default class BusinessServiceService extends BaseService {
     return isAdd ? this.execFunction('f_admin_add_related_service', [serviceId, relatedServiceId, priority]) : this.execFunction('f_admin_remove_related_service', [serviceId, relatedServiceId]);
   }
 
+  // Вы также можете закзаать для связки
+  public async adminGetServiceRelation (businessServiceId: number) {
+    // return this.execFunction('f_admin_related_service', [businessServiceId]);
+    return this.execFunction('f_admin_related_service_new', [businessServiceId]);
+  }
+
   // Не учитывая статус
   public async adminGetAllBySiteSectionId (siteSectionId: number) {
     const selectStmt = 'site_section_id = $1 and business_service_parent_id IS NULL';
@@ -165,8 +171,5 @@ export default class BusinessServiceService extends BaseService {
     return this.execNone(updateStmt, [businessServiceId, this.businessClientTypeId]);
   }
 
-  public async adminGetServiceRelation (businessServiceId: number) {
-    return this.execFunction('f_admin_related_service', [businessServiceId]);
-  }
 
 }

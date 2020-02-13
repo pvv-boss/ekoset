@@ -11,25 +11,25 @@
       </div>
     </draggable>
 
-    <AdminServiceRelationList
+    <AdminServiceRelationListBySection
       :serviceRelationItems="serviceRelationList"
       @servicechecked="serviceChecked"
       class="brc_related_service__service_list"
-    ></AdminServiceRelationList>
+    ></AdminServiceRelationListBySection>
   </div>
 </template>
         
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
+import AdminServiceRelationListBySection from '@/components/admin/AdminServiceRelationListBySection.vue'
 import { NuxtContext } from 'vue/types/options'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
 
 @Component({
   components: {
-    AdminServiceRelationList,
+    AdminServiceRelationListBySection,
     ServiceListItem
   }
 })
