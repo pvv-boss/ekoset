@@ -3,22 +3,27 @@
     class="brc-page-header__main-menu"
     :class="{ 'brc-main-menu_active': isMainMenuActive === true }"
   >
-    <li
-      v-for="iterMenuItem in sitePageItems"
-      :key="iterMenuItem.sitePageId"
-      v-show="isMenuItemEnablede(iterMenuItem)"
-    >
-      <nuxt-link
-        :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
+    <template v-for="iterMenuItem in sitePageItems">
+      <li
+        :key="iterMenuItem.sitePageId"
+        v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
+      >
+        <nuxt-link
+          :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
               params: 
                 {
                   siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
                   page: iterMenuItem.sitePageUrl
                 }
               }"
-        :class="{active: activeIndex === iterMenuItem.sitePageRouteName}"
-      >{{iterMenuItem.sitePageName}}</nuxt-link>
-    </li>
+          :class="{active: activeIndex === iterMenuItem.sitePageRouteName}"
+        >{{iterMenuItem.sitePageName}}</nuxt-link>
+      </li>
+      <ThePriceMenuItem
+        :key="iterMenuItem.sitePageId"
+        v-if="iterMenuItem.sitePageCode ===7 && isMenuItemEnablede(iterMenuItem)"
+      ></ThePriceMenuItem>
+    </template>
   </ul>
 </template>
 
@@ -29,9 +34,12 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import SitePage, { SitePageType } from '@/models/SitePage'
+import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
+
 
 @Component({
   components: {
+    ThePriceMenuItem
   }
 })
 export default class TheHeaderMenu extends Vue {
@@ -51,7 +59,10 @@ export default class TheHeaderMenu extends Vue {
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 
-  public async mounted () {
+  public async created () {
+    let menuItems = await getServiceContainer().topMenuService.adminGetSitePages()
+    menuItems = [...menuItems,]
+
     this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }
@@ -61,7 +72,7 @@ export default class TheHeaderMenu extends Vue {
 @import '@/styles/variables.scss';
 @import '@/styles/typography.scss';
 
-$menu_item_padding: 15px;
+$menu_item_padding: 12px;
 
 .brc-page-header__main-menu {
   text-transform: uppercase;

@@ -98,5 +98,9 @@ export default class BaseBackToTop extends Vue {
     text-align: center;
     margin: auto;
   }
+
+  @media (max-width: 1024px) {
+    bottom: 80px;
+  }
 }
 </style>

@@ -1,69 +1,72 @@
 <template>
-  <footer class="brc-page-footer">
-    <div class="brc-page-footer__contacts">
-      <div class="brc-footer-logo__wrapper">
-        <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
-          <img src="/images/logo.png" alt="Экосеть" />
-        </nuxt-link>
-      </div>
-      <div class="brc-page-footer__contacts">
+  <footer>
+    <div class="brc-page-footer">
+      <div class="brc-page-footer__contacts" style="display: flex;flex-direction: column;">
+        <div class="brc-footer-logo__wrapper" style="margin: auto;">
+          <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
+            <img src="/images/logo.png" alt="Экосеть" style="max-height: 40px;height: 40px;" />
+          </nuxt-link>
+        </div>
         <div class="brc-page-footer__phone">
-          <a href="tel:4952233595">(495) 223-35-95</a>
+          <a href="tel:4952233595">+7 (495) 223-35-95</a>
         </div>
-        <div class="brc-page-footer__email">
-          <a href="mailto:inbox@ekoset.ru">inbox@ekoset.ru</a>
+        <div class="brc-page-footer__social">
+          <a href="mailto:inbox@ekoset.ru">
+            <img src="/images/mail.svg" alt="Экосеть Эл.почта" />
+          </a>
+          <a href="https://vk.com/ekoset" style="margin-left:15px;">
+            <img src="/images/vk.svg" alt="Экосеть ВКонтакте" />
+          </a>
         </div>
       </div>
-      <div class="brc-page-footer__social">
-        <a href="https://vk.com/ekoset">
-          <img src="/images/vk-social.png" alt="Экосеть ВКонтакте" />
-        </a>
+      <div class="brc-page-footer__business-activities">
+        <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
+        <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">
+          <h4>Услуги для Бизнеса</h4>
+        </label>
+        <ul class="brc-footer-list-link">
+          <li v-for="serviceItem in serviceListForBusiness" :key="serviceItem.businessServiceId">
+            <nuxt-link
+              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+            >{{serviceItem.businessServiceName}}</nuxt-link>
+          </li>
+        </ul>
+      </div>
+      <div class="brc-page-footer__private-activities">
+        <input id="toogleClientTypeMenuVisible" type="checkbox" />
+        <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">
+          <h4 for="toogleClientTypeMenuVisible">Услуги для Частных лиц</h4>
+        </label>
+        <ul class="brc-footer-list-link">
+          <li v-for="serviceItem in serviceListForPerson" :key="serviceItem.businessServiceId">
+            <nuxt-link
+              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+            >{{serviceItem.businessServiceName}}</nuxt-link>
+          </li>
+        </ul>
+      </div>
+      <div class="brc-page-footer__menu">
+        <ul>
+          <li>
+            <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link :to="{name: 'prices', params:{siteSection: getCurrentSiteSection}}">Цены</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link :to="{name: 'news', params:{siteSection: getCurrentSiteSection}}">Новости</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="brc-page-footer__business-activities">
-      <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
-      <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">
-        <h4>Услуги для Бизнеса</h4>
-      </label>
-      <ul class="brc-footer-list-link">
-        <li v-for="serviceItem in serviceListForBusiness" :key="serviceItem.businessServiceId">
-          <nuxt-link
-            :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-          >{{serviceItem.businessServiceName}}</nuxt-link>
-        </li>
-      </ul>
-    </div>
-    <div class="brc-page-footer__private-activities">
-      <input id="toogleClientTypeMenuVisible" type="checkbox" />
-      <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">
-        <h4 for="toogleClientTypeMenuVisible">Услуги для Частных лиц</h4>
-      </label>
-      <ul class="brc-footer-list-link">
-        <li v-for="serviceItem in serviceListForPerson" :key="serviceItem.businessServiceId">
-          <nuxt-link
-            :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-          >{{serviceItem.businessServiceName}}</nuxt-link>
-        </li>
-      </ul>
-    </div>
-    <div class="brc-page-footer__menu">
-      <ul>
-        <li>
-          <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :to="{name: 'prices', params:{siteSection: getCurrentSiteSection}}">Цены</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :to="{name: 'news', params:{siteSection: getCurrentSiteSection}}">Новости</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>
-        </li>
-      </ul>
+    <div class="brc-page-footer__last">
+      <span>&#xa9; Группа компаний "ЭКОСЕТЬ"</span>
     </div>
   </footer>
 </template>
@@ -103,7 +106,8 @@ export default class TheLayoutFooter extends Vue {
   justify-content: space-between;
   border-top: 1px solid lightgray;
   margin-top: 30px;
-  padding-top: 30px;
+  padding-top: 25px;
+  background-color: #f5f5f5;
 
   .brc-footer-list-link {
     margin-top: 15px;
@@ -111,10 +115,6 @@ export default class TheLayoutFooter extends Vue {
 
   a {
     color: $text-color;
-  }
-  img {
-    max-height: 40px;
-    height: 40px;
   }
   input {
     display: none;
@@ -139,24 +139,48 @@ export default class TheLayoutFooter extends Vue {
     }
   }
 
+  .brc-page-footer__phone {
+    margin: auto;
+    font-weight: 500;
+    font-size: 18px;
+    margin-top: 5px;
+  }
+
   .brc-page-footer__social {
-    margin-top: 10px;
+    margin: auto;
+    display: flex;
+    margin-top: 20px;
     a {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid #a6a6a6;
-      border-radius: 50%;
+      // border: 1px solid #a6a6a6;
+      // border-radius: 50%;
     }
     img {
-      width: 20px;
-      height: 12px;
+      // width: 20px;
+      // height: 12px;
     }
   }
 }
+
+.brc-page-footer__last {
+  font-size: $font-big;
+  color: $text-muted;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid lightgray;
+  margin-bottom: 30px;
+  background-color: #f5f5f5;
+}
+
 @media (max-width: 768px) {
+  .brc-page-footer {
+    margin-top: 20px;
+  }
+
   .brc-page-footer__menu {
     a {
       color: $text-color;
@@ -169,6 +193,12 @@ export default class TheLayoutFooter extends Vue {
     max-height: 60px;
     height: 60px;
   }
+
+  .brc-page-footer__phone {
+    font-weight: 500;
+    font-size: 20px;
+  }
+
   .brc-footer-logo__wrapper {
     text-align: center;
   }
@@ -182,21 +212,32 @@ export default class TheLayoutFooter extends Vue {
     font-weight: 500 !important;
     font-size: 18px;
   }
-  .brc-page-footer__menu,
-  .brc-page-footer__private-activities,
-  .brc-page-footer__business-activities {
-    margin-top: 15px;
+
+  .brc-page-footer__menu {
+    margin-top: 25px;
   }
+
+  .brc-page-footer__business-activities {
+    margin-top: 25px;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+  }
+
+  .brc-page-footer__private-activities {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+  }
+
   .brc-page-footer__menu {
     font-size: 18px;
   }
   .brc-page-footer {
     padding-top: 0;
-    margin-bottom: 100px;
     flex-direction: column;
 
     h4 {
-      font-size: 22px !important;
+      font-size: 20px !important;
     }
     h4,
     label {

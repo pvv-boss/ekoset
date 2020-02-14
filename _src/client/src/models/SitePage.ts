@@ -19,5 +19,6 @@ export enum SitePageType {
   CLIENTS,
   PRICES,
   NEWS,
-  CONTACTS
+  CONTACTS,
+  SERVICES
 }
