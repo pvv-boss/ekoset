@@ -29,7 +29,7 @@ import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import FreeContentBlock from '@/components/FreeContentBlock.vue'
 import ServiceList from '@/components/public/ServiceList.vue'
-import ServicePriceTable from '@/components/public/ServicePriceTable.vue'
+import ServicePrice from '@/components/public/ServicePrice.vue'
 import RelatedService from '@/components/public/RelatedService.vue'
 
 
@@ -43,7 +43,8 @@ import RelatedService from '@/components/public/RelatedService.vue'
     ClientTypeOfferList,
     BusinessTypeOfferList,
     ServiceList,
-    ServicePriceTable,
+    // ServicePriceTable,
+    ServicePrice,
     RelatedService
   }
 })

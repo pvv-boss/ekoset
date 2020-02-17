@@ -78,7 +78,6 @@ export default class BusinessServiceController extends BaseController {
     return BusinessServiceController.createSuccessResponse(result, response);
   }
 
-
   @Get('/services/footer/business')
   public async getFooterServicesForBusinessClient (
     @Res() response: Response

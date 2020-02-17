@@ -112,6 +112,7 @@ export default class DynamicComponentsService extends BaseService {
 
     // Услуги для услуги (сама услуга или вторго уровня)
     let serviceList: any = null
+    let priceList: any = null
     let serviceHasParent = false
     let relatedServiceList: any = null
     if (!!serviceSlug) {
@@ -119,6 +120,8 @@ export default class DynamicComponentsService extends BaseService {
       const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
       serviceHasParent = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0
+
+      priceList = serviceHasParent ? getServiceContainer().businessServiceService.getPriceListForChildService(businessService.businessServiceId) : getServiceContainer().businessServiceService.getPriceListForService(businessService.businessServiceId)
 
       relatedServiceList = getServiceContainer().businessServiceService.adminGetRelated(businessService.businessServiceId)
     }
@@ -137,11 +140,13 @@ export default class DynamicComponentsService extends BaseService {
     // Услуги для раздела
     if (!serviceList && !!siteSectionSlug) {
       serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true)
+      priceList = getServiceContainer().businessServiceService.getPriceListForSiteSection(siteSectionSlug)
     }
 
     // Для рутовых страниц
     if (!serviceList) {
       serviceList = getServiceContainer().businessServiceService.getMainList()
+      priceList = getServiceContainer().businessServiceService.priceList()
     }
 
     // Индивидуальные предложения
@@ -154,7 +159,7 @@ export default class DynamicComponentsService extends BaseService {
       busineesTypeOfferList = null
     }
 
-    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList, relatedServiceList]
+    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList, relatedServiceList, priceList]
     const data = await Promise.all(promises)
 
     // Прописываем данные в компопонте (в его пропы) - для динамических. Формы и конструкторы уже с данными придут из баазы
@@ -240,7 +245,11 @@ export default class DynamicComponentsService extends BaseService {
 
       if (!adminMode) {
         serviceInfo.visible = 0
-        serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
+        if (!!serviceSlug) {
+          serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
+        } else {
+          serviceInfo.visible = !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 0 ? 1 : 0
+        }
       }
     }
 
@@ -248,12 +257,14 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.SERVICE_PRICE
     })
     if (!!servicePriceInfo && servicePriceInfo.visible === 1) {
-      servicePriceInfo.props.servicePriceList = data[4]
+      servicePriceInfo.name = 'ServicePrice'
+      servicePriceInfo.props.servicePriceList = data[6]
 
       if (!adminMode) {
         servicePriceInfo.visible = 0
         servicePriceInfo.visible = !!servicePriceInfo.props.servicePriceList && servicePriceInfo.props.servicePriceList.length > 0 ? 1 : 0
       }
+
     }
 
     const relatedServiceInfo = componentsInfo.find((iter) => {
