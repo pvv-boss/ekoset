@@ -88,7 +88,7 @@ export default class ServiceListItem extends Vue {
 
   .brc-service-smallitem__price {
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     @media (max-width: 768px) {
       margin-bottom: 5px;
     }
@@ -104,6 +104,7 @@ export default class ServiceListItem extends Vue {
     width: 100%;
     text-align: center;
   }
+
   h4 {
     margin: auto;
     color: $text-color;
@@ -129,6 +130,11 @@ export default class ServiceListItem extends Vue {
     object-position: center;
     max-height: 122px;
     // max-width: 122px;
+    margin-top: 15px;
+
+    @media (max-width: 768px) {
+      margin-top: 0px;
+    }
   }
 
   .brc-service-smallitem__order {

@@ -107,7 +107,8 @@ export default class TheLayoutFooter extends Vue {
   border-top: 1px solid lightgray;
   margin-top: 30px;
   padding-top: 25px;
-  background-color: #f5f5f5;
+  padding-bottom: 25px;
+  // background-color: #f5f5f5;
 
   .brc-footer-list-link {
     margin-top: 15px;
@@ -169,11 +170,10 @@ export default class TheLayoutFooter extends Vue {
 .brc-page-footer__last {
   font-size: $font-big;
   color: $text-muted;
-  margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid lightgray;
-  margin-bottom: 30px;
-  background-color: #f5f5f5;
+  padding-bottom: 25px;
+  // background-color: #f5f5f5;
 }
 
 @media (max-width: 768px) {

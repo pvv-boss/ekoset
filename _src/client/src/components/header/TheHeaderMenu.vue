@@ -60,9 +60,6 @@ export default class TheHeaderMenu extends Vue {
   }
 
   public async created () {
-    let menuItems = await getServiceContainer().topMenuService.adminGetSitePages()
-    menuItems = [...menuItems,]
-
     this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }

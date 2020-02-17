@@ -1,15 +1,27 @@
 <template>
   <li class="brc-price-menu-wrapper" @click="onClick" v-click-outside="()=>{isMenuOpened=false}">
-    <span>Услуги</span>
+    <span id="dont_outside">Услуги</span>
     <ul class="brc-price-menu" :class="{ 'active': isMenuOpened === true }">
       <li
         v-for="iterService in serviceList"
         :key="iterService.businessServiceId"
         class="brc-price-menu__item"
+        style="padding:10px !important;"
       >
         <nuxt-link
           :to="{ name: 'service-card', params: { service: iterService.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+          style="padding:-5px !important;"
         >{{iterService.businessServiceName}}</nuxt-link>
+      </li>
+      <li
+        class="brc-price-menu__item"
+        style="padding:10px !important;"
+        v-if="getCurrentSiteSection !== null"
+      >
+        <nuxt-link
+          :to="{ name: 'main'}"
+          style="padding:-5px !important; color:red; font-weight:500;"
+        >Все услуги...</nuxt-link>
       </li>
     </ul>
   </li>
@@ -69,40 +81,65 @@ export default class ThePriceMenuItem extends Vue {
 }
 
 .brc-price-menu {
-  display: none;
+  display: none !important;
   position: absolute;
+
   z-index: 2000;
   background-color: white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   border-top: 1px solid lightgray;
-  transform-style: flat;
-  transition: transform 0.3s ease-in-out;
-  max-height: 60vh;
   overflow-y: auto;
   list-style: none;
   list-style-type: none;
   text-transform: none;
-  min-width: max-content;
   max-width: 90vw;
+  max-height: 70vh;
   &.active {
-    display: block;
+    display: block !important;
+  }
+
+  @media (max-width: 900px) {
+    position: fixed;
+    width: 85vw;
+    top: 80px;
+    margin: auto;
+    max-height: calc(95vh - 80px);
   }
 }
 
 .brc-price-menu__item {
-  font-size: $font-small;
+  font-size: 16px !important;
   list-style-type: none;
+  display: flex !important;
+  align-items: center;
+  padding: 10px;
   > a {
     color: $text-color;
-    font-size: $font-small;
+    font-size: $font-small !important;
     display: block;
-    margin: 10px;
     margin-right: 30px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
   }
+
+  @media (max-width: 900px) {
+    > a {
+      margin-right: 20px;
+    }
+    padding: 5px !important;
+  }
 }
+
+.brc-price-menu__item:before {
+  color: $red;
+  content: '•';
+  padding-right: 20px;
+  width: 10px;
+  line-height: 0px;
+  font-size: 30px;
+}
+
 .brc-price-menu__item + .brc-price-menu__item {
   border-top: 1px solid lightgray;
 }
