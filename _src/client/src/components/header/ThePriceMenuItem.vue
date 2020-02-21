@@ -55,12 +55,15 @@ export default class ThePriceMenuItem extends Vue {
 
   @Watch('getCurrentSiteSection', { immediate: true })
   private async updatePriceList () {
+    // tslint:disable-next-line:no-console
+    console.log('updatePriceList')
     const siteSectionSlug = this.getCurrentSiteSection;
     this.serviceList = !!siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : await getServiceContainer().businessServiceService.getMainList()
-
   }
 
   private async created () {
+    // tslint:disable-next-line:no-console
+    // console.log('created')
     this.updatePriceList()
   }
 
@@ -103,7 +106,7 @@ export default class ThePriceMenuItem extends Vue {
     width: 85vw;
     top: 80px;
     margin: auto;
-    max-height: calc(95vh - 80px);
+    max-height: calc(95vh - 140px);
   }
 }
 

@@ -110,6 +110,21 @@ export default class BusinessServiceService extends BaseService {
     return this.getDbViewResult('v_api_price_for_child_service', null, selectStmt, [serviceId]);
   }
 
+  public async getPriceListForActivity (siteSectionId: number, activityId: number) {
+    const selectStmt = 'site_section_id = $1 and cl_activity_id = $2'
+    return this.getDbViewResult('v_api_price_list_for_activity', null, selectStmt, [siteSectionId, activityId]);
+  }
+
+  public async getPriceListForBusinessBySiteSectionId (siteSectionId: number) {
+    const selectStmt = 'site_section_id = $1 and cl_client_id = $2'
+    return this.getDbViewResult('v_api_price_for_client', null, selectStmt, [siteSectionId, this.businessClientTypeId]);
+  }
+
+  public async getPriceListForPersonBySiteSectionId (siteSectionId: number) {
+    const selectStmt = 'site_section_id = $1 and cl_client_id = $2'
+    return this.getDbViewResult('v_api_price_for_client', null, selectStmt, [siteSectionId, this.PrivatePersonClientTypeId]);
+  }
+
   // Тип клиента и тип направления деятельности для услуги
   public async getAdminСlActivitiesForService (businessServiceId: number) {
     return this.execFunction('f_admin_cl_activities_service', [businessServiceId]);

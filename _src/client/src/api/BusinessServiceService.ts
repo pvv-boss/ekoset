@@ -108,6 +108,21 @@ export default class BusinessServiceService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  public async getPriceListForActivity (siteSectionSlug: string, activityId: number) {
+    const query = `services/price/activity/${this.getIdBySlug(siteSectionSlug)}/${activityId}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+
+  public async getPriceListForBusinessBySiteSectionId (siteSectionSlug: string) {
+    const query = `service/price/business/${this.getIdBySlug(siteSectionSlug)}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async getPriceListForPersonBySiteSectionId (siteSectionSlug: string) {
+    const query = `service/price/person/${this.getIdBySlug(siteSectionSlug)}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
 
   public async saveAll (businessServiceList: BusinessService[]) {
     businessServiceList.forEach((iterService) => {

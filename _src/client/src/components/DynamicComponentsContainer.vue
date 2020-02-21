@@ -11,6 +11,7 @@
       >
         <h2
           v-if="!!iterComponent.head"
+          class="brc-page__dynamic_block_header"
           :class="{'brc-page__dynamic_block_center': iterComponent.headCentered === true}"
         >{{iterComponent.head }}</h2>
         <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
@@ -63,6 +64,10 @@ export default class DynamicComponentsContainer extends Vue {
   @media (max-width: 768px) {
     margin-top: 30px;
   }
+}
+
+.brc-page__dynamic_block_header {
+  margin-bottom: 15px;
 }
 
 .brc-page__dynamic_block {

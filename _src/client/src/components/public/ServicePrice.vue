@@ -1,59 +1,75 @@
 <template>
-  <client-only>
-    <div class="brc-service-price-table__wrapper">
-      <table class="brc-service-price-table" cellspacing="0">
-        <thead>
-          <th>Услуга</th>
-          <th width="10%">Ед.изм.</th>
-          <th width="20%">Цена</th>
-        </thead>
-        <tbody>
-          <template v-for="iterPriceListItem in servicePriceList">
-            <template
-              v-if="!!iterPriceListItem.pricelist && iterPriceListItem.pricelist.length > 0 && iterPriceListItem.pricelist[0] !== null"
+  <div class="brc-service-price-table__wrapper">
+    <table class="brc-service-price-table" cellspacing="0">
+      <thead>
+        <th>Услуга</th>
+        <th width="15%">Ед.изм.</th>
+        <th width="30%">Цена</th>
+      </thead>
+      <tbody>
+        <template v-for="iterPriceListItem in servicePriceList">
+          <template
+            v-if="!!iterPriceListItem.pricelist && iterPriceListItem.pricelist.length > 0 && iterPriceListItem.pricelist[0] !== null"
+          >
+            <tr
+              :key="iterPriceListItem.id"
+              v-if="!isForRootService || (isForRootService && iterPriceListItem.pricelist.length === 0)"
             >
-              <tr :key="iterPriceListItem.id">
-                <td class="brc-service-price-td_bold">{{iterPriceListItem.name}}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr
-                v-for="iterPriceItem in iterPriceListItem.pricelist"
-                :key="iterPriceItem.businesserviceid"
+              <td
+                :class="{'brc-price-list__item_red':isForChildService || isForRootService, 'brc-service-price-td_bold':!isForChildService && !isForRootService}"
               >
-                <td>
-                  <nuxt-link
-                    :to="{ name: 'service-card', params: { service: iterPriceItem.businesserviceurl, siteSection: iterPriceItem.sitesectionurl}}"
-                    class="brc-service-price-table-link"
-                  >{{iterPriceItem.businesservicename}}</nuxt-link>
-                </td>
-                <td>{{iterPriceItem.businesserviceunit}}</td>
-                <td>{{iterPriceItem.businesserviceprice}}</td>
-              </tr>
-            </template>
-            <template v-else>
-              <tr :key="iterPriceListItem.id">
-                <td>
-                  <nuxt-link
-                    :to="{ name: 'service-card', params: { service: iterPriceListItem.businesserviceurl, siteSection: iterPriceListItem.sitesectionurl}}"
-                    class="brc-service-price-table-link"
-                  >{{iterPriceListItem.name}}</nuxt-link>
-                </td>
-                <td>{{iterPriceListItem.businesserviceunit}}</td>
-                <td>{{iterPriceListItem.businesserviceprice}}</td>
-              </tr>
-            </template>
+                <nuxt-link
+                  v-if="!!iterPriceListItem.businesserviceurl"
+                  :to="{ name: 'service-card', params: { service: iterPriceListItem.businesserviceurl, siteSection: iterPriceListItem.sitesectionurl}}"
+                  class="brc-service-price-table-link"
+                >{{iterPriceListItem.name}}</nuxt-link>
+                <nuxt-link
+                  v-else
+                  :to="{ name: 'activity-card', params: {siteSection: iterPriceListItem.sitesectionurl}}"
+                  class="brc-service-price-table-link brc-service-price-td_bold"
+                >{{iterPriceListItem.name}}</nuxt-link>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr
+              v-for="iterPriceItem in iterPriceListItem.pricelist"
+              :key="iterPriceItem.businesserviceid"
+            >
+              <td class="brc-price-list__item_red">
+                <nuxt-link
+                  :to="{ name: 'service-card', params: { service: iterPriceItem.businesserviceurl, siteSection: iterPriceItem.sitesectionurl}}"
+                  class="brc-service-price-table-link"
+                >{{iterPriceItem.businesservicename}}</nuxt-link>
+              </td>
+              <td>{{iterPriceItem.businesserviceunit}}</td>
+              <td>{{iterPriceItem.businesserviceprice}}</td>
+            </tr>
           </template>
-        </tbody>
-      </table>
-      <div class="brc-all-prices-link__wrapper" v-show="!allPricesPage">
-        <nuxt-link
-          :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
-          class="brc-all-prices-link"
-        >Все цены</nuxt-link>
-      </div>
+          <template v-else>
+            <tr :key="iterPriceListItem.id">
+              <td
+                :class="{'brc-price-list__item_red':isForChildService || isForRootService, 'brc-service-price-td_bold':!isForChildService && !isForRootService}"
+              >
+                <nuxt-link
+                  :to="{ name: 'service-card', params: { service: iterPriceListItem.businesserviceurl, siteSection: iterPriceListItem.sitesectionurl}}"
+                  class="brc-service-price-table-link"
+                >{{iterPriceListItem.name}}</nuxt-link>
+              </td>
+              <td>{{iterPriceListItem.businesserviceunit}}</td>
+              <td>{{iterPriceListItem.businesserviceprice}}</td>
+            </tr>
+          </template>
+        </template>
+      </tbody>
+    </table>
+    <div class="brc-all-prices-link__wrapper" v-show="!allPricesPage">
+      <nuxt-link
+        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
+        class="brc-all-prices-link"
+      >Все цены</nuxt-link>
     </div>
-  </client-only>
+  </div>
 </template>
 
 
@@ -72,6 +88,11 @@ export default class ServicePrice extends Vue {
   @Prop({ default: false })
   private allPricesPage
 
+  @Prop({ default: false })
+  private isForRootService
+
+  @Prop({ default: false })
+  private isForChildService
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
@@ -97,24 +118,42 @@ export default class ServicePrice extends Vue {
     }
     td,
     th {
-      text-align: center;
+      text-align: left;
       padding: 10px;
       border-bottom: 1px solid #f4f4f5;
     }
+    th:first-child {
+      padding-left: 40px;
+      @media (max-width: 500px) {
+        padding-left: 10px;
+      }
+    }
     td:first-child {
       text-align: left;
+      padding-left: 40px;
+      display: flex;
+      flex-direction: row;
+      @media (max-width: 500px) {
+        padding-left: 10px;
+      }
     }
     td:last-child {
-      text-align: right;
-      white-space: nowrap;
+      text-align: left;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .brc-service-price-td_bold {
       font-weight: 500;
       text-align: left !important;
-      white-space: pre-wrap !important;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .brc-service-price-td_child {
-      white-space: pre-wrap !important;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .brc-service-price-table-link {
       text-decoration: none;
@@ -123,7 +162,21 @@ export default class ServicePrice extends Vue {
         color: red;
       }
     }
+
+    .brc-price-list__item_red:before {
+      color: $red;
+      content: '•';
+      padding-right: 15px;
+      width: 10px;
+      line-height: 0px;
+      font-size: 30px;
+      margin-top: calc(0.5em - 2px);
+      @media (max-width: 500px) {
+        margin-top: calc(0.5em - 6px);
+      }
+    }
   }
+
   .brc-all-prices-link__wrapper {
     margin-top: 30px;
 
@@ -148,10 +201,11 @@ export default class ServicePrice extends Vue {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   .brc-service-price-table__wrapper {
     max-width: 100%;
     overflow-x: scroll;
+    font-size: 12px;
   }
 }
 </style>

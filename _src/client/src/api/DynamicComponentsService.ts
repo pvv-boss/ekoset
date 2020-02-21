@@ -132,8 +132,13 @@ export default class DynamicComponentsService extends BaseService {
         serviceList = offerForClentType === 'business'
           ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSectionSlug)
           : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
+
+        priceList = offerForClentType === 'business'
+          ? getServiceContainer().businessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionSlug)
+          : getServiceContainer().businessServiceService.getPriceListForPersonBySiteSectionId(siteSectionSlug)
       } else {
         serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
+        priceList = getServiceContainer().businessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionSlug)
       }
     }
 
@@ -260,11 +265,18 @@ export default class DynamicComponentsService extends BaseService {
       servicePriceInfo.name = 'ServicePrice'
       servicePriceInfo.props.servicePriceList = data[6]
 
+      if (!!serviceSlug && !serviceHasParent) {
+        servicePriceInfo.props.isForRootService = true
+      }
+
+      if (!!serviceSlug && serviceHasParent) {
+        servicePriceInfo.props.isForChildService = true
+      }
+
       if (!adminMode) {
         servicePriceInfo.visible = 0
         servicePriceInfo.visible = !!servicePriceInfo.props.servicePriceList && servicePriceInfo.props.servicePriceList.length > 0 ? 1 : 0
       }
-
     }
 
     const relatedServiceInfo = componentsInfo.find((iter) => {

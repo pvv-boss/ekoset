@@ -41,4 +41,36 @@ export default class PriceController extends BaseController {
     return BaseController.createSuccessResponse(result, response);
   }
 
+
+  @Get('/services/price/activity/:siteSectionId/:activityId')
+  public async getPriceListForActivity (
+    @Res() response: Response,
+    @Param('serviceId') siteSectionId: number,
+    @Param('activityId') activityId: number,
+  ) {
+
+    const result = await ServiceContainer.BusinessServiceService.getPriceListForActivity(siteSectionId, activityId);
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+  @Get('/service/price/business/:siteSectionId')
+  public async getPriceListForBusinessBySiteSectionId (
+    @Res() response: Response,
+    @Param('siteSectionId') siteSectionId: number) {
+
+    const result = await ServiceContainer.BusinessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionId);
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/service/price/person/:siteSectionId')
+  public async getPriceListForPersonBySiteSectionId (
+    @Res() response: Response,
+    @Param('siteSectionId') siteSectionId: number) {
+
+    const result = await ServiceContainer.BusinessServiceService.getPriceListForPersonBySiteSectionId(siteSectionId);
+    return BaseController.createSuccessResponse(result, response);
+  }
+
+
 }

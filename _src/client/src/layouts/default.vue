@@ -1,12 +1,11 @@
 <template>
   <div class="brc-page-container">
-    <TheLayoutHeader v-once></TheLayoutHeader>
-
+    <TheLayoutHeader></TheLayoutHeader>
     <div class="brc-body">
       <nuxt></nuxt>
     </div>
-    <TheMessagesAriseBlock v-once></TheMessagesAriseBlock>
-    <TheLayoutFooter v-once></TheLayoutFooter>
+    <TheMessagesAriseBlock></TheMessagesAriseBlock>
+    <TheLayoutFooter></TheLayoutFooter>
     <client-only>
       <!-- <BaseCookieNotice></BaseCookieNotice> -->
       <BaseBackToTop></BaseBackToTop>

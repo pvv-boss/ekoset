@@ -9,6 +9,7 @@
         v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
       >
         <nuxt-link
+          @click.native="currentMenuClicked = iterMenuItem.sitePageId"
           :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
               params: 
                 {
@@ -16,7 +17,7 @@
                   page: iterMenuItem.sitePageUrl
                 }
               }"
-          :class="{active: activeIndex === iterMenuItem.sitePageRouteName}"
+          :class="{active: currentMenuClicked === iterMenuItem.sitePageId}"
         >{{iterMenuItem.sitePageName}}</nuxt-link>
       </li>
       <ThePriceMenuItem
@@ -45,21 +46,25 @@ import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
 export default class TheHeaderMenu extends Vue {
   public isMainMenuActive = false
   public sitePageItems: SitePage[] = []
-
-  private get activeIndex () {
-    return this.$route.name ? this.$route.name.split('-')[0] : ''
-  }
+  public currentMenuClicked: number = -1
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
   }
+
+  public menuClick (menuItem: SitePage) {
+    this.currentMenuClicked = menuItem.sitePageId
+  }
+
 
   public isMenuItemEnablede (pageMenuItem: SitePage) {
     const currentSiteSectionId = !!this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 
-  public async created () {
+  public async mounted () {
+    // tslint:disable-next-line:no-console
+    console.log('mounted')
     this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }
