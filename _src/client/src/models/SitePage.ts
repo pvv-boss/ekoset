@@ -10,6 +10,7 @@ export default class SitePage {
   public siteSectionId: number | null
   public sitePageRouteName: string
   public sitePageUrl: string
+  public sitePageLogo: string
 }
 
 export enum SitePageType {

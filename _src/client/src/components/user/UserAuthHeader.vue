@@ -1,5 +1,5 @@
 <template>
-   <client-only>
+  <client-only>
     <section>
       <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
         <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
@@ -13,7 +13,7 @@
         </nuxt-link>
       </div>
     </section>
-   </client-only>
+  </client-only>
 </template>
 
 <script lang="ts">
@@ -50,8 +50,8 @@ export default class UserAuthHeader extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 .brc-top-menu__user_authenticated,
 .brc-top-menu__user_notauthenticated {

@@ -11,7 +11,11 @@
           ></AdminStatusSelector>
 
           <b-field label="Ед. измерения" horizontal style="margin-bottom:0px">
-            <b-input placeholder="Единица измерения" v-model="serviceItem.businessServiceUnit"></b-input>
+            <b-input
+              placeholder="Единица измерения"
+              v-model="serviceItem.businessServiceUnit"
+              @blur="saveService"
+            ></b-input>
           </b-field>
 
           <b-field label="Цена, руб." horizontal style="margin-bottom:0px">
@@ -160,7 +164,7 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import BusinessService from '@/models/ekoset/BusinessService.ts'
+import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'

@@ -44,7 +44,7 @@
             <div
               class="brc_admin-topmenu-list-item"
               v-for="iterItem in sitePageItems"
-              :key="iterItem.siteSectionId"
+              :key="iterItem.sitePageId"
             >
               <b-switch
                 v-model="iterItem.sitePageStatus"

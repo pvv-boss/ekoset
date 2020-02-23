@@ -68,7 +68,7 @@
                     </AdminImageUploader>
                   </b-field>
                 </div>
-                <div styel="margin-top:10px;">
+                <div style="margin-top:10px;">
                   <b-field label="Фото на карточке раздела">
                     <AdminImageUploader
                       id="smallImageFile"

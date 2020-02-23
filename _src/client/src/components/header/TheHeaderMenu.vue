@@ -1,15 +1,11 @@
 <template>
-  <ul
-    class="brc-page-header__main-menu"
-    :class="{ 'brc-main-menu_active': isMainMenuActive === true }"
-  >
+  <ul class="brc-page-header__main-menu">
     <template v-for="iterMenuItem in sitePageItems">
       <li
         :key="iterMenuItem.sitePageId"
         v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
       >
         <nuxt-link
-          @click.native="currentMenuClicked = iterMenuItem.sitePageId"
           :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
               params: 
                 {
@@ -17,7 +13,7 @@
                   page: iterMenuItem.sitePageUrl
                 }
               }"
-          :class="{active: currentMenuClicked === iterMenuItem.sitePageId}"
+          :class="{active: isActiveIndex (iterMenuItem)}"
         >{{iterMenuItem.sitePageName}}</nuxt-link>
       </li>
       <ThePriceMenuItem
@@ -44,7 +40,6 @@ import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
   }
 })
 export default class TheHeaderMenu extends Vue {
-  public isMainMenuActive = false
   public sitePageItems: SitePage[] = []
   public currentMenuClicked: number = -1
 
@@ -52,10 +47,15 @@ export default class TheHeaderMenu extends Vue {
     return getModule(AppStore, this.$store).currentSiteSection
   }
 
-  public menuClick (menuItem: SitePage) {
-    this.currentMenuClicked = menuItem.sitePageId
+  public isActiveIndex (menuItem: SitePage) {
+    const routeName = this.$route.name
+    if (routeName === 'custom-page') {
+      return this.$route.params.page === menuItem.sitePageUrl
+    } else {
+      return routeName === menuItem.sitePageRouteName
+      // return this.$route.name ? this.$route.name.split('-')[0] : ''
+    }
   }
-
 
   public isMenuItemEnablede (pageMenuItem: SitePage) {
     const currentSiteSectionId = !!this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
@@ -63,8 +63,6 @@ export default class TheHeaderMenu extends Vue {
   }
 
   public async mounted () {
-    // tslint:disable-next-line:no-console
-    console.log('mounted')
     this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }

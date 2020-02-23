@@ -73,9 +73,9 @@ const config = {
     {
       src: '@/plugins/yandex-share', mode: 'client'
     },
-    // {
-    //   src: '@/plugins/brc-route-middleware'
-    // },
+    {
+      src: '@/plugins/brc-route-middleware'
+    },
     {
       src: '@/plugins/vue-good-table'
     },

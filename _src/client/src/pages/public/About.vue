@@ -58,7 +58,7 @@ export default class About extends Vue {
     if (siteSectionSlug) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
-    this.breadCrumbList.push({ name: 'О компании', link: '' })
+    this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
 

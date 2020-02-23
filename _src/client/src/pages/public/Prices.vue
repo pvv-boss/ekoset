@@ -67,7 +67,7 @@ export default class Prices extends Vue {
     if (siteSectionSlug) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
-    this.breadCrumbList.push({ name: 'Цены', link: '' })
+    this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
   // private head () {

@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="getNuxtLink">
-    <img :src="logoImageSrc" :alt="getCurrentSiteSection" class="brc-logo_main" />
+    <img :src="logoImageSrc" :alt="currentSiteSectionName" class="brc-logo_main" />
   </nuxt-link>
 </template>
 
@@ -10,6 +10,7 @@ import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import { getServiceContainer } from '../../api/ServiceContainer'
+import SitePage from '@/models/SitePage'
 
 @Component({
   components: {
@@ -23,25 +24,46 @@ export default class TheHeaderLogo extends Vue {
   @Prop()
   private imageSrcForDesignMode: string
 
-  private currentLogoSrc = '/images/logo.png'
+  @Prop()
+  private sitePage: SitePage
 
-  private get getCurrentSiteSection () {
+  private defaultLogo = '/images/logo.png'
+  private currentLogoSrc: string = ''
+
+  private get currentSiteSectionName () {
     return getModule(AppStore, this.$store).currentSiteSectionName || 'Экосеть'
+  }
+
+  private get currentSitePage () {
+    return getModule(AppStore, this.$store).currentDefaultSitePage
   }
 
   private get logoImageSrc () {
     return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.currentLogoSrc
   }
 
-  @Watch('getCurrentSiteSection', { immediate: true })
+  @Watch('currentSiteSectionName', { immediate: true })
   private async updateLogoSrc () {
+    this.updateLogo()
+  }
+
+  @Watch('currentSitePage', { immediate: true })
+  private async updateLogoSrcFromCustomPage () {
+    this.updateLogo()
+  }
+
+  private async updateLogo () {
     if (!this.disignMode) {
       const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
-      if (siteSectionSlug) {
+      if (!!siteSectionSlug) {
         const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
-        this.currentLogoSrc = siteSection.siteSectionLogo || '/images/logo.png'
-      } else {
-        this.currentLogoSrc = '/images/logo.png'
+        this.currentLogoSrc = siteSection.siteSectionLogo || this.defaultLogo
+      }
+
+      if (!siteSectionSlug) {
+        // const sitePage = getModule(AppStore, this.$store).currentSitePage
+        const sitePage = getModule(AppStore, this.$store).currentDefaultSitePage
+        this.currentLogoSrc = !!sitePage && sitePage.sitePageLogo || this.defaultLogo
       }
     }
   }

@@ -116,6 +116,7 @@ export default class DynamicComponentsService extends BaseService {
     let serviceHasParent = false
     let relatedServiceList: any = null
     if (!!serviceSlug) {
+
       const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
       const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]

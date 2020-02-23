@@ -51,12 +51,18 @@ export default class SitePage {
   })
   public sitePageStatus: number
 
-
   @Column('numeric', {
     nullable: true,
     name: 'site_section_id'
   })
   public siteSectionId: number
+
+  @Column('text', {
+    nullable: true,
+    name: 'site_page_logo'
+  })
+  public sitePageLogo: string
+
 }
 
 export enum SitePageType {

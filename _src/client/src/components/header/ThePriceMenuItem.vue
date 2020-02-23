@@ -56,7 +56,7 @@ export default class ThePriceMenuItem extends Vue {
   @Watch('getCurrentSiteSection', { immediate: true })
   private async updatePriceList () {
     // tslint:disable-next-line:no-console
-    console.log('updatePriceList')
+    // console.log('updatePriceList')
     const siteSectionSlug = this.getCurrentSiteSection;
     this.serviceList = !!siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : await getServiceContainer().businessServiceService.getMainList()
   }

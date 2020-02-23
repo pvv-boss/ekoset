@@ -99,7 +99,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async getPriceListForService (serviceId: number) {
-    const query = `services/${serviceId}/price`
+    const query = `services/service/${serviceId}/price`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 

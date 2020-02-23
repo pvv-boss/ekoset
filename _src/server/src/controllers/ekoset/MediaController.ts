@@ -131,6 +131,17 @@ export default class MediaController extends BaseController {
     return MediaController.createSuccessResponse(result, response);
   }
 
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/sitepage/:sitePageId/logo')
+  public async saveSitePageLogo (
+    @Param('sitePageId') id: number,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveSitePageLogo(id, file);
+    return MediaController.createSuccessResponse(result, response);
+  }
 
   // @UseBefore(upload.single('file'))
   // @Post('/admin/export/pdf')

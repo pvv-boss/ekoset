@@ -2,6 +2,7 @@ import BaseService from '../BaseService';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { BusinessService } from '@/entities/ekoset/BusinessService';
 import * as slugify from '@sindresorhus/slugify';
+import { logger } from '@/utils/Logger';
 
 export default class BusinessServiceService extends BaseService {
   private businessClientTypeId = 1;

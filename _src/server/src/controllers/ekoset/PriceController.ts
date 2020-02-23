@@ -23,7 +23,7 @@ export default class PriceController extends BaseController {
     return BaseController.createSuccessResponse(result, response);
   }
 
-  @Get('/services/:serviceId/price')
+  @Get('/services/service/:serviceId/price')
   public async getPriceListForService (
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {

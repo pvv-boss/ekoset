@@ -91,6 +91,9 @@ export default class AdminDynamicComponentsContainer extends Vue {
 
   private editableComponentInfo: DynamicComponentInfo = new DynamicComponentInfo()
 
+  private editableComponentInfoState: DynamicComponentInfo = new DynamicComponentInfo()
+
+
   private newComponentInfo: DynamicComponentInfo = new DynamicComponentInfo()
 
   private isCardModalActive = false
@@ -115,11 +118,20 @@ export default class AdminDynamicComponentsContainer extends Vue {
   }
 
   private freeBlockEdit (blockInfo: DynamicComponentInfo) {
-    this.editableComponentInfo = blockInfo
+    this.editableComponentInfoState = blockInfo
+    this.editableComponentInfo = new DynamicComponentInfo()
+    this.editableComponentInfo.id = blockInfo.id
+    this.editableComponentInfo.props = {}
+    // this.editableComponentInfo.props.leftBlock
+    this.editableComponentInfo.props.leftBlock = blockInfo.props.leftBlock
+    this.editableComponentInfo.props.rightBlock = blockInfo.props.rightBlock
     this.isCardModalActive = true
   }
 
   private closeFreeBlockEditModal () {
+    this.editableComponentInfoState.id = this.editableComponentInfo.id
+    this.editableComponentInfoState.props.leftBlock = this.editableComponentInfo.props.leftBlock
+    this.editableComponentInfoState.props.rightBlock = this.editableComponentInfo.props.rightBlock
     this.isCardModalActive = false
     this.editableComponentInfo = new DynamicComponentInfo()
     this.fireSaveComponentsEvent()

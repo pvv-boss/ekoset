@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, RelationId, ManyToOne, JoinColumn } from 'typeorm';
 import { SiteSection } from './SiteSection';
 
 
@@ -12,14 +12,14 @@ export class BusinessService {
   public businessServiceId: number;
 
 
-
-  @ManyToOne(() => SiteSection)
+  @ManyToOne((type) => SiteSection)
   @JoinColumn({ name: 'site_section_id' })
-  public siteSection: Promise<SiteSection | null | number>;
+  public siteSection: Promise<SiteSection | null | number> | SiteSection;
 
   @Column({ name: 'site_section_id' })
-  @RelationId((business_service: BusinessService) => business_service.siteSection)
-  public siteSectionId: number | null;
+  @RelationId((serv: BusinessService) => serv.siteSection)
+  public siteSectionId: number;
+
 
   @Column('text', {
     nullable: false,
@@ -29,7 +29,7 @@ export class BusinessService {
 
 
   @Column('text', {
-    nullable: false,
+    nullable: true,
     name: 'business_service_h1'
   })
   public businessServiceH1: string;
@@ -39,65 +39,65 @@ export class BusinessService {
     nullable: true,
     name: 'business_service_slug'
   })
-  public businessServiceSlug: string | null;
+  public businessServiceSlug: string;
 
 
   @Column('text', {
     nullable: true,
     name: 'business_service_unit'
   })
-  public businessServiceUnit: string | null;
+  public businessServiceUnit: string;
 
 
-  @Column('numeric', {
+  @Column('text', {
     nullable: true,
     name: 'business_service_price'
   })
-  public businessServicePrice: string | null;
+  public businessServicePrice: string;
 
 
   @Column('numeric', {
     nullable: true,
     name: 'business_service_status'
   })
-  public businessServiceStatus: number | null;
+  public businessServiceStatus: number;
 
 
   @Column('numeric', {
     nullable: true,
     name: 'business_service_priority'
   })
-  public businessServicePriority: number | null;
+  public businessServicePriority: number;
 
 
   @Column('numeric', {
     nullable: true,
     name: 'business_service_parent_id'
   })
-  public businessServiceParentId: number | null;
+  public businessServiceParentId: number;
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_free_text1'
-  })
-  public businessServiceFreeText1: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_free_text1'
+  // })
+  // public businessServiceFreeText1: string ;
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_free_text2'
-  })
-  public businessServiceFreeText2: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_free_text2'
+  // })
+  // public businessServiceFreeText2: string ;
 
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_footer_content_left'
-  })
-  public businessServiceFooterContentLeft: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_footer_content_left'
+  // })
+  // public businessServiceFooterContentLeft: string ;
 
-  @Column('text', {
-    nullable: true,
-    name: 'business_service_footer_content_right'
-  })
-  public businessServiceFooterContentRight: string | null;
+  // @Column('text', {
+  //   nullable: true,
+  //   name: 'business_service_footer_content_right'
+  // })
+  // public businessServiceFooterContentRight: string ;
 }

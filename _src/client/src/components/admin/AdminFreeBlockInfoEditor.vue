@@ -22,14 +22,14 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import AdminFreeBlockItem from '@/components/admin/AdminFreeBlockItem.vue'
+// import AdminFreeBlockItem from '@/components/admin/AdminFreeBlockItem.vue'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 
 @Component({
   components: {
-    AdminFreeBlockItem,
+    // AdminFreeBlockItem,
     AdminFreeContentBlockEditor
   }
 })

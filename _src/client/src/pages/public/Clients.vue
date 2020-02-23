@@ -84,7 +84,7 @@ export default class Clients extends Vue {
     if (siteSectionSlug) {
       this.breadCrumbList.push({ name: siteSectionName, link: 'activity-card', params: { siteSection: siteSectionSlug } })
     }
-    this.breadCrumbList.push({ name: 'Наши клиенты', link: '' })
+    this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
   // private head () {

@@ -58,7 +58,21 @@
           </div>
 
           <div class="brc-admin-card-field-list_row">
+            <div v-if="isMainMenuItem">
+              <b-field label="Логотип в шапке сайта">
+                <AdminImageUploader
+                  id="siteSectionLogo"
+                  :srcImage="sitePageItem.sitePageLogo"
+                  @uploader:newimageloaded="updateSitePageLogo($event)"
+                >
+                  <template v-slot="{imageSrc}">
+                    <TheHeaderLogo :disignMode="true" :imageSrcForDesignMode="imageSrc"></TheHeaderLogo>
+                  </template>
+                </AdminImageUploader>
+              </b-field>
+            </div>
             <AdminDynamicComponentsContainer
+              style="margin-top:10px;"
               v-model="dynamicComponentInfo"
               @freecomponent:save="saveDynamicComponentsInfo"
               @freecomponent:delete="refreshDynamicComponentsInfo"
@@ -91,7 +105,7 @@ import SitePage, { SitePageType } from '@/models/SitePage'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
-
+import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
 @Component({
   components: {
@@ -101,7 +115,8 @@ import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComp
     AdminImageUploader,
     BaseCard,
     AdminDynamicComponentsContainer,
-    AdminFreeContentBlockEditor
+    AdminFreeContentBlockEditor,
+    TheHeaderLogo
   }
 })
 export default class AdminTopMenuCard extends Vue {
@@ -131,6 +146,10 @@ export default class AdminTopMenuCard extends Vue {
     return this.sitePageItem.sitePageCode in SitePageType
   }
 
+  private get isMainMenuItem () {
+    return this.sitePageItem.sitePageCode === SitePageType.MAIN
+  }
+
   private async asyncData (context: NuxtContext) {
     const sitePageId = Number(context.params.sitePageId)
     const sitePageItem = await getServiceContainer().topMenuService.getSitePageById(sitePageId)
@@ -156,6 +175,13 @@ export default class AdminTopMenuCard extends Vue {
 
   private async refreshDynamicComponentsInfo () {
     this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(this.sitePageItem.sitePageId, true)
+  }
+
+  private async updateSitePageLogo (imageFile: string) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveSitePageLogo(this.sitePageItem.sitePageId, formData)
+
   }
 }
 </script>
