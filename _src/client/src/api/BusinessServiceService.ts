@@ -108,7 +108,7 @@ export default class BusinessServiceService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  public async getPriceListForActivity (siteSectionSlug: string, activityId: number) {
+  public async getPriceListForActivity (siteSectionSlug: string, activityId: number | null) {
     const query = `services/price/activity/${this.getIdBySlug(siteSectionSlug)}/${activityId}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }

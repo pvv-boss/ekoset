@@ -81,7 +81,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async adminGetClActivityList () {
-    return this.getDbViewResult(this.apiClActivityViewName);
+    return this.getDbViewResult(this.apiClActivityViewName + ' ORDER BY cl_activity_name');
   }
   //
 

@@ -45,7 +45,7 @@ export default class PriceController extends BaseController {
   @Get('/services/price/activity/:siteSectionId/:activityId')
   public async getPriceListForActivity (
     @Res() response: Response,
-    @Param('serviceId') siteSectionId: number,
+    @Param('siteSectionId') siteSectionId: number,
     @Param('activityId') activityId: number,
   ) {
 

@@ -139,7 +139,7 @@ export default class DynamicComponentsService extends BaseService {
           : getServiceContainer().businessServiceService.getPriceListForPersonBySiteSectionId(siteSectionSlug)
       } else {
         serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
-        priceList = getServiceContainer().businessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionSlug)
+        priceList = getServiceContainer().businessServiceService.getPriceListForActivity(siteSectionSlug, clActivityId)
       }
     }
 
@@ -151,7 +151,7 @@ export default class DynamicComponentsService extends BaseService {
 
     // Для рутовых страниц
     if (!serviceList) {
-     // serviceList = getServiceContainer().businessServiceService.getMainList()
+      // serviceList = getServiceContainer().businessServiceService.getMainList()
       priceList = getServiceContainer().businessServiceService.priceList()
     }
 

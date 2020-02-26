@@ -48,6 +48,18 @@
     text-align: unset !important;
   }
 
+  .ql-align-justify {
+    text-align: justify;
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-right {
+    text-align: right;
+  }
+
   strong {
     font-weight: $font-medium;
   }
