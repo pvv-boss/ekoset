@@ -10,12 +10,12 @@ export default class BusinessServiceService extends BaseService {
     return this.getById(this.getIdBySlug(slug))
   }
 
-  // Все услуги
-  public async  getAll (pagination?: Pagination) {
-    const query = 'services'
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
-  }
+  // // Все услуги
+  // public async  getAll (pagination?: Pagination) {
+  //   const query = 'services'
+  //   const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
+  //   return result
+  // }
 
   // Для главной страницы
   public async  getMainList (pagination?: Pagination) {

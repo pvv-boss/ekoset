@@ -151,7 +151,7 @@ export default class DynamicComponentsService extends BaseService {
 
     // Для рутовых страниц
     if (!serviceList) {
-      serviceList = getServiceContainer().businessServiceService.getMainList()
+     // serviceList = getServiceContainer().businessServiceService.getMainList()
       priceList = getServiceContainer().businessServiceService.priceList()
     }
 

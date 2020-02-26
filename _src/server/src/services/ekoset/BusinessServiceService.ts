@@ -20,7 +20,8 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async getMainList () {
-    return this.getDbViewResult(this.apiViewName, null, 'business_service_parent_id IS NULL and business_service_status=1');
+    // return this.getDbViewResult(this.apiViewName, null, 'business_service_parent_id IS NULL and business_service_status=1');
+    return this.getDbViewResult('v_api_root_service_list');
   }
 
   public async getAllBySiteSectionId (siteSectionId: number, excludeChild: boolean) {

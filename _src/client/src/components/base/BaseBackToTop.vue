@@ -100,6 +100,7 @@ export default class BaseBackToTop extends Vue {
   }
 
   @media (max-width: 1024px) {
+    display: none;
     bottom: 80px;
   }
 }

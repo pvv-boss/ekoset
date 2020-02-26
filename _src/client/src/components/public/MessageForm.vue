@@ -152,11 +152,12 @@ export default class MessageForm extends Vue {
 <style lang="scss">
 @import '@/styles/variables.scss';
 .brc-feedback {
-  border: 3px solid lightgrey;
+  border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 30px 15px;
   max-width: 900px;
   margin: 60px auto 0;
+  max-height: calc(100vh - 100px);
 
   h2,
   h3 {
@@ -301,7 +302,23 @@ export default class MessageForm extends Vue {
 }
 @media (max-width: 768px) {
   .brc-feedback {
-    padding: 15px 0;
+    margin: 0 auto !important;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    textarea {
+      height: 70px !important;
+    }
+    input {
+      height: 30px !important;
+    }
+    button {
+      height: 30px !important;
+    }
+    .brc-input-addon {
+      padding-top: 6px !important;
+    }
   }
   .brc-message-form__row {
     flex-basis: 100% !important;
@@ -311,6 +328,9 @@ export default class MessageForm extends Vue {
     &:first-child {
       margin-bottom: 0;
     }
+  }
+  .brc-message-form__row:last-child {
+    margin-bottom: 0 !important;
   }
   .brc-message-form__button .attach-file {
     float: none !important;

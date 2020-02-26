@@ -64,8 +64,10 @@ export default class AppStore extends VuexModule {
 
   @Action
   public async changeDefaultCustomPage () {
-    const sitePageInfo = await getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
-    this.context.commit('setDefaultCustomPage', sitePageInfo)
+    if (!this.currentDefaultSitePage) {
+      const sitePageInfo = await getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
+      this.context.commit('setDefaultCustomPage', sitePageInfo)
+    }
   }
 
   public get currentSiteSection (): string | null {

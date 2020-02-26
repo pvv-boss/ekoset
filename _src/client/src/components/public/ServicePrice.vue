@@ -43,7 +43,7 @@
                 >{{iterPriceItem.businesservicename}}</nuxt-link>
               </td>
               <td>{{iterPriceItem.businesserviceunit}}</td>
-              <td>{{iterPriceItem.businesserviceprice}}</td>
+              <td class>{{iterPriceItem.businesserviceprice}}</td>
             </tr>
           </template>
           <template v-else>
@@ -122,6 +122,13 @@ export default class ServicePrice extends Vue {
       padding: 10px;
       border-bottom: 1px solid #f4f4f5;
     }
+    th:last-child {
+      text-align: right;
+      padding-right: 40px;
+      @media (max-width: 500px) {
+        padding-right: 10px;
+      }
+    }
     th:first-child {
       padding-left: 40px;
       @media (max-width: 500px) {
@@ -138,10 +145,14 @@ export default class ServicePrice extends Vue {
       }
     }
     td:last-child {
-      text-align: left;
+      text-align: right;
       word-wrap: break-word;
       overflow-wrap: break-word;
       word-break: break-word;
+      padding-right: 40px;
+      @media (max-width: 500px) {
+        padding-right: 10px;
+      }
     }
     .brc-service-price-td_bold {
       font-weight: 500;

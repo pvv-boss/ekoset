@@ -25,7 +25,7 @@ const config = {
     script: [
       // { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
       // { src: 'https://yastatic.net/share2/share.js' }
-      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', async: true }
+      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', defer: true }
     ],
 
     link: [{

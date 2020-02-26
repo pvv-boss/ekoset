@@ -8,6 +8,8 @@ const baseMiddleware = (context: NuxtContext) => {
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null
   appStore.changeCurrentSiteSection(newSiteSection)
   // appStore.changeCurrentCustomPage(context.params.page)
+
+  getModule(AppStore, context.store).changeDefaultCustomPage()
 }
 
 export default baseMiddleware

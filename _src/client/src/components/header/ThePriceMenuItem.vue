@@ -2,23 +2,57 @@
   <li class="brc-price-menu-wrapper" @click="onClick" v-click-outside="()=>{isMenuOpened=false}">
     <span id="dont_outside">Услуги</span>
     <ul class="brc-price-menu" :class="{ 'active': isMenuOpened === true }">
-      <li
-        v-for="iterService in serviceList"
-        :key="iterService.businessServiceId"
-        class="brc-price-menu__item"
-        style="padding:10px !important;"
-      >
-        <nuxt-link
-          :to="{ name: 'service-card', params: { service: iterService.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-          style="padding:-5px !important;"
-        >{{iterService.businessServiceName}}</nuxt-link>
-      </li>
+      <template v-if="getCurrentSiteSection !== null">
+        <li
+          v-for="iterService in serviceList"
+          :key="iterService.businessServiceId"
+          class="brc-price-menu__item"
+          style="padding:10px !important;"
+        >
+          <nuxt-link
+            :to="{ name: 'service-card', params: { service: iterService.businessServiceUrl, siteSection: iterService.siteSectionUrl}}"
+            style="padding:-5px !important;"
+          >{{iterService.businessServiceName}}</nuxt-link>
+        </li>
+      </template>
+
+      <template v-else v-for="iterPriceListItem in servicePriceList">
+        <li
+          :key="iterPriceListItem.id"
+          class="brc-price-menu__item_bold"
+          style="padding:10px !important;"
+        >
+          <nuxt-link
+            :to="{ name: 'activity-card', params: {siteSection: iterPriceListItem.sitesectionurl}}"
+            style="padding:-5px !important;"
+          >{{iterPriceListItem.name}}</nuxt-link>
+        </li>
+        <template v-for="iterPriceItem in iterPriceListItem.pricelist">
+          <li
+            :key="iterPriceItem.businesserviceid"
+            class="brc-price-menu__item"
+            style="padding:10px !important;"
+          >
+            <nuxt-link
+              :to="{ name: 'service-card', params: { service: iterPriceItem.businesserviceurl, siteSection: iterPriceItem.sitesectionurl}}"
+              style="padding:-5px !important;"
+            >{{iterPriceItem.businesservicename}}</nuxt-link>
+          </li>
+        </template>
+      </template>
+
       <li
         class="brc-price-menu__item"
         style="padding:10px !important;"
         v-if="getCurrentSiteSection !== null"
       >
         <nuxt-link
+          v-if="getCurrentSiteSection !== null"
+          :to="{ name: 'activity-card', params: {siteSection: getCurrentSiteSection}}"
+          style="padding:-5px !important; color:red; font-weight:500;"
+        >Все услуги...</nuxt-link>
+        <nuxt-link
+          v-else
           :to="{ name: 'main'}"
           style="padding:-5px !important; color:red; font-weight:500;"
         >Все услуги...</nuxt-link>
@@ -43,6 +77,7 @@ import BusinessService from '@/models/ekoset/BusinessService'
 export default class ThePriceMenuItem extends Vue {
   private isMenuOpened = false
   private serviceList: BusinessService[] = []
+  private servicePriceList = []
 
   private get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
@@ -55,15 +90,12 @@ export default class ThePriceMenuItem extends Vue {
 
   @Watch('getCurrentSiteSection', { immediate: true })
   private async updatePriceList () {
-    // tslint:disable-next-line:no-console
-    // console.log('updatePriceList')
     const siteSectionSlug = this.getCurrentSiteSection;
-    this.serviceList = !!siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : await getServiceContainer().businessServiceService.getMainList()
+    this.serviceList = !!siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : []
+    this.servicePriceList = !siteSectionSlug ? await getServiceContainer().businessServiceService.getMainList() : []
   }
 
   private async created () {
-    // tslint:disable-next-line:no-console
-    // console.log('created')
     this.updatePriceList()
   }
 
@@ -110,7 +142,8 @@ export default class ThePriceMenuItem extends Vue {
   }
 }
 
-.brc-price-menu__item {
+.brc-price-menu__item,
+.brc-price-menu__item_bold {
   font-size: 16px !important;
   list-style-type: none;
   display: flex !important;
@@ -143,7 +176,19 @@ export default class ThePriceMenuItem extends Vue {
   font-size: 30px;
 }
 
-.brc-price-menu__item + .brc-price-menu__item {
+.brc-price-menu__item_bold {
+  font-weight: 500;
+  > a {
+    font-size: 15px !important;
+    text-align: left !important;
+  }
+}
+
+// .brc-price-menu__item + .brc-price-menu__item {
+//   border-top: 1px solid lightgray;
+// }
+
+.brc-price-menu__item {
   border-top: 1px solid lightgray;
 }
 </style>

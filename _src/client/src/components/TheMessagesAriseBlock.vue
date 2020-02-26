@@ -72,6 +72,7 @@ export default class TheMessagesAriseBlock extends Vue {
   padding: 16px;
 
   > .brc-feedback {
+    max-height: calc(100vh - 60px);
     background-color: white;
     h2,
     h3 {
@@ -92,15 +93,21 @@ export default class TheMessagesAriseBlock extends Vue {
   .brc-message-arise__wrapper {
     > .brc-feedback {
       margin: 0 auto !important;
+      padding: 0px;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
       textarea {
         height: 80px;
       }
       input {
-        height: 38px !important;
+        height: 32px !important;
+      }
+      button {
+        height: 38px;
       }
       .brc-input-addon {
-        padding-top: 10px !important;
+        padding-top: 6px !important;
       }
     }
     .brc-message-form__row:last-child {

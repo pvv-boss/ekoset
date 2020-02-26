@@ -121,15 +121,19 @@ export default class AdminDynamicComponentsContainer extends Vue {
     this.editableComponentInfoState = blockInfo
     this.editableComponentInfo = new DynamicComponentInfo()
     this.editableComponentInfo.id = blockInfo.id
+    this.editableComponentInfo.head = blockInfo.head
+    this.editableComponentInfo.dispalyName = blockInfo.dispalyName
     this.editableComponentInfo.props = {}
-    // this.editableComponentInfo.props.leftBlock
     this.editableComponentInfo.props.leftBlock = blockInfo.props.leftBlock
     this.editableComponentInfo.props.rightBlock = blockInfo.props.rightBlock
+
     this.isCardModalActive = true
   }
 
   private closeFreeBlockEditModal () {
     this.editableComponentInfoState.id = this.editableComponentInfo.id
+    this.editableComponentInfoState.head = this.editableComponentInfo.head
+    this.editableComponentInfoState.dispalyName = this.editableComponentInfo.dispalyName
     this.editableComponentInfoState.props.leftBlock = this.editableComponentInfo.props.leftBlock
     this.editableComponentInfoState.props.rightBlock = this.editableComponentInfo.props.rightBlock
     this.isCardModalActive = false
