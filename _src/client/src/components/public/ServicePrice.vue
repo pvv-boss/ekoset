@@ -181,7 +181,7 @@ export default class ServicePrice extends Vue {
       width: 10px;
       line-height: 0px;
       font-size: 30px;
-      margin-top: calc(0.5em - 2px);
+      margin-top: calc(0.5em - 3px);
       @media (max-width: 500px) {
         margin-top: calc(0.5em - 6px);
       }

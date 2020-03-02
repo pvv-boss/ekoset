@@ -28,19 +28,20 @@ const config = {
       { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', defer: true }
     ],
 
-    link: [{
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic'
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://unpkg.com/buefy/dist/buefy.min.css'
-    },
-    {
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.png'
-    }
+    link: [
+      //   {
+      //   rel: 'stylesheet',
+      //   href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic'
+      // },
+      // {
+      //   rel: 'stylesheet',
+      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css'
+      // },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.png'
+      }
       // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
     ],
 
@@ -102,7 +103,16 @@ const config = {
       path: 'src/routers',
       fileName: 'index.ts'
     }],
-    'nuxt-buefy'
+    'nuxt-buefy',
+    ['@nuxtjs/yandex-metrika',
+      {
+        id: '57712291',
+        // webvisor: false,
+        clickmap: true,
+        // useCDN:false,
+        trackLinks: true,
+        accurateTrackBounce: true,
+      }]
   ],
 
   build: {

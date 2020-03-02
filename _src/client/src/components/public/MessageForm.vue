@@ -157,7 +157,6 @@ export default class MessageForm extends Vue {
   padding: 30px 15px;
   max-width: 900px;
   margin: 60px auto 0;
-  max-height: calc(100vh - 100px);
 
   h2,
   h3 {
@@ -302,6 +301,7 @@ export default class MessageForm extends Vue {
 }
 @media (max-width: 768px) {
   .brc-feedback {
+    max-height: calc(100vh - 100px);
     margin: 0 auto !important;
     padding: 0px;
     padding-top: 10px;

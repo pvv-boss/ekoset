@@ -72,7 +72,6 @@ export default class TheMessagesAriseBlock extends Vue {
   padding: 16px;
 
   > .brc-feedback {
-    max-height: calc(100vh - 60px);
     background-color: white;
     h2,
     h3 {
@@ -92,6 +91,8 @@ export default class TheMessagesAriseBlock extends Vue {
 @media (max-width: 768px) {
   .brc-message-arise__wrapper {
     > .brc-feedback {
+      max-height: calc(100vh - 60px);
+      overflow: hidden;
       margin: 0 auto !important;
       padding: 0px;
       padding-top: 10px;

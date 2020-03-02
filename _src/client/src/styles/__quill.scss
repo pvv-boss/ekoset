@@ -1,0 +1,148 @@
+@import "@/styles/variables.scss";
+
+/*! purgecss start ignore */
+
+.brc-text-editor_simple {
+  min-width: 300px;
+  //padding: 10px;
+  background-color: white;
+}
+
+.brc-vue-editor {
+  min-width: 300px;
+  max-width: 100%;
+  background-color: white;
+  overflow: hidden;
+}
+
+.ql-container {
+  padding: 1em;
+  overflow-y: auto;
+  background-color: white;
+}
+
+.ql-tooltip {
+  left: 5px !important;
+}
+
+
+// .ql-editor iframe {
+//   pointer-events: none;
+// }
+
+.brc-article-item>article,
+.brc-page-description,
+.brc-page__dynamic_block,
+.ql-editor {
+  blockquote {
+    margin: 0 !important;
+    color: #231E28 !important;
+    margin: 15px 0 15px 0 !important;
+    padding: 20px !important;
+    border: 1px solid $red !important;
+    font-weight: $font-medium;
+    font-size: 17px;
+    position: relative;
+  }
+
+
+  @media (max-width: 768px) {
+    blockquote {
+      padding: 10px !important;
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-align: unset !important;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-right {
+    text-align: right;
+  }
+
+  // iframe {
+  //   display: block;
+
+  //   &.ql-align-center {
+  //     margin: auto;
+  //   }
+
+  //   &.ql-align-right {
+  //     margin-left: auto;
+  //   }
+  // }
+
+  strong {
+    font-weight: $font-medium;
+  }
+
+  ol {
+    li {
+      margin-left: 2em;
+    }
+  }
+
+  ol {
+    li[data-list='bullet'] {
+      list-style-type: none;
+      margin-left: 1em !important;
+
+      span:before {
+        content: "" !important;
+      }
+    }
+
+    li[data-list='bullet']:before {
+      color: $red;
+      /* Цвет маркера */
+      content: "■";
+      /* Сам маркер */
+      padding-right: 10px;
+      /* Расстояние от маркера до текста */
+    }
+  }
+
+  ol {
+    padding: 0px !important;
+
+    li[data-list='ordered'] {
+      padding: 0px !important;
+    }
+  }
+
+  ul {
+    li {
+      list-style-type: none;
+      /* Прячем исходные маркеры */
+    }
+
+    li:before {
+      color: $red;
+      /* Цвет маркера */
+      content: "■";
+      /* Сам маркер */
+      padding-right: 10px;
+      /* Расстояние от маркера до текста */
+    }
+  }
+
+  .ql-size-large {
+    font-size: $font-big;
+  }
+
+  .ql-size-small {
+    font-size: $font-small;
+  }
+}
+
+/*! purgecss end ignore */

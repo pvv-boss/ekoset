@@ -70,7 +70,7 @@ export default class BaseBackToTop extends Vue {
 
   position: fixed;
   z-index: 1000;
-  bottom: 40px;
+  bottom: calc(100vh / 2);
   right: 20px;
 
   transition: all 0.4s ease-in-out;

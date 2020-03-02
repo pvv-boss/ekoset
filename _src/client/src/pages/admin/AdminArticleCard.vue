@@ -117,10 +117,7 @@
           </b-tab-item>
           <b-tab-item label="Содержание">
             <div class="brc-admin-panel__article">
-              <AdminArticleEditor
-                v-model="articleItem.articleBody"
-                style="max-width:75% !important;"
-              ></AdminArticleEditor>
+              <AdminFreeContentBlockEditor v-model="articleItem.articleBody"></AdminFreeContentBlockEditor>
             </div>
           </b-tab-item>
         </b-tabs>
@@ -136,7 +133,7 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import AdminArticleEditor from '@/components/admin/AdminArticleEditor.vue'
+import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -157,7 +154,7 @@ import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
 
 @Component({
   components: {
-    AdminArticleEditor,
+    AdminFreeContentBlockEditor,
     BreadCrumbs,
     AdminSiteSectionSelector,
     AdminServiceSelector,
@@ -276,7 +273,7 @@ export default class AdminArticleCard extends Vue {
   margin-left: auto;
   margin-right: auto;
   *.ql-editor {
-    height: 60vh !important;
+    height: 65vh !important;
     // height: 100% !important;
   }
 }

@@ -146,13 +146,15 @@ export default class ThePriceMenuItem extends Vue {
 
 .brc-price-menu__close {
   display: none;
-  position: absolute;
+  position: sticky;
   float: right;
   font-size: 36px !important;
-  color: gray;
+  background: rgba(255, 255, 255, 0);
+  color: $text-color;
   cursor: pointer;
   right: 15px;
-  top: -5px;
+  top: 10px;
+  line-height: 30px;
   margin-top: 0 !important;
 
   @media (max-width: 900px) {

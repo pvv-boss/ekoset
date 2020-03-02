@@ -26,7 +26,7 @@ export default class BusinessTypeOfferListItem extends Vue {
   @Prop()
   private offerItem: IndividualOffer
 
- @Prop()
+  @Prop()
   private imageSrcForDesignMode: string
 
   private get imageSrc () {
@@ -69,11 +69,17 @@ export default class BusinessTypeOfferListItem extends Vue {
       filter: grayscale(100%);
       -webkit-filter: grayscale(100%);
       transition: all 0.1s;
+
+      @media (max-width: 768px) {
+        transform: none;
+        filter: none;
+      }
     }
     h3 {
       width: 100%;
       height: 100%;
-      background-color: rgba(196, 196, 196, 0.7);
+      background-color: hsla(0, 0%, 100%, 0.8);
+      padding: 10px;
       position: relative;
       display: flex;
       align-items: center;
@@ -81,8 +87,16 @@ export default class BusinessTypeOfferListItem extends Vue {
       color: #1a1a1a;
       font-size: 20px;
       font-weight: 500;
-      text-align: center;
+      text-align: center !important;
       transition: all 0.1s;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      @media (max-width: 768px) {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 18px;
+      }
     }
     &:hover {
       img {
