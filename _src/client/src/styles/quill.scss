@@ -10,7 +10,7 @@
   //.ql-video {
   pointer-events: none !important;
   display: block;
-  max-width: 100%;
+  // max-width: 100%;
   //}
 }
 
@@ -18,6 +18,27 @@
 .brc-page-description,
 .brc-page__dynamic_block,
 .ql-editor {
+  .ql-video-wrapper {
+    width: 80%;
+    margin: auto;
+  }
+
+  .ql-video-inner {
+    padding-top: 56.25%;
+    position: relative;
+    height: 0;
+  }
+
+  .ql-video-inner iframe,
+  .ql-video-inner object,
+  .ql-video-inner embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
 
   .ql-font-serif {
     font-family: Georgia, Times New Roman, serif;
@@ -54,6 +75,14 @@
 
   .ql-align-right {
     text-align: right;
+  }
+
+  .ql-align-center div {
+    margin: 0 auto !important;
+  }
+
+  .ql-align-right div {
+    margin: 0 0 0 auto !important;
   }
 
   blockquote {

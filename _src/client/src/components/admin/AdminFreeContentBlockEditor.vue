@@ -30,7 +30,8 @@ export default class AdminFreeContentBlockEditor extends Vue {
         modules: ['Resize', 'DisplaySize']
       },
       videoResize: {
-        modules: ['Resize', 'DisplaySize']
+        modules: ['Resize', 'DisplaySize'],
+        tagName: 'iframe'
       },
       imageDrop: true
     }
