@@ -28,6 +28,10 @@ a {
   }
 }
 
+img {
+  display: block;
+}
+
 .clearfix::after {
   content: "";
   display: table;

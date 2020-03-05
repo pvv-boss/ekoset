@@ -93,7 +93,7 @@ export default class BusinessTypeOfferListItem extends Vue {
       overflow-wrap: break-word;
       word-break: break-word;
       @media (max-width: 768px) {
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.3);
         color: white;
         font-size: 18px;
       }
@@ -106,7 +106,7 @@ export default class BusinessTypeOfferListItem extends Vue {
       }
       h3 {
         color: #ffffff;
-        background-color: rgba(196, 196, 196, 0);
+        background-color: rgba(0, 0, 0, 0.3);
         text-shadow: 0 1px 9px #26272d;
       }
     }

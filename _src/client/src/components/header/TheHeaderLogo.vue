@@ -24,8 +24,8 @@ export default class TheHeaderLogo extends Vue {
   @Prop()
   private imageSrcForDesignMode: string
 
-  @Prop()
-  private sitePage: SitePage
+  // @Prop()
+  // private sitePage: SitePage
 
   private defaultLogo = '/images/logo.png'
   private currentLogoSrc: string = ''
@@ -34,9 +34,9 @@ export default class TheHeaderLogo extends Vue {
     return getModule(AppStore, this.$store).currentSiteSectionName || 'Экосеть'
   }
 
-  private get currentSitePage () {
-    return getModule(AppStore, this.$store).currentDefaultSitePage
-  }
+  // private get currentSitePage () {
+  //   return getModule(AppStore, this.$store).currentDefaultSitePage
+  // }
 
   private get logoImageSrc () {
     return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.currentLogoSrc
@@ -47,17 +47,17 @@ export default class TheHeaderLogo extends Vue {
     this.updateLogo()
   }
 
-  @Watch('currentSitePage', { immediate: true })
-  private async updateLogoSrcFromCustomPage () {
-    this.updateLogo()
-  }
+  // @Watch('currentSitePage', { immediate: true })
+  // private async updateLogoSrcFromCustomPage () {
+  //   this.updateLogo()
+  // }
 
   private async updateLogo () {
     if (!this.disignMode) {
       const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
       if (!!siteSectionSlug) {
         const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
-        this.currentLogoSrc = siteSection.siteSectionLogo || this.defaultLogo
+        this.currentLogoSrc = !!siteSection ? siteSection.siteSectionLogo : this.defaultLogo
       }
 
       if (!siteSectionSlug) {
@@ -85,6 +85,8 @@ export default class TheHeaderLogo extends Vue {
 .brc-logo_main {
   width: 277px;
   height: 96px;
+  display: block;
+  margin-bottom: 5px;
 
   @media (max-width: 900px) {
     max-height: 60px !important;

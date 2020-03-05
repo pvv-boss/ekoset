@@ -28,7 +28,8 @@
     "vue-router": "^3.1.6",
     "vue2-editor": "latest",
     "vuedraggable": "latest",
-    "vuelidate": "^0.7.5"
+    "vuelidate": "^0.7.5",
+    "nuxt-webfontloader": "latest"
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.8.4",

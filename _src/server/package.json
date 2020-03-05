@@ -70,6 +70,7 @@
     "express-session": "latest",
     "express-validator": "latest",
     "helmet": "latest",
+    "intl": "^1.2.5",
     "jsonwebtoken": "latest",
     "mime-types": "^2.1.26",
     "multer": "latest",

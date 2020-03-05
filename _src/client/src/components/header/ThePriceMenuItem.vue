@@ -47,13 +47,12 @@
         style="padding:10px !important;"
         v-if="getCurrentSiteSection !== null"
       >
-        <nuxt-link
+        <!-- <nuxt-link
           v-if="getCurrentSiteSection !== null"
           :to="{ name: 'activity-card', params: {siteSection: getCurrentSiteSection}}"
           style="padding:-5px !important; color:red; font-weight:500;"
-        >Все услуги...</nuxt-link>
+        >Все услуги...</nuxt-link>-->
         <nuxt-link
-          v-else
           :to="{ name: 'main'}"
           style="padding:-5px !important; color:red; font-weight:500;"
         >Все услуги...</nuxt-link>

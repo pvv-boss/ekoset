@@ -25,15 +25,16 @@ export default class AdminFreeContentBlockEditor extends Vue {
 
   private editorSettings = {
     theme: 'snow',
+    scrollingContainer: `#${this.id}`,
     modules: {
       imageResize: {
         modules: ['Resize', 'DisplaySize']
-      },
-      videoResize: {
-        modules: ['Resize', 'DisplaySize'],
-        tagName: 'iframe'
-      },
-      imageDrop: true
+      }
+      //  videoResize: {
+      //    modules: ['Resize', 'DisplaySize'],
+      //    tagName: 'iframe'
+      //  },
+      // imageDrop: true
     }
   }
 

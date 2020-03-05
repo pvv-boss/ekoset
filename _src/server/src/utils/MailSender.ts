@@ -16,13 +16,13 @@ export default class MailSender {
 
   public static smtpTransport = nodemailer.createTransport(MailSender.smtpOptions);
 
-  public static send (to: string, subject: string, text: string, html?: string) {
+  public static send (from: string, to: string, subject: string, text: string, html?: string) {
     const mailOptions = {
       to,
       subject,
       text,
       html,
-      from: AppConfig.mail.from
+      from
     };
 
     const sendCallback = (err: Error | null, info: SentMessageInfo) => {
@@ -35,11 +35,15 @@ export default class MailSender {
   }
 
   public static sendFromTemplate (to: string, subject: string, templateName: string, format: (template: string) => string) {
+    MailSender.sendFromTemplateFr(AppConfig.mail.from, to, subject, templateName, format)
+  }
+
+  public static sendFromTemplateFr (from: string, to: string, subject: string, templateName: string, format: (template: string) => string) {
     const filePath = path.resolve('mail', templateName + '.html');
     if (fs.existsSync(filePath)) {
       const templateContent = fs.readFileSync(filePath, 'utf8');
-      const text = format ? format(templateContent) : templateContent;
-      this.send(to, subject, text, text);
+      const text = !!format ? format(templateContent) : templateContent;
+      this.send(from, to, subject, text, text);
     }
   }
 }

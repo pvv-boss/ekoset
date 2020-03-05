@@ -27,7 +27,7 @@
         <ul class="brc-footer-list-link">
           <li v-for="serviceItem in serviceListForBusiness" :key="serviceItem.businessServiceId">
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
+              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: serviceItem.siteSectionUrl}}"
             >{{serviceItem.businessServiceName}}</nuxt-link>
           </li>
         </ul>

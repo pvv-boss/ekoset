@@ -25,18 +25,19 @@ const config = {
     script: [
       // { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
       // { src: 'https://yastatic.net/share2/share.js' }
-      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', defer: true }
+      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', async: true }
     ],
 
+    // Если получится в прелоад, то и фонт сюда
     link: [
-      //   {
-      //   rel: 'stylesheet',
-      //   href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&&display=swap&subset=cyrillic'
-      // },
-      // {
-      //   rel: 'stylesheet',
-      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css'
-      // },
+      {
+        rel: 'stylesheet',
+        href: '//unpkg.com/buefy/dist/buefy.min.css',
+      },
+      {
+        rel: 'stylesheet',
+        href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css'
+      },
       {
         rel: 'icon',
         type: 'image/x-icon',
@@ -99,17 +100,18 @@ const config = {
 
   modules: [
     'nuxt-purgecss',
+    'nuxt-webfontloader',
     ['@nuxtjs/router', {
       path: 'src/routers',
       fileName: 'index.ts'
     }],
-    'nuxt-buefy',
+    ['nuxt-buefy', { css: false, materialDesignIcons: false }],
     ['@nuxtjs/yandex-metrika',
       {
         id: '57712291',
         // webvisor: false,
         clickmap: true,
-        // useCDN:false,
+        useCDN: true,
         trackLinks: true,
         accurateTrackBounce: true,
       }]
@@ -119,7 +121,7 @@ const config = {
     // analyze: true,
     extractCSS: true,
     splitChunks: {
-      layouts: true
+      //  layouts: true
     },
 
     filenames: {
@@ -152,6 +154,12 @@ const config = {
     // whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, , /file.*?$/, /grid.*?$/, /help.*?$/, ]
     whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /theme.*?$/],
     whitelist: ['label', 'field-label']
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Roboto:400,500,700']
+    }
   },
 
   server: {

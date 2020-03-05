@@ -122,6 +122,7 @@ export default class ServiceListItem extends Vue {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    align-items: center;
   }
 
   img {

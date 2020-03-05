@@ -7,50 +7,50 @@
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
             <label for="userName">Имя Фамилия</label>
-            <input type="text" v-model.lazy="formMessageData.userName" />
+            <input type="text" v-model.lazy="formMessageData.userRequestUser" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userName.trim().length === 0 }"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestUser.trim().length === 0 }"
             >Введите имя</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
             <span class="brc-input-addon">
-              <span>+7</span>
+              <span style="position:absolute; top:5px;left:10px;">+7</span>
+              <input
+                type="tel"
+                v-model.lazy="formMessageData.userRequestPhone"
+                name="phone"
+                placeholder="(555) 555-5555"
+                autocomplete="tel"
+                maxlength="14"
+                class="form-control form-control_phone"
+                v-phone
+                pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
+                required
+              />
+              <span
+                class="brc-error-message"
+                :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestPhone.length > 0) && $v.formMessageData.userRequestPhone.$invalid}"
+              >Введите телефон</span>
             </span>
-            <input
-              type="tel"
-              v-model.lazy="formMessageData.phone"
-              name="phone"
-              placeholder="(555) 555-5555"
-              autocomplete="tel"
-              maxlength="14"
-              class="form-control form-control_phone"
-              v-phone
-              pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
-              required
-            />
-            <span
-              class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.phone.length > 0) && $v.formMessageData.phone.$invalid}"
-            >Введите телефон</span>
           </div>
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="email">Email</label>
-            <input type="email" v-model.lazy="formMessageData.email" />
+            <input type="email" v-model.lazy="formMessageData.userRequestMail" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.email.length > 0) && $v.formMessageData.email.$invalid}"
+              :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
             >Введите настоящий email</span>
           </div>
         </div>
         <div class="brc-message-form__row">
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea v-model.lazy="formMessageData.caption"></textarea>
+            <textarea v-model.lazy="formMessageData.userRequestText"></textarea>
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.caption.trim().length === 0}"
+              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
             >Напишите комментарий</span>
           </div>
         </div>
@@ -62,7 +62,7 @@
           <span class="file-name">Прикрепить файл</span>
         </label>
         <div class="clearfix"></div>
-        <button type="button" @click="sentMessage">Отправить</button>
+        <button type="button" @click="sendMessage">Отправить</button>
       </div>
     </form>
   </div>
@@ -74,26 +74,28 @@ import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
 import { getServiceContainer } from '@/api/ServiceContainer';
-import FormMessageData from '@/models/ekoset/FormMessageData';
+import UserRequest from '@/models/ekoset/UserRequest';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import { getModule } from 'vuex-module-decorators';
+import AppStore from '@/store/AppStore';
 
 @Component({
   validations: {
     formMessageData: {
-      email: {
+      userRequestMail: {
         required,
         validFormat: (val) => {
           return emailTest.test(val);
         },
       },
-      phone: {
+      userRequestPhone: {
         required,
         validFormat: (val) => phoneTest.test(val)
       },
-      userName: {
+      userRequestUser: {
         required
       },
-      caption: {
+      userRequestText: {
         required
       }
     }
@@ -105,7 +107,7 @@ export default class MessageForm extends Vue {
   }
 
   private file = ''
-  private formMessageData: FormMessageData = new FormMessageData()
+  private formMessageData: UserRequest = new UserRequest()
 
   @Prop()
   private title
@@ -127,17 +129,21 @@ export default class MessageForm extends Vue {
 
   private validateForm (): boolean {
     this.isSubmit = true
-    return !this.$v.$invalid && this.formMessageData.caption.trim().length > 0 && this.formMessageData.userName.trim().length > 0
+    return !this.$v.$invalid && this.formMessageData.userRequestText.trim().length > 0 && this.formMessageData.userRequestUser.trim().length > 0
   }
 
-  private async sentMessage () {
+  private async sendMessage () {
     if (this.validateForm()) {
+
+      this.formMessageData.userRequestService = getModule(AppStore, this.$store).сurrentServiceName
+      this.formMessageData.userRequestSection = getModule(AppStore, this.$store).currentSiteSectionName
+      this.formMessageData.userRequestType = this.title
+
       const formData: FormData = new FormData()
       formData.append('formMessageData', JSON.stringify(this.formMessageData))
       formData.append('file', this.file)
-      getServiceContainer().publicEkosetService.sendFormMessage(formData)
+      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.title === 'Задать вопрос эксперту')
 
-      this.$BrcNotification(BrcDialogType.Success, `Отправили сообщение`)
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }
@@ -177,9 +183,16 @@ export default class MessageForm extends Vue {
     margin: 15px;
   }
 
+  .brc-message-form__block + .brc-message-form__block {
+    margin-top: 5px;
+  }
+
   .brc-message-form__block {
     label {
       display: block;
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
     }
     textarea {
       width: 100%;
@@ -221,9 +234,7 @@ export default class MessageForm extends Vue {
     }
 
     .brc-input-addon {
-      position: absolute;
-      padding-top: 13px;
-      padding-left: 15px;
+      position: relative;
     }
 
     &.brc-message-form__block_message {
@@ -240,10 +251,10 @@ export default class MessageForm extends Vue {
       font-size: small;
       color: #ed0205;
       font-weight: $font-medium;
-      visibility: hidden;
+      display: none;
 
       &.brc-error-message_visible {
-        visibility: visible;
+        display: block;
       }
     }
   }
@@ -306,6 +317,7 @@ export default class MessageForm extends Vue {
     padding: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
+    overflow: scroll;
 
     textarea {
       height: 70px !important;

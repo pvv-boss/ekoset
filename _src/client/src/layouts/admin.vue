@@ -57,5 +57,8 @@ export default class AdminLayout extends Vue {
   grid-area: content;
   background-color: #e9ebee;
   overflow: auto; /* overflow condition on parent */
+  img {
+    display: inline;
+  }
 }
 </style>

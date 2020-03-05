@@ -51,9 +51,9 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
   }
 })
 export default class TheLayoutHeader extends Vue {
-  private get activeIndex () {
-    return this.$route.name ? this.$route.name.split('-')[0] : ''
-  }
+  // private get activeIndex () {
+  //   return this.$route.name ? this.$route.name.split('-')[0] : ''
+  // }
 }
 </script>
 

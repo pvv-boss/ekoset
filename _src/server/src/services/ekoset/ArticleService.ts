@@ -142,7 +142,7 @@ export default class ArticleService extends BaseService {
     if (match) {
       const ext = match[1];
       const base64 = match[2];
-      const imagePathAndFileName: string[] = ServiceContainer.MediaService.getImageFullPathAndFileName('news', 'img', ext);
+      const imagePathAndFileName: string[] = ServiceContainer.MediaService.getImageFullPathAndFileName('img', 'news', 'img', ext);
 
       try {
         await Base64.decode(base64, imagePathAndFileName[0]);

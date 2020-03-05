@@ -10,6 +10,7 @@ import SitePage, { SitePageType } from '@/models/SitePage';
 export default class AppStore extends VuexModule {
   private currentSiteSectionState: string | null = null
   private currentSiteSectionNameState: string | null = null
+  private currentServiceNameState: string | null = null
 
   private defaultCustomPageState: SitePage | null = null
   private currentCustomPage: SitePage | null = null
@@ -25,6 +26,10 @@ export default class AppStore extends VuexModule {
     this.currentSiteSectionNameState = siteSectionName
   }
 
+  @Mutation
+  public setCurrentServiceName (name: string | null) {
+    this.currentServiceNameState = name
+  }
   // @Mutation
   // public setCurrentCustomPage (currentCustomPage: SitePage | null) {
   //   this.currentCustomPage = currentCustomPage || this.defaultCustomPage
@@ -38,7 +43,6 @@ export default class AppStore extends VuexModule {
   @Action
   public async changeCurrentSiteSection (siteSectionSlug: string | null) {
     this.context.commit('setCurrentSiteSection', siteSectionSlug)
-
     if (!!siteSectionSlug) {
       const siteSectionModel = await getServiceContainer().publicEkosetService.getSiteSectionNameBySlug(siteSectionSlug)
       if (siteSectionModel) {
@@ -70,6 +74,12 @@ export default class AppStore extends VuexModule {
     }
   }
 
+  @Action
+  public async changeCurrentServiceName (name: string | null) {
+    this.context.commit('setCurrentServiceName', name)
+  }
+
+
   public get currentSiteSection (): string | null {
     return this.currentSiteSectionState
   }
@@ -77,6 +87,11 @@ export default class AppStore extends VuexModule {
   public get currentSiteSectionName (): string | null {
     return this.currentSiteSectionNameState
   }
+
+  public get сurrentServiceName (): string | null {
+    return this.currentServiceNameState
+  }
+
 
   // public get currentSitePage (): SitePage | null {
   //   return this.currentCustomPage

@@ -8,6 +8,9 @@ import Partner from '@/models/ekoset/Partner';
 import PartnerGroup from '@/models/ekoset/PartnerGroup';
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
 import DynamicComponentInfo from '@/models/DynamicComponentInfo';
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
+import { Store } from 'vuex'
 
 export default class PublicEkosetService extends BaseService {
 
@@ -191,8 +194,8 @@ export default class PublicEkosetService extends BaseService {
 
   //
 
-  public async sendFormMessage (formData: FormData) {
-    const result = HttpUtil.httpPostForm('user/message', formData)
+  public async sendFormMessage (formData: FormData, isAskForExpert: boolean) {
+    const result = HttpUtil.httpPostForm(`user/message?ask=${isAskForExpert}`, formData)
     return result
   }
 
