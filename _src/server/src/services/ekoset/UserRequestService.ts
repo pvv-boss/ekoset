@@ -24,15 +24,16 @@ export class UserRequestService extends BaseService {
       request.userRequestDate = new Date().toUTCString();
       await TypeOrmManager.EntityManager.save(request);
 
+      let pathAndFileName = [];
       if (!!file && file.size > 0) {
-        const pathAndFileName = await ServiceContainer.MediaService.saveFileFromRequestBody(file, 'app', 'requests', `req${request.userRequestId}`);
+        pathAndFileName = await ServiceContainer.MediaService.saveFileFromRequestBody(file, 'app', 'requests', `req${request.userRequestId}`);
         if (!!pathAndFileName && pathAndFileName.length > 1) {
           request.userRequestFileName = pathAndFileName[1];
           TypeOrmManager.EntityManager.save(request);
         }
       }
 
-      this.sendEmailsByRequest(request, isAskForExpert);
+      this.sendEmailsByRequest(request, isAskForExpert, !!file && file.size > 0 ? pathAndFileName[0] : null, !!file && file.size > 0 ? file.originalname : null);
 
       return request.userRequestId;
     } catch (err) {
@@ -42,9 +43,12 @@ export class UserRequestService extends BaseService {
   }
 
 
-  private sendEmailsByRequest (request: UserRequest, isAskForExpert: boolean) {
+  private sendEmailsByRequest (request: UserRequest, isAskForExpert: boolean, attachmentFilePath: string, attachmentFileName: string) {
     const format = (template: string) => {
-      const dateFormated = ruDateFormat.format(new Date(request.userRequestDate));
+      const gmtDate = new Date(request.userRequestDate);
+      const mskDate = gmtDate.setHours(gmtDate.getHours() + 3);
+
+      const dateFormated = ruDateFormat.format(mskDate);
 
       return template.
         replace('{{userRequestUser}}', request.userRequestUser).
@@ -58,16 +62,14 @@ export class UserRequestService extends BaseService {
     const header = isAskForExpert ? 'Вы задали вопрос эксперту' : 'Вы оформили заказ';
 
 
-    MailSender.sendFromTemplateFr(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, 'back_user_request', format);
-    MailSender.sendFromTemplateFr(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, 'SergeyRyzhkov76@gmail.com', header, 'back_user_request', format);
+    MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, 'back_user_request', null, null, format);
 
     this.getToEmails().forEach((iterEmal) => {
-      MailSender.sendFromTemplateFr(`Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`, iterEmal, 'ЗАКАЗ', 'user_request', format);
+      MailSender.sendWithAttachment(`Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`, iterEmal, 'ЗАКАЗ', 'user_request', attachmentFilePath, attachmentFileName, format);
     })
 
   }
-
   private getToEmails () {
-    return ['inbox@ekoset.ru', 'servis4@ekoset.ru'];
+    return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
   }
 }

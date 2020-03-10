@@ -10,7 +10,7 @@ import { useExpressServer } from 'routing-controllers';
 
 import AppConfig from './utils/Config';
 import TypeOrmManager from './utils/TypeOrmManager';
-import { headerMiddleware } from './middlewares/HeaderMiddleware';
+import { headerMiddleware, headerFeaturePolicy } from './middlewares/HeaderMiddleware';
 import { errorMiddleware } from './middlewares/ErrorMiddleware';
 import ServiceContainer from './services/ServiceContainer';
 import { refreshAccessToken } from './middlewares/AuthorizeMiddleware';
@@ -41,6 +41,7 @@ export default class Application {
 
     app.use(refreshAccessToken());
     app.use(headerMiddleware());
+    // app.use(headerFeaturePolicy());
 
     useExpressServer(app, {
       routePrefix: AppConfig.serverConfig.restApiEndPoint,

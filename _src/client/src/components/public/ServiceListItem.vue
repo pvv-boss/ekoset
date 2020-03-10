@@ -12,19 +12,6 @@
       <h4>{{serviceItem.businessServiceName}}</h4>
       <div class="brc-service-smallitem__price">{{serviceItem.businessServicePrice}}</div>
     </nuxt-link>
-    <!-- <div class="brc-service-smallitem__order-wrapper">
-      <button
-        type="button"
-        class="brc-service-smallitem__order"
-        @click="navigateToOfferForm"
-      >Заказать</button>
-    </div>-->
-    <!-- <div class="brc-service-smallitem__link-wrapper">
-      <nuxt-link
-        :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: getCurrentSiteSection}}"
-        class="brc-service-smallitem__link"
-      >Подробнее</nuxt-link>
-    </div>-->
   </section>
 </template>
 
@@ -48,14 +35,6 @@ export default class ServiceListItem extends Vue {
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
-  }
-
-  private navigateToOfferForm (e) {
-    const formElement = document.getElementById('btnOrderPopupForm')
-    if (formElement) {
-      formElement.setAttribute('style', 'display:block');
-    }
-    e.preventDefault()
   }
 }
 </script>

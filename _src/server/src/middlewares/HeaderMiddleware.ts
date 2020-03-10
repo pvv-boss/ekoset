@@ -16,3 +16,11 @@ export const headerNoCacheMiddleware = () => {
     next();
   }
 }
+
+export const headerFeaturePolicy = () => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    res.header('Feature-Policy', 'oversized-images=none, unoptimized-lossy-images=none');
+    next();
+  }
+}
+

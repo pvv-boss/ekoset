@@ -16,7 +16,7 @@
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
             <span class="brc-input-addon">
-              <span style="position:absolute; top:5px;left:10px;">+7</span>
+              <span style="position:absolute; top:0;left:10px;">+7</span>
               <input
                 type="tel"
                 v-model.lazy="formMessageData.userRequestPhone"
@@ -27,7 +27,6 @@
                 class="form-control form-control_phone"
                 v-phone
                 pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
-                required
               />
               <span
                 class="brc-error-message"
@@ -147,6 +146,10 @@ export default class MessageForm extends Vue {
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }
+
+      this.isSubmit = false
+      this.formMessageData = new UserRequest()
+      this.file = ''
     } else {
       this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
     }

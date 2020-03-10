@@ -27,13 +27,13 @@ export default class UserRequestController extends BaseController {
     const formData = JSON.parse(body.formMessageData);
     const requestData = ClassTransform.plainToClassInstanceOne<UserRequest>(formData, UserRequest);
 
-    ServiceContainer.UserRequestService.saveRequest(file, requestData, isAskForExpert);
+    const reqNmb = await ServiceContainer.UserRequestService.saveRequest(file, requestData, isAskForExpert);
 
-    return UserRequestController.createSuccessResponse({}, response);
+    // return UserRequestController.createSuccessResponse({}, response);
 
-    // return reqNmb > 0 ?
-    //   UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify(`Сообщение отправлено ! <br> Номер Вашего сообщения: <b>${reqNmb}</b></Сообщение>`)) :
-    //   UserRequestController.createFailureResponseWithMessage(null, response, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
+    return reqNmb > 0 ?
+      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify('<br> Ваш заказ отправлен. <br> В ближайшее время с Вами свяжутся наши специалисты <br> <br>')) :
+      UserRequestController.createFailureResponseWithMessage(null, response, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
 }
 

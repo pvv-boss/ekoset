@@ -6,6 +6,9 @@
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
       <MessageForm title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
+    <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
+      <MessageForm title="Заказать услугу" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+    </div>
   </div>
 </template>
 
@@ -37,6 +40,15 @@ export default class TheMessagesAriseBlock extends Vue {
         }
       })
     }
+
+    const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
+    if (reqServiceFormElement) {
+      reqServiceFormElement.addEventListener('click', (e) => {
+        if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
+          reqServiceFormElement.setAttribute('style', 'display:none')
+        }
+      })
+    }
   }
 
   private closeForm () {
@@ -48,6 +60,11 @@ export default class TheMessagesAriseBlock extends Vue {
     const questionFormElement = document.getElementById('btnQuestionPopupForm')
     if (questionFormElement) {
       questionFormElement.setAttribute('style', 'display:none')
+    }
+
+    const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
+    if (reqServiceFormElement) {
+      reqServiceFormElement.setAttribute('style', 'display:none')
     }
   }
 
@@ -91,7 +108,7 @@ export default class TheMessagesAriseBlock extends Vue {
 
 @media (max-width: 768px) {
   .brc-message-arise__wrapper {
-     .brc-feedback {
+    .brc-feedback {
       max-height: calc(100vh - 60px);
       overflow: scroll;
       margin: 0 auto !important;

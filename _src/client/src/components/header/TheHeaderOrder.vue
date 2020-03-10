@@ -15,9 +15,9 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 })
 export default class TheHeaderOrder extends Vue {
   private navigateToOfferForm (e) {
-    const formElement = document.getElementById("btnOrderPopupForm")
+    const formElement = document.getElementById('btnRequestServicePopupForm')
     if (formElement) {
-      formElement.setAttribute("style", "display:block");
+      formElement.setAttribute('style', 'display:block');
     }
     e.preventDefault()
   }
@@ -25,8 +25,8 @@ export default class TheHeaderOrder extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 .brc-page-header__order {
   background-color: $red;
