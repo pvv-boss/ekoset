@@ -59,6 +59,7 @@
         <label class="attach-file">
           <input type="file" name="file" id="file" ref="file" v-on:change="handleFileUpload()" />
           <span class="file-name">Прикрепить файл</span>
+          <span v-show="!!file" class="attached-file-name">{{file.name}}</span>
         </label>
         <div class="clearfix"></div>
         <button type="button" @click="sendMessage">Отправить</button>
@@ -300,7 +301,6 @@ export default class MessageForm extends Vue {
       display: none;
     }
     .file-name {
-      font-size: 14px;
       color: gray;
       font-size: 12px;
       cursor: pointer;
@@ -310,6 +310,15 @@ export default class MessageForm extends Vue {
       background-position: right;
       transition: 0.3s;
       border: none !important;
+    }
+
+    .attached-file-name {
+      display: block;
+      margin-top: -5px;
+      font-size: 12px;
+      @media (max-width: 768px) {
+        margin-top: -25px;
+      }
     }
   }
 }
@@ -329,7 +338,7 @@ export default class MessageForm extends Vue {
       height: 30px !important;
     }
     button {
-      height: 30px !important;
+      height: 35px !important;
     }
     .brc-input-addon {
       padding-top: 6px !important;
