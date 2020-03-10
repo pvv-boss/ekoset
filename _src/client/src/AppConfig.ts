@@ -1,8 +1,8 @@
 import Sort from '@/models/Sort'
 
 export default class AppConfig {
-  public static endPoint = 'http://91.210.168.57/api/2_0'
-  // public static endPoint = 'http://localhost:3002/api/2_0'
+  // public static endPoint = 'http://91.210.168.57/api/2_0'
+  public static endPoint = 'http://localhost:3002/api/2_0'
   public enabledAuthProviders: [] = []
   public sorts: Sort[] = []
   public initialized = false

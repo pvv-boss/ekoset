@@ -57,9 +57,16 @@
 
       <div class="brc-message-form__button">
         <label class="attach-file">
-          <input type="file" name="file" id="file" ref="file" v-on:change="handleFileUpload()" />
-          <span class="file-name">Прикрепить файл</span>
-          <span v-show="!!file" class="attached-file-name">{{file.name}}</span>
+          <input
+            type="file"
+            multiple
+            name="file"
+            id="file"
+            ref="file"
+            v-on:change="handleFileUpload()"
+          />
+          <div class="file-name">Прикрепить файл(ы)</div>
+          <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
         </label>
         <div class="clearfix"></div>
         <button type="button" @click="sendMessage">Отправить</button>
@@ -69,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
@@ -106,7 +113,8 @@ export default class MessageForm extends Vue {
     file: HTMLFormElement
   }
 
-  private file = ''
+  private files: any[] = []
+  private fileNames = ''
   private formMessageData: UserRequest = new UserRequest()
 
   @Prop()
@@ -118,9 +126,9 @@ export default class MessageForm extends Vue {
   private isBrowser = false
   private isSubmit = false
 
-  // FIXME: Как-то криво
   private handleFileUpload () {
-    this.file = this.$refs.file.files[0];
+    this.files = this.$refs.file.files;
+    this.updateFileNames()
   }
 
   private mounted () {
@@ -141,7 +149,11 @@ export default class MessageForm extends Vue {
 
       const formData: FormData = new FormData()
       formData.append('formMessageData', JSON.stringify(this.formMessageData))
-      formData.append('file', this.file)
+
+      for (const iterItem of this.files) {
+        formData.append('files', iterItem)
+      }
+
       getServiceContainer().publicEkosetService.sendFormMessage(formData, this.title === 'Задать вопрос эксперту')
 
       if (this.showCloseBtn) {
@@ -150,10 +162,18 @@ export default class MessageForm extends Vue {
 
       this.isSubmit = false
       this.formMessageData = new UserRequest()
-      this.file = ''
+      this.files = []
     } else {
       this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
     }
+  }
+
+  private updateFileNames () {
+    const names: string[] = []
+    for (const iterItem of this.files) {
+      names.push(iterItem.name as string)
+    }
+    this.fileNames = names.join(', ')
   }
 
 }
@@ -281,6 +301,7 @@ export default class MessageForm extends Vue {
     border-radius: 3px;
     margin: auto;
     font-size: 16px;
+    margin-top: 10px;
 
     &:hover {
       background-color: darkred;
@@ -290,12 +311,12 @@ export default class MessageForm extends Vue {
   }
 
   .attach-file {
-    float: right !important;
-    line-height: 40px !important;
-    padding-right: 20px !important;
     position: relative !important;
-    right: 0 !important;
     border: none !important;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    margin-right: 15px;
     margin-bottom: 5px;
     input {
       display: none;
@@ -310,14 +331,25 @@ export default class MessageForm extends Vue {
       background-position: right;
       transition: 0.3s;
       border: none !important;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 0px;
+      align-items: center;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     .attached-file-name {
-      display: block;
-      margin-top: -5px;
       font-size: 12px;
+      word-wrap: break-word;
+      word-break: break-word;
       @media (max-width: 768px) {
-        margin-top: -25px;
+        margin-top: 10px;
+        //     margin-bottom: 15px;
       }
     }
   }
@@ -357,14 +389,8 @@ export default class MessageForm extends Vue {
     margin-bottom: 0 !important;
   }
   .brc-message-form__button .attach-file {
-    float: none !important;
-    line-height: 50px !important;
-    padding-right: 0 !important;
-    position: relative !important;
     .file-name {
-      margin: 0 auto 15px;
-      max-width: 12em;
-      text-align: center;
+      // margin: 0 auto 15px;
     }
   }
 }

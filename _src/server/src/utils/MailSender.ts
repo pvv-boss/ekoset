@@ -17,7 +17,7 @@ export default class MailSender {
 
   public static smtpTransport = nodemailer.createTransport(MailSender.smtpOptions);
 
-  public static send (from: string, to: string, subject: string, text: string, html: string, attachmentFilePath: string, attachFileName: string) {
+  public static send (from: string, to: string, subject: string, text: string, html: string, attachments: string[]) {
     const message = {
       to,
       subject,
@@ -27,12 +27,8 @@ export default class MailSender {
       attachments: []
     };
 
-    if (!!attachmentFilePath) {
-      message.attachments = [
-        {
-          filename: attachFileName ? attachFileName : path.basename(attachmentFilePath),
-          path: attachmentFilePath
-        }]
+    if (!!attachments) {
+      message.attachments = attachments;
     }
 
     const sendCallback = (err: Error | null, info: SentMessageInfo) => {
@@ -48,21 +44,24 @@ export default class MailSender {
     this.smtpTransport.sendMail(message, sendCallback);
   }
 
-  public static sendWithAttachment (from: string, to: string, subject: string, templateName: string, attachmentFilePath: string, attachFileName: string, format: (template: string) => string) {
-    MailSender.internalSend(from, to, subject, templateName, attachmentFilePath, attachFileName, format);
+  public static sendWithAttachment (from: string, to: string, subject: string, templateName: string, attachments: string[], format: (template: string) => string) {
+    MailSender.internalSend(from, to, subject, templateName, attachments, format);
 
   }
 
   public static sendFromTemplate (to: string, subject: string, templateName: string, format: (template: string) => string) {
-    MailSender.internalSend(AppConfig.mail.from, to, subject, templateName, null, null, format)
+    MailSender.internalSend(AppConfig.mail.from, to, subject, templateName, null, format)
   }
 
-  private static internalSend (from: string, to: string, subject: string, templateName: string, attachmentFilePath: string, attachFileName: string, format: (template: string) => string) {
+  private static internalSend (from: string, to: string, subject: string, templateName: string, attachments: string[], format: (template: string) => string) {
     const filePath = path.resolve('mail', templateName + '.html');
     if (fs.existsSync(filePath)) {
       const templateContent = fs.readFileSync(filePath, 'utf8');
       const text = !!format ? format(templateContent) : templateContent;
-      this.send(from, to, subject, text, text, attachmentFilePath, attachFileName);
+      this.send(from, to, subject, text, text, attachments);
     }
   }
+
+
+
 }
