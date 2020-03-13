@@ -101,6 +101,9 @@ figcaption {
   .brc-article-smallitem__views {
     text-align: right;
     width: 50%;
+    img {
+      display: inline !important;
+    }
   }
   .brc-article-smallitem__date {
     float: left;

@@ -2,7 +2,7 @@
   <div class="brc-letter-smallitem__wrapper">
     <figure class="brc-letter-smallitem__preview" @click="showBigImg = true">
       <p>{{recommLetter.recommTitle}}</p>
-      <img
+      <v-lazy-image
         :src="imageSrc"
         :alt="recommLetter.recommTitle"
         :title="recommLetter.recommTitle"

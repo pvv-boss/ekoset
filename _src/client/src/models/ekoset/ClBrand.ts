@@ -10,4 +10,6 @@ export default class ClBrand {
 
   public smallImageFormData: FormData | null;
 
+  public clActivityId: number;
+
 }

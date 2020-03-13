@@ -54,6 +54,7 @@ export default class TheHeaderLogo extends Vue {
 
   private async updateLogo () {
     if (!this.disignMode) {
+      this.currentLogoSrc = this.defaultLogo
       const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
       if (!!siteSectionSlug) {
         const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)

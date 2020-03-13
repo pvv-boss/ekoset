@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@cookieseater/vue-yandex-share": "latest",
-    "@nuxtjs/yandex-metrika": "latest",
+    "@naumstory/nuxtjs-yandex-metrika": "latest",
     "axios": "^0.19.2",
     "js-cookie": "latest",
     "jwt-decode": "latest",
@@ -24,12 +24,12 @@
     "quill-image-drop-module": "latest",
     "quill-image-resize-module": "latest",
     "quill-video-resize-module2": "latest",
+    "v-lazy-image": "^1.4.0",
     "vue-good-table": "latest",
     "vue-router": "^3.1.6",
     "vue2-editor": "latest",
     "vuedraggable": "latest",
-    "vuelidate": "^0.7.5",
-    "nuxt-webfontloader": "latest"
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.8.4",

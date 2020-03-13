@@ -20,55 +20,57 @@ export const AdminRouter = [
     path: '/admin',
     props: true,
     component: Admin,
-    meta: { title: 'Экосеть: Панель управления' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления' }
   },
   {
     name: 'admin-news',
     path: '/admin/news',
     props: true,
     component: AdminArticleList,
-    meta: { title: 'Экосеть: Панель управления - список новостей' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - список новостей' }
   },
   {
     name: 'admin-news-article',
     path: '/admin/news/article',
     props: true,
     component: AdminArticleCard,
-    meta: { title: 'Экосеть: Панель управления - редактирование новости' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - редактирование новости' }
   },
   {
     name: 'admin-news-article-card',
     path: '/admin/news/article/:article',
     props: true,
     component: AdminArticleCard,
-    meta: { title: 'Экосеть: Панель управления - редактирование новости' }
+    meta: { requiresAuth: true, itle: 'Экосеть: Панель управления - редактирование новости' }
   },
   {
     name: 'admin-site-section-card',
     path: '/admin/sitesection/:siteSection',
     props: true,
     component: AdminSiteSectionCard,
-    meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - подразделы сайта' }
   },
   {
     name: 'admin-site-sections',
     path: '/admin/sitesection/',
     props: true,
     component: AdminSiteSectionList,
-    meta: { title: 'Экосеть: Панель управления - подразделы сайта' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - подразделы сайта' }
   },
 
   {
     name: 'admin-top-menu-list',
     path: '/admin/topmenu',
     props: true,
-    component: AdminTopMenuList
+    component: AdminTopMenuList,
+    meta: { requiresAuth: true }
   },
   {
     name: 'admin-top-menu-card',
     path: '/admin/topmenu/:sitePageId',
     props: true,
-    component: AdminTopMenuCard
+    component: AdminTopMenuCard,
+    meta: { requiresAuth: true }
   },
 
   {
@@ -76,35 +78,35 @@ export const AdminRouter = [
     path: '/admin/service/:service',
     props: true,
     component: AdminServiceCard,
-    meta: { title: 'Экосеть: Панель управления - услуги' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - услуги' }
   },
   {
     name: 'admin-brands',
     path: '/admin/brand/',
     props: true,
     component: AdminBrandList,
-    meta: { title: 'Экосеть: Панель управления - бренды' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - бренды' }
   },
   {
     name: 'admin-brand-card',
     path: '/admin/brand/:brand',
     props: true,
     component: AdminBrandCard,
-    meta: { title: 'Экосеть: Панель управления - бренды' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - бренды' }
   },
   {
     name: 'admin-individual-offer-card-client-type',
     path: '/admin/individual-offer/:siteSection/:clienttype(business|person)',
     props: true,
     component: AdminIndividualOfferCard,
-    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
   {
     name: 'admin-individual-offer-card',
     path: '/admin/individual-offer/:siteSection/:offer?',
     props: true,
     component: AdminIndividualOfferCard,
-    meta: { title: 'Экосеть: Панель управления - индивидуальные предложения' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
 
   {
@@ -112,7 +114,7 @@ export const AdminRouter = [
     path: '/admin/client/',
     props: true,
     component: AdminClientList,
-    meta: { title: 'Экосеть: Панель управления - клиенты' }
+    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - клиенты' }
   },
   {
     name: 'cl-activity-types',
@@ -121,7 +123,7 @@ export const AdminRouter = [
     component: AdminClActivityTypes,
     meta: {
       title: 'Справочники: Направления деятельности',
-      // requiresAuth: true
+      requiresAuth: true
     }
   },
   {
@@ -131,7 +133,7 @@ export const AdminRouter = [
     component: AdminClPartnerGroups,
     meta: {
       title: 'Справочники: Группы клиентов',
-      // requiresAuth: true
+      requiresAuth: true
     }
   },
   {
@@ -141,7 +143,7 @@ export const AdminRouter = [
     component: AdminFooterSettings,
     meta: {
       title: 'Настройки: Футер',
-      // requiresAuth: true
+      requiresAuth: true
     }
   }
 ]

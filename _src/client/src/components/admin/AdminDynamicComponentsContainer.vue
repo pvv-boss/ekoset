@@ -53,7 +53,7 @@
       trap-focus
       aria-role="dialog"
       aria-modal
-      :width="1120"
+      :width="1200"
     >
       <AdminFreeBlockInfoEditor :dynamicComponentInfo="editableComponentInfo"></AdminFreeBlockInfoEditor>
       <b-button

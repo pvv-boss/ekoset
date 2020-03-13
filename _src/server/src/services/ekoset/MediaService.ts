@@ -51,6 +51,11 @@ export default class MediaService extends BaseService {
     return this.updateSmallOrBigImageFor(file, 'main', `page_logo_${sitePageId}`, updateStmt);
   }
 
+  public async saveClActivityMainClientLogo (clActivityId: number, file: Express.Multer.File) {
+    const updateStmt = `UPDATE cl_activity SET cl_activity_main_client_img = $1 where cl_activity_id = ${clActivityId}`;
+    return this.updateSmallOrBigImageFor(file, 'clients', `client_${clActivityId}`, updateStmt);
+  }
+
   public getImageFullPathAndFileName (dir: string, subDir: string, fileprefix: string, fileExt: string) {
     const pathName = path.resolve('static', dir, subDir);
     const fileName = `${fileprefix}_${cuid()}.${fileExt}`;

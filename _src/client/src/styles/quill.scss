@@ -2,8 +2,25 @@
 
 /*! purgecss start ignore */
 
-.ql-editor {
-  white-space: unset !important;
+// .brc-article-item>article,
+// .brc-page-description,
+// .brc-page__dynamic_block {
+//   * {
+//     white-space: normal !important;
+//   }
+// }
+
+
+.ql-container {
+  .ql-editor {
+    * {
+      white-space: pre-wrap !important;
+    }
+  }
+}
+
+.ql-tooltip .ql-editing {
+  left: 0px !important;
 }
 
 .ql-editor {
@@ -14,6 +31,7 @@
     }
   }
 }
+
 
 .brc-article-item>article,
 .brc-page-description,
@@ -64,7 +82,8 @@
   }
 
   .ql-align-justify {
-    text-align: justify;
+    // text-align: justify;
+    text-align: left !important;
   }
 
   .ql-align-right {
@@ -89,34 +108,44 @@
 
   .ql-align-center {
     img {
-      margin: auto !important;
+      margin: 0 auto !important;
     }
   }
 
+  .ql-align-right {
+    img {
+      margin: 0 0 0 auto !important;
+    }
+  }
 
-  blockquote {
+  blockquote,
+  .ql-syntax {
     // border-left: 4px solid red !important;
     // padding-left: 16px;
     margin: 0 !important;
     color: #231E28 !important;
+    background-color: inherit !important;
+    white-space: pre-wrap !important;
     margin: 15px 0 15px 0 !important;
     padding: 20px !important;
+    border-radius: 1px !important;
     border: 1px solid $red !important;
-    font-weight: $font-medium;
-    font-size: 17px;
+    font-weight: $font-medium !important;
+    font-size: 17px !important;
     position: relative;
+    font-family: $font-stack !important;
 
     @media (max-width: 768px) {
       padding: 10px !important;
     }
   }
 
-  code,
-  pre {
-    background-color: #f0f0f0;
-    border-radius: 3px;
-    padding: 6px 10px;
-  }
+  // code,
+  // pre {
+  //   background-color: #f0f0f0;
+  //   border-radius: 3px;
+  //   padding: 6px 10px;
+  // }
 
   strong {
     font-weight: $font-medium;

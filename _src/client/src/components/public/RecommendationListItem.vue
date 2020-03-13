@@ -1,7 +1,7 @@
 <template>
   <div class="brc-recommend-smallitem__wrapper">
     <figure class="brc-recommend-smallitem__preview">
-      <img
+      <v-lazy-image
         :src="imageSrc"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"

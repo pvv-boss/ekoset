@@ -10,6 +10,14 @@ export class ClBrand {
   })
   public clBrandId: number;
 
+
+  @Column('numeric', {
+    nullable: true,
+    name: 'cl_activity_id'
+  })
+  public clActivityId: number | null;
+
+
   @Column('text', {
     nullable: true,
     name: 'cl_brand_name'

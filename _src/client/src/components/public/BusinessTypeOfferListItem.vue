@@ -4,7 +4,7 @@
       :to="{ name: 'offer-card', params: { offer: offerItem.indOfferUrl, siteSection: getCurrentSiteSection, clienttype: null}}"
       class="brc-business-type-offer-item"
     >
-      <img
+      <v-lazy-image
         :src="imageSrc"
         :alt="offerItem.indOfferName"
         :title="offerItem.indOfferName"

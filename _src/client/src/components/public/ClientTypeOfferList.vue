@@ -4,7 +4,7 @@
       :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'business'}}"
       class="brc-client-type-offer-item"
     >
-      <img
+      <v-lazy-image
         src="/images/solutions-business.png"
         alt="Комлексное решение для бизнеса"
         title="Комлексное решение для бизнеса"
@@ -17,7 +17,7 @@
       :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'person'}}"
       class="brc-client-type-offer-item"
     >
-      <img
+      <v-lazy-image
         src="/images/solutions-person.png"
         alt="Комлексное решение для частных лиц"
         title="Комлексное решение для частных лиц"

@@ -74,7 +74,7 @@ export class UserRequestService extends BaseService {
     const header = isAskForExpert ? 'Вы задали вопрос эксперту' : 'Вы оформили заказ';
 
 
-    //   MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, 'back_user_request', null, format);
+    MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, 'back_user_request', null, format);
 
     this.getToEmails().forEach((iterEmal) => {
       MailSender.sendWithAttachment(`Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`, iterEmal, 'ЗАКАЗ', 'user_request', attachments, format);
@@ -82,7 +82,6 @@ export class UserRequestService extends BaseService {
 
   }
   private getToEmails () {
-    return ['SergeyRyzhkov76@gmail.com'];
-    //    return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
+    return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
   }
 }

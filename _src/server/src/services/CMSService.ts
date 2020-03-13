@@ -193,7 +193,7 @@ export default class CMSService extends BaseService {
     brandList.id = 0;
     brandList.code = BlockType.BRANDS;
     brandList.head = 'Нас рекомендуют';
-    // brandList.headCentered = true;
+    brandList.headCentered = true;
     brandList.dispalyName = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
     brandList.visible = 1;
@@ -207,7 +207,7 @@ export default class CMSService extends BaseService {
     letters.id = 0;
     letters.code = BlockType.LETTERS;
     letters.head = 'Благодарственные письма';
-    // letters.headCentered = true;
+    letters.headCentered = true;
     letters.dispalyName = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
     letters.visible = 1;
@@ -220,7 +220,7 @@ export default class CMSService extends BaseService {
     news.id = 0;
     news.code = BlockType.NEWS
     news.head = 'Новости';
-    // news.headCentered = true;
+    news.headCentered = true;
     news.dispalyName = 'Новости';
     news.name = 'ArticleList';
     news.visible = 1;
@@ -257,7 +257,7 @@ export default class CMSService extends BaseService {
     clientTypeOfferList.id = 0;
     clientTypeOfferList.code = BlockType.CLIENTTYPE_OFFER;
     clientTypeOfferList.head = 'Комплексные решения';
-    // clientTypeOfferList.headCentered = true;
+    clientTypeOfferList.headCentered = true;
     clientTypeOfferList.name = 'ClientTypeOfferList';
     clientTypeOfferList.dispalyName = 'Комплексные решения'
     clientTypeOfferList.visible = 1;
@@ -267,7 +267,7 @@ export default class CMSService extends BaseService {
     businessTypeOfferList.id = 0;
     businessTypeOfferList.code = BlockType.BUSINESSTYPE_OFFER;
     businessTypeOfferList.head = 'Индивидуальные предложения';
-    // businessTypeOfferList.headCentered = true;
+    businessTypeOfferList.headCentered = true;
     businessTypeOfferList.name = 'BusinessTypeOfferList';
     businessTypeOfferList.dispalyName = 'Индивидуальные предложения'
     businessTypeOfferList.visible = 1;
@@ -280,7 +280,7 @@ export default class CMSService extends BaseService {
     serviceList.id = 0;
     serviceList.code = BlockType.SERVICE_LIST;
     serviceList.head = 'Список услуг';
-    //  serviceList.headCentered = true;
+    serviceList.headCentered = true;
     serviceList.name = 'ServiceList';
     serviceList.dispalyName = 'Список услуг'
     serviceList.visible = 1;
@@ -293,7 +293,7 @@ export default class CMSService extends BaseService {
     servicePriceTable.id = 0;
     servicePriceTable.code = BlockType.SERVICE_PRICE;
     servicePriceTable.head = 'Стоимость услуг';
-    //  servicePriceTable.headCentered = true;
+    servicePriceTable.headCentered = true;
     servicePriceTable.name = 'ServicePriceTable';
     servicePriceTable.dispalyName = 'Стоимость услуг'
     servicePriceTable.visible = 1;
@@ -307,7 +307,7 @@ export default class CMSService extends BaseService {
     relatedService.id = 0;
     relatedService.code = BlockType.RELATED_SERVICE;
     relatedService.head = 'Вы также можете заказать';
-    // relatedService.headCentered = true;
+    relatedService.headCentered = true;
     relatedService.name = 'RelatedService';
     relatedService.dispalyName = 'Вы также можете заказать'
     relatedService.visible = 1;

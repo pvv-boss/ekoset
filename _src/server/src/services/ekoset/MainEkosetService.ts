@@ -135,6 +135,10 @@ export default class MainEkosetService extends BaseService {
     return TypeOrmManager.EntityManager.save(clActivity);
   }
 
+  public async deleteClActivity (id: number) {
+    return this.deleteById(this.apiClActivityViewName, 'cl_activity_id = $1', id);
+  }
+
   public async addBrand2SiteSection (brandId: number, siteSectionId: number) {
     return this.execFunction('f_admin_add_brand2sitesection', [brandId, siteSectionId]);
   }

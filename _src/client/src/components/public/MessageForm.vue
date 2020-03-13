@@ -347,9 +347,9 @@ export default class MessageForm extends Vue {
       font-size: 12px;
       word-wrap: break-word;
       word-break: break-word;
+      text-align: right;
       @media (max-width: 768px) {
-        margin-top: 10px;
-        //     margin-bottom: 15px;
+        text-align: left;
       }
     }
   }
@@ -387,11 +387,6 @@ export default class MessageForm extends Vue {
   }
   .brc-message-form__row:last-child {
     margin-bottom: 0 !important;
-  }
-  .brc-message-form__button .attach-file {
-    .file-name {
-      // margin: 0 auto 15px;
-    }
   }
 }
 </style>

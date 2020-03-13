@@ -126,6 +126,18 @@ export default class MediaController extends BaseController {
     return MediaController.createSuccessResponse(result, response);
   }
 
+  @UseBefore(upload.single('file'))
+  @Post('/admin/panel/clActivities/:id/mainclientlogo')
+  public async saveClActivityMainClientLogo (
+    @Param('id') id: number,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    const file = request.file;
+    const result = await ServiceContainer.MediaService.saveClActivityMainClientLogo(id, file);
+    return MediaController.createSuccessResponse(result, response);
+  }
+
   // @UseBefore(upload.single('file'))
   // @Post('/admin/export/pdf')
   // @OnUndefined(200)

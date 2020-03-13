@@ -56,7 +56,7 @@
                     :first-day-of-week="1"
                     placeholder="Выберите дату ..."
                   >
-                    <button class="button is-primary" @click="date = new Date()">
+                    <button class="button is-primary" @click="articleDateDate = new Date()">
                       <b-icon icon="calendar-today"></b-icon>
                       <span>Сегодня</span>
                     </button>

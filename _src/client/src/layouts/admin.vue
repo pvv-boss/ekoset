@@ -5,9 +5,6 @@
     <main class="brc-admin-container__content">
       <nuxt></nuxt>
     </main>
-    <client-only>
-      <BaseBackToTop></BaseBackToTop>
-    </client-only>
   </section>
 </template>
 

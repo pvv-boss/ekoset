@@ -19,7 +19,6 @@
             <b-button @click="save" type="is-primary">Сохранить</b-button>
             <b-button @click="cancel">Отмена</b-button>
           </div>
-
           <b-button
             type="is-primary"
             outlined
@@ -27,17 +26,16 @@
             @click="createNewMode = true"
             v-show="!createNewMode"
           >Создать</b-button>
-          <b-button
-            type="is-primary"
-            @click="saveAll"
-            v-show="!createNewMode"
-            class="brc-card-button__active-save"
-          >Сохранить</b-button>
         </div>
       </template>
 
       <template #content>
         <div class="brc_admin-active-list">
+          <div class="brc_admin-active-list-item">
+            <span>Наименование</span>
+            <span>Логотип Клиента</span>
+            <span>Удалить</span>
+          </div>
           <div
             class="brc_admin-active-list-item"
             v-for="iterItem in itemList"
@@ -49,11 +47,32 @@
               required
               validation-message="Наименование не может быть пустым"
               v-model="iterItem.clActivityName"
+              @blur="saveAll"
             ></b-input>
+
+            <div>
+              <b-upload @input="addMainClientImage(...arguments,iterItem)">
+                <a class="button is-link">
+                  <b-icon icon="upload"></b-icon>
+                </a>
+              </b-upload>
+              <b-button
+                @click="showMainClientImage(iterItem)"
+                icon-right="file-find"
+                type="is-success"
+                size="is-medium"
+                outlined
+                style="margin-left:20px;"
+              ></b-button>
+            </div>
+
+            <b-button type="is-danger" icon-right="delete" @click="deleteActivity(iterItem)"></b-button>
           </div>
         </div>
       </template>
     </BaseCard>
+
+    <b-modal :active.sync="isShowMainClientImageActive" :can-cancel="true" :width="400">sdfdsfdsf</b-modal>
   </div>
 </template>
 
@@ -79,6 +98,9 @@ export default class AdminClActivityTypes extends Vue {
   private createNewMode = false
   private newActivity: ClActivity = new ClActivity()
   private breadCrumbList: any[] = []
+
+  private previewImageActivity = new ClActivity()
+  private isShowMainClientImageActive = false
 
   private layout () {
     return 'admin'
@@ -116,6 +138,26 @@ export default class AdminClActivityTypes extends Vue {
     }
   }
 
+  private async addMainClientImage (imageFile: string, activity: ClActivity) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    getServiceContainer().mediaService.saveClActivityMainClientLogo(activity.clActivityId, formData)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  }
+
+  private async showMainClientImage (activity: ClActivity) {
+    this.previewImageActivity = activity
+    this.isShowMainClientImageActive = !this.isShowMainClientImageActive
+  }
+
+  private async deleteActivity (activity: ClActivity) {
+    const okCallback = async () => {
+      await getServiceContainer().publicEkosetService.deleteClActivity(activity)
+      this.updateItems()
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить вид деятельности?', 'Подтвердите удаление', okCallback)
+  }
+
   private cancel () {
     this.newActivity = new ClActivity()
     this.createNewMode = false
@@ -141,14 +183,15 @@ export default class AdminClActivityTypes extends Vue {
   margin-top: 10px;
 
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 160px 60px;
+  //  grid-template-columns: 50px 1fr 280px 60px;
   grid-column-gap: 20px;
   justify-content: flex-end;
 
   padding: 5px;
   padding-left: 10px;
-  // border: 1px solid lightgrey;
-  // border-radius: 2px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
   line-height: 2em;
 
   * {

@@ -5,7 +5,7 @@
       class="brc-service-smallitem__link"
     >
       <figure>
-        <img :alt="serviceItem.businessServiceName" itemprop="image" :src="imageSrc" />
+        <v-lazy-image :alt="serviceItem.businessServiceName" itemprop="image" :src="imageSrc" />
         <figcaption>{{serviceItem.businessServiceName}}</figcaption>
       </figure>
 

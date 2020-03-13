@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { VueEditor, Quill } from 'vue2-editor'
 
 @Component
 export default class AdminFreeContentBlockEditor extends Vue {
@@ -29,7 +30,7 @@ export default class AdminFreeContentBlockEditor extends Vue {
     modules: {
       imageResize: {
         modules: ['Resize', 'DisplaySize']
-      }
+      },
       //  videoResize: {
       //    modules: ['Resize', 'DisplaySize'],
       //    tagName: 'iframe'

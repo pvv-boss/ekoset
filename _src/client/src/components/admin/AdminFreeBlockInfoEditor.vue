@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-admin-card-field-list_row brc-admin-panel__site brc_admin-freeblock-editor">
+  <div class="brc-admin-card-field-list_row brc_admin-freeblock-editor">
     <b-field label="Наименование">
       <b-input placeholder="Наименование" type="text" v-model="dynamicComponentInfo.dispalyName"></b-input>
     </b-field>
@@ -66,8 +66,9 @@ export default class AdminFreeBlockInfoEditor extends Vue {
   background-color: white;
   padding: 20px;
 
+  max-width: 1200px;
   *.ql-editor {
-    height: 400px !important;
+    height: 480px !important;
   }
 }
 </style>  

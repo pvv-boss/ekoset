@@ -25,18 +25,27 @@ const config = {
     script: [
       // { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
       // { src: 'https://yastatic.net/share2/share.js' }
-      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', async: true }
+      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', async: 'true' }
     ],
 
-    // Если получится в прелоад, то и фонт сюда
     link: [
       {
         rel: 'stylesheet',
-        href: '//unpkg.com/buefy/dist/buefy.min.css',
+        href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap',
+        media: 'print',
+        onload: 'this.media=\'all\''
       },
       {
         rel: 'stylesheet',
-        href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css'
+        href: '//unpkg.com/buefy/dist/buefy.min.css',
+        media: 'print',
+        onload: 'this.media=\'all\''
+      },
+      {
+        rel: 'stylesheet',
+        href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
+        media: 'print',
+        onload: 'this.media=\'all\''
       },
       {
         rel: 'icon',
@@ -83,6 +92,9 @@ const config = {
     },
     {
       src: '@/plugins/dragable-plugin'
+    },
+    {
+      src: '@/plugins/image-lazy-load'
     }
   ],
 
@@ -106,7 +118,7 @@ const config = {
       fileName: 'index.ts'
     }],
     ['nuxt-buefy', { css: false, materialDesignIcons: false }],
-    ['@nuxtjs/yandex-metrika',
+    ['@naumstory/nuxtjs-yandex-metrika',
       {
         id: '57712291',
         // webvisor: false,
@@ -121,7 +133,7 @@ const config = {
     // analyze: true,
     extractCSS: true,
     splitChunks: {
-      //  layouts: true
+      layouts: true
     },
 
     filenames: {
@@ -154,12 +166,6 @@ const config = {
     // whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, , /file.*?$/, /grid.*?$/, /help.*?$/, ]
     whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /theme.*?$/],
     whitelist: ['label', 'field-label']
-  },
-
-  webfontloader: {
-    google: {
-      families: ['Roboto:400,500,700']
-    }
   },
 
   server: {

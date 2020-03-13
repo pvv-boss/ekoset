@@ -33,6 +33,7 @@
         <div class="brc_admin-brand-list-item">
           <span>Статус</span>
           <span>Наименование</span>
+          <span>Вид деятельности</span>
           <span>Фото (логотип)</span>
           <span>Удалить</span>
         </div>
@@ -56,6 +57,8 @@
             <nuxt-link
               :to="{ name: 'admin-brand-card',params:{brand:iterBrand.clBrandId}}"
             >{{iterBrand.clBrandName}}</nuxt-link>
+
+            <AdminClActivitySelector v-model="iterBrand.clActivityId" @input="saveBrand(iterBrand)"></AdminClActivitySelector>
 
             <b-upload @input="saveBrandImage(...arguments,iterBrand)">
               <a class="button is-link">
@@ -82,11 +85,13 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
+import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 
 @Component({
   components: {
     BreadCrumbs,
-    AdminStatusSelector
+    AdminStatusSelector,
+    AdminClActivitySelector
   }
 })
 export default class AdminBrandList extends Vue {
@@ -125,6 +130,7 @@ export default class AdminBrandList extends Vue {
 
   private async saveBrand (brand: ClBrand) {
     await getServiceContainer().publicEkosetService.saveBrand(brand)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteBrand (brand: ClBrand) {
@@ -173,7 +179,7 @@ export default class AdminBrandList extends Vue {
 
     display: grid;
     //  grid-template-columns: 1fr 280px 80px;
-    grid-template-columns: 50px 1fr 280px 60px;
+    grid-template-columns: 50px 1fr 1fr 280px 60px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

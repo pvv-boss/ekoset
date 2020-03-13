@@ -137,6 +137,10 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpPut(this.buildHttRequest('admin/panel/clActivities'), clActivity)
   }
 
+  public async deleteClActivity (clActivity: ClActivity) {
+    return HttpUtil.httpDelete(this.buildHttRequest(`admin/panel/clActivities/${clActivity.clActivityId}`))
+  }
+
   public async addOrRemoveBrand2SiteSection (brandId: number, siteSectionId: number, isAdd: boolean) {
     const query = `brands/${brandId}/sitesection/${siteSectionId}`
     if (isAdd) {
