@@ -1,6 +1,4 @@
-import { BaseEntity, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId } from 'typeorm';
-import { IndividualOffer } from './IndividualOffer';
-import { BusinessService } from './BusinessService';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 
 @Entity('cl_activity')
@@ -17,34 +15,19 @@ export class ClActivity {
     nullable: true,
     name: 'cl_activity_name'
   })
-  public clActivityName: string | null;
+  public clActivityName: string;
 
-
-  // @Column('text', {
+  // @Column('numeric', {
   //   nullable: true,
-  //   name: 'cl_activity_img_big'
+  //   name: 'cl_activity_status'
   // })
-  // public clActivityImgBig: string | null;
+  // public clActivityStatus: number;
 
 
-  // @Column('text', {
+  // @Column('numeric', {
   //   nullable: true,
-  //   name: 'cl_activity_img_small'
+  //   name: 'cl_activity_priority'
   // })
-  // public clActivityImgSmall: string | null;
-
-
-  @Column('numeric', {
-    nullable: true,
-    name: 'cl_activity_status'
-  })
-  public clActivityStatus: number | null;
-
-
-  @Column('numeric', {
-    nullable: true,
-    name: 'cl_activity_priority'
-  })
-  public clActivityPriority: number | null;
+  // public clActivityPriority: number;
 
 }

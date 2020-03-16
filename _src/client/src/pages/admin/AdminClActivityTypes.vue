@@ -47,7 +47,7 @@
               required
               validation-message="Наименование не может быть пустым"
               v-model="iterItem.clActivityName"
-              @blur="saveAll"
+              @blur="saveAct(iterItem)"
             ></b-input>
 
             <div>
@@ -130,6 +130,11 @@ export default class AdminClActivityTypes extends Vue {
     this.newActivity = new ClActivity()
     this.createNewMode = false
     this.updateItems()
+  }
+
+  private async saveAct (activity: ClActivity) {
+    await getServiceContainer().publicEkosetService.saveClActivity(this.newActivity)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async saveAll () {
