@@ -6,9 +6,8 @@
       :imageSrc="sitePageInfo.sitePageBanner"
     ></TheBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <client-only>
-      <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
-    </client-only>
+
+    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </main>
 </template>
 

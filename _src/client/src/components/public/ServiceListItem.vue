@@ -105,7 +105,8 @@ export default class ServiceListItem extends Vue {
   }
 
   img {
-    // width: 100%;
+    width: 122px;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     max-height: 122px;

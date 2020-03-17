@@ -1,4 +1,5 @@
 import webpack = require('webpack')
+const isDev = process.env.NODE_ENV !== 'production'
 
 const config = {
   mode: 'universal',
@@ -29,12 +30,6 @@ const config = {
     ],
 
     link: [
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap',
-        media: 'print',
-        onload: 'this.media=\'all\''
-      },
       {
         rel: 'stylesheet',
         href: '//unpkg.com/buefy/dist/buefy.min.css',
@@ -99,7 +94,8 @@ const config = {
   ],
 
   router: {
-    middleware: ['needAuthorize', 'baseMiddleware']
+    middleware: ['needAuthorize', 'baseMiddleware'],
+    prefetchLinks: true
   },
 
   buildModules: [
@@ -132,14 +128,37 @@ const config = {
   build: {
     // analyze: true,
     extractCSS: true,
+
+    ...(!isDev && {
+      html: {
+        minify: {
+          collapseBooleanAttributes: true,
+          decodeEntities: true,
+          minifyCSS: true,
+          minifyJS: true,
+          processConditionalComments: true,
+          removeEmptyAttributes: true,
+          removeRedundantAttributes: true,
+          trimCustomFragments: true,
+          useShortDoctype: true
+        }
+      }
+    }),
+
+    optimization: {
+      minimize: !isDev
+    },
+
     splitChunks: {
-      layouts: true
+      layouts: true,
+      pages: true,
+      commons: true
     },
 
     filenames: {
       css: ({
         isDev
-      }) => isDev ? '[contenthash].css' : '[contenthash].css',
+      }) => isDev ? '[name].css' : '[contenthash].css',
     },
 
     extend (config, {
@@ -158,7 +177,12 @@ const config = {
   },
 
   render: {
-    compressor: false
+    compressor: false,
+    resourceHints: false,
+    etag: false,
+    static: {
+      etag: false
+    }
   },
 
   purgeCSS: {
@@ -166,6 +190,14 @@ const config = {
     // whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, , /file.*?$/, /grid.*?$/, /help.*?$/, ]
     whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /theme.*?$/],
     whitelist: ['label', 'field-label']
+  },
+
+  webfontloader: {
+    events: false,
+    google: {
+      families: ['Roboto:400,500,700:cyrillic&display=swap']
+    },
+    timeout: 500
   },
 
   server: {

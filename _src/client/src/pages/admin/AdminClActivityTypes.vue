@@ -133,7 +133,7 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveAct (activity: ClActivity) {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.newActivity)
+    await getServiceContainer().publicEkosetService.saveClActivity(activity)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 

@@ -5,7 +5,7 @@ import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
-import { ClActivity } from '@/entities/ekoset/ClActivity';
+import { ClActivityType } from '@/entities/ekoset/ClActivityType';
 import { ClClient } from '@/entities/ekoset/ClClient';
 import { Partner } from '@/entities/ekoset/Partner';
 import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
@@ -132,7 +132,7 @@ export default class MainEkosetController extends BaseController {
 
   @Put('/admin/panel/clActivities')
   public async adminSaveClActivity (
-    @Body() clActivity: ClActivity,
+    @Body() clActivity: ClActivityType,
     @Res() response: Response) {
     const result = await ServiceContainer.MainEkosetService.adminSaveClActivity(clActivity);
     return MainEkosetController.createSuccessResponse(result, response);

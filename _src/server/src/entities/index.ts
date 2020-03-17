@@ -4,7 +4,7 @@ import { AppUserSocialNetProfile } from '@/entities/users/AppUserSocialNetProfil
 import { Article } from './ekoset/Article';
 import { SiteSection } from './ekoset/SiteSection';
 import { BusinessService } from './ekoset/BusinessService';
-import { ClActivity } from './ekoset/ClActivity';
+import { ClActivityType } from './ekoset/ClActivityType';
 import { ClArticleTag } from './ekoset/ClArticleTag';
 import { ClBrand } from './ekoset/ClBrand';
 import { ClMetaTag } from './ekoset/ClMetaTag';
@@ -22,8 +22,8 @@ import { UserRequestFile } from './ekoset/UserRequestFile';
 
 
 const entityModelMetadata = [
-  AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, SiteSection, ClActivity, ClArticleTag, ClBrand,
-  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, PartnerGroup, Partner, ReccomendationLetter, SitePage, UserRequest, UserRequestFile
+  AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, SiteSection, ClArticleTag, ClBrand,
+  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, PartnerGroup, Partner, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType
 ];
 
 

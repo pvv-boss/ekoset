@@ -4,7 +4,7 @@ import { UserRequest } from '@/entities/ekoset/UserRequest';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { logger } from '@/utils/Logger';
 import MailSender from '@/utils/MailSender';
-import Intl from 'intl';
+import * as Intl from 'intl';
 import { UserRequestFile } from '@/entities/ekoset/UserRequestFile';
 
 const ruDateFormat = new Intl.DateTimeFormat('ru', {
@@ -55,7 +55,7 @@ export class UserRequestService extends BaseService {
   }
 
 
-  private sendEmailsByRequest (request: UserRequest, isAskForExpert: boolean, attachments: string[]) {
+  private sendEmailsByRequest (request: UserRequest, isAskForExpert: boolean, attachments: any[]) {
     const format = (template: string) => {
       const gmtDate = new Date(request.userRequestDate);
       const mskDate = gmtDate.setHours(gmtDate.getHours() + 3);

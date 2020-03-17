@@ -128,6 +128,9 @@ export default class ArticleCard extends Vue {
 
   .brc-article-item__views {
     margin-left: 15px;
+    .img {
+      display:inline;
+    }
   }
 }
 .brc-article-item__header-img {

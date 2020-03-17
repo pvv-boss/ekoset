@@ -21,6 +21,4 @@ class TypeOrmManager {
 
 }
 
-
-
 export default TypeOrmManager;

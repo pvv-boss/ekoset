@@ -67,7 +67,7 @@ img {
 // }
 
 .brc-page-image {
-  // min-height: 210px;
+  height: 210px;
   // max-height: 300px;
   width: 100%;
   -o-object-fit: cover;
@@ -76,6 +76,10 @@ img {
   object-position: left;
   max-width: 100%;
   border-radius: 5px !important;
+
+  @media (max-width: 768px) {
+    height: 190px;
+  }
 }
 
 .brc-page-title {

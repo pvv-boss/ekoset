@@ -6,10 +6,11 @@ import { ClBrand } from '@/entities/ekoset/ClBrand';
 import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import IndividualOfferService from './IndividualOfferService';
-import { ClActivity } from '@/entities/ekoset/ClActivity';
+import { ClActivityType } from '@/entities/ekoset/ClActivityType';
 import { Partner } from '@/entities/ekoset/Partner';
 import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
+import { logger } from '@/utils/Logger';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
@@ -131,7 +132,7 @@ export default class MainEkosetService extends BaseService {
     return TypeOrmManager.EntityManager.save(clBrand);
   }
 
-  public async adminSaveClActivity (clActivity: ClActivity) {
+  public async adminSaveClActivity (clActivity: ClActivityType) {
     return TypeOrmManager.EntityManager.save(clActivity);
   }
 

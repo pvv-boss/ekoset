@@ -61,50 +61,18 @@ let config = {
   externals: [NodeExternals()], // in order to ignore all modules in node_modules folder 
 
   optimization: {
-    noEmitOnErrors: true,
-    removeAvailableModules: false,
-    removeEmptyChunks: false,
-    splitChunks: false
+    // noEmitOnErrors: true,
+    // removeAvailableModules: false,
+    // removeEmptyChunks: false,
+    // splitChunks: false
   },
 
   module: {
-    rules: [
-
-      {
-        test: /\.ts$/,
-        enforce: 'pre',
-        loader: 'tslint-loader',
-        options: {
-          typeCheck: false,
-          emitErrors: false,
-          fix: true
-        },
-        exclude: /node_modules/
-      },
-
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-        options: {
-          transpileOnly: true,
-          happyPackMode: false,
-          experimentalWatchApi: true
-        }
-      },
-
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-        loader: 'standard-loader',
-        options: {
-          typeCheck: true,
-          emitErrors: false,
-          fix: true
-        },
-        exclude: /node_modules/
-      }
-    ]
+    rules: [{
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/
+    }]
   },
 
   plugins: removeEmpty([

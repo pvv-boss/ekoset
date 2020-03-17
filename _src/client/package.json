@@ -21,6 +21,7 @@
     "jwt-decode": "latest",
     "nuxt": "^2.11.0",
     "nuxt-buefy": "^0.3.23",
+    "nuxt-webfontloader": "^1.1.0",
     "quill-image-drop-module": "latest",
     "quill-image-resize-module": "latest",
     "quill-video-resize-module2": "latest",

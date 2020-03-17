@@ -39,17 +39,19 @@ export default class ServiceCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
+    const businessService = getServiceContainer().businessServiceService.getBySlug(context.params.service)
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection, context.params.service)
 
-    const data = await Promise.all([dynamicComponentInfo])
-
-    getModule(AppStore, context.store).changeCurrentServiceName(businessService.businessServiceName)
+    const data = await Promise.all([dynamicComponentInfo, businessService])
 
     return {
       dynamicComponentInfo: data[0],
-      businessService
+      businessService: data[1]
     }
+  }
+
+  private create () {
+    getModule(AppStore, this.$store).changeCurrentServiceName(this.businessService.businessServiceName)
   }
 
   private destroyed () {

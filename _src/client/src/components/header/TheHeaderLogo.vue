@@ -27,7 +27,7 @@ export default class TheHeaderLogo extends Vue {
   // @Prop()
   // private sitePage: SitePage
 
-  private defaultLogo = '/images/logo.png'
+  private defaultLogo = '/images/page_logo_1_ck71lvkv50000kciace7g1eik.svg'
   private currentLogoSrc: string = ''
 
   private get currentSiteSectionName () {
