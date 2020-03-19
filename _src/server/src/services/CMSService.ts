@@ -321,7 +321,7 @@ export default class CMSService extends BaseService {
     clients.code = BlockType.CLIENTS
     clients.dispalyName = 'Клиенты'
     clients.name = 'ClientList';
-    clients.visible = 1;
+    clients.visible = 0;
     clients.visibleIndex = 100;
     clients.props = {
       clientList: []

@@ -102,7 +102,7 @@ export default class ClientListItem extends Vue {
   img {
     width: 100%;
     height: 122px;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     margin-top: 15px;
 

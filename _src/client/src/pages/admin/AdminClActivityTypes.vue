@@ -72,7 +72,13 @@
       </template>
     </BaseCard>
 
-    <b-modal :active.sync="isShowMainClientImageActive" :can-cancel="true" :width="400">sdfdsfdsf</b-modal>
+    <b-modal :active.sync="isShowMainClientImageActive" :can-cancel="true" :width="400">
+      <ClientListItem
+        :clientItem="previewClientItem"
+        class="brc-page__dynamic_block"
+        style="width:265px;margin:0px;background-color:white;"
+      ></ClientListItem>
+    </b-modal>
   </div>
 </template>
 
@@ -86,11 +92,12 @@ import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
 import ClActivity from '@/models/ekoset/ClActivity'
-
+import ClientListItem from '@/components/public/ClientListItem.vue'
 
 @Component({
   components: {
-    BaseCard
+    BaseCard,
+    ClientListItem
   }
 })
 export default class AdminClActivityTypes extends Vue {
@@ -101,6 +108,7 @@ export default class AdminClActivityTypes extends Vue {
 
   private previewImageActivity = new ClActivity()
   private isShowMainClientImageActive = false
+  private previewClientItem = {}
 
   private layout () {
     return 'admin'
@@ -150,11 +158,6 @@ export default class AdminClActivityTypes extends Vue {
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
-  private async showMainClientImage (activity: ClActivity) {
-    this.previewImageActivity = activity
-    this.isShowMainClientImageActive = !this.isShowMainClientImageActive
-  }
-
   private async deleteActivity (activity: ClActivity) {
     const okCallback = async () => {
       await getServiceContainer().publicEkosetService.deleteClActivity(activity)
@@ -166,6 +169,19 @@ export default class AdminClActivityTypes extends Vue {
   private cancel () {
     this.newActivity = new ClActivity()
     this.createNewMode = false
+  }
+
+
+  private async showMainClientImage (activity: ClActivity) {
+    this.previewImageActivity = activity
+    this.isShowMainClientImageActive = !this.isShowMainClientImageActive
+
+    const allClients = await getServiceContainer().publicEkosetService.getClients()
+    this.previewClientItem = (allClients as any[]).find((iter) => {
+      return iter.clActivityId === this.previewImageActivity.clActivityId
+    })
+
+    this.previewClientItem = !!this.previewClientItem ? this.previewClientItem : {}
   }
 
 

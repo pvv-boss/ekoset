@@ -89,7 +89,7 @@ export default class ServiceListItem extends Vue {
     color: $text-color;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
     flex-grow: 1;
     @media (max-width: 500px) {
       font-weight: $font-regular;
@@ -107,7 +107,7 @@ export default class ServiceListItem extends Vue {
   img {
     width: 122px;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     max-height: 122px;
     // max-width: 122px;

@@ -346,7 +346,7 @@ export default class MessageForm extends Vue {
     .attached-file-name {
       font-size: 12px;
       word-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
       text-align: right;
       @media (max-width: 768px) {
         text-align: left;
