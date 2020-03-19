@@ -1,14 +1,11 @@
-import { JsonController, Get, Res, Param, Req, Body, Put, Delete, UseBefore, Post } from 'routing-controllers';
-import { Request, Response } from 'express';
+import { JsonController, Get, Res, Param, Body, Put, Delete } from 'routing-controllers';
+import { Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import { ClActivityType } from '@/entities/ekoset/ClActivityType';
-import { ClClient } from '@/entities/ekoset/ClClient';
-import { Partner } from '@/entities/ekoset/Partner';
-import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
 
 @JsonController()
@@ -46,53 +43,6 @@ export default class MainEkosetController extends BaseController {
     } else {
       MainEkosetController.createSuccessResponse({}, response)
     }
-  }
-
-
-  @Get('/clients')
-  public async getPartners (
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getPartners();
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-  @Get('/admin/panel/clients')
-  public async adminGetPartners (
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.adminGetPartners();
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-
-  @Get('/clients/:partnerId')
-  public async getPartnerById (
-    @Res() response: Response,
-    @Param('partnerId') partnerId: number) {
-    const result = await ServiceContainer.MainEkosetService.getPartnerById(partnerId);
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-  @Put('/clients')
-  public async savePartner (
-    @Body() partner: Partner,
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.savePartner(partner);
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-  @Get('/admin/panel/clients/groups')
-  public async getPartnerGroups (
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getPartnerGroups();
-    return MainEkosetController.createSuccessResponse(result, response);
-  }
-
-  @Put('/admin/panel/clients/groups')
-  public async savePartnerGroup (
-    @Body() partnerGroup: PartnerGroup,
-    @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.savePartnerGroup(partnerGroup);
-    return MainEkosetController.createSuccessResponse(result, response);
   }
 
 
@@ -278,6 +228,14 @@ export default class MainEkosetController extends BaseController {
     @Param('service') serviceId: number) {
 
     const result = await ServiceContainer.MainEkosetService.getRecommendationLettersByBusinessService(serviceId);
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/clients')
+  public async getClientsInfo (
+    @Res() response: Response) {
+
+    const result = await ServiceContainer.MainEkosetService.getClientsInfo();
     return MainEkosetController.createSuccessResponse(result, response);
   }
 

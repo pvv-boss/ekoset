@@ -7,14 +7,10 @@ import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
 import IndividualOfferService from './IndividualOfferService';
 import { ClActivityType } from '@/entities/ekoset/ClActivityType';
-import { Partner } from '@/entities/ekoset/Partner';
-import { PartnerGroup } from '@/entities/ekoset/PartnerGroup';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
-import { logger } from '@/utils/Logger';
 
 export default class MainEkosetService extends BaseService {
   private apiViewName = 'v_api_site_section';
-  private apiPartnersViewName = 'v_api_partner';
   private apiBrandsViewName = 'v_api_brand';
   private apiBrandsForSitreSectionViewName = 'v_api_brand_site_section';
   private apiClActivityViewName = 'cl_activity';
@@ -35,33 +31,6 @@ export default class MainEkosetService extends BaseService {
 
   public async getSiteSectionById (siteSectionId: number) {
     return this.getOneById(this.apiViewName, 'site_section_id = $1', siteSectionId);
-  }
-
-  public async getPartners () {
-    return this.getDbViewResult(this.apiPartnersViewName, null, 'partner_status=1');
-  }
-
-  public async adminGetPartners () {
-    return this.getDbViewResult(this.apiPartnersViewName);
-  }
-
-
-  public async getPartnerById (partnerId: number) {
-    return this.getOneById(this.apiPartnersViewName, 'partner_id=$1', partnerId)
-  }
-
-
-  public async savePartner (partner: Partner) {
-    partner.partnerGroup = Promise.resolve(partner.partnerGroupId);
-    return TypeOrmManager.EntityManager.save(partner);
-  }
-
-  public async getPartnerGroups () {
-    return this.getDbViewResult('v_partner_group');
-  }
-
-  public async savePartnerGroup (partnerGroup: PartnerGroup) {
-    return TypeOrmManager.EntityManager.save(partnerGroup);
   }
 
   // Админка
@@ -177,6 +146,10 @@ export default class MainEkosetService extends BaseService {
 
   public async getRecommendationLettersByBusinessService (businessServiceId: number) {
     return this.getDbViewResult('v_api_recommendation_letter_business_service', null, 'business_service_id = $1', [businessServiceId]);
+  }
+
+  public async getClientsInfo () {
+    return this.getDbViewResult('v_api_clients');
   }
 
   public async deleteRecommendationLetter (id: number) {

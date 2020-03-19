@@ -65,7 +65,7 @@ export default class SiteSectionListItem extends Vue {
     color: $text-color;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-break: break-word;
+    word-break: break-all;
   }
 
   img {

@@ -72,7 +72,7 @@ export default class ServiceListItem extends Vue {
       margin-bottom: 5px;
     }
     @media (max-width: 500px) {
-      font-size: 14px;
+      font-size: 13px;
     }
   }
   .brc-service-smallitem__price,
@@ -89,11 +89,11 @@ export default class ServiceListItem extends Vue {
     color: $text-color;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-break: break-word;
+    word-break: break-all;
     flex-grow: 1;
     @media (max-width: 500px) {
       font-weight: $font-regular;
-      font-size: 12px;
+      font-size: 13px;
     }
   }
   .brc-service-smallitem__link {

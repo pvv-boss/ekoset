@@ -1,11 +1,11 @@
 <template>
-  <ul>
+  <div class="brc-clients-list">
     <ClientListItem
       v-for="clientItem in clientList"
-      :key="clientItem.clClientId"
+      :key="clientItem.clActivityId"
       :clientItem="clientItem"
     ></ClientListItem>
-  </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,3 +24,21 @@ export default class ClientList extends Vue {
   private clientList
 }
 </script>
+
+<style lang="scss">
+.brc-clients-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: -30px;
+  grid-gap: 1rem;
+  padding-top: 30px;
+  border-top: 1px solid lightgrey;
+
+  @media (max-width: 768px) {
+    margin-top: -20px;
+    padding-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+}
+</style>

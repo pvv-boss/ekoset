@@ -8,8 +8,6 @@ import AdminBrandList from '@/pages/admin/AdminBrandList.vue'
 import AdminBrandCard from '@/pages/admin/AdminBrandCard.vue'
 import AdminIndividualOfferCard from '@/pages/admin/AdminIndividualOfferCard.vue'
 import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
-import AdminClPartnerGroups from '@/pages/admin/AdminClPartnerGroups.vue'
-import AdminClientList from '@/pages/admin/AdminClientList.vue'
 import AdminFooterSettings from '@/pages/admin/AdminFooterSettings.vue'
 import AdminTopMenuList from '@/pages/admin/AdminTopMenuList.vue'
 import AdminTopMenuCard from '@/pages/admin/AdminTopMenuCard.vue'
@@ -108,14 +106,6 @@ export const AdminRouter = [
     component: AdminIndividualOfferCard,
     meta: { requiresAuth: true, title: 'Экосеть: Панель управления - индивидуальные предложения' }
   },
-
-  {
-    name: 'admin-clients',
-    path: '/admin/client/',
-    props: true,
-    component: AdminClientList,
-    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - клиенты' }
-  },
   {
     name: 'cl-activity-types',
     path: '/admin/cl-activity-types',
@@ -123,16 +113,6 @@ export const AdminRouter = [
     component: AdminClActivityTypes,
     meta: {
       title: 'Справочники: Направления деятельности',
-      requiresAuth: true
-    }
-  },
-  {
-    name: 'cl-partner-groups',
-    path: '/admin/cl-partner-groups',
-    props: true,
-    component: AdminClPartnerGroups,
-    meta: {
-      title: 'Справочники: Группы клиентов',
       requiresAuth: true
     }
   },

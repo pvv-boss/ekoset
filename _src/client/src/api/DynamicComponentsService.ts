@@ -278,6 +278,18 @@ export default class DynamicComponentsService extends BaseService {
       }
     }
 
+
+    const clientsInfo = componentsInfo.find((iter) => {
+      return iter.code === BlockType.CLIENTS
+    })
+    if (!!clientsInfo && clientsInfo.visible === 1) {
+      clientsInfo.props.clientList = await getServiceContainer().publicEkosetService.getClients()
+      if (!adminMode) {
+        clientsInfo.visible = 0
+        clientsInfo.visible = !!clientsInfo.props.clientList && clientsInfo.props.clientList.length > 0 ? 1 : 0
+      }
+    }
+
     const relatedServiceInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.RELATED_SERVICE
     })
@@ -306,5 +318,6 @@ enum BlockType {
   BUSINESSTYPE_OFFER = 8,
   SERVICE_LIST = 9,
   SERVICE_PRICE = 10,
-  RELATED_SERVICE = 11
+  RELATED_SERVICE = 11,
+  CLIENTS = 12
 }

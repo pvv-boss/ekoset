@@ -175,7 +175,7 @@ export default class ThePriceMenuItem extends Vue {
     margin-right: 30px;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-break: break-word;
+    word-break: break-all;
   }
 
   @media (max-width: 900px) {

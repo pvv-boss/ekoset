@@ -13,8 +13,6 @@ import { IndividualOffer } from './ekoset/IndividualOffer';
 import { MetaTagContent } from './ekoset/MetaTagContent';
 import { SiteSocialNetwork } from './ekoset/SiteSocialNetwork';
 import { ClClient } from './ekoset/ClClient';
-import { PartnerGroup } from './ekoset/PartnerGroup';
-import { Partner } from './ekoset/Partner';
 import { ReccomendationLetter } from './ekoset/ReccomendationLetter';
 import SitePage from './ekoset/SitePage';
 import { UserRequest } from './ekoset/UserRequest';
@@ -23,7 +21,7 @@ import { UserRequestFile } from './ekoset/UserRequestFile';
 
 const entityModelMetadata = [
   AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, SiteSection, ClArticleTag, ClBrand,
-  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, PartnerGroup, Partner, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType
+  ClMetaTag, ClSiteSetting, IndividualOffer, MetaTagContent, SiteSocialNetwork, ClClient, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType
 ];
 
 

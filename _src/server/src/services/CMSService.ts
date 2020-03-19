@@ -316,7 +316,18 @@ export default class CMSService extends BaseService {
       serviceList: []
     }
 
-    result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable, relatedService);
+    const clients = new DynamicComponentInfo();
+    clients.id = 0;
+    clients.code = BlockType.CLIENTS
+    clients.dispalyName = 'Клиенты'
+    clients.name = 'ClientList';
+    clients.visible = 1;
+    clients.visibleIndex = 100;
+    clients.props = {
+      clientList: []
+    }
+
+    result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable, relatedService, clients);
 
     return result;
   }
@@ -407,5 +418,6 @@ enum BlockType {
   BUSINESSTYPE_OFFER = 8,
   SERVICE_LIST = 9,
   SERVICE_PRICE = 10,
-  RELATED_SERVICE = 11
+  RELATED_SERVICE = 11,
+  CLIENTS = 12
 }

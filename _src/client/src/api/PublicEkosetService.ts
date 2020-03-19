@@ -4,13 +4,7 @@ import { getServiceContainer } from './ServiceContainer'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
-import Partner from '@/models/ekoset/Partner';
-import PartnerGroup from '@/models/ekoset/PartnerGroup';
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
-import DynamicComponentInfo from '@/models/DynamicComponentInfo';
-import { getModule } from 'vuex-module-decorators'
-import AppStore from '@/store/AppStore'
-import { Store } from 'vuex'
 
 export default class PublicEkosetService extends BaseService {
 
@@ -36,36 +30,9 @@ export default class PublicEkosetService extends BaseService {
   }
 
   // Клиенты
-  public async getPartners () {
-    const query = `clients`
+  public async getClients () {
+    const query = 'clients'
     return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
-
-  public async adminGetPartners () {
-    const query = `admin/panel/clients`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
-
-
-  // Клиент
-  public async getPartnerById (id: number) {
-    const query = `clients/${id}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
-
-  public async savePartner (partner: Partner) {
-    const query = `clients`
-    return HttpUtil.httpPut(this.buildHttRequest(query), partner)
-  }
-
-  public async getPartnerGroups () {
-    const query = 'admin/panel/clients/groups'
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
-
-  public async savePartnerGroup (partnerGroup: PartnerGroup) {
-    const query = 'admin/panel/clients/groups'
-    return HttpUtil.httpPut(this.buildHttRequest(query), partnerGroup)
   }
 
   public async getClActivityList () {

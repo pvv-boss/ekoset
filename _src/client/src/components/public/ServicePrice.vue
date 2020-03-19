@@ -125,13 +125,13 @@ export default class ServicePrice extends Vue {
     th:last-child {
       text-align: right;
       padding-right: 40px;
-      @media (max-width: 500px) {
+      @media (max-width: 768px) {
         padding-right: 10px;
       }
     }
     th:first-child {
       padding-left: 40px;
-      @media (max-width: 500px) {
+      @media (max-width: 768px) {
         padding-left: 10px;
       }
     }
@@ -140,7 +140,7 @@ export default class ServicePrice extends Vue {
       padding-left: 40px;
       display: flex;
       flex-direction: row;
-      @media (max-width: 500px) {
+      @media (max-width: 768px) {
         padding-left: 10px;
       }
     }
@@ -148,9 +148,9 @@ export default class ServicePrice extends Vue {
       text-align: right;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      word-break: break-word;
+      word-break: break-all;
       padding-right: 40px;
-      @media (max-width: 500px) {
+      @media (max-width: 768px) {
         padding-right: 10px;
       }
     }
@@ -159,12 +159,12 @@ export default class ServicePrice extends Vue {
       text-align: left !important;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      word-break: break-word;
+      word-break: break-all;
     }
     .brc-service-price-td_child {
       word-wrap: break-word;
       overflow-wrap: break-word;
-      word-break: break-word;
+      word-break: break-all;
     }
     .brc-service-price-table-link {
       text-decoration: none;
@@ -182,7 +182,7 @@ export default class ServicePrice extends Vue {
       line-height: 0px;
       font-size: 30px;
       margin-top: calc(0.5em - 3px);
-      @media (max-width: 500px) {
+      @media (max-width: 768px) {
         margin-top: calc(0.5em - 6px);
       }
     }
@@ -212,7 +212,7 @@ export default class ServicePrice extends Vue {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .brc-service-price-table__wrapper {
     max-width: 100%;
     overflow-x: scroll;
