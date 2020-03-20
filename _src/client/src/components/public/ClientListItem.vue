@@ -52,11 +52,11 @@ export default class ClientListItem extends Vue {
   overflow: hidden;
 
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 20px;
   }
 
   @media (max-width: 423px) {
-    padding: 8px;
+    padding: 15px;
   }
 
   &:hover {
@@ -70,9 +70,6 @@ export default class ClientListItem extends Vue {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
-    @media (max-width: 500px) {
-      font-size: 14px;
-    }
   }
 
   .brc-client-item__list {

@@ -65,7 +65,7 @@ export default class ClientList extends Vue {
     margin-top: -20px;
     padding-top: 20px;
     grid-template-columns: repeat(1, 1fr);
-    grid-gap: 10px;
+    grid-gap: 20px;
   }
 }
 
@@ -91,12 +91,13 @@ export default class ClientList extends Vue {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   overflow: hidden;
   padding: 25px 35px 20px 35px;
+  border-radius: 5px;
 
   @media (max-width: 768px) {
     padding: 20px 20px 10px 20px;
-    min-height: min-content;
+    height: inherit;
     max-height: calc(100vh - 100px);
-    width: 85vw;
+    width: 90vw;
   }
 
   h4 {
@@ -106,9 +107,6 @@ export default class ClientList extends Vue {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
-    @media (max-width: 500px) {
-      font-size: 15px;
-    }
     border-bottom: 1px solid $red;
   }
 
@@ -124,7 +122,7 @@ export default class ClientList extends Vue {
   }
 
   .brc-clients-list-popup__list {
-    height: calc(100% - 60px);
+    height: calc(100% - 70px);
     overflow-y: auto;
     margin-top: 10px;
     padding-top: 10px !important;
