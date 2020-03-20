@@ -37,7 +37,7 @@ html {
   // font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
   font-size: 16px;
   line-height: 1.56em !important;
-  // text-rendering: optimizeLegibility;
+  text-rendering: auto !important;
   letter-spacing: 0.01em;
 
   h1 {

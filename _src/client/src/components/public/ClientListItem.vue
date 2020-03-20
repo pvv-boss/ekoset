@@ -4,7 +4,11 @@
     <ul class="brc-client-item__list">
       <li v-for="iterBrand in brandsLimit()" :key="iterBrand.id">{{iterBrand.name}}</li>
     </ul>
-    <a v-show="clientItem.allcount - 3 > 0" class="brc-client-item__showmore">{{moreItemsText()}}</a>
+    <a
+      v-show="clientItem.allcount - maxClientsShow > 0"
+      class="brc-client-item__showmore dont_outside"
+      @click="$emit('more-clients-clicked', clientItem)"
+    >{{moreItemsText()}}</a>
     <figure>
       <img
         :alt="clientItem.clActivityName"
@@ -24,18 +28,21 @@ export default class ClientListItem extends Vue {
   @Prop()
   private clientItem
 
+  private maxClientsShow = 5
+
   private moreItemsText () {
-    return `Еще ${this.clientItem.allcount - 3}`
+    return `Еще ${this.clientItem.allcount - this.maxClientsShow}`
   }
 
   private brandsLimit () {
-    return this.clientItem.brandsList && this.clientItem.brandsList.length ? this.clientItem.brandsList.slice(0, 3) : this.clientItem.brandsList
+    return this.clientItem.brandsList && this.clientItem.brandsList.length ? this.clientItem.brandsList.slice(0, this.maxClientsShow) : this.clientItem.brandsList
   }
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/variables.scss';
+
 .brc-client-item {
   border: 1px solid lightgrey;
   border-radius: 5px;
@@ -78,7 +85,11 @@ export default class ClientListItem extends Vue {
       margin-top: 0 !important;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
+
+      @media (max-width: 768px) {
+        word-break: break-all;
+      }
       @media (max-width: 500px) {
         font-size: 14px;
       }
@@ -107,6 +118,7 @@ export default class ClientListItem extends Vue {
     margin-top: 15px;
 
     @media (max-width: 768px) {
+      height: 96px;
       margin-top: 10px;
     }
   }

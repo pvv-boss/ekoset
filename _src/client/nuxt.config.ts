@@ -197,7 +197,7 @@ const config = {
     google: {
       families: ['Roboto:400,500,700:cyrillic&display=swap']
     },
-    timeout: 500
+    timeout: 100
   },
 
   server: {
