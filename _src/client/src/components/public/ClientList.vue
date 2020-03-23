@@ -75,8 +75,7 @@ export default class ClientList extends Vue {
   @media (max-width: 768px) {
     margin-top: -20px;
     padding-top: 20px;
-    //  grid-template-columns: repeat(1, 1fr);
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
   }
 }
@@ -150,7 +149,7 @@ export default class ClientList extends Vue {
         //  word-break: break-all;
       }
       @media (max-width: 500px) {
-        font-size: 14px;
+        //  font-size: 14px;
       }
     }
   }
