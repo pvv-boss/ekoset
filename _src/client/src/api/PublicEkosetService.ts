@@ -35,6 +35,12 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
+  public async getClientsInfoByActivity (activityId: number) {
+    const query = `clients/activity/${activityId}`
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+
   public async getClActivityList () {
     const query = `admin/panel/clActivities`
     return HttpUtil.httpGet(this.buildHttRequest(query))

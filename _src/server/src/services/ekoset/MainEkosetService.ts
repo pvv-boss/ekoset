@@ -152,6 +152,10 @@ export default class MainEkosetService extends BaseService {
     return this.getDbViewResult('v_api_clients');
   }
 
+  public async getClientsInfoByActivity (id: number) {
+    return this.getDbViewResult('v_api_all_clients', null, 'cl_activity_id=$1', [id]);
+  }
+
   public async deleteRecommendationLetter (id: number) {
     return this.deleteById('recommendation', 'recomm_id = $1', id);
   }

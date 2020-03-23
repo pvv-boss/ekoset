@@ -4,23 +4,23 @@
       v-for="clientItem in clientList"
       :key="clientItem.clActivityId"
       :clientItem="clientItem"
-      @more-clients-clicked="($event)=> {clickedMoreClientItem = $event; moreClientPopupActive = true}"
+      @more-clients-clicked="($event)=> {clickedMoreClientItem = $event; updateClickedAllClients();}"
     ></ClientListItem>
 
-    <div class="brc-clients-list-popup__wrapper" v-show="moreClientPopupActive">
+    <div class="brc-clients-list-popup__wrapper" v-if="moreClientPopupActive">
       <div
         class="brc-clients-list-popup"
         v-show="moreClientPopupActive"
-        v-click-outside="()=>{clickedMoreClientItem = false; moreClientPopupActive = false;}"
+        v-click-outside="()=>{clickedMoreClientItem = false; moreClientPopupActive = false; clickedMoreClientList;clickedMoreClientItem=[];}"
       >
         <div
           class="brc-clients-list-popup__header"
-          @click="()=> {clickedMoreClientItem = false; moreClientPopupActive = false;}"
+          @click="()=> {clickedMoreClientItem = false; moreClientPopupActive = false;clickedMoreClientItem=[];}"
         >&times;</div>
         <h4>{{clickedMoreClientItem.clActivityName}}</h4>
         <ul class="brc-clients-list-popup__list">
           <li
-            v-for="iterBrand in clickedMoreClientItem.brandsList"
+            v-for="iterBrand in clickedMoreClientList.brandsList"
             :key="iterBrand.id"
           >{{iterBrand.name}}</li>
         </ul>
@@ -44,8 +44,19 @@ export default class ClientList extends Vue {
   @Prop(Array)
   private clientList
 
-  private clickedMoreClientItem = {}
+  private clickedMoreClientItem: any = {}
+  private clickedMoreClientList = {}
   private moreClientPopupActive = false
+
+  private async updateClickedAllClients () {
+    const res = await getServiceContainer().publicEkosetService.getClientsInfoByActivity(this.clickedMoreClientItem.clActivityId)
+    if (!!res && res.length && res.length > 0) {
+      this.clickedMoreClientList = res[0]
+      this.moreClientPopupActive = true
+    } else {
+      this.moreClientPopupActive = false
+    }
+  }
 
 }
 </script>
@@ -64,8 +75,9 @@ export default class ClientList extends Vue {
   @media (max-width: 768px) {
     margin-top: -20px;
     padding-top: 20px;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 20px;
+    //  grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
   }
 }
 
@@ -135,7 +147,7 @@ export default class ClientList extends Vue {
       word-break: break-word;
 
       @media (max-width: 768px) {
-        word-break: break-all;
+        //  word-break: break-all;
       }
       @media (max-width: 500px) {
         font-size: 14px;

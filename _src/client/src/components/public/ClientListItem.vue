@@ -85,7 +85,7 @@ export default class ClientListItem extends Vue {
       word-break: break-word;
 
       @media (max-width: 768px) {
-        word-break: break-all;
+        //   word-break: break-all;
       }
       @media (max-width: 500px) {
         font-size: 14px;

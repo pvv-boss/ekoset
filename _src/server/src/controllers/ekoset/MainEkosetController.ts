@@ -1,4 +1,4 @@
-import { JsonController, Get, Res, Param, Body, Put, Delete } from 'routing-controllers';
+import { JsonController, Get, Res, Param, Body, Put, Delete, QueryParam } from 'routing-controllers';
 import { Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
@@ -234,8 +234,16 @@ export default class MainEkosetController extends BaseController {
   @Get('/clients')
   public async getClientsInfo (
     @Res() response: Response) {
-
     const result = await ServiceContainer.MainEkosetService.getClientsInfo();
+    return MainEkosetController.createSuccessResponse(result, response);
+  }
+
+  @Get('/clients/activity/:id')
+  public async getClientsInfoByActivity (
+    @Res() response: Response,
+    @Param('id') activityId: number) {
+
+    const result = await ServiceContainer.MainEkosetService.getClientsInfoByActivity(activityId);
     return MainEkosetController.createSuccessResponse(result, response);
   }
 
