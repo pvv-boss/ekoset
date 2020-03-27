@@ -8,6 +8,7 @@ import TokenUtil from '@/utils/TokenUtil';
 import ClientNotifyMessage from './ClientNotifyMessage';
 import { createParamDecorator } from 'routing-controllers';
 import { DisplayFormatType } from '@/entities/DisplayFormatType';
+import { InternalServerError } from '@/exceptions/serverErrors/InternalServerError';
 
 export class BaseController {
 
@@ -98,13 +99,15 @@ export class BaseController {
   }
 
   public static createFailureResponse (exc: Exception, res: Response, redirectUrl?: string) {
-    const response = ResponseWrapper.createFailure(exc, null, redirectUrl);
-    return res.status(exc.status).json(response);
+    const err = !!exc ? exc : new InternalServerError('Unknown')
+    const response = ResponseWrapper.createFailure(err, null, redirectUrl);
+    return res.status(err.status).json(response);
   }
 
   public static createFailureResponseWithMessage (exc: Exception, res: Response, message: ClientNotifyMessage, redirectUrl?: string) {
-    const response = ResponseWrapper.createFailure(exc, message, redirectUrl);
-    return res.status(exc.status).json(response);
+    const err = !!exc ? exc : new InternalServerError('Unknown')
+    const response = ResponseWrapper.createFailure(err, message, redirectUrl);
+    return res.status(err.status).json(response);
   }
 
   public static setLocationToClient (response: Response, location: string) {

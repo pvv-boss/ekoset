@@ -33,7 +33,7 @@
         <div class="brc_admin-active-list">
           <div class="brc_admin-active-list-item">
             <span>Наименование</span>
-            <span>Логотип Клиента</span>
+            <span>Главный логотип</span>
             <span>Удалить</span>
           </div>
           <div
@@ -63,6 +63,7 @@
                 size="is-medium"
                 outlined
                 style="margin-left:20px;"
+                v-if="!!iterItem.clActivityMainClientImg && iterItem.clActivityMainClientImg !='/img/empty-image.png'"
               ></b-button>
             </div>
 

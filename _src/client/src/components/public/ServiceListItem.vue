@@ -86,6 +86,7 @@ export default class ServiceListItem extends Vue {
 
   h4 {
     margin: auto;
+    margin-top:15px;
     color: $text-color;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -94,6 +95,7 @@ export default class ServiceListItem extends Vue {
     @media (max-width: 500px) {
       font-weight: $font-regular;
       font-size: 13px;
+    margin-top:5px;
     }
   }
   .brc-service-smallitem__link {

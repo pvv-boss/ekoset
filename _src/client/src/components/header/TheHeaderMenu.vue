@@ -62,7 +62,7 @@ export default class TheHeaderMenu extends Vue {
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 
-  public async mounted () {
+  public async beforeMount () {
     this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
   }
 }

@@ -7,13 +7,20 @@ import { logger } from './Logger';
 
 export default class MailSender {
 
-  public static smtpOptions = {
-    host: AppConfig.mail.host,
-    port: AppConfig.mail.port,
-    pool: true,
-    maxConnections: 1,
-    maxMessages: 100
-  };
+  // public static smtpOptions = {
+  //   host: AppConfig.mail.host,
+  //   port: AppConfig.mail.port,
+  //   secure: false,
+  //   pool: true,
+  //   maxConnections: 1,
+  //   maxMessages: 100,
+  //   auth: {
+  //     user: AppConfig.mail.auth.user, // generated ethereal user
+  //     pass: AppConfig.mail.auth.pass // generated ethereal password
+  //   }
+  // };
+
+  public static smtpOptions = AppConfig.mail;
 
   public static smtpTransport = nodemailer.createTransport(MailSender.smtpOptions);
 
@@ -32,9 +39,6 @@ export default class MailSender {
     }
 
     const sendCallback = (err: Error | null, info: SentMessageInfo) => {
-      const rr = err;
-      const infoinfo = info;
-
       if (!!err) {
         logger.error(err);
       }
@@ -45,7 +49,7 @@ export default class MailSender {
   }
 
   public static sendWithAttachment (from: string, to: string, subject: string, templateName: string, attachments: string[], format: (template: string) => string) {
-    MailSender.internalSend(from, to, subject, templateName, attachments, format);
+    MailSender.internalSend(AppConfig.mail.from, to, subject, templateName, attachments, format);
 
   }
 

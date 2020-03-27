@@ -5,7 +5,7 @@
       <nuxt></nuxt>
     </div>
     <TheMessagesAriseBlock></TheMessagesAriseBlock>
-    <TheLayoutFooter></TheLayoutFooter>
+    <TheLayoutFooter v-once></TheLayoutFooter>
     <client-only>
       <!-- <BaseCookieNotice></BaseCookieNotice> -->
       <BaseBackToTop></BaseBackToTop>

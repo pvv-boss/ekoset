@@ -59,18 +59,35 @@
             >{{iterBrand.clBrandName}}</nuxt-link>
 
             <AdminClActivitySelector v-model="iterBrand.clActivityId" @input="saveBrand(iterBrand)"></AdminClActivitySelector>
-
-            <b-upload @input="saveBrandImage(...arguments,iterBrand)">
-              <a class="button is-link">
-                <b-icon icon="upload"></b-icon>
-              </a>
-            </b-upload>
+            <div>
+              <b-upload @input="saveBrandImage(...arguments,iterBrand)">
+                <a class="button is-link">
+                  <b-icon icon="upload"></b-icon>
+                </a>
+              </b-upload>
+              <b-button
+                @click="showBrandImage(iterBrand)"
+                icon-right="file-find"
+                type="is-success"
+                size="is-medium"
+                outlined
+                style="margin-left:20px;"
+                v-if="!!iterBrand.clBrandImgSmall && iterBrand.clBrandImgSmall !='/img/empty-image.png'"
+              ></b-button>
+            </div>
 
             <b-button type="is-danger" icon-right="delete" @click="deleteBrand(iterBrand)"></b-button>
           </div>
         </draggable>
       </div>
     </div>
+
+    <b-modal :active.sync="isShowBrandImageActive" :can-cancel="true" :width="400">
+      <RecommendationListItem
+        :brand="previewImageBrand"
+        style="width:190px;margin:0px;background-color:white;"
+      ></RecommendationListItem>
+    </b-modal>
   </div>
 </template>
 
@@ -86,12 +103,14 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
+import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
 
 @Component({
   components: {
     BreadCrumbs,
     AdminStatusSelector,
-    AdminClActivitySelector
+    AdminClActivitySelector,
+    RecommendationListItem
   }
 })
 export default class AdminBrandList extends Vue {
@@ -99,6 +118,8 @@ export default class AdminBrandList extends Vue {
   private createNewBrandMode = false
   private newBrand: ClBrand = new ClBrand()
 
+  private isShowBrandImageActive = false
+  private previewImageBrand: ClBrand = new ClBrand()
 
   private layout () {
     return 'admin'
@@ -159,6 +180,12 @@ export default class AdminBrandList extends Vue {
     brandItem.smallImageFormData = formData
 
     await getServiceContainer().publicEkosetService.saveBrand(brandItem)
+  }
+
+  private async showBrandImage (brandItem: ClBrand) {
+    this.previewImageBrand = brandItem
+    this.isShowBrandImageActive = !this.isShowBrandImageActive
+
   }
 }
 </script>

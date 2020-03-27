@@ -162,28 +162,25 @@ export default class BusinessServiceService extends BaseService {
 
 
   public async adminGetFooterServicesRelation (isBusinessClientType: boolean) {
-    const selectStmt = `cl_client_id = ${isBusinessClientType ? this.businessClientTypeId : this.PrivatePersonClientTypeId}`;
-    return this.getDbViewResult('v_api_client_business_service_relation', null, selectStmt);
+    return this.getDbViewResult(isBusinessClientType ? 'v_api_footer_service_business' : 'v_api_footer_service_private');
   }
 
 
-  public async adminGetFooterServicesForPrivateClient () {
-    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1';
-    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.PrivatePersonClientTypeId]);
-  }
+  // public async adminGetFooterServicesForPrivateClient () {
+  //   return this.getDbViewResult('v_api_footer_service_private');
+  // }
 
-  public async adminGetFooterServicesForBusinessClient () {
-    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1';
-    return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.businessClientTypeId]);
-  }
+  // public async adminGetFooterServicesForBusinessClient () {
+  //   return this.getDbViewResult('v_api_footer_service_private');
+  // }
 
   public async getFooterServicesForPrivateClient () {
-    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1';
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1 order by business_service_name';
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.PrivatePersonClientTypeId]);
   }
 
   public async getFooterServicesForBusinessClient () {
-    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1';
+    const selectStmt = 'cl_client_id = $1 and footer_include_ind=1 and business_service_status=1 order by business_service_name';
     return this.getDbViewResult(this.apiClientServiceViewName, null, selectStmt, [this.businessClientTypeId]);
   }
 

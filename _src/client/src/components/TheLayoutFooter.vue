@@ -8,7 +8,7 @@
           </nuxt-link>
         </div>
         <div class="brc-page-footer__phone">
-          <a href="tel:4952233595">+7 (495) 223-35-95</a>
+          <a href="tel:+74952233595">+7 (495) 223-35-95</a>
         </div>
         <div class="brc-page-footer__social">
           <a href="mailto:inbox@ekoset.ru">
@@ -85,9 +85,12 @@ export default class TheLayoutFooter extends Vue {
   private serviceListForPerson: BusinessService[] = []
 
 
-  private async mounted () {
-    this.serviceListForPerson = await getServiceContainer().businessServiceService.getServicesForFooter('private')
-    this.serviceListForBusiness = await getServiceContainer().businessServiceService.getServicesForFooter('business')
+  private async beforeMount () {
+    const pr1 = getServiceContainer().businessServiceService.getServicesForFooter('private')
+    const pr2 = getServiceContainer().businessServiceService.getServicesForFooter('business')
+    const data = await Promise.all([pr1, pr2])
+    this.serviceListForPerson = data[0]
+    this.serviceListForBusiness = data[1]
   }
 
   private get getCurrentSiteSection () {
@@ -227,6 +230,8 @@ export default class TheLayoutFooter extends Vue {
     border-top: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
     padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
   }
 
   .brc-page-footer__menu {
@@ -245,11 +250,11 @@ export default class TheLayoutFooter extends Vue {
     }
 
     .brc-footer-list-link {
-      margin-top: 15px;
+      margin-top: 10px;
       height: 0px;
       overflow: hidden;
       transition: height 0.5s;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .brc-footer-list-arrow {

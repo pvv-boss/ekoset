@@ -8,22 +8,22 @@ import SitePage from '@/entities/ekoset/SitePage';
 @JsonController()
 export default class CmsController extends BaseController {
 
-  @Get('/admin/panel/footer/private')
-  public async adminGetFooterServicesForPrivateClient (
-    @Res() response: Response
-  ) {
-    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForPrivateClient();
-    return CmsController.createSuccessResponse(result, response);
-  }
+  // @Get('/admin/panel/footer/private')
+  // public async adminGetFooterServicesForPrivateClient (
+  //   @Res() response: Response
+  // ) {
+  //   const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForPrivateClient();
+  //   return CmsController.createSuccessResponse(result, response);
+  // }
 
 
-  @Get('/admin/panel/footer/business')
-  public async adminGetFooterServicesForBusinessClient (
-    @Res() response: Response
-  ) {
-    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForBusinessClient();
-    return CmsController.createSuccessResponse(result, response);
-  }
+  // @Get('/admin/panel/footer/business')
+  // public async adminGetFooterServicesForBusinessClient (
+  //   @Res() response: Response
+  // ) {
+  //   const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForBusinessClient();
+  //   return CmsController.createSuccessResponse(result, response);
+  // }
 
   @Put('/admin/panel/footer/private/:serviceId')
   public async adminAddFooterServicesForPrivateClient (

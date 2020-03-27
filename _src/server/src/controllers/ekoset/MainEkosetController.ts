@@ -7,6 +7,7 @@ import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import { ClActivityType } from '@/entities/ekoset/ClActivityType';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
+import ClientNotifyMessage from '../ClientNotifyMessage';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -92,8 +93,12 @@ export default class MainEkosetController extends BaseController {
   public async deleteClActivity (
     @Param('id') clActivityID: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.deleteClActivity(clActivityID);
-    return MainEkosetController.createSuccessResponse(result, response);
+    try {
+      const result = await ServiceContainer.MainEkosetService.deleteClActivity(clActivityID);
+      return MainEkosetController.createSuccessResponse(result, response);
+    } catch (err) {
+      return MainEkosetController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert(' Внимание ', 'Данная запись используется и её удалить нельзя !'));
+    }
   }
 
   @Get('/admin/panel/brands/activities/:sitesection')

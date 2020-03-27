@@ -11,23 +11,26 @@
         <div class="brc-admin-card-field-list_column">
           <div class="col-2">
             <h3>Для бизнеса</h3>
-            <AdminServiceRelationList
+            <AdminServiceRelationListBySection
               :serviceRelationItems="serviceListForBusiness"
               @servicechecked="onChecked(...arguments, true)"
-            ></AdminServiceRelationList>
+              style="margin-top:25px;"
+            ></AdminServiceRelationListBySection>
           </div>
           <div class="col-2">
             <h3>Для частных лиц</h3>
-            <AdminServiceRelationList
+            <AdminServiceRelationListBySection
               :serviceRelationItems="serviceListForPerson"
               @servicechecked="onChecked(...arguments, false)"
-            ></AdminServiceRelationList>
+              style="margin-top:25px;"
+            ></AdminServiceRelationListBySection>
           </div>
         </div>
       </template>
     </BaseCard>
   </div>
 </template>
+
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
@@ -37,7 +40,7 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
+import AdminServiceRelationListBySection from '@/components/admin/AdminServiceRelationListBySection.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
@@ -45,7 +48,7 @@ import BaseCard from '@/components/BaseCard.vue'
 @Component({
   components: {
     BreadCrumbs,
-    AdminServiceRelationList,
+    AdminServiceRelationListBySection,
     BaseCard
   }
 })

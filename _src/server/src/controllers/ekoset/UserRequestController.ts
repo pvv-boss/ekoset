@@ -32,7 +32,7 @@ export default class UserRequestController extends BaseController {
 
     return reqNmb > 0 ?
       UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify('<br> Ваш заказ отправлен. <br> В ближайшее время с Вами свяжутся наши специалисты <br> <br>')) :
-      UserRequestController.createFailureResponseWithMessage(null, response, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
+      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
 }
 

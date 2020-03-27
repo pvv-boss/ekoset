@@ -83,5 +83,6 @@ export class UserRequestService extends BaseService {
   }
   private getToEmails () {
     return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
+    // return ['SergeyRyzhkov76@gmail.com'];
   }
 }
