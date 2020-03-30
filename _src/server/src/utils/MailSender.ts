@@ -49,7 +49,7 @@ export default class MailSender {
   }
 
   public static sendWithAttachment (from: string, to: string, subject: string, templateName: string, attachments: string[], format: (template: string) => string) {
-    MailSender.internalSend(AppConfig.mail.from, to, subject, templateName, attachments, format);
+    MailSender.internalSend(from, to, subject, templateName, attachments, format);
 
   }
 
