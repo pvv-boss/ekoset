@@ -1,4 +1,6 @@
-export default class SiteSection {
+import SeoMeta from './SeoMeta';
+
+export default class SiteSection extends SeoMeta {
   public siteSectionId: number;
   public siteSectionName: string;
   public siteSectionH1: string;

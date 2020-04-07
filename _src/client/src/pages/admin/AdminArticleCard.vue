@@ -48,6 +48,10 @@
                   ></b-input>
                 </b-field>
 
+                <b-field label="URL (ЧПУ) на страницу">
+                  <b-input type="text" v-model="articleItem.articleSlug"></b-input>
+                </b-field>
+
                 <b-field label="Дата публикации">
                   <b-datepicker
                     v-model="articleDateDate"
@@ -78,6 +82,13 @@
                     v-model="articleItem.articleDescription"
                   ></b-input>
                 </b-field>
+
+                <AdminSeoTags
+                  :seoTitle.sync="articleItem.seoTitle"
+                  :seoDescription.sync="articleItem.seoDescription"
+                  :seoKeywords.sync="articleItem.seoKeywords"
+                ></AdminSeoTags>
+
                 <b-field label="Раздел сайта">
                   <AdminSiteSectionSelector v-model="articleItem.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
                 </b-field>
@@ -151,6 +162,7 @@ import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
 import ArticleListItem from '@/components/public/ArticleListItem.vue'
 import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
+import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
 @Component({
   components: {
@@ -163,7 +175,8 @@ import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
     AdminTagRelationList,
     AdminImageUploader,
     BaseCard,
-    ArticleListItem
+    ArticleListItem,
+    AdminSeoTags
   }
 })
 export default class AdminArticleCard extends Vue {

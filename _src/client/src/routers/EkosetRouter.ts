@@ -10,7 +10,6 @@ import Main from '@/pages/public/Main.vue'
 import Clients from '@/pages/public/Clients.vue'
 import Contacts from '@/pages/public/Contacts.vue'
 import Prices from '@/pages/public/Prices.vue'
-import Brands from '@/pages/public/Brands.vue'
 import About from '@/pages/public/About.vue'
 import DynamicPage from '@/pages/public/DynamicPage.vue'
 
@@ -49,12 +48,7 @@ export const EkosetRouter = [
     props: true,
     component: Prices
   },
-  {
-    name: 'brands',
-    path: '/:siteSection?/brands',
-    props: true,
-    component: Brands
-  },
+
   {
     name: 'offer-card',
     path: '/:siteSection?/:clienttype?/offers/:offer?',

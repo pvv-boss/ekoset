@@ -22,6 +22,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -35,6 +36,7 @@ export default class Clients extends Vue {
   private sitePageInfo: SitePage = new SitePage()
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private clients = []
+  private routeFullPath = ''
 
 
   private async asyncData (context: NuxtContext) {
@@ -44,7 +46,8 @@ export default class Clients extends Vue {
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {
       dynamicComponentInfo: data[0],
-      sitePageInfo: data[1]
+      sitePageInfo: data[1],
+      routeFullPath: context.route.fullPath
     }
   }
 
@@ -64,30 +67,9 @@ export default class Clients extends Vue {
     this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
+  }
 }
 </script>
 
-<style lang="scss">
-.brc-clients__wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  > div {
-    min-width: 300px;
-    margin-top: 15px;
-    > ul {
-      margin-left: 30px;
-      > li {
-        list-style-type: none;
-      }
-    }
-  }
-}
-</style>

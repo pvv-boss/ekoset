@@ -1,3 +1,5 @@
+import webpack = require('webpack')
+
 const isDev = process.env.NODE_ENV !== 'production'
 
 const config = {
@@ -29,18 +31,18 @@ const config = {
     ],
 
     link: [
-      // {
-      //   rel: 'stylesheet',
-      //   href: '//unpkg.com/buefy/dist/buefy.min.css',
-      //   media: 'print',
-      //   onload: 'this.media=\'all\''
-      // },
-      // {
-      //   rel: 'stylesheet',
-      //   href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
-      //   media: 'print',
-      //   onload: 'this.media=\'all\''
-      // },
+      {
+        rel: 'stylesheet',
+        href: '//unpkg.com/buefy/dist/buefy.min.css',
+        media: 'print',
+        onload: 'this.media=\'all\''
+      },
+      {
+        rel: 'stylesheet',
+        href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
+        media: 'print',
+        onload: 'this.media=\'all\''
+      },
       {
         rel: 'icon',
         type: 'image/x-icon',
@@ -60,9 +62,6 @@ const config = {
   },
 
   plugins: [
-    {
-      src: '@/plugins/buefy-plugin'
-    },
     {
       src: '@/plugins/initialize-app'
     },
@@ -89,6 +88,9 @@ const config = {
     },
     {
       src: '@/plugins/image-lazy-load'
+    },
+    {
+      src: '@/plugins/vue2-editor', mode: 'client'
     }
   ],
 
@@ -112,7 +114,7 @@ const config = {
       path: 'src/routers',
       fileName: 'index.ts'
     }],
-    // ['nuxt-buefy', { css: false, materialDesignIcons: false }],
+    ['nuxt-buefy', { css: false, materialDesignIcons: false }],
     ['@naumstory/nuxtjs-yandex-metrika',
       {
         id: '57712291',
@@ -125,7 +127,7 @@ const config = {
   ],
 
   build: {
-    analyze: true,
+    // analyze: true,
     extractCSS: true,
 
     ...(!isDev && {
@@ -166,6 +168,13 @@ const config = {
     }) {
       return config
     },
+
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
   },
 
   render: {
@@ -188,8 +197,7 @@ const config = {
     events: false,
     google: {
       families: ['Roboto:400,500,700:cyrillic&display=swap']
-    },
-    timeout: 100
+    }
   },
 
   server: {

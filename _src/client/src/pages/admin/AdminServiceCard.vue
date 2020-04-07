@@ -32,6 +32,21 @@
           <b-tab-item label="Оформление">
             <div class="brc-admin-card_two-column">
               <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+                <b-field label="Фото на странице">
+                  <AdminImageUploader
+                    id="bigImageFile"
+                    :srcImage="serviceItem.businessServiceImgBig"
+                    @uploader:newimageloaded="addServiceImage($event,true)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <figure class="brc-admin-card-image__wrapper">
+                        <img class="brc-admin-image" :src="imageSrc" />
+                        <h1 class="brc-admin-card-image-title">{{serviceItem.businessServiceH1}}</h1>
+                      </figure>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
+
                 <b-field label="Наименование">
                   <b-input
                     placeholder="Наименование"
@@ -54,20 +69,20 @@
                   ></b-input>
                 </b-field>
 
-                <b-field label="Фото на странице">
-                  <AdminImageUploader
-                    id="bigImageFile"
-                    :srcImage="serviceItem.businessServiceImgBig"
-                    @uploader:newimageloaded="addServiceImage($event,true)"
-                  >
-                    <template v-slot="{imageSrc}">
-                      <figure class="brc-admin-card-image__wrapper">
-                        <img class="brc-admin-image" :src="imageSrc" />
-                        <h1 class="brc-admin-card-image-title">{{serviceItem.businessServiceH1}}</h1>
-                      </figure>
-                    </template>
-                  </AdminImageUploader>
+                <b-field label="URL (ЧПУ) на страницу">
+                  <b-input
+                    type="text"
+                    v-model="serviceItem.businessServiceSlug"
+                    @blur="saveService"
+                  ></b-input>
                 </b-field>
+
+                <AdminSeoTags
+                  :seoTitle.sync="serviceItem.seoTitle"
+                  :seoDescription.sync="serviceItem.seoDescription"
+                  :seoKeywords.sync="serviceItem.seoKeywords"
+                  @updated="saveService"
+                ></AdminSeoTags>
               </div>
 
               <div class="brc-admin-card-field-list_row">
@@ -189,6 +204,7 @@ import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import SiteSection from '../../models/ekoset/SiteSection'
+import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
 @Component({
   components: {
@@ -204,7 +220,8 @@ import SiteSection from '../../models/ekoset/SiteSection'
     AdminFreeContentBlockEditor,
     ServiceListItem,
     AdminDynamicComponentsContainer,
-    AdminRelatedService
+    AdminRelatedService,
+    AdminSeoTags
   }
 })
 export default class AdminServiceCard extends Vue {

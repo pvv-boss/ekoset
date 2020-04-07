@@ -22,6 +22,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 
 @Component({
@@ -37,6 +38,7 @@ export default class OfferCard extends Vue {
   private individualOffer: IndividualOffer = new IndividualOffer()
   private breadCrumbList: any[] = []
   private offerHeaderText: string = ''
+  private routeFullPath = ''
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -62,7 +64,8 @@ export default class OfferCard extends Vue {
     return {
       individualOffer,
       offerHeaderText,
-      dynamicComponentInfo: data[0]
+      dynamicComponentInfo: data[0],
+      routeFullPath: context.route.fullPath
     }
   }
 
@@ -82,11 +85,8 @@ export default class OfferCard extends Vue {
     this.breadCrumbList.push({ name: this.offerHeaderText, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.individualOffer, this.routeFullPath)
+  }
 }
 </script>

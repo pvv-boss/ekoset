@@ -116,7 +116,7 @@ export default class ArticleService extends BaseService {
     try {
       // Заменяем встроенные картинки Base64 на URL
       article.articleBody = await this.createImageFromBase64AndReplaceSrc(article.articleBody);
-      article.articleSlug = slugify(article.articleTitle);
+      article.articleSlug = !!article.articleSlug ? article.articleSlug : slugify(article.articleTitle);
       article.siteSection = Promise.resolve(article.siteSectionId);
       article.articleStatus = !isNullOrUndefined(article.articleStatus) ? article.articleStatus : 1;
 

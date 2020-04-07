@@ -69,11 +69,9 @@ export default class Prices extends Vue {
     this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
+
+  //  private head () {
+  //     return MetaTagsBuilder.head(this.businessService)
   //   }
-  // }
 }
 </script>

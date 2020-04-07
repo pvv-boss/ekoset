@@ -25,7 +25,7 @@ export default class CMSService extends BaseService {
     if (sitePage.sitePageId > 10) {
       sitePage.sitePageRouteName = 'custom-page';
     }
-    sitePage.sitePageMenuName = slugify(sitePage.sitePageName);
+    sitePage.sitePageMenuName = !!sitePage.sitePageMenuName ? sitePage.sitePageMenuName : slugify(sitePage.sitePageName);
     return TypeOrmManager.EntityManager.save(sitePage);
   }
 
@@ -319,6 +319,8 @@ export default class CMSService extends BaseService {
     const clients = new DynamicComponentInfo();
     clients.id = 0;
     clients.code = BlockType.CLIENTS
+    clients.head = 'Наши клиенты';
+    clients.headCentered = true;
     clients.dispalyName = 'Клиенты'
     clients.name = 'ClientList';
     clients.visible = 0;

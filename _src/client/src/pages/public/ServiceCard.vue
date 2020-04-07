@@ -22,6 +22,7 @@ import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -37,6 +38,8 @@ export default class ServiceCard extends Vue {
   private priceServiceList: BusinessService[] = []
   private breadCrumbList: any[] = []
 
+  private routeFullPath = ''
+
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
     const businessService = getServiceContainer().businessServiceService.getBySlug(context.params.service)
@@ -46,7 +49,8 @@ export default class ServiceCard extends Vue {
 
     return {
       dynamicComponentInfo: data[0],
-      businessService: data[1]
+      businessService: data[1],
+      routeFullPath: context.route.fullPath
     }
   }
 
@@ -78,12 +82,10 @@ export default class ServiceCard extends Vue {
     this.breadCrumbList.push({ name: this.businessService.businessServiceName, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.businessService, this.routeFullPath)
+  }
+
 }
 </script>
 

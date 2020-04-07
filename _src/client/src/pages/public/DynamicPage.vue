@@ -21,6 +21,7 @@ import { getModule } from 'vuex-module-decorators'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -33,6 +34,7 @@ export default class DynamicPage extends Vue {
   private sitePageInfo: SitePage
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
+  private routeFullPath = ''
 
   private async asyncData (context: NuxtContext) {
     const pageId = getServiceContainer().dynamicComponentsService.getIdBySlug(context.params.page)
@@ -47,7 +49,8 @@ export default class DynamicPage extends Vue {
 
     return {
       dynamicComponentInfo: data[0],
-      sitePageInfo: data[1]
+      sitePageInfo: data[1],
+      routeFullPath: context.route.fullPath
     }
 
   }
@@ -68,11 +71,8 @@ export default class DynamicPage extends Vue {
     this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
+  }
 }
 </script>

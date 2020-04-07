@@ -56,6 +56,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -71,6 +72,7 @@ export default class ArticleCard extends Vue {
   private article = new Article()
   private realtedArticles: Article[] = []
   private breadCrumbList: any[] = []
+  private routeFullPath = ''
 
   private async asyncData (context: NuxtContext) {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
@@ -83,17 +85,15 @@ export default class ArticleCard extends Vue {
     return {
       dynamicComponentInfo,
       article: data[0],
-      realtedArticles: data[1]
+      realtedArticles: data[1],
+      routeFullPath: context.route.fullPath
     }
 
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.article, this.routeFullPath)
+  }
 
   private get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSectionName
@@ -128,8 +128,8 @@ export default class ArticleCard extends Vue {
 
   .brc-article-item__views {
     margin-left: 15px;
-    .img {
-      display:inline;
+    img {
+      display: inline !important;
     }
   }
 }

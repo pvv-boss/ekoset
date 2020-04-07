@@ -1,8 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { SeoMetaTags } from './SeoMetaTags';
 
 
 @Entity('site_section')
-export class SiteSection {
+export class SiteSection extends SeoMetaTags {
 
   @PrimaryGeneratedColumn({
     type: 'integer',
@@ -72,5 +73,6 @@ export class SiteSection {
     name: 'site_section_logo'
   })
   public siteSectionLogo: string;
+
 
 }

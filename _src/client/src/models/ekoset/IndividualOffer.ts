@@ -1,4 +1,6 @@
-export default class IndividualOffer {
+import SeoMeta from './SeoMeta';
+
+export default class IndividualOffer extends SeoMeta {
   public indOfferId: number;
   public clClientId: number;
   public clActivityId: number | null;

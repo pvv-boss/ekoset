@@ -1,4 +1,6 @@
-export default class BusinessService {
+import SeoMeta from './SeoMeta';
+
+export default class BusinessService extends SeoMeta {
   public businessServiceId: number;
   public siteSectionId: number;
   public siteSectionUrl: string;

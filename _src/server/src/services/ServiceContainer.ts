@@ -8,7 +8,6 @@ import ArticleService from './ekoset/ArticleService';
 import MainEkosetService from './ekoset/MainEkosetService';
 import IndividualOfferService from './ekoset/IndividualOfferService';
 import BusinessServiceService from './ekoset/BusinessServiceService';
-import SeoService from './ekoset/SeoService';
 import MediaService from './ekoset/MediaService';
 import CMSService from './CMSService';
 import { UserRequestService } from './ekoset/UserRequestService';
@@ -24,7 +23,6 @@ class ServiceContainer {
   public static MainEkosetService: MainEkosetService = new MainEkosetService();
   public static IndividualOfferService: IndividualOfferService = new IndividualOfferService();
   public static BusinessServiceService: BusinessServiceService = new BusinessServiceService();
-  public static SeoService: SeoService = new SeoService();
   public static MediaService: MediaService = new MediaService();
   public static CMSService: CMSService = new CMSService();
 

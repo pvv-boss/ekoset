@@ -16,6 +16,21 @@
           <b-tab-item label="Оформление">
             <div class="brc-admin-card_two-column">
               <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+                <b-field label="Фото на странице">
+                  <AdminImageUploader
+                    id="bigImageFile"
+                    :srcImage="siteSectionItem.siteSectionImgBig"
+                    @uploader:newimageloaded="addSiteSectionImage($event,true)"
+                  >
+                    <template v-slot="{imageSrc}">
+                      <figure class="brc-admin-card-image__wrapper">
+                        <img class="brc-admin-image" :src="imageSrc" />
+                        <h1 class="brc-admin-card-image-title">{{siteSectionItem.siteSectionH1}}</h1>
+                      </figure>
+                    </template>
+                  </AdminImageUploader>
+                </b-field>
+
                 <b-field label="Наименование">
                   <b-input
                     placeholder="Наименование"
@@ -38,20 +53,20 @@
                   ></b-input>
                 </b-field>
 
-                <b-field label="Фото на странице">
-                  <AdminImageUploader
-                    id="bigImageFile"
-                    :srcImage="siteSectionItem.siteSectionImgBig"
-                    @uploader:newimageloaded="addSiteSectionImage($event,true)"
-                  >
-                    <template v-slot="{imageSrc}">
-                      <figure class="brc-admin-card-image__wrapper">
-                        <img class="brc-admin-image" :src="imageSrc" />
-                        <h1 class="brc-admin-card-image-title">{{siteSectionItem.siteSectionH1}}</h1>
-                      </figure>
-                    </template>
-                  </AdminImageUploader>
+                <b-field label="URL (ЧПУ) на страницу">
+                  <b-input
+                    type="text"
+                    v-model="siteSectionItem.siteSectionSlug"
+                    @blur="saveSiteSection"
+                  ></b-input>
                 </b-field>
+
+                <AdminSeoTags
+                  :seoTitle.sync="siteSectionItem.seoTitle"
+                  :seoDescription.sync="siteSectionItem.seoDescription"
+                  :seoKeywords.sync="siteSectionItem.seoKeywords"
+                  @updated="saveSiteSection"
+                ></AdminSeoTags>
               </div>
 
               <div class="brc-admin-card-field-list_row">
@@ -154,6 +169,7 @@ import AdminStore from '@/store/AdminStore'
 import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue'
+import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
 @Component({
@@ -170,7 +186,8 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
     AdminFreeContentBlockEditor,
     AdminServiceListContainer,
     AdminFreeBlockInfoEditor,
-    TheHeaderLogo
+    TheHeaderLogo,
+    AdminSeoTags
   }
 })
 export default class AdminSiteSectionCard extends Vue {

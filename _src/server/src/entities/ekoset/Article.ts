@@ -1,10 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { SiteSection } from './SiteSection';
 import { BusinessService } from './BusinessService';
+import { SeoMetaTags } from './SeoMetaTags';
 
 
 @Entity('article')
-export class Article {
+export class Article extends SeoMetaTags {
 
   @PrimaryGeneratedColumn({
     type: 'integer',

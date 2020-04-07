@@ -21,6 +21,8 @@ import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import TheBanner from '@/components/header/TheBanner.vue'
+import SeoMeta from '@/models/ekoset/SeoMeta'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -33,6 +35,7 @@ export default class SiteSectionCard extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private siteSectionItem: SiteSection = new SiteSection()
   private breadCrumbList: any[] = []
+  private routeFullPath = ''
 
   private async asyncData (context: NuxtContext) {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
@@ -42,7 +45,8 @@ export default class SiteSectionCard extends Vue {
 
     return {
       siteSectionItem: data[0],
-      dynamicComponentInfo: data[1]
+      dynamicComponentInfo: data[1],
+      routeFullPath: context.route.fullPath
     }
   }
 
@@ -58,11 +62,8 @@ export default class SiteSectionCard extends Vue {
     this.breadCrumbList.push({ name: siteSectionName, link: '' })
   }
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.siteSectionItem, this.routeFullPath)
+  }
 }
 </script>

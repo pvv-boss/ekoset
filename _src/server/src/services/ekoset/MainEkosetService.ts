@@ -68,7 +68,7 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async saveSiteSection (siteSection: SiteSection) {
-    siteSection.siteSectionSlug = slugify(siteSection.siteSectionName);
+    siteSection.siteSectionSlug = !!siteSection.siteSectionSlug ? siteSection.siteSectionSlug : slugify(siteSection.siteSectionName);
     siteSection = await TypeOrmManager.EntityManager.save(siteSection);
 
     // Создаем два индивидуальных предложения (для бизнеса и частных лиц)

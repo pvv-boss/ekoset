@@ -4,7 +4,6 @@ import ArticleService from './ArticleService';
 import PublicEkosetService from './PublicEkosetService';
 import BusinessServiceService from './BusinessServiceService';
 import IndividualOfferService from './IndividualOfferService';
-import SeoMetaService from './SeoMetaService';
 import MediaService from './MediaService';
 import DynamicComponentsService from './DynamicComponentsService';
 import TopMenuService from './TopMenuService';
@@ -16,7 +15,6 @@ class ServiceContainer {
   public publicEkosetService: PublicEkosetService
   public businessServiceService: BusinessServiceService
   public individualOfferService: IndividualOfferService
-  public seoMetaService: SeoMetaService
   public mediaService: MediaService
   public dynamicComponentsService: DynamicComponentsService
   public topMenuService: TopMenuService
@@ -28,7 +26,6 @@ class ServiceContainer {
     this.publicEkosetService = new PublicEkosetService()
     this.businessServiceService = new BusinessServiceService()
     this.individualOfferService = new IndividualOfferService()
-    this.seoMetaService = new SeoMetaService()
     this.articleService = new ArticleService()
     this.mediaService = new MediaService()
     this.dynamicComponentsService = new DynamicComponentsService()

@@ -67,10 +67,11 @@ export default class ClientList extends Vue {
 .brc-clients-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin-top: -30px;
+  // margin-top: -30px;
+  margin-top: 30px;
   grid-gap: 1rem;
-  padding-top: 30px;
-  border-top: 1px solid lightgrey;
+  // padding-top: 30px;
+  // border-top: 1px solid lightgrey;
 
   @media (max-width: 768px) {
     margin-top: -20px;

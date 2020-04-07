@@ -1,4 +1,6 @@
-export default class SitePage {
+import SeoMeta from './ekoset/SeoMeta'
+
+export default class SitePage extends SeoMeta {
   public sitePageId: number
   public sitePageCode: number
   public sitePageName: string

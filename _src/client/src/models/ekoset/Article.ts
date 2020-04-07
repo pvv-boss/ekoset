@@ -1,4 +1,6 @@
-export default class Article {
+import SeoMeta from './SeoMeta';
+
+export default class Article extends SeoMeta {
   public articleId: number;
   public siteSectionId: null | number;
   public businessServiceId: null | number;

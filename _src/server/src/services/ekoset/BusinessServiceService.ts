@@ -62,7 +62,7 @@ export default class BusinessServiceService extends BaseService {
   }
 
   public async save (businessService: BusinessService) {
-    businessService.businessServiceSlug = slugify(businessService.businessServiceName)
+    businessService.businessServiceSlug = !!businessService.businessServiceSlug ? businessService.businessServiceSlug : slugify(businessService.businessServiceName)
     return TypeOrmManager.EntityManager.save(businessService);
   }
 

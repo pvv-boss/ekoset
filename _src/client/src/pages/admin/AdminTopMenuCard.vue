@@ -55,6 +55,17 @@
                 @input="save"
               ></AdminSiteSectionSelector>
             </b-field>
+
+            <b-field label="URL (ЧПУ) на страницу" v-show="!isStandartMenuItem">
+              <b-input type="text" v-model="sitePageItem.sitePageMenuName" @blur="save"></b-input>
+            </b-field>
+
+            <AdminSeoTags
+              :seoTitle.sync="sitePageItem.seoTitle"
+              :seoDescription.sync="sitePageItem.seoDescription"
+              :seoKeywords.sync="sitePageItem.seoKeywords"
+              @updated="save"
+            ></AdminSeoTags>
           </div>
 
           <div class="brc-admin-card-field-list_row">
@@ -106,6 +117,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
+import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
 @Component({
   components: {
@@ -116,7 +128,8 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
     BaseCard,
     AdminDynamicComponentsContainer,
     AdminFreeContentBlockEditor,
-    TheHeaderLogo
+    TheHeaderLogo,
+    AdminSeoTags
   }
 })
 export default class AdminTopMenuCard extends Vue {

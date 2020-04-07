@@ -16,6 +16,20 @@
       <template #content>
         <div class="brc-admin-card_two-column">
           <div class="brc-admin-card-field-list_row brc-admin-panel__site">
+            <b-field label="Фото на странице">
+              <AdminImageUploader
+                id="bigImageFile"
+                :srcImage="indOfferItem.indOfferImgBig"
+                @uploader:newimageloaded="addOfferImage($event,true)"
+              >
+                <template v-slot="{imageSrc}">
+                  <figure class="brc-admin-card-image__wrapper">
+                    <img class="brc-admin-image" :src="imageSrc" />
+                    <h1 class="brc-admin-card-image-title">{{indOfferItem.indOfferH1}}</h1>
+                  </figure>
+                </template>
+              </AdminImageUploader>
+            </b-field>
             <b-field label="Наименование" v-if="!isClientTypeMode">
               <b-input
                 placeholder="Наименование"
@@ -39,24 +53,20 @@
               ></b-input>
             </b-field>
 
+            <b-field label="URL (ЧПУ) на страницу">
+              <b-input type="text" v-model="indOfferItem.indOfferSlug" @blur="saveOffer"></b-input>
+            </b-field>
+
             <b-field label="Направление деятельности" v-if="!isClientTypeMode">
               <AdminClActivitySelector v-model="indOfferItem.clActivityId" @input="saveOffer"></AdminClActivitySelector>
             </b-field>
 
-            <b-field label="Фото на странице">
-              <AdminImageUploader
-                id="bigImageFile"
-                :srcImage="indOfferItem.indOfferImgBig"
-                @uploader:newimageloaded="addOfferImage($event,true)"
-              >
-                <template v-slot="{imageSrc}">
-                  <figure class="brc-admin-card-image__wrapper">
-                    <img class="brc-admin-image" :src="imageSrc" />
-                    <h1 class="brc-admin-card-image-title">{{indOfferItem.indOfferH1}}</h1>
-                  </figure>
-                </template>
-              </AdminImageUploader>
-            </b-field>
+            <AdminSeoTags
+              :seoTitle.sync="indOfferItem.seoTitle"
+              :seoDescription.sync="indOfferItem.seoDescription"
+              :seoKeywords.sync="indOfferItem.seoKeywords"
+              @updated="saveOffer"
+            ></AdminSeoTags>
           </div>
           <div class="brc-admin-card-field-list_row">
             <div v-if="!isClientTypeMode">
@@ -114,7 +124,7 @@ import AdminStore from '@/store/AdminStore'
 import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferListItem.vue'
-
+import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
 @Component({
   components: {
@@ -126,7 +136,8 @@ import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferList
     AdminDynamicComponentsContainer,
     BaseCard,
     AdminFreeContentBlockEditor,
-    BusinessTypeOfferListItem
+    BusinessTypeOfferListItem,
+    AdminSeoTags
   }})
 export default class AdminIndividualOfferCard extends Vue {
   private indOfferItem: IndividualOffer = new IndividualOffer()

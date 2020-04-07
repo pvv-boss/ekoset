@@ -23,6 +23,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 import SitePage, { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 
 @Component({
@@ -38,13 +39,11 @@ export default class Main extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private sitePageInfo: SitePage = new SitePage()
   private breadCrumbList: any[] = []
+  private routeFullPath = ''
 
-  // private head () {
-  //   return {
-  //     title: this.dynamicComponentInfo.seoMeta.pageTitle,
-  //     meta: this.dynamicComponentInfo.seoMeta.metaTags
-  //   }
-  // }
+  private head () {
+    return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
+  }
 
   private async asyncData (context: NuxtContext) {
     const siteSectionItems = getServiceContainer().publicEkosetService.getSiteSections()
@@ -55,7 +54,8 @@ export default class Main extends Vue {
     return {
       siteSectionItems: data[0],
       dynamicComponentInfo: data[1],
-      sitePageInfo: data[2]
+      sitePageInfo: data[2],
+      routeFullPath: context.route.fullPath
     }
   }
 }
