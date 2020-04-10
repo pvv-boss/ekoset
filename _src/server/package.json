@@ -25,8 +25,6 @@
     "@types/passport-jwt": "^3.0.2",
     "@types/passport-local": "latest",
     "@types/puppeteer": "latest",
-    "@types/request": "^2.48.4",
-    "@types/request-promise-native": "^1.0.17",
     "clean-webpack-plugin": "^2.0.2",
     "compression-webpack-plugin": "^3.1.0",
     "cross-env": "^6.0.3",
@@ -36,7 +34,7 @@
     "standard": "latest",
     "standard-loader": "latest",
     "ts-loader": "^6.2.0",
-    "tslint": "^5.20.0",
+    "tslint": "latest",
     "tslint-eslint-rules": "latest",
     "tslint-loader": "latest",
     "typedoc": "^0.15.8",
@@ -48,7 +46,7 @@
     "webpack-node-externals": "latest"
   },
   "dependencies": {
-    "@sindresorhus/slugify": "^0.11.0",
+    "@sindresorhus/slugify": "latest",
     "@types/intl": "^1.2.0",
     "bcrypt": "3.0.6",
     "body-parser": "latest",
@@ -74,15 +72,14 @@
     "passport-local": "latest",
     "passport-yandex": "latest",
     "pg": "latest",
-    "pg-promise": "^10.4.2",
-    "reflect-metadata": "^0.1.13",
-    "request": "latest",
-    "request-promise": "latest",
-    "request-promise-native": "latest",
-    "response-time": "latest",
+    "pg-promise": "latest",
+    "reflect-metadata": "latest",
     "routing-controllers": "latest",
     "routing-controllers-openapi": "latest",
     "typeorm": "latest",
-    "winston": "latest"
+    "winston": "latest",
+    "http-proxy-agent": "latest",
+    "https-proxy-agent": "latest",
+    "node-fetch": "latest"
   }
 }

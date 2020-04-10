@@ -25,7 +25,7 @@ export default class CMSService extends BaseService {
     if (sitePage.sitePageId > 10) {
       sitePage.sitePageRouteName = 'custom-page';
     }
-    sitePage.sitePageMenuName = !!sitePage.sitePageMenuName ? sitePage.sitePageMenuName : slugify(sitePage.sitePageName);
+    sitePage.sitePageMenuName = !!sitePage.sitePageMenuName ? sitePage.sitePageMenuName : slugify(sitePage.sitePageName.toLowerCase());
     return TypeOrmManager.EntityManager.save(sitePage);
   }
 

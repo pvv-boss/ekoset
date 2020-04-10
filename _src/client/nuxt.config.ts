@@ -32,23 +32,32 @@ const config = {
 
     link: [
       {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com/'
+      },
+      {
+        rel: 'preconnect',
+        href: '//unpkg.com/buefy/dist/'
+      },
+      {
+        rel: 'preconnect',
+        href: '//cdn.materialdesignicons.com'
+      },
+      {
         rel: 'stylesheet',
-        href: '//unpkg.com/buefy/dist/buefy.min.css',
-        media: 'print',
-        onload: 'this.media=\'all\''
+        href: '//unpkg.com/buefy/dist/buefy.min.css'
       },
       {
         rel: 'stylesheet',
         href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
-        media: 'print',
-        onload: 'this.media=\'all\''
+        // media: 'print',
+        // onload: 'this.media=\'all\''
       },
       {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.png'
       }
-      // { rel: 'stylesheet', href: 'highlight.js/styles/atom-one-light.css' }
     ],
 
     bodyAttrs: {
@@ -96,7 +105,7 @@ const config = {
 
   router: {
     middleware: ['needAuthorize', 'baseMiddleware'],
-    prefetchLinks: true
+    // prefetchLinks: true
   },
 
   buildModules: [
@@ -127,6 +136,12 @@ const config = {
   ],
 
   build: {
+    crossorigin: true,
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
+      ]
+    },
     // analyze: true,
     extractCSS: true,
 

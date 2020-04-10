@@ -59,7 +59,7 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async save (individualOffer: IndividualOffer) {
-    individualOffer.indOfferSlug = !!individualOffer.indOfferSlug ? individualOffer.indOfferSlug : slugify(individualOffer.indOfferName);
+    individualOffer.indOfferSlug = !!individualOffer.indOfferSlug ? individualOffer.indOfferSlug : slugify(individualOffer.indOfferName.toLowerCase());
     return TypeOrmManager.EntityManager.save(individualOffer);
   }
 

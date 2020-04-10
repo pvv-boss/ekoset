@@ -33,8 +33,7 @@
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
-    "@babel/runtime-corejs2": "^7.9.2",
-    "@nuxt/babel-preset-app": "^2.12.2",
+    "@babel/plugin-proposal-pipeline-operator": "latest",
     "@nuxt/config": "^2.12.2",
     "@nuxt/types": "^0.6.4",
     "@nuxt/typescript-build": "^0.5.8",
