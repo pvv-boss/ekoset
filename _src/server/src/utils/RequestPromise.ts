@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import * as HttpProxyAgent from 'http-proxy-agent';
 import * as HttpsProxyAgent from 'https-proxy-agent';
 
-export const requestPromise = async (url: string, options?: any, proxy?: { proxyProtocol: string, proxyListIpAddress: string, proxyListPort: number }): Promise<any> => {
+export const requestPromise = async (url: string, options?: any, proxy?: { proxyProtocol: string, proxyListIpAddress: string, proxyListPort: number }) => {
   const defaultOptions: any = {
     timeout: 5000,
     headers: {

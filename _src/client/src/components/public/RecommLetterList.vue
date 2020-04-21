@@ -1,20 +1,12 @@
 <template>
-  <div class="brc-letters__wrapper">
-    <div class="brc-letters">
-      <RecommLetterListItem
-        v-for="item in recommLetterList"
-        :key="item.recommId"
-        :recommLetter="item"
-      ></RecommLetterListItem>
-    </div>
+  <div class="brc-letters">
+    <RecommLetterListItem v-for="item in brandsList" :key="item.clBrandId" :brand="item"></RecommLetterListItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 
 @Component({
   components: {
@@ -23,17 +15,22 @@ import { NuxtContext } from 'vue/types/options'
 })
 export default class RecommLetterList extends Vue {
   @Prop(Array)
-  private recommLetterList
+  private brandsList
 }
 </script>
 
 <style lang="scss">
-.brc-letters__wrapper {
-  // margin: 60px 0 0;
-  .brc-letters {
-    margin: 30px -15px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.brc-letters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 30px;
+  grid-gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 20px;
+    padding-top: 20px;
+    grid-gap: 10px;
   }
 }
 </style>

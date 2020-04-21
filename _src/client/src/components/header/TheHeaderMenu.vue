@@ -1,8 +1,10 @@
 <template>
-  <ul class="brc-page-header__main-menu">
+  <ul class="brc-page-header__main-menu" ref="mainmenu">
     <template v-for="iterMenuItem in sitePageItems">
       <li
-        :key="iterMenuItem.sitePageId"
+        :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
+        :key="isMobile + iterMenuItem.sitePageId"
+        :style="(iterMenuItem.sitePageCode !==7 && iterMenuItem.visibleInHorMenu) || isMobile ? 'visibility:visible':'position:absolute; visibility: hidden'"
         v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
       >
         <nuxt-link
@@ -17,10 +19,52 @@
         >{{iterMenuItem.sitePageName}}</nuxt-link>
       </li>
       <ThePriceMenuItem
-        :key="iterMenuItem.sitePageId"
+        :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
+        :key="isMobile + iterMenuItem.sitePageId"
+        :style="iterMenuItem.sitePageCode ===7 && iterMenuItem.visibleInHorMenu && !isMobile ? 'visibility:visible' : 'position:absolute; visibility: hidden'"
         v-if="iterMenuItem.sitePageCode ===7 && isMenuItemEnablede(iterMenuItem)"
       ></ThePriceMenuItem>
     </template>
+
+    <li
+      v-if="!isMobile && additionalsitePageItems.length > 0"
+      class="brc-page-header__main-menu_add-wrapper"
+      @click="onClick"
+      v-click-outside="()=>{isMenuOpened=false}"
+    >
+      <div id="dont_outside" class="brc-page-header__main-menu_add-wrapper_expander">
+        <span @click="oncClickSpan"></span>
+        <span @click="oncClickSpan"></span>
+        <span @click="oncClickSpan"></span>
+      </div>
+
+      <ul
+        class="brc-price-menu"
+        :class="{ 'active': isMenuOpened === true }"
+        style="margin-top:8px;"
+      >
+        <template v-for="iterMenuItem in this.additionalsitePageItems">
+          <li
+            :ref="'addmenuitem' + isMobile + iterMenuItem.sitePageId"
+            :key="isMobile + iterMenuItem.sitePageId"
+            v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
+            class="brc-page-header__main-menu_add-wrapper__item"
+            style="padding:10px !important;"
+          >
+            <nuxt-link
+              :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
+              params: 
+                {
+                  siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
+                  page: iterMenuItem.sitePageUrl
+                }
+              }"
+              :class="{active: isActiveIndex (iterMenuItem)}"
+            >{{iterMenuItem.sitePageName}}</nuxt-link>
+          </li>
+        </template>
+      </ul>
+    </li>
   </ul>
 </template>
 
@@ -40,8 +84,31 @@ import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
   }
 })
 export default class TheHeaderMenu extends Vue {
+
+  @Prop({ default: false })
+  public isMobile: boolean
+
   public sitePageItems: SitePage[] = []
-  public currentMenuClicked: number = -1
+
+  public additionalsitePageItems: SitePage[] = []
+
+  public isMenuOpened = false
+
+  @Watch('$route.params', { immediate: true })
+  public onRouteChanged () {
+    if (!this.isMobile) {
+      this.modifyMenuItemsVisible()
+    }
+  }
+
+  public onClick () {
+    this.isMenuOpened = !this.isMenuOpened
+  }
+
+  public oncClickSpan () {
+    // tslint:disable-next-line:no-console
+    // console.log('oncClickSpan')
+  }
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
@@ -53,7 +120,6 @@ export default class TheHeaderMenu extends Vue {
       return this.$route.params.page === menuItem.sitePageUrl
     } else {
       return routeName === menuItem.sitePageRouteName
-      // return this.$route.name ? this.$route.name.split('-')[0] : ''
     }
   }
 
@@ -62,10 +128,66 @@ export default class TheHeaderMenu extends Vue {
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 
-  public async beforeMount () {
-    this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
+  public async mounted () {
+    const sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
+
+    sitePageItems.forEach((element: any) => {
+      element.visibleInHorMenu = true
+    });
+
+    this.sitePageItems = sitePageItems
+
+    this.$nextTick(() => {
+      if (!this.isMobile) {
+        window.removeEventListener('resize', this.modifyMenuItemsVisible)
+        window.addEventListener('resize', this.modifyMenuItemsVisible)
+        this.modifyMenuItemsVisible()
+      }
+    })
+
+  }
+
+  public beforDestroy () {
+    window.removeEventListener('resize', this.modifyMenuItemsVisible)
+  }
+
+  private modifyMenuItemsVisible () {
+    const menuOl = this.$refs.mainmenu as HTMLElement
+
+    if (menuOl) {
+      const menuOffsetWidth = menuOl.offsetWidth
+      const menuItemsToRelocate: SitePage[] = []
+      const delta = this.additionalsitePageItems.length > 1 ? 65 : (this.additionalsitePageItems.length === 1 ? 55 : 20)
+
+      let aggMenuItemWidth = 0;
+
+      this.sitePageItems.forEach((iterItem) => {
+        if (this.isMenuItemEnablede(iterItem)) {
+          const elWidth = this.getMenuItemOffsetWidth(iterItem)
+          if (!!elWidth) {
+            aggMenuItemWidth = aggMenuItemWidth + elWidth + 10
+
+            if (aggMenuItemWidth > menuOffsetWidth - delta) {
+              menuItemsToRelocate.push(iterItem)
+              iterItem.visibleInHorMenu = false
+            } else {
+              iterItem.visibleInHorMenu = true
+            }
+          }
+        }
+      })
+      this.additionalsitePageItems = [...menuItemsToRelocate]
+    }
+  }
+
+  private getMenuItemOffsetWidth (iterItem: SitePage) {
+    const iterDomElement = this.$refs['menuitem' + this.isMobile + iterItem.sitePageId]
+    if (!!iterDomElement && Array.isArray(iterDomElement) && iterDomElement.length > 0) {
+      return (iterDomElement[0] as HTMLElement).offsetWidth
+    }
   }
 }
+
 </script>
 
 <style lang="scss">
@@ -75,6 +197,8 @@ export default class TheHeaderMenu extends Vue {
 $menu_item_padding: 12px;
 
 .brc-page-header__main-menu {
+  width: 100%;
+  overflow: hidden;
   text-transform: uppercase;
   margin: 0;
   > li {
@@ -89,9 +213,7 @@ $menu_item_padding: 12px;
         font-weight: $font-medium;
         border-bottom: 2px solid $red;
       }
-      //  letter-spacing: -0.1px;
     }
-
     display: inline-block;
     list-style-type: none;
   }
@@ -101,6 +223,71 @@ $menu_item_padding: 12px;
     @media (max-width: 1024px) {
       padding-left: 0px;
       padding-right: $menu_item_padding - 5px;
+    }
+  }
+
+  .brc-page-header__main-menu_add-wrapper {
+    position: relative;
+    text-transform: uppercase;
+    &:hover {
+      color: $red;
+      cursor: pointer;
+    }
+    li {
+      a {
+        color: $text-color;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        &:hover {
+          color: $red;
+        }
+        &.active {
+          color: $red;
+          font-weight: $font-medium;
+          border-bottom: 2px solid $red;
+        }
+        //  letter-spacing: -0.1px;
+      }
+      display: inline-block;
+      list-style-type: none;
+    }
+
+    .brc-page-header__main-menu_add-wrapper_expander {
+      display: block;
+      //  margin: 7px 0 0 12px;
+      position: relative;
+      height: 14px;
+      width: 16px;
+      margin-right: 5px;
+
+      > span {
+        background: #4b4b4b;
+        display: block;
+        height: 2px;
+        width: 18px;
+        position: absolute;
+        top: 2px;
+        transition: 0.5s;
+      }
+
+      > span:nth-child(2) {
+        top: 8px;
+      }
+
+      > span:nth-child(3) {
+        top: 14px;
+      }
+    }
+    .brc-page-header__main-menu_add-wrapper__item {
+      list-style-type: none;
+      display: flex !important;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .brc-page-header__main-menu_add-wrapper__item
+      + .brc-page-header__main-menu_add-wrapper__item {
+      border-top: 1px solid lightgray;
     }
   }
 }

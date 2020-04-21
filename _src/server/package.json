@@ -25,6 +25,7 @@
     "@types/passport-jwt": "^3.0.2",
     "@types/passport-local": "latest",
     "@types/puppeteer": "latest",
+    "@types/node-fetch": "latest",
     "clean-webpack-plugin": "^2.0.2",
     "compression-webpack-plugin": "^3.1.0",
     "cross-env": "^6.0.3",

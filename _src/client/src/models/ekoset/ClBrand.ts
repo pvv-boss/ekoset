@@ -9,6 +9,7 @@ export default class ClBrand {
   public clBrandMainPageVisible: number | null;
 
   public smallImageFormData: FormData | null;
+  public recommendImageFormData: FormData | null;
 
   public clActivityId: number | null;
 

@@ -67,6 +67,11 @@ let config = {
     // splitChunks: false
   },
 
+  node: {
+    net: 'empty',
+    tls: 'empty'
+  },
+
   module: {
     rules: [{
       test: /\.tsx?$/,

@@ -17,14 +17,33 @@ http://ekoset.npobaltros.ru/api/2_0/services/start/main
 
 12. https://vuedose.tips/tips/lazy-loading-images-with-v-lazy-image/
 13. brc_dialog вынести в отдельный бандл
-3. Мета-тэги для стрнаиц может брать из сущностей, а не из базы? Если из базы, то сейчас только для главной страницы беоется
-17. Разобраться со скриптами яндекса
-20. Яндекс метрика зачем? Сделать неблокирующие скрипты их
-21. 1,2 метра modern-vendor... похоже quill два раза собирается в один бандл
-6. Соц. сети отдельный компонент?
-8. Настроить семантическую разметку (main, section ...)
-
 
 
 ====== Разное ======
 Vue можно ли наследоваться от своих компонент?
+
+
+================== ckeditor ==============
+
+==== Стили для размера текста
+.text-tiny {
+    font-size: 0.7em;
+}
+
+.text-small {
+    font-size: 0.85em;
+}
+
+.text-big {
+    font-size: 1.4em;
+}
+
+.text-huge {
+    font-size: 1.8em;
+}
+
+===== Цвета для шрифтов
+https://ckeditor.com/docs/ckeditor5/latest/features/font.html
+
+==== Меди (ютьюб итд)
+https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html

@@ -27,8 +27,8 @@ export default class MediaService extends BaseService {
     return HttpUtil.httpPostForm(`admin/panel/news/${articleId}/image/${isBigImage ? 'big' : 'small'}`, formData)
   }
 
-  public async saveRecommendationLetterImage (letterId: number, formData: FormData) {
-    return HttpUtil.httpPostForm(`admin/panel/recommendation/${letterId}/image`, formData)
+  public async saveRecommendationLetterImage (brandId: number, formData: FormData) {
+    return HttpUtil.httpPostForm(`admin/panel/recommendation/${brandId}/image`, formData)
   }
 
   public async saveSitePageImage (sitePageId: number, formData: FormData) {

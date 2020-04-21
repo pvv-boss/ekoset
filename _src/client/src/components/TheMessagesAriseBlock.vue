@@ -117,13 +117,15 @@ export default class TheMessagesAriseBlock extends Vue {
       padding-bottom: 10px;
 
       textarea {
-        height: 80px;
+        height: 120px;
       }
       input {
         height: 32px !important;
+        margin-top: 2px;
+        margin-bottom: 10px;
       }
       button {
-        height: 38px;
+        height: 42px;
       }
       .brc-input-addon {
         padding-top: 6px !important;

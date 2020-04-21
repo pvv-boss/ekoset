@@ -6,12 +6,19 @@ import BaseError from '@/components/base/BaseError.vue'
 import { EkosetRouter } from '@/routers/EkosetRouter'
 import { AdminRouter } from '@/routers/AdminRouter'
 
+import Test from '@/pages/public/Test.vue'
+
 Vue.use(Router)
 
 export function createRouter () {
   return new Router({
     mode: 'history',
     routes: [
+      {
+        name: 'test',
+        path: '/app/test',
+        component: Test
+      },
       {
         name: 'not-found',
         path: '*',

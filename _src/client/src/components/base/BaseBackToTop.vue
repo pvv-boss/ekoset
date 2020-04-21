@@ -56,6 +56,7 @@ export default class BaseBackToTop extends Vue {
   }
 }
 
+
 </script>
 
 <style lang="scss">

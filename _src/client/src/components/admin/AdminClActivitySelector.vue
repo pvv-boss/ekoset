@@ -37,6 +37,9 @@ export default class AdminClActivitySelector extends Vue {
   @Prop({ type: Boolean, default: false })
   private disabled
 
+  @Prop()
+  private clActivityList
+
   private itemList: ClActivity[] = []
 
   private selectedId = null
@@ -55,7 +58,7 @@ export default class AdminClActivitySelector extends Vue {
   }
 
   private async mounted () {
-    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+    this.itemList = !!this.clActivityList ? this.clActivityList : await getServiceContainer().publicEkosetService.getClActivityList()
     this.selectedId = this.value
   }
 

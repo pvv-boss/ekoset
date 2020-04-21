@@ -102,6 +102,9 @@ export default class PublicEkosetService extends BaseService {
     if (!!brand.smallImageFormData) {
       getServiceContainer().mediaService.saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
     }
+    if (!!brand.recommendImageFormData) {
+      getServiceContainer().mediaService.saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
+    }
 
     return resultPr
   }

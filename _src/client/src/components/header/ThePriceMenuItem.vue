@@ -118,7 +118,7 @@ export default class ThePriceMenuItem extends Vue {
 
 .brc-price-menu {
   display: none !important;
-  position: absolute;
+  position: fixed;
 
   z-index: 2000;
   background-color: white;

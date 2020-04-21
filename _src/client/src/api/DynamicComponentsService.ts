@@ -81,19 +81,19 @@ export default class DynamicComponentsService extends BaseService {
       brandItems = getServiceContainer().publicEkosetService.getBrandsForHomePage()
     }
 
-    // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
-    // ReccomendationLetter
-    if (serviceIdForRelations > 0) {
-      reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersByBusinessServiceSlug('slug-' + serviceIdForRelations)
-    }
+    // // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
+    // // ReccomendationLetter
+    // if (serviceIdForRelations > 0) {
+    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersByBusinessServiceSlug('slug-' + serviceIdForRelations)
+    // }
 
-    if (!reccomendationLetterItems && !!siteSectionSlug) {
-      reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
-    }
+    // if (!reccomendationLetterItems && !!siteSectionSlug) {
+    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
+    // }
 
-    if (!reccomendationLetterItems) {
-      reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersForHomePage()
-    }
+    // if (!reccomendationLetterItems) {
+    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersForHomePage()
+    // }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
@@ -163,7 +163,7 @@ export default class DynamicComponentsService extends BaseService {
       busineesTypeOfferList = null
     }
 
-    const promises = [brandItems, articleItems, reccomendationLetterItems, busineesTypeOfferList, serviceList, relatedServiceList, priceList]
+    const promises = [brandItems, articleItems, busineesTypeOfferList, serviceList, relatedServiceList, priceList]
     const data = await Promise.all(promises)
 
     // Прописываем данные в компопонте (в его пропы) - для динамических. Формы и конструкторы уже с данными придут из баазы
@@ -192,12 +192,12 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.LETTERS
     })
     if (!!lettersCompoenentInfo) {
-      lettersCompoenentInfo.props.recommLetterList = data[2]
-      lettersCompoenentInfo.props.recommLetterList = !!lettersCompoenentInfo.props.recommLetterList ? lettersCompoenentInfo.props.recommLetterList.slice(0, 3) : lettersCompoenentInfo.props.recommLetterList
+      lettersCompoenentInfo.props.brandsList = data[0]
+      lettersCompoenentInfo.props.brandsList = !!lettersCompoenentInfo.props.brandsList ? lettersCompoenentInfo.props.brandsList.slice(0, 3) : lettersCompoenentInfo.props.brandsList
 
       if (!adminMode && lettersCompoenentInfo.visible === 1) {
         lettersCompoenentInfo.visible = 0
-        lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.recommLetterList && lettersCompoenentInfo.props.recommLetterList.length > 0 ? 1 : 0
+        lettersCompoenentInfo.visible = !!lettersCompoenentInfo.props.brandsList && lettersCompoenentInfo.props.brandsList.length > 0 ? 1 : 0
       }
     }
 
@@ -206,7 +206,8 @@ export default class DynamicComponentsService extends BaseService {
     })
     if (!!recommendCompoenentInfo && recommendCompoenentInfo.visible === 1) {
       recommendCompoenentInfo.props.brandList = data[0]
-      recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
+      // recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
+      recommendCompoenentInfo.props.brandList = recommendCompoenentInfo.props.brandList
 
       if (!adminMode) {
         recommendCompoenentInfo.visible = 0
@@ -214,11 +215,12 @@ export default class DynamicComponentsService extends BaseService {
       }
     }
 
+
     const busineesTypeOfferListInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.BUSINESSTYPE_OFFER
     })
     if (!!busineesTypeOfferListInfo && busineesTypeOfferListInfo.visible === 1) {
-      busineesTypeOfferListInfo.props.offerList = data[3]
+      busineesTypeOfferListInfo.props.offerList = data[2]
 
       if (!adminMode) {
         busineesTypeOfferListInfo.visible = 0
@@ -245,7 +247,7 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.SERVICE_LIST
     })
     if (!!serviceInfo && serviceInfo.visible === 1) {
-      serviceInfo.props.serviceList = data[4]
+      serviceInfo.props.serviceList = data[3]
 
       if (!adminMode) {
         serviceInfo.visible = 0
@@ -262,7 +264,7 @@ export default class DynamicComponentsService extends BaseService {
     })
     if (!!servicePriceInfo && servicePriceInfo.visible === 1) {
       servicePriceInfo.name = 'ServicePrice'
-      servicePriceInfo.props.servicePriceList = data[6]
+      servicePriceInfo.props.servicePriceList = data[5]
 
       if (!!serviceSlug && !serviceHasParent) {
         servicePriceInfo.props.isForRootService = true
@@ -294,7 +296,7 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.RELATED_SERVICE
     })
     if (!!relatedServiceInfo && relatedServiceInfo.visible === 1) {
-      relatedServiceInfo.props.serviceList = data[5]
+      relatedServiceInfo.props.serviceList = data[4]
       if (!adminMode) {
         relatedServiceInfo.visible = 0
         relatedServiceInfo.visible = !!relatedServiceInfo.props.serviceList && relatedServiceInfo.props.serviceList.length > 0 ? 1 : 0

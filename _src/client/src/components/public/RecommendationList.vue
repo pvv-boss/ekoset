@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-recommendations__wrapper">
+  <div>
     <div class="brc-recommendations">
       <RecommendationListItem
         v-for="iterBrand in brandShowList"
@@ -37,38 +37,41 @@ export default class RecommendationList extends Vue {
   @Prop({ default: false })
   private allBrandsPage
 
-  private isMobile: boolean = false
+  // private isMobile: boolean = false
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
   }
 
   private get brandShowList () {
-    return !this.allBrandsPage ? this.brandList.slice(0, this.isMobile ? 4 : 12) : this.brandList
+    return this.brandList
+    // return !this.allBrandsPage ? this.brandList.slice(0, this.isMobile ? 4 : 12) : this.brandList
   }
 
-  private mounted () {
-    const bodyElement = document.getElementsByTagName('body')[0]
-    if (bodyElement && bodyElement.offsetWidth < 768) {
-      this.isMobile = true
-    }
-  }
+  // private mounted () {
+  //   const bodyElement = document.getElementsByTagName('body')[0]
+  //   if (bodyElement && bodyElement.offsetWidth < 768) {
+  //     this.isMobile = true
+  //   }
+  // }
 }
 </script>
 
 <style lang="scss">
-.brc-recommendations__wrapper {
+.brc-recommendations {
   margin: 30px 0 0;
-  .brc-recommendations {
-    margin: 0px -15px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 
-  @media (max-width: 768px) {
-    .brc-recommendations {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+  // grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .brc-recommendations {
+    grid-template-columns: repeat(3, 1fr);
+    // grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-gap: 10px;
   }
 }
 

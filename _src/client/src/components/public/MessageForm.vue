@@ -220,7 +220,7 @@ export default class MessageForm extends Vue {
     }
     textarea {
       width: 100%;
-      height: 110px;
+      height: 120px;
       margin: 0;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
@@ -228,7 +228,7 @@ export default class MessageForm extends Vue {
       padding: 15px;
       color: #000000;
       font-size: 14px;
-      resize: none;
+      // resize: none;
       outline: none;
 
       &:focus {
@@ -238,8 +238,7 @@ export default class MessageForm extends Vue {
 
     input {
       width: 100%;
-      height: 45px;
-      margin: 0;
+      height: 32px !important;
       background-color: #f4f4f5;
       border: 1px solid #d1d1d1;
       border-radius: 3px;
@@ -247,6 +246,8 @@ export default class MessageForm extends Vue {
       color: #000000;
       font-size: 16px;
       outline: none;
+      margin-top: 2px;
+      margin-bottom: 10px;
 
       &:focus {
         background-color: white;

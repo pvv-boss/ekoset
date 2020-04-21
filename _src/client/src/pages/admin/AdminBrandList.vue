@@ -32,9 +32,11 @@
       <div class="brc_admin-brand-list">
         <div class="brc_admin-brand-list-item">
           <span>Статус</span>
+          <span>Отображать ГлСтр</span>
           <span>Наименование</span>
           <span>Вид деятельности</span>
           <span>Фото (логотип)</span>
+          <span>Письмо</span>
           <span>Удалить</span>
         </div>
 
@@ -54,11 +56,24 @@
               @input="saveBrand(iterBrand)"
             ></b-switch>
 
+            <b-switch
+              v-model="iterBrand.clBrandMainPageVisible"
+              true-value="1"
+              false-value="0"
+              type="is-success"
+              size="is-small"
+              @input="saveBrand(iterBrand)"
+            ></b-switch>
+
             <nuxt-link
               :to="{ name: 'admin-brand-card',params:{brand:iterBrand.clBrandId}}"
             >{{iterBrand.clBrandName}}</nuxt-link>
 
-            <AdminClActivitySelector v-model="iterBrand.clActivityId" @input="saveBrand(iterBrand)"></AdminClActivitySelector>
+            <AdminClActivitySelector
+              :clActivityList="clActivityList"
+              v-model="iterBrand.clActivityId"
+              @input="saveBrand(iterBrand)"
+            ></AdminClActivitySelector>
             <div>
               <b-upload @input="saveBrandImage(...arguments,iterBrand)">
                 <a class="button is-link">
@@ -76,6 +91,23 @@
               ></b-button>
             </div>
 
+            <div>
+              <b-upload @input="saveLetterImage(...arguments,iterBrand)">
+                <a class="button is-link">
+                  <b-icon icon="upload"></b-icon>
+                </a>
+              </b-upload>
+              <b-button
+                @click="showLetterImage(iterBrand)"
+                icon-right="file-find"
+                type="is-success"
+                size="is-medium"
+                outlined
+                style="margin-left:20px;"
+                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !='/img/empty-image.png'"
+              ></b-button>
+            </div>
+
             <b-button type="is-danger" icon-right="delete" @click="deleteBrand(iterBrand)"></b-button>
           </div>
         </draggable>
@@ -87,6 +119,10 @@
         :brand="previewImageBrand"
         style="width:190px;margin:0px;background-color:white;"
       ></RecommendationListItem>
+    </b-modal>
+
+    <b-modal :active.sync="isShowLetterImageActive" :can-cancel="true" :width="400">
+      <RecommLetterListItem :brand="previewLetterBrand" style="background-color:white;"></RecommLetterListItem>
     </b-modal>
   </div>
 </template>
@@ -104,13 +140,17 @@ import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
+import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
+import ClActivity from '@/models/ekoset/ClActivity'
+
 
 @Component({
   components: {
     BreadCrumbs,
     AdminStatusSelector,
     AdminClActivitySelector,
-    RecommendationListItem
+    RecommendationListItem,
+    RecommLetterListItem
   }
 })
 export default class AdminBrandList extends Vue {
@@ -120,6 +160,12 @@ export default class AdminBrandList extends Vue {
 
   private isShowBrandImageActive = false
   private previewImageBrand: ClBrand = new ClBrand()
+
+  private isShowLetterImageActive = false
+  private previewLetterBrand: ClBrand = new ClBrand()
+
+  private clActivityList: ClActivity[] = []
+
 
   private layout () {
     return 'admin'
@@ -136,8 +182,10 @@ export default class AdminBrandList extends Vue {
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
     const data = await getServiceContainer().publicEkosetService.getAdminAllBands()
+    const clActivityList = await getServiceContainer().publicEkosetService.getClActivityList()
     return {
-      brandList: data
+      brandList: data,
+      clActivityList
     }
   }
 
@@ -187,6 +235,18 @@ export default class AdminBrandList extends Vue {
     this.isShowBrandImageActive = !this.isShowBrandImageActive
 
   }
+
+  private async showLetterImage (brandItem: ClBrand) {
+    this.previewLetterBrand = brandItem
+    this.isShowLetterImageActive = !this.isShowLetterImageActive
+  }
+
+  private async saveLetterImage (imageFile: string, brandItem: ClBrand) {
+    const formData: FormData = new FormData()
+    formData.append('file', imageFile)
+    brandItem.recommendImageFormData = formData
+    await getServiceContainer().publicEkosetService.saveBrand(brandItem)
+  }
 }
 </script>
 
@@ -206,7 +266,7 @@ export default class AdminBrandList extends Vue {
 
     display: grid;
     //  grid-template-columns: 1fr 280px 80px;
-    grid-template-columns: 50px 1fr 1fr 280px 60px;
+    grid-template-columns: 50px 150px 1fr 1fr 200px 200px 60px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 

@@ -1,7 +1,7 @@
 <template>
   <div class="brc-recommend-smallitem__wrapper">
     <figure class="brc-recommend-smallitem__preview">
-      <v-lazy-image
+      <img
         :src="imageSrc"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"
@@ -33,9 +33,9 @@ export default class RecommendationListItem extends Vue {
 
 <style lang="scss">
 .brc-recommend-smallitem__wrapper {
-  padding: 15px;
+  // padding: 15px;
   flex: 1;
-  min-width: 150px;
+  // min-width: 150px;
   display: flex;
   justify-content: center;
 }
@@ -45,9 +45,9 @@ export default class RecommendationListItem extends Vue {
   justify-content: center;
   // background-color: #f4f4f5;
   width: 100%;
-  padding: 15px 0;
+  padding: 10px;
   .brc-recommend-smallitem__preview-img {
-    max-width: 150px;
+    // max-width: 150px;
     min-height: 30px;
     margin: auto;
     -webkit-filter: grayscale(100%);

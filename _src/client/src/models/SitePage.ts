@@ -13,6 +13,9 @@ export default class SitePage extends SeoMeta {
   public sitePageRouteName: string
   public sitePageUrl: string
   public sitePageLogo: string
+
+  public offsetWidth: number
+  public visibleInHorMenu = true
 }
 
 export enum SitePageType {

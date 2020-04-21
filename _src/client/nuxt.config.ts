@@ -12,7 +12,8 @@ const config = {
 
   head: {
     htmlAttrs: {
-      prefix: 'og:http://ogp.me/ns#'
+      prefix: 'og:http://ogp.me/ns#',
+      lang: 'ru'
     },
 
     meta: [{
@@ -31,27 +32,29 @@ const config = {
     ],
 
     link: [
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com/'
-      },
-      {
-        rel: 'preconnect',
-        href: '//unpkg.com/buefy/dist/'
-      },
-      {
-        rel: 'preconnect',
-        href: '//cdn.materialdesignicons.com'
-      },
+      // {
+      //   rel: 'preconnect',
+      //   href: 'https://fonts.googleapis.com/'
+      // },
+      // {
+      //   rel: 'preconnect',
+      //   href: '//unpkg.com/buefy/dist/'
+      // },
+      // {
+      //   rel: 'preconnect',
+      //   href: '//cdn.materialdesignicons.com'
+      // },
       {
         rel: 'stylesheet',
-        href: '//unpkg.com/buefy/dist/buefy.min.css'
+        href: '//unpkg.com/buefy/dist/buefy.min.css',
+        media: 'print',
+        onload: 'this.media=\'all\''
       },
       {
         rel: 'stylesheet',
         href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
-        // media: 'print',
-        // onload: 'this.media=\'all\''
+        media: 'print',
+        onload: 'this.media=\'all\''
       },
       {
         rel: 'icon',

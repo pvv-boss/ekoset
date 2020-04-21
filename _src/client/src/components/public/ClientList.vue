@@ -74,7 +74,7 @@ export default class ClientList extends Vue {
   // border-top: 1px solid lightgrey;
 
   @media (max-width: 768px) {
-    margin-top: -20px;
+    margin-top: 20px;
     padding-top: 20px;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;

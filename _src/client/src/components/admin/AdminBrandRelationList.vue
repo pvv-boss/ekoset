@@ -4,8 +4,7 @@
       :columns="headerFields"
       :rows="brandRelationItems"
       :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'clBrandName', type: 'asc'}
+          enabled: true
       }"
     >
       <template #table-row="props">
@@ -45,8 +44,16 @@ export default class AdminBrandRelationList extends Vue {
       label: 'Выводить на странице',
       tdClass: 'brc-admin-centered-td',
       width: '230px',
-      type: "boolean",
+      type: 'boolean',
       sortable: false
+    },
+    {
+      field: 'clActivityName',
+      label: 'Вид деятельности',
+      filterOptions: {
+        enabled: true,
+        placeholder: 'Введите часть наименования',
+      }
     },
     {
       field: 'clBrandName',

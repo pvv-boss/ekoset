@@ -28,7 +28,7 @@
       </div>
 
       <div class="brc-page-header-mobile-menu__main-menu">
-        <TheHeaderMenu></TheHeaderMenu>
+        <TheHeaderMenu :isMobile="true"></TheHeaderMenu>
       </div>
 
       <div class="brc-page-header-mobile__empty-section"></div>

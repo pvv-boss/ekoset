@@ -45,29 +45,6 @@
               </AdminImageUploader>
             </b-field>
           </div>
-
-          <div style="flex:2; margin-left:30px;">
-            <b-button type="is-primary" style="float:right" outlined @click="addNewLetter">Добавить</b-button>
-            <b-field label="Благодарственные письма"></b-field>
-            <div class="brc-admin-card-recomm-letter-list">
-              <div v-for="iterLetter in recommendLetterList" :key="iterLetter.recommId">
-                <AdminImageUploader
-                  :id="iterLetter.recommId"
-                  :showDeleteButton="true"
-                  :srcImage="iterLetter.recommBrandImg"
-                  @uploader:newimageloaded="saveLetterImage($event,iterLetter)"
-                  @uploader:delete="deleteRecommLetter(iterLetter)"
-                >
-                  <template v-slot="{imageSrc}">
-                    <RecommLetterListItem
-                      :recommLetter="iterLetter"
-                      :imageSrcForDesignMode="imageSrc"
-                    ></RecommLetterListItem>
-                  </template>
-                </AdminImageUploader>
-              </div>
-            </div>
-          </div>
         </div>
       </template>
     </BaseCard>
