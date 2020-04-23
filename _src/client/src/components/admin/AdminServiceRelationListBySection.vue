@@ -6,7 +6,14 @@
       class="brc-service-relation-by-section"
     >
       <h4>{{iterItem.siteSectionName}}</h4>
-      <vue-good-table :columns="headerFields" :rows="iterItem.services">
+      <vue-good-table
+        :columns="headerFields"
+        :rows="iterItem.services"
+        :sort-options="{
+          enabled:false
+        }"
+      >
+        >
         <template #table-row="props">
           <input
             v-if="props.column.field == 'businessServiceId'"
@@ -46,9 +53,22 @@ export default class AdminServiceRelationListBySection extends Vue {
     },
     {
       field: 'businessServiceName',
-      label: 'Наименование'
+      label: 'Наименование',
+      tdClass: this.tdClassFunc
+    },
+    {
+      field: 'service_parent_id',
+      hidden: true
     }
   ]
+
+  private tdClassFunc (row) {
+    if (row.service_parent_id === null) {
+      return 'root-service-related-class'
+    } else {
+      return 'child-service-related-class'
+    }
+  }
 
   private serviceListBySection (sectionPart) {
     return sectionPart.services
@@ -66,9 +86,28 @@ export default class AdminServiceRelationListBySection extends Vue {
 
 <style lang="scss">
 .brc-service-relation-by-section_wrapper {
+  font-size: 15px !important;
+  color: #363636 !important;
   > div + div {
     margin-top: 20px;
   }
+}
+
+.brc-service-relation-by-section {
+  font-size: 15px !important;
+  color: #363636 !important;
+}
+
+.root-service-related-class {
+  font-weight: 500;
+  font-size: 15px !important;
+  color: #222 !important;
+}
+
+.child-service-related-class {
+  font-size: 15px !important;
+  color: #363636 !important;
+  padding-left: 25px !important;
 }
 </style>
 

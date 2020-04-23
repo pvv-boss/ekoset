@@ -25,25 +25,5 @@ Vue можно ли наследоваться от своих компонен�
 
 ================== ckeditor ==============
 
-==== Стили для размера текста
-.text-tiny {
-    font-size: 0.7em;
-}
-
-.text-small {
-    font-size: 0.85em;
-}
-
-.text-big {
-    font-size: 1.4em;
-}
-
-.text-huge {
-    font-size: 1.8em;
-}
-
-===== Цвета для шрифтов
-https://ckeditor.com/docs/ckeditor5/latest/features/font.html
-
 ==== Меди (ютьюб итд)
 https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html

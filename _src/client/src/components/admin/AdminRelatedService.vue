@@ -3,12 +3,14 @@
     <draggable
       v-model="relatedServiceList"
       @change="handleChangePriority"
-      class="brc-service-list brc-admin-panel__site"
+      class="brc-related-service-list brc-admin-panel__site"
       style="margin-top:0px;"
     >
-      <div v-for="serviceItem in relatedServiceList" :key="serviceItem.businessServiceId">
-        <ServiceListItem :serviceItem="serviceItem"></ServiceListItem>
-      </div>
+      <ServiceListItem
+        v-for="serviceItem in relatedServiceList"
+        :key="serviceItem.businessServiceId"
+        :serviceItem="serviceItem"
+      ></ServiceListItem>
     </draggable>
 
     <AdminServiceRelationListBySection
@@ -19,6 +21,7 @@
   </div>
 </template>
         
+
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'

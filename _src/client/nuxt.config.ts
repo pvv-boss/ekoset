@@ -47,14 +47,12 @@ const config = {
       {
         rel: 'stylesheet',
         href: '//unpkg.com/buefy/dist/buefy.min.css',
-        media: 'print',
-        onload: 'this.media=\'all\''
+        media: 'all'
       },
       {
         rel: 'stylesheet',
         href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
-        media: 'print',
-        onload: 'this.media=\'all\''
+        media: 'all'
       },
       {
         rel: 'icon',
@@ -214,7 +212,7 @@ const config = {
   webfontloader: {
     events: false,
     google: {
-      families: ['Roboto:400,500,700:cyrillic&display=swap']
+      families: ['Roboto:400,500,700:cyrillic']
     }
   },
 

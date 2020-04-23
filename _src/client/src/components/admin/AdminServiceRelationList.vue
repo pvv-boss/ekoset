@@ -4,8 +4,7 @@
       :columns="headerFields"
       :rows="serviceRelationItems"
       :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'businessServiceName', type: 'asc'}
+          enabled: true
       }"
     >
       <template #table-row="props">
@@ -46,11 +45,7 @@ export default class AdminServiceRelationList extends Vue {
     },
     {
       field: 'businessServiceName',
-      label: 'Наименование',
-      filterOptions: {
-        enabled: true,
-        placeholder: 'Введите часть наименования',
-      }
+      label: 'Наименование'
     }
   ]
 

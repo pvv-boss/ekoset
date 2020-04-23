@@ -69,10 +69,11 @@ export default class DynamicComponentsContainer extends Vue {
 }
 
 .brc-page__dynamic_block_header {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   text-align: center;
   @media (max-width: 768px) {
     text-align: left;
+    margin-bottom: 20px;
   }
 }
 

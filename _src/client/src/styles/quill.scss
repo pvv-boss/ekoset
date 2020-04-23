@@ -36,6 +36,7 @@
 .brc-article-item>article,
 .brc-page-description,
 .brc-page__dynamic_block,
+.ck-content,
 .ql-editor {
   .ql-video-wrapper {
     padding-top: 56.25%;
@@ -51,13 +52,20 @@
     height: 100%;
   }
 
-
-  .ql-font-serif {
-    font-family: Georgia, Times New Roman, serif;
+  .text-tiny {
+    font-size: 0.7em !important;
   }
 
-  .ql-font-monospace {
-    font-family: Monaco, Courier New, monospace;
+  .text-small {
+    font-size: 0.85em !important;
+  }
+
+  .text-big {
+    font-size: 1.4em !important;
+  }
+
+  .text-huge {
+    font-size: 1.8em !important;
   }
 
   .ql-size-large {
@@ -112,7 +120,10 @@
     }
   }
 
-  .ql-align-right {
+  .ql-align-right,
+  .image-style-align-right {
+    margin: 0 0 0 auto !important;
+
     img {
       margin: 0 0 0 auto !important;
     }
@@ -133,6 +144,7 @@
     font-weight: $font-medium !important;
     font-size: 17px !important;
     position: relative;
+    font-style: normal !important;
     font-family: $font-stack !important;
 
     @media (max-width: 768px) {
@@ -140,8 +152,14 @@
     }
   }
 
+  hr {
+    border: solid lightgray !important;
+    border-width: 1px 0 0 !important;
+  }
+
   strong {
     font-weight: $font-medium;
+    color: inherit;
   }
 
   ol,
@@ -182,6 +200,14 @@
   ul[data-checked=false]>li:before,
   ul>li[data-checked=false]:before {
     content: '\2610' !important;
+  }
+
+  ul {
+    &.todo-list {
+      li:before {
+        content: '' !important;
+      }
+    }
   }
 
 

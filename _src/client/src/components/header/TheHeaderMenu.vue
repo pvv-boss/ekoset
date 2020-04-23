@@ -29,13 +29,16 @@
     <li
       v-if="!isMobile && additionalsitePageItems.length > 0"
       class="brc-page-header__main-menu_add-wrapper"
-      @click="onClick"
-      v-click-outside="()=>{isMenuOpened=false}"
     >
-      <div id="dont_outside" class="brc-page-header__main-menu_add-wrapper_expander">
-        <span @click="oncClickSpan"></span>
-        <span @click="oncClickSpan"></span>
-        <span @click="oncClickSpan"></span>
+      <div
+        id="dont_outside"
+        class="brc-page-header__main-menu_add-wrapper_expander"
+        @click="onClick"
+        v-click-outside="()=>{isMenuOpened=false}"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
       <ul
@@ -105,10 +108,6 @@ export default class TheHeaderMenu extends Vue {
     this.isMenuOpened = !this.isMenuOpened
   }
 
-  public oncClickSpan () {
-    // tslint:disable-next-line:no-console
-    // console.log('oncClickSpan')
-  }
 
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
