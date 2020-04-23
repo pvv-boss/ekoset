@@ -121,7 +121,6 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferListItem.vue'
 import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
@@ -135,7 +134,6 @@ import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
     AdminImageUploader,
     AdminDynamicComponentsContainer,
     BaseCard,
-    AdminFreeContentBlockEditor,
     BusinessTypeOfferListItem,
     AdminSeoTags
   }})

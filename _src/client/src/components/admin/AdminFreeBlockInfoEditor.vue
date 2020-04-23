@@ -8,12 +8,12 @@
       <b-input placeholder="Заголовок H2" type="text" v-model="dynamicComponentInfo.head"></b-input>
     </b-field>
 
-    <div class="brc-admin-card-field-list_column">
-      <b-field label="Левый блок-конструктор" class="col-2">
-        <AdminFreeContentBlockEditor v-model="leftBlockContent" id="leftBlockContent"></AdminFreeContentBlockEditor>
+    <div class="brc-admin-card-field-list_column" style="width:100%">
+      <b-field label="Левый блок-конструктор" style="width:50%">
+        <BaseCKEditor v-model="leftBlockContent" id="leftBlockContent"></BaseCKEditor>
       </b-field>
-      <b-field label="Правый блок-конструктор" class="col-2">
-        <AdminFreeContentBlockEditor v-model="rightBlockContent" id="rightBlockContent"></AdminFreeContentBlockEditor>
+      <b-field label="Правый блок-конструктор" style="width:50%">
+        <BaseCKEditor v-model="rightBlockContent" id="rightBlockContent"></BaseCKEditor>
       </b-field>
     </div>
   </div>
@@ -22,15 +22,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
-// import AdminFreeBlockItem from '@/components/admin/AdminFreeBlockItem.vue'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
+import BaseCKEditor from '@/components/base/BaseCKEditor.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 
 @Component({
   components: {
-    // AdminFreeBlockItem,
-    AdminFreeContentBlockEditor
+    BaseCKEditor
   }
 })
 export default class AdminFreeBlockInfoEditor extends Vue {
@@ -65,10 +63,22 @@ export default class AdminFreeBlockInfoEditor extends Vue {
 .brc_admin-freeblock-editor {
   background-color: white;
   padding: 20px;
-
-  max-width: 1200px;
+  margin: auto;
+  max-width: 1240px;
   *.ql-editor {
     height: 480px !important;
+  }
+
+  *.ck-editor__main {
+    height: 480px !important;
+  }
+
+  .ck-editor__editable {
+    height: 100%;
+  }
+
+  .ck-toolbar__items {
+    flex-wrap: wrap !important;
   }
 }
 </style>  

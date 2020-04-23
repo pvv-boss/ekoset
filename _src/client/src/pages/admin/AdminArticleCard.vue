@@ -128,7 +128,7 @@
           </b-tab-item>
           <b-tab-item label="Содержание">
             <div class="brc-admin-panel__article">
-              <AdminFreeContentBlockEditor v-model="articleItem.articleBody"></AdminFreeContentBlockEditor>
+              <BaseCKEditor v-model="articleItem.articleBody"></BaseCKEditor>
             </div>
           </b-tab-item>
         </b-tabs>
@@ -144,7 +144,7 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
+import BaseCKEditor from '@/components/base/BaseCKEditor.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -166,7 +166,7 @@ import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
 @Component({
   components: {
-    AdminFreeContentBlockEditor,
+    BaseCKEditor,
     BreadCrumbs,
     AdminSiteSectionSelector,
     AdminServiceSelector,
@@ -288,6 +288,16 @@ export default class AdminArticleCard extends Vue {
   *.ql-editor {
     height: 65vh !important;
     // height: 100% !important;
+  }
+
+  *.ck-editor__main {
+    height: 65vh !important;
+    min-height: 200px;
+    overflow-y: auto;
+  }
+
+  .ck-editor__editable {
+    height: 100%;
   }
 }
 </style>  

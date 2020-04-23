@@ -27,3 +27,6 @@ Vue можно ли наследоваться от своих компонен�
 
 ==== Меди (ютьюб итд)
 https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html
+
+Добавить плагины и тулбар
+https://github.com/ckeditor/ckeditor5-angular/issues/189

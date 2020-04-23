@@ -14,7 +14,7 @@
     "dev-debug": "node --inspect ./node_modules/nuxt/bin/nuxt"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "@ckeditor/ckeditor5-vue": "latest",
     "@cookieseater/vue-yandex-share": "latest",
     "@naumstory/nuxtjs-yandex-metrika": "latest",
     "axios": "^0.19.2",
@@ -23,11 +23,9 @@
     "nuxt": "^2.12.2",
     "nuxt-buefy": "^0.3.26",
     "nuxt-webfontloader": "^1.1.0",
-    "quill-image-resize-module": "latest",
     "v-lazy-image": "^1.4.0",
     "vue-good-table": "^2.19.1",
     "vue-router": "^3.1.6",
-    "vue2-editor": "latest",
     "vuedraggable": "latest",
     "vuelidate": "^0.7.5"
   },

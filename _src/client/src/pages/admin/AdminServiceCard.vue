@@ -198,7 +198,6 @@ import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
 import BaseCard from '@/components/BaseCard.vue'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import AdminRelatedService from '@/components/admin/AdminRelatedService.vue'
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
@@ -217,7 +216,6 @@ import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
     AdminClientTypeRelationList,
     AdminImageUploader,
     BaseCard,
-    AdminFreeContentBlockEditor,
     ServiceListItem,
     AdminDynamicComponentsContainer,
     AdminRelatedService,

@@ -114,7 +114,6 @@ import BaseCard from '@/components/BaseCard.vue'
 import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
@@ -127,7 +126,6 @@ import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
     AdminImageUploader,
     BaseCard,
     AdminDynamicComponentsContainer,
-    AdminFreeContentBlockEditor,
     TheHeaderLogo,
     AdminSeoTags
   }

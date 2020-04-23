@@ -53,14 +53,14 @@
       trap-focus
       aria-role="dialog"
       aria-modal
-      :width="1200"
+      width="100%"
     >
       <AdminFreeBlockInfoEditor :dynamicComponentInfo="editableComponentInfo"></AdminFreeBlockInfoEditor>
       <b-button
         class="button"
         type="button"
         @click="closeFreeBlockEditModal"
-        style="float:right;margin:20px;"
+        style="float:right;margin:20px; margin-right:330px;"
       >Сохранить и закрыть</b-button>
     </b-modal>
   </div>
@@ -207,6 +207,10 @@ export default class AdminDynamicComponentsContainer extends Vue {
     line-height: 18px;
     letter-spacing: 0.48px;
     margin-bottom: 5px;
+  }
+
+  .animation-content & .modal-content {
+    max-width: 100% !important;
   }
 }
 </style>  

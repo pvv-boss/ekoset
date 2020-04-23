@@ -160,7 +160,6 @@ import AdminServiceListContainer from '@/components/admin/AdminServiceListContai
 import AdminClientTypeOfferList from '@/components/admin/AdminClientTypeOfferList.vue'
 import AdminIndividualOfferList from '@/components/admin/AdminIndividualOfferList.vue'
 import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import AdminFreeContentBlockEditor from '@/components/admin/AdminFreeContentBlockEditor.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
@@ -183,7 +182,6 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
     BreadCrumbs,
     BaseCard,
     SiteSectionListItem,
-    AdminFreeContentBlockEditor,
     AdminServiceListContainer,
     AdminFreeBlockInfoEditor,
     TheHeaderLogo,

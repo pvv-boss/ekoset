@@ -1,5 +1,3 @@
-import webpack = require('webpack')
-
 const isDev = process.env.NODE_ENV !== 'production'
 
 const config = {
@@ -98,9 +96,6 @@ const config = {
     },
     {
       src: '@/plugins/image-lazy-load'
-    },
-    {
-      src: '@/plugins/vue2-editor', mode: 'client'
     }
   ],
 
@@ -184,13 +179,6 @@ const config = {
     }) {
       return config
     },
-
-    plugins: [
-      new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
-        'Quill': 'quill/dist/quill.js'
-      })
-    ]
   },
 
   render: {
