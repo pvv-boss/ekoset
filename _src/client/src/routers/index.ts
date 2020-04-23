@@ -15,11 +15,6 @@ export function createRouter () {
     mode: 'history',
     routes: [
       {
-        name: 'test',
-        path: '/app/test',
-        component: Test
-      },
-      {
         name: 'not-found',
         path: '*',
         component: BaseNotFound

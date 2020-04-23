@@ -167,7 +167,6 @@ import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue'
 import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
@@ -183,7 +182,6 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
     BaseCard,
     SiteSectionListItem,
     AdminServiceListContainer,
-    AdminFreeBlockInfoEditor,
     TheHeaderLogo,
     AdminSeoTags
   }

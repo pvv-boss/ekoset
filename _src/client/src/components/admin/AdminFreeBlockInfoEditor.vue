@@ -38,6 +38,8 @@ export default class AdminFreeBlockInfoEditor extends Vue {
   private dynamicComponentInfoState = this.dynamicComponentInfo
 
   private get leftBlockContent () {
+    // tslint:disable-next-line:no-console
+    // console.log(this.dynamicComponentInfo.props)
     return this.dynamicComponentInfo.props.leftBlock
   }
 
