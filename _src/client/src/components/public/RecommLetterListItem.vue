@@ -33,7 +33,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
 import ClBrand from '@/models/ekoset/ClBrand'
 
 @Component({})
@@ -42,6 +41,7 @@ export default class RecommLetterListItem extends Vue {
   private brand: ClBrand
   @Prop()
   private imageSrcForDesignMode: string
+
 
   private get imageSrc () {
     return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgBig

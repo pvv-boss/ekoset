@@ -120,12 +120,29 @@
     }
   }
 
-  .ql-align-right,
-  .image-style-align-right {
+  .ql-align-right img {
     margin: 0 0 0 auto !important;
+  }
 
-    img {
+  figure {
+    &.image {
+      margin: 0 auto !important;
+    }
+
+    &.image-style-align-left {
+      margin: 0 !important;
+    }
+
+    &.image-style-align-right {
       margin: 0 0 0 auto !important;
+    }
+
+    &.media {
+      clear: both;
+      margin: 1em 0;
+      margin-top: 1em;
+      display: block;
+      min-width: 15em;
     }
   }
 
@@ -137,7 +154,7 @@
     color: #231E28 !important;
     background-color: inherit !important;
     white-space: pre-wrap !important;
-    margin: 15px 0 15px 0 !important;
+    //  margin: 15px 0 15px 0 !important;
     padding: 25px !important;
     border-radius: 1px !important;
     border: 1px solid $red !important;

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Host: gostorgi24.ru
-sitemap: https://gostorgi24.ru/sitemap.xml
+Host: ekoset.ru
+sitemap: https://ekoset.ru/sitemap.xml

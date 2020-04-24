@@ -107,6 +107,7 @@ export default class AdminDynamicComponentsContainer extends Vue {
 
   private created () {
     this.createNewComponentInfo()
+    this.createNewEditableComponentInfo()
   }
 
   private handleChange () {
@@ -137,7 +138,9 @@ export default class AdminDynamicComponentsContainer extends Vue {
     this.editableComponentInfoState.props.leftBlock = this.editableComponentInfo.props.leftBlock
     this.editableComponentInfoState.props.rightBlock = this.editableComponentInfo.props.rightBlock
     this.isCardModalActive = false
-    this.editableComponentInfo = new DynamicComponentInfo()
+
+    this.createNewEditableComponentInfo()
+
     this.fireSaveComponentsEvent()
   }
 
@@ -184,6 +187,16 @@ export default class AdminDynamicComponentsContainer extends Vue {
     this.newComponentInfo.props.leftBlock = ''
     this.newComponentInfo.props.rightBlock = ''
     this.newComponentInfo.visibleIndex = this.dynamicComponentInfoListState.length - 1
+
+  }
+
+  private createNewEditableComponentInfo () {
+    this.editableComponentInfo = new DynamicComponentInfo()
+    this.editableComponentInfo.head = ''
+    this.editableComponentInfo.dispalyName = ''
+    this.editableComponentInfo.props = {}
+    this.editableComponentInfo.props.leftBlock = ''
+    this.editableComponentInfo.props.rightBlock = ''
   }
 
 }

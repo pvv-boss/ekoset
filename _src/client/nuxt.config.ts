@@ -30,26 +30,13 @@ const config = {
     ],
 
     link: [
-      // {
-      //   rel: 'preconnect',
-      //   href: 'https://fonts.googleapis.com/'
-      // },
-      // {
-      //   rel: 'preconnect',
-      //   href: '//unpkg.com/buefy/dist/'
-      // },
-      // {
-      //   rel: 'preconnect',
-      //   href: '//cdn.materialdesignicons.com'
-      // },
       {
         rel: 'stylesheet',
-        href: '//unpkg.com/buefy/dist/buefy.min.css',
-        media: 'all'
+        href: '/css/buefy.min.css',
       },
       {
         rel: 'stylesheet',
-        href: '//cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css',
+        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css',
         media: 'all'
       },
       {
@@ -96,12 +83,14 @@ const config = {
     },
     {
       src: '@/plugins/image-lazy-load'
+    },
+    {
+      src: '@/plugins/brc-buefy-plugin'
     }
   ],
 
   router: {
-    middleware: ['needAuthorize', 'baseMiddleware'],
-    // prefetchLinks: true
+    middleware: ['needAuthorize', 'baseMiddleware']
   },
 
   buildModules: [
@@ -119,7 +108,6 @@ const config = {
       path: 'src/routers',
       fileName: 'index.ts'
     }],
-    ['nuxt-buefy', { css: false, materialDesignIcons: false }],
     ['@naumstory/nuxtjs-yandex-metrika',
       {
         id: '57712291',
@@ -200,7 +188,7 @@ const config = {
   webfontloader: {
     events: false,
     google: {
-      families: ['Roboto:400,500,700:cyrillic']
+      families: ['Roboto:400,500:cyrillic&display=swap']
     }
   },
 

@@ -190,7 +190,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   background-color: white;
   max-height: 90vh;
   overflow-y: scroll;
-  z-index: 1000;
+  z-index: 2147483678;
   transform-style: flat;
   transition: transform 0.3s ease-in-out;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);

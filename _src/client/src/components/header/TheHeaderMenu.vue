@@ -21,7 +21,7 @@
       <ThePriceMenuItem
         :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
         :key="isMobile + iterMenuItem.sitePageId"
-        :style="iterMenuItem.sitePageCode ===7 && iterMenuItem.visibleInHorMenu && !isMobile ? 'visibility:visible' : 'position:absolute; visibility: hidden'"
+        :style="(iterMenuItem.sitePageCode ===7 && iterMenuItem.visibleInHorMenu) || isMobile ? 'visibility:visible' : 'position:absolute; visibility: hidden'"
         v-if="iterMenuItem.sitePageCode ===7 && isMenuItemEnablede(iterMenuItem)"
       ></ThePriceMenuItem>
     </template>

@@ -19,8 +19,8 @@ export default class TheHeaderCallMe extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
+@import '@/styles/variables.scss';
+@import '@/styles/typography.scss';
 
 .brc-contact__telephone {
   display: flex;
@@ -39,7 +39,7 @@ export default class TheHeaderCallMe extends Vue {
   .brc-contact__telephone-nmb {
     color: $red;
     font-size: 1.6rem;
-    font-weight: $font-bold;
+    font-weight: $font-medium;
     margin-left: 5px !important;
     white-space: nowrap;
   }
