@@ -1,9 +1,19 @@
 import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer';
-import DynamicComponentInfo from '@/models/DynamicComponentInfo';
+import { getServiceContainer } from './ServiceContainer'
+import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import { getModule } from 'vuex-module-decorators'
+import AppStore from '@/store/AppStore'
+import { Store } from 'vuex'
 
 export default class DynamicComponentsService extends BaseService {
+  private store: Store<any>
+
+  constructor (store: Store<any>) {
+    super()
+    this.store = store
+  }
+
 
   public async getSiteSectionDynamicComponentsInfo (siteSectionUrl: string, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(siteSectionUrl, null, null), siteSectionUrl, null, adminMode, null, null, null)
@@ -68,7 +78,6 @@ export default class DynamicComponentsService extends BaseService {
 
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any = null
-    let reccomendationLetterItems: any = null
     if (serviceIdForRelations > 0) {
       brandItems = getServiceContainer().publicEkosetService.getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
     }
@@ -80,20 +89,6 @@ export default class DynamicComponentsService extends BaseService {
     if (!brandItems) {
       brandItems = getServiceContainer().publicEkosetService.getBrandsForHomePage()
     }
-
-    // // Рекомендательные письма (в зависимости от услуги, раздела или главное. Определяется по брендам)
-    // // ReccomendationLetter
-    // if (serviceIdForRelations > 0) {
-    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersByBusinessServiceSlug('slug-' + serviceIdForRelations)
-    // }
-
-    // if (!reccomendationLetterItems && !!siteSectionSlug) {
-    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersBySiteSectionSlug(siteSectionSlug)
-    // }
-
-    // if (!reccomendationLetterItems) {
-    //   reccomendationLetterItems = getServiceContainer().publicEkosetService.getRecommendationLettersForHomePage()
-    // }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
@@ -253,8 +248,12 @@ export default class DynamicComponentsService extends BaseService {
         serviceInfo.visible = 0
         if (!!serviceSlug) {
           serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
+          const serviceName = getModule(AppStore, this.store).сurrentServiceName
+          serviceInfo.head = serviceName ? serviceName : serviceInfo.head
         } else {
           serviceInfo.visible = !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 0 ? 1 : 0
+          const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
+          serviceInfo.head = siteSectionName ? siteSectionName : serviceInfo.head
         }
       }
     }

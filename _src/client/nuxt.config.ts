@@ -23,26 +23,36 @@ const config = {
     }
     ],
 
-    script: [
-      // { src: 'https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js' },
-      // { src: 'https://yastatic.net/share2/share.js' }
-      { src: '//code-ya.jivosite.com/widget/AMTXfSmabC', async: 'true' }
-    ],
-
     link: [
       {
-        rel: 'stylesheet',
-        href: '/css/buefy.min.css',
+        rel: 'preload',
+        href: '//code-ya.jivosite.com/widget/AMTXfSmabC',
+        as: 'script'
+      },
+      {
+        rel: 'preload',
+        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css',
+        as: 'style'
       },
       {
         rel: 'stylesheet',
-        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css',
-        media: 'all'
+        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
       },
       {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.png'
+      }
+    ],
+
+    script: [
+      {
+        async: '',
+        src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
       }
     ],
 

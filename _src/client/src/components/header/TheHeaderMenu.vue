@@ -124,6 +124,9 @@ export default class TheHeaderMenu extends Vue {
 
   public isMenuItemEnablede (pageMenuItem: SitePage) {
     const currentSiteSectionId = !!this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
+    if (pageMenuItem.sitePageId === SitePageType.MAIN && this.isMobile) {
+      return true
+    }
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 

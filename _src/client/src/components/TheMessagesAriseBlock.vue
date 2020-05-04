@@ -7,7 +7,7 @@
       <MessageForm title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
     <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
-      <MessageForm title="Заказать услугу" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageForm title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
     </div>
   </div>
 </template>

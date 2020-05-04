@@ -28,7 +28,7 @@ class ServiceContainer {
     this.individualOfferService = new IndividualOfferService()
     this.articleService = new ArticleService()
     this.mediaService = new MediaService()
-    this.dynamicComponentsService = new DynamicComponentsService()
+    this.dynamicComponentsService = new DynamicComponentsService(store)
     this.topMenuService = new TopMenuService()
 
     await this.authService.initConfig()

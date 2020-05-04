@@ -70,15 +70,15 @@ export default class BaseCKEditor extends Vue {
         'bulletedList',
         'todoList',
         '|',
-        'outdent',
         'indent',
+        'outdent',
         '|',
         'link',
-        'horizontalLine',
         'blockQuote',
         'insertTable',
         'imageUpload',
         'mediaEmbed',
+        'horizontalLine',
         '|',
         'undo',
         'redo'
@@ -89,7 +89,7 @@ export default class BaseCKEditor extends Vue {
 
     image: {
       toolbar: [
-        'imageTextAlternative',
+        // 'imageTextAlternative',
         'imageStyle:alignLeft',
         'imageStyle:full',
         // 'imageStyle:side',
