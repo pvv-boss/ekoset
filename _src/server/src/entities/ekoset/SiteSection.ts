@@ -13,7 +13,6 @@ export class SiteSection extends SeoMetaTags {
 
 
   @Column('text', {
-    nullable: false,
     name: 'site_section_name'
   })
   public siteSectionName: string;

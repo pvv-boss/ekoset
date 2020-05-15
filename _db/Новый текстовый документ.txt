@@ -1,0 +1,132 @@
+CREATE TABLE brc_ekoset_private.document (
+  document_id SERIAL,
+  contract_id INTEGER,
+  sheld_service_id INTEGER,
+  document_name TEXT,
+  document_nmb TEXT,
+  document_date TIMESTAMP(0) WITH TIME ZONE,
+  document_date_start TIMESTAMP(0) WITH TIME ZONE,
+  document_date_end TIMESTAMP(0) WITH TIME ZONE,
+  document_protocol_ind NUMERIC DEFAULT 0,
+  document_file BYTEA,
+  CONSTRAINT pk_document PRIMARY KEY(document_id),
+  CONSTRAINT ckc_document_protocol_document CHECK ((document_protocol_ind IS NULL) OR ((document_protocol_ind >= (0)::numeric) AND (document_protocol_ind <= (1)::numeric))),
+  CONSTRAINT fk_document_relations_contract FOREIGN KEY (contract_id)
+    REFERENCES brc_ekoset_private.contract(contract_id)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT
+    NOT DEFERRABLE,
+  CONSTRAINT fk_document_relations_sheld_se FOREIGN KEY (sheld_service_id)
+    REFERENCES brc_ekoset_private.sheld_service(sheld_service_id)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT
+    NOT DEFERRABLE
+) ;
+
+COMMENT ON TABLE brc_ekoset_private.document
+IS 'Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_id
+IS 'Идентификатор Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.contract_id
+IS 'Идентификатор Договор';
+
+COMMENT ON COLUMN brc_ekoset_private.document.sheld_service_id
+IS 'Идентификатор Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_name
+IS 'Наименование Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_nmb
+IS 'Номер Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_date
+IS 'Дата Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_date_start
+IS 'Дата начала Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_date_end
+IS 'Дата окончания Документ';
+
+COMMENT ON COLUMN brc_ekoset_private.document.document_protocol_ind
+IS 'Признак протокола';
+
+CREATE UNIQUE INDEX document_pk ON brc_ekoset_private.document
+  USING btree (document_id);
+
+CREATE INDEX relationship_29_fk ON brc_ekoset_private.document
+  USING btree (sheld_service_id);
+
+CREATE INDEX relationship_37_fk ON brc_ekoset_private.document
+  USING btree (contract_id);
+
+ALTER TABLE brc_ekoset_private.document
+  OWNER TO postgres;
+
+
+
+
+  CREATE TABLE brc_ekoset_private.sheld_service (
+  sheld_service_id SERIAL,
+  contract_id INTEGER,
+  sheld_service_type NUMERIC,
+  sheld_service_name TEXT,
+  sheld_service_date TIMESTAMP(0) WITH TIME ZONE,
+  sheld_service_plan_ind NUMERIC DEFAULT 1,
+  sheld_service_master TEXT,
+  sheld_service_ball NUMERIC,
+  sheld_service_date_ch TIMESTAMP(0) WITH TIME ZONE,
+  sheld_service_ch_manager_ind NUMERIC DEFAULT 1,
+  CONSTRAINT pk_sheld_service PRIMARY KEY(sheld_service_id),
+  CONSTRAINT ckc_sheld_service_ch__sheld_se CHECK ((sheld_service_ch_manager_ind IS NULL) OR ((sheld_service_ch_manager_ind >= (0)::numeric) AND (sheld_service_ch_manager_ind <= (1)::numeric))),
+  CONSTRAINT ckc_sheld_service_pla_sheld_se CHECK ((sheld_service_plan_ind IS NULL) OR ((sheld_service_plan_ind >= (0)::numeric) AND (sheld_service_plan_ind <= (1)::numeric))),
+  CONSTRAINT fk_sheld_se_relations_contract FOREIGN KEY (contract_id)
+    REFERENCES brc_ekoset_private.contract(contract_id)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT
+    NOT DEFERRABLE
+) ;
+
+COMMENT ON TABLE brc_ekoset_private.sheld_service
+IS 'График работ (вып. услуг)';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_id
+IS 'Идентификатор Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.contract_id
+IS 'Идентификатор Договор';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_type
+IS 'Тип Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_name
+IS 'Наименование Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_date
+IS 'Дата Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_plan_ind
+IS 'Признак планируется Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_master
+IS 'Мастер Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_ball
+IS 'Оценка Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_date_ch
+IS 'Дата изменения Работа';
+
+COMMENT ON COLUMN brc_ekoset_private.sheld_service.sheld_service_ch_manager_ind
+IS 'Признак изменения менеджером Работа';
+
+CREATE INDEX relationship_28_fk ON brc_ekoset_private.sheld_service
+  USING btree (contract_id);
+
+CREATE UNIQUE INDEX sheld_service_pk ON brc_ekoset_private.sheld_service
+  USING btree (sheld_service_id);
+
+ALTER TABLE brc_ekoset_private.sheld_service
+  OWNER TO postgres;

@@ -18,7 +18,7 @@ import { UserRequestFile } from './ekoset/UserRequestFile';
 
 
 const entityModelMetadata = [
-  AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, SiteSection, ClArticleTag, ClBrand
+  SiteSection, AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, ClArticleTag, ClBrand
   , ClSiteSetting, IndividualOffer, SiteSocialNetwork, ClClient, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType
 ];
 

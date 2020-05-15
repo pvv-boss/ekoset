@@ -57,6 +57,9 @@ export default class FreeContentBlock extends Vue {
 @media (max-width: 768px) {
   .brc-page-description {
     flex-direction: column;
+    div + div {
+      margin-top: 30px !important;
+    }
   }
   .column-block {
     -webkit-column-count: 1;

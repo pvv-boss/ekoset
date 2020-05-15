@@ -234,11 +234,11 @@ export default class CMSService extends BaseService {
     bayService.id = 0;
     bayService.code = BlockType.BUY_FORM;
     bayService.name = 'MessageForm';
-    bayService.dispalyName = 'Заказать услугу'
+    bayService.dispalyName = 'Отправить заказ'
     bayService.visible = 1;
     bayService.visibleIndex = 2;
     bayService.props = {
-      title: 'Заказать услугу'
+      title: 'Отправить заказ'
     }
 
 

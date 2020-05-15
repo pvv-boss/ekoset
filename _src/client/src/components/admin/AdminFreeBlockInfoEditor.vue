@@ -9,12 +9,32 @@
     </b-field>
 
     <div class="brc-admin-card-field-list_column" style="width:100%">
-      <b-field label="Левый блок-конструктор" style="width:50%">
+      <div
+        class="brc-admin-editor__left"
+        :class="{'editor_full_size':isRightEditorVisible===false}"
+      >
+        <div class="brc-admin-editor__caption">
+          <span>{{leftPanelCaption}}</span>
+          <b-switch
+            v-if="!isRightEditorVisible"
+            type="is-success"
+            size="is-small"
+            v-model="isRightEditorVisible"
+          >Включить правый блок-конструктор</b-switch>
+        </div>
         <BaseCKEditor v-model="leftBlockContent" id="leftBlockContent"></BaseCKEditor>
-      </b-field>
-      <b-field label="Правый блок-конструктор" style="width:50%">
+      </div>
+
+      <div
+        class="brc-admin-editor__right"
+        :class="{'editor_full_size':isRightEditorVisible===false}"
+      >
+        <div class="brc-admin-editor__caption">
+          <span>Правый блок-конструктор</span>
+          <b-switch type="is-success" size="is-small" v-model="isRightEditorVisible">Скрыть</b-switch>
+        </div>
         <BaseCKEditor v-model="rightBlockContent" id="rightBlockContent"></BaseCKEditor>
-      </b-field>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +54,16 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 export default class AdminFreeBlockInfoEditor extends Vue {
   @Prop()
   private dynamicComponentInfo
+
+  private isRightEditorVisible =
+    !!this.dynamicComponentInfo &&
+      !!this.dynamicComponentInfo.props &&
+      !!this.dynamicComponentInfo.props.rightBlock &&
+      this.dynamicComponentInfo.props.rightBlock.length > 0 ? true : false
+
+  private get leftPanelCaption () {
+    return this.isRightEditorVisible ? 'Левый блок-конструктор' : 'Блок конструктор'
+  }
 
   private get leftBlockContent () {
     return this.dynamicComponentInfo.props.leftBlock
@@ -62,7 +92,7 @@ export default class AdminFreeBlockInfoEditor extends Vue {
   background-color: white;
   padding: 20px;
   margin: auto;
-  max-width: 1240px;
+  max-width: 1160px;
   *.ql-editor {
     height: 480px !important;
   }
@@ -77,6 +107,41 @@ export default class AdminFreeBlockInfoEditor extends Vue {
 
   .ck-toolbar__items {
     flex-wrap: wrap !important;
+  }
+
+  .brc-admin-editor__right,
+  .brc-admin-editor__left {
+    width: 50%;
+    max-width: 565px;
+  }
+
+  .brc-admin-editor__left {
+    &.editor_full_size {
+      width: 100%;
+      max-width: 1160px;
+    }
+  }
+
+  .brc-admin-editor__right {
+    &.editor_full_size {
+      display: none;
+      max-width: unset;
+    }
+  }
+
+  .brc-admin-editor__caption {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    span {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .switch {
+      margin-right: 0px !important;
+    }
   }
 }
 </style>  

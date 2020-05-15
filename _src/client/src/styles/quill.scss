@@ -131,10 +131,12 @@
 
     &.image-style-align-left {
       margin: 0 !important;
+      float: left;
     }
 
     &.image-style-align-right {
       margin: 0 0 0 auto !important;
+      float: right;
     }
 
     &.media {
