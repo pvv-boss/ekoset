@@ -63,7 +63,12 @@ export default class BusinessServiceService extends BaseService {
 
   public async save (businessService: BusinessService) {
     businessService.businessServiceSlug = !!businessService.businessServiceSlug ? businessService.businessServiceSlug : slugify(businessService.businessServiceName.toLowerCase())
-    return TypeOrmManager.EntityManager.save(businessService);
+    if (!businessService.businessServiceId && businessService.businessServiceParentId > 0) {
+      const newChildService = await TypeOrmManager.EntityManager.save(businessService);
+      return this.execFunction('f_clone_activity_type', [newChildService.businessServiceId, businessService.businessServiceParentId])
+    } else {
+      return TypeOrmManager.EntityManager.save(businessService);
+    }
   }
 
   public async delete (id: number) {

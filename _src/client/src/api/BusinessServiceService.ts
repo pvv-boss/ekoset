@@ -37,18 +37,21 @@ export default class BusinessServiceService extends BaseService {
   }
 
   // Для вида деятельности и раздела
-  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
+  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = false, pagination?: Pagination) {
+    // public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
     activityTypeId = !!activityTypeId ? activityTypeId : 0
     return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), activityTypeId, excludeChild, pagination)
   }
 
   // Услуги для бизнеса по разделу
-  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
+  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
+    //    public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
     return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug), excludeChild)
   }
 
   // Услуги для частных лиц по разделу
-  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
+  // public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
+  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
     return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug), excludeChild)
   }
 
@@ -235,13 +238,15 @@ export default class BusinessServiceService extends BaseService {
     return result
   }
 
-  private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = true) {
+  private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = false) {
+    //   private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/business?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = true) {
+  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = false) {
+    // private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/person?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result

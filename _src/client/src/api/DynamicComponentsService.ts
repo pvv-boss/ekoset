@@ -238,6 +238,21 @@ export default class DynamicComponentsService extends BaseService {
       }
     }
 
+
+    const getServiceListHeader = (serviceInfo) => {
+      if (!!indOfferUrl || !!offerForClentType || !serviceList) {
+        return 'Список услуг'
+      }
+      let serviceListHead
+      if (!!serviceSlug) {
+        serviceListHead = getModule(AppStore, this.store).сurrentServiceName
+      } else {
+        const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
+        serviceListHead = siteSectionName ? siteSectionName : serviceInfo.head
+      }
+      return serviceListHead
+    }
+
     const serviceInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.SERVICE_LIST
     })
@@ -248,15 +263,18 @@ export default class DynamicComponentsService extends BaseService {
         serviceInfo.visible = 0
         if (!!serviceSlug) {
           serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
-          const serviceName = getModule(AppStore, this.store).сurrentServiceName
-          serviceInfo.head = serviceName ? serviceName : serviceInfo.head
+          // const serviceName = getModule(AppStore, this.store).сurrentServiceName
+          // serviceInfo.head = serviceName ? serviceName : serviceInfo.head
         } else {
           serviceInfo.visible = !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 0 ? 1 : 0
-          const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
-          serviceInfo.head = siteSectionName ? siteSectionName : serviceInfo.head
+          // const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
+          // serviceInfo.head = siteSectionName ? siteSectionName : serviceInfo.head
         }
+
+        serviceInfo.head = getServiceListHeader(serviceInfo)
       }
     }
+
 
     const servicePriceInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.SERVICE_PRICE

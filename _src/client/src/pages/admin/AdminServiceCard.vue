@@ -132,7 +132,7 @@
             ></AdminRelatedService>
           </b-tab-item>
 
-          <b-tab-item label="Тип клиента, объекта" v-if="!serviceItem.businessServiceParentId">
+          <b-tab-item label="Тип клиента, объекта">
             <div class="brc-admin-card-field-list_column">
               <b-field label="Типы клиентов" style="flex:1">
                 <div
@@ -143,7 +143,6 @@
                   <AdminClientTypeRelationList
                     :clientTypeRelationItems="clientTypeRelationList"
                     @clienttypechecked="clientTypeChecked"
-                    :disabled="serviceItem.businessServiceParentId > 0"
                   ></AdminClientTypeRelationList>
                 </div>
               </b-field>
@@ -157,7 +156,6 @@
                   <AdminActivityRelationList
                     :activityRelationItems="activityRelationList"
                     @activitychecked="activityChecked"
-                    :disabled="serviceItem.businessServiceParentId > 0"
                   ></AdminActivityRelationList>
                 </div>
               </b-field>
@@ -244,9 +242,12 @@ export default class AdminServiceCard extends Vue {
   private async updateParentService () {
     if (!!this.serviceItem.businessServiceParentId && this.serviceItem.businessServiceParentId > 0) {
       this.brandRelationList = await getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(Number(this.serviceItem.businessServiceParentId))
-      this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceParentId))
-      this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+      // this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+      // this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceParentId))
     }
+    this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceId))
+    this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceId))
+
   }
 
   private async asyncData (context: NuxtContext) {
@@ -256,8 +257,11 @@ export default class AdminServiceCard extends Vue {
     const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
     const serviceOtherList = serviceItem.businessServiceParentId == null ? await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : []
     const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
-    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
-    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
+
+    // const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
+    //    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
+    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceItem.businessServiceId)
+    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceItem.businessServiceId)
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })

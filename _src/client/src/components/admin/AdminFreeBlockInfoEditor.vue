@@ -55,11 +55,17 @@ export default class AdminFreeBlockInfoEditor extends Vue {
   @Prop()
   private dynamicComponentInfo
 
-  private isRightEditorVisible =
-    !!this.dynamicComponentInfo &&
-      !!this.dynamicComponentInfo.props &&
-      !!this.dynamicComponentInfo.props.rightBlock &&
-      this.dynamicComponentInfo.props.rightBlock.length > 0 ? true : false
+  private isRightEditorVisible = true
+
+  @Watch('dynamicComponentInfo', { immediate: true })
+  private onDynamicComponentInfoChanged () {
+    this.isRightEditorVisible =
+      !!this.dynamicComponentInfo &&
+        !!this.dynamicComponentInfo.props &&
+        !!this.dynamicComponentInfo.props.rightBlock &&
+        this.dynamicComponentInfo.props.rightBlock.length > 0 ? true : false
+
+  }
 
   private get leftPanelCaption () {
     return this.isRightEditorVisible ? 'Левый блок-конструктор' : 'Блок конструктор'
