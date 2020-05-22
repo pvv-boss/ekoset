@@ -116,6 +116,7 @@
               :siteSection="siteSectionItem"
               @newservice:saved="refreshServiceList"
               @service:deleted="refreshServiceList"
+              @service:moved="refreshServiceList"
             ></AdminServiceListContainer>
           </b-tab-item>
 

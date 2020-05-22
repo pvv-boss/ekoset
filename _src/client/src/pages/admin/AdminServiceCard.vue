@@ -120,6 +120,7 @@
               :siteSection="siteSection"
               :parentServiceId="serviceItem.businessServiceId"
               @newservice:saved="refreshServiceList"
+              @service:moved="refreshServiceList"
             ></AdminServiceListContainer>
           </b-tab-item>
 

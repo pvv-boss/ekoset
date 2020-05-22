@@ -28,19 +28,24 @@
     </div>
 
     <div class="brc_admin-service-list">
-      <div class="brc_admin-service-list-item">
+      <div
+        class="brc_admin-service-list-item"
+        :class="{'brc_this_is_root_service': !parentServiceId}"
+      >
         <span>Статус</span>
         <span>Наименование услуги</span>
         <span>Фото на странице</span>
         <span>Фото на карточке</span>
         <span>Ед.измерения</span>
         <span>Цена, руб.</span>
+        <span v-if="!!parentServiceId">Переместить</span>
         <span>Удалить</span>
       </div>
 
       <draggable v-model="serviceList" @change="handleChange">
         <div
           class="brc_admin-service-list-item"
+          :class="{'brc_this_is_root_service': !parentServiceId}"
           v-for="iterService in serviceList"
           :key="iterService.businessServiceId"
         >
@@ -104,6 +109,14 @@
             @blur="saveService(iterService)"
           ></b-input>
 
+          <b-button
+            type="is-success"
+            icon-right="github-circle"
+            style="max-width:60px; margin:auto;"
+            @click="showMoveModal(iterService)"
+            v-if="!!parentServiceId"
+          ></b-button>
+
           <b-button type="is-danger" icon-right="delete" @click="deleteService(iterService)"></b-button>
         </div>
       </draggable>
@@ -122,6 +135,34 @@
         <h1 class="brc-admin-card-image-title">{{previewBigService.businessServiceH1}}</h1>
       </figure>
     </b-modal>
+
+    <b-modal :active.sync="isMoveServiceModalActive" :width="500" v-if="!!parentServiceId">
+      <div style="background-color:white; height:100%; opacity:1; padding:15px;">
+        <b-switch
+          type="is-success"
+          style="justify-content: flex-end;"
+          v-model="moveServiceAsRoot"
+        >Переместить услугу в корень раздела</b-switch>
+
+        <b-field
+          label="Выберите Услугу 1-го уровня для перемещения"
+          v-if="moveServiceAsRoot===false"
+          style="margin-top:50px;"
+        >
+          <AdminServiceSelector
+            :siteSectionId="siteSection.siteSectionId"
+            :value="parentServiceId"
+            @input="(val)=>parentServiceIdForMove=val"
+          ></AdminServiceSelector>
+        </b-field>
+        <b-button
+          class="button"
+          type="button"
+          @click="moveService()"
+          style="float:right;margin-top:120px;margin-bottom:15px;margin-right:15px;"
+        >Переместить и закрыть</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -132,11 +173,14 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
 import ServiceListItem from '@/components/public/ServiceListItem.vue'
+import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
+
 
 
 @Component({
   components: {
-    ServiceListItem
+    ServiceListItem,
+    AdminServiceSelector
   }
 })
 export default class AdminServiceListContainer extends Vue {
@@ -157,6 +201,11 @@ export default class AdminServiceListContainer extends Vue {
   private isShowSmallImageActive = false
   private previewBigService: BusinessService = new BusinessService()
   private isShowBigImageActive = false
+
+  private isMoveServiceModalActive = false
+  private movedService: BusinessService = new BusinessService()
+  private parentServiceIdForMove = 0
+  private moveServiceAsRoot = true
 
   @Watch('value', { immediate: true })
   private async updateServiceList () {
@@ -218,6 +267,33 @@ export default class AdminServiceListContainer extends Vue {
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
   }
 
+  private showMoveModal (serviceItem: BusinessService) {
+    this.isMoveServiceModalActive = !this.isMoveServiceModalActive
+    this.movedService = serviceItem
+  }
+
+
+  private async moveService () {
+    if (!!this.movedService && !!this.parentServiceIdForMove && this.parentServiceIdForMove > 0) {
+      this.movedService.businessServiceParentId = this.parentServiceIdForMove
+      await getServiceContainer().businessServiceService.save(this.movedService)
+      this.$BrcNotification(BrcDialogType.Success, `Выполнено перемещение в Услугу 1-го уровня`)
+      this.$emit('service:moved')
+    }
+
+    if (!!this.movedService && this.moveServiceAsRoot === true) {
+      this.movedService.businessServiceParentId = null
+      await getServiceContainer().businessServiceService.save(this.movedService)
+      this.$BrcNotification(BrcDialogType.Success, `Выполнено перемещение в корень раздела`)
+      this.$emit('service:moved')
+    }
+
+    this.movedService = new BusinessService()
+    this.parentServiceIdForMove = 0
+    this.isMoveServiceModalActive = false
+    this.moveServiceAsRoot = false
+  }
+
 }
 </script>
 
@@ -232,7 +308,7 @@ export default class AdminServiceListContainer extends Vue {
     margin-top: 10px;
 
     display: grid;
-    grid-template-columns: 50px 1fr 180px 180px 200px 200px 70px;
+    grid-template-columns: 50px 1fr 180px 180px 200px 180px 100px 70px;
     grid-column-gap: 20px;
     justify-content: flex-end;
 
@@ -246,6 +322,10 @@ export default class AdminServiceListContainer extends Vue {
       margin-bottom: 0px !important;
       font-weight: $font-regular !important;
       font-size: 15px !important;
+    }
+
+    &.brc_this_is_root_service {
+      grid-template-columns: 50px 1fr 180px 180px 200px 180px 70px;
     }
 
     cursor: move;
