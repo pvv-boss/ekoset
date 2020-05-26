@@ -157,7 +157,9 @@ export default class MainEkosetService extends BaseService {
   }
 
   public async deleteRecommendationLetter (id: number) {
-    return this.deleteById('recommendation', 'recomm_id = $1', id);
+    return this.execNone(`UPDATE cl_brand SET cl_brand_img_big = NULL WHERE cl_brand_id = ${id}`);
+    // return this.deleteById('recommendation', 'recomm_id = $1', id);
+    // return this.deleteById('recommendation', 'recomm_id = $1', id);
   }
 
   public async saveRecommendation (reccomendationLetter: ReccomendationLetter) {

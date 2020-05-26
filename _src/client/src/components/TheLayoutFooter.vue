@@ -35,7 +35,7 @@
       <div class="brc-page-footer__private-activities">
         <input id="toogleClientTypeMenuVisible" type="checkbox" />
         <label class="brc-footer-list-arrow" for="toogleClientTypeMenuVisible">
-          <h4 for="toogleClientTypeMenuVisible">Услуги для Частных лиц</h4>
+          <h4 for="toogleClientTypeMenuVisible">Услуги для Дома</h4>
         </label>
         <ul class="brc-footer-list-link">
           <li v-for="serviceItem in serviceListForPerson" :key="serviceItem.businessServiceId">

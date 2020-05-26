@@ -88,7 +88,7 @@ export default class AdminBrandCard extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const brandItem = await getServiceContainer().publicEkosetService.getBrandById(Number(context.params.brand))
-    const recommendLetters = getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(Number(context.params.brand))
+    // const recommendLetters = getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(Number(context.params.brand))
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -97,41 +97,41 @@ export default class AdminBrandCard extends Vue {
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
 
-    const data = await Promise.all([recommendLetters])
+    // const data = await Promise.all([recommendLetters])
 
     return {
-      brandItem,
-      recommendLetterList: data[0]
+      brandItem
+      // recommendLetterList: data[0]
     }
   }
 
-  private async updateLetterList () {
-    this.recommendLetterList = await getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(this.brandItem.clBrandId)
-  }
-  private async addNewLetter () {
-    const letter: ReccomendationLetter = new ReccomendationLetter()
-    letter.clBrandId = this.brandItem.clBrandId
-    this.recommendLetterList.push(letter)
-  }
+  // private async updateLetterList () {
+  //   this.recommendLetterList = await getServiceContainer().publicEkosetService.getRecommendationLettersByBrand(this.brandItem.clBrandId)
+  // }
+  // private async addNewLetter () {
+  //   const letter: ReccomendationLetter = new ReccomendationLetter()
+  //   letter.clBrandId = this.brandItem.clBrandId
+  //   this.recommendLetterList.push(letter)
+  // }
 
-  private async saveLetterImage (imageFile: string, letter: ReccomendationLetter) {
-    // const letter: ReccomendationLetter = new ReccomendationLetter()
-    letter.clBrandId = this.brandItem.clBrandId
-    const recommLetter = await getServiceContainer().publicEkosetService.saveRecommendation(letter)
+  // private async saveLetterImage (imageFile: string, letter: ReccomendationLetter) {
+  //   // const letter: ReccomendationLetter = new ReccomendationLetter()
+  //   letter.clBrandId = this.brandItem.clBrandId
+  //   const recommLetter = await getServiceContainer().publicEkosetService.saveRecommendation(letter)
 
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    recommLetter.smallImageFormData = formData
-    await getServiceContainer().mediaService.saveRecommendationLetterImage(recommLetter.recommId, formData)
-    this.updateLetterList()
-  }
+  //   const formData: FormData = new FormData()
+  //   formData.append('file', imageFile)
+  //   recommLetter.smallImageFormData = formData
+  //   await getServiceContainer().mediaService.saveRecommendationLetterImage(recommLetter.recommId, formData)
+  //   this.updateLetterList()
+  // }
 
-  private async deleteRecommLetter (letter: ReccomendationLetter) {
-    if (!!letter.recommId) {
-      await getServiceContainer().publicEkosetService.deleteRecommendationLetter(letter.recommId)
-    }
-    this.updateLetterList()
-  }
+  // private async deleteRecommLetter (letter: ReccomendationLetter) {
+  //   if (!!letter.recommId) {
+  //     await getServiceContainer().publicEkosetService.deleteRecommendationLetter(letter.recommId)
+  //   }
+  //   this.updateLetterList()
+  // }
 
   private saveBrand () {
     getServiceContainer().publicEkosetService.saveBrand(this.brandItem)

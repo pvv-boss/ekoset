@@ -5,6 +5,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import { Store } from 'vuex'
+import ClBrand from '@/models/ekoset/ClBrand'
 
 export default class DynamicComponentsService extends BaseService {
   private store: Store<any>
@@ -188,7 +189,14 @@ export default class DynamicComponentsService extends BaseService {
     })
     if (!!lettersCompoenentInfo) {
       lettersCompoenentInfo.props.brandsList = data[0]
-      lettersCompoenentInfo.props.brandsList = !!lettersCompoenentInfo.props.brandsList ? lettersCompoenentInfo.props.brandsList.slice(0, 3) : lettersCompoenentInfo.props.brandsList
+
+      if (!!lettersCompoenentInfo.props.brandsList) {
+        const notEmptyLetters = lettersCompoenentInfo.props.brandsList.filter((iterBrand: ClBrand) => {
+          return !!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !== '/img/empty-image.png'
+        })
+        lettersCompoenentInfo.props.brandsList = !!notEmptyLetters ? notEmptyLetters.slice(0, 3) : []
+      }
+      // lettersCompoenentInfo.props.brandsList = !!lettersCompoenentInfo.props.brandsList ? lettersCompoenentInfo.props.brandsList.slice(0, 3) : lettersCompoenentInfo.props.brandsList
 
       if (!adminMode && lettersCompoenentInfo.visible === 1) {
         lettersCompoenentInfo.visible = 0

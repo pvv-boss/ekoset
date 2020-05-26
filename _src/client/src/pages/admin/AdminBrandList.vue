@@ -103,8 +103,17 @@
                 type="is-success"
                 size="is-medium"
                 outlined
-                style="margin-left:20px;"
+                style="margin-left:15px;"
                 v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !='/img/empty-image.png'"
+              ></b-button>
+              <b-button
+                @click="deleteLetter(iterBrand)"
+                type="is-danger"
+                size="is-medium"
+                outlined
+                style="margin-left:15px;"
+                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !='/img/empty-image.png'"
+                icon-right="delete"
               ></b-button>
             </div>
 
@@ -246,6 +255,14 @@ export default class AdminBrandList extends Vue {
     formData.append('file', imageFile)
     brandItem.recommendImageFormData = formData
     await getServiceContainer().publicEkosetService.saveBrand(brandItem)
+  }
+
+  private async deleteLetter (brandItem: ClBrand) {
+    const okCallback = async () => {
+      await getServiceContainer().publicEkosetService.deleteRecommendationLetter(brandItem.clBrandId)
+      this.updateBrandList()
+    }
+    this.$BrcAlert(BrcDialogType.Warning, 'Удалить рекомендательное письмо ?', 'Подтвердите удаление', okCallback)
   }
 }
 </script>

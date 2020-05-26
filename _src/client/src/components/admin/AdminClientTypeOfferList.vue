@@ -32,7 +32,7 @@ export default class AdminClientTypeOfferList extends Vue {
       clientType: 'business'
     },
     {
-      indOfferName: 'Для частных лиц',
+      indOfferName: 'Для дома',
       clientType: 'person'
     }
   ]

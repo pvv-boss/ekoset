@@ -19,11 +19,11 @@
     >
       <v-lazy-image
         src="/images/solutions-person.png"
-        alt="Комлексное решение для частных лиц"
-        title="Комлексное решение для частных лиц"
+        alt="Комлексное решение для дома"
+        title="Комлексное решение для дома"
         itemprop="image"
       />
-      <h3>Для частных лиц</h3>
+      <h3>Для дома</h3>
     </nuxt-link>
   </section>
 </template>

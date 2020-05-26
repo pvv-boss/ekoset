@@ -18,7 +18,7 @@
             ></AdminServiceRelationListBySection>
           </div>
           <div class="col-2">
-            <h3>Для частных лиц</h3>
+            <h3>Для дома</h3>
             <AdminServiceRelationListBySection
               :serviceRelationItems="serviceListForPerson"
               @servicechecked="onChecked(...arguments, false)"

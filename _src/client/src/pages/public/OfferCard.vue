@@ -51,7 +51,7 @@ export default class OfferCard extends Vue {
         ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(siteSection)
         : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(siteSection)
 
-      offerHeaderText = context.params.clienttype === 'business' ? 'Для бизнеса' : 'Для частных лиц'
+      offerHeaderText = context.params.clienttype === 'business' ? 'Для бизнеса' : 'Для дома'
     } else {
       individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
       offerHeaderText = individualOffer.indOfferName

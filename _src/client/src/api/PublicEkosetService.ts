@@ -140,16 +140,16 @@ export default class PublicEkosetService extends BaseService {
   }
 
   // Рекомендации
-  public async getRecommendationLettersByBrand (brandId: number) {
-    const query = `brands/${brandId}/letters`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
+  // public async getRecommendationLettersByBrand (brandId: number) {
+  //   const query = `brands/${brandId}/letters`
+  //   return HttpUtil.httpGet(this.buildHttRequest(query))
+  // }
 
 
-  public async saveRecommendation (letter: ReccomendationLetter) {
-    const query = 'brands/letters'
-    return HttpUtil.httpPut(this.buildHttRequest(query), letter)
-  }
+  // public async saveRecommendation (letter: ReccomendationLetter) {
+  //   const query = 'brands/letters'
+  //   return HttpUtil.httpPut(this.buildHttRequest(query), letter)
+  // }
 
 
   public async deleteRecommendationLetter (id: number) {
@@ -157,20 +157,20 @@ export default class PublicEkosetService extends BaseService {
     return HttpUtil.httpDelete(this.buildHttRequest(query))
   }
 
-  public async getRecommendationLettersByBusinessServiceSlug (serviceSlug: string) {
-    const query = `letters/services/${this.getIdBySlug(serviceSlug)}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
+  // public async getRecommendationLettersByBusinessServiceSlug (serviceSlug: string) {
+  //   const query = `letters/services/${this.getIdBySlug(serviceSlug)}`
+  //   return HttpUtil.httpGet(this.buildHttRequest(query))
+  // }
 
-  public async   getRecommendationLettersBySiteSectionSlug (siteSectionSlug: string) {
-    const query = `letters/sitesection/${this.getIdBySlug(siteSectionSlug)}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
+  // public async   getRecommendationLettersBySiteSectionSlug (siteSectionSlug: string) {
+  //   const query = `letters/sitesection/${this.getIdBySlug(siteSectionSlug)}`
+  //   return HttpUtil.httpGet(this.buildHttRequest(query))
+  // }
 
-  public async  getRecommendationLettersForHomePage () {
-    const query = `letters`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
-  }
+  // public async  getRecommendationLettersForHomePage () {
+  //   const query = `letters`
+  //   return HttpUtil.httpGet(this.buildHttRequest(query))
+  // }
 
   //
 
