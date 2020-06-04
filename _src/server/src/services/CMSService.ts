@@ -197,7 +197,7 @@ export default class CMSService extends BaseService {
     brandList.dispalyName = 'Нас рекомендуют';
     brandList.name = 'RecommendationList';
     brandList.visible = 1;
-    brandList.visibleIndex = 3;
+    brandList.visibleIndex = 6;
     brandList.props = {
       brandList: []
     }
@@ -211,7 +211,7 @@ export default class CMSService extends BaseService {
     letters.dispalyName = 'Благодарственные письма';
     letters.name = 'RecommLetterList';
     letters.visible = 1;
-    letters.visibleIndex = 4;
+    letters.visibleIndex = 5;
     letters.props = {
       recommLetterList: []
     }
@@ -224,7 +224,7 @@ export default class CMSService extends BaseService {
     news.dispalyName = 'Новости';
     news.name = 'ArticleList';
     news.visible = 1;
-    news.visibleIndex = 7;
+    news.visibleIndex = 9;
     news.props = {
       articleList: [],
       mode: 'columns'
@@ -248,7 +248,7 @@ export default class CMSService extends BaseService {
     askExpert.name = 'MessageForm';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
-    askExpert.visibleIndex = 8;
+    askExpert.visibleIndex = 10;
     askExpert.props = {
       title: 'Задать вопрос эксперту'
     }
@@ -261,7 +261,7 @@ export default class CMSService extends BaseService {
     clientTypeOfferList.name = 'ClientTypeOfferList';
     clientTypeOfferList.dispalyName = 'Комплексные решения'
     clientTypeOfferList.visible = 1;
-    clientTypeOfferList.visibleIndex = 5;
+    clientTypeOfferList.visibleIndex = 4;
 
     const businessTypeOfferList = new DynamicComponentInfo();
     businessTypeOfferList.id = 0;
@@ -271,7 +271,7 @@ export default class CMSService extends BaseService {
     businessTypeOfferList.name = 'BusinessTypeOfferList';
     businessTypeOfferList.dispalyName = 'Индивидуальные предложения'
     businessTypeOfferList.visible = 1;
-    businessTypeOfferList.visibleIndex = 6;
+    businessTypeOfferList.visibleIndex = 8;
     businessTypeOfferList.props = {
       offerList: []
     }
@@ -311,7 +311,7 @@ export default class CMSService extends BaseService {
     relatedService.name = 'RelatedService';
     relatedService.dispalyName = 'Вы также можете заказать'
     relatedService.visible = 1;
-    relatedService.visibleIndex = 100;
+    relatedService.visibleIndex = 3;
     relatedService.props = {
       serviceList: []
     }
@@ -324,7 +324,7 @@ export default class CMSService extends BaseService {
     clients.dispalyName = 'Клиенты'
     clients.name = 'ClientList';
     clients.visible = 0;
-    clients.visibleIndex = 100;
+    clients.visibleIndex = 7;
     clients.props = {
       clientList: []
     }

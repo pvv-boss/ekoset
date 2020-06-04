@@ -21,11 +21,11 @@
     "js-cookie": "latest",
     "jwt-decode": "latest",
     "nuxt": "^2.12.2",
-    "nuxt-buefy": "^0.3.27",
-    "nuxt-webfontloader": "^1.1.0",
-    "v-lazy-image": "^1.4.0",
-    "vue-good-table": "^2.19.1",
-    "vue-router": "^3.1.6",
+    "nuxt-buefy": "latest",
+    "nuxt-webfontloader": "latest",
+    "v-lazy-image": "latest",
+    "vue-good-table": "latest",
+    "vue-router": "latest",
     "vuedraggable": "latest",
     "vuelidate": "^0.7.5"
   },
@@ -62,6 +62,6 @@
     "ts-node": "^8.9.0",
     "typescript": "^3.8.3",
     "vue-meta": "latest",
-    "vuex-module-decorators": "^0.16.1"
+    "vuex-module-decorators": "latest"
   }
 }

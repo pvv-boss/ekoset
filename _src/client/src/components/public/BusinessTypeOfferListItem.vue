@@ -40,6 +40,8 @@ export default class BusinessTypeOfferListItem extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables.scss';
+
 .brc-business-type-offer-item__wrapper {
   flex: 1;
   min-width: 220px;
@@ -85,6 +87,7 @@ export default class BusinessTypeOfferListItem extends Vue {
       align-items: center;
       justify-content: center;
       color: #1a1a1a;
+      // color: $red;
       font-size: 20px;
       font-weight: 500;
       text-align: center !important;

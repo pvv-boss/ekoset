@@ -194,9 +194,8 @@ export default class DynamicComponentsService extends BaseService {
         const notEmptyLetters = lettersCompoenentInfo.props.brandsList.filter((iterBrand: ClBrand) => {
           return !!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !== '/img/empty-image.png'
         })
-        lettersCompoenentInfo.props.brandsList = !!notEmptyLetters ? notEmptyLetters.slice(0, 3) : []
+        lettersCompoenentInfo.props.brandsList = !!notEmptyLetters ? notEmptyLetters : []
       }
-      // lettersCompoenentInfo.props.brandsList = !!lettersCompoenentInfo.props.brandsList ? lettersCompoenentInfo.props.brandsList.slice(0, 3) : lettersCompoenentInfo.props.brandsList
 
       if (!adminMode && lettersCompoenentInfo.visible === 1) {
         lettersCompoenentInfo.visible = 0

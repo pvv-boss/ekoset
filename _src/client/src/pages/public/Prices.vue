@@ -23,6 +23,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import TheBanner from '@/components/header/TheBanner.vue'
+import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
 @Component({
   components: {
@@ -35,7 +36,7 @@ export default class Prices extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
   private sitePageInfo: SitePage = new SitePage()
-
+  private routeFullPath = ''
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -49,7 +50,8 @@ export default class Prices extends Vue {
 
     return {
       dynamicComponentInfo: data[0],
-      sitePageInfo: data[1]
+      sitePageInfo: data[1],
+      routeFullPath: context.route.fullPath
     }
   }
 
@@ -69,9 +71,8 @@ export default class Prices extends Vue {
     this.breadCrumbList.push({ name: this.sitePageInfo.sitePageName, link: '' })
   }
 
-
-  //  private head () {
-  //     return MetaTagsBuilder.head(this.businessService)
-  //   }
+  private head () {
+    return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
+  }
 }
 </script>

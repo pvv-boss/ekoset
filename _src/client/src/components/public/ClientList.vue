@@ -24,6 +24,18 @@
             :key="iterBrand.id"
           >{{iterBrand.name}}</li>
         </ul>
+
+        <div class="brc-clients-list-popup__list_img">
+          <div
+            class="brc-clients-list-popup__list__img_block"
+            v-for="iterBrand in clickedMoreClientList.brandsList"
+            :key="iterBrand.id"
+          >
+            <img itemprop="image" :src="iterBrand.cl_brand_img_small" />
+            <!-- <img itemprop="image" src="/img/empty-image.png" /> -->
+            <span>{{iterBrand.name}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -96,8 +108,8 @@ export default class ClientList extends Vue {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 60vh;
-  width: 25vw;
+  height: 80vh;
+  width: 35vw;
   z-index: 2000;
   background-color: white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -133,11 +145,17 @@ export default class ClientList extends Vue {
     margin-top: 0 !important;
   }
 
-  .brc-clients-list-popup__list {
+  .brc-clients-list-popup__list,
+  .brc-clients-list-popup__list_img {
+    display: none;
     height: calc(100% - 70px);
     overflow-y: auto;
     margin-top: 10px;
     padding-top: 10px !important;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
 
     li {
       padding-left: 1em !important;
@@ -151,6 +169,44 @@ export default class ClientList extends Vue {
       }
       @media (max-width: 500px) {
         //  font-size: 14px;
+      }
+    }
+  }
+
+  .brc-clients-list-popup__list_img {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    // grid-template-columns: repeat(4, 1fr);
+    // grid-gap: 1rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    .brc-clients-list-popup__list__img_block {
+      display: flex;
+      flex-direction: column;
+      margin: 10px;
+      align-items: center;
+
+      img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      span {
+        font-size: 12px;
+        color: $text-color;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        // flex-grow: 1;
+        text-align: center;
+        overflow: hidden;
+        max-height: 4.5em;
+        margin-top: 5px;
       }
     }
   }

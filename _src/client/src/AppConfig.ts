@@ -12,4 +12,3 @@ export default class AppConfig {
   public cookieName: string = 'auth-rsn-cookie'
   public jwtHeaderName: string = 'auth-rsn-header'
 }
-

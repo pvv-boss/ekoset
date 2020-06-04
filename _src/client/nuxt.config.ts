@@ -24,11 +24,11 @@ const config = {
     ],
 
     link: [
-      {
-        rel: 'preload',
-        href: '//code-ya.jivosite.com/widget/AMTXfSmabC',
-        as: 'script'
-      },
+      // {
+      //   rel: 'preload',
+      //   href: '//code-ya.jivosite.com/widget/AMTXfSmabC',
+      //   as: 'script'
+      // },
       {
         rel: 'preload',
         href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css',
@@ -51,8 +51,8 @@ const config = {
 
     script: [
       {
-        async: '',
-        src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
+        // async: '',
+        // src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
       }
     ],
 
@@ -120,8 +120,8 @@ const config = {
     }],
     ['@naumstory/nuxtjs-yandex-metrika',
       {
-        id: '57712291',
-        // webvisor: false,
+        id: '64542580',
+        webvisor: false,
         clickmap: true,
         useCDN: true,
         trackLinks: true,
