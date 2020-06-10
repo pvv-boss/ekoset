@@ -122,6 +122,7 @@ export default class DynamicComponentsService extends BaseService {
       relatedServiceList = getServiceContainer().businessServiceService.adminGetRelated(businessService.businessServiceId)
     }
 
+
     // Услуги для инд.предложения
     if (!!indOfferUrl && !!siteSectionSlug) {
       if (!!offerForClentType) {

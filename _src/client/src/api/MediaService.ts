@@ -1,5 +1,6 @@
 import HttpUtil from '../utils/HttpUtil'
 import BaseService from './BaseService'
+import SiteDocument from '@/models/ekoset/SiteDocument'
 
 export default class MediaService extends BaseService {
 
@@ -43,5 +44,21 @@ export default class MediaService extends BaseService {
     return HttpUtil.httpPostForm(`admin/panel/clActivities/${id}/mainclientlogo`, formData)
   }
 
+  public async getSiteDocuments () {
+    const query = 'admin/documents'
+    return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  public async saveSiteDocument (siteDocument: SiteDocument) {
+    return HttpUtil.httpPost('/admin/document', siteDocument)
+  }
+
+  public async addSiteDocument (formData: FormData, id: number) {
+    return HttpUtil.httpPost(`/admin/document/${id}`, formData)
+  }
+
+  public async deleteSiteDocument (id: number) {
+    return HttpUtil.httpDelete(`/admin/document/${id}`)
+  }
 
 }

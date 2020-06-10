@@ -121,7 +121,7 @@ const config = {
     ['@naumstory/nuxtjs-yandex-metrika',
       {
         id: '64542580',
-        webvisor: false,
+        webvisor: true,
         clickmap: true,
         useCDN: true,
         trackLinks: true,

@@ -1,8 +1,10 @@
-import { JsonController, UseBefore, Post, Req, Res, Param } from 'routing-controllers';
+import { JsonController, UseBefore, Post, Req, Res, Param, Body, Get, Delete } from 'routing-controllers';
 import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
 import * as multer from 'multer';
+import ClassTransform from '@/utils/ClassTransform';
+import SiteDocument from '@/entities/ekoset/SiteDocument';
 
 
 const upload = multer();
@@ -136,6 +138,47 @@ export default class MediaController extends BaseController {
     const file = request.file;
     const result = await ServiceContainer.MediaService.saveClActivityMainClientLogo(id, file);
     return MediaController.createSuccessResponse(result, response);
+  }
+
+
+  @Get('/admin/documents')
+  public async getSiteDocuments (
+    @Res() response: Response
+  ) {
+    const result = await ServiceContainer.MediaService.getSiteDocuments();
+    return MediaController.createSuccessResponse(result, response);
+  }
+
+  @UseBefore(upload.single('file'))
+  @Post('/admin/document/:id')
+  public async addSiteDocument (
+    @Param('id') id: number,
+    @Req() request: Request,
+    @Res() response: Response
+  ) {
+
+    const file = request.file;
+    await ServiceContainer.MediaService.addSiteDocument(file, id);
+    return MediaController.createSuccessResponse({}, response);
+  }
+
+  @Post('/admin/document')
+  public async saveSiteDocument (
+    @Body() siteDocument: SiteDocument,
+    @Req() request: Request,
+    @Res() response: Response
+  ) {
+    await ServiceContainer.MediaService.saveSiteDocument(siteDocument);
+    return MediaController.createSuccessResponse({}, response);
+  }
+
+  @Delete('/admin/document/:id')
+  public async deleteSiteDocument (
+    @Res() response: Response,
+    @Param('id') id: number
+  ) {
+    await ServiceContainer.MediaService.deleteSiteDocument(id);
+    return MediaController.createSuccessResponse({}, response);
   }
 
   // @UseBefore(upload.single('file'))

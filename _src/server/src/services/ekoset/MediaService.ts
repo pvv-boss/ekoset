@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import * as cuid from 'cuid';
 import * as mime from 'mime-types';
 import BaseService from '../BaseService';
+import SiteDocument from '@/entities/ekoset/SiteDocument';
+import TypeOrmManager from '@/utils/TypeOrmManager';
 
 export default class MediaService extends BaseService {
 
@@ -54,6 +56,27 @@ export default class MediaService extends BaseService {
   public async saveClActivityMainClientLogo (clActivityId: number, file: Express.Multer.File) {
     const updateStmt = `UPDATE cl_activity SET cl_activity_main_client_img = $1 where cl_activity_id = ${clActivityId}`;
     return this.updateSmallOrBigImageFor(file, 'clients', `client_${clActivityId}`, updateStmt);
+  }
+
+
+  public async getSiteDocuments () {
+    return this.getDbViewResult('v_api_site_document')
+  }
+
+  public async saveSiteDocument (siteDocument: SiteDocument) {
+    return await TypeOrmManager.EntityManager.save(siteDocument);
+  }
+
+  public async deleteSiteDocument (id: number) {
+    return await this.deleteById('site_document', 'site_document_id=$1', id)
+  }
+
+  public async addSiteDocument (file: Express.Multer.File, id: number) {
+    const updateStmt = `UPDATE site_document SET site_document_file = $1 where site_document_id = ${id}`;
+    const pathAndName = await this.saveFileFromRequestBody(file, 'docs', 'site', `doc${id}`);
+    if (pathAndName) {
+      return this.execNone(updateStmt, [`/docs/site/${pathAndName[1]}`]);
+    }
   }
 
   public getImageFullPathAndFileName (dir: string, subDir: string, fileprefix: string, fileExt: string) {

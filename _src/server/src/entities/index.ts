@@ -15,11 +15,12 @@ import { ReccomendationLetter } from './ekoset/ReccomendationLetter';
 import SitePage from './ekoset/SitePage';
 import { UserRequest } from './ekoset/UserRequest';
 import { UserRequestFile } from './ekoset/UserRequestFile';
+import SiteDocument from './ekoset/SiteDocument';
 
 
 const entityModelMetadata = [
   SiteSection, AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, ClArticleTag, ClBrand
-  , ClSiteSetting, IndividualOffer, SiteSocialNetwork, ClClient, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType
+  , ClSiteSetting, IndividualOffer, SiteSocialNetwork, ClClient, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType, SiteDocument
 ];
 
 

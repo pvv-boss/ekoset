@@ -11,6 +11,7 @@ import AdminClActivityTypes from '@/pages/admin/AdminClActivityTypes.vue'
 import AdminFooterSettings from '@/pages/admin/AdminFooterSettings.vue'
 import AdminTopMenuList from '@/pages/admin/AdminTopMenuList.vue'
 import AdminTopMenuCard from '@/pages/admin/AdminTopMenuCard.vue'
+import AdminDocuments from '@/pages/admin/AdminDocuments.vue'
 
 export const AdminRouter = [
   {
@@ -125,5 +126,16 @@ export const AdminRouter = [
       title: 'Настройки: Футер',
       requiresAuth: true
     }
+  },
+
+  {
+    name: 'admin-documents',
+    path: '/admin/docs',
+    props: true,
+    component: AdminDocuments,
+    meta: {
+      requiresAuth: true
+    }
   }
+
 ]
