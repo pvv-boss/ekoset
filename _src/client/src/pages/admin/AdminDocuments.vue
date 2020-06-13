@@ -46,7 +46,7 @@
               v-if="props.column.field == 'siteSectionName'"
             >{{props.formattedRow[props.column.field]}}</span>
             <a
-              :src="props.row.siteDocumentFile"
+              :href="props.row.siteDocumentFile"
               v-if="props.column.field == 'siteDocumentName'"
             >{{props.formattedRow[props.column.field]}}</a>
 

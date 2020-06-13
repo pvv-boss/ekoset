@@ -28,24 +28,20 @@
     </div>
 
     <div class="brc_admin-service-list">
-      <div
-        class="brc_admin-service-list-item"
-        :class="{'brc_this_is_root_service': !parentServiceId}"
-      >
+      <div class="brc_admin-service-list-item">
         <span>Статус</span>
         <span>Наименование услуги</span>
         <span>Фото на странице</span>
         <span>Фото на карточке</span>
         <span>Ед.измерения</span>
         <span>Цена, руб.</span>
-        <span v-if="!!parentServiceId">Переместить</span>
+        <span>Переместить</span>
         <span>Удалить</span>
       </div>
 
       <draggable v-model="serviceList" @change="handleChange">
         <div
           class="brc_admin-service-list-item"
-          :class="{'brc_this_is_root_service': !parentServiceId}"
           v-for="iterService in serviceList"
           :key="iterService.businessServiceId"
         >
@@ -111,10 +107,9 @@
 
           <b-button
             type="is-success"
-            icon-right="github-circle"
             style="max-width:60px; margin:auto;"
+            icon-right="file-move"
             @click="showMoveModal(iterService)"
-            v-if="!!parentServiceId"
           ></b-button>
 
           <b-button type="is-danger" icon-right="delete" @click="deleteService(iterService)"></b-button>
@@ -136,12 +131,13 @@
       </figure>
     </b-modal>
 
-    <b-modal :active.sync="isMoveServiceModalActive" :width="500" v-if="!!parentServiceId">
+    <b-modal :active.sync="isMoveServiceModalActive" :width="500">
       <div style="background-color:white; height:100%; opacity:1; padding:15px;">
         <b-switch
           type="is-success"
           style="justify-content: flex-end;"
           v-model="moveServiceAsRoot"
+          v-if="movedService.businessServiceParentId != null"
         >Переместить услугу в корень раздела</b-switch>
 
         <b-field
@@ -205,7 +201,7 @@ export default class AdminServiceListContainer extends Vue {
   private isMoveServiceModalActive = false
   private movedService: BusinessService = new BusinessService()
   private parentServiceIdForMove = 0
-  private moveServiceAsRoot = true
+  private moveServiceAsRoot = false
 
   @Watch('value', { immediate: true })
   private async updateServiceList () {

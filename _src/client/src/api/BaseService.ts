@@ -8,6 +8,10 @@ export default class BaseService {
   public async initConfig () {
     if (!BaseService.appConfig.initialized) {
       const config = await HttpUtil.httpGet(`${AppConfig.endPoint}/app/client/config`)
+
+      // tslint:disable-next-line:no-console
+      console.log(config)
+
       BaseService.appConfig = config
       BaseService.appConfig.initialized = true
     }
