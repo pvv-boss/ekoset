@@ -3,8 +3,9 @@
     <table class="brc-service-price-table" cellspacing="0">
       <thead>
         <th>Услуга</th>
-        <th width="15%">Ед.изм.</th>
-        <th width="30%">Цена</th>
+        <th width="15%" class="brc-service-price__unit">Ед.изм.</th>
+        <th class="brc-service-price__price">Цена</th>
+        <th class="brc-service-price__buscet">В корзину</th>
       </thead>
       <tbody>
         <template v-for="iterPriceListItem in servicePriceList">
@@ -29,6 +30,7 @@
                   class="brc-service-price-table-link brc-service-price-td_bold"
                 >{{iterPriceListItem.name}}</nuxt-link>
               </td>
+              <td class="brc-service-price__unit"></td>
               <td></td>
               <td></td>
             </tr>
@@ -42,8 +44,13 @@
                   class="brc-service-price-table-link"
                 >{{iterPriceItem.businesservicename}}</nuxt-link>
               </td>
-              <td>{{iterPriceItem.businesserviceunit}}</td>
+              <td class="brc-service-price__unit">{{iterPriceItem.businesserviceunit}}</td>
               <td class>{{iterPriceItem.businesserviceprice}}</td>
+              <td class="brc-price-buscet__icon">
+                <a @click="addServiceToBuscet(iterPriceItem)">
+                  <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+                </a>
+              </td>
             </tr>
           </template>
           <template v-else>
@@ -56,8 +63,13 @@
                   class="brc-service-price-table-link"
                 >{{iterPriceListItem.name}}</nuxt-link>
               </td>
-              <td>{{iterPriceListItem.businesserviceunit}}</td>
+              <td class="brc-service-price__unit">{{iterPriceListItem.businesserviceunit}}</td>
               <td>{{iterPriceListItem.businesserviceprice}}</td>
+              <td class="brc-price-buscet__icon">
+                <a @click="addServiceToBuscet(iterPriceListItem)">
+                  <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+                </a>
+              </td>
             </tr>
           </template>
         </template>
@@ -79,6 +91,7 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
+import BuscetStore from '@/store/BuscetStore'
 
 @Component({})
 export default class ServicePrice extends Vue {
@@ -97,6 +110,12 @@ export default class ServicePrice extends Vue {
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
   }
+
+  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
+
+  public addServiceToBuscet (serviceItem: BusinessService) {
+    this.buscetStore.addService(serviceItem)
+  }
 }
 </script>
 
@@ -104,6 +123,45 @@ export default class ServicePrice extends Vue {
 @import '@/styles/variables.scss';
 .brc-service-price-table__wrapper {
   margin: 30px 0 0;
+
+  .brc-service-price__price {
+    width: 15%;
+    @media (max-width: 768px) {
+      width: 30%;
+    }
+  }
+
+  .brc-service-price__buscet {
+    width: 10%;
+    @media (max-width: 768px) {
+      width: 25%;
+    }
+  }
+
+  .brc-service-price__unit {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .brc-price-buscet__icon {
+    padding: 0px !important;
+    padding-right: 30px;
+    @media (max-width: 768px) {
+      padding-right: 5px;
+    }
+    img {
+      display: inline;
+      width: 32px;
+      height: 32px;
+      margin: 0px;
+      margin-top: 5px;
+      @media (max-width: 768px) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
   .brc-service-price-table {
     width: 100%;
     border: 1px solid #f4f4f5;
@@ -124,10 +182,10 @@ export default class ServicePrice extends Vue {
     }
     th:last-child {
       text-align: right;
-      padding-right: 40px;
-      @media (max-width: 768px) {
-        padding-right: 5px;
-      }
+      // padding-right: 40px;
+      // @media (max-width: 768px) {
+      //   padding-right: 5px;
+      // }
     }
     th:first-child {
       padding-left: 40px;
@@ -149,7 +207,7 @@ export default class ServicePrice extends Vue {
       word-wrap: break-word;
       overflow-wrap: break-word;
       word-break: break-word;
-      padding-right: 40px;
+      padding-right: 20px;
       @media (max-width: 768px) {
         padding-right: 5px;
       }

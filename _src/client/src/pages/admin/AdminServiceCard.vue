@@ -77,6 +77,44 @@
                   ></b-input>
                 </b-field>
 
+                <h3>Настройка баннера</h3>
+
+                <div class="field">
+                  <b-switch
+                    v-model="serviceItem.bsBannerInSectionInd"
+                    @input="saveService"
+                    true-value="1"
+                    false-value="0"
+                    type="is-success"
+                    size="is-small"
+                  >Баннер отображать в Подразделе</b-switch>
+                </div>
+                <b-field label="Заголовок для баннера в Подразделе">
+                  <b-input
+                    type="text"
+                    v-model="serviceItem.bsBannerInSectionTitle"
+                    @blur="saveService"
+                  ></b-input>
+                </b-field>
+
+                <div class="field">
+                  <b-switch
+                    v-model="serviceItem.bsBannerInMainInd"
+                    @input="saveService"
+                    true-value="1"
+                    false-value="0"
+                    type="is-success"
+                    size="is-small"
+                  >Баннер отображать на Главной</b-switch>
+                </div>
+                <b-field label="Заголовок для баннера на Главной">
+                  <b-input
+                    type="text"
+                    v-model="serviceItem.bsBannerInMainTitle"
+                    @blur="saveService"
+                  ></b-input>
+                </b-field>
+
                 <AdminSeoTags
                   :seoTitle.sync="serviceItem.seoTitle"
                   :seoDescription.sync="serviceItem.seoDescription"

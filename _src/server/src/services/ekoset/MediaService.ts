@@ -8,6 +8,15 @@ import TypeOrmManager from '@/utils/TypeOrmManager';
 
 export default class MediaService extends BaseService {
 
+
+  public async getBannersForMainPage () {
+    return this.getDbViewResult('v_api_banner_by_main')
+  }
+
+  public async getBannersForSiteSection (siteSectionId: number) {
+    return this.getDbViewResult('v_api_banner_by_section', null, 'site_section_id=$1', [siteSectionId])
+  }
+
   public async saveSiteSectionImage (siteSectionId: number, file: Express.Multer.File, isBig: boolean) {
     const updateStmt = `UPDATE site_section SET site_section_img_${isBig ? 'big' : 'small'} = $1 where site_section_id = ${siteSectionId}`;
     return this.updateSmallOrBigImageFor(file, 'sitesection', `${isBig ? 'big' : 'small'}_${siteSectionId}`, updateStmt);

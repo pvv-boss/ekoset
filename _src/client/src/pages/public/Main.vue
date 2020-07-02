@@ -1,10 +1,6 @@
 <template>
   <main>
-    <TheBanner
-      :h1="sitePageInfo.sitePageH1"
-      :alt="sitePageInfo.sitePageName"
-      :imageSrc="sitePageInfo.sitePageBanner"
-    ></TheBanner>
+    <TheDynamicBanner :bannersInfo="bannersInfo"></TheDynamicBanner>
     <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </main>
@@ -21,17 +17,18 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
+import TheDynamicBanner from '@/components/header/TheDynamicBanner.vue'
 import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import BannersInfo from '@/models/ekoset/BannersInfo'
 
 
 @Component({
   components: {
     DynamicComponentsContainer,
     SiteSectionList,
-    TheBanner,
-    BreadCrumbs
+    BreadCrumbs,
+    TheDynamicBanner
   }
 })
 export default class Main extends Vue {
@@ -40,6 +37,7 @@ export default class Main extends Vue {
   private sitePageInfo: SitePage = new SitePage()
   private breadCrumbList: any[] = []
   private routeFullPath = ''
+  private bannersInfo: BannersInfo[] = []
 
   private head () {
     return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
@@ -50,12 +48,15 @@ export default class Main extends Vue {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.MAIN)
     const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
 
-    const data = await Promise.all([siteSectionItems, dynamicComponentInfo, sitePageInfo])
+    const bannersInfo = getServiceContainer().mediaService.getBannersForMainPage()
+
+    const data = await Promise.all([siteSectionItems, dynamicComponentInfo, sitePageInfo, bannersInfo])
     return {
       siteSectionItems: data[0],
       dynamicComponentInfo: data[1],
       sitePageInfo: data[2],
-      routeFullPath: context.route.fullPath
+      routeFullPath: context.route.fullPath,
+      bannersInfo: data[3]
     }
   }
 }

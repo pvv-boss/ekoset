@@ -4,9 +4,6 @@ import { NuxtContext } from 'vue/types/options'
 
 export default async (context: NuxtContext, inject) => {
 
-  // tslint:disable-next-line:no-console
-  console.log('init')
-
   HttpUtil.router = context.app.router
 
   const sc = getServiceContainer()

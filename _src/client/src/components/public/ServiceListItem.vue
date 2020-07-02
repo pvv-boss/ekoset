@@ -12,6 +12,15 @@
       <h4>{{serviceItem.businessServiceName}}</h4>
       <div class="brc-service-smallitem__price">{{serviceItem.businessServicePrice}}</div>
     </nuxt-link>
+
+    <a class="brc-buscet__icon_mobile" @click="addServiceToBuscet">
+      <span>В корзину</span>
+      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+    </a>
+
+    <a class="brc-buscet__icon_desktop" @click="addServiceToBuscet">
+      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+    </a>
   </section>
 </template>
 
@@ -20,6 +29,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
+import BuscetStore from '@/store/BuscetStore'
 
 @Component({})
 export default class ServiceListItem extends Vue {
@@ -36,12 +46,19 @@ export default class ServiceListItem extends Vue {
   public get getCurrentSiteSection () {
     return getModule(AppStore, this.$store).currentSiteSection
   }
+
+  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
+
+  public addServiceToBuscet () {
+    this.buscetStore.addService(this.serviceItem)
+  }
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/variables.scss';
 .brc-service-smallitem {
+  position: relative;
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 5px;
@@ -65,6 +82,46 @@ export default class ServiceListItem extends Vue {
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
   }
 
+  .brc-buscet__icon_desktop {
+    position: absolute;
+    right: 12px;
+    bottom: 18px;
+
+    img {
+      width: 32px !important;
+      height: 32px !important;
+      margin: 0px !important;
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .brc-buscet__icon_mobile {
+    display: none;
+    background-color: #b2b2b2;
+    padding: 5px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: -10px;
+
+    img {
+      width: 24px !important;
+      height: 24px !important;
+      margin: 0px !important;
+    }
+    span {
+      font-size: 13px;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
   .brc-service-smallitem__price {
     font-weight: 500;
     margin-bottom: 15px;
@@ -86,7 +143,7 @@ export default class ServiceListItem extends Vue {
 
   h4 {
     margin: auto;
-    margin-top:15px;
+    margin-top: 15px;
     color: $text-color;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -95,7 +152,7 @@ export default class ServiceListItem extends Vue {
     @media (max-width: 500px) {
       font-weight: $font-regular;
       font-size: 13px;
-    margin-top:5px;
+      margin-top: 5px;
     }
   }
   .brc-service-smallitem__link {
@@ -109,10 +166,8 @@ export default class ServiceListItem extends Vue {
   img {
     width: 122px;
     height: 122px;
-   // height: 100%;
     object-fit: contain;
     object-position: center;
-//    max-height: 122px;
     margin-top: 15px;
 
     @media (max-width: 768px) {

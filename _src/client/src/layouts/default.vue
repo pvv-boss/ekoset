@@ -7,9 +7,7 @@
     <TheMessagesAriseBlock></TheMessagesAriseBlock>
     <TheLayoutFooter v-once></TheLayoutFooter>
     <client-only>
-      <!-- <BaseCookieNotice></BaseCookieNotice> -->
       <BaseBackToTop></BaseBackToTop>
-      <!-- <ActivateAccauntNotice></ActivateAccauntNotice> -->
     </client-only>
   </div>
 </template>

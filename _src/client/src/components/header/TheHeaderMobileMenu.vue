@@ -2,10 +2,15 @@
   <header class="brc-page-header-mobile">
     <TheHeaderLogo></TheHeaderLogo>
 
-    <div class="brc-page-header-mobile__user">
+    <!-- <div class="brc-page-header-mobile__user">
       <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
         <img src="/images/user-icon.png" title="Вход на сайт" />
       </nuxt-link>
+    </div>-->
+
+    <div class="brc-buscet-mobile">
+      <img src="/images/busket.svg" />
+      <div class="brc-buscet-counter_mobile">{{getBuscetCount}}</div>
     </div>
 
     <div class="brc-page-header-mobile_expander" v-click-outside="closeMenu" @click="openMenu">
@@ -17,9 +22,10 @@
     <!-- Само меню. Живет с фиксед позишн !!! -->
     <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
-        <div class="brc-page-header-mobile-menu__user-auth">
-          <UserAuthHeader :isMobile="true"></UserAuthHeader>
-        </div>
+        <!-- <div class="brc-page-header-mobile-menu__user-auth"> -->
+        <!-- <UserAuthHeader :isMobile="true"></UserAuthHeader> -->
+        <!-- </div> -->
+
         <div class="brc-page-header-mobile__close" @click="openMenu">
           <span></span>
           <span></span>
@@ -54,7 +60,7 @@
 
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, Vue, getModule } from 'nuxt-property-decorator'
 import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
 import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
 import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
@@ -62,6 +68,7 @@ import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
 import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
 import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue'
 import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
+import BuscetStore from '@/store/BuscetStore'
 
 @Component({
   components: {
@@ -75,7 +82,17 @@ import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
   }
 })
 export default class TheHeaderMobileMenu2 extends Vue {
+
+  public get activeIndex () {
+    return this.$route.name ? this.$route.name.split('-')[0] : ''
+  }
+
+  private get getBuscetCount () {
+    return this.buscetStore.addedServiceCount
+  }
   public isMainMenuActive = false
+
+  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
   public openMenu () {
     this.isMainMenuActive = !this.isMainMenuActive
@@ -85,10 +102,6 @@ export default class TheHeaderMobileMenu2 extends Vue {
     if (this.isMainMenuActive === true) {
       this.isMainMenuActive = false
     }
-  }
-
-  public get activeIndex () {
-    return this.$route.name ? this.$route.name.split('-')[0] : ''
   }
 }
 </script>
@@ -122,6 +135,28 @@ export default class TheHeaderMobileMenu2 extends Vue {
 
 .brc-page-header-mobile {
   display: none;
+
+  .brc-buscet-mobile {
+    position: relative;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+    .brc-buscet-counter_mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background-color: black;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      color: white;
+      font-size: 15px;
+    }
+  }
 
   @media (max-width: 900px) {
     display: flex !important;

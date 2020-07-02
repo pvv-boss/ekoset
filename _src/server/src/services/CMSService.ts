@@ -121,6 +121,7 @@ export default class CMSService extends BaseService {
     return {}
   }
   public async adminSaveDynamicComponentSitePage (sitePageId: number, info: DynamicComponentInfo) {
+    this.changeSiteDocHref(info);
     return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_page', sitePageId, info);
   }
 
@@ -141,6 +142,7 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentSiteSection (siteSectionId: number, info: DynamicComponentInfo) {
+    this.changeSiteDocHref(info);
     return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_sitesection', siteSectionId, info);
   }
 
@@ -160,6 +162,7 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentOffer (offerId: number, info: DynamicComponentInfo) {
+    this.changeSiteDocHref(info);
     return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_offer', offerId, info);
   }
 
@@ -179,8 +182,11 @@ export default class CMSService extends BaseService {
   }
 
   public async adminSaveDynamicComponentService (serviceId: number, info: DynamicComponentInfo) {
+    this.changeSiteDocHref(info);
     return this.execAddBlockUnfoDbFunction('f_admin_add_block_info_service', serviceId, info);
   }
+
+  // ---
 
   public async adminDeleteDynamicComponent (id: number) {
     return await this.deleteById('site_block', 'site_block_id=$1', id);
@@ -332,6 +338,17 @@ export default class CMSService extends BaseService {
     result.push(news, brandList, letters, bayService, askExpert, clientTypeOfferList, businessTypeOfferList, serviceList, servicePriceTable, relatedService, clients);
 
     return result;
+  }
+
+  private changeSiteDocHref (info: DynamicComponentInfo) {
+    if (!!info.props && !!info.props.leftBlock) {
+      const newContent = (info.props.leftBlock as string).split('a href="/docs/site').join('a target="_blank" href="/docs/site');
+      info.props.leftBlock = newContent;
+    }
+    if (!!info.props && !!info.props.rightBlock) {
+      const newContent = (info.props.rightBlock as string).split('a href="/docs/site').join('a target="_blank" href="/docs/site');
+      info.props.rightBlock = newContent;
+    }
   }
 
   private getDynamicComponentInfoFromDataBase (dvViewResult: any) {

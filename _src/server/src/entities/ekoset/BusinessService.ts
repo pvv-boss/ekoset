@@ -77,28 +77,29 @@ export class BusinessService extends SeoMetaTags {
   })
   public businessServiceParentId: number;
 
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_free_text1'
-  // })
-  // public businessServiceFreeText1: string ;
 
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_free_text2'
-  // })
-  // public businessServiceFreeText2: string ;
+  @Column({
+    nullable: true,
+    name: 'bs_banner_in_section_ind'
+  })
+  public bsBannerInSectionInd: number;
 
+  @Column({
+    nullable: true,
+    name: 'bs_banner_in_section_title'
+  })
+  public bsBannerInSectionTitle: string;
 
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_footer_content_left'
-  // })
-  // public businessServiceFooterContentLeft: string ;
+  @Column({
+    nullable: true,
+    name: 'bs_banner_in_main_ind'
+  })
+  public bsBannerInMainInd: number;
 
-  // @Column('text', {
-  //   nullable: true,
-  //   name: 'business_service_footer_content_right'
-  // })
-  // public businessServiceFooterContentRight: string ;
+  @Column({
+    nullable: true,
+    name: 'bs_banner_in_main_title'
+  })
+  public bsBannerInMainTitle: string;
+
 }

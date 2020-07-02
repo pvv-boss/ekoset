@@ -63,7 +63,7 @@
                 placeholder="Ссылка на файл"
                 type="text"
                 :value="props.row.siteDocumentFile"
-                id="sitedocumentfile"
+                :id="'sitedocumentfile' + '_' + props.row.siteDocumentId"
                 v-if="props.column.field == 'copyLink'"
                 style="width:90%;"
               ></b-input>
@@ -178,7 +178,8 @@ export default class AdminDocuments extends Vue {
   }
 
   private copy2Clipboard (siteDocument: SiteDocument) {
-    const copyText = document.getElementById('sitedocumentfile') as HTMLInputElement;
+    const elId = 'sitedocumentfile' + '_' + siteDocument.siteDocumentId
+    const copyText = document.getElementById(elId) as HTMLInputElement;
     if (!!copyText) {
       copyText.select();
       document.execCommand('copy');

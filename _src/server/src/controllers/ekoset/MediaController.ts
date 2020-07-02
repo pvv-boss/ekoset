@@ -12,6 +12,22 @@ const upload = multer();
 @JsonController()
 export default class MediaController extends BaseController {
 
+
+  @Get('/banners/main')
+  public async getBannersForMainPage (
+    @Res() response: Response) {
+    const result = await ServiceContainer.MediaService.getBannersForMainPage();
+    return MediaController.createSuccessResponse(result, response);
+  }
+
+  @Get('/banners/sitesection/:siteSectionId')
+  public async getBannersForSiteSection (
+    @Res() response: Response,
+    @Param('siteSectionId') siteSectionId: number) {
+    const result = await ServiceContainer.MediaService.getBannersForSiteSection(siteSectionId);
+    return MediaController.createSuccessResponse(result, response);
+  }
+
   @UseBefore(upload.single('file'))
   @Post('/admin/panel/sitesection/:sitesectionId/image/:bigOrSmall(big|small)')
   public async saveSiteSectionImage (

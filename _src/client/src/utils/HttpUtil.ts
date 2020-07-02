@@ -56,8 +56,6 @@ class HttpUtil {
   }
 
   public async httpGet (url: string) {
-    // tslint:disable-next-line:no-console
-    console.log(url)
     return this.processResponse(this.axiosInstance.get(url))
   }
 
@@ -107,9 +105,6 @@ class HttpUtil {
         return data.data ? data.data : data.body
       }
     } catch (err) {
-
-      // tslint:disable-next-line:no-console
-      console.log(err)
       return this.handleError(err)
     }
   }

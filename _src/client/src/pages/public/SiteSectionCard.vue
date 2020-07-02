@@ -1,10 +1,6 @@
 <template>
   <main>
-    <TheBanner
-      :h1="siteSectionItem.siteSectionH1"
-      :alt="siteSectionItem.siteSectionName"
-      :imageSrc="siteSectionItem.siteSectionImgBig"
-    ></TheBanner>
+    <TheDynamicBanner :bannersInfo="bannersInfo"></TheDynamicBanner>
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </main>
@@ -23,12 +19,15 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 import TheBanner from '@/components/header/TheBanner.vue'
 import SeoMeta from '@/models/ekoset/SeoMeta'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import BannersInfo from '@/models/ekoset/BannersInfo'
+import TheDynamicBanner from '@/components/header/TheDynamicBanner.vue'
 
 @Component({
   components: {
     DynamicComponentsContainer,
     BreadCrumbs,
-    TheBanner
+    TheBanner,
+    TheDynamicBanner
   }
 })
 export default class SiteSectionCard extends Vue {
@@ -36,17 +35,20 @@ export default class SiteSectionCard extends Vue {
   private siteSectionItem: SiteSection = new SiteSection()
   private breadCrumbList: any[] = []
   private routeFullPath = ''
+  private bannersInfo: BannersInfo[] = []
 
   private async asyncData (context: NuxtContext) {
     const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
     const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
+    const bannersInfo = getServiceContainer().mediaService.getBannersForSiteSection(getServiceContainer().mediaService.getIdBySlug(context.params.siteSection))
 
-    const data = await Promise.all([siteSectionItem, dynamicComponentInfo])
+    const data = await Promise.all([siteSectionItem, dynamicComponentInfo, bannersInfo])
 
     return {
       siteSectionItem: data[0],
       dynamicComponentInfo: data[1],
-      routeFullPath: context.route.fullPath
+      routeFullPath: context.route.fullPath,
+      bannersInfo: data[2]
     }
   }
 

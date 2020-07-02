@@ -15,13 +15,14 @@ export default class BusinessService extends SeoMeta {
   public businessServicePriority: number;
   public businessServiceParentId: number | null;
   public businessServiceUrl: string;
-  // public businessServiceFreeText1: string;
-  // public businessServiceFreeText2: string;
-  // public businessServiceFooterContentLeft: string;
-  // public businessServiceFooterContentRight: string;
 
   public smallImageFormData: FormData;
   public bigImageFormData: FormData;
+
+  public bsBannerInSectionInd: number;
+  public bsBannerInSectionTitle: string;
+  public bsBannerInMainInd: number;
+  public bsBannerInMainTitle: string;
 }
 
 

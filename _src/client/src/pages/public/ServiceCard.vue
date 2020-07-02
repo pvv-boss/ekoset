@@ -5,6 +5,15 @@
       :alt="businessService.businessServiceName"
       :imageSrc="businessService.businessServiceImgBig"
     ></TheBanner>
+    <a class="brc-service-buscet__icon_desktop" @click="addServiceToBuscet">
+      <span>Добавить в козину</span>
+      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+    </a>
+
+    <a class="brc-service-buscet__icon_mobile" @click="addServiceToBuscet">
+      <img src="/images/addBusketWhite.svg" alt="Моя корзина" title="Моя корзина" />
+    </a>
+
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
     <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
   </main>
@@ -23,6 +32,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import BuscetStore from '@/store/BuscetStore'
 
 @Component({
   components: {
@@ -32,6 +42,14 @@ import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
   }
 })
 export default class ServiceCard extends Vue {
+
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSectionName
+  }
+
+  private get getPriceServiceList () {
+    return [...this.childServiceList, this.businessService]
+  }
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
@@ -39,6 +57,13 @@ export default class ServiceCard extends Vue {
   private breadCrumbList: any[] = []
 
   private routeFullPath = ''
+
+
+  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
+
+  private addServiceToBuscet () {
+    this.buscetStore.addService(this.businessService)
+  }
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -58,14 +83,6 @@ export default class ServiceCard extends Vue {
 
   private destroyed () {
     getModule(AppStore, this.$store).changeCurrentServiceName(null)
-  }
-
-  private get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSectionName
-  }
-
-  private get getPriceServiceList () {
-    return [...this.childServiceList, this.businessService]
   }
 
   @Watch('getCurrentSiteSection', { immediate: true })
@@ -91,5 +108,57 @@ export default class ServiceCard extends Vue {
 @import '@/styles/variables.scss';
 .brc-service-img {
   width: 100%;
+}
+
+.brc-service-buscet__icon_desktop {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  span {
+    margin-right: 8px;
+    font-size: 13px;
+    color: #ed0205 !important;
+    text-decoration: underline;
+    &:hover {
+      color: darkred !important;
+    }
+  }
+
+  img {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0px !important;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.brc-service-buscet__icon_mobile {
+  display: none;
+  position: absolute;
+  top: 220px;
+  right: 25px;
+  background-color: #ed0205;
+  padding: 5px;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: -10px;
+  border-radius: 50%;
+
+  img {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0px !important;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>

@@ -61,4 +61,13 @@ export default class MediaService extends BaseService {
     return HttpUtil.httpDelete(`/admin/document/${id}`)
   }
 
+  public async getBannersForMainPage () {
+    return HttpUtil.httpGet(this.buildHttRequest('banners/main'))
+  }
+
+
+  public async getBannersForSiteSection (siteSectionId: number) {
+    return HttpUtil.httpGet(this.buildHttRequest(`banners/sitesection/${siteSectionId}`))
+  }
+
 }
