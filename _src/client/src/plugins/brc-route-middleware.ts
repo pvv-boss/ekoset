@@ -2,6 +2,7 @@ import AuthStore from '@/store/AuthStore'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { NuxtContext } from 'vue/types/options'
+import BuscetStore from '@/store/BuscetStore'
 
 export default (context: NuxtContext) => {
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null
@@ -15,5 +16,9 @@ export default (context: NuxtContext) => {
   const isAuthRoute = !!context.route.meta && context.route.meta.find((item) => item.requiresAuth)
   if (process.client && isAuthRoute && !getModule(AuthStore, context.store).isAuthenticated) {
     return context.redirect('/auth/login')
+  }
+
+  if (process.client) {
+    getModule(BuscetStore, context.store).initServiceList()
   }
 }

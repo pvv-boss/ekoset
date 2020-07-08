@@ -130,7 +130,7 @@ export default class TheHeaderMenu extends Vue {
     return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
   }
 
-  public async mounted () {
+  public async fetch () {
     const sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
 
     sitePageItems.forEach((element: any) => {
@@ -138,6 +138,10 @@ export default class TheHeaderMenu extends Vue {
     });
 
     this.sitePageItems = sitePageItems
+
+  }
+
+  public async mounted () {
 
     this.$nextTick(() => {
       if (!this.isMobile) {

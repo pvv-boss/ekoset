@@ -85,7 +85,7 @@ export default class TheLayoutFooter extends Vue {
   private serviceListForPerson: BusinessService[] = []
 
 
-  private async beforeMount () {
+  private async fetch () {
     const pr1 = getServiceContainer().businessServiceService.getServicesForFooter('private')
     const pr2 = getServiceContainer().businessServiceService.getServicesForFooter('business')
     const data = await Promise.all([pr1, pr2])

@@ -1,8 +1,8 @@
 <template>
-  <div class="brc-feedback">
+  <div class="brc-feedback_busket">
     <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
     <h2 style="text-align: center !important;">{{title}}</h2>
-    <form class="brc-message-form">
+    <form class="brc-message-form" :class="{'brc-message-form__error':!isValidForm}">
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
@@ -16,7 +16,7 @@
           <div class="brc-message-form__block" v-if="isBrowser">
             <label for="phone">Телефон</label>
             <span class="brc-input-addon">
-              <span style="position:absolute; top:0;left:10px;">+7</span>
+              <span style="position:absolute; top:-2px;left:10px;">+7</span>
               <input
                 type="tel"
                 v-model.lazy="formMessageData.userRequestPhone"
@@ -42,8 +42,7 @@
               :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
             >Введите настоящий email</span>
           </div>
-        </div>
-        <div class="brc-message-form__row">
+
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
             <textarea v-model.lazy="formMessageData.userRequestText"></textarea>
@@ -51,27 +50,31 @@
               class="brc-error-message"
               :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
             >Напишите комментарий</span>
+            <div class="brc-message-form__block">
+              <label class="attach-file">
+                <input
+                  type="file"
+                  multiple
+                  name="file"
+                  id="file"
+                  ref="file"
+                  v-on:change="handleFileUpload()"
+                />
+                <div class="attach-file-file-name">Прикрепить файл(ы)</div>
+                <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="brc-message-form__button">
-        <label class="attach-file">
-          <input
-            type="file"
-            multiple
-            name="file"
-            id="file"
-            ref="file"
-            v-on:change="handleFileUpload()"
-          />
-          <div class="file-name">Прикрепить файл(ы)</div>
-          <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
-        </label>
-        <div class="clearfix"></div>
-        <button type="button" @click="sendMessage">Отправить</button>
+        <div class="brc-message-form__row">
+          <label>Корзина</label>
+          <BuscetContaner :class="{'brc-message-form__error':!isValidForm}"></BuscetContaner>
+        </div>
       </div>
     </form>
+    <div class="brc-message-form__button">
+      <button type="button" @click="sendMessage">Отправить</button>
+    </div>
   </div>
 </template>
 
@@ -85,8 +88,14 @@ import UserRequest from '@/models/ekoset/UserRequest';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators';
 import AppStore from '@/store/AppStore';
+import BuscetStore from '@/store/BuscetStore';
+import BuscetContaner from '@/components/public/BuscetContaner.vue'
+
 
 @Component({
+  components: {
+    BuscetContaner
+  },
   validations: {
     formMessageData: {
       userRequestMail: {
@@ -113,6 +122,7 @@ export default class MessageForm extends Vue {
     file: HTMLFormElement
   }
 
+  private isValidForm = true
   private files: any[] = []
   private fileNames = ''
   private formMessageData: UserRequest = new UserRequest()
@@ -143,7 +153,8 @@ export default class MessageForm extends Vue {
   private async sendMessage () {
     if (this.validateForm()) {
 
-      this.formMessageData.userRequestService = getModule(AppStore, this.$store).сurrentServiceName
+      this.isValidForm = true
+      this.formMessageData.userRequestService = getModule(BuscetStore, this.$store).addedServiceListAsText
       this.formMessageData.userRequestSection = getModule(AppStore, this.$store).currentSiteSectionName
       this.formMessageData.userRequestType = this.title
 
@@ -164,7 +175,8 @@ export default class MessageForm extends Vue {
       this.formMessageData = new UserRequest()
       this.files = []
     } else {
-      this.$BrcNotification(BrcDialogType.Error, `Заполните все поля правильно`)
+      this.isValidForm = false
+      this.$BrcNotification(BrcDialogType.Error, this.title, `Заполните все поля правильно`)
     }
   }
 
@@ -175,219 +187,246 @@ export default class MessageForm extends Vue {
     }
     this.fileNames = names.join(', ')
   }
-
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/variables.scss';
-.brc-feedback {
+.brc-feedback_busket {
   border: 1px solid lightgrey;
   border-radius: 5px;
-  padding: 30px 15px;
+  padding: 30px;
   max-width: 900px;
   margin: 60px auto 0;
+  // height: 580 px;
+  // max-height: 700px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .brc-buscet_container {
+    height: calc(100% - 65px);
+    overflow-y: auto;
+    &.brc-message-form__error {
+      // height: calc(100% - 100px);
+    }
+  }
 
   h2,
   h3 {
     text-align: center !important;
   }
-}
 
-.brc-message-form__data {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  .brc-message-form__row {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    justify-content: space-between;
-    margin: 15px;
+  .brc-message-form {
+    max-height: 500px;
+    height: min-content;
+    margin-bottom: 15px;
+    &.brc-message-form__error {
+      // height: 500px;
+    }
   }
 
-  .brc-message-form__block + .brc-message-form__block {
-    margin-top: 5px;
-  }
+  .brc-message-form__data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    overflow-y: hidden;
 
-  .brc-message-form__block {
-    label {
-      display: block;
-      @media (max-width: 768px) {
-        font-size: 14px;
-      }
-    }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin: 0;
-      background-color: #f4f4f5;
-      border: 1px solid #d1d1d1;
-      border-radius: 3px;
-      padding: 15px;
-      color: #000000;
-      font-size: 14px;
-      // resize: none;
-      outline: none;
-
-      &:focus {
-        background-color: white;
-      }
-    }
-
-    input {
-      width: 100%;
-      height: 32px !important;
-      background-color: #f4f4f5;
-      border: 1px solid #d1d1d1;
-      border-radius: 3px;
-      padding-left: 15px;
-      color: #000000;
-      font-size: 16px;
-      outline: none;
-      margin-top: 2px;
-      margin-bottom: 10px;
-
-      &:focus {
-        background-color: white;
-      }
-
-      &.form-control_phone {
-        padding-left: 35px;
-      }
-    }
-
-    .brc-input-addon {
-      position: relative;
-    }
-
-    &.brc-message-form__block_message {
+    .brc-message-form__row {
+      height: 100%;
+      max-height: 500px;
       display: flex;
       flex-direction: column;
-      height: 100%;
-
-      textarea {
-        flex-grow: 1;
-      }
+      justify-content: flex-start;
+      overflow: hidden;
     }
 
-    .brc-error-message {
-      font-size: small;
-      color: #ed0205;
-      font-weight: $font-medium;
-      display: none;
-
-      &.brc-error-message_visible {
-        display: block;
-      }
-    }
-  }
-}
-.brc-message-form__button {
-  width: 100%;
-  text-align: center;
-  position: relative;
-  button {
-    border: 1px solid red;
-    background-color: red;
-    color: white;
-    text-decoration: none;
-    width: 200px;
-    max-width: 100%;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
-    margin: auto;
-    font-size: 16px;
-    margin-top: 10px;
-
-    &:hover {
-      background-color: darkred;
-      border-color: darkred;
-      cursor: pointer;
-    }
-  }
-
-  .attach-file {
-    position: relative !important;
-    border: none !important;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    margin-right: 15px;
-    margin-bottom: 5px;
-    input {
-      display: none;
-    }
-    .file-name {
-      color: gray;
-      font-size: 12px;
-      cursor: pointer;
-      padding-right: 20px;
-      background-image: url('/images/clip-icon.png');
-      background-repeat: no-repeat;
-      background-position: right;
-      transition: 0.3s;
-      border: none !important;
+    .brc-message-form__block + .brc-message-form__block {
       margin-top: 5px;
     }
 
-    @media (max-width: 768px) {
-      margin-bottom: 0px;
-      align-items: center;
-      margin-left: 0px;
-      margin-right: 0px;
-      padding-left: 10px;
-      padding-right: 10px;
+    .brc-message-form__block {
+      label {
+        display: block;
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+      textarea {
+        width: 100%;
+        height: 120px;
+        margin: 0;
+        background-color: #f4f4f5;
+        border: 1px solid #d1d1d1;
+        border-radius: 3px;
+        padding: 15px;
+        color: #000000;
+        font-size: 14px;
+        // resize: none;
+        outline: none;
+
+        &:focus {
+          background-color: white;
+        }
+      }
+
+      input {
+        width: 100%;
+        height: 32px !important;
+        background-color: #f4f4f5;
+        border: 1px solid #d1d1d1;
+        border-radius: 3px;
+        padding-left: 15px;
+        color: #000000;
+        font-size: 16px;
+        outline: none;
+        margin-top: 2px;
+        margin-bottom: 10px;
+
+        &:focus {
+          background-color: white;
+        }
+
+        &.form-control_phone {
+          padding-left: 35px;
+        }
+      }
+
+      .brc-input-addon {
+        position: relative;
+      }
+
+      &.brc-message-form__block_message {
+        display: flex !important;
+        flex-grow: 1;
+        height: auto !important;
+
+        textarea {
+          flex-grow: 1 !important;
+        }
+      }
+
+      .brc-error-message {
+        font-size: small;
+        color: #ed0205;
+        font-weight: $font-medium;
+        display: none;
+
+        &.brc-error-message_visible {
+          display: block;
+        }
+      }
     }
 
-    .attached-file-name {
-      font-size: 12px;
-      word-wrap: break-word;
-      word-break: break-word;
-      text-align: right;
+    .attach-file {
+      position: relative !important;
+      border: none !important;
+      display: flex;
+      // align-items: flex-end;
+      flex-direction: column;
+      // margin-right: 15px;
+      // margin-bottom: 5px;
+      input {
+        display: none;
+      }
+      .attach-file-file-name {
+        color: gray;
+        font-size: 12px;
+        height: 32px;
+        cursor: pointer;
+        // padding-right: 20px;
+        background-image: url('/images/clip-icon.png');
+        background-repeat: no-repeat;
+        background-position: top right;
+        transition: 0.3s;
+        border: none !important;
+        margin-top: 10px;
+        max-width: 13em !important;
+        padding-left: 0 !important;
+      }
+
       @media (max-width: 768px) {
-        text-align: left;
+        margin-bottom: 0px;
+        align-items: center;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .attached-file-name {
+        font-size: 12px;
+        word-wrap: break-word;
+        word-break: break-word;
+        // text-align: right;
+        @media (max-width: 768px) {
+          text-align: left;
+        }
       }
     }
   }
-}
-@media (max-width: 768px) {
-  .brc-feedback {
-    max-height: calc(100vh - 100px);
-    margin: 0 auto !important;
-    padding: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: scroll;
 
-    textarea {
-      height: 70px !important;
-    }
-    input {
-      height: 30px !important;
-    }
+  .brc-message-form__button {
+    width: 100%;
+    text-align: center;
+    position: relative;
     button {
-      height: 35px !important;
-    }
-    .brc-input-addon {
-      padding-top: 6px !important;
+      border: 1px solid red;
+      background-color: red;
+      color: white;
+      text-decoration: none;
+      width: 200px;
+      max-width: 100%;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      margin: auto;
+      font-size: 16px;
+      margin-top: 10px;
+
+      &:hover {
+        background-color: darkred;
+        border-color: darkred;
+        cursor: pointer;
+      }
     }
   }
-  .brc-message-form__row {
-    flex-basis: 100% !important;
-    &:last-child {
-      margin-top: 0;
+  @media (max-width: 768px) {
+    .brc-feedback {
+      max-height: calc(100vh - 100px);
+      margin: 0 auto !important;
+      padding: 0px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      overflow: scroll;
+
+      textarea {
+        height: 70px !important;
+      }
+      input {
+        height: 30px !important;
+      }
+      button {
+        height: 35px !important;
+      }
+      .brc-input-addon {
+        padding-top: 6px !important;
+      }
     }
-    &:first-child {
-      margin-bottom: 0;
+    .brc-message-form__row {
+      flex-basis: 100% !important;
+      &:last-child {
+        margin-top: 0;
+      }
+      &:first-child {
+        margin-bottom: 0;
+      }
     }
-  }
-  .brc-message-form__row:last-child {
-    margin-bottom: 0 !important;
+    .brc-message-form__row:last-child {
+      margin-bottom: 0 !important;
+    }
   }
 }
 </style>

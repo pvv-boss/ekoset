@@ -66,6 +66,7 @@ export class UserRequestService extends BaseService {
         replace('{{userRequestUser}}', request.userRequestUser).
         replace('{{userRequestDate}}', dateFormated).
         replace('{{userRequestPhone}}', request.userRequestPhone).
+        replace('{{userRequestService}}', request.userRequestService).
         replace('{{userRequestText}}', request.userRequestText).
         replace('{{userRequestMail}}', request.userRequestMail).
         replace('{{startMessage}}', isAskForExpert ? 'Мы получили Ваш вопрос и приступили к его обработке:' : 'Мы получили Ваш заказ и приступили к его обработке:')
@@ -73,16 +74,17 @@ export class UserRequestService extends BaseService {
 
     const header = isAskForExpert ? 'Вы задали вопрос эксперту' : 'Вы оформили заказ';
 
+    const backTemplateName = isAskForExpert ? 'back_user_request_simple' : 'back_user_request';
+    const templateName = isAskForExpert ? 'user_request_simple' : 'user_request';
 
-    MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, 'back_user_request', null, format);
+    MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, backTemplateName, null, format);
 
     this.getToEmails().forEach((iterEmal) => {
-      MailSender.sendWithAttachment(`Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`, iterEmal, 'ЗАКАЗ', 'user_request', attachments, format);
+      MailSender.sendWithAttachment(`Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`, iterEmal, 'ЗАКАЗ', templateName, attachments, format);
     })
 
   }
   private getToEmails () {
     return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
-    // return ['SergeyRyzhkov76@gmail.com'];
   }
 }

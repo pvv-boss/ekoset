@@ -26,6 +26,7 @@ import RecommendationList from '@/components/public/RecommendationList.vue'
 import RecommLetterList from '@/components/public/RecommLetterList.vue'
 import ArticleList from '@/components/public/ArticleList.vue'
 import MessageForm from '@/components/public/MessageForm.vue'
+import MessageFormSimple from '@/components/public/MessageFormSimple.vue'
 import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
 import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
 import FreeContentBlock from '@/components/FreeContentBlock.vue'
@@ -41,6 +42,7 @@ import ClientList from '@/components/public/ClientList.vue'
     RecommendationList,
     RecommLetterList,
     MessageForm,
+    MessageFormSimple,
     FreeContentBlock,
     ClientTypeOfferList,
     BusinessTypeOfferList,

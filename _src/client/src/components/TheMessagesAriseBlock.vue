@@ -1,10 +1,10 @@
 <template>
   <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
-      <MessageForm title="Пригласить на тендер" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageFormSimple title="Пригласить на тендер" @closeForm="closeForm" showCloseBtn="true"></MessageFormSimple>
     </div>
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
-      <MessageForm title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageFormSimple title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageFormSimple>
     </div>
     <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
       <MessageForm title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
@@ -15,10 +15,12 @@
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import MessageForm from '@/components/public/MessageForm.vue'
+import MessageFormSimple from '@/components/public/MessageFormSimple.vue'
 
 @Component({
   components: {
-    MessageForm
+    MessageForm,
+    MessageFormSimple
   }
 })
 export default class TheMessagesAriseBlock extends Vue {
@@ -44,8 +46,13 @@ export default class TheMessagesAriseBlock extends Vue {
     const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
     if (reqServiceFormElement) {
       reqServiceFormElement.addEventListener('click', (e) => {
-        if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
-          reqServiceFormElement.setAttribute('style', 'display:none')
+
+        const parentNode = (e.target as HTMLElement).parentNode;
+
+        if (!!parentNode && (parentNode as HTMLElement).className !== 'brc-buscet_wrapper') {
+          if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
+            reqServiceFormElement.setAttribute('style', 'display:none')
+          }
         }
       })
     }
@@ -87,22 +94,27 @@ export default class TheMessagesAriseBlock extends Vue {
   width: 100%;
   height: 100vh;
   padding: 16px;
-  overflow: scroll;
+  //  overflow: scroll;
 
-  > .brc-feedback {
+  > .brc-feedback,
+  .brc-feedback_busket {
     background-color: white;
     h2,
     h3 {
       text-align: center !important;
     }
+    position: relative;
   }
 
   .brc-message-arise__close {
-    float: right;
-    margin-top: -30px;
+    // float: right;
+    // margin-top: -30px;
     font-size: 36px;
     color: lightgray;
     cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 20px;
   }
 }
 

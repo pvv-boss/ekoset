@@ -48,7 +48,11 @@
               <td class>{{iterPriceItem.businesserviceprice}}</td>
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceItem)">
-                  <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+                  <img
+                    src="/images/addBusket.svg"
+                    alt="Добавить в корзину"
+                    title="Добавить в корзину"
+                  />
                 </a>
               </td>
             </tr>
@@ -67,7 +71,11 @@
               <td>{{iterPriceListItem.businesserviceprice}}</td>
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceListItem)">
-                  <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+                  <img
+                    src="/images/addBusket.svg"
+                    alt="Добавить в корзину"
+                    title="Добавить в корзину"
+                  />
                 </a>
               </td>
             </tr>
@@ -92,6 +100,7 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import BuscetStore from '@/store/BuscetStore'
+import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({})
 export default class ServicePrice extends Vue {
@@ -113,8 +122,8 @@ export default class ServicePrice extends Vue {
 
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
-  public addServiceToBuscet (serviceItem: BusinessService) {
-    this.buscetStore.addService(serviceItem)
+  public addServiceToBuscet (serviceItem: any) {
+    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem))
   }
 }
 </script>
@@ -146,9 +155,9 @@ export default class ServicePrice extends Vue {
 
   .brc-price-buscet__icon {
     padding: 0px !important;
-    padding-right: 30px;
+    // padding-right: 30px;
     @media (max-width: 768px) {
-      padding-right: 5px;
+      // padding-right: 5px;
     }
     img {
       display: inline;
@@ -181,7 +190,7 @@ export default class ServicePrice extends Vue {
       border-bottom: 1px solid #f4f4f5;
     }
     th:last-child {
-      text-align: right;
+      text-align: center;
       // padding-right: 40px;
       // @media (max-width: 768px) {
       //   padding-right: 5px;
@@ -203,7 +212,7 @@ export default class ServicePrice extends Vue {
       }
     }
     td:last-child {
-      text-align: right;
+      text-align: center;
       word-wrap: break-word;
       overflow-wrap: break-word;
       word-break: break-word;
@@ -232,18 +241,25 @@ export default class ServicePrice extends Vue {
       }
     }
 
-    .brc-price-list__item_red:before {
-      color: $red;
-      content: '•';
-      padding-right: 15px;
-      width: 10px;
-      line-height: 0px;
-      font-size: 30px;
-      margin-top: calc(0.5em - 3px);
+    .brc-price-list__item_red {
+      margin-left: 15px;
+
       @media (max-width: 768px) {
-        margin-top: calc(0.5em - 6px);
+        margin-left: 10px;
       }
     }
+    // .brc-price-list__item_red:before {
+    // color: $red;
+    // content: '•';
+    padding-right: 15px;
+    // width: 10px;
+    // line-height: 0px;
+    // font-size: 30px;
+    // margin-top: calc(0.5em - 3px);
+    // @media (max-width: 768px) {
+    //   margin-top: calc(0.5em - 6px);
+    // }
+    // }
   }
 
   .brc-all-prices-link__wrapper {

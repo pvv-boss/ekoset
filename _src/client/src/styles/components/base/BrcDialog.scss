@@ -10,7 +10,7 @@
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.6);
-  font-size: 13px;
+  font-size: 15px;
 
   &.brc-dialog-wrapper_preloader {
     // background-color: rgb(240, 240, 240) !important;
@@ -126,6 +126,8 @@
       .brc-dialog__title {
         flex: 1;
         white-space: nowrap;
+        font-size: 15px;
+        font-weight: 500;
       }
 
       .brc-dialog__header-maximize,
@@ -181,9 +183,11 @@
       min-width: 300px;
       max-width: 400px;
       width: fit-content !important;
-      background-color: $footer-background-color !important;
-      color: white;
-      border-radius: 1px;
+      background-color: white !important;
+      color: $text-color;
+      background-color: white;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      border-radius: 5px;
       margin: 10px 10px 50px 10px;
 
       &.brc-notification_without-title {
@@ -191,9 +195,11 @@
       }
 
       .brc-dialog__header {
-        padding: 5px 10px;
+        padding: 10px;
+        padding-bottom: 5px;
         //float: right;
         margin: auto 0;
+        border-bottom: 1px solid $red;
 
         .brc-dialog__icon {
           margin-right: 5px;
@@ -201,7 +207,7 @@
       }
 
       .brc-dialog__body {
-        padding: 5px 10px;
+        padding: 15px 15px;
         //float: left;
         border: none !important;
         height: min-content !important;

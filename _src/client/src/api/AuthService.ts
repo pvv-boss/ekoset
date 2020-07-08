@@ -30,6 +30,8 @@ export default class AuthService extends BaseService {
       const accessToken = this.getAccessToken()
       this.processAuth(result, accessToken)
     } else {
+      // Почистим куку, чтобы не подсунули
+      Cookies.remove(this.getConfig().cookieName)
       // Войти через внешние источники аутентификации (соц.сети)
       window.location.href = this.buildAuthHttRequest(authType)
     }
@@ -44,6 +46,8 @@ export default class AuthService extends BaseService {
         this.processAuth(respObj.payload, respObj.accessToken)
       } catch (err) {
         this.processAuth(LogonResult.makeFailedResult(), undefined)
+      } finally {
+        Cookies.remove(this.getConfig().cookieName)
       }
     }
     Cookies.remove(this.getConfig().cookieName)

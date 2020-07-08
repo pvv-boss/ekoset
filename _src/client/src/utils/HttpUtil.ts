@@ -80,7 +80,7 @@ class HttpUtil {
     return this.processResponse(this.axiosInstance.post(url, formData, conf))
   }
 
-  private async processResponse (axiosResult: AxiosPromise<any>) {
+  private async processResponse (axiosResult: Promise<AxiosResponse<any>>) {
     try {
       const response = await axiosResult
 

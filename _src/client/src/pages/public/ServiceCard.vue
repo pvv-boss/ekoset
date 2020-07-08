@@ -7,11 +7,11 @@
     ></TheBanner>
     <a class="brc-service-buscet__icon_desktop" @click="addServiceToBuscet">
       <span>Добавить в козину</span>
-      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+      <img src="/images/addBusket.svg" alt="Добавить в корзину" title="Добавить в корзину" />
     </a>
 
     <a class="brc-service-buscet__icon_mobile" @click="addServiceToBuscet">
-      <img src="/images/addBusketWhite.svg" alt="Моя корзина" title="Моя корзина" />
+      <img src="/images/addBusketWhite.svg" alt="Добавить в корзинуа" title="Добавить в корзину" />
     </a>
 
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
@@ -33,6 +33,7 @@ import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.
 import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BuscetStore from '@/store/BuscetStore'
+import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({
   components: {
@@ -62,7 +63,8 @@ export default class ServiceCard extends Vue {
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
   private addServiceToBuscet () {
-    this.buscetStore.addService(this.businessService)
+    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService))
+
   }
 
   private async asyncData (context: NuxtContext) {

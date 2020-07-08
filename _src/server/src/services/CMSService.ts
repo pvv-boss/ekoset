@@ -251,7 +251,7 @@ export default class CMSService extends BaseService {
     const askExpert = new DynamicComponentInfo();
     askExpert.id = 0;
     askExpert.code = BlockType.ASKEXPERT_FORM;
-    askExpert.name = 'MessageForm';
+    askExpert.name = 'MessageFormSimple';
     askExpert.dispalyName = 'Задать вопрос эксперту'
     askExpert.visible = 1;
     askExpert.visibleIndex = 10;

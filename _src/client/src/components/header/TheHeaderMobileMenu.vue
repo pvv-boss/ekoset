@@ -150,8 +150,8 @@ export default class TheHeaderMobileMenu2 extends Vue {
       top: -5px;
       right: -10px;
       background-color: black;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       color: white;
       font-size: 15px;
@@ -223,7 +223,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   left: 0px;
   flex-direction: column;
   background-color: white;
-  max-height: 90vh;
+  max-height: calc(100vh - 60px);
   overflow-y: scroll;
   z-index: 2147483678;
   transform-style: flat;

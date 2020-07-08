@@ -4,8 +4,8 @@ export default class ClientNotifyMessage {
     return new ClientNotifyMessage(true, title, text);
   }
 
-  public static createNotify (text: string) {
-    return new ClientNotifyMessage(false, text, '');
+  public static createNotify (text: string, title?: string) {
+    return new ClientNotifyMessage(false, title, text);
   }
 
   public alert: boolean;

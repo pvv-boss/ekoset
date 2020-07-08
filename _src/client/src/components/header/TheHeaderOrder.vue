@@ -58,12 +58,12 @@ export default class TheHeaderOrder extends Vue {
 
   .brc-buscet-counter {
     position: absolute;
-    top: -13px;
-    right: -13px;
-    width: 26px;
-    height: 26px;
+    top: -11px;
+    right: -11px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    border: 1px solid white;
+    // border: 1px solid white;
     background-color: black;
     color: white;
     font-size: 0.8rem;

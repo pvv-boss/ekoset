@@ -15,11 +15,11 @@
 
     <a class="brc-buscet__icon_mobile" @click="addServiceToBuscet">
       <span>В корзину</span>
-      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+      <img src="/images/addBusketWhite.svg" alt="Добавить в корзину" title="Добавить в корзину" />
     </a>
 
     <a class="brc-buscet__icon_desktop" @click="addServiceToBuscet">
-      <img src="/images/addBusket.svg" alt="Моя корзина" title="Моя корзина" />
+      <img src="/images/addBusket.svg" alt="Добавить в корзину" title="Добавить в корзину" />
     </a>
   </section>
 </template>
@@ -30,6 +30,7 @@ import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import BuscetStore from '@/store/BuscetStore'
+import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({})
 export default class ServiceListItem extends Vue {
@@ -50,7 +51,8 @@ export default class ServiceListItem extends Vue {
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
   public addServiceToBuscet () {
-    this.buscetStore.addService(this.serviceItem)
+    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem))
+
   }
 }
 </script>
@@ -102,6 +104,8 @@ export default class ServiceListItem extends Vue {
     display: none;
     background-color: #b2b2b2;
     padding: 5px;
+    padding-top: 1px;
+    padding-bottom: 2px;
     margin-left: -10px;
     margin-right: -10px;
     margin-bottom: -10px;

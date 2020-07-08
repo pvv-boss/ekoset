@@ -50,7 +50,8 @@ export default class AuthCallback extends Vue {
     }
   }
 
-  private async created () {
+
+  private async beforeMount () {
     if (this.mode === 'login') {
       await getServiceContainer().authService.loginFromCallback()
     }
