@@ -1,81 +1,85 @@
 <template>
-  <div class="brc-feedback_busket">
-    <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
-    <h2 style="text-align: center !important;">{{title}}</h2>
-    <form class="brc-message-form" :class="{'brc-message-form__error':!isValidForm}">
-      <div class="brc-message-form__data">
-        <div class="brc-message-form__row">
-          <div class="brc-message-form__block">
-            <label for="userName">Имя Фамилия</label>
-            <input type="text" v-model.lazy="formMessageData.userRequestUser" />
-            <span
-              class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestUser.trim().length === 0 }"
-            >Введите имя</span>
-          </div>
-          <div class="brc-message-form__block" v-if="isBrowser">
-            <label for="phone">Телефон</label>
-            <span class="brc-input-addon">
-              <span style="position:absolute; top:-2px;left:10px;">+7</span>
-              <input
-                type="tel"
-                v-model.lazy="formMessageData.userRequestPhone"
-                name="phone"
-                placeholder="(555) 555-5555"
-                autocomplete="tel"
-                maxlength="14"
-                class="form-control form-control_phone"
-                v-phone
-                pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
-              />
+  <section>
+    <MessageFormMobile v-if="!showCloseBtn" :title="title"></MessageFormMobile>
+
+    <div class="brc-feedback_busket">
+      <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
+      <h2 style="text-align: center !important;">{{title}}</h2>
+      <form class="brc-message-form" :class="{'brc-message-form__error':!isValidForm}">
+        <div class="brc-message-form__data">
+          <div class="brc-message-form__row">
+            <div class="brc-message-form__block">
+              <label for="userName">Имя Фамилия</label>
+              <input type="text" v-model.lazy="formMessageData.userRequestUser" />
               <span
                 class="brc-error-message"
-                :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestPhone.length > 0) && $v.formMessageData.userRequestPhone.$invalid}"
-              >Введите телефон</span>
-            </span>
-          </div>
-          <div class="brc-message-form__block" v-if="isBrowser">
-            <label for="email">Email</label>
-            <input type="email" v-model.lazy="formMessageData.userRequestMail" />
-            <span
-              class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
-            >Введите настоящий email</span>
-          </div>
-
-          <div class="brc-message-form__block brc-message-form__block_message">
-            <label for="message">Комментарий</label>
-            <textarea v-model.lazy="formMessageData.userRequestText"></textarea>
-            <span
-              class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
-            >Напишите комментарий</span>
-            <div class="brc-message-form__block">
-              <label class="attach-file">
+                :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestUser.trim().length === 0 }"
+              >Введите имя</span>
+            </div>
+            <div class="brc-message-form__block" v-if="isBrowser">
+              <label for="phone">Телефон</label>
+              <span class="brc-input-addon">
+                <span class="phone_add_seven">+7</span>
                 <input
-                  type="file"
-                  multiple
-                  name="file"
-                  id="file"
-                  ref="file"
-                  v-on:change="handleFileUpload()"
+                  type="tel"
+                  v-model.lazy="formMessageData.userRequestPhone"
+                  name="phone"
+                  placeholder="(555) 555-5555"
+                  autocomplete="tel"
+                  maxlength="14"
+                  class="form-control form-control_phone"
+                  v-phone
+                  pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
                 />
-                <div class="attach-file-file-name">Прикрепить файл(ы)</div>
-                <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
-              </label>
+                <span
+                  class="brc-error-message"
+                  :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestPhone.length > 0) && $v.formMessageData.userRequestPhone.$invalid}"
+                >Введите телефон</span>
+              </span>
+            </div>
+            <div class="brc-message-form__block" v-if="isBrowser">
+              <label for="email">Email</label>
+              <input type="email" v-model.lazy="formMessageData.userRequestMail" />
+              <span
+                class="brc-error-message"
+                :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
+              >Введите настоящий email</span>
+            </div>
+
+            <div class="brc-message-form__block brc-message-form__block_message">
+              <label for="message">Комментарий</label>
+              <textarea v-model.lazy="formMessageData.userRequestText"></textarea>
+              <span
+                class="brc-error-message"
+                :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
+              >Напишите комментарий</span>
+              <div class="brc-message-form__block">
+                <label class="attach-file">
+                  <input
+                    type="file"
+                    multiple
+                    name="file"
+                    id="file"
+                    ref="file"
+                    v-on:change="handleFileUpload()"
+                  />
+                  <div class="attach-file-file-name">Прикрепить файл(ы)</div>
+                  <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
+                </label>
+              </div>
             </div>
           </div>
+          <div class="brc-message-form__row">
+            <label>Корзина</label>
+            <BuscetContaner :class="{'brc-message-form__error':!isValidForm}"></BuscetContaner>
+          </div>
         </div>
-        <div class="brc-message-form__row">
-          <label>Корзина</label>
-          <BuscetContaner :class="{'brc-message-form__error':!isValidForm}"></BuscetContaner>
-        </div>
+      </form>
+      <div class="brc-message-form__button">
+        <button type="button" @click="sendMessage">Отправить</button>
       </div>
-    </form>
-    <div class="brc-message-form__button">
-      <button type="button" @click="sendMessage">Отправить</button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -90,11 +94,12 @@ import { getModule } from 'vuex-module-decorators';
 import AppStore from '@/store/AppStore';
 import BuscetStore from '@/store/BuscetStore';
 import BuscetContaner from '@/components/public/BuscetContaner.vue'
-
+import MessageFormMobile from '@/components/public/MessageFormMobile.vue'
 
 @Component({
   components: {
-    BuscetContaner
+    BuscetContaner,
+    MessageFormMobile
   },
   validations: {
     formMessageData: {
@@ -193,6 +198,10 @@ export default class MessageForm extends Vue {
 <style lang="scss">
 @import '@/styles/variables.scss';
 .brc-feedback_busket {
+  @media (max-width: 768px) {
+    display: none;
+  }
+
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 30px;
@@ -281,7 +290,7 @@ export default class MessageForm extends Vue {
         font-size: 16px;
         outline: none;
         margin-top: 2px;
-        margin-bottom: 10px;
+        margin-bottom: 1px;
 
         &:focus {
           background-color: white;

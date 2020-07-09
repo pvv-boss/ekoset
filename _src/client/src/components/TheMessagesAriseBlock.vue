@@ -8,6 +8,7 @@
     </div>
     <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
       <MessageForm title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageFormMobile title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageFormMobile>
     </div>
   </div>
 </template>
@@ -16,47 +17,52 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import MessageForm from '@/components/public/MessageForm.vue'
 import MessageFormSimple from '@/components/public/MessageFormSimple.vue'
+import MessageFormMobile from '@/components/public/MessageFormMobile.vue'
 
 @Component({
   components: {
     MessageForm,
-    MessageFormSimple
+    MessageFormSimple,
+    MessageFormMobile
   }
 })
 export default class TheMessagesAriseBlock extends Vue {
-  private mounted () {
-    const orderFormElement = document.getElementById('btnOrderPopupForm')
-    if (orderFormElement) {
-      orderFormElement.addEventListener('click', (e) => {
-        if (!orderFormElement.children[0].contains(e.target as HTMLElement)) {
-          orderFormElement.setAttribute('style', 'display:none')
-        }
-      })
-    }
+  // private mounted () {
+  //   const orderFormElement = document.getElementById('btnOrderPopupForm')
+  //   if (orderFormElement) {
+  //     orderFormElement.addEventListener('click', (e) => {
+  //       if (!orderFormElement.children[0].contains(e.target as HTMLElement)) {
+  //         orderFormElement.setAttribute('style', 'display:none')
+  //       }
+  //     })
+  //   }
 
-    const questionFormElement = document.getElementById('btnQuestionPopupForm')
-    if (questionFormElement) {
-      questionFormElement.addEventListener('click', (e) => {
-        if (!questionFormElement.children[0].contains(e.target as HTMLElement)) {
-          questionFormElement.setAttribute('style', 'display:none')
-        }
-      })
-    }
+  //   const questionFormElement = document.getElementById('btnQuestionPopupForm')
+  //   if (questionFormElement) {
+  //     questionFormElement.addEventListener('click', (e) => {
+  //       if (!questionFormElement.children[0].contains(e.target as HTMLElement)) {
+  //         questionFormElement.setAttribute('style', 'display:none')
+  //       }
+  //     })
+  //   }
 
-    const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
-    if (reqServiceFormElement) {
-      reqServiceFormElement.addEventListener('click', (e) => {
+  //   const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
+  //   if (reqServiceFormElement) {
+  //     reqServiceFormElement.addEventListener('click', (e) => {
 
-        const parentNode = (e.target as HTMLElement).parentNode;
+  //       const parentNode = (e.target as HTMLElement).parentNode;
 
-        if (!!parentNode && (parentNode as HTMLElement).className !== 'brc-buscet_wrapper') {
-          if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
-            reqServiceFormElement.setAttribute('style', 'display:none')
-          }
-        }
-      })
-    }
-  }
+  //       // tslint:disable-next-line:no-console
+  //       console.log((parentNode as HTMLElement).className)
+
+  //       // if (!!parentNode && (parentNode as HTMLElement).className !== 'brc-buscet_wrapper' && (parentNode as HTMLElement).className !== 'brc-feedback_busket_mobile') {
+  //       if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
+  //         reqServiceFormElement.setAttribute('style', 'display:none')
+  //       }
+  //       //}
+  //     })
+  //   }
+  // }
 
   private closeForm () {
     const orderFormElement = document.getElementById('btnOrderPopupForm')
@@ -97,7 +103,8 @@ export default class TheMessagesAriseBlock extends Vue {
   //  overflow: scroll;
 
   > .brc-feedback,
-  .brc-feedback_busket {
+  .brc-feedback_busket,
+  .brc-feedback_busket_mobile {
     background-color: white;
     h2,
     h3 {
@@ -120,7 +127,9 @@ export default class TheMessagesAriseBlock extends Vue {
 
 @media (max-width: 768px) {
   .brc-message-arise__wrapper {
-    .brc-feedback {
+    .brc-feedback,
+    .brc-feedback_busket,
+    .brc-feedback_busket_mobile {
       max-height: calc(100vh - 60px);
       overflow: scroll;
       margin: 0 auto !important;
@@ -149,8 +158,8 @@ export default class TheMessagesAriseBlock extends Vue {
 
     .brc-message-arise__close {
       position: absolute;
-      right: 30px;
-      top: 15px;
+      right: 10px;
+      top: -5px;
       margin-top: 0 !important;
     }
   }

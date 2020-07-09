@@ -12,9 +12,10 @@ import ClBrand from '@/models/ekoset/ClBrand'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import { NuxtContext } from 'vue/types/options'
+// import { NuxtContext } from 'vue/types/options'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 import BuscetStore from '@/store/BuscetStore'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
 @Component
 export default class BuscetItem extends Vue {
@@ -24,7 +25,11 @@ export default class BuscetItem extends Vue {
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
   private removeBuscetItem () {
-    this.buscetStore.removeService(this.buscet)
+    const okCallback = () => {
+      this.buscetStore.removeService(this.buscet)
+    }
+
+    this.$BrcAlert(BrcDialogType.Warning, `Удалить ${this.buscet.serviceName} из корзины ?`, 'Подтвердите удаление', okCallback)
   }
 }
 

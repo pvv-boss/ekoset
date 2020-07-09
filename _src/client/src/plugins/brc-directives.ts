@@ -7,6 +7,7 @@ Vue.directive('click-outside', {
   inserted (el, binding, vnode) {
     const vm = vnode.context;
     const callback = binding.value;
+
     const onClickHandler = (e) => {
       const elem = e.target as HTMLElement
       if (elem.id !== 'dont_outside' && !elem.classList.contains('dont_outside')) {
