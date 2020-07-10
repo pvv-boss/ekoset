@@ -36,7 +36,7 @@ const config = {
       },
       {
         rel: 'stylesheet',
-        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css'
+        href: '//cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'
       },
       {
         rel: 'stylesheet',

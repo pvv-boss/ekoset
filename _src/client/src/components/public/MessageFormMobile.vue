@@ -200,8 +200,8 @@ export default class MessageFormMobile extends Vue {
     display: flex;
     flex-direction: column;
   }
-
-  max-height: calc(100% - 100px) !important;
+  //  height: calc(100% - 90px) !important;
+  // max-height: calc(100% - 90px) !important;
 
   border: 1px solid lightgrey;
   border-radius: 5px;
@@ -216,13 +216,20 @@ export default class MessageFormMobile extends Vue {
   .brc-buscet_container {
     height: calc(100% - 65px);
     overflow-y: auto;
+    flex-direction: row;
     @media (max-width: 768px) {
-      height: 100px;
+      height: 40px;
     }
 
     .brc-buscet_wrapper {
+      padding: 2px !important;
+      margin: 2px;
       span {
         font-size: 12px;
+      }
+      div {
+        font-size: 15px;
+        line-break: 0, 01rem;
       }
     }
   }
@@ -234,7 +241,7 @@ export default class MessageFormMobile extends Vue {
 
   .brc-message-form {
     max-height: 90vh;
-    height: min-content;
+    height: max-content;
   }
 
   .brc-message-form__data {
@@ -249,6 +256,7 @@ export default class MessageFormMobile extends Vue {
       justify-content: flex-start;
       overflow: hidden;
       margin: 15px;
+      margin-top: 8px;
     }
 
     .brc-message-form__block + .brc-message-form__block {
@@ -282,7 +290,7 @@ export default class MessageFormMobile extends Vue {
 
       input {
         width: 100%;
-        height: 32px !important;
+        height: 28px !important;
         background-color: #f4f4f5;
         border: 1px solid #d1d1d1;
         border-radius: 3px;
@@ -407,12 +415,12 @@ export default class MessageFormMobile extends Vue {
     }
   }
   @media (max-width: 768px) {
-    max-height: calc(100vh - 100px) !important;
+    //  max-height: calc(100vh - 90px) !important;
     margin: 0 auto !important;
     padding: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
-    overflow: scroll;
+    overflow: hidden;
 
     textarea {
       height: 70px !important;

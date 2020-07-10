@@ -6,12 +6,12 @@
       :imageSrc="businessService.businessServiceImgBig"
     ></TheBanner>
     <a class="brc-service-buscet__icon_desktop" @click="addServiceToBuscet">
-      <span>Добавить в козину</span>
-      <img src="/images/addBusket.svg" alt="Добавить в корзину" title="Добавить в корзину" />
+      <span>{{basketImageInfo.alt}}</span>
+      <img :src="basketImageInfo.src" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
     </a>
 
     <a class="brc-service-buscet__icon_mobile" @click="addServiceToBuscet">
-      <img src="/images/addBusketWhite.svg" alt="Добавить в корзинуа" title="Добавить в корзину" />
+      <img src="/images/addBusketWhite.svg" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
     </a>
 
     <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
@@ -32,7 +32,7 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
-import BuscetStore from '@/store/BuscetStore'
+import BuscetStore, { findAddedServiceIndex } from '@/store/BuscetStore'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({
@@ -43,14 +43,7 @@ import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessService
   }
 })
 export default class ServiceCard extends Vue {
-
-  private get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSectionName
-  }
-
-  private get getPriceServiceList () {
-    return [...this.childServiceList, this.businessService]
-  }
+  private basketImageInfo: any = { src: '/images/addBusket.svg', alt: 'Добавить в корзину' }
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
@@ -62,10 +55,37 @@ export default class ServiceCard extends Vue {
 
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
-  private addServiceToBuscet () {
-    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService))
-
+  @Watch('buscetStore.addedServiceList')
+  private onBasketChanged () {
+    this.updateBasketImage()
   }
+
+  private updateBasketImage () {
+    const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService)
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
+    const info = ind === -1 ? { src: '/images/addBusket.svg', alt: 'Добавить в корзину' } : { src: '/images/addBusket.svg', alt: 'В корзине' }
+    this.basketImageInfo.src = info.src
+    this.basketImageInfo.alt = info.alt
+  }
+
+  private get getCurrentSiteSection () {
+    return getModule(AppStore, this.$store).currentSiteSectionName
+  }
+
+  private get getPriceServiceList () {
+    return [...this.childServiceList, this.businessService]
+  }
+
+
+  private addServiceToBuscet () {
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService))
+    if (ind === -1) {
+      this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService))
+    } else {
+      this.buscetStore.removeService(BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService))
+    }
+  }
+
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
@@ -85,6 +105,10 @@ export default class ServiceCard extends Vue {
 
   private destroyed () {
     getModule(AppStore, this.$store).changeCurrentServiceName(null)
+  }
+
+  private mounted () {
+    this.updateBasketImage()
   }
 
   @Watch('getCurrentSiteSection', { immediate: true })

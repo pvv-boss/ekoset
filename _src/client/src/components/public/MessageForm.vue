@@ -216,9 +216,8 @@ export default class MessageForm extends Vue {
   .brc-buscet_container {
     height: calc(100% - 65px);
     overflow-y: auto;
-    &.brc-message-form__error {
-      // height: calc(100% - 100px);
-    }
+    flex-direction: column;
+    flex-wrap: nowrap;
   }
 
   h2,

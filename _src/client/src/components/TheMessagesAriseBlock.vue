@@ -130,37 +130,7 @@ export default class TheMessagesAriseBlock extends Vue {
     .brc-feedback,
     .brc-feedback_busket,
     .brc-feedback_busket_mobile {
-      max-height: calc(100vh - 60px);
-      overflow: scroll;
-      margin: 0 auto !important;
-      padding: 0px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-
-      textarea {
-        height: 120px;
-      }
-      input {
-        height: 32px !important;
-        margin-top: 2px;
-        margin-bottom: 10px;
-      }
-      button {
-        height: 42px;
-      }
-      .brc-input-addon {
-        padding-top: 6px !important;
-      }
-    }
-    .brc-message-form__row:last-child {
-      margin-bottom: 0 !important;
-    }
-
-    .brc-message-arise__close {
-      position: absolute;
-      right: 10px;
-      top: -5px;
-      margin-top: 0 !important;
+      max-height: calc(100vh - 30px);
     }
   }
 }

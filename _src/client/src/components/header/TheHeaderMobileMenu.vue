@@ -8,7 +8,7 @@
       </nuxt-link>
     </div>-->
 
-    <div class="brc-buscet-mobile">
+    <div class="brc-buscet-mobile" @click="navigateToOfferForm">
       <img src="/images/busket.svg" />
       <div class="brc-buscet-counter_mobile">{{getBuscetCount}}</div>
     </div>
@@ -103,6 +103,14 @@ export default class TheHeaderMobileMenu2 extends Vue {
       this.isMainMenuActive = false
     }
   }
+
+  private navigateToOfferForm (e) {
+    const formElement = document.getElementById('btnRequestServicePopupForm')
+    if (formElement) {
+      formElement.setAttribute('style', 'display:block');
+    }
+    e.preventDefault()
+  }
 }
 </script>
 
@@ -137,6 +145,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   display: none;
 
   .brc-buscet-mobile {
+    cursor: pointer;
     position: relative;
     img {
       width: 32px;
@@ -150,11 +159,11 @@ export default class TheHeaderMobileMenu2 extends Vue {
       top: -5px;
       right: -10px;
       background-color: black;
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       color: white;
-      font-size: 15px;
+      font-size: 14px;
     }
   }
 

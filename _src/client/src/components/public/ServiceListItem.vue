@@ -14,22 +14,27 @@
     </nuxt-link>
 
     <a class="brc-buscet__icon_mobile" @click="addServiceToBuscet">
-      <span>В корзину</span>
-      <img src="/images/addBusketWhite.svg" alt="Добавить в корзину" title="Добавить в корзину" />
+      <span>{{basketImageInfoMobile.alt}}</span>
+      <img
+        :src="basketImageInfoMobile.src"
+        :alt="basketImageInfoMobile.alt"
+        :title="basketImageInfoMobile.alt"
+      />
     </a>
 
     <a class="brc-buscet__icon_desktop" @click="addServiceToBuscet">
-      <img src="/images/addBusket.svg" alt="Добавить в корзину" title="Добавить в корзину" />
+      <img :src="basketImageInfo.src" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
     </a>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import BuscetStore from '@/store/BuscetStore'
+import { findAddedServiceIndex } from '@/store/BuscetStore'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({})
@@ -39,6 +44,9 @@ export default class ServiceListItem extends Vue {
 
   @Prop()
   private imageSrcForDesignMode: string
+
+  private basketImageInfo: any = { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' }
+  private basketImageInfoMobile: any = { src: '/images/addBusketWhite.svg', alt: 'В корзину' }
 
   private get imageSrc () {
     return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.serviceItem.businessServiceImgSmall
@@ -50,9 +58,42 @@ export default class ServiceListItem extends Vue {
 
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
-  public addServiceToBuscet () {
-    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem))
 
+  @Watch('buscetStore.addedServiceList')
+  public onBasketChanged () {
+    this.updateBasketImage()
+  }
+
+  public addServiceToBuscet () {
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem))
+    if (ind === -1) {
+      this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem))
+    } else {
+      this.buscetStore.removeService(BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem))
+    }
+    this.updateBasketImage()
+    this.updateBasketImageMobile()
+  }
+
+  public updateBasketImage () {
+    const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem)
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
+    const info = ind === -1 ? { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' } : { src: '/images/checkBasket.svg', alt: 'Убрать из корзины' }
+    this.basketImageInfo.src = info.src
+    this.basketImageInfo.alt = info.alt
+  }
+
+  public updateBasketImageMobile () {
+    const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem)
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
+    const info = ind === -1 ? { src: '/images/addBusketWhite.svg', alt: 'В корзину' } : { src: '/images/checkBasket.svg', alt: 'В корзине' }
+    this.basketImageInfoMobile.src = info.src
+    this.basketImageInfoMobile.alt = info.alt
+  }
+
+  public mounted () {
+    this.updateBasketImage()
+    this.updateBasketImageMobile()
   }
 }
 </script>
@@ -86,12 +127,15 @@ export default class ServiceListItem extends Vue {
 
   .brc-buscet__icon_desktop {
     position: absolute;
-    right: 12px;
-    bottom: 18px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    padding: 4px;
 
     img {
-      width: 32px !important;
-      height: 32px !important;
+      width: 30px !important;
+      height: 30px !important;
       margin: 0px !important;
     }
 

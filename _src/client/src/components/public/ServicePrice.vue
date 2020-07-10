@@ -49,9 +49,9 @@
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceItem)">
                   <img
-                    src="/images/addBusket.svg"
-                    alt="Добавить в корзину"
-                    title="Добавить в корзину"
+                    :src="basketImage(iterPriceListItem).src"
+                    :alt="basketImage(iterPriceListItem).alt"
+                    :title="basketImage(iterPriceListItem).alt"
                   />
                 </a>
               </td>
@@ -72,9 +72,9 @@
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceListItem)">
                   <img
-                    src="/images/addBusket.svg"
-                    alt="Добавить в корзину"
-                    title="Добавить в корзину"
+                    :src="basketImage(iterPriceListItem).src"
+                    :alt="basketImage(iterPriceListItem).alt"
+                    :title="basketImage(iterPriceListItem).alt"
                   />
                 </a>
               </td>
@@ -99,7 +99,7 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
-import BuscetStore from '@/store/BuscetStore'
+import BuscetStore, { findAddedServiceIndex } from '@/store/BuscetStore'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({})
@@ -123,7 +123,18 @@ export default class ServicePrice extends Vue {
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
 
   public addServiceToBuscet (serviceItem: any) {
-    this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem))
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem))
+    if (ind === -1) {
+      this.buscetStore.addService(BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem))
+    } else {
+      this.buscetStore.removeService(BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem))
+    }
+  }
+
+  public basketImage (serviceItem: any) {
+    const wrapper = BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem)
+    const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
+    return ind === -1 ? { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' } : { src: '/images/checkBasket.svg', alt: 'Убрать из корзины' }
   }
 }
 </script>

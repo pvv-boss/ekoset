@@ -60,9 +60,6 @@ export default class BuscetStore extends VuexModule {
 
   @Action
   public async addService (businessService: BusinessServiceLocalStorageItem) {
-    // const index = this.addedServiceList.findIndex((iterElement) => {
-    //   return iterElement.serviceName === businessService.serviceName && iterElement.serviceUrl === businessService.serviceUrl
-    // })
     if (findAddedServiceIndex(this.addedServiceList, businessService) === -1) {
       this.context.commit('addServiceMutation', businessService)
       Cookies.set(this.cookieBusctetStoreName, this.addedServiceList, { expires: 10 })
@@ -102,7 +99,7 @@ export default class BuscetStore extends VuexModule {
 
 }
 
-const findAddedServiceIndex = (addedServiceList: BusinessServiceLocalStorageItem[], businessService: BusinessServiceLocalStorageItem) => {
+export const findAddedServiceIndex = (addedServiceList: BusinessServiceLocalStorageItem[], businessService: BusinessServiceLocalStorageItem) => {
   const index = addedServiceList.findIndex((iterElement) => {
     return iterElement.serviceName === businessService.serviceName && iterElement.serviceUrl === businessService.serviceUrl
   })
