@@ -8,7 +8,7 @@
           </nuxt-link>
         </div>
         <div class="brc-page-footer__phone">
-          <a href="tel:+74952233595">+7 (495) 223-35-95</a>
+          <a href="tel:+74952233595">+7 (495) 22-33-595</a>
         </div>
         <div class="brc-page-footer__social">
           <a href="mailto:inbox@ekoset.ru">

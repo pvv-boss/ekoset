@@ -116,6 +116,10 @@ export default class MessageFormSimple extends Vue {
   private formMessageData: UserRequest = new UserRequest()
   @Prop()
   private title
+
+  @Prop()
+  private mode
+
   @Prop({ default: false })
   private showCloseBtn
   private isBrowser = false
@@ -141,7 +145,7 @@ export default class MessageFormSimple extends Vue {
       for (const iterItem of this.files) {
         formData.append('files', iterItem)
       }
-      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.title === 'Задать вопрос эксперту')
+      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.mode)
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }

@@ -174,8 +174,9 @@ export default class PublicEkosetService extends BaseService {
 
   //
 
-  public async sendFormMessage (formData: FormData, isAskForExpert: boolean) {
-    const result = HttpUtil.httpPostForm(`user/message?ask=${isAskForExpert}`, formData)
+  public async sendFormMessage (formData: FormData, mode: number) {
+    const result = HttpUtil.httpPostForm(`user/message?ask=${mode}`, formData)
+    this.sendYandexMetrika(mode)
     return result
   }
 
@@ -193,6 +194,21 @@ export default class PublicEkosetService extends BaseService {
   private async getSiteSectionById (siteSectionId: number) {
     const query = `activities/${siteSectionId}`
     return HttpUtil.httpGet(this.buildHttRequest(query))
+  }
+
+  private sendYandexMetrika (mode: number) {
+    // @ts-ignore
+    if (!!window.Ya) {
+      const target = mode === 0 ? 'knopka_otpravit_zakaz' : (mode === 1 ? 'knopka_otpravit_vopros' : 'knopka_otpravit_tender')
+      try {
+        // @ts-ignore
+        window.yaCounter64542580.reachGoal(64542580, target)
+      } catch{ }
+      try {
+        // @ts-ignore
+        window.yaCounter64542580.reachGoal(target)
+      } catch{ }
+    }
   }
 }
 

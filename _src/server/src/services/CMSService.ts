@@ -244,7 +244,8 @@ export default class CMSService extends BaseService {
     bayService.visible = 1;
     bayService.visibleIndex = 2;
     bayService.props = {
-      title: 'Отправить заказ'
+      title: 'Отправить заказ',
+      mode: 0
     }
 
 
@@ -256,7 +257,8 @@ export default class CMSService extends BaseService {
     askExpert.visible = 1;
     askExpert.visibleIndex = 10;
     askExpert.props = {
-      title: 'Задать вопрос эксперту'
+      title: 'Задать вопрос эксперту',
+      mode: 1
     }
 
     const clientTypeOfferList = new DynamicComponentInfo();

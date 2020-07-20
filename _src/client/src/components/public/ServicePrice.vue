@@ -49,9 +49,9 @@
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceItem)">
                   <img
-                    :src="basketImage(iterPriceListItem).src"
-                    :alt="basketImage(iterPriceListItem).alt"
-                    :title="basketImage(iterPriceListItem).alt"
+                    :src="basketImage(iterPriceItem).src"
+                    :alt="basketImage(iterPriceItem).alt"
+                    :title="basketImage(iterPriceItem).alt"
                   />
                 </a>
               </td>

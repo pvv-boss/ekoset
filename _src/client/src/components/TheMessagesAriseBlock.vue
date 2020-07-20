@@ -1,14 +1,29 @@
 <template>
   <div class="brc-message-arise__outer">
     <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
-      <MessageFormSimple title="Пригласить на тендер" @closeForm="closeForm" showCloseBtn="true"></MessageFormSimple>
+      <MessageFormSimple
+        title="Пригласить на тендер"
+        :mode="2"
+        @closeForm="closeForm"
+        showCloseBtn="true"
+      ></MessageFormSimple>
     </div>
     <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
-      <MessageFormSimple title="Задать вопрос эксперту" @closeForm="closeForm" showCloseBtn="true"></MessageFormSimple>
+      <MessageFormSimple
+        title="Задать вопрос эксперту"
+        :mode="1"
+        @closeForm="closeForm"
+        showCloseBtn="true"
+      ></MessageFormSimple>
     </div>
     <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
-      <MessageForm title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
-      <MessageFormMobile title="Отправить заказ" @closeForm="closeForm" showCloseBtn="true"></MessageFormMobile>
+      <MessageForm title="Отправить заказ" :mode="0" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
+      <MessageFormMobile
+        title="Отправить заказ"
+        :mode="0"
+        @closeForm="closeForm"
+        showCloseBtn="true"
+      ></MessageFormMobile>
     </div>
   </div>
 </template>

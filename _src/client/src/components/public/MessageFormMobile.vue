@@ -45,7 +45,7 @@
 
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea v-model.lazy="formMessageData.userRequestText"></textarea>
+            <textarea v-model.lazy="formMessageData.userRequestText" rows="2"></textarea>
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
@@ -130,6 +130,9 @@ export default class MessageFormMobile extends Vue {
   @Prop()
   private title
 
+  @Prop()
+  private mode
+
   @Prop({ default: false })
   private showCloseBtn
 
@@ -165,7 +168,7 @@ export default class MessageFormMobile extends Vue {
         formData.append('files', iterItem)
       }
 
-      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.title === 'Задать вопрос эксперту')
+      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.mode)
 
       if (this.showCloseBtn) {
         this.$emit('closeForm')
@@ -216,9 +219,13 @@ export default class MessageFormMobile extends Vue {
   .brc-buscet_container {
     height: calc(100% - 65px);
     overflow-y: auto;
-    flex-direction: row;
+    //  flex-direction: row;
+
+    flex-direction: column;
+    flex-wrap: nowrap;
+
     @media (max-width: 768px) {
-      height: 40px;
+      height: 105px;
     }
 
     .brc-buscet_wrapper {
@@ -261,6 +268,9 @@ export default class MessageFormMobile extends Vue {
 
     .brc-message-form__block + .brc-message-form__block {
       margin-top: 5px;
+      @media (max-width: 768px) {
+        margin-top: 2px;
+      }
     }
 
     .brc-message-form__block {
@@ -272,12 +282,12 @@ export default class MessageFormMobile extends Vue {
       }
       textarea {
         width: 100%;
-        height: 120px;
+        height: auto !important;
         margin: 0;
         background-color: #f4f4f5;
         border: 1px solid #d1d1d1;
         border-radius: 3px;
-        padding: 15px;
+        padding: 5px;
         color: #000000;
         font-size: 14px;
         // resize: none;
@@ -423,7 +433,7 @@ export default class MessageFormMobile extends Vue {
     overflow: hidden;
 
     textarea {
-      height: 70px !important;
+      // height: 70px !important;
     }
     input {
       height: 30px !important;

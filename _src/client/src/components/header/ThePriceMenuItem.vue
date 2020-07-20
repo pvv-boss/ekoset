@@ -2,7 +2,7 @@
   <li class="brc-price-menu-wrapper" @click="onClick" v-click-outside="()=>{isMenuOpened=false}">
     <span id="dont_outside">Услуги</span>
     <ul class="brc-price-menu" :class="{ 'active': isMenuOpened === true }">
-      <div class="brc-price-menu__close">&times;</div>
+      <div class="brc-price-menu__close dont_outside">&times;</div>
       <template v-if="getCurrentSiteSection !== null">
         <li
           v-for="iterService in serviceList"
@@ -118,7 +118,10 @@ export default class ThePriceMenuItem extends Vue {
 
 .brc-price-menu {
   display: none !important;
-  position: fixed;
+  // position: fixed;
+  position: absolute;
+  top: 20px;
+  left: 0px;
 
   z-index: 2000;
   background-color: white;
@@ -138,6 +141,7 @@ export default class ThePriceMenuItem extends Vue {
     position: fixed;
     width: 85vw;
     top: 80px;
+    left: auto !important;
     margin: auto;
     max-height: calc(95vh - 140px);
   }

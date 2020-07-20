@@ -86,7 +86,7 @@ export default class BuscetStore extends VuexModule {
         names.push(iterServ.serviceName)
       })
     }
-    return names.length > 0 ? names.join(';') : 'не выбрано'
+    return names.length > 0 ? names.join('; ') : 'не выбрано'
   }
 
   public get addedServiceCount (): number {

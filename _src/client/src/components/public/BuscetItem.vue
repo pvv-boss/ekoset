@@ -29,7 +29,7 @@ export default class BuscetItem extends Vue {
       this.buscetStore.removeService(this.buscet)
     }
 
-    this.$BrcAlert(BrcDialogType.Warning, `Удалить ${this.buscet.serviceName} из корзины ?`, 'Подтвердите удаление', okCallback)
+    this.$BrcAlert(BrcDialogType.Warning, `Удалить "${this.buscet.serviceName}" из корзины ?`, 'Подтвердите удаление', okCallback)
   }
 }
 

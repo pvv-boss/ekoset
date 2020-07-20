@@ -1,7 +1,7 @@
 <template>
   <a class="brc-contact__telephone" href="tel:+74952233595">
     <span class="brc-contact__telephone-code">+7 (495)</span>
-    <span class="brc-contact__telephone-nmb">223-35-95</span>
+    <span class="brc-contact__telephone-nmb">22-33-595</span>
   </a>
 </template>
 
@@ -14,7 +14,6 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class TheHeaderCallMe extends Vue {
-
 }
 </script>
 

@@ -204,7 +204,7 @@ $menu_item_padding: 12px;
 
 .brc-page-header__main-menu {
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   text-transform: uppercase;
   margin: 0;
   > li {

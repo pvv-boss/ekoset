@@ -124,10 +124,12 @@
       flex-direction: row;
 
       .brc-dialog__title {
-        flex: 1;
+        //   flex: 1;
         white-space: nowrap;
         font-size: 15px;
         font-weight: 500;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .brc-dialog__header-maximize,
@@ -167,11 +169,11 @@
       }
 
       .brc-dialog__button-ok {
-        border: 1px solid $blue-modal;
-        color: $blue-modal;
+        border: 1px solid $red;
+        color: $red;
 
         &:hover {
-          background-color: $light-blue;
+          background-color: $red;
         }
       }
     }
@@ -245,8 +247,11 @@
       }
 
       .brc-dialog__header {
-        font-weight: $font-medium;
-        font-size: 13px;
+        padding: 10px;
+        padding-bottom: 5px;
+        //float: right;
+        margin: auto 0;
+        border-bottom: 1px solid $red;
 
         .brc-dialog__icon {
           margin-right: 5px;
@@ -276,12 +281,15 @@
         // border: 1px solid $blue-modal !important;
 
         .brc-dialog__header {
-          background-color: $blue-modal;
-          color: white;
+          padding: 10px;
+          padding-bottom: 5px;
+          //float: right;
+          margin: auto 0;
+          border-bottom: 1px solid $red;
         }
 
         .brc-dialog__button-ok:hover {
-          background-color: $blue-modal !important;
+          background-color: $red !important;
           color: white !important;
         }
       }
@@ -290,12 +298,15 @@
         //border: 1px solid $blue-modal !important;
 
         .brc-dialog__header {
-          background-color: $blue-modal;
-          color: white;
+          padding: 10px;
+          padding-bottom: 5px;
+          //float: right;
+          margin: auto 0;
+          border-bottom: 1px solid $red;
         }
 
         .brc-dialog__button-ok:hover {
-          background-color: $blue-modal !important;
+          background-color: $red !important;
           color: white !important;
         }
       }
@@ -304,12 +315,15 @@
         //border: 1px solid $blue-modal !important;
 
         .brc-dialog__header {
-          background-color: $blue-modal;
-          color: white;
+          padding: 10px;
+          padding-bottom: 5px;
+          //float: right;
+          margin: auto 0;
+          border-bottom: 1px solid $red;
         }
 
         .brc-dialog__button-ok:hover {
-          background-color: $blue-modal !important;
+          background-color: $red !important;
           color: white !important;
         }
       }
@@ -318,12 +332,15 @@
         //  border: 1px solid $blue-modal !important;
 
         .brc-dialog__header {
-          background-color: $blue-modal;
-          color: white !important;
+          padding: 10px;
+          padding-bottom: 5px;
+          //float: right;
+          margin: auto 0;
+          border-bottom: 1px solid $red;
         }
 
         .brc-dialog__button-ok:hover {
-          background-color: $blue-modal !important;
+          background-color: $red !important;
           color: white !important;
         }
       }

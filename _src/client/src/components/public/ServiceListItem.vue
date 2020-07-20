@@ -62,6 +62,7 @@ export default class ServiceListItem extends Vue {
   @Watch('buscetStore.addedServiceList')
   public onBasketChanged () {
     this.updateBasketImage()
+    this.updateBasketImageMobile()
   }
 
   public addServiceToBuscet () {
@@ -86,7 +87,7 @@ export default class ServiceListItem extends Vue {
   public updateBasketImageMobile () {
     const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem)
     const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
-    const info = ind === -1 ? { src: '/images/addBusketWhite.svg', alt: 'В корзину' } : { src: '/images/checkBasket.svg', alt: 'В корзине' }
+    const info = ind === -1 ? { src: '/images/addBusketWhite.svg', alt: 'В корзину' } : { src: '/images/checkBasketWhite.svg', alt: 'В корзине' }
     this.basketImageInfoMobile.src = info.src
     this.basketImageInfoMobile.alt = info.alt
   }
@@ -129,8 +130,8 @@ export default class ServiceListItem extends Vue {
     position: absolute;
     right: 10px;
     bottom: 10px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
+    // border: 2px solid #ccc;
+    // border-radius: 50%;
     padding: 4px;
 
     img {
@@ -148,6 +149,7 @@ export default class ServiceListItem extends Vue {
     display: none;
     background-color: #b2b2b2;
     padding: 5px;
+    padding-left: 8px;
     padding-top: 1px;
     padding-bottom: 2px;
     margin-left: -10px;

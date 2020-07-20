@@ -20,11 +20,11 @@
     </div>
 
     <!-- Само меню. Живет с фиксед позишн !!! -->
-    <nav class="brc-page-header-mobile__menu" :class="{visible:isMainMenuActive===true}">
+    <nav class="brc-page-header-mobile__menu" :class="{'brc-page-header-mobile__menu_visible':isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
-        <!-- <div class="brc-page-header-mobile-menu__user-auth"> -->
-        <!-- <UserAuthHeader :isMobile="true"></UserAuthHeader> -->
-        <!-- </div> -->
+        <div class="brc-page-header-mobile-menu__user-auth">
+        <UserAuthHeader :isMobile="true"></UserAuthHeader>
+        </div>
 
         <div class="brc-page-header-mobile__close" @click="openMenu">
           <span></span>
@@ -283,8 +283,8 @@ export default class TheHeaderMobileMenu2 extends Vue {
     margin-left: 10px;
   }
 
-  &.visible {
-    transform: none;
+  &.brc-page-header-mobile__menu_visible {
+    transform: none !important;
   }
 
   * {

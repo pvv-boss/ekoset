@@ -46,6 +46,11 @@ html {
   line-height: 1.54em !important;
   letter-spacing: 0.01em;
 
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+
+
   h1 {
     // font-size: $base-rem * $ms4;
     font-size: 32px;

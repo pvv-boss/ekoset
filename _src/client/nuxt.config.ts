@@ -118,7 +118,7 @@ const config = {
       path: 'src/routers',
       fileName: 'index.ts'
     }],
-    ['@naumstory/nuxtjs-yandex-metrika',
+    ['@nuxtjs/yandex-metrika',
       {
         id: '64542580',
         webvisor: true,
@@ -130,7 +130,6 @@ const config = {
   ],
 
   build: {
-    crossorigin: true,
     babel: {
       plugins: [
         ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
@@ -185,7 +184,8 @@ const config = {
     etag: false,
     static: {
       etag: false
-    }
+    },
+    crossorigin: true
   },
 
   purgeCSS: {

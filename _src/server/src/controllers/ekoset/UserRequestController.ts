@@ -19,19 +19,20 @@ export default class UserRequestController extends BaseController {
     @Body() body: any,
     @Req() request: Request,
     @Res() response: Response,
-    @QueryParam('ask') isAskForExpert: boolean
+    @QueryParam('ask') mode: any
   ) {
 
     const files = request.files as Express.Multer.File[];
     const formData = JSON.parse(body.formMessageData);
     const requestData = ClassTransform.plainToClassInstanceOne<UserRequest>(formData, UserRequest);
 
-    const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, isAskForExpert);
+    const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, mode);
+    // const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, 0);
 
-    // return UserRequestController.createSuccessResponse({}, response);
+    const message = mode === 0 ? 'Ваш заказ отправлен. В ближайшее время с Вами свяжутся наши специалисты' : 'Ваш вопрос отправлен. В ближайшее время с Вами свяжутся наши специалисты';
 
     return reqNmb > 0 ?
-      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify('Ваш заказ отправлен. В ближайшее время с Вами свяжутся наши специалисты', 'ЭКОСЕТЬ')) :
+      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify(message, 'ЭКОСЕТЬ')) :
       UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
 }

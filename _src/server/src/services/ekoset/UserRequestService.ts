@@ -20,7 +20,7 @@ export class UserRequestService extends BaseService {
     return this.getDbViewResult(this.apiRequestView);
   }
 
-  public async saveRequest (files: Express.Multer.File[], request: UserRequest, isAskForExpert: boolean) {
+  public async saveRequest (files: Express.Multer.File[], request: UserRequest, mode: number) {
     try {
       request.userRequestDate = new Date().toUTCString();
       await TypeOrmManager.EntityManager.save(request);
@@ -45,7 +45,7 @@ export class UserRequestService extends BaseService {
         }
       }
 
-      this.sendEmailsByRequest(request, isAskForExpert, attachments);
+      this.sendEmailsByRequest(request, mode, attachments);
 
       return request.userRequestId;
     } catch (err) {
@@ -55,12 +55,14 @@ export class UserRequestService extends BaseService {
   }
 
 
-  private sendEmailsByRequest (request: UserRequest, isAskForExpert: boolean, attachments: any[]) {
+  private sendEmailsByRequest (request: UserRequest, mode: number, attachments: any[]) {
     const format = (template: string) => {
       const gmtDate = new Date(request.userRequestDate);
       const mskDate = gmtDate.setHours(gmtDate.getHours() + 3);
 
       const dateFormated = ruDateFormat.format(mskDate);
+
+      const startMessage = mode === 0 ? 'Мы получили Ваш заказ и приступили к его обработке:' : (mode === 1 ? 'Мы получили Ваш вопрос и приступили к его обработке:' : 'Мы получили Ваш запрос и приступили к его обработке:')
 
       return template.
         replace('{{userRequestUser}}', request.userRequestUser).
@@ -69,13 +71,13 @@ export class UserRequestService extends BaseService {
         replace('{{userRequestService}}', request.userRequestService).
         replace('{{userRequestText}}', request.userRequestText).
         replace('{{userRequestMail}}', request.userRequestMail).
-        replace('{{startMessage}}', isAskForExpert ? 'Мы получили Ваш вопрос и приступили к его обработке:' : 'Мы получили Ваш заказ и приступили к его обработке:')
+        replace('{{startMessage}}', startMessage)
     }
 
-    const header = isAskForExpert ? 'Вы задали вопрос эксперту' : 'Вы оформили заказ';
+    const header = mode === 0 ? 'Вы оформили заказ' : 'Вы задали вопрос эксперту';
 
-    const backTemplateName = isAskForExpert ? 'back_user_request_simple' : 'back_user_request';
-    const templateName = isAskForExpert ? 'user_request_simple' : 'user_request';
+    const backTemplateName = mode === 0 ? 'back_user_request' : 'back_user_request_simple';
+    const templateName = mode === 0 ? 'user_request' : 'user_request_simple';
 
     MailSender.sendWithAttachment(`Компания ЭКОСЕТЬ <inbox@ekoset.ru>`, request.userRequestMail, header, backTemplateName, null, format);
 
