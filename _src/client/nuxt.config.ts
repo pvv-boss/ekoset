@@ -1,6 +1,8 @@
+import { NuxtConfig } from '@nuxt/types'
+
 const isDev = process.env.NODE_ENV !== 'production'
 
-const config = {
+const config: NuxtConfig = {
   mode: 'universal',
   modern: true,
   srcDir: 'src/',
@@ -20,6 +22,10 @@ const config = {
     {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1'
+    },
+    {
+      name: "yandex-verification",
+      content: "5455f453f5d27f37"
     }
     ],
 
@@ -31,12 +37,17 @@ const config = {
       // },
       {
         rel: 'preload',
-        href: '//cdn.materialdesignicons.com/5.1.45/css/materialdesignicons.min.css',
+        href: 'https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css',
         as: 'style'
       },
       {
         rel: 'stylesheet',
-        href: '//cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'
+        href: 'https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'
+      },
+      {
+        rel: 'preload',
+        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
+        as: 'style'
       },
       {
         rel: 'stylesheet',
@@ -46,14 +57,22 @@ const config = {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.png'
-      }
+      },
+      // {
+      //   href: "https://unpkg.com/buefy/dist/buefy.min.js",
+      //   rel: 'preload',
+      //   as: 'script'
+      // }
     ],
 
     script: [
-      {
-        // async: '',
-        // src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
-      }
+      // {
+      //   src: "https://unpkg.com/buefy/dist/buefy.min.js",
+      //   defer: true
+      // }
+      //   // async: '',
+      //   // src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
+      // }
     ],
 
     bodyAttrs: {
@@ -100,7 +119,8 @@ const config = {
   ],
 
   router: {
-    middleware: ['needAuthorize', 'baseMiddleware']
+    middleware: ['needAuthorize', 'baseMiddleware'],
+    prefetchLinks: false
   },
 
   buildModules: [
@@ -117,7 +137,8 @@ const config = {
     ['@nuxtjs/router', {
       path: 'src/routers',
       fileName: 'index.ts'
-    }],
+    }]
+    ,
     ['@nuxtjs/yandex-metrika',
       {
         id: '64542580',
@@ -184,8 +205,7 @@ const config = {
     etag: false,
     static: {
       etag: false
-    },
-    crossorigin: true
+    }
   },
 
   purgeCSS: {

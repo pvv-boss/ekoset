@@ -4,7 +4,7 @@
       <img itemprop="image" :src="imageSrc" class="brc-page-image" />
       <h1 v-if="!!h1" itemprop="headline name" class="brc-page-title">{{h1}}</h1>
     </figure>
-    <h1 v-show="!imageSrc && !!h1" itemprop="headline name">{{h1}}</h1>
+    <h1 v-if="!imageSrc && !!h1" itemprop="headline name">{{h1}}</h1>
   </section>
 </template>
 
