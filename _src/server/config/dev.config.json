@@ -1,0 +1,99 @@
+{
+  "serverConfig": {
+    "port": 3002,
+    "useCors": true,
+    "host": "http://ekoset.npobaltros.ru/",
+    "restApiEndPoint": "/api/2_0"
+  },
+  "authConfig": {
+    "cookieName": "auth-rsn-cookie",
+    "jwtHeaderName": "auth-rsn-header",
+    "emailVerify": {
+      "secretKey": "gostorgiryzhkov1976",
+      "options": {
+        "expiresIn": 864000
+      }
+    },
+    "JWT": {
+      "access": {
+        "secretKey": "gostorgiryzhkov1976",
+        "options": {
+          "expiresIn": 600
+        }
+      },
+      "refresh": {
+        "secretKey": "gostorgiryzhkov1976",
+        "options": {
+          "expiresIn": 1728000
+        }
+      }
+    },
+    "Local": {
+      "usernameField": "useremail",
+      "passwordField": "password",
+      "session": "false",
+      "passReqToCallback": true
+    },
+    "Facebook": {
+      "clientID": 656198894753670,
+      "clientSecret": "cad049b7c36b971ca787d4e3c4eda27b",
+      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/facebook/callback",
+      "profileFields": ["id", "displayName", "photos", "email", "profileUrl"],
+      "session": "false",
+      "passReqToCallback": true
+    },
+    "Google": {
+      "clientID": "803811257678-56ktk1celt4quiljjlo6r8bmloc162ol.apps.googleusercontent.com",
+      "clientSecret": "8HYcfMFJUzX_fmeTrQJTVsJj",
+      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/google/callback",
+      "session": "false",
+      "passReqToCallback": true
+    },
+    "Yandex": {
+      "clientID": "7ac57d57db7b4e9ea18f474e91cb4932",
+      "clientSecret": "192bab28f7004047898efd7d5731bdc6",
+      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/yandex/callback",
+      "session": "false",
+      "passReqToCallback": true
+    }
+  },
+
+  "dbConfig": {
+    "type": "postgres",
+    "host": "91.210.168.57",
+    "port": 5432,
+    "user": "postgres",
+    "password": "vW642B8$Hz",
+    "database": "ekoset",
+    "schema": "brc_ekoset",
+    "pgOptions": {
+      "schema": "brc_ekoset"
+    }
+  },
+
+  "typeOrm": {
+    "type": "postgres",
+    "host": "91.210.168.57",
+    "port": 5432,
+    "username": "postgres",
+    "password": "vW642B8$Hz",
+    "database": "ekoset",
+    "schema": "brc_ekoset",
+    "synchronize": false
+  },
+
+  "mail": {
+    "host": "smtp.timeweb.ru",
+    "port": 25,
+    "from": "inbox@ekoset.ru",
+    "secure": false,
+    "pool": true,
+    "maxConnections": 1,
+    "maxMessages": 100,
+    "auth": {
+      "user": "inbox@ekoset.ru",
+      "pass": "xiUF7g7t"
+    }
+  }
+
+}
