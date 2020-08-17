@@ -6,14 +6,15 @@ import BaseError from '@/components/base/BaseError.vue'
 import { EkosetRouter } from '@/routers/EkosetRouter'
 import { AdminRouter } from '@/routers/AdminRouter'
 
-import Test from '@/pages/public/Test.vue'
-
 Vue.use(Router)
 
 export function createRouter () {
   return new Router({
     mode: 'history',
     routes: [
+      ...UserRoute,
+      ...AdminRouter,
+      ...EkosetRouter,
       {
         name: 'not-found',
         path: '*',
@@ -24,11 +25,9 @@ export function createRouter () {
         path: '/app/error',
         component: BaseError,
         props: true
-      },
-      ...UserRoute,
-      ...AdminRouter,
-      ...EkosetRouter
+      }
     ],
+
     scrollBehavior (to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition

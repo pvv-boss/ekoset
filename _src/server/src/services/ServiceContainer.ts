@@ -11,6 +11,7 @@ import BusinessServiceService from './ekoset/BusinessServiceService';
 import MediaService from './ekoset/MediaService';
 import CMSService from './CMSService';
 import { UserRequestService } from './ekoset/UserRequestService';
+import UserDealService from './ekoset/UserDealService';
 
 class ServiceContainer {
   public static UserService: UserService = new UserService();
@@ -27,6 +28,8 @@ class ServiceContainer {
   public static CMSService: CMSService = new CMSService();
 
   public static UserRequestService: UserRequestService = new UserRequestService();
+
+  public static UserDealService: UserDealService = new UserDealService();
 
 }
 

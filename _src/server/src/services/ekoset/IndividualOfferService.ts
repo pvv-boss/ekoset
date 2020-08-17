@@ -1,7 +1,7 @@
 import BaseService from '../BaseService';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
-import * as slugify from '@sindresorhus/slugify';
+import slugify from '@sindresorhus/slugify';
 
 export default class IndividualOfferService extends BaseService {
   public static businessClientTypeId = 1;

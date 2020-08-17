@@ -1,8 +1,8 @@
-import * as passport from 'passport';
-import * as facebook from 'passport-facebook';
-import * as google from 'passport-google-oauth2';
-import * as passportLocal from 'passport-local';
-import * as yandex from 'passport-yandex';
+import passport from 'passport';
+import facebook from 'passport-facebook';
+import google from 'passport-google-oauth2';
+import passportLocal from 'passport-local';
+import yandex from 'passport-yandex';
 import AppConfig from '@/utils/Config';
 import ServiceContainer from '../ServiceContainer';
 import ClientAppConfig from '@/ClientAppConfig';

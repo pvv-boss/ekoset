@@ -1,7 +1,7 @@
 import BaseService from '../BaseService';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
 import TypeOrmManager from '@/utils/TypeOrmManager';
-import * as slugify from '@sindresorhus/slugify';
+import slugify from '@sindresorhus/slugify';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import ServiceContainer from '../ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';

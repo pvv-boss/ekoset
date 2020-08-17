@@ -11,8 +11,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class NotificationSettings extends Vue {
-
+export default class AccountMain extends Vue {
+  private head () {
+    return { title: 'Страница не найдена' }
+  }
 }
 </script>
 

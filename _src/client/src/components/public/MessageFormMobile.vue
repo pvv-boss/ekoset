@@ -389,6 +389,7 @@ export default class MessageFormMobile extends Vue {
         font-size: 12px;
         word-wrap: break-word;
         word-break: break-word;
+        // height: 32px;
         // text-align: right;
         @media (max-width: 768px) {
           text-align: left;

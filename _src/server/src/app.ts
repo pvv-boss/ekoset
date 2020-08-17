@@ -1,10 +1,10 @@
-import * as express from 'express';
-import * as cors from 'cors';
-// import * as responseTime from 'response-time';
-import * as bodyParser from 'body-parser';
-import * as passport from 'passport';
-import * as compression from 'compression'
-import * as helmet from 'helmet';
+import express from 'express';
+import cors from 'cors';
+// import responseTime from 'response-time';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import compression from 'compression'
+import helmet from 'helmet';
 import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 
@@ -27,7 +27,7 @@ export default class Application {
 
     app.set('trust proxy', 1);
     app.use(helmet());
-    app.use(helmet.noCache());
+    //  app.use(helmet.noCache());
 
     if (AppConfig.serverConfig.useCors) {
       app.use(cors());

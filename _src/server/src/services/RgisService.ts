@@ -1,8 +1,8 @@
-// import * as request from 'request-promise-native'
+// import request from 'request-promise-native'
 // import PgUtls from '@/utils/PgUtils';
-// import * as fs from 'fs';
+// import fs from 'fs';
 // import ServiceContainer from './ServiceContainer';
-// import * as path from 'path';
+// import path from 'path';
 
 // export default class RgisService {
 //   private rgisFwsUrl = 'http://gs1.new.rgis.spb.ru/geoserver/wfs?service=wfs&version=2.0.0&OUTPUTFORMAT=application/json&REQUEST=GetFeature&TYPENAME=';

@@ -2,7 +2,7 @@ import { JsonController, UseBefore, Post, Req, Res, Param, Body, Get, Delete } f
 import { Request, Response } from 'express';
 import { BaseController } from '../BaseController';
 import ServiceContainer from '@/services/ServiceContainer';
-import * as multer from 'multer';
+import multer from 'multer';
 import ClassTransform from '@/utils/ClassTransform';
 import SiteDocument from '@/entities/ekoset/SiteDocument';
 

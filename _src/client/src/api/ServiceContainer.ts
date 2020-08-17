@@ -7,6 +7,7 @@ import IndividualOfferService from './IndividualOfferService';
 import MediaService from './MediaService';
 import DynamicComponentsService from './DynamicComponentsService';
 import TopMenuService from './TopMenuService';
+import UserDealService from './UserDealService';
 
 
 class ServiceContainer {
@@ -18,6 +19,7 @@ class ServiceContainer {
   public mediaService: MediaService
   public dynamicComponentsService: DynamicComponentsService
   public topMenuService: TopMenuService
+  public userDealService: UserDealService
 
   public initialized = false
 
@@ -30,6 +32,7 @@ class ServiceContainer {
     this.mediaService = new MediaService()
     this.dynamicComponentsService = new DynamicComponentsService(store)
     this.topMenuService = new TopMenuService()
+    this.userDealService = new UserDealService()
 
     await this.authService.initConfig()
     this.initialized = true

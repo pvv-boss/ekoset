@@ -9,7 +9,8 @@ import MediaController from './ekoset/MediaController';
 import CmsController from './ekoset/CmsController';
 import PriceController from './ekoset/PriceController';
 import UserRequestController from './ekoset/UserRequestController';
+import UserDealController from './deal/UserDealController';
 
 export const appControllers = [AppController, AuthController, UserController,
   ArticleController, BusinessServiceController, IndividualOfferController,
-  MainEkosetController, MediaController, CmsController, PriceController, UserRequestController]
+  MainEkosetController, MediaController, CmsController, PriceController, UserRequestController, UserDealController]

@@ -2,7 +2,7 @@ import ServiceContainer from '../ServiceContainer';
 import { logger } from '@/utils/Logger';
 import AppConfig from '@/utils/Config';
 import BaseService from '../BaseService';
-import * as bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 import TokenUtil from '@/utils/TokenUtil';
 import { InternalServerError } from '@/exceptions/serverErrors/InternalServerError';
 import { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken';
@@ -155,7 +155,8 @@ export default class AuthService extends BaseService {
       }
 
       if (user) {
-        if (bcrypt.compareSync(password, user.appUserPwdHash)) {
+        if (password === user.appUserPwdHash) {
+          // if (bcrypt.compareSync(password, user.appUserPwdHash)) {
           // Пароль верный (и не вывалилсь в exception)
 
           // Проверим на блокировку
@@ -219,7 +220,7 @@ export default class AuthService extends BaseService {
       } else {
         const newAppUser = new AppUser();
         newAppUser.appUserEmail = userEmail;
-        newAppUser.appUserPwdHash = bcrypt.hashSync(password, AuthService.bcryptSaltRounds);
+        // newAppUser.appUserPwdHash = bcrypt.hashSync(password, AuthService.bcryptSaltRounds);
         newAppUser.appUserRegDate = new Date(Date.now()).toUTCString();
         newAppUser.appUserRegVerifiedInd = 0;
         newAppUser.appUserBlockedInd = 0;
@@ -345,7 +346,7 @@ export default class AuthService extends BaseService {
     const changeUserPassword = () => {
       const appUser = new AppUser();
       appUser.appUserId = sessionUser.appUserId;
-      appUser.appUserPwdHash = bcrypt.hashSync(newPassword, AuthService.bcryptSaltRounds);
+      // appUser.appUserPwdHash = bcrypt.hashSync(newPassword, AuthService.bcryptSaltRounds);
       ServiceContainer.UserService.save(appUser);
     }
 

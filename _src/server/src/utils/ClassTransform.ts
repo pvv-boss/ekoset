@@ -1,5 +1,5 @@
 
-import * as transformer from 'class-transformer';
+import transformer from 'class-transformer';
 
 export default class ClassTransform {
 

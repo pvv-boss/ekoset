@@ -1,5 +1,5 @@
 import { BaseController } from '../BaseController';
-import * as passport from 'passport';
+import passport from 'passport';
 import { Request, Response } from 'express';
 import { LogonResult, LogonStatus } from '@/entities/users/LogonResult';
 import { Param, Post, Req, Res, JsonController, Get, BodyParam, OnUndefined } from 'routing-controllers';

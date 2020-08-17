@@ -1,13 +1,10 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import * as slugify from '@sindresorhus/slugify';
+import slugify from '@sindresorhus/slugify';
 import BaseService from '../BaseService';
 import PgUtls from '@/utils/PgUtils';
 import { Article } from '@/entities/ekoset/Article';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import Base64 from '@/utils/Base64';
 import { logger } from '@/utils/Logger';
-import * as cuid from 'cuid';
 import SortFilterPagination from '@/entities/SortFilterPagination';
 import { ClArticleTag } from '@/entities/ekoset/ClArticleTag';
 import ServiceContainer from '../ServiceContainer';
