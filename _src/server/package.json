@@ -79,8 +79,6 @@
     "routing-controllers-openapi": "latest",
     "typeorm": "latest",
     "winston": "latest",
-    "http-proxy-agent": "latest",
-    "https-proxy-agent": "latest",
     "node-fetch": "latest"
   }
 }

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-import * as HttpProxyAgent from 'http-proxy-agent';
-import * as HttpsProxyAgent from 'https-proxy-agent';
+// import HttpProxyAgent from 'http-proxy-agent';
+// import HttpsProxyAgent from 'https-proxy-agent';
 
 export const requestPromise = async (url: string, options?: any, proxy?: { proxyProtocol: string, proxyListIpAddress: string, proxyListPort: number }) => {
   const defaultOptions: any = {
@@ -14,13 +14,13 @@ export const requestPromise = async (url: string, options?: any, proxy?: { proxy
 
   const requestOptions = { ...defaultOptions, ...options };
 
-  if (!!proxy) {
-    const proxyProtocol = proxy.proxyProtocol || 'http';
-    const proxyUri = `${proxyProtocol}://${proxy.proxyListIpAddress}:${proxy.proxyListPort}`;
-    const agent = url.toLowerCase().startsWith('https') ? new HttpsProxyAgent.HttpsProxyAgent(proxyUri) : new HttpProxyAgent.HttpProxyAgent(proxyUri);
-    requestOptions.agent = agent;
-    requestOptions.agent.timeout = requestOptions.timeout;
-  }
+  // if (!!proxy) {
+  //   const proxyProtocol = proxy.proxyProtocol || 'http';
+  //   const proxyUri = `${proxyProtocol}://${proxy.proxyListIpAddress}:${proxy.proxyListPort}`;
+  //   const agent = url.toLowerCase().startsWith('https') ? new HttpsProxyAgent.HttpsProxyAgent(proxyUri) : new HttpProxyAgent.HttpProxyAgent(proxyUri);
+  //   requestOptions.agent = agent;
+  //   requestOptions.agent.timeout = requestOptions.timeout;
+  // }
 
   return fetch(url, requestOptions);
 }

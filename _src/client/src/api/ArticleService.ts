@@ -14,8 +14,8 @@ export default class ArticleService extends BaseService {
     return this.getRelatedArticleListById(this.getIdBySlug(slug))
   }
 
-  // Для админки - все новости
-  public async  adminGetAll () {
+  // TODO: Для админки - все новости @oso
+  public async adminGetAll () {
     const query = 'admin/panel/news'
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
@@ -60,7 +60,7 @@ export default class ArticleService extends BaseService {
   }
 
   // Для главной страницы
-  public async  getRootArticleList (pagination?: Pagination) {
+  public async getRootArticleList (pagination?: Pagination) {
     const query = 'news'
     this.modifyPagination(0, pagination)
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
@@ -68,14 +68,14 @@ export default class ArticleService extends BaseService {
   }
 
   // Для раздела
-  public async  getArticleListBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
+  public async getArticleListBySiteSectionSlug (siteSectionSlug: string, pagination?: Pagination) {
     const siteSectionId = this.getIdBySlug(siteSectionSlug)
     this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListBySiteSection(siteSectionId, pagination)
   }
 
   // Для услуги
-  public async  getArticleListByBusinessServiceSlug (siteSectionUrl: string | null, serviceSlug: string, pagination?: Pagination) {
+  public async getArticleListByBusinessServiceSlug (siteSectionUrl: string | null, serviceSlug: string, pagination?: Pagination) {
     const siteSectionId = !!siteSectionUrl ? this.getIdBySlug(siteSectionUrl) : 0
     this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
@@ -109,13 +109,13 @@ export default class ArticleService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  private async  getArticleListBySiteSection (siteSectionId: number, pagination?: Pagination) {
+  private async getArticleListBySiteSection (siteSectionId: number, pagination?: Pagination) {
     const query = `${siteSectionId}/news`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
-  private async  getArticleListByBusinessService (serviceId: number, pagination?: Pagination) {
+  private async getArticleListByBusinessService (serviceId: number, pagination?: Pagination) {
     const query = `services/${serviceId}/news`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result

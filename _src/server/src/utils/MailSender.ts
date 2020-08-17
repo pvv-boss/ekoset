@@ -1,8 +1,8 @@
-import * as nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
 import AppConfig from './Config';
 import { SentMessageInfo } from 'nodemailer';
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import { logger } from './Logger';
 
 export default class MailSender {

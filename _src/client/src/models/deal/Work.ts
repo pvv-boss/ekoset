@@ -1,4 +1,4 @@
-export default class Work {
+юп7рюж.жзздexport default class Work {
   public workId: number
   public workName: string
   public workStatus: string

@@ -4,7 +4,7 @@ import { Get, Res, Param, UseBefore, Body, Req, Post, QueryParam } from 'routing
 import { Request, Response } from 'express';
 import ServiceContainer from '@/services/ServiceContainer';
 import ClassTransform from '@/utils/ClassTransform';
-import * as multer from 'multer';
+import multer from 'multer';
 import { UserRequest } from '@/entities/ekoset/UserRequest';
 import ClientNotifyMessage from '../ClientNotifyMessage';
 

@@ -4,6 +4,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 const config: NuxtConfig = {
   mode: 'universal',
+  components: true,
   modern: true,
   srcDir: 'src/',
   loading: {

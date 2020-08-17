@@ -2,7 +2,7 @@ import BaseService from './BaseService';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
 import SitePage, { SitePageType } from '@/entities/ekoset/SitePage';
 import TypeOrmManager from '@/utils/TypeOrmManager';
-import * as slugify from '@sindresorhus/slugify';
+import slugify from '@sindresorhus/slugify';
 
 export default class CMSService extends BaseService {
 

@@ -1,7 +1,7 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import * as cuid from 'cuid';
-import * as mime from 'mime-types';
+import path from 'path';
+import fs from 'fs';
+import cuid from 'cuid';
+import mime from 'mime-types';
 import BaseService from '../BaseService';
 import SiteDocument from '@/entities/ekoset/SiteDocument';
 import TypeOrmManager from '@/utils/TypeOrmManager';

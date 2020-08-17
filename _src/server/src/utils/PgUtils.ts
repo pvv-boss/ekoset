@@ -1,8 +1,8 @@
 import AppConfig from './Config';
 import { IMain, IDatabase } from 'pg-promise';
-import * as pgPromise from 'pg-promise';
+import pgPromise from 'pg-promise';
 import SortFilterPagination from '../entities/SortFilterPagination';
-import * as camelcaseKeys from 'camelcase-keys';
+import camelcaseKeys from 'camelcase-keys';
 
 
 
@@ -72,7 +72,7 @@ enum TypeId {
 class PgUtls {
   private postgrePromise: IDatabase<{}>
 
-  constructor () {
+  constructor() {
     const initOptions = {
       ...AppConfig.dbConfig.pgOptions,
       receive (data, result, e) {

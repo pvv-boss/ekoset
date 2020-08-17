@@ -4,7 +4,7 @@ import { UserRequest } from '@/entities/ekoset/UserRequest';
 import TypeOrmManager from '@/utils/TypeOrmManager';
 import { logger } from '@/utils/Logger';
 import MailSender from '@/utils/MailSender';
-import * as Intl from 'intl';
+import Intl from 'intl';
 import { UserRequestFile } from '@/entities/ekoset/UserRequestFile';
 
 const ruDateFormat = new Intl.DateTimeFormat('ru', {

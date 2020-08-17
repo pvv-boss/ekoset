@@ -4,8 +4,6 @@ import SiteSectionCard from '@/pages/public/SiteSectionCard.vue'
 import OfferCard from '@/pages/public/OfferCard.vue'
 import ArticleCard from '@/pages/public/ArticleCard.vue'
 import ServiceCard from '@/pages/public/ServiceCard.vue'
-import Privacy from '@/pages/private/Privacy.vue'
-import UserSettings from '@/pages/private/UserSettings.vue'
 import Main from '@/pages/public/Main.vue'
 import Clients from '@/pages/public/Clients.vue'
 import Contacts from '@/pages/public/Contacts.vue'
@@ -81,23 +79,6 @@ export const EkosetRouter = [
     path: '/:siteSection',
     props: true,
     component: SiteSectionCard
-  },
-
-  {
-    name: 'user',
-    path: '/user/:privacyType(disinfectionwork|research|document)?',
-    props: true,
-    component: Privacy
-  },
-  {
-    name: 'user-settings',
-    path: '/user/settings',
-    props: true,
-    component: UserSettings,
-    meta: {
-      title: 'Экосеть: Настройки пользователя',
-      // requiresAuth: true
-    }
   },
 
   {
