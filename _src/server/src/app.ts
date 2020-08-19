@@ -10,7 +10,7 @@ import { useExpressServer } from 'routing-controllers';
 
 import AppConfig from './utils/Config';
 import TypeOrmManager from './utils/TypeOrmManager';
-import { headerMiddleware, headerFeaturePolicy } from './middlewares/HeaderMiddleware';
+import { headerMiddleware, headerFeaturePolicy, headerNoCacheMiddleware } from './middlewares/HeaderMiddleware';
 import { errorMiddleware } from './middlewares/ErrorMiddleware';
 import ServiceContainer from './services/ServiceContainer';
 import { refreshAccessToken } from './middlewares/AuthorizeMiddleware';
@@ -32,8 +32,7 @@ export default class Application {
     if (AppConfig.serverConfig.useCors) {
       app.use(cors());
     }
-    // app.use(responseTime());
-    // app.use(compression({ threshold: 0 }));
+
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({ limit: '50mb' }));
 
@@ -41,7 +40,7 @@ export default class Application {
 
     app.use(refreshAccessToken());
     app.use(headerMiddleware());
-    // app.use(headerFeaturePolicy());
+    app.use(headerNoCacheMiddleware());
 
     useExpressServer(app, {
       routePrefix: AppConfig.serverConfig.restApiEndPoint,

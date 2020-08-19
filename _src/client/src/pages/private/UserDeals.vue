@@ -2,16 +2,28 @@
   <section class="brc-user-deals__wrapper">
     <div>
       <div class="brc-user-deals_menu">
-        <div class="brc-user-deals_menu_item">
+        <div
+          class="brc-user-deals_menu_item"
+          :class="{active: isActiveIndex ('user-deals-contracts')}"
+        >
           <nuxt-link :to="{name:'user-deals-contracts'}">Договоры</nuxt-link>
         </div>
-        <div class="brc-user-deals_menu_item">
+        <div
+          class="brc-user-deals_menu_item"
+          :class="{active: isActiveIndex ('user-deals-labaratory')}"
+        >
           <nuxt-link :to="{name:'user-deals-labaratory'}">Лаборатория</nuxt-link>
         </div>
-        <div class="brc-user-deals_menu_item">
+        <div
+          class="brc-user-deals_menu_item"
+          :class="{active: isActiveIndex ('user-deals-sanitary')}"
+        >
           <nuxt-link :to="{name:'user-deals-sanitary'}">Сандокументы</nuxt-link>
         </div>
-        <div class="brc-user-deals_menu_item">
+        <div
+          class="brc-user-deals_menu_item"
+          :class="{active: isActiveIndex ('user-deals-disinfection')}"
+        >
           <nuxt-link :to="{name:'user-deals-disinfection'}">Дезработы</nuxt-link>
         </div>
       </div>
@@ -33,6 +45,9 @@ import { getModule } from 'vuex-module-decorators'
 @Component
 export default class UserDeals extends Vue {
 
+  public isActiveIndex (routeName: string) {
+    return this.$route.name === routeName
+  }
 }
 </script>
 
@@ -54,7 +69,13 @@ export default class UserDeals extends Vue {
       > a {
         color: $text-color;
         font-weight: 500;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+      }
+      &.active {
+        background-color: $delimiter-strong-color;
+        > a {
+          color: white;
+        }
       }
     }
   }

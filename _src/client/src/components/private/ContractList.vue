@@ -17,7 +17,9 @@
             <label>ПланДата проверки:</label>
             <span>{{dealListItem.clentDateRospotreb}}</span>
           </div>
-          <div>{{dealListItem.contractStatus}}</div>
+          <div>
+            <DealStatus :statusCode="dealListItem.contractStatus"></DealStatus>
+          </div>
           <div class="label_row">
             <label>Договор №</label>
             <span>{{contractNmbWithDate(dealListItem)}}</span>
