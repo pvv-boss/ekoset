@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ext",
+    "module": "es2018,
     "strict": true,
     "removeComments": true,
     "moduleResolution": "node",
