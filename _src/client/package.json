@@ -34,7 +34,7 @@
     "@nuxt/config": "latest",
     "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
-    "@nuxt/typescript-runtime": "latest",
+    "@nuxt/typescript-runtime": "latest",это в дев дависимости
     "@nuxtjs/eslint-config": "latest",
     "@nuxtjs/eslint-module": "latest",
     "@nuxtjs/router": "latest",
