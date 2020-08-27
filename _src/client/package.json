@@ -27,14 +27,14 @@
     "vue-good-table": "latest",
     "vue-router": "latest",
     "vuedraggable": "latest",
-    "vuelidate": "latest"
+    "vuelidate": "latest",
+    "@nuxt/typescript-runtime": "latest"
   },
   "devDependencies": {
     "@babel/plugin-proposal-pipeline-operator": "latest",
     "@nuxt/config": "latest",
     "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
-    "@nuxt/typescript-runtime": "latest",это в дев дависимости
     "@nuxtjs/eslint-config": "latest",
     "@nuxtjs/eslint-module": "latest",
     "@nuxtjs/router": "latest",

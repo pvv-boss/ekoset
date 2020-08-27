@@ -8,7 +8,7 @@ export default class Contract {
   contractServiceList: any
   contractDateCh: any
   clientInn: any
-  clientName: any
+  clientName: string
   personId: any
   clentDateRospotreb: any
   contractStatus: any

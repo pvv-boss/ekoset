@@ -36,6 +36,9 @@ export default class DealTypeWrapper extends Vue {
 
   .brc-deal-type-wrapper__cards {
     margin-top: 60px;
+    @media (max-width: 768px) {
+      margin-top: 30px;
+    }
   }
 }
 </style>

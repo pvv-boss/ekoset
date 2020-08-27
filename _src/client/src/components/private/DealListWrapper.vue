@@ -31,8 +31,13 @@ export default class DealListWrapper extends Vue {
 @import '@/styles/variables.scss';
 .brc-deal-list_wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
 }
 
 .brc-deal-list__item {
@@ -105,6 +110,16 @@ export default class DealListWrapper extends Vue {
       &:hover {
         background-color: red;
         color: white;
+      }
+
+      &.notactive {
+        border: 1px solid $delimiter-strong-color;
+        color: $delimiter-strong-color;
+        cursor: default;
+        &:hover {
+          background-color: white;
+          color: $delimiter-strong-color;
+        }
       }
     }
   }
