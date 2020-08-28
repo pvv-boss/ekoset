@@ -58,22 +58,43 @@ export default class UserDeals extends Vue {
     flex-wrap: wrap;
     background-color: #f4f4f5;
 
+    @media (max-width: 768px) {
+      margin-left: -16px;
+      margin-right: -16px;
+    }
+
     .brc-user-deals_menu_item {
       flex: 1;
       text-align: center;
       padding: 10px;
+
       @media (max-width: 768px) {
         padding: 5px;
       }
+
       > a {
         color: $text-color;
         font-weight: 500;
         font-size: 0.9rem;
+
+        @media (max-width: 768px) {
+          text-decoration: underline;
+          font-weight: 400;
+          font-size: 0.8rem;
+        }
       }
       &.active {
         background-color: $delimiter-strong-color;
         > a {
           color: white;
+        }
+
+        @media (max-width: 768px) {
+          background-color: #f4f4f5;
+          > a {
+            color: $text-color;
+            text-decoration: none;
+          }
         }
       }
     }
