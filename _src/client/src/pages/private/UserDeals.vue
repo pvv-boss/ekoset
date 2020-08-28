@@ -92,8 +92,10 @@ export default class UserDeals extends Vue {
         @media (max-width: 768px) {
           background-color: #f4f4f5;
           > a {
+            //  font-size: 0.9rem;
             color: $text-color;
             text-decoration: none;
+            border-bottom: 3px solid $red;
           }
         }
       }

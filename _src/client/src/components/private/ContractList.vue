@@ -19,6 +19,9 @@
           <span>По наименованию</span>
           <div v-html="nameSortSymbol"></div>
         </div>
+
+        <DealContractSortSelect @sort-mode-changed="mobileSortModeChanged"></DealContractSortSelect>
+
         <select class="brc-contract-filter__clients" v-model="selectedClient">
           <option
             v-for="iterClient in clients"
@@ -157,6 +160,11 @@ export default class ContractList extends Vue {
     this.sortOrder = !this.sortOrder
     this.applayFilter()
   }
+
+  private async mobileSortModeChanged (sortMode: number) {
+    this.sortMode = sortMode
+    this.applayFilter()
+  }
 }
 </script>
 
@@ -168,6 +176,13 @@ export default class ContractList extends Vue {
   padding: 10px;
   font-size: 0.9rem;
 
+  @media (max-width: 768px) {
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
   span {
     margin-left: 5px;
     white-space: nowrap;
@@ -175,6 +190,9 @@ export default class ContractList extends Vue {
 
   #ended_contract {
     margin-left: 25px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
   }
 
   .brc-contract-filter__clients {
@@ -182,10 +200,18 @@ export default class ContractList extends Vue {
     margin-left: 25px;
     font-size: 0.9rem;
     width: 100%;
+
+    @media (max-width: 768px) {
+      margin-left: 0px;
+      margin-top: 10px;
+    }
   }
 
   .brc-contract-filter__sortbydate,
   .brc-contract-filter__sortbyname {
+    @media (max-width: 768px) {
+      display: none;
+    }
     margin-left: 25px;
     display: flex;
     span {

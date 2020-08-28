@@ -75,6 +75,7 @@ export default class UserDealService extends BaseService {
 
             return isOk
         })
+
         if (sortMode === 0) {
             return filtered.sort((a, b) => {
                 return sortOrder ? (a.contractDateEnd > b.contractDateEnd ? 1 : -1) : (a.contractDateEnd < b.contractDateEnd ? 1 : -1)
