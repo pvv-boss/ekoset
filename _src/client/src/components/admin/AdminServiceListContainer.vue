@@ -189,7 +189,7 @@ export default class AdminServiceListContainer extends Vue {
   @Prop()
   private value
 
-  private serviceList: BusinessService[] = this.value
+  private serviceList: BusinessService[] = []
   private createNewServiceMode = false
   private newService: BusinessService = new BusinessService()
 

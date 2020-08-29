@@ -34,8 +34,13 @@ export default class AdminImageUploader extends Vue {
   @Prop()
   private showDeleteButton
 
-  private imageInputRef = `brc-admin-image-${this.id}`
+  private imageInputRef = ''
   private imageFile = null
+
+  @Watch('id', { immediate: true })
+  private updateServiceList () {
+    this.imageInputRef = `brc-admin-image-${this.id}`
+  }
 
   @Watch('imageFile')
   private imageLoaded (newImageFile) {

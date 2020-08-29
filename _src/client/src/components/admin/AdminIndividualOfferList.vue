@@ -109,7 +109,7 @@ export default class AdminIndividualOfferList extends Vue {
   private value
 
 
-  private offerList: IndividualOffer[] = this.value
+  private offerList: IndividualOffer[] = []
   private createNewOfferMode = false
   private newOffer: IndividualOffer = new IndividualOffer()
 
