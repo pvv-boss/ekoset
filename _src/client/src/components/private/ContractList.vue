@@ -3,11 +3,11 @@
     <template #header>Список договоров</template>
     <template #filter>
       <div class="brc-contract-filter">
-        <input type="checkbox" id="valid_contract" v-model="isValidContractFilter" />
+        <input id="valid_contract" v-model="isValidContractFilter" type="checkbox" />
         <label for="valid_contract">
           <span>Действует</span>
         </label>
-        <input type="checkbox" id="ended_contract" v-model="isEndedContractFilter" />
+        <input id="ended_contract" v-model="isEndedContractFilter" type="checkbox" />
         <label for="ended_contract">
           <span>Закончился</span>
         </label>
@@ -22,55 +22,66 @@
 
         <DealContractSortSelect @sort-mode-changed="mobileSortModeChanged"></DealContractSortSelect>
 
-        <select class="brc-contract-filter__clients" v-model="selectedClient">
+        <select v-model="selectedClient" class="brc-contract-filter__clients">
           <option
             v-for="iterClient in clients"
-            :value="iterClient.clientId"
             :key="iterClient.clientId"
-          >{{iterClient.clientName}}</option>
+            :value="iterClient.clientId"
+          >{{ iterClient.clientName }}</option>
         </select>
       </div>
     </template>
     <template #cards>
-      <DealListWrapper :dealList="contractList">
-        <template #header="{dealListItem}">
-          <div class="brc-deal-list__item_strong">{{dealListItem.clientName}}</div>
-          <label class="brc-deal-list__item__header_id">{{'ID ' + dealListItem.contractId}}</label>
+      <DealListWrapper :deal-list="contractList">
+        <template #header="{ dealListItem }">
+          <div class="brc-deal-list__item_strong">{{ dealListItem.clientName }}</div>
+          <label class="brc-deal-list__item__header_id">
+            {{
+            'ID ' + dealListItem.contractId
+            }}
+          </label>
         </template>
-        <template #body="{dealListItem}">
+        <template #body="{ dealListItem }">
           <div class="brc-contract__clinet-info">
             <div>
               <label>ИНН:</label>
-              <span>{{dealListItem.clientInn}}</span>
+              <span>{{ dealListItem.clientInn }}</span>
             </div>
             <label>ПланДата проверки:</label>
-            <span>{{dealListItem.clentDateRospotreb}}</span>
+            <span>{{ dealListItem.clentDateRospotreb }}</span>
           </div>
           <div>
-            <DealStatus :statusCode="dealListItem.contractStatus"></DealStatus>
+            <DealStatus :status-code="dealListItem.contractStatus"></DealStatus>
           </div>
           <div class="label_row">
-            <label>Договор №</label>
-            <span>{{contractNmbWithDate(dealListItem)}}</span>
-          </div>
-
-          <div class="label_row">
-            <label>Срок действия</label>
-            <span class="brc-deal-list__item_strong">{{contractEndDate(dealListItem)}}</span>
+            <label>Договор №:</label>
+            <span>{{ contractNmbWithDate(dealListItem) }}</span>
           </div>
 
           <div class="label_row">
-            <label>Адрес</label>
-            <span>{{dealListItem.contractAddress}}</span>
+            <label>Срок действия:</label>
+            <span class="brc-deal-list__item_strong">
+              {{
+              contractEndDate(dealListItem)
+              }}
+            </span>
+          </div>
+
+          <div class="label_row">
+            <label>Адрес:</label>
+            <span>{{ dealListItem.contractAddress }}</span>
           </div>
           <div class="label_row">
             <label>Услуги</label>
-            <span>{{dealListItem.contractServiceList}}</span>
+            <span>{{ dealListItem.contractServiceList }}</span>
           </div>
         </template>
-        <template #action="{dealListItem}">
+        <template #action="{ dealListItem }">
           <a
-            :class="['brc-deal-list__item__action_button active', {notactive:dealListItem.contractStatus ===0}]"
+            :class="[
+              'brc-deal-list__item__action_button',
+              { 'action_notactive': dealListItem.contractStatus === 0 }
+            ]"
           >Продлить договор</a>
         </template>
       </DealListWrapper>
@@ -79,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Contract from '@/models/deal/Contract'
 import { getServiceContainer } from '@/api/ServiceContainer'
 
@@ -97,11 +108,11 @@ export default class ContractList extends Vue {
   private sortOrder = false
 
   private get dateSortSymbol () {
-    return this.sortMode == 0 ? (this.sortOrder ? '&#8593;' : '&#8595;') : ''
+    return this.sortMode === 0 ? (this.sortOrder ? '&#8593;' : '&#8595;') : ''
   }
 
   private get nameSortSymbol () {
-    return this.sortMode == 1 ? this.sortOrder ? '&#8593;' : '&#8595;' : ''
+    return this.sortMode === 1 ? (this.sortOrder ? '&#8593;' : '&#8595;') : ''
   }
 
   @Watch('selectedClient')
@@ -126,7 +137,11 @@ export default class ContractList extends Vue {
   }
 
   public contractNmbWithDate (contract: Contract) {
-    return contract.contractForm + ' от ' + new Date(contract.contractDateStart).toLocaleDateString('ru-RU')
+    return (
+      contract.contractForm +
+      ' от ' +
+      new Date(contract.contractDateStart).toLocaleDateString('ru-RU')
+    )
   }
 
   public contractEndDate (contract: Contract) {
@@ -134,34 +149,36 @@ export default class ContractList extends Vue {
   }
 
   private async updateClients () {
-    this.clients = await getServiceContainer().userDealService.getClientsByContracts(this.contractList)
+    this.clients = await getServiceContainer().userDealService.getClientsByContracts(
+      this.contractList
+    )
   }
 
   private async applayFilter () {
-    this.contractList = await getServiceContainer().userDealService.filterContracts
-      (this.allContractList,
-        this.isValidContractFilter,
-        this.isEndedContractFilter,
-        this.selectedClient,
-        this.sortMode,
-        this.sortOrder
-      )
+    this.contractList = await getServiceContainer().userDealService.filterContracts(
+      this.allContractList,
+      this.isValidContractFilter,
+      this.isEndedContractFilter,
+      this.selectedClient,
+      this.sortMode,
+      this.sortOrder
+    )
     this.updateClients()
   }
 
-  private async sortByDate () {
+  private sortByDate () {
     this.sortMode = 0
     this.sortOrder = !this.sortOrder
     this.applayFilter()
   }
 
-  private async sortByName () {
+  private sortByName () {
     this.sortMode = 1
     this.sortOrder = !this.sortOrder
     this.applayFilter()
   }
 
-  private async mobileSortModeChanged (sortMode: number) {
+  private mobileSortModeChanged (sortMode: number) {
     this.sortMode = sortMode
     this.applayFilter()
   }
@@ -169,7 +186,7 @@ export default class ContractList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-contract-filter {
   display: flex;

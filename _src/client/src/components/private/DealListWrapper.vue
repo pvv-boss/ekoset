@@ -1,6 +1,6 @@
 <template>
   <section class="brc-deal-list_wrapper">
-    <div class="brc-deal-list__item" v-for="iterItem of dealList" :key="iterItem.id">
+    <div v-for="iterItem of dealList" :key="iterItem.id" class="brc-deal-list__item">
       <div class="brc-deal-list__item__header">
         <slot name="header" :dealListItem="iterItem"></slot>
       </div>
@@ -16,26 +16,25 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Contract from '@/models/deal/Contract'
 
 @Component
 export default class DealListWrapper extends Vue {
-
   @Prop()
   private dealList
-
 }
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
+/*! purgecss start ignore */
+
 .brc-deal-list_wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 15px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 10px;
   }
 }
@@ -89,6 +88,10 @@ export default class DealListWrapper extends Vue {
     padding: 15px;
   }
 
+  .brc-deal-list__item__body {
+    border-radius: 5px;
+  }
+
   .brc-deal-list__item__action {
     margin-top: auto;
     padding-top: 0px !important;
@@ -112,7 +115,7 @@ export default class DealListWrapper extends Vue {
         color: white;
       }
 
-      &.notactive {
+      &.action_notactive {
         border: 1px solid $delimiter-strong-color;
         color: $delimiter-strong-color;
         cursor: default;
@@ -124,4 +127,5 @@ export default class DealListWrapper extends Vue {
     }
   }
 }
+/*! purgecss end ignore */
 </style>

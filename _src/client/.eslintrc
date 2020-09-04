@@ -17,7 +17,17 @@
   "rules": {
     "comma-dangle": 2,
     "camelcase": 0,
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "eslint-disable-next-line": 0,
+    "eslint-disable-line": 0,
+
+    // "prettier/prettier": [
+    //   "error",
+    //   {
+    //     "endOfLine": "auto"
+    //   }
+    // ],
+    "prettier/prettier": 0
   },
 
   "overrides": [{

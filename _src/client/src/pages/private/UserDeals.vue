@@ -28,14 +28,17 @@
     </div>
     <nuxt-child></nuxt-child>
 
-    <MessageForm title="Отправить заказ" :mode="0" :showCloseBtn="false"></MessageForm>
+    <MessageForm
+      title="Отправить заказ"
+      :mode="0"
+      :show-close-btn="false"
+      class="brc-user-deals__wrapper__messageform"
+    ></MessageForm>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { NuxtContext } from 'vue/types/options'
-import { getModule } from 'vuex-module-decorators'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class UserDeals extends Vue {
@@ -47,10 +50,18 @@ export default class UserDeals extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-user-deals__wrapper {
   // display: grid;
   // grid-template-columns: 2fr 1fr;
+
+  .brc-user-deals__wrapper__messageform {
+    margin-top: 30px;
+    @media (max-width: 768px) {
+      margin-top: 15px;
+    }
+  }
+
   column-gap: 10px;
   .brc-user-deals_menu {
     display: flex;

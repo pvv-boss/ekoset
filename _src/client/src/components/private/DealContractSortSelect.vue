@@ -34,5 +34,9 @@ export default class DealContractSortSelect extends Vue {
       font-size: 0.8rem;
     }
   }
+  @media (max-width: 374px) {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
 }
 </style>

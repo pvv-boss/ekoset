@@ -85,12 +85,14 @@ export default class RecommLetterList extends Vue {
 
 .brc-letters {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  // grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 30px;
   grid-gap: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    // grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 20px;
     padding-top: 20px;
     grid-gap: 10px;

@@ -36,6 +36,7 @@
     "@nuxt/config": "^2.14.4",
     "@nuxt/types": "^2.14.4",
     "@nuxt/typescript-build": "latest",
+    "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-config": "latest",
     "@nuxtjs/eslint-module": "latest",
     "@nuxtjs/router": "latest",

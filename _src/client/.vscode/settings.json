@@ -20,7 +20,6 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.preferences.quoteStyle": "single",
   "javascript.preferences.quoteStyle": "single",
-  "eslint.autoFixOnSave": true,
   "vetur.format.defaultFormatter.ts": "vscode-typescript",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
