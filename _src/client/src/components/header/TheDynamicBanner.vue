@@ -4,7 +4,7 @@
       v-if="isSingleBanner"
       :h1="getFirstBanerInfo.bannerTitle"
       :alt="getFirstBanerInfo.bannerTitle"
-      :imageSrc="getFirstBanerInfo.businessServiceImgBig"
+      :image-src="getFirstBanerInfo.businessServiceImgBig"
     ></TheBanner>
     <b-carousel
       v-if="!isSingleBanner"
@@ -17,8 +17,8 @@
       :pause-info-type="pauseType"
       :interval="interval"
       :repeat="repeat"
-      @change="bannerChanged($event)"
       class="brc-page-image__wrapper"
+      @change="bannerChanged($event)"
     >
       <b-carousel-item v-for="iterBaner in bannersInfo" :key="iterBaner.businessServiceImgBig">
         <nuxt-link :to="linkParams2Page">

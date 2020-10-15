@@ -1,26 +1,31 @@
 <template>
   <div class="brc_admin-offer-list-container">
     <div class="brc-card__header__toolbar">
-      <span class="brc_admin-offer-list-container__help" v-if="!createNewOfferMode">
+      <span
+        v-if="!createNewOfferMode"
+        class="brc_admin-offer-list-container__help"
+      >
         <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
       </span>
 
       <div v-if="createNewOfferMode" class="brc-admin-card-create-row">
         <b-field label="Наименование:" horizontal>
           <b-input
+            v-model="newOffer.indOfferName"
             placeholder="Наименование"
             type="text"
             required
             validation-message="Наименование не может быть пустым"
-            v-model="newOffer.indOfferName"
           ></b-input>
         </b-field>
 
         <b-field label="Вид деятельности:" horizontal>
-          <AdminClActivitySelector v-model="newOffer.clActivityId"></AdminClActivitySelector>
+          <LazyAdminClActivitySelector
+            v-model="newOffer.clActivityId"
+          ></LazyAdminClActivitySelector>
         </b-field>
 
-        <b-button @click="saveNewOffer" type="is-primary">
+        <b-button type="is-primary" @click="saveNewOffer">
           <b-icon icon="check"></b-icon>
         </b-button>
         <b-button @click="cancelSaveNewOffer">
@@ -29,11 +34,12 @@
       </div>
 
       <b-button
+        v-show="!createNewOfferMode"
         type="is-primary"
         outlined
         @click="createNewOfferMode = true"
-        v-show="!createNewOfferMode"
-      >Создать</b-button>
+        >Создать</b-button
+      >
     </div>
 
     <div class="brc_admin-offer-list">
@@ -48,9 +54,9 @@
 
       <draggable v-model="offerList" @change="handleChange">
         <div
-          class="brc_admin-offer-list-item"
           v-for="iterOffer in offerList"
           :key="iterOffer.indOfferId"
+          class="brc_admin-offer-list-item"
         >
           <b-switch
             v-model="iterOffer.indOfferStatus"
@@ -58,29 +64,43 @@
             false-value="0"
             type="is-success"
             size="is-small"
-            style="justify-content: flex-end;"
+            style="justify-content: flex-end"
             @input="saveOffer(iterOffer)"
           ></b-switch>
 
           <nuxt-link
-            :to="{ name: 'admin-individual-offer-card', params: { siteSection: siteSection.siteSectionUrl, offer: iterOffer.indOfferUrl}}"
-          >{{iterOffer.indOfferName}}</nuxt-link>
+            :to="{
+              name: 'admin-individual-offer-card',
+              params: {
+                siteSection: siteSection.siteSectionUrl,
+                offer: iterOffer.indOfferUrl,
+              },
+            }"
+            >{{ iterOffer.indOfferName }}</nuxt-link
+          >
 
-          <AdminClActivitySelector v-model="iterOffer.clActivityId" @input="saveOffer(iterOffer)"></AdminClActivitySelector>
+          <LazyAdminClActivitySelector
+            v-model="iterOffer.clActivityId"
+            @input="saveOffer(iterOffer)"
+          ></LazyAdminClActivitySelector>
 
-          <b-upload @input="addOfferImage(...arguments,iterOffer,true)">
+          <b-upload @input="addOfferImage(...arguments, iterOffer, true)">
             <a class="button is-link">
               <b-icon icon="upload"></b-icon>
             </a>
           </b-upload>
 
-          <b-upload @input="addOfferImage(...arguments,iterOffer,false)">
+          <b-upload @input="addOfferImage(...arguments, iterOffer, false)">
             <a class="button is-link">
               <b-icon icon="upload"></b-icon>
             </a>
           </b-upload>
 
-          <b-button type="is-danger" icon-right="delete" @click="deleteOffer(iterOffer)"></b-button>
+          <b-button
+            type="is-danger"
+            icon-right="delete"
+            @click="deleteOffer(iterOffer)"
+          ></b-button>
         </div>
       </draggable>
     </div>
@@ -165,7 +185,7 @@ export default class AdminIndividualOfferList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-offer-list-container {
   display: flex;

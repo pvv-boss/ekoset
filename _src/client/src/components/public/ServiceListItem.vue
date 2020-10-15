@@ -33,8 +33,8 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
-import BuscetStore from '@/store/BuscetStore'
-import { findAddedServiceIndex } from '@/store/BuscetStore'
+import BuscetStore, { findAddedServiceIndex } from '@/store/BuscetStore'
+
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
 @Component({})
@@ -49,7 +49,7 @@ export default class ServiceListItem extends Vue {
   private basketImageInfoMobile: any = { src: '/images/addBusketWhite.svg', alt: 'В корзину' }
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.serviceItem.businessServiceImgSmall
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.serviceItem.businessServiceImgSmall
   }
 
   public get getCurrentSiteSection () {

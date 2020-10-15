@@ -3,40 +3,67 @@
     <TheBanner
       :h1="article.articleH1"
       :alt="article.articleTitle"
-      :imageSrc="article.articleHeaderImgSrc"
+      :image-src="article.articleHeaderImgSrc"
     ></TheBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
 
     <div class="brc-article-item__stat-info">
       <div class="brc-article-item__date">
         <span
           itemprop="datePublished"
-          :content="article.articlePublishDate ? new Date(article.articlePublishDate).toISOString().split('T')[0] : ''"
-        >{{ article.articlePublishDate ? (new Date(article.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+          :content="
+            article.articlePublishDate
+              ? new Date(article.articlePublishDate).toISOString().split('T')[0]
+              : ''
+          "
+          >{{
+            article.articlePublishDate
+              ? new Date(article.articlePublishDate).toLocaleDateString("ru-RU")
+              : ""
+          }}</span
+        >
       </div>
-      <div class="brc-article-item__views" v-if="article.articleViewsNumber > 0">
-        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-        <span>{{article.articleViewsNumber}}</span>
+      <div
+        v-if="article.articleViewsNumber > 0"
+        class="brc-article-item__views"
+      >
+        <img
+          src="/images/eye.svg"
+          alt="Количество просмотров"
+          title="Количество просмотров"
+        />
+        <span>{{ article.articleViewsNumber }}</span>
       </div>
     </div>
     <div class="clearfix"></div>
     <div class="brc-article-wrapper">
       <section
         class="brc-article-item"
-        :class="{'brc-article-item_full-width': realtedArticles.length===0}"
+        :class="{ 'brc-article-item_full-width': realtedArticles.length === 0 }"
       >
-        <article v-html="article.articleBody" itemprop="articleBody"></article>
-        <ArticleMetaTags :articleUrl="article.articleUrl"></ArticleMetaTags>
+        <article itemprop="articleBody" v-html="article.articleBody"></article>
+        <LazyArticleMetaTags
+          :article-url="article.articleUrl"
+        ></LazyArticleMetaTags>
         <div class="brc-article-item__yandex-share">
           <yandex-share
-            :services="['vkontakte','facebook','odnoklassniki','twitter','skype']"
+            :services="[
+              'vkontakte',
+              'facebook',
+              'odnoklassniki',
+              'twitter',
+              'skype',
+            ]"
             counter
           />
         </div>
       </section>
-      <section class="brc-article-related" v-if="realtedArticles.length>0">
+      <section v-if="realtedArticles.length > 0" class="brc-article-related">
         <h2>Похожие новости</h2>
-        <ArticleList :articleList="realtedArticles.slice(0, 3)" mode="vertical"></ArticleList>
+        <LazyArticleList
+          :article-list="realtedArticles.slice(0, 3)"
+          mode="vertical"
+        ></LazyArticleList>
       </section>
     </div>
   </div>
@@ -47,26 +74,13 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import ArticleList from '@/components/public/ArticleList.vue'
-import ArticleMetaTags from '@/components/public/ArticleMetaTags.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
-@Component({
-  components: {
-    ArticleList,
-    BreadCrumbs,
-    ArticleMetaTags,
-    DynamicComponentsContainer,
-    TheBanner
-  }
-})
+@Component
 export default class ArticleCard extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private article = new Article()
@@ -117,7 +131,7 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-article-list_vertical {
   margin-top: 0;
 }

@@ -26,7 +26,7 @@ export default class RecommendationListItem extends Vue {
   private imageSrcForDesignMode: string
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgSmall
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgSmall
   }
 }
 </script>

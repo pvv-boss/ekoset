@@ -3,21 +3,15 @@
     <BusinessTypeOfferListItem
       v-for="offerItem in offerList"
       :key="offerItem.indOfferId"
-      :offerItem="offerItem"
+      :offer-item="offerItem"
     ></BusinessTypeOfferListItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import BusinessTypeOfferListItem from '@/components/public/BusinessTypeOfferListItem.vue'
-import IndividualOffer from '@/models/ekoset/IndividualOffer'
 
-@Component({
-  components: {
-    BusinessTypeOfferListItem
-  }
-})
+@Component
 export default class BusinessTypeOfferList extends Vue {
   @Prop(Array)
   private offerList

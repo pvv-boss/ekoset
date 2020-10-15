@@ -8,24 +8,25 @@
           <div v-if="createNewMode" class="brc-admin-card-create-row">
             <b-field label="Наименование:" horizontal>
               <b-input
+                v-model="newActivity.clActivityName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="newActivity.clActivityName"
               ></b-input>
             </b-field>
 
-            <b-button @click="save" type="is-primary">Сохранить</b-button>
+            <b-button type="is-primary" @click="save">Сохранить</b-button>
             <b-button @click="cancel">Отмена</b-button>
           </div>
           <b-button
+            v-show="!createNewMode"
             type="is-primary"
             outlined
             class="brc-card-button__active-create"
             @click="createNewMode = true"
-            v-show="!createNewMode"
-          >Создать</b-button>
+            >Создать</b-button
+          >
         </div>
       </template>
 
@@ -37,47 +38,58 @@
             <span>Удалить</span>
           </div>
           <div
-            class="brc_admin-active-list-item"
             v-for="iterItem in itemList"
             :key="iterItem.clActivityId"
+            class="brc_admin-active-list-item"
           >
             <b-input
+              v-model="iterItem.clActivityName"
               placeholder="Наименование"
               type="text"
               required
               validation-message="Наименование не может быть пустым"
-              v-model="iterItem.clActivityName"
               @blur="saveAct(iterItem)"
             ></b-input>
 
             <div>
-              <b-upload @input="addMainClientImage(...arguments,iterItem)">
+              <b-upload @input="addMainClientImage(...arguments, iterItem)">
                 <a class="button is-link">
                   <b-icon icon="upload"></b-icon>
                 </a>
               </b-upload>
               <b-button
-                @click="showMainClientImage(iterItem)"
+                v-if="
+                  !!iterItem.clActivityMainClientImg &&
+                  iterItem.clActivityMainClientImg != '/img/empty-image.png'
+                "
                 icon-right="file-find"
                 type="is-success"
                 size="is-medium"
                 outlined
-                style="margin-left:20px;"
-                v-if="!!iterItem.clActivityMainClientImg && iterItem.clActivityMainClientImg !='/img/empty-image.png'"
+                style="margin-left: 20px"
+                @click="showMainClientImage(iterItem)"
               ></b-button>
             </div>
 
-            <b-button type="is-danger" icon-right="delete" @click="deleteActivity(iterItem)"></b-button>
+            <b-button
+              type="is-danger"
+              icon-right="delete"
+              @click="deleteActivity(iterItem)"
+            ></b-button>
           </div>
         </div>
       </template>
     </BaseCard>
 
-    <b-modal :active.sync="isShowMainClientImageActive" :can-cancel="true" :width="400">
+    <b-modal
+      :active.sync="isShowMainClientImageActive"
+      :can-cancel="true"
+      :width="400"
+    >
       <ClientListItem
-        :clientItem="previewClientItem"
+        :client-item="previewClientItem"
         class="brc-page__dynamic_block"
-        style="width:265px;margin:0px;background-color:white;"
+        style="width: 265px; margin: 0px; background-color: white"
       ></ClientListItem>
     </b-modal>
   </div>
@@ -91,16 +103,9 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
 import ClActivity from '@/models/ekoset/ClActivity'
-import ClientListItem from '@/components/public/ClientListItem.vue'
 
-@Component({
-  components: {
-    BaseCard,
-    ClientListItem
-  }
-})
+@Component
 export default class AdminClActivityTypes extends Vue {
   private itemList: ClActivity[] = []
   private createNewMode = false
@@ -182,7 +187,7 @@ export default class AdminClActivityTypes extends Vue {
       return iter.clActivityId === this.previewImageActivity.clActivityId
     })
 
-    this.previewClientItem = !!this.previewClientItem ? this.previewClientItem : {}
+    this.previewClientItem = this.previewClientItem ? this.previewClientItem : {}
   }
 
 
@@ -192,7 +197,7 @@ export default class AdminClActivityTypes extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-card-button__active-create {
   margin-left: auto;
 }

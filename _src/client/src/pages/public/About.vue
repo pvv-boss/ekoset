@@ -3,10 +3,12 @@
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
-      :imageSrc="sitePageInfo.sitePageBanner"
+      :image-src="sitePageInfo.sitePageBanner"
     ></TheBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -14,22 +16,13 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
-@Component({
-  components: {
-    DynamicComponentsContainer,
-    BreadCrumbs,
-    TheBanner
-  }
-})
+@Component
 export default class About extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private sitePageInfo: SitePage = new SitePage()

@@ -3,19 +3,29 @@
     <TheBanner
       :h1="businessService.businessServiceH1"
       :alt="businessService.businessServiceName"
-      :imageSrc="businessService.businessServiceImgBig"
+      :image-src="businessService.businessServiceImgBig"
     ></TheBanner>
     <a class="brc-service-buscet__icon_desktop" @click="addServiceToBuscet">
-      <span>{{basketImageInfo.alt}}</span>
-      <img src="/images/addBusket.svg" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
+      <span>{{ basketImageInfo.alt }}</span>
+      <img
+        src="/images/addBusket.svg"
+        :alt="basketImageInfo.alt"
+        :title="basketImageInfo.alt"
+      />
     </a>
 
     <a class="brc-service-buscet__icon_mobile" @click="addServiceToBuscet">
-      <img :src="basketImageInfo.src" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
+      <img
+        :src="basketImageInfo.src"
+        :alt="basketImageInfo.alt"
+        :title="basketImageInfo.alt"
+      />
     </a>
 
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -24,24 +34,14 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import BusinessService from '@/models/ekoset/BusinessService'
-import ServiceList from '@/components/public/ServiceList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BuscetStore, { findAddedServiceIndex } from '@/store/BuscetStore'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
 
-@Component({
-  components: {
-    BreadCrumbs,
-    DynamicComponentsContainer,
-    TheBanner
-  }
-})
+@Component
 export default class ServiceCard extends Vue {
   private basketImageInfo: any = { src: '/images/addBusket.svg', alt: 'Добавить в корзину' }
   private dynamicComponentInfo: DynamicComponentInfo[] = []
@@ -132,7 +132,7 @@ export default class ServiceCard extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-service-img {
   width: 100%;
 }

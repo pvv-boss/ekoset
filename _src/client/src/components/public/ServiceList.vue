@@ -1,25 +1,17 @@
 <template>
   <div class="brc-service-list">
-    <ServiceListItem
+    <LazyServiceListItem
       v-for="serviceItem in serviceList"
       :key="serviceItem.businessServiceId"
-      :serviceItem="serviceItem"
-    ></ServiceListItem>
+      :service-item="serviceItem"
+    ></LazyServiceListItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ServiceListItem from '@/components/public/ServiceListItem.vue'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import BusinessService from '@/models/ekoset/BusinessService'
 
-@Component({
-  components: {
-    ServiceListItem
-  }
-})
+@Component
 export default class ServiceList extends Vue {
   @Prop(Array)
   private serviceList

@@ -1,10 +1,13 @@
 <template >
-  <div class="brc-article-list" :class="{ 'brc-article-list_vertical': mode === 'vertical'}">
-    <ArticleListItem
+  <div
+    class="brc-article-list"
+    :class="{ 'brc-article-list_vertical': mode === 'vertical' }"
+  >
+    <LazyArticleListItem
       v-for="articleItem in articleList"
       :key="articleItem.articleId"
-      :articleItem="articleItem"
-    ></ArticleListItem>
+      :article-item="articleItem"
+    ></LazyArticleListItem>
     <!-- <BasePagination
       :total="pagination.total"
       :currentPage.sync="pagination.currentPage"
@@ -16,19 +19,8 @@
 
  <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ArticleListItem from '@/components/public/ArticleListItem.vue'
-// import Article from '@/models/ekoset/Article'
-// import { getServiceContainer } from '@/api/ServiceContainer'
-// import { getModule } from 'vuex-module-decorators'
-// import { NuxtContext } from 'vue/types/options'
-// import AppStore from '@/store/AppStore'
-// // import Pagination from '@/models/Pagination'
 
-@Component({
-  components: {
-    ArticleListItem
-  }
-})
+@Component
 export default class ArticleList extends Vue {
   @Prop(Array)
   private articleList

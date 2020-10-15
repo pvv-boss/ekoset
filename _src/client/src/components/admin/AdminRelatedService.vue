@@ -1,23 +1,26 @@
 <template>
-  <div class="brc-admin-card_two-column" style="flex-wrap:nowrap; align-items:flex-start;">
+  <div
+    class="brc-admin-card_two-column"
+    style="flex-wrap: nowrap; align-items: flex-start"
+  >
     <draggable
       v-model="relatedServiceList"
-      @change="handleChangePriority"
       class="brc-related-service-list brc-admin-panel__site"
-      style="margin-top:0px;"
+      style="margin-top: 0px"
+      @change="handleChangePriority"
     >
-      <ServiceListItem
+      <LazyServiceListItem
         v-for="serviceItem in relatedServiceList"
         :key="serviceItem.businessServiceId"
-        :serviceItem="serviceItem"
-      ></ServiceListItem>
+        :service-item="serviceItem"
+      ></LazyServiceListItem>
     </draggable>
 
-    <AdminServiceRelationListBySection
-      :serviceRelationItems="serviceRelationList"
-      @servicechecked="serviceChecked"
+    <LazyAdminServiceRelationListBySection
+      :service-relation-items="serviceRelationList"
       class="brc_related_service__service_list"
-    ></AdminServiceRelationListBySection>
+      @servicechecked="serviceChecked"
+    ></LazyAdminServiceRelationListBySection>
   </div>
 </template>
         
@@ -58,7 +61,7 @@ export default class AdminRelatedService extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_related_service__service_list {
   word-wrap: break-word;

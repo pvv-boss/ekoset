@@ -16,7 +16,7 @@ export default class BaseService {
 
   public getIdBySlug (slug: string) {
     let result = 0;
-    if (!!slug && slug.indexOf('-') > -1) {
+    if (!!slug && slug.includes('-')) {
       const tryGet = Number(slug.split('-').pop())
       result = Number.isNaN(tryGet) ? 0 : tryGet
     }
@@ -33,7 +33,7 @@ export default class BaseService {
 
   protected internalBuildHttRequest (mainSection?: string, query?: string, pagination?: Pagination): string {
     // protected internalBuildHttRequest (mainSection?: string, query?: string, format?: DisplayFormatType, sort?: Sort, pagination?: Pagination): string {
-    let request = !!mainSection ? `${AppConfig.endPoint}/${mainSection}/${query}` : `${AppConfig.endPoint}/${query}`
+    let request = mainSection ? `${AppConfig.endPoint}/${mainSection}/${query}` : `${AppConfig.endPoint}/${query}`
 
     // if (!!format) {
     //   request = request + `?format=${format}`
@@ -42,7 +42,7 @@ export default class BaseService {
     // if (!!sort && sort.sortField) {
     //   request = request + `&sortfield=${sort.sortField}&sorttype=${sort.sortType || 'DESC'}`
     // }
-    if (!!pagination) {
+    if (pagination) {
       pagination.limit = pagination.limit > 0 ? pagination.limit : this.getConfig().defaultRowsLimit
       request = request + `?offset=${this.getPaginationOffset(pagination) || 0}&limit=${pagination.limit}`
     }

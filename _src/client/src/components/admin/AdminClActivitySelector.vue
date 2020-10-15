@@ -2,11 +2,11 @@
   <div class="brc-select-wrapper">
     <b-field>
       <b-select
-        placeholder
         v-model="selectedValueId"
-        @input="$emit('input', selectedId)"
+        placeholder
         :disabled="disabled"
         expanded
+        @input="$emit('input', selectedId)"
       >
         <option
           v-for="item in itemList"
@@ -58,7 +58,7 @@ export default class AdminClActivitySelector extends Vue {
   }
 
   private async mounted () {
-    this.itemList = !!this.clActivityList ? this.clActivityList : await getServiceContainer().publicEkosetService.getClActivityList()
+    this.itemList = this.clActivityList ? this.clActivityList : await getServiceContainer().publicEkosetService.getClActivityList()
     this.selectedId = this.value
   }
 

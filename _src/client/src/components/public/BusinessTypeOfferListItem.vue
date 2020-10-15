@@ -30,7 +30,7 @@ export default class BusinessTypeOfferListItem extends Vue {
   private imageSrcForDesignMode: string
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.offerItem.indOfferImgSmall
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.offerItem.indOfferImgSmall
   }
 
   public get getCurrentSiteSection () {

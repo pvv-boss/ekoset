@@ -3,36 +3,27 @@
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
-      :imageSrc="sitePageInfo.sitePageBanner"
+      :image-src="sitePageInfo.sitePageBanner"
     ></TheBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import BasePagination from '@/components/base/BasePagination.vue'
 import Pagination from '@/models/Pagination'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
-@Component({
-  components: {
-    BasePagination,
-    BreadCrumbs,
-    DynamicComponentsContainer,
-    TheBanner
-  }
-})
+@Component
 export default class Articles extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
@@ -41,7 +32,7 @@ export default class Articles extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = !!siteSection
+    const dynamicComponentInfo = siteSection
       ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.NEWS)
       : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
 

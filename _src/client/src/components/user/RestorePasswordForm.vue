@@ -9,7 +9,7 @@
         label-width="120px"
         @submit="restorePassword"
       >
-        <div class="brc-login-form__block" v-if="isBrowser">
+        <div v-if="isBrowser" class="brc-login-form__block">
           <label>Email</label>
           <input v-model.lazy="email" type="email" name="userName" placeholder="Email">
           <span

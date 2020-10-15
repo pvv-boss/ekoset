@@ -1,6 +1,6 @@
 <template>
   <div class="brc-buscet_wrapper">
-    <span>{{buscet.serviceName}}</span>
+    <span>{{ buscet.serviceName }}</span>
     <div @click="removeBuscetItem">×</div>
   </div>
 </template>
@@ -9,7 +9,6 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 // import { NuxtContext } from 'vue/types/options'
@@ -36,7 +35,7 @@ export default class BuscetItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-buscet_wrapper {
   display: flex;

@@ -9,8 +9,8 @@
 import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import { getServiceContainer } from '../../api/ServiceContainer'
 import SitePage from '@/models/SitePage'
+import { getServiceContainer } from '../../api/ServiceContainer'
 
 @Component({
   components: {
@@ -28,7 +28,7 @@ export default class TheHeaderLogo extends Vue {
   // private sitePage: SitePage
 
   private defaultLogo = '/images/page_logo_1_ck71lvkv50000kciace7g1eik.svg'
-  private currentLogoSrc: string = ''
+  private currentLogoSrc = ''
 
   private get currentSiteSectionName () {
     return getModule(AppStore, this.$store).currentSiteSectionName || 'Экосеть'
@@ -39,7 +39,7 @@ export default class TheHeaderLogo extends Vue {
   // }
 
   private get logoImageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.currentLogoSrc
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.currentLogoSrc
   }
 
   @Watch('currentSiteSectionName', { immediate: true })
@@ -56,9 +56,9 @@ export default class TheHeaderLogo extends Vue {
     if (!this.disignMode) {
       this.currentLogoSrc = this.defaultLogo
       const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
-      if (!!siteSectionSlug) {
+      if (siteSectionSlug) {
         const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
-        this.currentLogoSrc = !!siteSection ? siteSection.siteSectionLogo : this.defaultLogo
+        this.currentLogoSrc = siteSection ? siteSection.siteSectionLogo : this.defaultLogo
       }
 
       if (!siteSectionSlug) {

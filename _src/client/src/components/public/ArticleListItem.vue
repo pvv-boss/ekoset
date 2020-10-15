@@ -28,7 +28,7 @@
           :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
         >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
       </div>
-      <div class="brc-article-smallitem__views" v-if="articleItem.articleViewsNumber > 0">
+      <div v-if="articleItem.articleViewsNumber > 0" class="brc-article-smallitem__views">
         <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
         <span>{{articleItem.articleViewsNumber}}</span>
       </div>
@@ -54,7 +54,7 @@ export default class ArticleListItem extends Vue {
   }
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.articleItem.articlePreviewImgSrc
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.articleItem.articlePreviewImgSrc
   }
 }
 </script>

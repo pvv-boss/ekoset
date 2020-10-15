@@ -5,29 +5,35 @@
         <div class="brc-card__header__toolbar">
           <h2>Верхнее меню</h2>
           <span class="brc-admin-card__help">
-            <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
+            <i
+              >(Для измнения порядка следования перетащите блок вверх или
+              вниз)</i
+            >
           </span>
 
           <div v-if="createNewMode" class="brc-admin-card-create-row">
             <b-field label="Наименование:" horizontal>
               <b-input
+                v-model="newSitePage.sitePageName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="newSitePage.sitePageName"
               ></b-input>
             </b-field>
-            <b-button @click="savenewSitePage" type="is-primary">Сохранить</b-button>
+            <b-button type="is-primary" @click="savenewSitePage"
+              >Сохранить</b-button
+            >
             <b-button @click="cancelSavenewSitePage">Отмена</b-button>
           </div>
 
           <b-button
+            v-show="!createNewMode"
             type="is-primary"
             outlined
             @click="createNewMode = true"
-            v-show="!createNewMode"
-          >Создать</b-button>
+            >Создать</b-button
+          >
         </div>
       </template>
 
@@ -42,9 +48,9 @@
 
           <draggable v-model="sitePageItems" @change="handleDragChange">
             <div
-              class="brc_admin-topmenu-list-item"
               v-for="iterItem in sitePageItems"
               :key="iterItem.sitePageId"
+              class="brc_admin-topmenu-list-item"
             >
               <b-switch
                 v-model="iterItem.sitePageStatus"
@@ -55,27 +61,34 @@
                 @input="changeStatus(iterItem)"
               ></b-switch>
               <nuxt-link
-                :to="{ name: 'admin-top-menu-card', params: { sitePageId: iterItem.sitePageId}}"
-              >{{iterItem.sitePageName}}</nuxt-link>
+                :to="{
+                  name: 'admin-top-menu-card',
+                  params: { sitePageId: iterItem.sitePageId },
+                }"
+                >{{ iterItem.sitePageName }}</nuxt-link
+              >
 
               <div>
-                <b-upload @input="addImage(...arguments,iterItem,true)">
+                <b-upload @input="addImage(...arguments, iterItem, true)">
                   <a class="button is-link">
                     <b-icon icon="upload"></b-icon>
                   </a>
                 </b-upload>
                 <b-button
-                  @click="showBigImage(iterItem)"
-                  v-if="!!iterItem.sitePageBanner && iterItem.sitePageBanner !='/img/empty-image-big.png'"
+                  v-if="
+                    !!iterItem.sitePageBanner &&
+                    iterItem.sitePageBanner != '/img/empty-image-big.png'
+                  "
                   icon-right="file-find"
-                  style="float:right;margin-right:100px;"
+                  style="float: right; margin-right: 100px"
                   type="is-success"
                   size="is-medium"
                   outlined
+                  @click="showBigImage(iterItem)"
                 ></b-button>
               </div>
               <b-button
-                v-if="!iterItem.sitePageCode && iterItem.sitePageCode !=0"
+                v-if="!iterItem.sitePageCode && iterItem.sitePageCode != 0"
                 type="is-danger"
                 icon-right="delete"
                 @click="deleteSitePage(iterItem)"
@@ -87,9 +100,14 @@
     </BaseCard>
 
     <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
-      <figure class="brc-admin-card-image__wrapper" style="background-color:white;">
+      <figure
+        class="brc-admin-card-image__wrapper"
+        style="background-color: white"
+      >
         <img class="brc-admin-image" :src="previewBigSitePage.sitePageBanner" />
-        <h1 class="brc-admin-card-image-title">{{previewBigSitePage.sitePageH1}}</h1>
+        <h1 class="brc-admin-card-image-title">
+          {{ previewBigSitePage.sitePageH1 }}
+        </h1>
       </figure>
     </b-modal>
   </div>
@@ -101,17 +119,10 @@ import SitePage from '@/models/SitePage.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 
-@Component({
-  components: {
-    AdminStatusSelector,
-    BaseCard
-  }
-})
+@Component
 export default class AdminTopMenuList extends Vue {
   private sitePageItems: SitePage[] = []
   private createNewMode = false
@@ -196,7 +207,7 @@ export default class AdminTopMenuList extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-topmenu-list-item {
   margin-top: 10px;

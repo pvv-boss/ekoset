@@ -8,26 +8,30 @@
           <div v-if="createNewMode" class="brc-admin-card-create-row">
             <b-field label="Наименование:" horizontal>
               <b-input
+                v-model="newSiteDocument.siteDocumentName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="newSiteDocument.siteDocumentName"
               ></b-input>
             </b-field>
             <b-field label="Раздел сайта" horizontal>
-              <AdminSiteSectionSelector v-model="newSiteDocument.siteSectionId" :nullable="false"></AdminSiteSectionSelector>
+              <AdminSiteSectionSelector
+                v-model="newSiteDocument.siteSectionId"
+                :nullable="false"
+              ></AdminSiteSectionSelector>
             </b-field>
-            <b-button @click="save()" type="is-primary">Сохранить</b-button>
+            <b-button type="is-primary" @click="save()">Сохранить</b-button>
             <b-button @click="cancelSave">Отмена</b-button>
           </div>
 
           <b-button
+            v-show="!createNewMode"
             type="is-primary"
             outlined
             @click="createNewMode = true"
-            v-show="!createNewMode"
-          >Создать</b-button>
+            >Создать</b-button
+          >
         </div>
       </template>
 
@@ -35,45 +39,49 @@
         <vue-good-table
           :columns="headerFields"
           :rows="siteDocumentList"
-          :search-options="{enabled: true, placeholder: 'Поиск по всем полям'}"
+          :search-options="{
+            enabled: true,
+            placeholder: 'Поиск по всем полям',
+          }"
           :fixed-header="true"
           :sort-options="{
-            enabled: true //,
+            enabled: true, //,
           }"
         >
           <template slot="table-row" slot-scope="props">
-            <span
-              v-if="props.column.field == 'siteSectionName'"
-            >{{props.formattedRow[props.column.field]}}</span>
+            <span v-if="props.column.field == 'siteSectionName'">{{
+              props.formattedRow[props.column.field]
+            }}</span>
             <a
-              :href="props.row.siteDocumentFile"
               v-if="props.column.field == 'siteDocumentName'"
-            >{{props.formattedRow[props.column.field]}}</a>
+              :href="props.row.siteDocumentFile"
+              >{{ props.formattedRow[props.column.field] }}</a
+            >
 
             <b-upload
-              @input="addDocument(...arguments,props.row)"
               v-if="props.column.field == 'addDocument'"
+              @input="addDocument(...arguments, props.row)"
             >
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
             </b-upload>
-            <div style="display:flex;justify-content: space-between;">
+            <div style="display: flex; justify-content: space-between">
               <b-input
+                v-if="props.column.field == 'copyLink'"
+                :id="'sitedocumentfile' + '_' + props.row.siteDocumentId"
                 placeholder="Ссылка на файл"
                 type="text"
                 :value="props.row.siteDocumentFile"
-                :id="'sitedocumentfile' + '_' + props.row.siteDocumentId"
-                v-if="props.column.field == 'copyLink'"
-                style="width:90%;"
+                style="width: 90%"
               ></b-input>
 
               <b-button
-                type="is-info"
-                @click="copy2Clipboard(props.row)"
-                :disabled="!props.row.siteDocumentFile"
                 v-if="props.column.field == 'copyLink'"
+                type="is-info"
+                :disabled="!props.row.siteDocumentFile"
                 icon-right="content-copy"
+                @click="copy2Clipboard(props.row)"
               ></b-button>
             </div>
             <b-button
@@ -95,21 +103,11 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SitePage from '@/models/SitePage.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 import SiteDocument from '@/models/ekoset/SiteDocument.ts'
-import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
 
-@Component({
-  components: {
-    AdminStatusSelector,
-    BaseCard,
-    AdminSiteSectionSelector
-  }
-})
+@Component
 export default class AdminDocuments extends Vue {
 
   private siteDocumentList: SiteDocument[] = []
@@ -180,7 +178,7 @@ export default class AdminDocuments extends Vue {
   private copy2Clipboard (siteDocument: SiteDocument) {
     const elId = 'sitedocumentfile' + '_' + siteDocument.siteDocumentId
     const copyText = document.getElementById(elId) as HTMLInputElement;
-    if (!!copyText) {
+    if (copyText) {
       copyText.select();
       document.execCommand('copy');
     }
@@ -205,5 +203,5 @@ export default class AdminDocuments extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 </style>  

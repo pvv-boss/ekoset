@@ -1,24 +1,20 @@
 <template>
   <div class="brc-buscet_container">
-    <BuscetItem v-for="iterBuscet in buscetList" :key="iterBuscet.serviceUrl" :buscet="iterBuscet"></BuscetItem>
+    <LazyBuscetItem
+      v-for="iterBuscet in buscetList"
+      :key="iterBuscet.serviceUrl"
+      :buscet="iterBuscet"
+    ></LazyBuscetItem>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import BuscetItem from '@/components/public/BuscetItem.vue'
-import ClBrand from '@/models/ekoset/ClBrand'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import { NuxtContext } from 'vue/types/options'
 import BuscetStore from '@/store/BuscetStore'
 
-@Component({
-  components: {
-    BuscetItem
-  }
-})
+@Component
 export default class BuscetContaner extends Vue {
 
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
@@ -31,7 +27,7 @@ export default class BuscetContaner extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-buscet_container {
   display: flex;

@@ -18,7 +18,7 @@ class BrcDialogPlugin {
     this.installDialog()
   }
 
-  public showNotify (type: BrcDialogType = BrcDialogType.Info, title: string, content: string = '', closeDelay: number = 4000, options?: BrcDialogOptions) {
+  public showNotify (type: BrcDialogType = BrcDialogType.Info, title: string, content = '', closeDelay = 4000, options?: BrcDialogOptions) {
     let preHeaderIcon = ''
     switch (type) {
       case BrcDialogType.Error: preHeaderIcon = 'fas fa-times-circle text-danger'; break
@@ -41,7 +41,7 @@ class BrcDialogPlugin {
     return this.getDialogId(this.dialog.createDialog(mergedOptions))
   }
 
-  public showAlert (type: BrcDialogType = BrcDialogType.Info, content: string, title: string = '', okCallback?: VoidFunction, options?: BrcDialogOptions) {
+  public showAlert (type: BrcDialogType = BrcDialogType.Info, content: string, title = '', okCallback?: VoidFunction, options?: BrcDialogOptions) {
     const mergedOptions = { ...this.defaultDialogOptions, ...options }
     mergedOptions.position = BrcDialogPosition.Central
     mergedOptions.modal = true
@@ -61,7 +61,7 @@ class BrcDialogPlugin {
   }
 
   private getDialogId (dialog: HTMLDivElement) {
-    if (!!dialog) {
+    if (dialog) {
       if (dialog.parentElement) {
         return dialog.parentElement.getAttribute('id')
       }
@@ -76,15 +76,15 @@ class BrcDialogPlugin {
       return dialog.createDialog(options)
     }
 
-    Vue.prototype.$BrcAlert = (type: BrcDialogType = BrcDialogType.Info, content: string, title: string = '', okCallback?: VoidFunction, options?: BrcDialogOptions) => {
+    Vue.prototype.$BrcAlert = (type: BrcDialogType = BrcDialogType.Info, content: string, title = '', okCallback?: VoidFunction, options?: BrcDialogOptions) => {
       return this.showAlert(type, content, title, okCallback, options)
     }
 
-    Vue.prototype.$BrcNotification = (type: BrcDialogType = BrcDialogType.Info, title: string, content: string = '', closeDelay: number = 2000, options?: BrcDialogOptions) => {
+    Vue.prototype.$BrcNotification = (type: BrcDialogType = BrcDialogType.Info, title: string, content = '', closeDelay = 2000, options?: BrcDialogOptions) => {
       return this.showNotify(type, title, content, closeDelay, options)
     }
 
-    Vue.prototype.$BrcPreloader = (modal: boolean = false, text?: string, parentId?: string, options?: BrcDialogOptions) => {
+    Vue.prototype.$BrcPreloader = (modal = false, text?: string, parentId?: string, options?: BrcDialogOptions) => {
       const mergedOptions = { ...this.defaultDialogOptions, ...options }
       mergedOptions.position = BrcDialogPosition.Central
       mergedOptions.footerVisibility = false

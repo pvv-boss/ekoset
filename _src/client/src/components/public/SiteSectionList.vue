@@ -1,24 +1,17 @@
 <template>
   <div class="brc-site-section-list">
-    <SiteSectionListItem
+    <LazySiteSectionListItem
       v-for="siteSectionItem in siteSectionList"
       :key="siteSectionItem.siteSectionId"
-      :siteSectionItem="siteSectionItem"
-    ></SiteSectionListItem>
+      :site-section-item="siteSectionItem"
+    ></LazySiteSectionListItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 
-@Component({
-  components: {
-    SiteSectionListItem
-  }
-})
+@Component
 export default class SiteSectionList extends Vue {
   @Prop(Array)
   private siteSectionList

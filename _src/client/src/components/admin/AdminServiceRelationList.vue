@@ -13,8 +13,8 @@
           type="checkbox"
           :value="props.row.businessServiceId"
           :checked="props.row.hasRelation"
-          @change="onChecked(props.row.businessServiceId,$event.target.checked)"
           :disabled="disabled"
+          @change="onChecked(props.row.businessServiceId,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>

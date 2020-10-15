@@ -1,10 +1,10 @@
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer'
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
+import HttpUtil from '../utils/HttpUtil'
+import { getServiceContainer } from './ServiceContainer'
+import BaseService from './BaseService'
 
 export default class PublicEkosetService extends BaseService {
 
@@ -82,10 +82,10 @@ export default class PublicEkosetService extends BaseService {
   public async saveSiteSection (siteSection: SiteSection) {
     const resPr = HttpUtil.httpPut(this.buildHttRequest('activities'), siteSection)
 
-    if (!!siteSection.smallImageFormData) {
+    if (siteSection.smallImageFormData) {
       getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
     }
-    if (!!siteSection.bigImageFormData) {
+    if (siteSection.bigImageFormData) {
       getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
     }
 
@@ -99,10 +99,10 @@ export default class PublicEkosetService extends BaseService {
   public async saveBrand (brand: ClBrand) {
     const resultPr = HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
 
-    if (!!brand.smallImageFormData) {
+    if (brand.smallImageFormData) {
       getServiceContainer().mediaService.saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
     }
-    if (!!brand.recommendImageFormData) {
+    if (brand.recommendImageFormData) {
       getServiceContainer().mediaService.saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
     }
 
@@ -198,7 +198,7 @@ export default class PublicEkosetService extends BaseService {
 
   private sendYandexMetrika (mode: number) {
     // @ts-ignore
-    if (!!window.Ya) {
+    if (window.Ya) {
       const target = mode === 0 ? 'knopka_otpravit_zakaz' : (mode === 1 ? 'knopka_otpravit_vopros' : 'knopka_otpravit_tender')
       try {
         // @ts-ignore

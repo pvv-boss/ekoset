@@ -1,8 +1,8 @@
 <template>
   <section class="brc-user-profile">
-    <AccountMain></AccountMain>
-    <ChangePassword></ChangePassword>
-    <NotificationSettings></NotificationSettings>
+    <LazyAccountMain></LazyAccountMain>
+    <LazyChangePassword></LazyChangePassword>
+    <LazyNotificationSettings></LazyNotificationSettings>
   </section>
 </template>
 
@@ -18,5 +18,5 @@ export default class UserProfile extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 </style>

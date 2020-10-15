@@ -1,10 +1,13 @@
 <template>
   <div class="brc-admin_page_wrapper">
-    <BaseCard>
+    <LazyBaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Новость: {{articleItem.articleTitle}}</h2>
-          <AdminStatusSelector statusCaption="Активна" v-model.number="articleItem.articleStatus"></AdminStatusSelector>
+          <h2>Новость: {{ articleItem.articleTitle }}</h2>
+          <LazyAdminStatusSelector
+            v-model.number="articleItem.articleStatus"
+            status-caption="Активна"
+          ></LazyAdminStatusSelector>
 
           <b-button type="is-primary" @click="save">Сохранить</b-button>
         </div>
@@ -15,41 +18,46 @@
             <div class="brc-admin-card_two-column">
               <div class="brc-admin-card-field-list_row brc-admin-panel__site">
                 <b-field label="Фото на странице">
-                  <AdminImageUploader
+                  <LazyAdminImageUploader
                     id="bigImageFile"
-                    :srcImage="articleItem.articleHeaderImgSrc"
-                    @uploader:newimageloaded="addImage($event,true)"
+                    :src-image="articleItem.articleHeaderImgSrc"
+                    @uploader:newimageloaded="addImage($event, true)"
                   >
-                    <template v-slot="{imageSrc}">
+                    <template v-slot="{ imageSrc }">
                       <figure class="brc-admin-card-image__wrapper">
                         <img class="brc-admin-image" :src="imageSrc" />
-                        <h1 class="brc-admin-card-image-title">{{articleItem.articleH1}}</h1>
+                        <h1 class="brc-admin-card-image-title">
+                          {{ articleItem.articleH1 }}
+                        </h1>
                       </figure>
                     </template>
-                  </AdminImageUploader>
+                  </LazyAdminImageUploader>
                 </b-field>
                 <b-field label="Заголовок (на карточке новости)">
                   <b-input
+                    v-model="articleItem.articleTitle"
                     placeholder="Заголовок"
                     type="text"
                     required
                     validation-message="Заголовок не может быть пустым"
-                    v-model="articleItem.articleTitle"
                   ></b-input>
                 </b-field>
 
                 <b-field label="Заголовок H1">
                   <b-input
+                    v-model="articleItem.articleH1"
                     placeholder="Заголовок H1"
                     type="text"
                     required
                     validation-message="Заголовок H1 не может быть пустым"
-                    v-model="articleItem.articleH1"
                   ></b-input>
                 </b-field>
 
                 <b-field label="URL (ЧПУ) на страницу">
-                  <b-input type="text" v-model="articleItem.articleSlug"></b-input>
+                  <b-input
+                    v-model="articleItem.articleSlug"
+                    type="text"
+                  ></b-input>
                 </b-field>
 
                 <b-field label="Дата публикации">
@@ -60,7 +68,10 @@
                     :first-day-of-week="1"
                     placeholder="Выберите дату ..."
                   >
-                    <button class="button is-primary" @click="articleDateDate = new Date()">
+                    <button
+                      class="button is-primary"
+                      @click="articleDateDate = new Date()"
+                    >
                       <b-icon icon="calendar-today"></b-icon>
                       <span>Сегодня</span>
                     </button>
@@ -68,72 +79,88 @@
                 </b-field>
 
                 <b-field label="Автор">
-                  <b-input placeholder="Автор" type="text" v-model="articleItem.articleAuthor"></b-input>
+                  <b-input
+                    v-model="articleItem.articleAuthor"
+                    placeholder="Автор"
+                    type="text"
+                  ></b-input>
                 </b-field>
                 <b-field label="Источник">
-                  <b-input placeholder="Источник" type="text" v-model="articleItem.articleSource"></b-input>
+                  <b-input
+                    v-model="articleItem.articleSource"
+                    placeholder="Источник"
+                    type="text"
+                  ></b-input>
                 </b-field>
                 <b-field label="Краткое описание">
                   <b-input
+                    v-model="articleItem.articleDescription"
                     placeholder="Краткое описание"
                     type="textarea"
                     required
                     validation-message="Краткое описание не может быть пустым"
-                    v-model="articleItem.articleDescription"
                   ></b-input>
                 </b-field>
 
-                <AdminSeoTags
-                  :seoTitle.sync="articleItem.seoTitle"
-                  :seoDescription.sync="articleItem.seoDescription"
-                  :seoKeywords.sync="articleItem.seoKeywords"
-                ></AdminSeoTags>
+                <LazyAdminSeoTags
+                  :seo-title.sync="articleItem.seoTitle"
+                  :seo-description.sync="articleItem.seoDescription"
+                  :seo-keywords.sync="articleItem.seoKeywords"
+                ></LazyAdminSeoTags>
 
                 <b-field label="Раздел сайта">
-                  <AdminSiteSectionSelector v-model="articleItem.siteSectionId" :nullable="true"></AdminSiteSectionSelector>
+                  <LazyAdminSiteSectionSelector
+                    v-model="articleItem.siteSectionId"
+                    :nullable="true"
+                  ></LazyAdminSiteSectionSelector>
                 </b-field>
 
-                <b-field label="Связанные услуги" v-if="articleItem.articleId > 0">
-                  <AdminServiceRelationList
-                    :serviceRelationItems="serviceRelationList"
+                <b-field
+                  v-if="articleItem.articleId > 0"
+                  label="Связанные услуги"
+                >
+                  <LazyAdminServiceRelationList
+                    :service-relation-items="serviceRelationList"
                     @servicechecked="serviceChecked"
-                  ></AdminServiceRelationList>
+                  ></LazyAdminServiceRelationList>
                 </b-field>
               </div>
 
               <div class="brc-admin-card-field-list_row">
                 <b-field label="Фото на карточке новости">
-                  <AdminImageUploader
+                  <LazyAdminImageUploader
                     id="smallImageFile"
-                    :srcImage="articleItem.articlePreviewImgSrc"
-                    @uploader:newimageloaded="addImage($event,false)"
+                    :src-image="articleItem.articlePreviewImgSrc"
+                    @uploader:newimageloaded="addImage($event, false)"
                   >
-                    <template v-slot="{imageSrc}">
-                      <ArticleListItem
-                        :articleItem="articleItem"
-                        :imageSrcForDesignMode="imageSrc"
-                        style="width:350px;margin:0px"
-                      ></ArticleListItem>
+                    <template v-slot="{ imageSrc }">
+                      <LazyArticleListItem
+                        :article-item="articleItem"
+                        :image-src-for-design-mode="imageSrc"
+                        style="width: 350px; margin: 0px"
+                      ></LazyArticleListItem>
                     </template>
-                  </AdminImageUploader>
+                  </LazyAdminImageUploader>
                 </b-field>
                 <b-field label="Теги">
-                  <AdminTagRelationList
-                    :articleUrl="articleItem.articleUrl"
+                  <LazyAdminTagRelationList
+                    :article-url="articleItem.articleUrl"
                     @tagchecked="tagChecked"
-                  ></AdminTagRelationList>
+                  ></LazyAdminTagRelationList>
                 </b-field>
               </div>
             </div>
           </b-tab-item>
           <b-tab-item label="Содержание">
             <div class="brc-admin-panel__article">
-              <BaseCKEditor v-model="articleItem.articleBody"></BaseCKEditor>
+              <LazyBaseCkEditor
+                v-model="articleItem.articleBody"
+              ></LazyBaseCkEditor>
             </div>
           </b-tab-item>
         </b-tabs>
       </template>
-    </BaseCard>
+    </LazyBaseCard>
   </div>
 </template>
 
@@ -144,48 +171,22 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import BaseCKEditor from '@/components/base/BaseCKEditor.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import BusinessService from '@/models/ekoset/BusinessService'
-import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
-import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import AdminServiceRelationList from '@/components/admin/AdminServiceRelationList.vue'
-import AdminTagRelationList from '@/components/admin/AdminTagRelationList.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
-import ArticleListItem from '@/components/public/ArticleListItem.vue'
 import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
-import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
-@Component({
-  components: {
-    BaseCKEditor,
-    BreadCrumbs,
-    AdminSiteSectionSelector,
-    AdminServiceSelector,
-    AdminStatusSelector,
-    AdminServiceRelationList,
-    AdminTagRelationList,
-    AdminImageUploader,
-    BaseCard,
-    ArticleListItem,
-    AdminSeoTags
-  }
-})
+@Component
 export default class AdminArticleCard extends Vue {
   private articleItem: Article = new Article()
   private serviceRelationList: any[] = []
   private activeTab = 0
 
   private get articleDateDate () {
-    return !!this.articleItem.articlePublishDate ? new Date(this.articleItem.articlePublishDate) : new Date(Date.now())
+    return this.articleItem.articlePublishDate ? new Date(this.articleItem.articlePublishDate) : new Date(Date.now())
   }
 
   private set articleDateDate (selectedDate: Date) {
@@ -279,7 +280,7 @@ export default class AdminArticleCard extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-admin-panel__article {
   width: 100%;
   max-width: 1100px;

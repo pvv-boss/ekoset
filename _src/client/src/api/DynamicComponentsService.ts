@@ -1,11 +1,29 @@
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import { Store } from 'vuex'
 import ClBrand from '@/models/ekoset/ClBrand'
+import HttpUtil from '../utils/HttpUtil'
+import { getServiceContainer } from './ServiceContainer'
+import BaseService from './BaseService'
+
+
+
+enum BlockType {
+  UFO = 0,
+  BRANDS = 1,
+  LETTERS = 2,
+  NEWS = 3,
+  BUY_FORM = 4,
+  ASKEXPERT_FORM = 5,
+  FREE_CONTENT = 6,
+  CLIENTTYPE_OFFER = 7,
+  BUSINESSTYPE_OFFER = 8,
+  SERVICE_LIST = 9,
+  SERVICE_PRICE = 10,
+  RELATED_SERVICE = 11,
+  CLIENTS = 12
+}
 
 export default class DynamicComponentsService extends BaseService {
   private store: Store<any>
@@ -16,24 +34,24 @@ export default class DynamicComponentsService extends BaseService {
   }
 
 
-  public async getSiteSectionDynamicComponentsInfo (siteSectionUrl: string, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+  public async getSiteSectionDynamicComponentsInfo (siteSectionUrl: string, adminMode = false): Promise<DynamicComponentInfo[]> {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(siteSectionUrl, null, null), siteSectionUrl, null, adminMode, null, null, null)
   }
 
-  public async getServiceDynamicComponentsInfo (siteSectionUrl: string, serviceUrl: string, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+  public async getServiceDynamicComponentsInfo (siteSectionUrl: string, serviceUrl: string, adminMode = false): Promise<DynamicComponentInfo[]> {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(null, serviceUrl, null), siteSectionUrl, serviceUrl, adminMode, null, null, null)
   }
 
-  public async getIndOfferDynamicComponentsInfo (siteSectionUrl: string, indOfferUrl: string, offerForClentType: string | null, clActivityId: number | null, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+  public async getIndOfferDynamicComponentsInfo (siteSectionUrl: string, indOfferUrl: string, offerForClentType: string | null, clActivityId: number | null, adminMode = false): Promise<DynamicComponentInfo[]> {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(null, null, indOfferUrl), siteSectionUrl, null, adminMode, indOfferUrl, offerForClentType, clActivityId)
   }
 
-  public async getSitePageDynamicComponents (sitePageId: number, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+  public async getSitePageDynamicComponents (sitePageId: number, adminMode = false): Promise<DynamicComponentInfo[]> {
     const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
     return this.getDynamicComponentsInfo(httpResponse, null, null, adminMode, null, null, null)
   }
 
-  public async getSitePageDynamicComponentsWithSiteSection (siteSectionUrl: string, sitePageId: number, adminMode: boolean = false): Promise<DynamicComponentInfo[]> {
+  public async getSitePageDynamicComponentsWithSiteSection (siteSectionUrl: string, sitePageId: number, adminMode = false): Promise<DynamicComponentInfo[]> {
     const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
     return this.getDynamicComponentsInfo(httpResponse, siteSectionUrl, null, adminMode, null, null, null)
   }
@@ -63,16 +81,16 @@ export default class DynamicComponentsService extends BaseService {
   }
 
   private createRequestQueryString (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null) {
-    const queryParamSlug = !!siteSectionUrl ? siteSectionUrl : (!!serviceUrl ? serviceUrl : (!!indOfferUrl ? indOfferUrl : 'slug-0'))
+    const queryParamSlug = siteSectionUrl || (serviceUrl || (indOfferUrl || 'slug-0'))
     const id = this.getIdBySlug(queryParamSlug)
-    const queryParam = id === 0 ? 'default' : !!siteSectionUrl ? 'sitesection' : (!!serviceUrl ? 'service' : (!!indOfferUrl ? 'offer' : 'default'))
+    const queryParam = id === 0 ? 'default' : siteSectionUrl ? 'sitesection' : (serviceUrl ? 'service' : (indOfferUrl ? 'offer' : 'default'))
     return `admin/panel/cms/blocks/info/${queryParam}/${id}`
   }
 
   private async getDynamicComponentsInfo (httpResultPr: Promise<DynamicComponentInfo[]>, siteSectionSlug: string | null, serviceSlug: string | null, adminMode: boolean, indOfferUrl: string | null, offerForClentType: string | null, clActivityId: number | null): Promise<DynamicComponentInfo[]> {
     // Услуга м.б. второго уровня, если так, то данные берем от его предка
     let serviceIdForRelations = 0
-    if (!!serviceSlug) {
+    if (serviceSlug) {
       const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
       serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
     }
@@ -111,7 +129,7 @@ export default class DynamicComponentsService extends BaseService {
     let priceList: any = null
     let serviceHasParent = false
     let relatedServiceList: any = null
-    if (!!serviceSlug) {
+    if (serviceSlug) {
       const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
       const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
@@ -125,7 +143,7 @@ export default class DynamicComponentsService extends BaseService {
 
     // Услуги для инд.предложения
     if (!!indOfferUrl && !!siteSectionSlug) {
-      if (!!offerForClentType) {
+      if (offerForClentType) {
         serviceList = offerForClentType === 'business'
           ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSectionSlug)
           : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
@@ -173,9 +191,9 @@ export default class DynamicComponentsService extends BaseService {
     const newsCompoenentInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.NEWS
     })
-    if (!!newsCompoenentInfo) {
+    if (newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
-      newsCompoenentInfo.props.articleList = !!newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
+      newsCompoenentInfo.props.articleList = newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
       newsCompoenentInfo.props.mode = 'columns'
 
       if (!adminMode && newsCompoenentInfo.visible === 1) {
@@ -188,14 +206,14 @@ export default class DynamicComponentsService extends BaseService {
     const lettersCompoenentInfo = componentsInfo.find((iter) => {
       return iter.code === BlockType.LETTERS
     })
-    if (!!lettersCompoenentInfo) {
+    if (lettersCompoenentInfo) {
       lettersCompoenentInfo.props.brandsList = data[0]
 
-      if (!!lettersCompoenentInfo.props.brandsList) {
+      if (lettersCompoenentInfo.props.brandsList) {
         const notEmptyLetters = lettersCompoenentInfo.props.brandsList.filter((iterBrand: ClBrand) => {
           return !!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !== '/img/empty-image.png'
         })
-        lettersCompoenentInfo.props.brandsList = !!notEmptyLetters ? notEmptyLetters : []
+        lettersCompoenentInfo.props.brandsList = notEmptyLetters || []
       }
 
       if (!adminMode && lettersCompoenentInfo.visible === 1) {
@@ -252,11 +270,11 @@ export default class DynamicComponentsService extends BaseService {
         return 'Список услуг'
       }
       let serviceListHead
-      if (!!serviceSlug) {
+      if (serviceSlug) {
         serviceListHead = getModule(AppStore, this.store).сurrentServiceName
       } else {
         const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
-        serviceListHead = siteSectionName ? siteSectionName : serviceInfo.head
+        serviceListHead = siteSectionName || serviceInfo.head
       }
       return serviceListHead
     }
@@ -269,7 +287,7 @@ export default class DynamicComponentsService extends BaseService {
 
       if (!adminMode) {
         serviceInfo.visible = 0
-        if (!!serviceSlug) {
+        if (serviceSlug) {
           serviceInfo.visible = !serviceHasParent && !!serviceInfo.props.serviceList && serviceInfo.props.serviceList.length > 1 ? 1 : 0
           // const serviceName = getModule(AppStore, this.store).сurrentServiceName
           // serviceInfo.head = serviceName ? serviceName : serviceInfo.head
@@ -333,18 +351,3 @@ export default class DynamicComponentsService extends BaseService {
   }
 }
 
-enum BlockType {
-  UFO = 0,
-  BRANDS = 1,
-  LETTERS = 2,
-  NEWS = 3,
-  BUY_FORM = 4,
-  ASKEXPERT_FORM = 5,
-  FREE_CONTENT = 6,
-  CLIENTTYPE_OFFER = 7,
-  BUSINESSTYPE_OFFER = 8,
-  SERVICE_LIST = 9,
-  SERVICE_PRICE = 10,
-  RELATED_SERVICE = 11,
-  CLIENTS = 12
-}

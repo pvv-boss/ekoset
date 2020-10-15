@@ -3,9 +3,10 @@
     <li v-for="(bread, idx) in breadCrumbs" :key="idx">
       <nuxt-link
         v-if="bread.link !== ''"
-        :to="{name: bread.link, params: bread.params}"
-      >{{bread.name}}</nuxt-link>
-      <span v-else>{{bread.name}}</span>
+        :to="{ name: bread.link, params: bread.params }"
+        >{{ bread.name }}</nuxt-link
+      >
+      <span v-else>{{ bread.name }}</span>
     </li>
   </ul>
 </template>
@@ -14,8 +15,7 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 
-@Component({
-})
+@Component
 export default class BreadCrumbs extends Vue {
   @Prop()
   private breadCrumbs

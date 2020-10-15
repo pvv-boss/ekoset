@@ -4,19 +4,19 @@
       :columns="headerFields"
       :rows="brandRelationItems"
       :sort-options="{
-          enabled: true
+        enabled: true,
       }"
     >
       <template #table-row="props">
         <b-switch
-          @input="onBrandChecked(...arguments,props.row.clBrandId)"
+          v-if="props.column.field == 'isShowOnPage'"
           :value="props.row.hasRelation"
           type="is-success"
           size="is-small"
           :disabled="disabled"
-          v-if="props.column.field == 'isShowOnPage'"
+          @input="onBrandChecked(...arguments, props.row.clBrandId)"
         ></b-switch>
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+        <span v-else>{{ props.formattedRow[props.column.field] }}</span>
       </template>
     </vue-good-table>
   </div>
@@ -25,9 +25,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ClBrand from '@/models/ekoset/ClBrand.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService';
 
 @Component({})
@@ -52,7 +49,7 @@ export default class AdminBrandRelationList extends Vue {
       label: 'Вид деятельности',
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования',
+        placeholder: 'Введите часть наименования'
       }
     },
     {
@@ -60,7 +57,7 @@ export default class AdminBrandRelationList extends Vue {
       label: 'Наименование бренда',
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования',
+        placeholder: 'Введите часть наименования'
       }
     }
   ]

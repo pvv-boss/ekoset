@@ -18,7 +18,7 @@
         label-width="120px"
         @submit="mode === 'login' ? processLocalAuthAction() : processLocalAuthAction()"
       >
-        <div class="brc-login-form__block" v-if="isBrowser">
+        <div v-if="isBrowser" class="brc-login-form__block">
           <label>Email</label>
           <input
             v-model.lazy="loginData.useremail"
@@ -31,7 +31,7 @@
             class="error-message"
           >{{invalidEmail}}</span>
         </div>
-        <div class="brc-login-form__block" v-if="isBrowser">
+        <div v-if="isBrowser" class="brc-login-form__block">
           <label>Пароль</label>
           <input
             v-model.lazy="loginData.password"

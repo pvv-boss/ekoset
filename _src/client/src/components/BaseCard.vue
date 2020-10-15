@@ -14,25 +14,14 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import RecommendationList from '@/components/public/RecommendationList.vue'
-import RecommLetterList from '@/components/public/RecommLetterList.vue'
-import ArticleList from '@/components/public/ArticleList.vue'
-import MessageForm from '@/components/public/MessageForm.vue'
 
 
-@Component({
-  components: {
-    ArticleList,
-    RecommendationList,
-    RecommLetterList,
-    MessageForm
-  }
-})
+@Component
 export default class BaseCard extends Vue { }
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-card-wrapper {
   display: flex;

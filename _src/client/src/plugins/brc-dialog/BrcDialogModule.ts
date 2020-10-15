@@ -7,7 +7,7 @@ export default class BrcDialogModule {
     const dialogWrapperId = `dialog-wrapper-${(Math.floor((Math.random() * 25)) + 10).toString(36)}${(new Date()).getTime()}-${(new Date()).getMilliseconds()}`
     dialogWrapper.style.visibility = 'hidden'
     dialogWrapper.setAttribute('id', dialogWrapperId)
-    dialogWrapper.setAttribute('class', `brc-dialog-wrapper ${dialogOptions.parentElementId ? 'brc-dialog-wrapper_parental' : ''} ${dialogOptions.dialogClass && dialogOptions.dialogClass.indexOf('brc-preloader') > -1 ? 'brc-dialog-wrapper_preloader' : ''}`)
+    dialogWrapper.setAttribute('class', `brc-dialog-wrapper ${dialogOptions.parentElementId ? 'brc-dialog-wrapper_parental' : ''} ${dialogOptions.dialogClass && dialogOptions.dialogClass.includes('brc-preloader') ? 'brc-dialog-wrapper_preloader' : ''}`)
 
     if (!dialogOptions) {
       dialogOptions = new BrcDialogOptions()

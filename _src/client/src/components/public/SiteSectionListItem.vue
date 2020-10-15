@@ -32,7 +32,7 @@ export default class SiteSectionListItem extends Vue {
   private imageSrcForDesignMode: string
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.siteSectionItem.siteSectionImgSmall
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.siteSectionItem.siteSectionImgSmall
   }
 }
 </script>

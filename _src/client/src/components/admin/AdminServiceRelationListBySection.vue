@@ -5,12 +5,12 @@
       :key="iterItem.siteSectionId"
       class="brc-service-relation-by-section"
     >
-      <h4>{{iterItem.siteSectionName}}</h4>
+      <h4>{{ iterItem.siteSectionName }}</h4>
       <vue-good-table
         :columns="headerFields"
         :rows="iterItem.services"
         :sort-options="{
-          enabled:false
+          enabled: false,
         }"
       >
         >
@@ -20,10 +20,12 @@
             type="checkbox"
             :value="props.row.businessServiceId"
             :checked="props.row.hasRelation"
-            @change="onChecked(props.row.businessServiceId,$event.target.checked)"
             :disabled="disabled"
+            @change="
+              onChecked(props.row.businessServiceId, $event.target.checked)
+            "
           />
-          <span v-else>{{props.formattedRow[props.column.field]}}</span>
+          <span v-else>{{ props.formattedRow[props.column.field] }}</span>
         </template>
       </vue-good-table>
     </div>
@@ -32,9 +34,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 
 @Component({})

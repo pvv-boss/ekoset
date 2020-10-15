@@ -1,22 +1,22 @@
 <template>
   <div class="brc-brand-relation-list_wrapper">
     <b-button
+      v-show="!createNewMode"
       type="is-primary"
       outlined
-      @click="createNewMode = true"
-      v-show="!createNewMode"
       style="margin-bottom:10px"
+      @click="createNewMode = true"
     >Создать</b-button>
 
     <div v-if="createNewMode" class="brc-admin-card-create-row" style="margin-bottom:10px">
       <b-input
+        v-model="newItem.clArticleName"
         placeholder="Наименование"
         type="text"
         required
         validation-message="Наименование не может быть пустым"
-        v-model="newItem.clArticleName"
       ></b-input>
-      <b-button @click="saveNewTag" type="is-primary">OK</b-button>
+      <b-button type="is-primary" @click="saveNewTag">OK</b-button>
       <b-button @click="cancelSaveNewTag">Отмена</b-button>
     </div>
 
@@ -27,8 +27,8 @@
           type="checkbox"
           :value="props.row.clArticleId"
           :checked="props.row.hasRelation"
-          @change="onChecked(props.row.clArticleId,$event.target.checked)"
           :disabled="disabled"
+          @change="onChecked(props.row.clArticleId,$event.target.checked)"
         />
         <span v-else>{{props.formattedRow[props.column.field]}}</span>
       </template>
@@ -72,6 +72,7 @@ export default class AdminTagRelationList extends Vue {
   private async updateTagList () {
     this.tagRelationItems = await getServiceContainer().articleService.getArticleTagsRelation(this.articleUrl)
   }
+
   private mounted () {
     this.updateTagList()
   }

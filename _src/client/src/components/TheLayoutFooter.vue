@@ -1,10 +1,17 @@
 <template>
   <footer>
     <div class="brc-page-footer">
-      <div class="brc-page-footer__contacts" style="display: flex;flex-direction: column;">
-        <div class="brc-footer-logo__wrapper" style="margin: auto;">
-          <nuxt-link :to="{name: 'main'}" class="brc-footer-logo">
-            <img src="/images/logo.png" alt="Экосеть" style="max-height: 40px;height: 40px;" />
+      <div
+        class="brc-page-footer__contacts"
+        style="display: flex; flex-direction: column"
+      >
+        <div class="brc-footer-logo__wrapper" style="margin: auto">
+          <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
+            <img
+              src="/images/logo.png"
+              alt="Экосеть"
+              style="max-height: 40px; height: 40px"
+            />
           </nuxt-link>
         </div>
         <div class="brc-page-footer__phone">
@@ -14,21 +21,34 @@
           <a href="mailto:inbox@ekoset.ru">
             <img src="/images/mail.svg" alt="Экосеть Эл.почта" />
           </a>
-          <a href="https://vk.com/ekoset" style="margin-left:15px;">
+          <a href="https://vk.com/ekoset" style="margin-left: 15px">
             <img src="/images/vk.svg" alt="Экосеть ВКонтакте" />
           </a>
         </div>
       </div>
       <div class="brc-page-footer__business-activities">
         <input id="toogleBusinessTypeMenuVisible" type="checkbox" />
-        <label class="brc-footer-list-arrow" for="toogleBusinessTypeMenuVisible">
+        <label
+          class="brc-footer-list-arrow"
+          for="toogleBusinessTypeMenuVisible"
+        >
           <h4>Услуги для Бизнеса</h4>
         </label>
         <ul class="brc-footer-list-link">
-          <li v-for="serviceItem in serviceListForBusiness" :key="serviceItem.businessServiceId">
+          <li
+            v-for="serviceItem in serviceListForBusiness"
+            :key="serviceItem.businessServiceId"
+          >
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: serviceItem.siteSectionUrl}}"
-            >{{serviceItem.businessServiceName}}</nuxt-link>
+              :to="{
+                name: 'service-card',
+                params: {
+                  service: serviceItem.businessServiceUrl,
+                  siteSection: serviceItem.siteSectionUrl,
+                },
+              }"
+              >{{ serviceItem.businessServiceName }}</nuxt-link
+            >
           </li>
         </ul>
       </div>
@@ -38,29 +58,51 @@
           <h4 for="toogleClientTypeMenuVisible">Услуги для Дома</h4>
         </label>
         <ul class="brc-footer-list-link">
-          <li v-for="serviceItem in serviceListForPerson" :key="serviceItem.businessServiceId">
+          <li
+            v-for="serviceItem in serviceListForPerson"
+            :key="serviceItem.businessServiceId"
+          >
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: serviceItem.siteSectionUrl}}"
-            >{{serviceItem.businessServiceName}}</nuxt-link>
+              :to="{
+                name: 'service-card',
+                params: {
+                  service: serviceItem.businessServiceUrl,
+                  siteSection: serviceItem.siteSectionUrl,
+                },
+              }"
+              >{{ serviceItem.businessServiceName }}</nuxt-link
+            >
           </li>
         </ul>
       </div>
       <div class="brc-page-footer__menu">
         <ul>
           <li>
-            <nuxt-link :to="{name: 'about'}">О компании</nuxt-link>
+            <nuxt-link :to="{ name: 'about' }">О компании</nuxt-link>
           </li>
           <li>
-            <nuxt-link :to="{name: 'clients'}">Наши клиенты</nuxt-link>
+            <nuxt-link :to="{ name: 'clients' }">Наши клиенты</nuxt-link>
           </li>
           <li>
-            <nuxt-link :to="{name: 'prices', params:{siteSection: getCurrentSiteSection}}">Цены</nuxt-link>
+            <nuxt-link
+              :to="{
+                name: 'prices',
+                params: { siteSection: getCurrentSiteSection },
+              }"
+              >Цены</nuxt-link
+            >
           </li>
           <li>
-            <nuxt-link :to="{name: 'news', params:{siteSection: getCurrentSiteSection}}">Новости</nuxt-link>
+            <nuxt-link
+              :to="{
+                name: 'news',
+                params: { siteSection: getCurrentSiteSection },
+              }"
+              >Новости</nuxt-link
+            >
           </li>
           <li>
-            <nuxt-link :to="{name: 'contacts'}">Контакты</nuxt-link>
+            <nuxt-link :to="{ name: 'contacts' }">Контакты</nuxt-link>
           </li>
         </ul>
       </div>
@@ -78,8 +120,7 @@ import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
 import { getServiceContainer } from '@/api/ServiceContainer'
 
-@Component({
-})
+@Component
 export default class TheLayoutFooter extends Vue {
   private serviceListForBusiness: BusinessService[] = []
   private serviceListForPerson: BusinessService[] = []
@@ -101,7 +142,7 @@ export default class TheLayoutFooter extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-page-footer {
   display: flex;
@@ -268,13 +309,13 @@ export default class TheLayoutFooter extends Vue {
     }
 
     .brc-footer-list-arrow:after {
-      content: '\25bc';
+      content: "\25bc";
     }
 
     #toogleClientTypeMenuVisible:checked ~ .brc-footer-list-arrow,
     #toogleBusinessTypeMenuVisible:checked ~ .brc-footer-list-arrow {
       &:after {
-        content: '\25ba';
+        content: "\25ba";
       }
     }
   }

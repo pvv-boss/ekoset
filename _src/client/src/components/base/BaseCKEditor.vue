@@ -15,27 +15,33 @@
 
 <script lang="ts">
 
-let CKEditor
-let Editor
-
 import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
-import { NuxtContext } from 'vue/types/options'
+import CkEditor from '@ckeditor/ckeditor5-vue'
+import Editor from 'rsn/ckeditor'
+// const Editor = () => import(/* webpackChunkName: "rsn-ckeditor5" */ 'rsn/ckeditor')
+
+// let CkEditor
+// let Editor
+
+// const CkEditor = () => import(/* webpackChunkName: "rsn-ckeditor5" */ '@ckeditor/ckeditor5-vue')
 
 if (process.client) {
   // tslint:disable-next-line:no-var-requires
-  CKEditor = require('@ckeditor/ckeditor5-vue')
+  // CkEditor = () => import(/* webpackChunkName: "rsn-ckeditor5" */ '@ckeditor/ckeditor5-vue')
   // tslint:disable-next-line:no-var-requires
-  Editor = require('rsn/ckeditor')
+  // Editor = () => import(/* webpackChunkName: "rsn-ckeditor5" */ 'rsn/ckeditor')
+
+  // console.log(CkEditor.component)
 } else {
-  CKEditor = { component: { template: '<div></div>' } }
+  // CkEditor = { component: { template: '<div></div>' } }
 }
 
 @Component({
   components: {
-    ckeditor: CKEditor.component
+    ckeditor: CkEditor.component
   }
 })
-export default class BaseCKEditor extends Vue {
+export default class BaseCkEditor extends Vue {
   @Prop()
   private value
 

@@ -1,5 +1,5 @@
 <template>
-  <li class="brc-price-menu-wrapper" @click="onClick" v-click-outside="()=>{isMenuOpened=false}">
+  <li v-click-outside="()=>{isMenuOpened=false}" class="brc-price-menu-wrapper" @click="onClick">
     <span id="dont_outside">Услуги</span>
     <ul class="brc-price-menu" :class="{ 'active': isMenuOpened === true }">
       <div class="brc-price-menu__close dont_outside">&times;</div>
@@ -17,7 +17,7 @@
         </li>
       </template>
 
-      <template v-else v-for="iterPriceListItem in servicePriceList">
+      <template v-for="iterPriceListItem in servicePriceList" v-else>
         <li
           :key="iterPriceListItem.id"
           class="brc-price-menu__item_bold"
@@ -43,9 +43,9 @@
       </template>
 
       <li
+        v-if="getCurrentSiteSection !== null"
         class="brc-price-menu__item"
         style="padding:10px !important;"
-        v-if="getCurrentSiteSection !== null"
       >
         <!-- <nuxt-link
           v-if="getCurrentSiteSection !== null"
@@ -67,8 +67,8 @@
 import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import { getServiceContainer } from '../../api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService'
+import { getServiceContainer } from '../../api/ServiceContainer'
 
 @Component({
   components: {
@@ -91,7 +91,7 @@ export default class ThePriceMenuItem extends Vue {
   @Watch('getCurrentSiteSection', { immediate: true })
   private async updatePriceList () {
     const siteSectionSlug = this.getCurrentSiteSection;
-    this.serviceList = !!siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : []
+    this.serviceList = siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : []
     this.servicePriceList = !siteSectionSlug ? await getServiceContainer().businessServiceService.getMainList() : []
   }
 

@@ -2,11 +2,11 @@
   <div class="brc-select-wrapper">
     <b-field>
       <b-select
-        placeholder
         v-model="selectedValueId"
-        @input="$emit('input', selectedId)"
+        placeholder
         :disabled="disabled"
         expanded
+        @input="$emit('input', selectedId)"
       >
         <option
           v-for="item in itemList"
@@ -36,8 +36,10 @@ export default class AdminServiceSelector extends Vue {
   private set selectedValueId (id) {
     this.selectedId = id
   }
+
   @Prop()
   private value
+
   @Prop()
   private siteSectionId
 

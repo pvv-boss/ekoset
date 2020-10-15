@@ -3,9 +3,9 @@
     :columns="headerFields"
     :rows="clientTypeRelationItems"
     :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'clClientName', type: 'asc'}
-      }"
+      enabled: true,
+      initialSortBy: { field: 'clClientName', type: 'asc' },
+    }"
   >
     <template #table-row="props">
       <input
@@ -13,10 +13,10 @@
         type="checkbox"
         :value="props.row.clClientId"
         :checked="props.row.hasRelation"
-        @change="onChecked(props.row.clClientId,$event.target.checked)"
         :disabled="disabled"
+        @change="onChecked(props.row.clClientId, $event.target.checked)"
       />
-      <span v-else>{{props.formattedRow[props.column.field]}}</span>
+      <span v-else>{{ props.formattedRow[props.column.field] }}</span>
     </template>
   </vue-good-table>
 </template>
@@ -24,9 +24,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ClBrand from '@/models/ekoset/ClBrand.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService';
 
 @Component({})

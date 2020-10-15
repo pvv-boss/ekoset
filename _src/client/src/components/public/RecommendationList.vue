@@ -1,35 +1,32 @@
 <template>
   <div>
     <div class="brc-recommendations">
-      <RecommendationListItem
+      <LazyRecommendationListItem
         v-for="iterBrand in brandShowList"
         :key="iterBrand.clBrandId"
         :brand="iterBrand"
-      ></RecommendationListItem>
+      ></LazyRecommendationListItem>
     </div>
-    <div class="brc-all-brands-link__wrapper" v-show="!allBrandsPage">
+    <div v-show="!allBrandsPage" class="brc-all-brands-link__wrapper">
       <nuxt-link
-        :to="{name: 'clients', params: {siteSection: getCurrentSiteSection}}"
+        :to="{
+          name: 'clients',
+          params: { siteSection: getCurrentSiteSection },
+        }"
         class="brc-all-brands-link"
-      >Все рекомендации</nuxt-link>
+        >Все рекомендации</nuxt-link
+      >
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import { NuxtContext } from 'vue/types/options'
 
-@Component({
-  components: {
-    RecommendationListItem
-  }
-})
+@Component
 export default class RecommendationList extends Vue {
   @Prop(Array)
   private brandList

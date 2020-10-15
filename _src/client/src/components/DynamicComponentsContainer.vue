@@ -1,56 +1,52 @@
 <template>
   <div class="brc-section__wrapper">
     <p>
-      <a name="brcOfferForm" id="brcOfferForm"></a>
+      <a id="brcOfferForm" name="brcOfferForm"></a>
     </p>
     <template v-for="iterComponent in dynamicComponentInfo">
       <div
+        v-if="iterComponent.visible === 1"
         :key="iterComponent.id + iterComponent.dispalyName"
         class="brc-page__dynamic_block"
-        v-if="iterComponent.visible===1"
       >
         <h2
           v-if="!!iterComponent.head"
           class="brc-page__dynamic_block_header"
-          :class="{'brc-page__dynamic_block_center': iterComponent.headCentered === true}"
-        >{{iterComponent.head }}</h2>
-        <component :is="iterComponent.name" v-bind="iterComponent.props"></component>
+          :class="{
+            'brc-page__dynamic_block_center':
+              iterComponent.headCentered === true,
+          }"
+        >
+          {{ iterComponent.head }}
+        </h2>
+        <component
+          :is="iterComponent.name"
+          v-bind="iterComponent.props"
+        ></component>
       </div>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import RecommendationList from '@/components/public/RecommendationList.vue'
-import RecommLetterList from '@/components/public/RecommLetterList.vue'
-import ArticleList from '@/components/public/ArticleList.vue'
-import MessageForm from '@/components/public/MessageForm.vue'
-import MessageFormSimple from '@/components/public/MessageFormSimple.vue'
-import ClientTypeOfferList from '@/components/public/ClientTypeOfferList.vue'
-import BusinessTypeOfferList from '@/components/public/BusinessTypeOfferList.vue'
-import FreeContentBlock from '@/components/FreeContentBlock.vue'
-import ServiceList from '@/components/public/ServiceList.vue'
-import ServicePrice from '@/components/public/ServicePrice.vue'
-import RelatedService from '@/components/public/RelatedService.vue'
-import ClientList from '@/components/public/ClientList.vue'
-
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({
   components: {
-    ArticleList,
-    RecommendationList,
-    RecommLetterList,
-    MessageForm,
-    MessageFormSimple,
-    FreeContentBlock,
-    ClientTypeOfferList,
-    BusinessTypeOfferList,
-    ServiceList,
-    // ServicePriceTable,
-    ServicePrice,
-    RelatedService,
-    ClientList
+    RecommendationList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/RecommendationList.vue'),
+    ServicePrice: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/ServicePrice.vue'),
+    FreeContentBlock: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/FreeContentBlock.vue'),
+    ClientList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/ClientList.vue'),
+    ClientTypeOfferList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/ClientTypeOfferList.vue'),
+    ArticleList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/ArticleList.vue'),
+    BusinessTypeOfferList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/BusinessTypeOfferList.vue'),
+    RecommLetterList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/RecommLetterList.vue'),
+    RelatedService: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/RelatedService.vue'),
+    ServiceList: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/ServiceList.vue'),
+    TheMessagesAriseBlock: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/TheMessagesAriseBlock.vue'),
+    MessageForm: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/MessageForm.vue'),
+    MessageFormSimple: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/MessageFormSimple.vue'),
+    MessageFormMobile: () => import(/* webpackChunkName: "ekoset-common-dyn-components" */  '@/components/public/MessageFormMobile.vue')
   }
 })
 export default class DynamicComponentsContainer extends Vue {
@@ -60,7 +56,7 @@ export default class DynamicComponentsContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-page__dynamic_block + .brc-page__dynamic_block {
   margin-top: 60px;

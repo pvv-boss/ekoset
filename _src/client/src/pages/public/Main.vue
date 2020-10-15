@@ -1,8 +1,12 @@
 <template>
   <main>
-    <TheDynamicBanner :bannersInfo="bannersInfo"></TheDynamicBanner>
-    <SiteSectionList :siteSectionList="siteSectionItems"></SiteSectionList>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <LazyTheDynamicBanner :banners-info="bannersInfo"></LazyTheDynamicBanner>
+    <LazySiteSectionList
+      :site-section-list="siteSectionItems"
+    ></LazySiteSectionList>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -12,25 +16,14 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import SeoMeta from '@/models/ekoset/SeoMeta'
 
-import SiteSectionList from '@/components/public/SiteSectionList.vue'
 import SiteSection from '@/models/ekoset/SiteSection'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheDynamicBanner from '@/components/header/TheDynamicBanner.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BannersInfo from '@/models/ekoset/BannersInfo'
 
 
-@Component({
-  components: {
-    DynamicComponentsContainer,
-    SiteSectionList,
-    BreadCrumbs,
-    TheDynamicBanner
-  }
-})
+@Component
 export default class Main extends Vue {
   private siteSectionItems: SiteSection[] = []
   private dynamicComponentInfo: DynamicComponentInfo[] = []

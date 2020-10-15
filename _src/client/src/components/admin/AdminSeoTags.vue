@@ -35,8 +35,10 @@ import SeoMeta from '@/models/ekoset/SeoMeta'
 export default class AdminSeoTags extends Vue {
   @Prop()
   private seoTitle
+
   @Prop()
   private seoDescription
+
   @Prop()
   private seoKeywords
 }

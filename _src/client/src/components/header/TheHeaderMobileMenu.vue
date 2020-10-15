@@ -13,7 +13,7 @@
       <div class="brc-buscet-counter_mobile">{{getBuscetCount}}</div>
     </div>
 
-    <div class="brc-page-header-mobile_expander" v-click-outside="closeMenu" @click="openMenu">
+    <div v-click-outside="closeMenu" class="brc-page-header-mobile_expander" @click="openMenu">
       <span></span>
       <span></span>
       <span></span>
@@ -23,7 +23,7 @@
     <nav class="brc-page-header-mobile__menu" :class="{'brc-page-header-mobile__menu_visible':isMainMenuActive===true}">
       <div class="brc-page-header-mobile-menu__title">
         <div class="brc-page-header-mobile-menu__user-auth">
-        <UserAuthHeader :isMobile="true"></UserAuthHeader>
+        <UserAuthHeader :is-mobile="true"></UserAuthHeader>
         </div>
 
         <div class="brc-page-header-mobile__close" @click="openMenu">
@@ -34,7 +34,7 @@
       </div>
 
       <div class="brc-page-header-mobile-menu__main-menu">
-        <TheHeaderMenu :isMobile="true"></TheHeaderMenu>
+        <TheHeaderMenu :is-mobile="true"></TheHeaderMenu>
       </div>
 
       <div class="brc-page-header-mobile__empty-section"></div>
@@ -90,6 +90,7 @@ export default class TheHeaderMobileMenu2 extends Vue {
   private get getBuscetCount () {
     return this.buscetStore.addedServiceCount
   }
+
   public isMainMenuActive = false
 
   private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)

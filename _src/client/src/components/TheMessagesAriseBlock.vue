@@ -1,46 +1,54 @@
 <template>
   <div class="brc-message-arise__outer">
-    <div class="brc-message-arise__wrapper" id="btnOrderPopupForm" style="display:none">
-      <MessageFormSimple
+    <div
+      id="btnOrderPopupForm"
+      class="brc-message-arise__wrapper"
+      style="display: none"
+    >
+      <LazyMessageFormSimple
         title="Пригласить на тендер"
         :mode="2"
+        show-close-btn="true"
         @closeForm="closeForm"
-        showCloseBtn="true"
-      ></MessageFormSimple>
+      ></LazyMessageFormSimple>
     </div>
-    <div class="brc-message-arise__wrapper" id="btnQuestionPopupForm" style="display:none">
-      <MessageFormSimple
+    <div
+      id="btnQuestionPopupForm"
+      class="brc-message-arise__wrapper"
+      style="display: none"
+    >
+      <LazyMessageFormSimple
         title="Задать вопрос эксперту"
         :mode="1"
+        show-close-btn="true"
         @closeForm="closeForm"
-        showCloseBtn="true"
-      ></MessageFormSimple>
+      ></LazyMessageFormSimple>
     </div>
-    <div class="brc-message-arise__wrapper" id="btnRequestServicePopupForm" style="display:none">
-      <MessageForm title="Отправить заказ" :mode="0" @closeForm="closeForm" showCloseBtn="true"></MessageForm>
-      <MessageFormMobile
+    <div
+      id="btnRequestServicePopupForm"
+      class="brc-message-arise__wrapper"
+      style="display: none"
+    >
+      <LazyMessageForm
         title="Отправить заказ"
         :mode="0"
+        show-close-btn="true"
         @closeForm="closeForm"
-        showCloseBtn="true"
-      ></MessageFormMobile>
+      ></LazyMessageForm>
+      <LazyMessageFormMobile
+        title="Отправить заказ"
+        :mode="0"
+        show-close-btn="true"
+        @closeForm="closeForm"
+      ></LazyMessageFormMobile>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import MessageForm from '@/components/public/MessageForm.vue'
-import MessageFormSimple from '@/components/public/MessageFormSimple.vue'
-import MessageFormMobile from '@/components/public/MessageFormMobile.vue'
 
-@Component({
-  components: {
-    MessageForm,
-    MessageFormSimple,
-    MessageFormMobile
-  }
-})
+@Component
 export default class TheMessagesAriseBlock extends Vue {
   // private mounted () {
   //   const orderFormElement = document.getElementById('btnOrderPopupForm')
@@ -100,7 +108,7 @@ export default class TheMessagesAriseBlock extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-message-arise__outer {
   z-index: 3000;
 }

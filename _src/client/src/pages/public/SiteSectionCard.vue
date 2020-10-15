@@ -1,8 +1,10 @@
 <template>
   <main>
-    <TheDynamicBanner :bannersInfo="bannersInfo"></TheDynamicBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <LazyTheDynamicBanner :banners-info="bannersInfo"></LazyTheDynamicBanner>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -11,25 +13,14 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import SiteSection from '@/models/ekoset/SiteSection'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
-import TheBanner from '@/components/header/TheBanner.vue'
 import SeoMeta from '@/models/ekoset/SeoMeta'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BannersInfo from '@/models/ekoset/BannersInfo'
-import TheDynamicBanner from '@/components/header/TheDynamicBanner.vue'
 
-@Component({
-  components: {
-    DynamicComponentsContainer,
-    BreadCrumbs,
-    TheBanner,
-    TheDynamicBanner
-  }
-})
+@Component
 export default class SiteSectionCard extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private siteSectionItem: SiteSection = new SiteSection()

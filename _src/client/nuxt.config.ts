@@ -1,9 +1,7 @@
 import { NuxtConfig } from '@nuxt/types'
 
-const isDev = process.env.NODE_ENV !== 'production'
 
 const config: NuxtConfig = {
-  mode: 'universal',
   components: true,
   modern: true,
   srcDir: 'src/',
@@ -30,6 +28,8 @@ const config: NuxtConfig = {
     }
     ],
 
+
+
     link: [
       // {
       //   rel: 'preload',
@@ -45,32 +45,26 @@ const config: NuxtConfig = {
         rel: 'stylesheet',
         href: 'https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'
       },
-      {
-        rel: 'preload',
-        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-        as: 'style'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-      },
+
       {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.png'
       },
-      // {
-      //   href: "https://unpkg.com/buefy/dist/buefy.min.js",
-      //   rel: 'preload',
-      //   as: 'script'
-      // }
+
+      {
+        rel: 'preload',
+        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
+        as: 'style'
+      },
+
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
+      }
     ],
 
     script: [
-      // {
-      //   src: "https://unpkg.com/buefy/dist/buefy.min.js",
-      //   defer: true
-      // }
       //   // async: '',
       //   // src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
       // }
@@ -79,7 +73,7 @@ const config: NuxtConfig = {
     bodyAttrs: {
       itemscope: '',
       itemtype: 'https://schema.org/WebPage'
-    }
+    },
   },
 
   pageTransition: {
@@ -120,11 +114,13 @@ const config: NuxtConfig = {
   ],
 
   router: {
-    middleware: ['needAuthorize', 'baseMiddleware'],
-    prefetchLinks: false
+    prefetchLinks: true,
+    middleware: ['needAuthorize', 'baseMiddleware']
   },
 
   buildModules: [
+    'nuxt-webfontloader',
+    'nuxt-purgecss',
     ['@nuxt/typescript-build', {
       typeCheck: true,
       ignoreNotFoundWarnings: true,
@@ -133,8 +129,6 @@ const config: NuxtConfig = {
   ],
 
   modules: [
-    'nuxt-purgecss',
-    'nuxt-webfontloader',
     ['@nuxtjs/router', {
       path: 'src/routers',
       fileName: 'index.ts'
@@ -147,41 +141,23 @@ const config: NuxtConfig = {
         clickmap: true,
         useCDN: true,
         trackLinks: true,
-        accurateTrackBounce: true,
+        accurateTrackBounce: true
       }]
   ],
 
-  build: {
-    babel: {
-      plugins: [
-        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
-      ]
-    },
-    // analyze: true,
-    extractCSS: true,
 
-    ...(!isDev && {
-      html: {
-        minify: {
-          collapseBooleanAttributes: true,
-          decodeEntities: true,
-          minifyCSS: true,
-          minifyJS: true,
-          processConditionalComments: true,
-          removeEmptyAttributes: true,
-          removeRedundantAttributes: true,
-          trimCustomFragments: true,
-          useShortDoctype: true
-        }
-      }
-    }),
+  build: {
+    extractCSS: true,
+    optimizeCSS: true,
 
     optimization: {
-      minimize: !isDev
+      splitChunks: {
+        chunks: 'all'
+      }
     },
 
     splitChunks: {
-      layouts: true,
+      layouts: false,
       pages: true,
       commons: true
     },
@@ -191,22 +167,13 @@ const config: NuxtConfig = {
         isDev
       }) => isDev ? '[name].css' : '[contenthash].css',
     },
-
-    extend (config, {
-      isDev,
-      isClient
-    }) {
-      return config
-    },
   },
+
 
   render: {
     compressor: false,
-    resourceHints: false,
-    etag: false,
-    static: {
-      etag: false
-    }
+    resourceHints: true,
+    etag: false
   },
 
   purgeCSS: {

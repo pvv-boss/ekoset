@@ -54,7 +54,7 @@ class BrcDialogPropover {
       }
     })
 
-    const showPopover = (content: string, title: string = '', el: HTMLElement, position: BrcPopoverPosition = BrcPopoverPosition.Bottom) => {
+    const showPopover = (content: string, title = '', el: HTMLElement, position: BrcPopoverPosition = BrcPopoverPosition.Bottom) => {
       propoverOptions.headerVisibility = title !== ''
       propoverOptions.closeOnLeave = false
       propoverOptions.title = title

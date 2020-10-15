@@ -3,43 +3,47 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Бренд: {{brandItem.clBrandName}}</h2>
-          <AdminStatusSelector statusCaption="Активен" v-model.number="brandItem.clBrandStatus"></AdminStatusSelector>
+          <h2>Бренд: {{ brandItem.clBrandName }}</h2>
+          <AdminStatusSelector
+            v-model.number="brandItem.clBrandStatus"
+            status-caption="Активен"
+          ></AdminStatusSelector>
           <div class="field">
             <b-switch
               v-model="brandItem.clBrandMainPageVisible"
               true-value="1"
               false-value="0"
               type="is-success"
-            >Отображать на главной странице</b-switch>
+              >Отображать на главной странице</b-switch
+            >
           </div>
           <b-button type="is-primary" @click="saveBrand">Сохранить</b-button>
         </div>
       </template>
       <template #content>
         <div class="brc-admin-card_two-column">
-          <div class="brc-admin-card-field-list_row" style="flex:1;">
+          <div class="brc-admin-card-field-list_row" style="flex: 1">
             <b-field label="Наименование">
               <b-input
+                v-model="brandItem.clBrandName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="brandItem.clBrandName"
               ></b-input>
             </b-field>
             <b-field label="Фото на карточке (логотип)">
               <AdminImageUploader
                 id="clBrandImgSmall"
-                :isLeft="true"
-                :srcImage="brandItem.clBrandImgSmall"
+                :is-left="true"
+                :src-image="brandItem.clBrandImgSmall"
                 @uploader:newimageloaded="saveBrandImage"
               >
-                <template v-slot="{imageSrc}">
+                <template v-slot="{ imageSrc }">
                   <RecommendationListItem
                     :brand="brandItem"
-                    :imageSrcForDesignMode="imageSrc"
-                    style="margin:0px;padding:0px;"
+                    :image-src-for-design-mode="imageSrc"
+                    style="margin: 0px; padding: 0px"
                   ></RecommendationListItem>
                 </template>
               </AdminImageUploader>
@@ -58,26 +62,11 @@ import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
-import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
-import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
 
-@Component({
-  components: {
-    AdminStatusSelector,
-    BreadCrumbs,
-    AdminImageUploader,
-    BaseCard,
-    RecommendationListItem,
-    RecommLetterListItem
-  }})
-
+@Component
 export default class AdminBrandCard extends Vue {
   private brandItem: ClBrand = new ClBrand()
   private recommendLetterList: any[] = []
@@ -148,8 +137,8 @@ export default class AdminBrandCard extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
+@import "@/styles/variables.scss";
+@import "@/styles/typography.scss";
 
 .brc-admin-card-recomm-letter-list {
   margin: 30px -15px 0;

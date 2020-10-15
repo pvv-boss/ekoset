@@ -1,7 +1,7 @@
 <template>
   <nav
-    class="brc-admin-navigation__wrapper"
     id="adminNavigation"
+    class="brc-admin-navigation__wrapper"
     :class="{'brc-admin-navigation_hidden': !sidebaropen}"
   >
     <b-menu>

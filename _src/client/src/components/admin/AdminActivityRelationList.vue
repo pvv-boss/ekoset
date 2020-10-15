@@ -4,8 +4,8 @@
       :columns="headerFields"
       :rows="activityRelationItems"
       :sort-options="{
-          enabled: true,
-          initialSortBy: {field: 'clActivityName', type: 'asc'}
+        enabled: true,
+        initialSortBy: { field: 'clActivityName', type: 'asc' },
       }"
     >
       <template #table-row="props">
@@ -14,10 +14,10 @@
           type="checkbox"
           :value="props.row.clActivityId"
           :checked="props.row.hasRelation"
-          @change="onChecked(props.row.clActivityId,$event.target.checked)"
           :disabled="disabled"
+          @change="onChecked(props.row.clActivityId, $event.target.checked)"
         />
-        <span v-else>{{props.formattedRow[props.column.field]}}</span>
+        <span v-else>{{ props.formattedRow[props.column.field] }}</span>
       </template>
     </vue-good-table>
   </div>
@@ -25,9 +25,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService';
 
 @Component({})

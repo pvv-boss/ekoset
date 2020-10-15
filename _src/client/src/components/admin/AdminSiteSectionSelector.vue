@@ -2,11 +2,11 @@
   <div class="brc-select-wrapper">
     <b-field style="align-items:center">
       <b-select
-        placeholder="Раздел сайта"
         v-model="selectedSiteSectionId"
-        @input="$emit('input', selectedId)"
+        placeholder="Раздел сайта"
         :disabled="disabled"
         expanded
+        @input="$emit('input', selectedId)"
       >
         <option
           v-for="siteSection in siteSectionList"

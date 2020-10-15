@@ -1,14 +1,14 @@
 
-import transformer from 'class-transformer';
+import { classToPlain, deserialize, plainToClass, plainToClassFromExist } from 'class-transformer';
 
 export default class ClassTransform {
 
   public static jsonStringToClass = (jsonString, classType: any) => {
-    return transformer.deserialize(classType, jsonString);
+    return deserialize(classType, jsonString);
   }
 
   public static plainToClass = (jsonObject, classType: any) => {
-    return transformer.plainToClass(classType, jsonObject);
+    return plainToClass(classType, jsonObject);
   }
 
   public static plainToClassOne = (jsonObject, classType: any) => {
@@ -22,19 +22,19 @@ export default class ClassTransform {
       return result && result.length > 0 ? result[0] : null;
     } else {
       const newInstance: T = new classType();
-      return transformer.plainToClassFromExist(newInstance, jsonObject);
+      return plainToClassFromExist(newInstance, jsonObject);
     }
   }
 
   public static plainArrayToClassInstanceArray<T> (jsonObject: [], classType: new () => T): T[] {
     return jsonObject.map((obj) => {
       const newInstance: T = new classType();
-      return transformer.plainToClassFromExist(newInstance, obj);
+      return plainToClassFromExist(newInstance, obj);
     })
   }
 
   public static classToClass<T> (fromClass, toClassType: new () => T): T {
-    const plain = transformer.classToPlain(fromClass);
+    const plain = classToPlain(fromClass);
     return this.plainToClassInstanceOne<T>(plain, toClassType);
   }
 }

@@ -1,39 +1,59 @@
 <template>
   <div class="brc-admin-card-field-list_row brc_admin-freeblock-editor">
     <b-field label="Наименование">
-      <b-input placeholder="Наименование" type="text" v-model="dynamicComponentInfo.dispalyName"></b-input>
+      <b-input
+        v-model="dynamicComponentInfo.dispalyName"
+        placeholder="Наименование"
+        type="text"
+      ></b-input>
     </b-field>
 
     <b-field label="Заголовок H2">
-      <b-input placeholder="Заголовок H2" type="text" v-model="dynamicComponentInfo.head"></b-input>
+      <b-input
+        v-model="dynamicComponentInfo.head"
+        placeholder="Заголовок H2"
+        type="text"
+      ></b-input>
     </b-field>
 
-    <div class="brc-admin-card-field-list_column" style="width:100%">
+    <div class="brc-admin-card-field-list_column" style="width: 100%">
       <div
         class="brc-admin-editor__left"
-        :class="{'editor_full_size':isRightEditorVisible===false}"
+        :class="{ editor_full_size: isRightEditorVisible === false }"
       >
         <div class="brc-admin-editor__caption">
-          <span>{{leftPanelCaption}}</span>
+          <span>{{ leftPanelCaption }}</span>
           <b-switch
             v-if="!isRightEditorVisible"
+            v-model="isRightEditorVisible"
             type="is-success"
             size="is-small"
-            v-model="isRightEditorVisible"
-          >Включить правый блок-конструктор</b-switch>
+            >Включить правый блок-конструктор</b-switch
+          >
         </div>
-        <BaseCKEditor v-model="leftBlockContent" id="leftBlockContent"></BaseCKEditor>
+        <LazyBaseCkEditor
+          id="leftBlockContent"
+          v-model="leftBlockContent"
+        ></LazyBaseCkEditor>
       </div>
 
       <div
         class="brc-admin-editor__right"
-        :class="{'editor_full_size':isRightEditorVisible===false}"
+        :class="{ editor_full_size: isRightEditorVisible === false }"
       >
         <div class="brc-admin-editor__caption">
           <span>Правый блок-конструктор</span>
-          <b-switch type="is-success" size="is-small" v-model="isRightEditorVisible">Скрыть</b-switch>
+          <b-switch
+            v-model="isRightEditorVisible"
+            type="is-success"
+            size="is-small"
+            >Скрыть</b-switch
+          >
         </div>
-        <BaseCKEditor v-model="rightBlockContent" id="rightBlockContent"></BaseCKEditor>
+        <LazyBaseCkEditor
+          id="rightBlockContent"
+          v-model="rightBlockContent"
+        ></LazyBaseCkEditor>
       </div>
     </div>
   </div>
@@ -41,16 +61,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import BaseCKEditor from '@/components/base/BaseCKEditor.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 
 
-@Component({
-  components: {
-    BaseCKEditor
-  }
-})
+@Component
 export default class AdminFreeBlockInfoEditor extends Vue {
   @Prop()
   private dynamicComponentInfo
@@ -60,10 +74,10 @@ export default class AdminFreeBlockInfoEditor extends Vue {
   @Watch('dynamicComponentInfo', { immediate: true })
   private onDynamicComponentInfoChanged () {
     this.isRightEditorVisible =
-      !!this.dynamicComponentInfo &&
+      !!(!!this.dynamicComponentInfo &&
         !!this.dynamicComponentInfo.props &&
         !!this.dynamicComponentInfo.props.rightBlock &&
-        this.dynamicComponentInfo.props.rightBlock.length > 0 ? true : false
+        this.dynamicComponentInfo.props.rightBlock.length > 0)
 
   }
 
@@ -92,7 +106,7 @@ export default class AdminFreeBlockInfoEditor extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 /*! purgecss start ignore */
 .brc_admin-freeblock-editor {

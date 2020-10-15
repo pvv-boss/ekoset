@@ -1,6 +1,6 @@
 <template>
   <section>
-    <figure class="brc-page-image__wrapper" v-if="!!imageSrc">
+    <figure v-if="!!imageSrc" class="brc-page-image__wrapper">
       <img itemprop="image" :src="imageSrc" class="brc-page-image" />
       <h1 v-if="!!h1" itemprop="headline name" class="brc-page-title">{{h1}}</h1>
     </figure>

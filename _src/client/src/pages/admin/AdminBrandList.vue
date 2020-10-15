@@ -4,29 +4,32 @@
       <div class="brc-card__header__toolbar">
         <h2>Бренды</h2>
         <span class="brc_admin-brand-list-container__help">
-          <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
+          <i
+            >(Для измнения порядка следования перетащите блок вверх или вниз)</i
+          >
         </span>
 
         <div v-if="createNewBrandMode" class="brc-admin-card-create-row">
           <b-field label="Наименование:" horizontal>
             <b-input
+              v-model="newBrand.clBrandName"
               placeholder="Наименование"
               type="text"
               required
               validation-message="Наименование не может быть пустым"
-              v-model="newBrand.clBrandName"
             ></b-input>
           </b-field>
-          <b-button @click="saveNewBrand" type="is-primary">Сохранить</b-button>
+          <b-button type="is-primary" @click="saveNewBrand">Сохранить</b-button>
           <b-button @click="cancelSaveNewBrand">Отмена</b-button>
         </div>
 
         <b-button
+          v-show="!createNewBrandMode"
           type="is-primary"
           outlined
           @click="createNewBrandMode = true"
-          v-show="!createNewBrandMode"
-        >Создать</b-button>
+          >Создать</b-button
+        >
       </div>
 
       <div class="brc_admin-brand-list">
@@ -42,9 +45,9 @@
 
         <draggable v-model="brandList" @change="handleChange">
           <div
-            class="brc_admin-brand-list-item"
             v-for="iterBrand in brandList"
             :key="iterBrand.clBrandId"
+            class="brc_admin-brand-list-item"
           >
             <b-switch
               v-model="iterBrand.clBrandStatus"
@@ -52,7 +55,7 @@
               false-value="0"
               type="is-success"
               size="is-small"
-              style="justify-content: flex-end;"
+              style="justify-content: flex-end"
               @input="saveBrand(iterBrand)"
             ></b-switch>
 
@@ -66,72 +69,100 @@
             ></b-switch>
 
             <nuxt-link
-              :to="{ name: 'admin-brand-card',params:{brand:iterBrand.clBrandId}}"
-            >{{iterBrand.clBrandName}}</nuxt-link>
+              :to="{
+                name: 'admin-brand-card',
+                params: { brand: iterBrand.clBrandId },
+              }"
+              >{{ iterBrand.clBrandName }}</nuxt-link
+            >
 
             <AdminClActivitySelector
-              :clActivityList="clActivityList"
               v-model="iterBrand.clActivityId"
+              :cl-activity-list="clActivityList"
               @input="saveBrand(iterBrand)"
             ></AdminClActivitySelector>
             <div>
-              <b-upload @input="saveBrandImage(...arguments,iterBrand)">
+              <b-upload @input="saveBrandImage(...arguments, iterBrand)">
                 <a class="button is-link">
                   <b-icon icon="upload"></b-icon>
                 </a>
               </b-upload>
               <b-button
-                @click="showBrandImage(iterBrand)"
+                v-if="
+                  !!iterBrand.clBrandImgSmall &&
+                  iterBrand.clBrandImgSmall != '/img/empty-image.png'
+                "
                 icon-right="file-find"
                 type="is-success"
                 size="is-medium"
                 outlined
-                style="margin-left:20px;"
-                v-if="!!iterBrand.clBrandImgSmall && iterBrand.clBrandImgSmall !='/img/empty-image.png'"
+                style="margin-left: 20px"
+                @click="showBrandImage(iterBrand)"
               ></b-button>
             </div>
 
             <div>
-              <b-upload @input="saveLetterImage(...arguments,iterBrand)">
+              <b-upload @input="saveLetterImage(...arguments, iterBrand)">
                 <a class="button is-link">
                   <b-icon icon="upload"></b-icon>
                 </a>
               </b-upload>
               <b-button
-                @click="showLetterImage(iterBrand)"
+                v-if="
+                  !!iterBrand.clBrandImgBig &&
+                  iterBrand.clBrandImgBig != '/img/empty-image.png'
+                "
                 icon-right="file-find"
                 type="is-success"
                 size="is-medium"
                 outlined
-                style="margin-left:15px;"
-                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !='/img/empty-image.png'"
+                style="margin-left: 15px"
+                @click="showLetterImage(iterBrand)"
               ></b-button>
               <b-button
-                @click="deleteLetter(iterBrand)"
+                v-if="
+                  !!iterBrand.clBrandImgBig &&
+                  iterBrand.clBrandImgBig != '/img/empty-image.png'
+                "
                 type="is-danger"
                 size="is-medium"
                 outlined
-                style="margin-left:15px;"
-                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig !='/img/empty-image.png'"
+                style="margin-left: 15px"
                 icon-right="delete"
+                @click="deleteLetter(iterBrand)"
               ></b-button>
             </div>
 
-            <b-button type="is-danger" icon-right="delete" @click="deleteBrand(iterBrand)"></b-button>
+            <b-button
+              type="is-danger"
+              icon-right="delete"
+              @click="deleteBrand(iterBrand)"
+            ></b-button>
           </div>
         </draggable>
       </div>
     </div>
 
-    <b-modal :active.sync="isShowBrandImageActive" :can-cancel="true" :width="400">
+    <b-modal
+      :active.sync="isShowBrandImageActive"
+      :can-cancel="true"
+      :width="400"
+    >
       <RecommendationListItem
         :brand="previewImageBrand"
-        style="width:190px;margin:0px;background-color:white;"
+        style="width: 190px; margin: 0px; background-color: white"
       ></RecommendationListItem>
     </b-modal>
 
-    <b-modal :active.sync="isShowLetterImageActive" :can-cancel="true" :width="400">
-      <RecommLetterListItem :brand="previewLetterBrand" style="background-color:white;"></RecommLetterListItem>
+    <b-modal
+      :active.sync="isShowLetterImageActive"
+      :can-cancel="true"
+      :width="400"
+    >
+      <RecommLetterListItem
+        :brand="previewLetterBrand"
+        style="background-color: white"
+      ></RecommLetterListItem>
     </b-modal>
   </div>
 </template>
@@ -143,25 +174,12 @@ import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
 import ClBrand from '@/models/ekoset/ClBrand'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
-import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
-import RecommendationListItem from '@/components/public/RecommendationListItem.vue'
-import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
 import ClActivity from '@/models/ekoset/ClActivity'
 
 
-@Component({
-  components: {
-    BreadCrumbs,
-    AdminStatusSelector,
-    AdminClActivitySelector,
-    RecommendationListItem,
-    RecommLetterListItem
-  }
-})
+@Component
 export default class AdminBrandList extends Vue {
   private brandList: ClBrand[] = []
   private createNewBrandMode = false
@@ -269,7 +287,7 @@ export default class AdminBrandList extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-brand-list-container {
   display: flex;

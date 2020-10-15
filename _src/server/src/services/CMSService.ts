@@ -6,8 +6,8 @@ import slugify from '@sindresorhus/slugify';
 
 export default class CMSService extends BaseService {
 
-  private apiViewName = 'v_api_admin_site_block_info'
-  private apiSitePageViewName = 'v_api_site_page'
+  private apiViewName = 'v_api_admin_site_block_info';
+  private apiSitePageViewName = 'v_api_site_page';
 
   public async adminGetSitePages () {
     return this.getDbViewResult(this.apiSitePageViewName);

@@ -22,12 +22,13 @@ import ClBrand from '@/models/ekoset/ClBrand'
 export default class RecommLetterListItem extends Vue {
   @Prop()
   private brand: ClBrand
+
   @Prop()
   private imageSrcForDesignMode: string
 
 
   private get imageSrc () {
-    return !!this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgBig
+    return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.brand.clBrandImgBig
   }
 
 }

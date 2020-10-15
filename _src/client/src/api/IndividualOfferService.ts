@@ -1,7 +1,7 @@
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
+import HttpUtil from '../utils/HttpUtil'
+import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer';
 
 export default class IndividualOfferService extends BaseService {
@@ -45,10 +45,10 @@ export default class IndividualOfferService extends BaseService {
     const query = 'offers'
     const resultPr = HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
 
-    if (!!individualOffer.smallImageFormData) {
+    if (individualOffer.smallImageFormData) {
       getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
     }
-    if (!!individualOffer.bigImageFormData) {
+    if (individualOffer.bigImageFormData) {
       getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
     }
 

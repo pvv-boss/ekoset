@@ -2,11 +2,11 @@
   <div class="brc_admin-freeblock-item">
     <b-switch
       v-model="dynamicComponentInfo.visible"
-      @input="$emit('componentinfo:status:changed', dynamicComponentInfo)"
       true-value="1"
       false-value="0"
       type="is-success"
       size="is-small"
+      @input="$emit('componentinfo:status:changed', dynamicComponentInfo)"
     ></b-switch>
     <span style="margin-right:auto;">{{dynamicComponentInfo.dispalyName}}</span>
     <b-button

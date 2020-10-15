@@ -7,25 +7,25 @@
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
             <label for="userName">Имя Фамилия</label>
-            <input type="text" v-model.lazy="formMessageData.userRequestUser" />
+            <input v-model.lazy="formMessageData.userRequestUser" type="text" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestUser.trim().length === 0 }"
             >Введите имя</span>
           </div>
-          <div class="brc-message-form__block" v-if="isBrowser">
+          <div v-if="isBrowser" class="brc-message-form__block">
             <label for="phone">Телефон</label>
             <span class="brc-input-addon">
               <span class="phone_add_seven">+7</span>
               <input
-                type="tel"
                 v-model.lazy="formMessageData.userRequestPhone"
+                v-phone
+                type="tel"
                 name="phone"
                 placeholder="(555) 555-5555"
                 autocomplete="tel"
                 maxlength="14"
                 class="form-control form-control_phone"
-                v-phone
                 pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
               />
               <span
@@ -34,9 +34,9 @@
               >Введите телефон</span>
             </span>
           </div>
-          <div class="brc-message-form__block" v-if="isBrowser">
+          <div v-if="isBrowser" class="brc-message-form__block">
             <label for="email">Email</label>
-            <input type="email" v-model.lazy="formMessageData.userRequestMail" />
+            <input v-model.lazy="formMessageData.userRequestMail" type="email" />
             <span
               class="brc-error-message"
               :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
@@ -59,12 +59,12 @@
         <div class="brc-message-form__block" style="width:100%;">
           <label class="attach-file">
             <input
+              id="file"
+              ref="file"
               type="file"
               multiple
               name="file"
-              id="file"
-              ref="file"
-              v-on:change="handleFileUpload()"
+              @change="handleFileUpload()"
             />
             <div class="attach-file-file-name">Прикрепить файл(ы)</div>
             <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
@@ -102,7 +102,7 @@ import BuscetContaner from '@/components/public/BuscetContaner.vue'
         required,
         validFormat: (val) => {
           return emailTest.test(val);
-        },
+        }
       },
       userRequestPhone: {
         required,

@@ -1,5 +1,5 @@
 <template>
-  <select class="brc-contract-sort__mobile" v-model="sortMode">
+  <select v-model="sortMode" class="brc-contract-sort__mobile">
     <option :value="0">По сроку действия</option>
     <option :value="1">По наименованию</option>
   </select>

@@ -2,28 +2,42 @@
   <div class="brc_admin-freeblock-container">
     <b-field
       label="Управление блоками"
-      style="margin-top:15px; display:flex; flex-direction:column;"
+      style="margin-top: 15px; display: flex; flex-direction: column"
     >
       <b-button
+        v-show="!createNewBlockMode"
         type="is-primary"
         outlined
         @click="createNewBlockMode = true"
-        v-show="!createNewBlockMode"
-      >Создать блок-конструктор</b-button>
+        >Создать блок-конструктор</b-button
+      >
 
-      <div v-if="createNewBlockMode" class="brc-admin-card-create-row" style="gap:0px">
+      <div
+        v-if="createNewBlockMode"
+        class="brc-admin-card-create-row"
+        style="gap: 0px"
+      >
         <b-input
+          v-model="newComponentInfo.dispalyName"
           placeholder="Наименование"
           type="text"
           required
           validation-message="Наименование не может быть пустым"
-          v-model="newComponentInfo.dispalyName"
-          style="width:270px;"
+          style="width: 270px"
         ></b-input>
-        <b-button @click="saveNewBlock" type="is-primary" size="is-small" style="margin-left:auto;">
+        <b-button
+          type="is-primary"
+          size="is-small"
+          style="margin-left: auto"
+          @click="saveNewBlock"
+        >
           <b-icon icon="check"></b-icon>
         </b-button>
-        <b-button @click="cancelSaveNewBlock" size="is-small" style="margin-left:5px;">
+        <b-button
+          size="is-small"
+          style="margin-left: 5px"
+          @click="cancelSaveNewBlock"
+        >
           <b-icon icon="cancel"></b-icon>
         </b-button>
       </div>
@@ -38,12 +52,12 @@
         v-for="iterComponentInfo in dynamicComponentInfoListState"
         :key="iterComponentInfo.id + iterComponentInfo.dispalyName"
       >
-        <AdminFreeBlockItem
-          :dynamicComponentInfo="iterComponentInfo"
+        <LazyAdminFreeBlockItem
+          :dynamic-component-info="iterComponentInfo"
           @componentinfo:edit="freeBlockEdit(iterComponentInfo)"
           @componentinfo:status:changed="blockStatusChanged(iterComponentInfo)"
           @componentinfo:delete="deleteBlock(iterComponentInfo)"
-        ></AdminFreeBlockItem>
+        ></LazyAdminFreeBlockItem>
       </div>
     </draggable>
 
@@ -55,13 +69,16 @@
       aria-modal
       width="100%"
     >
-      <AdminFreeBlockInfoEditor :dynamicComponentInfo="editableComponentInfo"></AdminFreeBlockInfoEditor>
+      <LazyAdminFreeBlockInfoEditor
+        :dynamic-component-info="editableComponentInfo"
+      ></LazyAdminFreeBlockInfoEditor>
       <b-button
         class="button"
         type="button"
+        style="float: right; margin: 20px; margin-right: 330px"
         @click="closeFreeBlockEditModal"
-        style="float:right;margin:20px; margin-right:330px;"
-      >Сохранить и закрыть</b-button>
+        >Сохранить и закрыть</b-button
+      >
     </b-modal>
   </div>
 </template>
@@ -203,7 +220,7 @@ export default class AdminDynamicComponentsContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-freeblock-container {
   display: flex;

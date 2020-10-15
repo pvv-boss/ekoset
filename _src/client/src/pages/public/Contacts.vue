@@ -3,10 +3,12 @@
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
-      :imageSrc="sitePageInfo.sitePageBanner"
+      :image-src="sitePageInfo.sitePageBanner"
     ></TheBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -16,20 +18,11 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
-@Component({
-  components: {
-    BreadCrumbs,
-    DynamicComponentsContainer,
-    TheBanner
-  }
-})
+@Component
 export default class Contacts extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []

@@ -1,22 +1,28 @@
 <template>
   <div
+    v-if="
+      (!!rightBlock && rightBlock.length > 0) ||
+      (!!leftBlock && leftBlock.length > 0)
+    "
     class="brc-page-description"
-    :class="{bottom:bottomPosition}"
-    v-if="(!!rightBlock && rightBlock.length > 0) || (!!leftBlock && leftBlock.length > 0)"
+    :class="{ bottom: bottomPosition }"
   >
     <div
-      v-if="(!!leftBlock && leftBlock.length > 0)"
+      v-if="!!leftBlock && leftBlock.length > 0"
+      :class="{
+        'column-block':
+          rightBlock === null || (!!rightBlock && rightBlock.length === 0),
+      }"
       v-html="leftBlock"
-      :class="{'column-block':rightBlock === null || (!!rightBlock && rightBlock.length === 0)}"
     ></div>
-    <div v-html="rightBlock" v-if="!!rightBlock && rightBlock.length > 0"></div>
+    <div v-if="!!rightBlock && rightBlock.length > 0" v-html="rightBlock"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-@Component({})
+@Component
 export default class FreeContentBlock extends Vue {
   @Prop()
   private leftBlock

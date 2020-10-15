@@ -3,37 +3,43 @@
     <div class="brc-user-deals_menu">
       <div
         class="brc-user-deals_menu_item"
-        :class="{active: isActiveIndex ('user-deals-contracts')}"
+        :class="{ active: isActiveIndex('user-deals-contracts') }"
       >
-        <nuxt-link :to="{name:'user-deals-contracts'}">Договоры</nuxt-link>
+        <nuxt-link :to="{ name: 'user-deals-contracts' }">Договоры</nuxt-link>
       </div>
       <div
         class="brc-user-deals_menu_item"
-        :class="{active: isActiveIndex ('user-deals-labaratory')}"
+        :class="{ active: isActiveIndex('user-deals-labaratory') }"
       >
-        <nuxt-link :to="{name:'user-deals-labaratory'}">Лаборатория</nuxt-link>
+        <nuxt-link :to="{ name: 'user-deals-labaratory' }"
+          >Лаборатория</nuxt-link
+        >
       </div>
       <div
         class="brc-user-deals_menu_item"
-        :class="{active: isActiveIndex ('user-deals-sanitary')}"
+        :class="{ active: isActiveIndex('user-deals-sanitary') }"
       >
-        <nuxt-link :to="{name:'user-deals-sanitary'}">Сандокументы</nuxt-link>
+        <nuxt-link :to="{ name: 'user-deals-sanitary' }"
+          >Сандокументы</nuxt-link
+        >
       </div>
       <div
         class="brc-user-deals_menu_item"
-        :class="{active: isActiveIndex ('user-deals-disinfection')}"
+        :class="{ active: isActiveIndex('user-deals-disinfection') }"
       >
-        <nuxt-link :to="{name:'user-deals-disinfection'}">Дезработы</nuxt-link>
+        <nuxt-link :to="{ name: 'user-deals-disinfection' }"
+          >Дезработы</nuxt-link
+        >
       </div>
     </div>
     <nuxt-child></nuxt-child>
 
-    <MessageForm
+    <LazyMessageForm
       title="Отправить заказ"
       :mode="0"
       :show-close-btn="false"
       class="brc-user-deals__wrapper__messageform"
-    ></MessageForm>
+    ></LazyMessageForm>
   </section>
 </template>
 

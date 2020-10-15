@@ -11,7 +11,7 @@ export class BusinessServiceLocalStorageItem {
 
   public static createFromServicePrice (servicePrice: any) {
     const serv = new BusinessServiceLocalStorageItem()
-    serv.serviceName = !!servicePrice.name ? servicePrice.name : servicePrice.businesservicename
+    serv.serviceName = servicePrice.name ? servicePrice.name : servicePrice.businesservicename
     serv.serviceUrl = servicePrice.businesserviceurl
     return serv
   }

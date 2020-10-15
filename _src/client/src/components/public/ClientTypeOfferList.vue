@@ -1,7 +1,14 @@
 <template>
   <section class="brc-client-type-offer-list">
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'business'}}"
+      :to="{
+        name: 'offer-card',
+        params: {
+          offer: null,
+          siteSection: getCurrentSiteSection,
+          clienttype: 'business',
+        },
+      }"
       class="brc-client-type-offer-item"
     >
       <v-lazy-image
@@ -14,7 +21,14 @@
     </nuxt-link>
 
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: null, siteSection: getCurrentSiteSection, clienttype: 'person'}}"
+      :to="{
+        name: 'offer-card',
+        params: {
+          offer: null,
+          siteSection: getCurrentSiteSection,
+          clienttype: 'person',
+        },
+      }"
       class="brc-client-type-offer-item"
     >
       <v-lazy-image
@@ -30,8 +44,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 

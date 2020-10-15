@@ -3,10 +3,10 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Пункт меню: {{sitePageItem.sitePageName}}</h2>
+          <h2>Пункт меню: {{ sitePageItem.sitePageName }}</h2>
           <AdminStatusSelector
-            statusCaption="Активен"
             v-model.number="sitePageItem.sitePageStatus"
+            status-caption="Активен"
             @input="save"
           ></AdminStatusSelector>
         </div>
@@ -17,38 +17,40 @@
             <b-field label="Баннер">
               <AdminImageUploader
                 id="bigImageFile"
-                :srcImage="sitePageItem.sitePageBanner"
-                @uploader:newimageloaded="addImage($event,true)"
+                :src-image="sitePageItem.sitePageBanner"
+                @uploader:newimageloaded="addImage($event, true)"
               >
-                <template v-slot="{imageSrc}">
+                <template v-slot="{ imageSrc }">
                   <figure class="brc-admin-card-image__wrapper">
                     <img class="brc-admin-image" :src="imageSrc" />
-                    <h1 class="brc-admin-card-image-title">{{sitePageItem.sitePageH1}}</h1>
+                    <h1 class="brc-admin-card-image-title">
+                      {{ sitePageItem.sitePageH1 }}
+                    </h1>
                   </figure>
                 </template>
               </AdminImageUploader>
             </b-field>
             <b-field label="Наименование пункта">
               <b-input
+                v-model="sitePageItem.sitePageName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование не может быть пустым"
-                v-model="sitePageItem.sitePageName"
                 @blur="save"
               ></b-input>
             </b-field>
 
             <b-field label="Заголовок H1 (на связанной странице)">
               <b-input
+                v-model="sitePageItem.sitePageH1"
                 placeholder="Заголовок H1"
                 type="text"
                 @blur="save"
-                v-model="sitePageItem.sitePageH1"
               ></b-input>
             </b-field>
 
-            <b-field label="Раздел сайта" v-show="!isStandartMenuItem">
+            <b-field v-show="!isStandartMenuItem" label="Раздел сайта">
               <AdminSiteSectionSelector
                 v-model="sitePageItem.siteSectionId"
                 :nullable="true"
@@ -56,14 +58,18 @@
               ></AdminSiteSectionSelector>
             </b-field>
 
-            <b-field label="URL (ЧПУ) на страницу" v-show="!isStandartMenuItem">
-              <b-input type="text" v-model="sitePageItem.sitePageMenuName" @blur="save"></b-input>
+            <b-field v-show="!isStandartMenuItem" label="URL (ЧПУ) на страницу">
+              <b-input
+                v-model="sitePageItem.sitePageMenuName"
+                type="text"
+                @blur="save"
+              ></b-input>
             </b-field>
 
             <AdminSeoTags
-              :seoTitle.sync="sitePageItem.seoTitle"
-              :seoDescription.sync="sitePageItem.seoDescription"
-              :seoKeywords.sync="sitePageItem.seoKeywords"
+              :seo-title.sync="sitePageItem.seoTitle"
+              :seo-description.sync="sitePageItem.seoDescription"
+              :seo-keywords.sync="sitePageItem.seoKeywords"
               @updated="save"
             ></AdminSeoTags>
           </div>
@@ -73,18 +79,21 @@
               <b-field label="Логотип в шапке сайта">
                 <AdminImageUploader
                   id="siteSectionLogo"
-                  :srcImage="sitePageItem.sitePageLogo"
+                  :src-image="sitePageItem.sitePageLogo"
                   @uploader:newimageloaded="updateSitePageLogo($event)"
                 >
-                  <template v-slot="{imageSrc}">
-                    <TheHeaderLogo :disignMode="true" :imageSrcForDesignMode="imageSrc"></TheHeaderLogo>
+                  <template v-slot="{ imageSrc }">
+                    <TheHeaderLogo
+                      :disign-mode="true"
+                      :image-src-for-design-mode="imageSrc"
+                    ></TheHeaderLogo>
                   </template>
                 </AdminImageUploader>
               </b-field>
             </div>
             <AdminDynamicComponentsContainer
-              style="margin-top:10px;"
               v-model="dynamicComponentInfo"
+              style="margin-top: 10px"
               @freecomponent:save="saveDynamicComponentsInfo"
               @freecomponent:delete="refreshDynamicComponentsInfo"
             ></AdminDynamicComponentsContainer>
@@ -102,34 +111,13 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminFileUploader from '@/components/admin/AdminFileUploader.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminSiteSectionSelector from '@/components/admin/AdminSiteSectionSelector.vue'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
-import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
-import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
-import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
-import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
-@Component({
-  components: {
-    BreadCrumbs,
-    AdminSiteSectionSelector,
-    AdminStatusSelector,
-    AdminImageUploader,
-    BaseCard,
-    AdminDynamicComponentsContainer,
-    TheHeaderLogo,
-    AdminSeoTags
-  }
-})
+@Component
 export default class AdminTopMenuCard extends Vue {
   private sitePageItem: SitePage = new SitePage()
   private dynamicComponentInfo: DynamicComponentInfo[] = []

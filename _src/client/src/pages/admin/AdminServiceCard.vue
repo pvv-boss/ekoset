@@ -3,25 +3,25 @@
     <BaseCard>
       <template #header>
         <div class="brc-card__header__toolbar">
-          <h2>Услуга: {{serviceItem.businessServiceName}}</h2>
+          <h2>Услуга: {{ serviceItem.businessServiceName }}</h2>
           <AdminStatusSelector
-            statusCaption="Активна"
             v-model.number="serviceItem.businessServiceStatus"
+            status-caption="Активна"
             @input="saveService"
           ></AdminStatusSelector>
 
-          <b-field label="Ед. измерения" horizontal style="margin-bottom:0px">
+          <b-field label="Ед. измерения" horizontal style="margin-bottom: 0px">
             <b-input
-              placeholder="Единица измерения"
               v-model="serviceItem.businessServiceUnit"
+              placeholder="Единица измерения"
               @blur="saveService"
             ></b-input>
           </b-field>
 
-          <b-field label="Цена, руб." horizontal style="margin-bottom:0px">
+          <b-field label="Цена, руб." horizontal style="margin-bottom: 0px">
             <b-input
-              placeholder="Цена, руб."
               v-model="serviceItem.businessServicePrice"
+              placeholder="Цена, руб."
               @blur="saveService"
             ></b-input>
           </b-field>
@@ -35,13 +35,15 @@
                 <b-field label="Фото на странице">
                   <AdminImageUploader
                     id="bigImageFile"
-                    :srcImage="serviceItem.businessServiceImgBig"
-                    @uploader:newimageloaded="addServiceImage($event,true)"
+                    :src-image="serviceItem.businessServiceImgBig"
+                    @uploader:newimageloaded="addServiceImage($event, true)"
                   >
-                    <template v-slot="{imageSrc}">
+                    <template v-slot="{ imageSrc }">
                       <figure class="brc-admin-card-image__wrapper">
                         <img class="brc-admin-image" :src="imageSrc" />
-                        <h1 class="brc-admin-card-image-title">{{serviceItem.businessServiceH1}}</h1>
+                        <h1 class="brc-admin-card-image-title">
+                          {{ serviceItem.businessServiceH1 }}
+                        </h1>
                       </figure>
                     </template>
                   </AdminImageUploader>
@@ -49,30 +51,30 @@
 
                 <b-field label="Наименование">
                   <b-input
+                    v-model="serviceItem.businessServiceName"
                     placeholder="Наименование"
                     type="text"
                     required
                     validation-message="Наименование услуги не может быть пустым"
-                    v-model="serviceItem.businessServiceName"
                     @blur="saveService"
                   ></b-input>
                 </b-field>
 
                 <b-field label="Заголовок H1">
                   <b-input
+                    v-model="serviceItem.businessServiceH1"
                     placeholder="Заголовок H1"
                     type="text"
                     required
                     validation-message="Заголовок H1 не может быть пустым"
-                    v-model="serviceItem.businessServiceH1"
                     @blur="saveService"
                   ></b-input>
                 </b-field>
 
                 <b-field label="URL (ЧПУ) на страницу">
                   <b-input
-                    type="text"
                     v-model="serviceItem.businessServiceSlug"
+                    type="text"
                     @blur="saveService"
                   ></b-input>
                 </b-field>
@@ -82,17 +84,18 @@
                 <div class="field">
                   <b-switch
                     v-model="serviceItem.bsBannerInSectionInd"
-                    @input="saveService"
                     true-value="1"
                     false-value="0"
                     type="is-success"
                     size="is-small"
-                  >Баннер отображать в Подразделе</b-switch>
+                    @input="saveService"
+                    >Баннер отображать в Подразделе</b-switch
+                  >
                 </div>
                 <b-field label="Заголовок для баннера в Подразделе">
                   <b-input
-                    type="text"
                     v-model="serviceItem.bsBannerInSectionTitle"
+                    type="text"
                     @blur="saveService"
                   ></b-input>
                 </b-field>
@@ -100,25 +103,26 @@
                 <div class="field">
                   <b-switch
                     v-model="serviceItem.bsBannerInMainInd"
-                    @input="saveService"
                     true-value="1"
                     false-value="0"
                     type="is-success"
                     size="is-small"
-                  >Баннер отображать на Главной</b-switch>
+                    @input="saveService"
+                    >Баннер отображать на Главной</b-switch
+                  >
                 </div>
                 <b-field label="Заголовок для баннера на Главной">
                   <b-input
-                    type="text"
                     v-model="serviceItem.bsBannerInMainTitle"
+                    type="text"
                     @blur="saveService"
                   ></b-input>
                 </b-field>
 
                 <AdminSeoTags
-                  :seoTitle.sync="serviceItem.seoTitle"
-                  :seoDescription.sync="serviceItem.seoDescription"
-                  :seoKeywords.sync="serviceItem.seoKeywords"
+                  :seo-title.sync="serviceItem.seoTitle"
+                  :seo-description.sync="serviceItem.seoDescription"
+                  :seo-keywords.sync="serviceItem.seoKeywords"
                   @updated="saveService"
                 ></AdminSeoTags>
               </div>
@@ -128,15 +132,15 @@
                   <b-field label="Фото на карточке услуги">
                     <AdminImageUploader
                       id="smallImageFile"
-                      :srcImage="serviceItem.businessServiceImgSmall"
-                      :isLeft="true"
-                      @uploader:newimageloaded="addServiceImage($event,false)"
+                      :src-image="serviceItem.businessServiceImgSmall"
+                      :is-left="true"
+                      @uploader:newimageloaded="addServiceImage($event, false)"
                     >
-                      <template v-slot="{imageSrc}">
+                      <template v-slot="{ imageSrc }">
                         <ServiceListItem
-                          :serviceItem="serviceItem"
-                          :imageSrcForDesignMode="imageSrc"
-                          style="width:263px;height:212px;margin:0px"
+                          :service-item="serviceItem"
+                          :image-src-for-design-mode="imageSrc"
+                          style="width: 263px; height: 212px; margin: 0px"
                         ></ServiceListItem>
                       </template>
                     </AdminImageUploader>
@@ -152,11 +156,14 @@
             </div>
           </b-tab-item>
 
-          <b-tab-item label="Услуги второго уровня" v-if="!serviceItem.businessServiceParentId">
+          <b-tab-item
+            v-if="!serviceItem.businessServiceParentId"
+            label="Услуги второго уровня"
+          >
             <AdminServiceListContainer
               v-model="serviceOtherList"
-              :siteSection="siteSection"
-              :parentServiceId="serviceItem.businessServiceId"
+              :site-section="siteSection"
+              :parent-service-id="serviceItem.businessServiceId"
               @newservice:saved="refreshServiceList"
               @service:moved="refreshServiceList"
             ></AdminServiceListContainer>
@@ -164,8 +171,8 @@
 
           <b-tab-item label="Связанные услуги">
             <AdminRelatedService
-              :serviceRelationList="serviceRelationList"
-              :relatedServiceList="relatedServiceList"
+              :service-relation-list="serviceRelationList"
+              :related-service-list="relatedServiceList"
               @service:checked="relatedServiceSelected"
               @service:priortity:changed="relatedServicePriorityChanged"
             ></AdminRelatedService>
@@ -173,27 +180,38 @@
 
           <b-tab-item label="Тип клиента, объекта">
             <div class="brc-admin-card-field-list_column">
-              <b-field label="Типы клиентов" style="flex:1">
+              <b-field label="Типы клиентов" style="flex: 1">
                 <div
                   class="brc-admin-card__help"
-                  style="display:flex; flex-direction:column; flex:1"
+                  style="display: flex; flex-direction: column; flex: 1"
                 >
-                  <span>Тип клиента определяет будет ли данная услуга выводиться в списке услуг комплексных решений (по типу клиента) данного раздела</span>
+                  <span
+                    >Тип клиента определяет будет ли данная услуга выводиться в
+                    списке услуг комплексных решений (по типу клиента) данного
+                    раздела</span
+                  >
                   <AdminClientTypeRelationList
-                    :clientTypeRelationItems="clientTypeRelationList"
+                    :client-type-relation-items="clientTypeRelationList"
                     @clienttypechecked="clientTypeChecked"
                   ></AdminClientTypeRelationList>
                 </div>
               </b-field>
 
-              <b-field label="Виды деятельности" style="flex:1;margin-left:30px;">
+              <b-field
+                label="Виды деятельности"
+                style="flex: 1; margin-left: 30px"
+              >
                 <div
                   class="brc-admin-card__help"
-                  style="display:flex; flex-direction:column; flex:1"
+                  style="display: flex; flex-direction: column; flex: 1"
                 >
-                  <span>Вид деятельности определяет будет ли данная услуга выводиться в списке услуг индивидуального предложения (для данного вида деятельности)</span>
+                  <span
+                    >Вид деятельности определяет будет ли данная услуга
+                    выводиться в списке услуг индивидуального предложения (для
+                    данного вида деятельности)</span
+                  >
                   <AdminActivityRelationList
-                    :activityRelationItems="activityRelationList"
+                    :activity-relation-items="activityRelationList"
                     @activitychecked="activityChecked"
                   ></AdminActivityRelationList>
                 </div>
@@ -201,11 +219,14 @@
             </div>
           </b-tab-item>
 
-          <b-tab-item label="Рекомендации" v-if="!serviceItem.businessServiceParentId">
+          <b-tab-item
+            v-if="!serviceItem.businessServiceParentId"
+            label="Рекомендации"
+          >
             <AdminBrandRelationList
-              :brandRelationItems="brandRelationList"
-              @brandchecked="brandChecked"
+              :brand-relation-items="brandRelationList"
               :disabled="serviceItem.businessServiceParentId > 0"
+              @brandchecked="brandChecked"
             ></AdminBrandRelationList>
           </b-tab-item>
         </b-tabs>
@@ -221,44 +242,15 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import AdminBrandRelationList from '@/components/admin/AdminBrandRelationList.vue'
-import AdminClientTypeRelationList from '@/components/admin/AdminClientTypeRelationList.vue'
-import AdminActivityRelationList from '@/components/admin/AdminActivityRelationList.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity'
 import ClClient from '@/models/ekoset/ClClient'
-import AdminServiceListContainer from '@/components/admin/AdminServiceListContainer.vue'
-import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import AdminImageUploader from '@/components/admin/AdminImageUploader.vue'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
-import AdminRelatedService from '@/components/admin/AdminRelatedService.vue'
-import ServiceListItem from '@/components/public/ServiceListItem.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import AdminDynamicComponentsContainer from '@/components/admin/AdminDynamicComponentsContainer.vue'
 import SiteSection from '../../models/ekoset/SiteSection'
-import AdminSeoTags from '@/components/admin/AdminSeoTags.vue'
 
-@Component({
-  components: {
-    AdminBrandRelationList,
-    AdminServiceListContainer,
-    BreadCrumbs,
-    AdminServiceSelector,
-    AdminStatusSelector,
-    AdminActivityRelationList,
-    AdminClientTypeRelationList,
-    AdminImageUploader,
-    BaseCard,
-    ServiceListItem,
-    AdminDynamicComponentsContainer,
-    AdminRelatedService,
-    AdminSeoTags
-  }
-})
+@Component
 export default class AdminServiceCard extends Vue {
   private siteSection: SiteSection = new SiteSection()
   private serviceItem: BusinessService = new BusinessService()

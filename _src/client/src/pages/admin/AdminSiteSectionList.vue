@@ -5,29 +5,38 @@
         <div class="brc-card__header__toolbar">
           <h2>Разделы сайта</h2>
           <span class="brc-admin-card__help">
-            <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
+            <i
+              >(Для измнения порядка следования перетащите блок вверх или
+              вниз)</i
+            >
           </span>
 
-          <div v-if="createNewSiteSectionMode" class="brc-admin-card-create-row">
+          <div
+            v-if="createNewSiteSectionMode"
+            class="brc-admin-card-create-row"
+          >
             <b-field label="Наименование раздела:" horizontal>
               <b-input
+                v-model="newSiteSection.siteSectionName"
                 placeholder="Наименование"
                 type="text"
                 required
                 validation-message="Наименование раздела не может быть пустым"
-                v-model="newSiteSection.siteSectionName"
               ></b-input>
             </b-field>
-            <b-button @click="saveNewSiteSection" type="is-primary">Сохранить</b-button>
+            <b-button type="is-primary" @click="saveNewSiteSection"
+              >Сохранить</b-button
+            >
             <b-button @click="cancelSaveNewSiteSection">Отмена</b-button>
           </div>
 
           <b-button
+            v-show="!createNewSiteSectionMode"
             type="is-primary"
             outlined
             @click="createNewSiteSectionMode = true"
-            v-show="!createNewSiteSectionMode"
-          >Создать</b-button>
+            >Создать</b-button
+          >
         </div>
       </template>
 
@@ -43,9 +52,9 @@
 
           <draggable v-model="siteSectionItems" @change="handleDragChange">
             <div
-              class="brc_admin-sitesection-list-item"
               v-for="iterItem in siteSectionItems"
               :key="iterItem.siteSectionId"
+              class="brc_admin-sitesection-list-item"
             >
               <b-switch
                 v-model="iterItem.siteSectionStatus"
@@ -56,61 +65,87 @@
                 @input="changeStatus(iterItem)"
               ></b-switch>
               <nuxt-link
-                :to="{ name: 'admin-site-section-card', params: { siteSection: iterItem.siteSectionUrl}}"
-              >{{iterItem.siteSectionName}}</nuxt-link>
+                :to="{
+                  name: 'admin-site-section-card',
+                  params: { siteSection: iterItem.siteSectionUrl },
+                }"
+                >{{ iterItem.siteSectionName }}</nuxt-link
+              >
 
               <div>
-                <b-upload @input="addImage(...arguments,iterItem,true)">
+                <b-upload @input="addImage(...arguments, iterItem, true)">
                   <a class="button is-link">
                     <b-icon icon="upload"></b-icon>
                   </a>
                 </b-upload>
                 <b-button
+                  v-if="
+                    !!iterItem.siteSectionImgBig &&
+                    iterItem.siteSectionImgBig != '/img/empty-image-big.png'
+                  "
+                  icon-right="file-find"
+                  style="float: right; margin-right: 100px"
+                  type="is-success"
+                  size="is-medium"
+                  outlined
                   @click="showBigImage(iterItem)"
-                  v-if="!!iterItem.siteSectionImgBig && iterItem.siteSectionImgBig !='/img/empty-image-big.png'"
-                  icon-right="file-find"
-                  style="float:right;margin-right:100px;"
-                  type="is-success"
-                  size="is-medium"
-                  outlined
                 ></b-button>
               </div>
 
               <div>
-                <b-upload @input="addImage(...arguments,iterItem,false)">
+                <b-upload @input="addImage(...arguments, iterItem, false)">
                   <a class="button is-link">
                     <b-icon icon="upload"></b-icon>
                   </a>
                 </b-upload>
                 <b-button
-                  @click="showSmallImage(iterItem)"
-                  v-if="!!iterItem.siteSectionImgSmall && iterItem.siteSectionImgSmall !='/img/empty-image.png'"
+                  v-if="
+                    !!iterItem.siteSectionImgSmall &&
+                    iterItem.siteSectionImgSmall != '/img/empty-image.png'
+                  "
                   icon-right="file-find"
-                  style="float:right;;margin-right:100px;"
+                  style="float: right; margin-right: 100px"
                   type="is-success"
                   size="is-medium"
                   outlined
+                  @click="showSmallImage(iterItem)"
                 ></b-button>
               </div>
 
-              <b-button type="is-danger" icon-right="delete" @click="deleteSiteSection(iterItem)"></b-button>
+              <b-button
+                type="is-danger"
+                icon-right="delete"
+                @click="deleteSiteSection(iterItem)"
+              ></b-button>
             </div>
           </draggable>
         </div>
       </template>
     </BaseCard>
 
-    <b-modal :active.sync="isShowSmallImageActive" :can-cancel="true" :width="400">
+    <b-modal
+      :active.sync="isShowSmallImageActive"
+      :can-cancel="true"
+      :width="400"
+    >
       <SiteSectionListItem
-        :siteSectionItem="previewSmallSiteSection"
-        style="width:347px;margin:0px;background-color:white;"
+        :site-section-item="previewSmallSiteSection"
+        style="width: 347px; margin: 0px; background-color: white"
       ></SiteSectionListItem>
     </b-modal>
 
     <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
-      <figure class="brc-admin-card-image__wrapper" style="background-color:white;">
-        <img class="brc-admin-image" :src="previewBigSiteSection.siteSectionImgBig" />
-        <h1 class="brc-admin-card-image-title">{{previewBigSiteSection.siteSectionH1}}</h1>
+      <figure
+        class="brc-admin-card-image__wrapper"
+        style="background-color: white"
+      >
+        <img
+          class="brc-admin-image"
+          :src="previewBigSiteSection.siteSectionImgBig"
+        />
+        <h1 class="brc-admin-card-image-title">
+          {{ previewBigSiteSection.siteSectionH1 }}
+        </h1>
       </figure>
     </b-modal>
   </div>
@@ -122,19 +157,10 @@ import SiteSection from '@/models/ekoset/SiteSection.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import AdminStatusSelector from '@/components/admin/AdminStatusSelector.vue'
-import BaseCard from '@/components/BaseCard.vue'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
-import SiteSectionListItem from '@/components/public/SiteSectionListItem.vue'
 
-@Component({
-  components: {
-    AdminStatusSelector,
-    BaseCard,
-    SiteSectionListItem
-  }
-})
+@Component
 export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false
@@ -224,7 +250,7 @@ export default class AdminSiteSectionList extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-sitesection-list-item {
   margin-top: 10px;

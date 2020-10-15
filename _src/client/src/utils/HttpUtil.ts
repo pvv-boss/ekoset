@@ -40,7 +40,7 @@ class HttpUtil {
       this.axiosInstance.interceptors.response.use(
         (response: AxiosResponse) => {
           const jwt = response.headers[getServiceContainer().authService.getConfig().jwtHeaderName]
-          if (!!jwt) {
+          if (jwt) {
             getServiceContainer().authService.setAccessToken(jwt)
           }
           return response

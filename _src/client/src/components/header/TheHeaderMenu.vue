@@ -1,28 +1,47 @@
 <template>
-  <ul class="brc-page-header__main-menu" ref="mainmenu">
+  <ul ref="mainmenu" class="brc-page-header__main-menu">
     <template v-for="iterMenuItem in sitePageItems">
       <li
+        v-if="
+          iterMenuItem.sitePageCode !== 7 && isMenuItemEnablede(iterMenuItem)
+        "
         :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
         :key="isMobile + iterMenuItem.sitePageId"
-        :style="(iterMenuItem.sitePageCode !==7 && iterMenuItem.visibleInHorMenu) || isMobile ? 'visibility:visible':'position:absolute; visibility: hidden'"
-        v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
+        :style="
+          (iterMenuItem.sitePageCode !== 7 && iterMenuItem.visibleInHorMenu) ||
+          isMobile
+            ? 'visibility:visible'
+            : 'position:absolute; visibility: hidden'
+        "
       >
         <nuxt-link
-          :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
-              params: 
-                {
-                  siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
-                  page: iterMenuItem.sitePageUrl
-                }
-              }"
-          :class="{active: isActiveIndex (iterMenuItem)}"
-        >{{iterMenuItem.sitePageName}}</nuxt-link>
+          :to="{
+            name: !!iterMenuItem.sitePageRouteName
+              ? iterMenuItem.sitePageRouteName
+              : 'main',
+            params: {
+              siteSection: !!iterMenuItem.sitePageRouteName
+                ? getCurrentSiteSection
+                : null,
+              page: iterMenuItem.sitePageUrl,
+            },
+          }"
+          :class="{ active: isActiveIndex(iterMenuItem) }"
+          >{{ iterMenuItem.sitePageName }}</nuxt-link
+        >
       </li>
       <ThePriceMenuItem
+        v-if="
+          iterMenuItem.sitePageCode === 7 && isMenuItemEnablede(iterMenuItem)
+        "
         :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
         :key="isMobile + iterMenuItem.sitePageId"
-        :style="(iterMenuItem.sitePageCode ===7 && iterMenuItem.visibleInHorMenu) || isMobile ? 'visibility:visible' : 'position:absolute; visibility: hidden'"
-        v-if="iterMenuItem.sitePageCode ===7 && isMenuItemEnablede(iterMenuItem)"
+        :style="
+          (iterMenuItem.sitePageCode === 7 && iterMenuItem.visibleInHorMenu) ||
+          isMobile
+            ? 'visibility:visible'
+            : 'position:absolute; visibility: hidden'
+        "
       ></ThePriceMenuItem>
     </template>
 
@@ -32,9 +51,13 @@
     >
       <div
         id="dont_outside"
+        v-click-outside="
+          () => {
+            isMenuOpened = false;
+          }
+        "
         class="brc-page-header__main-menu_add-wrapper_expander"
         @click="onClick"
-        v-click-outside="()=>{isMenuOpened=false}"
       >
         <span></span>
         <span></span>
@@ -43,27 +66,35 @@
 
       <ul
         class="brc-price-menu"
-        :class="{ 'active': isMenuOpened === true }"
-        style="margin-top:8px;"
+        :class="{ active: isMenuOpened === true }"
+        style="margin-top: 8px"
       >
         <template v-for="iterMenuItem in this.additionalsitePageItems">
           <li
+            v-if="
+              iterMenuItem.sitePageCode !== 7 &&
+              isMenuItemEnablede(iterMenuItem)
+            "
             :ref="'addmenuitem' + isMobile + iterMenuItem.sitePageId"
             :key="isMobile + iterMenuItem.sitePageId"
-            v-if="iterMenuItem.sitePageCode !==7 && isMenuItemEnablede(iterMenuItem)"
             class="brc-page-header__main-menu_add-wrapper__item"
-            style="padding:10px !important;"
+            style="padding: 10px !important"
           >
             <nuxt-link
-              :to="{name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main', 
-              params: 
-                {
-                  siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
-                  page: iterMenuItem.sitePageUrl
-                }
+              :to="{
+                name: !!iterMenuItem.sitePageRouteName
+                  ? iterMenuItem.sitePageRouteName
+                  : 'main',
+                params: {
+                  siteSection: !!iterMenuItem.sitePageRouteName
+                    ? getCurrentSiteSection
+                    : null,
+                  page: iterMenuItem.sitePageUrl,
+                },
               }"
-              :class="{active: isActiveIndex (iterMenuItem)}"
-            >{{iterMenuItem.sitePageName}}</nuxt-link>
+              :class="{ active: isActiveIndex(iterMenuItem) }"
+              >{{ iterMenuItem.sitePageName }}</nuxt-link
+            >
           </li>
         </template>
       </ul>
@@ -123,7 +154,7 @@ export default class TheHeaderMenu extends Vue {
   }
 
   public isMenuItemEnablede (pageMenuItem: SitePage) {
-    const currentSiteSectionId = !!this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
+    const currentSiteSectionId = this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
     if (pageMenuItem.sitePageId === SitePageType.MAIN && this.isMobile) {
       return true
     }
@@ -170,7 +201,7 @@ export default class TheHeaderMenu extends Vue {
       this.sitePageItems.forEach((iterItem) => {
         if (this.isMenuItemEnablede(iterItem)) {
           const elWidth = this.getMenuItemOffsetWidth(iterItem)
-          if (!!elWidth) {
+          if (elWidth) {
             aggMenuItemWidth = aggMenuItemWidth + elWidth + 10
 
             if (aggMenuItemWidth > menuOffsetWidth - delta) {
@@ -197,8 +228,8 @@ export default class TheHeaderMenu extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
+@import "@/styles/variables.scss";
+@import "@/styles/typography.scss";
 
 $menu_item_padding: 12px;
 

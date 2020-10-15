@@ -31,7 +31,7 @@
             class="error-message"
           >{{invalidPassword}}</span>
         </div>
-        <div class="brc-login-form__block" v-if="isBrowser">
+        <div v-if="isBrowser" class="brc-login-form__block">
           <label>Новый пароль</label>
           <input
             v-model.lazy="password"
@@ -106,6 +106,7 @@ export default class ChangePasswordForm extends Vue {
     }
     return false
   }
+
   private get changePasswordResult () {
     return this.userStore.changePasswordResult
   }
@@ -121,6 +122,7 @@ export default class ChangePasswordForm extends Vue {
       this.userStore.changePassword({ oldPassword: this.oldpassword, newPassword: this.password })
     }
   }
+
   private mounted () {
     this.isBrowser = true
   }

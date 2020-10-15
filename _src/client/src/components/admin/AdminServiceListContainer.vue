@@ -8,23 +8,24 @@
       <div v-if="createNewServiceMode" class="brc-admin-card-create-row">
         <b-field label="Наименование услуги:" horizontal>
           <b-input
+            v-model="newService.businessServiceName"
             placeholder="Наименование"
             type="text"
             required
             validation-message="Наименование услуги не может быть пустым"
-            v-model="newService.businessServiceName"
           ></b-input>
         </b-field>
-        <b-button @click="saveNewService" type="is-primary">Сохранить</b-button>
+        <b-button type="is-primary" @click="saveNewService">Сохранить</b-button>
         <b-button @click="cancelSaveNewService">Отмена</b-button>
       </div>
 
       <b-button
+        v-show="!createNewServiceMode"
         type="is-primary"
         outlined
         @click="createNewServiceMode = true"
-        v-show="!createNewServiceMode"
-      >Создать</b-button>
+        >Создать</b-button
+      >
     </div>
 
     <div class="brc_admin-service-list">
@@ -41,9 +42,9 @@
 
       <draggable v-model="serviceList" @change="handleChange">
         <div
-          class="brc_admin-service-list-item"
           v-for="iterService in serviceList"
           :key="iterService.businessServiceId"
+          class="brc_admin-service-list-item"
         >
           <b-switch
             v-model="iterService.businessServiceStatus"
@@ -51,112 +52,157 @@
             false-value="0"
             type="is-success"
             size="is-small"
-            style="justify-content: flex-end;"
+            style="justify-content: flex-end"
             @input="saveService(iterService)"
           ></b-switch>
           <nuxt-link
-            :to="{ name: 'admin-service-card', params: { siteSection: siteSection.siteSectionUrl, service: iterService.businessServiceUrl}}"
-          >{{iterService.businessServiceName}}</nuxt-link>
+            :to="{
+              name: 'admin-service-card',
+              params: {
+                siteSection: siteSection.siteSectionUrl,
+                service: iterService.businessServiceUrl,
+              },
+            }"
+            >{{ iterService.businessServiceName }}</nuxt-link
+          >
 
           <div>
-            <b-upload @input="addServiceImage(...arguments,iterService,true)">
+            <b-upload @input="addServiceImage(...arguments, iterService, true)">
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
             </b-upload>
 
             <b-button
-              @click="showBigImage(iterService)"
-              v-if="!!iterService.businessServiceImgBig && iterService.businessServiceImgBig !='/img/empty-image-big.png'"
+              v-if="
+                !!iterService.businessServiceImgBig &&
+                iterService.businessServiceImgBig != '/img/empty-image-big.png'
+              "
               icon-right="file-find"
-              style="float:right;margin-right:70px;"
+              style="float: right; margin-right: 70px"
               type="is-success"
               size="is-medium"
               outlined
+              @click="showBigImage(iterService)"
             ></b-button>
           </div>
           <div>
-            <b-upload @input="addServiceImage(...arguments,iterService,false)">
+            <b-upload
+              @input="addServiceImage(...arguments, iterService, false)"
+            >
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
             </b-upload>
 
             <b-button
-              @click="showSmallImage(iterService)"
-              v-if="!!iterService.businessServiceImgSmall && iterService.businessServiceImgSmall !='/img/empty-image.png'"
+              v-if="
+                !!iterService.businessServiceImgSmall &&
+                iterService.businessServiceImgSmall != '/img/empty-image.png'
+              "
               icon-right="file-find"
-              style="float:right;;margin-right:70px;"
+              style="float: right; margin-right: 70px"
               type="is-success"
               size="is-medium"
               outlined
+              @click="showSmallImage(iterService)"
             ></b-button>
           </div>
 
           <b-input
-            placeholder="Единица измерения"
             v-model.lazy="iterService.businessServiceUnit"
+            placeholder="Единица измерения"
             @blur="saveService(iterService)"
           ></b-input>
 
           <b-input
-            placeholder="Цена, руб."
             v-model.lazy="iterService.businessServicePrice"
+            placeholder="Цена, руб."
             @blur="saveService(iterService)"
           ></b-input>
 
           <b-button
             type="is-success"
-            style="max-width:60px; margin:auto;"
+            style="max-width: 60px; margin: auto"
             icon-right="file-move"
             @click="showMoveModal(iterService)"
           ></b-button>
 
-          <b-button type="is-danger" icon-right="delete" @click="deleteService(iterService)"></b-button>
+          <b-button
+            type="is-danger"
+            icon-right="delete"
+            @click="deleteService(iterService)"
+          ></b-button>
         </div>
       </draggable>
     </div>
 
-    <b-modal :active.sync="isShowSmallImageActive" :can-cancel="true" :width="300">
-      <ServiceListItem
-        :serviceItem="previewSmallService"
-        style="width:252px;height:349px;margin:0px;background-color:white;"
-      ></ServiceListItem>
+    <b-modal
+      :active.sync="isShowSmallImageActive"
+      :can-cancel="true"
+      :width="300"
+    >
+      <LazyServiceListItem
+        :service-item="previewSmallService"
+        style="
+          width: 252px;
+          height: 349px;
+          margin: 0px;
+          background-color: white;
+        "
+      ></LazyServiceListItem>
     </b-modal>
 
     <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
-      <figure class="brc-admin-card-image__wrapper" style="background-color:white;">
-        <img class="brc-admin-image" :src="previewBigService.businessServiceImgBig" />
-        <h1 class="brc-admin-card-image-title">{{previewBigService.businessServiceH1}}</h1>
+      <figure
+        class="brc-admin-card-image__wrapper"
+        style="background-color: white"
+      >
+        <img
+          class="brc-admin-image"
+          :src="previewBigService.businessServiceImgBig"
+        />
+        <h1 class="brc-admin-card-image-title">
+          {{ previewBigService.businessServiceH1 }}
+        </h1>
       </figure>
     </b-modal>
 
     <b-modal :active.sync="isMoveServiceModalActive" :width="500">
-      <div style="background-color:white; height:100%; opacity:1; padding:15px;">
+      <div
+        style="background-color: white; height: 100%; opacity: 1; padding: 15px"
+      >
         <b-switch
-          type="is-success"
-          style="justify-content: flex-end;"
-          v-model="moveServiceAsRoot"
           v-if="movedService.businessServiceParentId != null"
-        >Переместить услугу в корень раздела</b-switch>
+          v-model="moveServiceAsRoot"
+          type="is-success"
+          style="justify-content: flex-end"
+          >Переместить услугу в корень раздела</b-switch
+        >
 
         <b-field
+          v-if="moveServiceAsRoot === false"
           label="Выберите Услугу 1-го уровня для перемещения"
-          v-if="moveServiceAsRoot===false"
-          style="margin-top:50px;"
+          style="margin-top: 50px"
         >
-          <AdminServiceSelector
-            :siteSectionId="siteSection.siteSectionId"
+          <LazyAdminServiceSelector
+            :site-section-id="siteSection.siteSectionId"
             :value="parentServiceId"
-            @input="(val)=>parentServiceIdForMove=val"
-          ></AdminServiceSelector>
+            @input="(val) => (parentServiceIdForMove = val)"
+          ></LazyAdminServiceSelector>
         </b-field>
         <b-button
           class="button"
           type="button"
+          style="
+            float: right;
+            margin-top: 120px;
+            margin-bottom: 15px;
+            margin-right: 15px;
+          "
           @click="moveService()"
-          style="float:right;margin-top:120px;margin-bottom:15px;margin-right:15px;"
-        >Переместить и закрыть</b-button>
+          >Переместить и закрыть</b-button
+        >
       </div>
     </b-modal>
   </div>
@@ -229,7 +275,7 @@ export default class AdminServiceListContainer extends Vue {
   private async saveNewService () {
     this.newService.siteSectionId = this.siteSection.siteSectionId
     this.newService.businessServiceH1 = this.newService.businessServiceName
-    if (!!this.parentServiceId) {
+    if (this.parentServiceId) {
       this.newService.businessServiceParentId = this.parentServiceId
     }
     const saved = await getServiceContainer().businessServiceService.save(this.newService)
@@ -294,7 +340,7 @@ export default class AdminServiceListContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc_admin-service-list-container {
   display: flex;

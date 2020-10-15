@@ -13,8 +13,8 @@
             v-if="!!iterPriceListItem.pricelist && iterPriceListItem.pricelist.length > 0 && iterPriceListItem.pricelist[0] !== null"
           >
             <tr
-              :key="iterPriceListItem.id"
               v-if="!isForRootService || (isForRootService && iterPriceListItem.pricelist.length === 0)"
+              :key="iterPriceListItem.id"
             >
               <td
                 :class="{'brc-price-list__item_red':isForChildService || isForRootService, 'brc-service-price-td_bold':!isForChildService && !isForRootService}"
@@ -83,7 +83,7 @@
         </template>
       </tbody>
     </table>
-    <div class="brc-all-prices-link__wrapper" v-show="!allPricesPage">
+    <div v-show="!allPricesPage" class="brc-all-prices-link__wrapper">
       <nuxt-link
         :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
         class="brc-all-prices-link"

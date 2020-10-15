@@ -1,7 +1,7 @@
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import BusinessService from '@/models/ekoset/BusinessService';
+import HttpUtil from '../utils/HttpUtil'
+import BaseService from './BaseService'
 import { getServiceContainer } from './ServiceContainer';
 
 export default class BusinessServiceService extends BaseService {
@@ -39,7 +39,7 @@ export default class BusinessServiceService extends BaseService {
   // Для вида деятельности и раздела
   public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = false, pagination?: Pagination) {
     // public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
-    activityTypeId = !!activityTypeId ? activityTypeId : 0
+    activityTypeId = activityTypeId || 0
     return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), activityTypeId, excludeChild, pagination)
   }
 
@@ -137,10 +137,10 @@ export default class BusinessServiceService extends BaseService {
     const query = 'services'
     const resultPr = HttpUtil.httpPut(this.buildHttRequest(query), businessService)
 
-    if (!!businessService.smallImageFormData) {
+    if (businessService.smallImageFormData) {
       getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.smallImageFormData, false)
     }
-    if (!!businessService.bigImageFormData) {
+    if (businessService.bigImageFormData) {
       getServiceContainer().mediaService.saveServiceImage(businessService.businessServiceId, businessService.bigImageFormData, true)
     }
 

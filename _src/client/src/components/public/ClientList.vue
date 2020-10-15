@@ -1,39 +1,61 @@
 <template>
   <div class="brc-clients-list">
-    <ClientListItem
+    <LazyClientListItem
       v-for="clientItem in clientList"
       :key="clientItem.clActivityId"
-      :clientItem="clientItem"
-      @more-clients-clicked="($event)=> {clickedMoreClientItem = $event; updateClickedAllClients();}"
-    ></ClientListItem>
+      :client-item="clientItem"
+      @more-clients-clicked="
+        ($event) => {
+          clickedMoreClientItem = $event;
+          updateClickedAllClients();
+        }
+      "
+    ></LazyClientListItem>
 
-    <div class="brc-clients-list-popup__wrapper" v-if="moreClientPopupActive">
+    <div v-if="moreClientPopupActive" class="brc-clients-list-popup__wrapper">
       <div
-        class="brc-clients-list-popup"
         v-show="moreClientPopupActive"
-        v-click-outside="()=>{clickedMoreClientItem = false; moreClientPopupActive = false; clickedMoreClientList;clickedMoreClientItem=[];}"
+        v-click-outside="
+          () => {
+            clickedMoreClientItem = false;
+            moreClientPopupActive = false;
+            clickedMoreClientList;
+            clickedMoreClientItem = [];
+          }
+        "
+        class="brc-clients-list-popup"
       >
         <div
           class="brc-clients-list-popup__header"
-          @click="()=> {clickedMoreClientItem = false; moreClientPopupActive = false;clickedMoreClientItem=[];}"
-        >&times;</div>
-        <h4>{{clickedMoreClientItem.clActivityName}}</h4>
+          @click="
+            () => {
+              clickedMoreClientItem = false;
+              moreClientPopupActive = false;
+              clickedMoreClientItem = [];
+            }
+          "
+        >
+          &times;
+        </div>
+        <h4>{{ clickedMoreClientItem.clActivityName }}</h4>
         <ul class="brc-clients-list-popup__list">
           <li
             v-for="iterBrand in clickedMoreClientList.brandsList"
             :key="iterBrand.id"
-          >{{iterBrand.name}}</li>
+          >
+            {{ iterBrand.name }}
+          </li>
         </ul>
 
         <div class="brc-clients-list-popup__list_img">
           <div
-            class="brc-clients-list-popup__list__img_block"
             v-for="iterBrand in clickedMoreClientList.brandsList"
             :key="iterBrand.id"
+            class="brc-clients-list-popup__list__img_block"
           >
             <img itemprop="image" :src="iterBrand.cl_brand_img_small" />
             <!-- <img itemprop="image" src="/img/empty-image.png" /> -->
-            <span>{{iterBrand.name}}</span>
+            <span>{{ iterBrand.name }}</span>
           </div>
         </div>
       </div>
@@ -43,15 +65,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClientListItem from '@/components/public/ClientListItem.vue'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 
-@Component({
-  components: {
-    ClientListItem
-  }
-})
+@Component
 export default class ClientList extends Vue {
   @Prop(Array)
   private clientList
@@ -74,7 +90,7 @@ export default class ClientList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-clients-list {
   display: grid;

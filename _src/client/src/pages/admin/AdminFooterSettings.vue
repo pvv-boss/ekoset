@@ -12,17 +12,17 @@
           <div class="col-2">
             <h3>Для бизнеса</h3>
             <AdminServiceRelationListBySection
-              :serviceRelationItems="serviceListForBusiness"
+              :service-relation-items="serviceListForBusiness"
+              style="margin-top: 25px"
               @servicechecked="onChecked(...arguments, true)"
-              style="margin-top:25px;"
             ></AdminServiceRelationListBySection>
           </div>
           <div class="col-2">
             <h3>Для дома</h3>
             <AdminServiceRelationListBySection
-              :serviceRelationItems="serviceListForPerson"
+              :service-relation-items="serviceListForPerson"
+              style="margin-top: 25px"
               @servicechecked="onChecked(...arguments, false)"
-              style="margin-top:25px;"
             ></AdminServiceRelationListBySection>
           </div>
         </div>
@@ -36,22 +36,11 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import BusinessServiceService from '@/api/BusinessServiceService'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
-import AdminServiceRelationListBySection from '@/components/admin/AdminServiceRelationListBySection.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
 
-@Component({
-  components: {
-    BreadCrumbs,
-    AdminServiceRelationListBySection,
-    BaseCard
-  }
-})
+@Component
 export default class AdminFooterSettings extends Vue {
   private serviceListForPerson: any[] = []
   private serviceListForBusiness: any[] = []

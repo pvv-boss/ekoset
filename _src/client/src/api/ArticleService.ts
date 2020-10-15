@@ -1,8 +1,8 @@
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
 import Pagination from '@/models/Pagination'
 import Article from '@/models/ekoset/Article'
 import ClArticleTag from '@/models/ekoset/ClArticleTag'
+import HttpUtil from '../utils/HttpUtil'
+import BaseService from './BaseService'
 
 export default class ArticleService extends BaseService {
 
@@ -76,7 +76,7 @@ export default class ArticleService extends BaseService {
 
   // Для услуги
   public async getArticleListByBusinessServiceSlug (siteSectionUrl: string | null, serviceSlug: string, pagination?: Pagination) {
-    const siteSectionId = !!siteSectionUrl ? this.getIdBySlug(siteSectionUrl) : 0
+    const siteSectionId = siteSectionUrl ? this.getIdBySlug(siteSectionUrl) : 0
     this.modifyPagination(siteSectionId, pagination)
     return this.getArticleListByBusinessService(this.getIdBySlug(serviceSlug), pagination)
   }
@@ -122,7 +122,7 @@ export default class ArticleService extends BaseService {
   }
 
   private async modifyPagination (siteSectionId: number, pagination?: Pagination) {
-    if (!!pagination) {
+    if (pagination) {
       pagination.total = Number(await this.getArticlesCount(siteSectionId))
     }
   }

@@ -1,5 +1,4 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import BusinessService from '@/models/ekoset/BusinessService';
 import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
@@ -37,20 +36,18 @@ export default class BuscetStore extends VuexModule {
   }
 
   @Action
-  public async initServiceList () {
+  public initServiceList () {
     if (!this.storeInitialized) {
       const cookStr = Cookies.get(this.cookieBusctetStoreName)
-      if (!!cookStr) {
+      if (cookStr) {
         try {
           const serviceArray = JSON.parse(cookStr)
-          if (!!serviceArray) {
+          if (serviceArray) {
             serviceArray.forEach((element) => {
               this.context.commit('addServiceMutation', element)
             });
           }
         } catch (err) {
-          // tslint:disable-next-line:no-console
-          console.log(err)
         } finally {
           this.context.commit('setStoreInitialized')
         }
@@ -59,7 +56,7 @@ export default class BuscetStore extends VuexModule {
   }
 
   @Action
-  public async addService (businessService: BusinessServiceLocalStorageItem) {
+  public addService (businessService: BusinessServiceLocalStorageItem) {
     if (findAddedServiceIndex(this.addedServiceList, businessService) === -1) {
       this.context.commit('addServiceMutation', businessService)
       Cookies.set(this.cookieBusctetStoreName, this.addedServiceList, { expires: 10 })
@@ -71,7 +68,7 @@ export default class BuscetStore extends VuexModule {
 
 
   @Action
-  public async removeService (businessService: BusinessServiceLocalStorageItem) {
+  public removeService (businessService: BusinessServiceLocalStorageItem) {
     this.context.commit('removeServiceMutation', businessService)
   }
 
@@ -81,7 +78,7 @@ export default class BuscetStore extends VuexModule {
 
   public get addedServiceListAsText () {
     const names: string[] = []
-    if (!!this.addedServiceList) {
+    if (this.addedServiceList) {
       this.addedServiceList.forEach((iterServ) => {
         names.push(iterServ.serviceName)
       })

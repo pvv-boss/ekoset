@@ -8,23 +8,24 @@
           <div v-if="createNewMode" class="brc-admin-card-create-row">
             <b-field label="Заголовок:" horizontal>
               <b-input
+                v-model="newArticle.articleTitle"
                 placeholder="Заголовок"
                 type="text"
                 required
                 validation-message="Заголовок не может быть пустым"
-                v-model="newArticle.articleTitle"
               ></b-input>
             </b-field>
-            <b-button @click="save" type="is-primary">Сохранить</b-button>
+            <b-button type="is-primary" @click="save">Сохранить</b-button>
             <b-button @click="cancel">Отмена</b-button>
           </div>
 
           <b-button
+            v-show="!createNewMode"
             type="is-primary"
             outlined
             @click="createNewMode = true"
-            v-show="!createNewMode"
-          >Создать</b-button>
+            >Создать</b-button
+          >
         </div>
       </template>
 
@@ -32,28 +33,35 @@
         <vue-good-table
           :columns="headerFields"
           :rows="articleItems"
-          :search-options="{enabled: true, placeholder: 'Поиск по всем полям'}"
+          :search-options="{
+            enabled: true,
+            placeholder: 'Поиск по всем полям',
+          }"
           :fixed-header="true"
           :sort-options="{
-          enabled: true //,
-          // initialSortBy: {field: 'articlePublishDate', type: 'desc'}
-      }"
+            enabled: true, //,
+            // initialSortBy: {field: 'articlePublishDate', type: 'desc'}
+          }"
         >
           <template slot="table-row" slot-scope="props">
             <b-switch
+              v-if="props.column.field == 'articleStatus'"
               v-model="props.row.articleStatus"
-              @input="changeArticleStatus(props.row)"
               true-value="1"
               false-value="0"
               type="is-success"
               size="is-small"
-              v-if="props.column.field == 'articleStatus'"
+              @input="changeArticleStatus(props.row)"
             ></b-switch>
 
             <nuxt-link
               v-else-if="props.column.field == 'articleTitle'"
-              :to="{ name: 'admin-news-article-card', params: { article: props.row.articleUrl}}"
-            >{{props.row.articleTitle}}</nuxt-link>
+              :to="{
+                name: 'admin-news-article-card',
+                params: { article: props.row.articleUrl },
+              }"
+              >{{ props.row.articleTitle }}</nuxt-link
+            >
 
             <b-button
               v-else-if="props.column.field == 'removeNews'"
@@ -64,7 +72,7 @@
 
             <b-upload
               v-else-if="props.column.field == 'addMainImage'"
-              @input="addMainImage(...arguments,props.row)"
+              @input="addMainImage(...arguments, props.row)"
             >
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
@@ -73,14 +81,14 @@
 
             <b-upload
               v-else-if="props.column.field == 'addSmallImage'"
-              @input="addSmallImage(...arguments,props.row)"
+              @input="addSmallImage(...arguments, props.row)"
             >
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
             </b-upload>
 
-            <span v-else>{{props.formattedRow[props.column.field]}}</span>
+            <span v-else>{{ props.formattedRow[props.column.field] }}</span>
           </template>
         </vue-good-table>
       </template>
@@ -93,18 +101,11 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import { NuxtContext } from 'vue/types/options'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
-import BaseCard from '@/components/BaseCard.vue'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
-@Component({
-  components: {
-    BreadCrumbs,
-    BaseCard
-  }
-})
+@Component
 export default class AdminArticleList extends Vue {
   private articleItems: Article[] = []
   private newArticle = new Article()
@@ -130,7 +131,7 @@ export default class AdminArticleList extends Vue {
       label: 'Заголовок',
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования заголовка',
+        placeholder: 'Введите часть наименования заголовка'
       }
     },
     {
@@ -138,7 +139,7 @@ export default class AdminArticleList extends Vue {
       label: 'Раздел',
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования раздела',
+        placeholder: 'Введите часть наименования раздела'
       }
     },
     {

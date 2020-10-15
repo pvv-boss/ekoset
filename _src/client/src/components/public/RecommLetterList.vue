@@ -6,13 +6,16 @@
       :data="brandsList"
       :items-to-show="4"
       :arrow="true"
-      :arrowHover="false"
+      :arrow-hover="false"
       :repeat="true"
       :refresh="true"
       class="brc-letters_carousel_desctop"
     >
       <template slot="item" slot-scope="props">
-        <RecommLetterListItem :brand="props.list" @letter:clicked="showBigLetter($event)"></RecommLetterListItem>
+        <RecommLetterListItem
+          :brand="props.list"
+          @letter:clicked="showBigLetter($event)"
+        ></RecommLetterListItem>
       </template>
     </b-carousel-list>
 
@@ -21,20 +24,29 @@
       :data="brandsList"
       :items-to-show="2"
       :arrow="true"
-      :arrowHover="false"
+      :arrow-hover="false"
       :repeat="true"
       :refresh="true"
       class="brc-letters_carousel_mobile"
     >
       <template slot="item" slot-scope="props">
-        <RecommLetterListItem :brand="props.list" @letter:clicked="showBigLetter($event)"></RecommLetterListItem>
+        <RecommLetterListItem
+          :brand="props.list"
+          @letter:clicked="showBigLetter($event)"
+        ></RecommLetterListItem>
       </template>
     </b-carousel-list>
 
-    <div class="brc-letter-bigitem__wrapper" v-show="showBigImg">
+    <div v-show="showBigImg" class="brc-letter-bigitem__wrapper">
       <div class="brc-letter-bigitem">
-        <div class="brc-letter-bigitem__close" @click="closeShowBigLetter()" title="Закрыть">&times;</div>
-        <h4>{{brandForShow.clBrandName}}</h4>
+        <div
+          class="brc-letter-bigitem__close"
+          title="Закрыть"
+          @click="closeShowBigLetter()"
+        >
+          &times;
+        </div>
+        <h4>{{ brandForShow.clBrandName }}</h4>
         <img
           :src="brandForShow.clBrandImgBig"
           :alt="brandForShow.clBrandName"
@@ -50,19 +62,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import RecommLetterListItem from '@/components/public/RecommLetterListItem.vue'
 import ClBrand from '@/models/ekoset/ClBrand'
 
-@Component({
-  components: {
-    RecommLetterListItem
-  }
-})
+@Component
 export default class RecommLetterList extends Vue {
   @Prop(Array)
   private brandsList
 
-  private showBigImg: boolean = false
+  private showBigImg = false
   private brandForShow: ClBrand = new ClBrand()
   private test = 0
 
@@ -81,7 +88,7 @@ export default class RecommLetterList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-letters {
   display: grid;

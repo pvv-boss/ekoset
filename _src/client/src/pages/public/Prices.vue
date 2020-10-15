@@ -3,11 +3,13 @@
     <TheBanner
       :h1="sitePageInfo.sitePageH1"
       :alt="sitePageInfo.sitePageName"
-      :imageSrc="sitePageInfo.sitePageBanner"
+      :image-src="sitePageInfo.sitePageBanner"
     ></TheBanner>
-    <BreadCrumbs :breadCrumbs="breadCrumbList"></BreadCrumbs>
+    <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
 
-    <DynamicComponentsContainer :dynamicComponentInfo="dynamicComponentInfo"></DynamicComponentsContainer>
+    <DynamicComponentsContainer
+      :dynamic-component-info="dynamicComponentInfo"
+    ></DynamicComponentsContainer>
   </main>
 </template>
 
@@ -18,20 +20,11 @@ import { NuxtContext } from 'vue/types/options'
 
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import BreadCrumbs from '@/components/BreadCrumbs.vue'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import DynamicComponentsContainer from '@/components/DynamicComponentsContainer.vue'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import TheBanner from '@/components/header/TheBanner.vue'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 
-@Component({
-  components: {
-    DynamicComponentsContainer,
-    BreadCrumbs,
-    TheBanner
-  }
-})
+@Component
 export default class Prices extends Vue {
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private breadCrumbList: any[] = []
@@ -40,7 +33,7 @@ export default class Prices extends Vue {
 
   private async asyncData (context: NuxtContext) {
     const siteSection = context.params.siteSection
-    const dynamicComponentInfo = !!siteSection
+    const dynamicComponentInfo = siteSection
       ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.PRICES)
       : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.PRICES)
 
