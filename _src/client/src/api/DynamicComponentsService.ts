@@ -193,7 +193,7 @@ export default class DynamicComponentsService extends BaseService {
     })
     if (newsCompoenentInfo) {
       newsCompoenentInfo.props.articleList = data[1]
-      newsCompoenentInfo.props.articleList = newsCompoenentInfo.props.articleList ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
+      newsCompoenentInfo.props.articleList = newsCompoenentInfo.props.articleList && newsCompoenentInfo.props.articleList.slice ? newsCompoenentInfo.props.articleList.slice(0, 3) : newsCompoenentInfo.props.articleList
       newsCompoenentInfo.props.mode = 'columns'
 
       if (!adminMode && newsCompoenentInfo.visible === 1) {
@@ -228,7 +228,7 @@ export default class DynamicComponentsService extends BaseService {
     if (!!recommendCompoenentInfo && recommendCompoenentInfo.visible === 1) {
       recommendCompoenentInfo.props.brandList = data[0]
       // recommendCompoenentInfo.props.brandList = !!recommendCompoenentInfo.props.brandList ? recommendCompoenentInfo.props.brandList.slice(0, 12) : recommendCompoenentInfo.props.brandList
-      recommendCompoenentInfo.props.brandList = recommendCompoenentInfo.props.brandList
+      // recommendCompoenentInfo.props.brandList = recommendCompoenentInfo.props.brandList
 
       if (!adminMode) {
         recommendCompoenentInfo.visible = 0

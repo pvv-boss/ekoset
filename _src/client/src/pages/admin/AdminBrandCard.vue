@@ -4,10 +4,10 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Бренд: {{ brandItem.clBrandName }}</h2>
-          <AdminStatusSelector
+          <LazyAdminStatusSelector
             v-model.number="brandItem.clBrandStatus"
             status-caption="Активен"
-          ></AdminStatusSelector>
+          ></LazyAdminStatusSelector>
           <div class="field">
             <b-switch
               v-model="brandItem.clBrandMainPageVisible"
@@ -33,20 +33,20 @@
               ></b-input>
             </b-field>
             <b-field label="Фото на карточке (логотип)">
-              <AdminImageUploader
+              <LazyAdminImageUploader
                 id="clBrandImgSmall"
                 :is-left="true"
                 :src-image="brandItem.clBrandImgSmall"
                 @uploader:newimageloaded="saveBrandImage"
               >
                 <template v-slot="{ imageSrc }">
-                  <RecommendationListItem
+                  <LazyRecommendationListItem
                     :brand="brandItem"
                     :image-src-for-design-mode="imageSrc"
                     style="margin: 0px; padding: 0px"
-                  ></RecommendationListItem>
+                  ></LazyRecommendationListItem>
                 </template>
-              </AdminImageUploader>
+              </LazyAdminImageUploader>
             </b-field>
           </div>
         </div>

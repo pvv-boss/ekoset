@@ -86,11 +86,11 @@
       :can-cancel="true"
       :width="400"
     >
-      <ClientListItem
+      <LazyClientListItem
         :client-item="previewClientItem"
         class="brc-page__dynamic_block"
         style="width: 265px; margin: 0px; background-color: white"
-      ></ClientListItem>
+      ></LazyClientListItem>
     </b-modal>
   </div>
 </template>

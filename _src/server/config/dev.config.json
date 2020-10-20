@@ -1,99 +1,96 @@
-{
-  "serverConfig": {
-    "port": 3002,
-    "useCors": true,
-    "host": "http://ekoset.npobaltros.ru/",
-    "restApiEndPoint": "/api/2_0"
-  },
-  "authConfig": {
-    "cookieName": "auth-rsn-cookie",
-    "jwtHeaderName": "auth-rsn-header",
-    "emailVerify": {
-      "secretKey": "gostorgiryzhkov1976",
-      "options": {
-        "expiresIn": 864000
+[{
+  "ExpressConfig": {
+      "port": 3003,
+      "host": "http://localhost:3003",
+      "restApiBaseUrl": "/api/2_0",
+      "bodyParserLimit": "50mb",
+      "useCors": true,
+      "corsOptions": {
+          "credentials": true,
+          "origin": true
       }
-    },
-    "JWT": {
-      "access": {
-        "secretKey": "gostorgiryzhkov1976",
-        "options": {
-          "expiresIn": 600
-        }
-      },
-      "refresh": {
-        "secretKey": "gostorgiryzhkov1976",
-        "options": {
-          "expiresIn": 1728000
-        }
-      }
-    },
-    "Local": {
-      "usernameField": "useremail",
-      "passwordField": "password",
-      "session": "false",
-      "passReqToCallback": true
-    },
-    "Facebook": {
-      "clientID": 656198894753670,
-      "clientSecret": "cad049b7c36b971ca787d4e3c4eda27b",
-      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/facebook/callback",
-      "profileFields": ["id", "displayName", "photos", "email", "profileUrl"],
-      "session": "false",
-      "passReqToCallback": true
-    },
-    "Google": {
-      "clientID": "803811257678-56ktk1celt4quiljjlo6r8bmloc162ol.apps.googleusercontent.com",
-      "clientSecret": "8HYcfMFJUzX_fmeTrQJTVsJj",
-      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/google/callback",
-      "session": "false",
-      "passReqToCallback": true
-    },
-    "Yandex": {
-      "clientID": "7ac57d57db7b4e9ea18f474e91cb4932",
-      "clientSecret": "192bab28f7004047898efd7d5731bdc6",
-      "callbackURL": "https://gostorgi24.ru/api/2_0/auth/yandex/callback",
-      "session": "false",
-      "passReqToCallback": true
-    }
-  },
-
-  "dbConfig": {
-    "type": "postgres",
-    "host": "91.210.168.57",
-    "port": 5432,
-    "user": "postgres",
-    "password": "vW642B8$Hz",
-    "database": "ekoset",
-    "schema": "brc_ekoset",
-    "pgOptions": {
-      "schema": "brc_ekoset"
-    }
-  },
-
-  "typeOrm": {
-    "type": "postgres",
-    "host": "91.210.168.57",
-    "port": 5432,
-    "username": "postgres",
-    "password": "vW642B8$Hz",
-    "database": "ekoset",
-    "schema": "brc_ekoset",
-    "synchronize": false
-  },
-
-  "mail": {
-    "host": "smtp.timeweb.ru",
-    "port": 25,
-    "from": "inbox@ekoset.ru",
-    "secure": false,
-    "pool": true,
-    "maxConnections": 1,
-    "maxMessages": 100,
-    "auth": {
-      "user": "inbox@ekoset.ru",
-      "pass": "xiUF7g7t"
-    }
   }
-
-}
+}, {
+  "DatabaseConfig": {
+      "type": "postgres",
+      "host": "91.210.168.57",
+      "port": 5432,
+      "user": "postgres",
+      "username": "postgres",
+      "password": "vW642B8$Hz",
+      "database": "ekoset",
+      "schema": "brc_ekoset",
+      "pgOptions": {
+          "schema": "brc_ekoset"
+      },
+      "synchronize": false
+  }
+}, {
+  "SmtpOptions": {
+      "host": "smtp.timeweb.ru",
+      "port": 25,
+      "from": "inbox@ekoset.ru",
+      "secure": false,
+      "pool": true,
+      "maxConnections": 1,
+      "maxMessages": 100,
+      "auth": {
+          "user": "inbox@ekoset.ru",
+          "pass": "xiUF7g7t"
+      }
+  }
+}, {
+  "SecurityConfig": {
+      "jwtCookieName": "auth-rsn-cookie",
+      "jwtSecretKey": "gostorgiryzhkov1976",
+      "jwtSignOptions": {
+          "expiresIn": 600
+      },
+      "refreshTokenAgeInSeconds": 2592000,
+      "registrationOptions": {
+          "bcryptSaltRounds": 10,
+          "isLoginByPhone": true,
+          "isRequireConfirmationByEmail": true,
+          "isRequireConfirmationBySms": true,
+          "сonfirMailUrl": "http://localhost:3003/api/2_0/user/registration/confirm/mail",
+          "сonfirmMailHeader": "Подтверждение регистрации",
+          "сonfirmMailTemplate": "reg_confirm",
+          "сonfirmUrlTemplateExpression": "{{verify_link}}",
+          "emailConfirmationLifetime": 864000,
+          "registrationCompliteMessage": "Регистрация завершена",
+          "userAlreadyExistsMessage": "Пользователь с данным логином уже существует",
+          "invalidEmailMessage": "Неверно указан email",
+          "invalidPhoneMessage": "Неверно указан телефон",
+          "passwordNotStrenghtMessage": "Пароль должен содержать не менее 8 символов включая цифры, прописные и строчные буквы",
+          "requireConfirmationEmailMessage": "В Ваш адрес отправлено письмо. Перейдите по ссылке из письма для завершения регистрации",
+          "requireSmsConfirmationMessage": "Подтвердитее регистрацию. Введите SMS код",
+          "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия ссылки, или аккаунт был удален"
+      },
+      "authOptions": {
+          "isLoginByPhone": true,
+          "isRequireConfirmationBySms": true,
+          "userNotFoundButSocialNetworkAuthOkMessage": "Профиль не связан с какой-либо учетной записью на сайте. Войдите на сайт или зарегистрируйтесь, чтобы заходить в один аккаунт вводя логин и пароль или используя ",
+          "userBlockedMessage": "Учетная запись заблокирована",
+          "failedMessage": "Ошибка входа. Неверный идентификатор пользователя или пароль",
+          "errorMessage": "Ошибка входа",
+          "authOkMessage": "Вход выполнен успешно",
+          "requireSmsConfirmationMessage": "Введите SMS код",
+          "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия",
+          "requireRegistrationConfirmationMessage": "Регистрация не подтверждена"
+      },
+      "resetPasswordOptions": {
+          "resetPasswordEmailConfirm": true,
+          "resetPasswordUrl": "http://localhost:3003/api/2_0/user/password/reset/confirm",
+          "resetPasswordMailHeader": "Подтверждение регистрации",
+          "resetPasswordMailTemplate": "reset_password",
+          "resetPasswordUrlTemplateExpression": "{{reset_password_link}}",
+          "resetPasswordLifetimeInSeconds": 86400,
+          "resetPasswordUserNotFoundMessage": "Неверный логин пользователя",
+          "resetPasswordInvalidCodeMessage": "Неверно указан код",
+          "resetPasswordExpareddMessage": "Истек срок действия токена для восстановления пароля",
+          "resetPasswordMailSendMessage": "На почтовый ящик отправлено письмо с инструкциями для восстановления пароля",
+          "resetPasswordSmsSendMessage": "Введите SMS код",
+          "resetPasswordOKMessage": "Укажите новый пароль"
+      }
+  }
+}]

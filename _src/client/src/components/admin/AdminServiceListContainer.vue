@@ -214,15 +214,11 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
-import ServiceListItem from '@/components/public/ServiceListItem.vue'
-import AdminServiceSelector from '@/components/admin/AdminServiceSelector.vue'
-
 
 
 @Component({
   components: {
-    ServiceListItem,
-    AdminServiceSelector
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
   }
 })
 export default class AdminServiceListContainer extends Vue {

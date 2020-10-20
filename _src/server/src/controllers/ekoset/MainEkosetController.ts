@@ -1,13 +1,11 @@
 import { JsonController, Get, Res, Param, Body, Put, Delete, QueryParam } from 'routing-controllers';
 import { Response } from 'express';
-import { BaseController } from '../BaseController';
-import ServiceContainer from '@/services/ServiceContainer';
 import { SiteSection } from '@/entities/ekoset/SiteSection';
-import BusinessServiceController from './BusinessServiceController';
 import { ClBrand } from '@/entities/ekoset/ClBrand';
 import { ClActivityType } from '@/entities/ekoset/ClActivityType';
 import { ReccomendationLetter } from '@/entities/ekoset/ReccomendationLetter';
-import ClientNotifyMessage from '../ClientNotifyMessage';
+import { BaseController, ClientNotifyMessage, ServiceRegistry } from 'rsn-express-core';
+import MainEkosetService from '@/services/ekoset/MainEkosetService';
 
 @JsonController()
 export default class MainEkosetController extends BaseController {
@@ -15,23 +13,23 @@ export default class MainEkosetController extends BaseController {
   @Get('/activities')
   public async getSiteSections (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getSiteSections();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getSiteSections();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/activities')
   public async adminGetSiteSections (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.adminGetSiteSections();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).adminGetSiteSections();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/activities/:sitesection')
   public async getSiteSectionById (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.MainEkosetService.getSiteSectionById(siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getSiteSectionById(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/activities/query/name/:sitesection')
@@ -39,10 +37,10 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
     if (!!siteSectionId) {
-      const result = await ServiceContainer.MainEkosetService.getSiteSectionNameById(siteSectionId);
-      return MainEkosetController.createSuccessResponse(result, response);
+      const result = await ServiceRegistry.instance.getService(MainEkosetService).getSiteSectionNameById(siteSectionId);
+      return this.createSuccessResponse(result, response);
     } else {
-      MainEkosetController.createSuccessResponse({}, response)
+      this.createSuccessResponse({}, response)
     }
   }
 
@@ -51,16 +49,16 @@ export default class MainEkosetController extends BaseController {
   public async getAdminForBusinessServiceBrands (
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
-    const result = await ServiceContainer.MainEkosetService.getAdminForBusinessServiceBrands(serviceId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getAdminForBusinessServiceBrands(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/brands')
   public async adminGetAllBands (
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.MainEkosetService.getAdminAllBands();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getAdminAllBands();
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -69,15 +67,15 @@ export default class MainEkosetController extends BaseController {
     @Param('brandId') brandId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.MainEkosetService.adminGetBrandById(brandId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).adminGetBrandById(brandId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/clActivities')
   public async adminGetClActivityList (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.adminGetClActivityList();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).adminGetClActivityList();
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -85,8 +83,8 @@ export default class MainEkosetController extends BaseController {
   public async adminSaveClActivity (
     @Body() clActivity: ClActivityType,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.adminSaveClActivity(clActivity);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).adminSaveClActivity(clActivity);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/admin/panel/clActivities/:id')
@@ -94,10 +92,10 @@ export default class MainEkosetController extends BaseController {
     @Param('id') clActivityID: number,
     @Res() response: Response) {
     try {
-      const result = await ServiceContainer.MainEkosetService.deleteClActivity(clActivityID);
-      return MainEkosetController.createSuccessResponse(result, response);
+      const result = await ServiceRegistry.instance.getService(MainEkosetService).deleteClActivity(clActivityID);
+      return this.createSuccessResponse(result, response);
     } catch (err) {
-      return MainEkosetController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert(' Внимание ', 'Данная запись используется и её удалить нельзя !'));
+      return this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert(' Внимание ', 'Данная запись используется и её удалить нельзя !'));
     }
   }
 
@@ -105,23 +103,23 @@ export default class MainEkosetController extends BaseController {
   public async getAdminForSiteSectionBrands (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.MainEkosetService.getAdminForSiteSectionBrands(siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getAdminForSiteSectionBrands(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/brands')
   public async getBrandsForHomePage (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getBrandsForHomePage();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getBrandsForHomePage();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/brands')
   public async getBrandsBySiteSection (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.MainEkosetService.getBrandsBySiteSection(siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getBrandsBySiteSection(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/services/:service(\\d+)/brands')
@@ -129,8 +127,8 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response,
     @Param('service') serviceId: number) {
 
-    const result = await ServiceContainer.MainEkosetService.getBrandsByBusinessService(serviceId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getBrandsByBusinessService(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Put('/brands/:brandId/sitesection/:siteSectionId')
@@ -138,8 +136,8 @@ export default class MainEkosetController extends BaseController {
     @Param('brandId') brandId: number,
     @Param('siteSectionId') siteSectionId: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.addBrand2SiteSection(brandId, siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).addBrand2SiteSection(brandId, siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Put('/brands/:brandId/service/:serviceId')
@@ -147,8 +145,8 @@ export default class MainEkosetController extends BaseController {
     @Param('brandId') brandId: number,
     @Param('serviceId') serviceId: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.addBrand2Service(brandId, serviceId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).addBrand2Service(brandId, serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/brands/:brandId/sitesection/:siteSectionId')
@@ -156,8 +154,8 @@ export default class MainEkosetController extends BaseController {
     @Param('brandId') brandId: number,
     @Param('siteSectionId') siteSectionId: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.removeBrandFromSiteSection(brandId, siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).removeBrandFromSiteSection(brandId, siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/brands/:brandId/service/:serviceId')
@@ -165,16 +163,16 @@ export default class MainEkosetController extends BaseController {
     @Param('brandId') brandId: number,
     @Param('serviceId') serviceId: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.removeBrandFromService(brandId, serviceId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).removeBrandFromService(brandId, serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Put('/brands')
   public async saveBrand (
     @Body() clBrand: ClBrand,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.saveBrand(clBrand);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).saveBrand(clBrand);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -182,24 +180,24 @@ export default class MainEkosetController extends BaseController {
   public async deleteBrand (
     @Param('id') id: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.deleteBrand(id);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).deleteBrand(id);
+    return this.createSuccessResponse(result, response);
   }
 
   @Put('/activities')
   public async saveSiteSection (
     @Body() siteSection: SiteSection,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.saveSiteSection(siteSection);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).saveSiteSection(siteSection);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/activities/:id(\\d+)')
   public async deleteSiteSection (
     @Param('id') id: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.deleteSiteSection(id);
-    return BusinessServiceController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).deleteSiteSection(id);
+    return this.createSuccessResponse(result, response);
   }
 
   // Рекомендации
@@ -208,23 +206,23 @@ export default class MainEkosetController extends BaseController {
   public async getRecommendationLettersByBrand (
     @Res() response: Response,
     @Param('brandId') brandId: number) {
-    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersByBrand(brandId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getRecommendationLettersByBrand(brandId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/letters')
   public async getRecommendationLettersForHomePage (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersForHomePage();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getRecommendationLettersForHomePage();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/letters/sitesection/:sitesection')
   public async getRecommendationLettersBySiteSection (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersBySiteSection(siteSectionId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getRecommendationLettersBySiteSection(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/letters/services/:service(\\d+)')
@@ -232,15 +230,15 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response,
     @Param('service') serviceId: number) {
 
-    const result = await ServiceContainer.MainEkosetService.getRecommendationLettersByBusinessService(serviceId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getRecommendationLettersByBusinessService(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/clients')
   public async getClientsInfo (
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.getClientsInfo();
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getClientsInfo();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/clients/activity/:id')
@@ -248,8 +246,8 @@ export default class MainEkosetController extends BaseController {
     @Res() response: Response,
     @Param('id') activityId: number) {
 
-    const result = await ServiceContainer.MainEkosetService.getClientsInfoByActivity(activityId);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).getClientsInfoByActivity(activityId);
+    return this.createSuccessResponse(result, response);
   }
 
   // Сохранить
@@ -257,8 +255,8 @@ export default class MainEkosetController extends BaseController {
   public async saveRecommendation (
     @Body() reccomendationLetter: ReccomendationLetter,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.saveRecommendation(reccomendationLetter);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).saveRecommendation(reccomendationLetter);
+    return this.createSuccessResponse(result, response);
   }
 
   // Удалить
@@ -266,7 +264,7 @@ export default class MainEkosetController extends BaseController {
   public async deleteRecommendationLetter (
     @Param('id') id: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.MainEkosetService.deleteRecommendationLetter(id);
-    return MainEkosetController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MainEkosetService).deleteRecommendationLetter(id);
+    return this.createSuccessResponse(result, response);
   }
 }

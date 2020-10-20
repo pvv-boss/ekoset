@@ -1,6 +1,6 @@
 <template>
   <main>
-    <LazyTheDynamicBanner :banners-info="bannersInfo"></LazyTheDynamicBanner>
+    <TheDynamicBanner :banners-info="bannersInfo"></TheDynamicBanner>
     <BreadCrumbs :bread-crumbs="breadCrumbList"></BreadCrumbs>
     <DynamicComponentsContainer
       :dynamic-component-info="dynamicComponentInfo"

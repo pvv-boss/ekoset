@@ -7,9 +7,9 @@ export default class BaseService {
 
   public async initConfig () {
     if (!BaseService.appConfig.initialized) {
-      const config = await HttpUtil.httpGet(`${AppConfig.endPoint}/app/client/config`)
+      // const config = await HttpUtil.httpGet(`${AppConfig.endPoint}/app/client/config`)
 
-      BaseService.appConfig = config
+      BaseService.appConfig = new AppConfig()
       BaseService.appConfig.initialized = true
     }
   }

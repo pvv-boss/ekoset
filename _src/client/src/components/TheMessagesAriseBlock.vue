@@ -50,42 +50,6 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class TheMessagesAriseBlock extends Vue {
-  // private mounted () {
-  //   const orderFormElement = document.getElementById('btnOrderPopupForm')
-  //   if (orderFormElement) {
-  //     orderFormElement.addEventListener('click', (e) => {
-  //       if (!orderFormElement.children[0].contains(e.target as HTMLElement)) {
-  //         orderFormElement.setAttribute('style', 'display:none')
-  //       }
-  //     })
-  //   }
-
-  //   const questionFormElement = document.getElementById('btnQuestionPopupForm')
-  //   if (questionFormElement) {
-  //     questionFormElement.addEventListener('click', (e) => {
-  //       if (!questionFormElement.children[0].contains(e.target as HTMLElement)) {
-  //         questionFormElement.setAttribute('style', 'display:none')
-  //       }
-  //     })
-  //   }
-
-  //   const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
-  //   if (reqServiceFormElement) {
-  //     reqServiceFormElement.addEventListener('click', (e) => {
-
-  //       const parentNode = (e.target as HTMLElement).parentNode;
-
-  //       // tslint:disable-next-line:no-console
-  //       console.log((parentNode as HTMLElement).className)
-
-  //       // if (!!parentNode && (parentNode as HTMLElement).className !== 'brc-buscet_wrapper' && (parentNode as HTMLElement).className !== 'brc-feedback_busket_mobile') {
-  //       if (!reqServiceFormElement.children[0].contains(e.target as HTMLElement)) {
-  //         reqServiceFormElement.setAttribute('style', 'display:none')
-  //       }
-  //       //}
-  //     })
-  //   }
-  // }
 
   private closeForm () {
     const orderFormElement = document.getElementById('btnOrderPopupForm')

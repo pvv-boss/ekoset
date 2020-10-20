@@ -36,7 +36,13 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import BusinessServiceService from '@/api/BusinessServiceService'
 
-@Component({})
+import 'vue-good-table/dist/vue-good-table.css'
+
+@Component({
+  components: {
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+  }
+})
 export default class AdminServiceRelationListBySection extends Vue {
   @Prop()
   private serviceRelationItems

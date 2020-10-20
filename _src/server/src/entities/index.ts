@@ -1,6 +1,3 @@
-import { AppUser } from '@/entities/users/AppUser';
-import { AppUserSession } from '@/entities/users/AppUserSession';
-import { AppUserSocialNetProfile } from '@/entities/users/AppUserSocialNetProfile';
 import { Article } from './ekoset/Article';
 import { SiteSection } from './ekoset/SiteSection';
 import { BusinessService } from './ekoset/BusinessService';
@@ -19,7 +16,7 @@ import SiteDocument from './ekoset/SiteDocument';
 
 
 const entityModelMetadata = [
-  SiteSection, AppUser, AppUserSession, AppUserSocialNetProfile, Article, BusinessService, ClArticleTag, ClBrand
+  SiteSection, Article, BusinessService, ClArticleTag, ClBrand
   , ClSiteSetting, IndividualOffer, SiteSocialNetwork, ClClient, ReccomendationLetter, SitePage, UserRequest, UserRequestFile, ClActivityType, SiteDocument
 ];
 

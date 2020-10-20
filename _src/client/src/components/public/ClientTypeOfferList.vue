@@ -11,7 +11,7 @@
       }"
       class="brc-client-type-offer-item"
     >
-      <v-lazy-image
+      <img
         src="/images/solutions-business.png"
         alt="Комлексное решение для бизнеса"
         title="Комлексное решение для бизнеса"
@@ -31,7 +31,7 @@
       }"
       class="brc-client-type-offer-item"
     >
-      <v-lazy-image
+      <img
         src="/images/solutions-person.png"
         alt="Комлексное решение для дома"
         title="Комлексное решение для дома"

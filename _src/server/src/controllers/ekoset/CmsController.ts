@@ -1,37 +1,22 @@
-import { BaseController } from '../BaseController';
 import { JsonController, Get, Res, Put, Param, Delete, Post, Body } from 'routing-controllers';
-import ServiceContainer from '@/services/ServiceContainer';
 import { Request, Response } from 'express';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
 import SitePage from '@/entities/ekoset/SitePage';
+import { BaseController, ServiceRegistry } from 'rsn-express-core';
+import BusinessServiceService from '@/services/ekoset/BusinessServiceService';
+import CMSService from '@/services/CMSService';
 
 @JsonController()
 export default class CmsController extends BaseController {
 
-  // @Get('/admin/panel/footer/private')
-  // public async adminGetFooterServicesForPrivateClient (
-  //   @Res() response: Response
-  // ) {
-  //   const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForPrivateClient();
-  //   return CmsController.createSuccessResponse(result, response);
-  // }
-
-
-  // @Get('/admin/panel/footer/business')
-  // public async adminGetFooterServicesForBusinessClient (
-  //   @Res() response: Response
-  // ) {
-  //   const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesForBusinessClient();
-  //   return CmsController.createSuccessResponse(result, response);
-  // }
 
   @Put('/admin/panel/footer/private/:serviceId')
   public async adminAddFooterServicesForPrivateClient (
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.adminAddFooterServicesForPrivateClient(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).adminAddFooterServicesForPrivateClient(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/admin/panel/footer/private/:serviceId')
@@ -39,8 +24,8 @@ export default class CmsController extends BaseController {
     @Param('serviceId') serviceId: number,
     @Res() response: Response) {
 
-    const result = ServiceContainer.BusinessServiceService.adminRemoveFooterForPrivateClient(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = ServiceRegistry.instance.getService(BusinessServiceService).adminRemoveFooterForPrivateClient(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -49,8 +34,8 @@ export default class CmsController extends BaseController {
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.adminAddFooterServicesForBusinessClient(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).adminAddFooterServicesForBusinessClient(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/admin/panel/footer/business/:serviceId')
@@ -58,8 +43,8 @@ export default class CmsController extends BaseController {
     @Param('serviceId') serviceId: number,
     @Res() response: Response) {
 
-    const result = ServiceContainer.BusinessServiceService.adminRemoveFooterForBusinessClient(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = ServiceRegistry.instance.getService(BusinessServiceService).adminRemoveFooterForBusinessClient(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/footer/relation/:clientType(private|business)')
@@ -67,8 +52,8 @@ export default class CmsController extends BaseController {
     @Param('clientType') clientType: string,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.BusinessServiceService.adminGetFooterServicesRelation(clientType === 'business');
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).adminGetFooterServicesRelation(clientType === 'business');
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -77,8 +62,8 @@ export default class CmsController extends BaseController {
     @Param('id') serviceId: number,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.CMSService.adminDeleteDynamicComponent(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminDeleteDynamicComponent(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -87,8 +72,8 @@ export default class CmsController extends BaseController {
     @Param('sitesectionId') sitesectionId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoSiteSection(sitesectionId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetDynamicComponentsInfoSiteSection(sitesectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/cms/blocks/info/service/:serviceId')
@@ -96,8 +81,8 @@ export default class CmsController extends BaseController {
     @Param('serviceId') serviceId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoService(serviceId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetDynamicComponentsInfoService(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -106,16 +91,16 @@ export default class CmsController extends BaseController {
     @Param('offerId') offerId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoOffer(offerId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetDynamicComponentsInfoOffer(offerId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/cms/blocks/info/default/0')
   public async adminGetDynamicComponentsInfoDefault (
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoDefault();
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetDynamicComponentsInfoDefault();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/cms/blocks/info/pages/:sitePageId')
@@ -123,56 +108,56 @@ export default class CmsController extends BaseController {
     @Param('sitePageId') sitePageId: number,
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetDynamicComponentsInfoSitePage(sitePageId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetDynamicComponentsInfoSitePage(sitePageId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Post('/admin/panel/cms/blocks/info/pages/:sitePageId')
   public async adminSaveDynamicComponentsSitePage (
     @Res() response: Response,
     @Param('sitePageId') sitePageId: number,
-    @Body() infos: DynamicComponentInfo[], ) {
+    @Body() infos: DynamicComponentInfo[],) {
 
-    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsSitePage(sitePageId, infos);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminSaveDynamicComponentsSitePage(sitePageId, infos);
+    return this.createSuccessResponse(result, response);
   }
 
   @Post('/admin/panel/cms/blocks/info/sitesection/:sitesectionId')
   public async adminSaveDynamicComponentsSiteSection (
     @Res() response: Response,
     @Param('sitesectionId') sitesectionId: number,
-    @Body() infos: DynamicComponentInfo[], ) {
+    @Body() infos: DynamicComponentInfo[],) {
 
-    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsSiteSection(sitesectionId, infos);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminSaveDynamicComponentsSiteSection(sitesectionId, infos);
+    return this.createSuccessResponse(result, response);
   }
 
   @Post('/admin/panel/cms/blocks/info/service/:serviceId')
   public async adminSaveDynamicComponentsService (
     @Res() response: Response,
     @Param('serviceId') serviceId: number,
-    @Body() infos: DynamicComponentInfo[], ) {
+    @Body() infos: DynamicComponentInfo[],) {
 
-    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsService(serviceId, infos);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminSaveDynamicComponentsService(serviceId, infos);
+    return this.createSuccessResponse(result, response);
   }
 
   @Post('/admin/panel/cms/blocks/info/offer/:offerId')
   public async adminSaveDynamicComponentsOffer (
     @Res() response: Response,
     @Param('offerId') offerId: number,
-    @Body() infos: DynamicComponentInfo[], ) {
+    @Body() infos: DynamicComponentInfo[],) {
 
-    const result = await ServiceContainer.CMSService.adminSaveDynamicComponentsOffer(offerId, infos);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminSaveDynamicComponentsOffer(offerId, infos);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/cms/pages')
   public async adminGetSitePages (
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.CMSService.adminGetSitePages();
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetSitePages();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/cms/pages/:id')
@@ -180,8 +165,8 @@ export default class CmsController extends BaseController {
     @Res() response: Response,
     @Param('id') id: number,
   ) {
-    const result = await ServiceContainer.CMSService.adminGetSitePageById(id);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminGetSitePageById(id);
+    return this.createSuccessResponse(result, response);
   }
 
   @Put('/admin/panel/cms/pages')
@@ -189,8 +174,8 @@ export default class CmsController extends BaseController {
     @Body() sitePage: SitePage,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.CMSService.adminSaveSitePage(sitePage);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminSaveSitePage(sitePage);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/admin/panel/cms/pages/:sitePageId')
@@ -198,7 +183,7 @@ export default class CmsController extends BaseController {
     @Param('sitePageId') sitePageId: number,
     @Res() response: Response) {
 
-    const result = await ServiceContainer.CMSService.adminDeleteSitePage(sitePageId);
-    return CmsController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(CMSService).adminDeleteSitePage(sitePageId);
+    return this.createSuccessResponse(result, response);
   }
 }

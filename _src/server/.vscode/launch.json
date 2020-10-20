@@ -13,17 +13,13 @@
       "sourceMaps": true,
       "name": "Launch by Node",
       "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/debug/main.js"
+      "program": "${workspaceFolder}/debug/main.dev.js"
     },
-
     {
-      "preLaunchTask": "webpack debug",
-      "type": "firefox",
-      "request": "launch",
-      "reAttach": true,
-      "name": "Launch by firefox",
-      "file": "${workspaceFolder}/debug/main.js"
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
     }
-
   ]
 }

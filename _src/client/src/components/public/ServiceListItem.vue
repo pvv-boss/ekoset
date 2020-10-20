@@ -1,20 +1,32 @@
 <template>
   <section class="brc-service-smallitem">
     <nuxt-link
-      :to="{ name: 'service-card', params: { service: serviceItem.businessServiceUrl, siteSection: serviceItem.siteSectionUrl}}"
+      :to="{
+        name: 'service-card',
+        params: {
+          service: serviceItem.businessServiceUrl,
+          siteSection: serviceItem.siteSectionUrl,
+        },
+      }"
       class="brc-service-smallitem__link"
     >
       <figure>
-        <img :alt="serviceItem.businessServiceName" itemprop="image" :src="imageSrc" />
-        <figcaption>{{serviceItem.businessServiceName}}</figcaption>
+        <img
+          v-lazy="imageSrc"
+          :alt="serviceItem.businessServiceName"
+          itemprop="image"
+        />
+        <figcaption>{{ serviceItem.businessServiceName }}</figcaption>
       </figure>
 
-      <h4>{{serviceItem.businessServiceName}}</h4>
-      <div class="brc-service-smallitem__price">{{serviceItem.businessServicePrice}}</div>
+      <h4>{{ serviceItem.businessServiceName }}</h4>
+      <div class="brc-service-smallitem__price">
+        {{ serviceItem.businessServicePrice }}
+      </div>
     </nuxt-link>
 
     <a class="brc-buscet__icon_mobile" @click="addServiceToBuscet">
-      <span>{{basketImageInfoMobile.alt}}</span>
+      <span>{{ basketImageInfoMobile.alt }}</span>
       <img
         :src="basketImageInfoMobile.src"
         :alt="basketImageInfoMobile.alt"
@@ -23,7 +35,11 @@
     </a>
 
     <a class="brc-buscet__icon_desktop" @click="addServiceToBuscet">
-      <img :src="basketImageInfo.src" :alt="basketImageInfo.alt" :title="basketImageInfo.alt" />
+      <img
+        :src="basketImageInfo.src"
+        :alt="basketImageInfo.alt"
+        :title="basketImageInfo.alt"
+      />
     </a>
   </section>
 </template>
@@ -100,7 +116,7 @@ export default class ServiceListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-service-smallitem {
   position: relative;
   border: 1px solid lightgrey;

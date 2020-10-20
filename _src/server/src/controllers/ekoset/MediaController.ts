@@ -1,10 +1,9 @@
 import { JsonController, UseBefore, Post, Req, Res, Param, Body, Get, Delete } from 'routing-controllers';
 import { Request, Response } from 'express';
-import { BaseController } from '../BaseController';
-import ServiceContainer from '@/services/ServiceContainer';
 import multer from 'multer';
-import ClassTransform from '@/utils/ClassTransform';
 import SiteDocument from '@/entities/ekoset/SiteDocument';
+import { BaseController, ServiceRegistry } from 'rsn-express-core';
+import MediaService from '@/services/ekoset/MediaService';
 
 
 const upload = multer();
@@ -16,16 +15,16 @@ export default class MediaController extends BaseController {
   @Get('/banners/main')
   public async getBannersForMainPage (
     @Res() response: Response) {
-    const result = await ServiceContainer.MediaService.getBannersForMainPage();
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).getBannersForMainPage();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/banners/sitesection/:siteSectionId')
   public async getBannersForSiteSection (
     @Res() response: Response,
     @Param('siteSectionId') siteSectionId: number) {
-    const result = await ServiceContainer.MediaService.getBannersForSiteSection(siteSectionId);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).getBannersForSiteSection(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -37,8 +36,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveSiteSectionImage(siteSectionId, file, bigOrSmall === 'big');
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSectionId, file, bigOrSmall === 'big');
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -49,8 +48,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveSiteSectionLogo(siteSectionId, file);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveSiteSectionLogo(siteSectionId, file);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -63,8 +62,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveServiceImage(serviceId, file, bigOrSmall === 'big');
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveServiceImage(serviceId, file, bigOrSmall === 'big');
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -76,8 +75,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveOfferImage(offerId, file, bigOrSmall === 'big');
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveOfferImage(offerId, file, bigOrSmall === 'big');
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -89,8 +88,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveBrandImage(brandId, file, bigOrSmall === 'big');
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveBrandImage(brandId, file, bigOrSmall === 'big');
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -103,8 +102,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveNewsImage(brandId, file, bigOrSmall === 'big');
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveNewsImage(brandId, file, bigOrSmall === 'big');
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -116,8 +115,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveRecommendationLetterImage(id, file);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveRecommendationLetterImage(id, file);
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -128,8 +127,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveSitePageImage(id, file);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveSitePageImage(id, file);
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -140,8 +139,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveSitePageLogo(id, file);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveSitePageLogo(id, file);
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -152,8 +151,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response) {
 
     const file = request.file;
-    const result = await ServiceContainer.MediaService.saveClActivityMainClientLogo(id, file);
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).saveClActivityMainClientLogo(id, file);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -161,8 +160,8 @@ export default class MediaController extends BaseController {
   public async getSiteDocuments (
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.MediaService.getSiteDocuments();
-    return MediaController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(MediaService).getSiteDocuments();
+    return this.createSuccessResponse(result, response);
   }
 
   @UseBefore(upload.single('file'))
@@ -174,8 +173,8 @@ export default class MediaController extends BaseController {
   ) {
 
     const file = request.file;
-    await ServiceContainer.MediaService.addSiteDocument(file, id);
-    return MediaController.createSuccessResponse({}, response);
+    await ServiceRegistry.instance.getService(MediaService).addSiteDocument(file, id);
+    return this.createSuccessResponse({}, response);
   }
 
   @Post('/admin/document')
@@ -184,8 +183,8 @@ export default class MediaController extends BaseController {
     @Req() request: Request,
     @Res() response: Response
   ) {
-    await ServiceContainer.MediaService.saveSiteDocument(siteDocument);
-    return MediaController.createSuccessResponse({}, response);
+    await ServiceRegistry.instance.getService(MediaService).saveSiteDocument(siteDocument);
+    return this.createSuccessResponse({}, response);
   }
 
   @Delete('/admin/document/:id')
@@ -193,8 +192,8 @@ export default class MediaController extends BaseController {
     @Res() response: Response,
     @Param('id') id: number
   ) {
-    await ServiceContainer.MediaService.deleteSiteDocument(id);
-    return MediaController.createSuccessResponse({}, response);
+    await ServiceRegistry.instance.getService(MediaService).deleteSiteDocument(id);
+    return this.createSuccessResponse({}, response);
   }
 
   // @UseBefore(upload.single('file'))

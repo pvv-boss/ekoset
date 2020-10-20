@@ -9,7 +9,6 @@ import DynamicComponentsService from './DynamicComponentsService';
 import TopMenuService from './TopMenuService';
 import UserDealService from './UserDealService';
 
-
 class ServiceContainer {
   public authService: AuthService
   public articleService: ArticleService
@@ -45,3 +44,4 @@ const serviceContainerInstance = new ServiceContainer()
 export const getServiceContainer = () => {
   return serviceContainerInstance
 }
+

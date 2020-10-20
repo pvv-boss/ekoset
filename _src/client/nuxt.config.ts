@@ -36,10 +36,13 @@ const config: NuxtConfig = {
       //   href: '//code-ya.jivosite.com/widget/AMTXfSmabC',
       //   as: 'script'
       // },
+      // может в лайаут его ? В админский через head
       {
         rel: 'preload',
-        href: 'https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css',
+        href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
         as: 'style'
+
+        // this.onload=null;this.rel='stylesheet'
       },
       {
         rel: 'stylesheet',
@@ -52,17 +55,20 @@ const config: NuxtConfig = {
         href: '/favicon.png'
       },
 
-      {
-        rel: 'preload',
-        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-        as: 'style'
-      },
+      // {
+      //   rel: 'preload',
+      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css',
+      //   as: 'style'
 
-      {
-        rel: 'stylesheet',
-        href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-      }
+      //   // this.onload
+      // },
+
+      // {
+      //   rel: 'stylesheet',
+      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css',
+      // }
     ],
+
 
     script: [
       //   // async: '',
@@ -100,21 +106,15 @@ const config: NuxtConfig = {
       src: '@/plugins/brc-route-middleware'
     },
     {
-      src: '@/plugins/vue-good-table'
-    },
-    {
-      src: '@/plugins/dragable-plugin'
-    },
-    {
-      src: '@/plugins/image-lazy-load'
-    },
-    {
       src: '@/plugins/brc-buefy-plugin'
+    },
+    {
+      src: '@/plugins/vue-lazyload'
     }
   ],
 
   router: {
-    prefetchLinks: true,
+    prefetchLinks: false,
     middleware: ['needAuthorize', 'baseMiddleware']
   },
 
@@ -141,7 +141,7 @@ const config: NuxtConfig = {
         clickmap: true,
         useCDN: true,
         trackLinks: true,
-        accurateTrackBounce: true
+        accurateTrackBounce: false
       }]
   ],
 
@@ -184,7 +184,6 @@ const config: NuxtConfig = {
   },
 
   webfontloader: {
-    events: false,
     google: {
       families: ['Roboto:400,500:cyrillic&display=swap']
     }

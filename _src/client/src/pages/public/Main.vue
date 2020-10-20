@@ -1,9 +1,7 @@
 <template>
   <main>
-    <LazyTheDynamicBanner :banners-info="bannersInfo"></LazyTheDynamicBanner>
-    <LazySiteSectionList
-      :site-section-list="siteSectionItems"
-    ></LazySiteSectionList>
+    <TheDynamicBanner :banners-info="bannersInfo"></TheDynamicBanner>
+    <SiteSectionList :site-section-list="siteSectionItems"></SiteSectionList>
     <DynamicComponentsContainer
       :dynamic-component-info="dynamicComponentInfo"
     ></DynamicComponentsContainer>

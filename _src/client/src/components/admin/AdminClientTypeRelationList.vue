@@ -26,7 +26,13 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ClBrand from '@/models/ekoset/ClBrand.ts'
 import BusinessServiceService from '@/api/BusinessServiceService';
 
-@Component({})
+import 'vue-good-table/dist/vue-good-table.css'
+
+@Component({
+  components: {
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+  }
+})
 export default class AdminClientTypeRelationList extends Vue {
   @Prop()
   private clientTypeRelationItems

@@ -1,16 +1,23 @@
 <template>
   <section class="brc-business-type-offer-item__wrapper">
     <nuxt-link
-      :to="{ name: 'offer-card', params: { offer: offerItem.indOfferUrl, siteSection: getCurrentSiteSection, clienttype: null}}"
+      :to="{
+        name: 'offer-card',
+        params: {
+          offer: offerItem.indOfferUrl,
+          siteSection: getCurrentSiteSection,
+          clienttype: null,
+        },
+      }"
       class="brc-business-type-offer-item"
     >
-      <v-lazy-image
-        :src="imageSrc"
+      <img
+        v-lazy="imageSrc"
         :alt="offerItem.indOfferName"
         :title="offerItem.indOfferName"
         itemprop="image"
       />
-      <h3>{{offerItem.indOfferName}}</h3>
+      <h3>{{ offerItem.indOfferName }}</h3>
     </nuxt-link>
   </section>
 </template>
@@ -39,12 +46,13 @@ export default class BusinessTypeOfferListItem extends Vue {
 }
 </script>
 
+
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-business-type-offer-item__wrapper {
   flex: 1;
-  min-width: 220px;
+  // min-width: 220px;
   height: 145px;
   margin: 15px;
   margin-top: 0px;

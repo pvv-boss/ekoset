@@ -4,11 +4,11 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Услуга: {{ serviceItem.businessServiceName }}</h2>
-          <AdminStatusSelector
+          <LazyAdminStatusSelector
             v-model.number="serviceItem.businessServiceStatus"
             status-caption="Активна"
             @input="saveService"
-          ></AdminStatusSelector>
+          ></LazyAdminStatusSelector>
 
           <b-field label="Ед. измерения" horizontal style="margin-bottom: 0px">
             <b-input
@@ -33,7 +33,7 @@
             <div class="brc-admin-card_two-column">
               <div class="brc-admin-card-field-list_row brc-admin-panel__site">
                 <b-field label="Фото на странице">
-                  <AdminImageUploader
+                  <LazyAdminImageUploader
                     id="bigImageFile"
                     :src-image="serviceItem.businessServiceImgBig"
                     @uploader:newimageloaded="addServiceImage($event, true)"
@@ -46,7 +46,7 @@
                         </h1>
                       </figure>
                     </template>
-                  </AdminImageUploader>
+                  </LazyAdminImageUploader>
                 </b-field>
 
                 <b-field label="Наименование">
@@ -119,39 +119,39 @@
                   ></b-input>
                 </b-field>
 
-                <AdminSeoTags
+                <LazyAdminSeoTags
                   :seo-title.sync="serviceItem.seoTitle"
                   :seo-description.sync="serviceItem.seoDescription"
                   :seo-keywords.sync="serviceItem.seoKeywords"
                   @updated="saveService"
-                ></AdminSeoTags>
+                ></LazyAdminSeoTags>
               </div>
 
               <div class="brc-admin-card-field-list_row">
                 <div>
                   <b-field label="Фото на карточке услуги">
-                    <AdminImageUploader
+                    <LazyAdminImageUploader
                       id="smallImageFile"
                       :src-image="serviceItem.businessServiceImgSmall"
                       :is-left="true"
                       @uploader:newimageloaded="addServiceImage($event, false)"
                     >
                       <template v-slot="{ imageSrc }">
-                        <ServiceListItem
+                        <LazyServiceListItem
                           :service-item="serviceItem"
                           :image-src-for-design-mode="imageSrc"
                           style="width: 263px; height: 212px; margin: 0px"
-                        ></ServiceListItem>
+                        ></LazyServiceListItem>
                       </template>
-                    </AdminImageUploader>
+                    </LazyAdminImageUploader>
                   </b-field>
                 </div>
 
-                <AdminDynamicComponentsContainer
+                <LazyAdminDynamicComponentsContainer
                   v-model="dynamicComponentInfo"
                   @freecomponent:save="saveDynamicComponentsInfo"
                   @freecomponent:delete="refreshDynamicComponentsInfo"
-                ></AdminDynamicComponentsContainer>
+                ></LazyAdminDynamicComponentsContainer>
               </div>
             </div>
           </b-tab-item>
@@ -160,22 +160,22 @@
             v-if="!serviceItem.businessServiceParentId"
             label="Услуги второго уровня"
           >
-            <AdminServiceListContainer
+            <LazyAdminServiceListContainer
               v-model="serviceOtherList"
               :site-section="siteSection"
               :parent-service-id="serviceItem.businessServiceId"
               @newservice:saved="refreshServiceList"
               @service:moved="refreshServiceList"
-            ></AdminServiceListContainer>
+            ></LazyAdminServiceListContainer>
           </b-tab-item>
 
           <b-tab-item label="Связанные услуги">
-            <AdminRelatedService
+            <LazyAdminRelatedService
               :service-relation-list="serviceRelationList"
               :related-service-list="relatedServiceList"
               @service:checked="relatedServiceSelected"
               @service:priortity:changed="relatedServicePriorityChanged"
-            ></AdminRelatedService>
+            ></LazyAdminRelatedService>
           </b-tab-item>
 
           <b-tab-item label="Тип клиента, объекта">
@@ -190,10 +190,10 @@
                     списке услуг комплексных решений (по типу клиента) данного
                     раздела</span
                   >
-                  <AdminClientTypeRelationList
+                  <LazyAdminClientTypeRelationList
                     :client-type-relation-items="clientTypeRelationList"
                     @clienttypechecked="clientTypeChecked"
-                  ></AdminClientTypeRelationList>
+                  ></LazyAdminClientTypeRelationList>
                 </div>
               </b-field>
 
@@ -210,10 +210,10 @@
                     выводиться в списке услуг индивидуального предложения (для
                     данного вида деятельности)</span
                   >
-                  <AdminActivityRelationList
+                  <LazyAdminActivityRelationList
                     :activity-relation-items="activityRelationList"
                     @activitychecked="activityChecked"
-                  ></AdminActivityRelationList>
+                  ></LazyAdminActivityRelationList>
                 </div>
               </b-field>
             </div>
@@ -223,11 +223,11 @@
             v-if="!serviceItem.businessServiceParentId"
             label="Рекомендации"
           >
-            <AdminBrandRelationList
+            <LazyAdminBrandRelationList
               :brand-relation-items="brandRelationList"
               :disabled="serviceItem.businessServiceParentId > 0"
               @brandchecked="brandChecked"
-            ></AdminBrandRelationList>
+            ></LazyAdminBrandRelationList>
           </b-tab-item>
         </b-tabs>
       </template>

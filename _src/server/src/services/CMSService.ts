@@ -1,8 +1,7 @@
-import BaseService from './BaseService';
 import DynamicComponentInfo from '@/entities/DynamicComponentInfo';
 import SitePage, { SitePageType } from '@/entities/ekoset/SitePage';
-import TypeOrmManager from '@/utils/TypeOrmManager';
 import slugify from '@sindresorhus/slugify';
+import { BaseService, postgresWrapper, TypeOrmManager } from 'rsn-express-core';
 
 export default class CMSService extends BaseService {
 
@@ -10,15 +9,15 @@ export default class CMSService extends BaseService {
   private apiSitePageViewName = 'v_api_site_page';
 
   public async adminGetSitePages () {
-    return this.getDbViewResult(this.apiSitePageViewName);
+    return postgresWrapper.anyWhere(this.apiSitePageViewName);
   }
 
   public async adminGetSitePageById (sitePageId: number) {
-    return this.getOneById(this.apiSitePageViewName, 'site_page_id = $1', sitePageId);
+    return postgresWrapper.oneOrNoneWhere(this.apiSitePageViewName, 'site_page_id = $1', [sitePageId]);
   }
 
   public async adminGetSitePageByCode (sitePageCode: number) {
-    return this.getOneById(this.apiSitePageViewName, 'site_page_code = $1', sitePageCode);
+    return postgresWrapper.oneOrNoneWhere(this.apiSitePageViewName, 'site_page_code = $1', [sitePageCode]);
   }
 
   public async adminSaveSitePage (sitePage: SitePage) {
@@ -30,11 +29,11 @@ export default class CMSService extends BaseService {
   }
 
   public async adminDeleteSitePage (sitePageId: number) {
-    return this.deleteById('site_page', 'site_page_id = $1', sitePageId);
+    return postgresWrapper.delete('site_page', 'site_page_id = $1', [sitePageId]);
   }
 
   public async adminGetDynamicComponentsInfoSitePage (sitePageId: number) {
-    const result = await this.getDbViewResult(this.apiViewName, null, 'site_page_id = $1', [sitePageId]);
+    const result = await postgresWrapper.anyWhere(this.apiViewName, null, 'site_page_id = $1', [sitePageId]);
     let blockInfoList = this.getDynamicComponentInfoFromDataBase(result);
 
 
@@ -90,17 +89,17 @@ export default class CMSService extends BaseService {
   }
 
   public async adminGetDynamicComponentsInfoSiteSection (siteSectionId: number) {
-    const result = await this.getDbViewResult(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
+    const result = await postgresWrapper.anyWhere(this.apiViewName, null, 'site_section_id = $1', [siteSectionId]);
     return this.removeBlock(this.getDynamicComponentInfoFromDataBase(result), BlockType.RELATED_SERVICE);
   }
 
   public async adminGetDynamicComponentsInfoService (serviceId: number) {
-    const result = await this.getDbViewResult(this.apiViewName, null, 'business_service_id = $1', [serviceId]);
+    const result = await postgresWrapper.anyWhere(this.apiViewName, null, 'business_service_id = $1', [serviceId]);
     return this.getDynamicComponentInfoFromDataBase(result);
   }
 
   public async adminGetDynamicComponentsInfoOffer (indOfferId: number) {
-    const result = await this.getDbViewResult(this.apiViewName, null, 'ind_offer_id = $1', [indOfferId]);
+    const result = await postgresWrapper.anyWhere(this.apiViewName, null, 'ind_offer_id = $1', [indOfferId]);
     return this.removeBlock(this.getDynamicComponentInfoFromDataBase(result), BlockType.RELATED_SERVICE);
   }
 
@@ -189,7 +188,7 @@ export default class CMSService extends BaseService {
   // ---
 
   public async adminDeleteDynamicComponent (id: number) {
-    return await this.deleteById('site_block', 'site_block_id=$1', id);
+    return await postgresWrapper.delete('site_block', 'site_block_id=$1', [id]);
   }
 
   public adminGetDynamicComponentsInfoDefault () {
@@ -408,7 +407,7 @@ export default class CMSService extends BaseService {
       blockInfo.id
     ]
     const funcArgc = [firstId, ...standartArgs];
-    return this.execFunction(funcName, funcArgc);
+    return postgresWrapper.execFunction(funcName, funcArgc);
   }
 
   private getBlockIndex (infoList: DynamicComponentInfo[], code: number) {

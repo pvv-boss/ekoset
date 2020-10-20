@@ -10,25 +10,48 @@
       <tbody>
         <template v-for="iterPriceListItem in servicePriceList">
           <template
-            v-if="!!iterPriceListItem.pricelist && iterPriceListItem.pricelist.length > 0 && iterPriceListItem.pricelist[0] !== null"
+            v-if="
+              !!iterPriceListItem.pricelist &&
+              iterPriceListItem.pricelist.length > 0 &&
+              iterPriceListItem.pricelist[0] !== null
+            "
           >
             <tr
-              v-if="!isForRootService || (isForRootService && iterPriceListItem.pricelist.length === 0)"
+              v-if="
+                !isForRootService ||
+                (isForRootService && iterPriceListItem.pricelist.length === 0)
+              "
               :key="iterPriceListItem.id"
             >
               <td
-                :class="{'brc-price-list__item_red':isForChildService || isForRootService, 'brc-service-price-td_bold':!isForChildService && !isForRootService}"
+                :class="{
+                  'brc-price-list__item_red':
+                    isForChildService || isForRootService,
+                  'brc-service-price-td_bold':
+                    !isForChildService && !isForRootService,
+                }"
               >
                 <nuxt-link
                   v-if="!!iterPriceListItem.businesserviceurl"
-                  :to="{ name: 'service-card', params: { service: iterPriceListItem.businesserviceurl, siteSection: iterPriceListItem.sitesectionurl}}"
+                  :to="{
+                    name: 'service-card',
+                    params: {
+                      service: iterPriceListItem.businesserviceurl,
+                      siteSection: iterPriceListItem.sitesectionurl,
+                    },
+                  }"
                   class="brc-service-price-table-link"
-                >{{iterPriceListItem.name}}</nuxt-link>
+                  >{{ iterPriceListItem.name }}</nuxt-link
+                >
                 <nuxt-link
                   v-else
-                  :to="{ name: 'activity-card', params: {siteSection: iterPriceListItem.sitesectionurl}}"
+                  :to="{
+                    name: 'activity-card',
+                    params: { siteSection: iterPriceListItem.sitesectionurl },
+                  }"
                   class="brc-service-price-table-link brc-service-price-td_bold"
-                >{{iterPriceListItem.name}}</nuxt-link>
+                  >{{ iterPriceListItem.name }}</nuxt-link
+                >
               </td>
               <td class="brc-service-price__unit"></td>
               <td></td>
@@ -40,12 +63,21 @@
             >
               <td class="brc-price-list__item_red">
                 <nuxt-link
-                  :to="{ name: 'service-card', params: { service: iterPriceItem.businesserviceurl, siteSection: iterPriceItem.sitesectionurl}}"
+                  :to="{
+                    name: 'service-card',
+                    params: {
+                      service: iterPriceItem.businesserviceurl,
+                      siteSection: iterPriceItem.sitesectionurl,
+                    },
+                  }"
                   class="brc-service-price-table-link"
-                >{{iterPriceItem.businesservicename}}</nuxt-link>
+                  >{{ iterPriceItem.businesservicename }}</nuxt-link
+                >
               </td>
-              <td class="brc-service-price__unit">{{iterPriceItem.businesserviceunit}}</td>
-              <td class>{{iterPriceItem.businesserviceprice}}</td>
+              <td class="brc-service-price__unit">
+                {{ iterPriceItem.businesserviceunit }}
+              </td>
+              <td class>{{ iterPriceItem.businesserviceprice }}</td>
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceItem)">
                   <img
@@ -60,15 +92,29 @@
           <template v-else>
             <tr :key="iterPriceListItem.id">
               <td
-                :class="{'brc-price-list__item_red':isForChildService || isForRootService, 'brc-service-price-td_bold':!isForChildService && !isForRootService}"
+                :class="{
+                  'brc-price-list__item_red':
+                    isForChildService || isForRootService,
+                  'brc-service-price-td_bold':
+                    !isForChildService && !isForRootService,
+                }"
               >
                 <nuxt-link
-                  :to="{ name: 'service-card', params: { service: iterPriceListItem.businesserviceurl, siteSection: iterPriceListItem.sitesectionurl}}"
+                  :to="{
+                    name: 'service-card',
+                    params: {
+                      service: iterPriceListItem.businesserviceurl,
+                      siteSection: iterPriceListItem.sitesectionurl,
+                    },
+                  }"
                   class="brc-service-price-table-link"
-                >{{iterPriceListItem.name}}</nuxt-link>
+                  >{{ iterPriceListItem.name }}</nuxt-link
+                >
               </td>
-              <td class="brc-service-price__unit">{{iterPriceListItem.businesserviceunit}}</td>
-              <td>{{iterPriceListItem.businesserviceprice}}</td>
+              <td class="brc-service-price__unit">
+                {{ iterPriceListItem.businesserviceunit }}
+              </td>
+              <td>{{ iterPriceListItem.businesserviceprice }}</td>
               <td class="brc-price-buscet__icon">
                 <a @click="addServiceToBuscet(iterPriceListItem)">
                   <img
@@ -85,9 +131,10 @@
     </table>
     <div v-show="!allPricesPage" class="brc-all-prices-link__wrapper">
       <nuxt-link
-        :to="{name: 'prices', params: {siteSection: getCurrentSiteSection}}"
+        :to="{ name: 'prices', params: { siteSection: getCurrentSiteSection } }"
         class="brc-all-prices-link"
-      >Все цены</nuxt-link>
+        >Все цены</nuxt-link
+      >
     </div>
   </div>
 </template>
@@ -95,7 +142,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
@@ -140,7 +186,7 @@ export default class ServicePrice extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .brc-service-price-table__wrapper {
   margin: 30px 0 0;
 

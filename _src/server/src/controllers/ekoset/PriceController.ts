@@ -1,7 +1,7 @@
-import { BaseController } from '../BaseController';
-import ServiceContainer from '@/services/ServiceContainer';
 import { JsonController, Get, Res, QueryParam, Param } from 'routing-controllers';
 import { Response } from 'express';
+import { BaseController, ServiceRegistry } from 'rsn-express-core';
+import BusinessServiceService from '@/services/ekoset/BusinessServiceService';
 
 @JsonController()
 export default class PriceController extends BaseController {
@@ -10,8 +10,8 @@ export default class PriceController extends BaseController {
   public async getPriceList (
     @Res() response: Response
   ) {
-    const result = await ServiceContainer.BusinessServiceService.getPriceList();
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceList();
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/services/price')
@@ -19,8 +19,8 @@ export default class PriceController extends BaseController {
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListBySiteSection(siteSectionId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListBySiteSection(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/services/service/:serviceId/price')
@@ -28,8 +28,8 @@ export default class PriceController extends BaseController {
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListForService(serviceId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForService(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/services/child/:serviceId/price')
@@ -37,8 +37,8 @@ export default class PriceController extends BaseController {
     @Res() response: Response,
     @Param('serviceId') serviceId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListForChildService(serviceId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForChildService(serviceId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -49,8 +49,8 @@ export default class PriceController extends BaseController {
     @Param('activityId') activityId: number,
   ) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListForActivity(siteSectionId, activityId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForActivity(siteSectionId, activityId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/service/price/business/:siteSectionId')
@@ -58,8 +58,8 @@ export default class PriceController extends BaseController {
     @Res() response: Response,
     @Param('siteSectionId') siteSectionId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForBusinessBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -68,8 +68,8 @@ export default class PriceController extends BaseController {
     @Res() response: Response,
     @Param('siteSectionId') siteSectionId: number) {
 
-    const result = await ServiceContainer.BusinessServiceService.getPriceListForPersonBySiteSectionId(siteSectionId);
-    return BaseController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForPersonBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
 

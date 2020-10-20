@@ -16,10 +16,10 @@
               ></b-input>
             </b-field>
             <b-field label="Раздел сайта" horizontal>
-              <AdminSiteSectionSelector
+              <LazyAdminSiteSectionSelector
                 v-model="newSiteDocument.siteSectionId"
                 :nullable="false"
-              ></AdminSiteSectionSelector>
+              ></LazyAdminSiteSectionSelector>
             </b-field>
             <b-button type="is-primary" @click="save()">Сохранить</b-button>
             <b-button @click="cancelSave">Отмена</b-button>
@@ -107,7 +107,13 @@ import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 import SiteDocument from '@/models/ekoset/SiteDocument.ts'
 
-@Component
+import 'vue-good-table/dist/vue-good-table.css'
+
+@Component({
+  components: {
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+  }
+})
 export default class AdminDocuments extends Vue {
 
   private siteDocumentList: SiteDocument[] = []

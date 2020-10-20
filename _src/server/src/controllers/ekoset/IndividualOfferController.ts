@@ -1,9 +1,9 @@
 
 import { JsonController, Get, Res, Param, Body, Put, Delete } from 'routing-controllers';
 import { Response } from 'express';
-import { BaseController } from '../BaseController';
-import ServiceContainer from '@/services/ServiceContainer';
 import { IndividualOffer } from '@/entities/ekoset/IndividualOffer';
+import { BaseController, ServiceRegistry } from 'rsn-express-core';
+import IndividualOfferService from '@/services/ekoset/IndividualOfferService';
 
 @JsonController()
 export default class IndividualOfferController extends BaseController {
@@ -13,32 +13,32 @@ export default class IndividualOfferController extends BaseController {
   public async save (
     @Body() individualOffer: IndividualOffer,
     @Res() response: Response) {
-    const result = await ServiceContainer.IndividualOfferService.save(individualOffer);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).save(individualOffer);
+    return this.createSuccessResponse(result, response);
   }
 
   @Delete('/offers/:id(\\d+)')
   public async delete (
     @Param('id') id: number,
     @Res() response: Response) {
-    const result = await ServiceContainer.IndividualOfferService.delete(id);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).delete(id);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/offers')
   public async adminGetAll (
     @Res() response: Response,
   ) {
-    const result = await ServiceContainer.IndividualOfferService.adminGetAll();
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).adminGetAll();
+    return this.createSuccessResponse(result, response);
   }
   //
 
   @Get('/offers')
   public async getAll (
     @Res() response: Response) {
-    const result = await ServiceContainer.IndividualOfferService.getAll();
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getAll();
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -46,24 +46,24 @@ export default class IndividualOfferController extends BaseController {
   public async getAllBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getAllBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getAllBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/admin/panel/:sitesection/offers')
   public async adminGetAllBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.adminGetAllBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).adminGetAllBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/activity/offers')
   public async getForActivityBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getForActivityBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getForActivityBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
 
@@ -71,24 +71,24 @@ export default class IndividualOfferController extends BaseController {
   public async getForClientBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getForClientBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getForClientBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/offers/person')
   public async getForPrivatePersonBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getForPrivatePersonBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getForPrivatePersonBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/:sitesection/offers/business')
   public async getForBusinessBySiteSectionId (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
-    const result = await ServiceContainer.IndividualOfferService.getForBusinessBySiteSectionId(siteSectionId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getForBusinessBySiteSectionId(siteSectionId);
+    return this.createSuccessResponse(result, response);
   }
 
   @Get('/offers/:offer')
@@ -96,7 +96,7 @@ export default class IndividualOfferController extends BaseController {
     @Res() response: Response,
     @Param('offer') offerId: number,
   ) {
-    const result = await ServiceContainer.IndividualOfferService.getById(offerId);
-    return IndividualOfferController.createSuccessResponse(result, response);
+    const result = await ServiceRegistry.instance.getService(IndividualOfferService).getById(offerId);
+    return this.createSuccessResponse(result, response);
   }
 }

@@ -4,18 +4,18 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Пункт меню: {{ sitePageItem.sitePageName }}</h2>
-          <AdminStatusSelector
+          <LazyAdminStatusSelector
             v-model.number="sitePageItem.sitePageStatus"
             status-caption="Активен"
             @input="save"
-          ></AdminStatusSelector>
+          ></LazyAdminStatusSelector>
         </div>
       </template>
       <template #content>
         <div class="brc-admin-card_two-column">
           <div class="brc-admin-card-field-list_row brc-admin-panel__site">
             <b-field label="Баннер">
-              <AdminImageUploader
+              <LazyAdminImageUploader
                 id="bigImageFile"
                 :src-image="sitePageItem.sitePageBanner"
                 @uploader:newimageloaded="addImage($event, true)"
@@ -28,7 +28,7 @@
                     </h1>
                   </figure>
                 </template>
-              </AdminImageUploader>
+              </LazyAdminImageUploader>
             </b-field>
             <b-field label="Наименование пункта">
               <b-input
@@ -51,11 +51,11 @@
             </b-field>
 
             <b-field v-show="!isStandartMenuItem" label="Раздел сайта">
-              <AdminSiteSectionSelector
+              <LazyAdminSiteSectionSelector
                 v-model="sitePageItem.siteSectionId"
                 :nullable="true"
                 @input="save"
-              ></AdminSiteSectionSelector>
+              ></LazyAdminSiteSectionSelector>
             </b-field>
 
             <b-field v-show="!isStandartMenuItem" label="URL (ЧПУ) на страницу">
@@ -66,37 +66,37 @@
               ></b-input>
             </b-field>
 
-            <AdminSeoTags
+            <LazyAdminSeoTags
               :seo-title.sync="sitePageItem.seoTitle"
               :seo-description.sync="sitePageItem.seoDescription"
               :seo-keywords.sync="sitePageItem.seoKeywords"
               @updated="save"
-            ></AdminSeoTags>
+            ></LazyAdminSeoTags>
           </div>
 
           <div class="brc-admin-card-field-list_row">
             <div v-if="isMainMenuItem">
               <b-field label="Логотип в шапке сайта">
-                <AdminImageUploader
+                <LazyAdminImageUploader
                   id="siteSectionLogo"
                   :src-image="sitePageItem.sitePageLogo"
                   @uploader:newimageloaded="updateSitePageLogo($event)"
                 >
                   <template v-slot="{ imageSrc }">
-                    <TheHeaderLogo
+                    <LazyTheHeaderLogo
                       :disign-mode="true"
                       :image-src-for-design-mode="imageSrc"
-                    ></TheHeaderLogo>
+                    ></LazyTheHeaderLogo>
                   </template>
-                </AdminImageUploader>
+                </LazyAdminImageUploader>
               </b-field>
             </div>
-            <AdminDynamicComponentsContainer
+            <LazyAdminDynamicComponentsContainer
               v-model="dynamicComponentInfo"
               style="margin-top: 10px"
               @freecomponent:save="saveDynamicComponentsInfo"
               @freecomponent:delete="refreshDynamicComponentsInfo"
-            ></AdminDynamicComponentsContainer>
+            ></LazyAdminDynamicComponentsContainer>
           </div>
         </div>
       </template>

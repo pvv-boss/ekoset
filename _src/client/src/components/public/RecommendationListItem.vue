@@ -2,13 +2,13 @@
   <div class="brc-recommend-smallitem__wrapper">
     <figure class="brc-recommend-smallitem__preview">
       <img
-        :src="imageSrc"
+        v-lazy="imageSrc"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"
         itemprop="image"
         class="brc-recommend-smallitem__preview-img"
       />
-      <figcaption>{{brand.clBrandName}}</figcaption>
+      <figcaption>{{ brand.clBrandName }}</figcaption>
     </figure>
   </div>
 </template>

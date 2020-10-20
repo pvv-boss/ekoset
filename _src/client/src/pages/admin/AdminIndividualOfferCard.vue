@@ -7,12 +7,12 @@
             Индивидуальное (комплексное) предложение:
             {{ indOfferItem.indOfferName }}
           </h2>
-          <AdminStatusSelector
+          <LazyAdminStatusSelector
             v-if="!isClientTypeMode"
             v-model.number="indOfferItem.indOfferStatus"
             status-caption="Активно"
             @input="saveOffer"
-          ></AdminStatusSelector>
+          ></LazyAdminStatusSelector>
         </div>
       </template>
 
@@ -20,7 +20,7 @@
         <div class="brc-admin-card_two-column">
           <div class="brc-admin-card-field-list_row brc-admin-panel__site">
             <b-field label="Фото на странице">
-              <AdminImageUploader
+              <LazyAdminImageUploader
                 id="bigImageFile"
                 :src-image="indOfferItem.indOfferImgBig"
                 @uploader:newimageloaded="addOfferImage($event, true)"
@@ -33,7 +33,7 @@
                     </h1>
                   </figure>
                 </template>
-              </AdminImageUploader>
+              </LazyAdminImageUploader>
             </b-field>
             <b-field v-if="!isClientTypeMode" label="Наименование">
               <b-input
@@ -67,44 +67,44 @@
             </b-field>
 
             <b-field v-if="!isClientTypeMode" label="Направление деятельности">
-              <AdminClActivitySelector
+              <LazyAdminClActivitySelector
                 v-model="indOfferItem.clActivityId"
                 @input="saveOffer"
-              ></AdminClActivitySelector>
+              ></LazyAdminClActivitySelector>
             </b-field>
 
-            <AdminSeoTags
+            <LazyAdminSeoTags
               :seo-title.sync="indOfferItem.seoTitle"
               :seo-description.sync="indOfferItem.seoDescription"
               :seo-keywords.sync="indOfferItem.seoKeywords"
               @updated="saveOffer"
-            ></AdminSeoTags>
+            ></LazyAdminSeoTags>
           </div>
           <div class="brc-admin-card-field-list_row">
             <div v-if="!isClientTypeMode">
               <b-field label="Фото на карточке предложения">
-                <AdminImageUploader
+                <LazyAdminImageUploader
                   id="smallImageFile"
                   :src-image="indOfferItem.indOfferImgSmall"
                   :is-left="true"
                   @uploader:newimageloaded="addOfferImage($event, false)"
                 >
                   <template v-slot="{ imageSrc }">
-                    <BusinessTypeOfferListItem
+                    <LazyBusinessTypeOfferListItem
                       :offer-item="indOfferItem"
                       :image-src-for-design-mode="imageSrc"
                       style="width: 252px; height: 142px; margin: 0px"
-                    ></BusinessTypeOfferListItem>
+                    ></LazyBusinessTypeOfferListItem>
                   </template>
-                </AdminImageUploader>
+                </LazyAdminImageUploader>
               </b-field>
             </div>
 
-            <AdminDynamicComponentsContainer
+            <LazyAdminDynamicComponentsContainer
               v-model="dynamicComponentInfo"
               @freecomponent:save="saveDynamicComponentsInfo"
               @freecomponent:delete="refreshDynamicComponentsInfo"
-            ></AdminDynamicComponentsContainer>
+            ></LazyAdminDynamicComponentsContainer>
           </div>
         </div>
       </template>

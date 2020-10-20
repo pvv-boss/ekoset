@@ -87,17 +87,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { getServiceContainer } from '@/api/ServiceContainer'
-import AdminFreeBlockItem from '@/components/admin/AdminFreeBlockItem.vue'
-import AdminFreeBlockInfoEditor from '@/components/admin/AdminFreeBlockInfoEditor.vue'
 
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
-
 @Component({
   components: {
-    AdminFreeBlockItem,
-    AdminFreeBlockInfoEditor
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
   }
 })
 export default class AdminDynamicComponentsContainer extends Vue {

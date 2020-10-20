@@ -34,12 +34,12 @@
     </div>
     <nuxt-child></nuxt-child>
 
-    <LazyMessageForm
+    <MessageForm
       title="Отправить заказ"
       :mode="0"
       :show-close-btn="false"
       class="brc-user-deals__wrapper__messageform"
-    ></LazyMessageForm>
+    ></MessageForm>
   </section>
 </template>
 

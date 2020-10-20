@@ -1,21 +1,24 @@
 <template>
   <section class="brc-client-item">
-    <h4>{{clientItem.clActivityName}}</h4>
+    <h4>{{ clientItem.clActivityName }}</h4>
     <ul class="brc-client-item__list">
-      <li v-for="iterBrand in brandsLimit()" :key="iterBrand.id">{{iterBrand.name}}</li>
+      <li v-for="iterBrand in brandsLimit()" :key="iterBrand.id">
+        {{ iterBrand.name }}
+      </li>
     </ul>
     <a
       v-show="clientItem.allcount - maxClientsShow > 0"
       class="brc-client-item__showmore dont_outside"
       @click="$emit('more-clients-clicked', clientItem)"
-    >{{moreItemsText()}}</a>
+      >{{ moreItemsText() }}</a
+    >
     <figure>
       <img
+        v-lazy="clientItem.clActivityMainClientImg"
         :alt="clientItem.clActivityName"
         itemprop="image"
-        :src="clientItem.clActivityMainClientImg"
       />
-      <figcaption>{{clientItem.clActivityName}}</figcaption>
+      <figcaption>{{ clientItem.clActivityName }}</figcaption>
     </figure>
   </section>
 </template>
@@ -41,7 +44,7 @@ export default class ClientListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-client-item {
   border: 1px solid lightgrey;

@@ -1,20 +1,19 @@
 import path from 'path';
 import fs from 'fs';
-import cuid from 'cuid';
 import mime from 'mime-types';
-import BaseService from '../BaseService';
 import SiteDocument from '@/entities/ekoset/SiteDocument';
-import TypeOrmManager from '@/utils/TypeOrmManager';
+import { BaseService, postgresWrapper, TypeOrmManager } from 'rsn-express-core';
+import cuid from 'cuid';
 
 export default class MediaService extends BaseService {
 
 
   public async getBannersForMainPage () {
-    return this.getDbViewResult('v_api_banner_by_main')
+    return postgresWrapper.anyWhere('v_api_banner_by_main')
   }
 
   public async getBannersForSiteSection (siteSectionId: number) {
-    return this.getDbViewResult('v_api_banner_by_section', null, 'site_section_id=$1', [siteSectionId])
+    return postgresWrapper.anyWhere('v_api_banner_by_section', null, 'site_section_id=$1', [siteSectionId])
   }
 
   public async saveSiteSectionImage (siteSectionId: number, file: Express.Multer.File, isBig: boolean) {
@@ -69,7 +68,7 @@ export default class MediaService extends BaseService {
 
 
   public async getSiteDocuments () {
-    return this.getDbViewResult('v_api_site_document')
+    return postgresWrapper.anyWhere('v_api_site_document')
   }
 
   public async saveSiteDocument (siteDocument: SiteDocument) {
@@ -77,14 +76,14 @@ export default class MediaService extends BaseService {
   }
 
   public async deleteSiteDocument (id: number) {
-    return await this.deleteById('site_document', 'site_document_id=$1', id)
+    return await postgresWrapper.delete('site_document', 'site_document_id=$1', [id])
   }
 
   public async addSiteDocument (file: Express.Multer.File, id: number) {
     const updateStmt = `UPDATE site_document SET site_document_file = $1 where site_document_id = ${id}`;
     const pathAndName = await this.saveFileFromRequestBody(file, 'docs', 'site', `doc${id}`);
     if (pathAndName) {
-      return this.execNone(updateStmt, [`/docs/site/${pathAndName[1]}`]);
+      return postgresWrapper.execNone(updateStmt, [`/docs/site/${pathAndName[1]}`]);
     }
   }
 
@@ -128,7 +127,7 @@ export default class MediaService extends BaseService {
   private async updateSmallOrBigImageFor (file: Express.Multer.File, imageStaticSubFolderName: string, filePrefix: string, updateStmt: string) {
     const pathAndName = await this.saveFileFromRequestBody(file, 'img', imageStaticSubFolderName, filePrefix);
     if (pathAndName) {
-      return this.execNone(updateStmt, [`/img/${imageStaticSubFolderName}/${pathAndName[1]}`]);
+      return postgresWrapper.execNone(updateStmt, [`/img/${imageStaticSubFolderName}/${pathAndName[1]}`]);
     }
   }
 }

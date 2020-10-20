@@ -1,17 +1,16 @@
 <template>
   <div class="brc-buscet_container">
-    <LazyBuscetItem
+    <BuscetItem
       v-for="iterBuscet in buscetList"
       :key="iterBuscet.serviceUrl"
       :buscet="iterBuscet"
-    ></LazyBuscetItem>
+    ></BuscetItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import AppStore from '@/store/AppStore'
 import BuscetStore from '@/store/BuscetStore'
 
 @Component

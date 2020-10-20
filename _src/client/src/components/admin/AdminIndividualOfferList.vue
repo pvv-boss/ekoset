@@ -114,11 +114,10 @@ import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
-import AdminClActivitySelector from '@/components/admin/AdminClActivitySelector.vue'
 
 @Component({
   components: {
-    AdminClActivitySelector
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
   }
 })
 export default class AdminIndividualOfferList extends Vue {

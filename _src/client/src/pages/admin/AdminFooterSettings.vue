@@ -11,19 +11,19 @@
         <div class="brc-admin-card-field-list_column">
           <div class="col-2">
             <h3>Для бизнеса</h3>
-            <AdminServiceRelationListBySection
+            <LazyAdminServiceRelationListBySection
               :service-relation-items="serviceListForBusiness"
               style="margin-top: 25px"
               @servicechecked="onChecked(...arguments, true)"
-            ></AdminServiceRelationListBySection>
+            ></LazyAdminServiceRelationListBySection>
           </div>
           <div class="col-2">
             <h3>Для дома</h3>
-            <AdminServiceRelationListBySection
+            <LazyAdminServiceRelationListBySection
               :service-relation-items="serviceListForPerson"
               style="margin-top: 25px"
               @servicechecked="onChecked(...arguments, false)"
-            ></AdminServiceRelationListBySection>
+            ></LazyAdminServiceRelationListBySection>
           </div>
         </div>
       </template>

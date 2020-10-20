@@ -76,11 +76,11 @@
               >{{ iterBrand.clBrandName }}</nuxt-link
             >
 
-            <AdminClActivitySelector
+            <LazyAdminClActivitySelector
               v-model="iterBrand.clActivityId"
               :cl-activity-list="clActivityList"
               @input="saveBrand(iterBrand)"
-            ></AdminClActivitySelector>
+            ></LazyAdminClActivitySelector>
             <div>
               <b-upload @input="saveBrandImage(...arguments, iterBrand)">
                 <a class="button is-link">
@@ -179,7 +179,11 @@ import AdminStore from '@/store/AdminStore'
 import ClActivity from '@/models/ekoset/ClActivity'
 
 
-@Component
+@Component({
+  components: {
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
+  }
+})
 export default class AdminBrandList extends Vue {
   private brandList: ClBrand[] = []
   private createNewBrandMode = false

@@ -128,10 +128,10 @@
       :can-cancel="true"
       :width="400"
     >
-      <SiteSectionListItem
+      <LazySiteSectionListItem
         :site-section-item="previewSmallSiteSection"
         style="width: 347px; margin: 0px; background-color: white"
-      ></SiteSectionListItem>
+      ></LazySiteSectionListItem>
     </b-modal>
 
     <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">
@@ -160,7 +160,11 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 
-@Component
+@Component({
+  components: {
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
+  }
+})
 export default class AdminSiteSectionList extends Vue {
   private siteSectionItems: SiteSection[] = []
   private createNewSiteSectionMode = false

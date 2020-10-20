@@ -1,8 +1,7 @@
-import { BaseController } from '../BaseController';
-import { JsonController } from 'routing-controllers/decorator/JsonController';
-import { BodyParam, Req, Res, Get } from 'routing-controllers';
 import { Request, Response } from 'express';
-import ServiceContainer from '@/services/ServiceContainer';
+import { BaseController, ServiceRegistry } from 'rsn-express-core';
+import UserDealService from '@/services/ekoset/UserDealService';
+import { JsonController, Get, Res, Param, Req, Body, Put, Delete, Post } from 'routing-controllers';
 
 @JsonController('/user')
 export default class UserDealController extends BaseController {
@@ -12,7 +11,7 @@ export default class UserDealController extends BaseController {
         @Req() request: Request,
         @Res() response: Response) {
 
-        const result = await ServiceContainer.UserDealService.getContracts();
-        return UserDealController.createSuccessResponse(result, response);
+        const result = await ServiceRegistry.instance.getService(UserDealService).getContracts();
+        return this.createSuccessResponse(result, response);
     }
 }

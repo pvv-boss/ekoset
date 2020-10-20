@@ -1,19 +1,19 @@
 <template>
   <div class="brc-page-container">
-    <LazyTheLayoutHeader></LazyTheLayoutHeader>
+    <TheLayoutHeader></TheLayoutHeader>
     <div class="brc-body">
       <nuxt></nuxt>
     </div>
-    <LazyTheMessagesAriseBlock></LazyTheMessagesAriseBlock>
-    <LazyTheLayoutFooter v-once></LazyTheLayoutFooter>
+    <TheMessagesAriseBlock></TheMessagesAriseBlock>
+    <TheLayoutFooter v-once></TheLayoutFooter>
     <client-only>
-      <LazyBaseBackToTop></LazyBaseBackToTop>
+      <BaseBackToTop></BaseBackToTop>
     </client-only>
   </div>
 </template>
 
 <script  lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class DefaultLayout extends Vue {

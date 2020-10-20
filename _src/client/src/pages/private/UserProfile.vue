@@ -1,8 +1,8 @@
 <template>
   <section class="brc-user-profile">
-    <LazyAccountMain></LazyAccountMain>
-    <LazyChangePassword></LazyChangePassword>
-    <LazyNotificationSettings></LazyNotificationSettings>
+    <AccountMain></AccountMain>
+    <ChangePassword></ChangePassword>
+    <NotificationSettings></NotificationSettings>
   </section>
 </template>
 

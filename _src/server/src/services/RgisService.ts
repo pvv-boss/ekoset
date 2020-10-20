@@ -1,5 +1,5 @@
 // import request from 'request-promise-native'
-// import PgUtls from '@/utils/PgUtils';
+// import postgresWrapper from '@/utils/PgUtils';
 // import fs from 'fs';
 // import ServiceContainer from './ServiceContainer';
 // import path from 'path';
@@ -18,7 +18,7 @@
 //       .filter(Boolean);
 
 //     const deleteStmt = 'DELETE FROM brc_geodata.layer_meta';
-//     await PgUtls.execNone(deleteStmt);
+//     await postgresWrapper.execNone(deleteStmt);
 
 //     lines.forEach(async (iterLine) => {
 //       const splitter = iterLine.split(';');
@@ -47,7 +47,7 @@
 
 //   private async addToMeta (layerName: string, layerDescription: string) {
 //     const insertStmt = `INSERT INTO brc_geodata.layer_meta (layer_meta_layer_name,layer_meta_layer_description) values ($1,$2)`;
-//     await PgUtls.execNone(insertStmt, [layerName, layerDescription]);
+//     await postgresWrapper.execNone(insertStmt, [layerName, layerDescription]);
 //   }
 
 //   private async insertArticleZPM (zonaProtectModeGeoJsonString: string) {
@@ -60,7 +60,7 @@
 //       const data = await this.getRequestResult(`http://new.rgis.spb.ru/map_api/additional_info/ArticleZPM/${code}`, true);
 
 //       const insertStmt = `INSERT INTO brc_geodata.layer_text_data (layer_text_data_layer_name,layer_text_data_text, layer_text_layer_feature_id) values ('CO_ZONA_PROTECT_MOD',$1,'${code}')`;
-//       await PgUtls.execNone(insertStmt, data);
+//       await postgresWrapper.execNone(insertStmt, data);
 //       // const fileName = 'ArticleZPM_' + code + '.html';
 //       // fs.writeFile(`rgis_layers/docs/${fileName}`, data, { encoding: 'utf8' }, (err) => { });
 //     }

@@ -1,10 +1,10 @@
 <template>
   <div class="brc-service-list">
-    <LazyServiceListItem
+    <ServiceListItem
       v-for="serviceItem in serviceList"
       :key="serviceItem.businessServiceId"
       :service-item="serviceItem"
-    ></LazyServiceListItem>
+    ></ServiceListItem>
   </div>
 </template>
 

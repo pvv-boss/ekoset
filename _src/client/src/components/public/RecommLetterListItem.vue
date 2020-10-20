@@ -1,15 +1,18 @@
 <template>
   <div class="brc-letter-smallitem__wrapper">
-    <figure class="brc-letter-smallitem__preview" @click="$emit('letter:clicked', brand)">
-      <p>{{brand.clBrandName}}</p>
+    <figure
+      class="brc-letter-smallitem__preview"
+      @click="$emit('letter:clicked', brand)"
+    >
+      <p>{{ brand.clBrandName }}</p>
       <img
-        :src="imageSrc"
+        v-lazy="imageSrc"
         :alt="brand.clBrandName"
         :title="brand.clBrandName"
         itemprop="image"
         class="brc-letter-smallitem__preview-img"
       />
-      <figcaption>{{brand.clBrandName}}</figcaption>
+      <figcaption>{{ brand.clBrandName }}</figcaption>
     </figure>
   </div>
 </template>
@@ -35,7 +38,7 @@ export default class RecommLetterListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .brc-letter-smallitem__wrapper {
   text-align: center;

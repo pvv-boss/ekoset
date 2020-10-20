@@ -105,7 +105,13 @@ import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 
-@Component
+import 'vue-good-table/dist/vue-good-table.css'
+
+@Component({
+  components: {
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+  }
+})
 export default class AdminArticleList extends Vue {
   private articleItems: Article[] = []
   private newArticle = new Article()

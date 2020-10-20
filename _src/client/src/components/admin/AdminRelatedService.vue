@@ -27,16 +27,11 @@
 
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import AdminServiceRelationListBySection from '@/components/admin/AdminServiceRelationListBySection.vue'
-import { NuxtContext } from 'vue/types/options'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import ServiceListItem from '@/components/public/ServiceListItem.vue'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({
   components: {
-    AdminServiceRelationListBySection,
-    ServiceListItem
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
   }
 })
 export default class AdminRelatedService extends Vue {

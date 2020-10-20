@@ -4,11 +4,11 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Раздел сайта: {{ siteSectionItem.siteSectionName }}</h2>
-          <AdminStatusSelector
+          <LazyAdminStatusSelector
             v-model.number="siteSectionItem.siteSectionStatus"
             status-caption="Активен"
             @input="saveSiteSection"
-          ></AdminStatusSelector>
+          ></LazyAdminStatusSelector>
         </div>
       </template>
       <template #content>
@@ -17,7 +17,7 @@
             <div class="brc-admin-card_two-column">
               <div class="brc-admin-card-field-list_row brc-admin-panel__site">
                 <b-field label="Фото на странице">
-                  <AdminImageUploader
+                  <LazyAdminImageUploader
                     id="bigImageFile"
                     :src-image="siteSectionItem.siteSectionImgBig"
                     @uploader:newimageloaded="addSiteSectionImage($event, true)"
@@ -30,7 +30,7 @@
                         </h1>
                       </figure>
                     </template>
-                  </AdminImageUploader>
+                  </LazyAdminImageUploader>
                 </b-field>
 
                 <b-field label="Наименование">
@@ -63,34 +63,34 @@
                   ></b-input>
                 </b-field>
 
-                <AdminSeoTags
+                <LazyAdminSeoTags
                   :seo-title.sync="siteSectionItem.seoTitle"
                   :seo-description.sync="siteSectionItem.seoDescription"
                   :seo-keywords.sync="siteSectionItem.seoKeywords"
                   @updated="saveSiteSection"
-                ></AdminSeoTags>
+                ></LazyAdminSeoTags>
               </div>
 
               <div class="brc-admin-card-field-list_row">
                 <div>
                   <b-field label="Логотип в шапке сайта">
-                    <AdminImageUploader
+                    <LazyAdminImageUploader
                       id="siteSectionLogo"
                       :src-image="siteSectionItem.siteSectionLogo"
                       @uploader:newimageloaded="addSiteSectionLogo($event)"
                     >
                       <template v-slot="{ imageSrc }">
-                        <TheHeaderLogo
+                        <LazyTheHeaderLogo
                           :disign-mode="true"
                           :image-src-for-design-mode="imageSrc"
-                        ></TheHeaderLogo>
+                        ></LazyTheHeaderLogo>
                       </template>
-                    </AdminImageUploader>
+                    </LazyAdminImageUploader>
                   </b-field>
                 </div>
                 <div style="margin-top: 10px">
                   <b-field label="Фото на карточке раздела">
-                    <AdminImageUploader
+                    <LazyAdminImageUploader
                       id="smallImageFile"
                       :src-image="siteSectionItem.siteSectionImgSmall"
                       @uploader:newimageloaded="
@@ -98,57 +98,57 @@
                       "
                     >
                       <template v-slot="{ imageSrc }">
-                        <SiteSectionListItem
+                        <LazySiteSectionListItem
                           :site-section-item="siteSectionItem"
                           :image-src-for-design-mode="imageSrc"
                           style="width: 347px; margin: 0px"
-                        ></SiteSectionListItem>
+                        ></LazySiteSectionListItem>
                       </template>
-                    </AdminImageUploader>
+                    </LazyAdminImageUploader>
                   </b-field>
                 </div>
 
-                <AdminDynamicComponentsContainer
+                <LazyAdminDynamicComponentsContainer
                   v-model="dynamicComponentInfo"
                   @freecomponent:save="saveSiteSectionDynamicComponentsInfo"
                   @freecomponent:delete="refreshDynamicComponentsInfo"
-                ></AdminDynamicComponentsContainer>
+                ></LazyAdminDynamicComponentsContainer>
               </div>
             </div>
           </b-tab-item>
 
           <b-tab-item label="Услуги">
-            <AdminServiceListContainer
+            <LazyAdminServiceListContainer
               v-model="serviceOtherList"
               :site-section="siteSectionItem"
               @newservice:saved="refreshServiceList"
               @service:deleted="refreshServiceList"
               @service:moved="refreshServiceList"
-            ></AdminServiceListContainer>
+            ></LazyAdminServiceListContainer>
           </b-tab-item>
 
           <b-tab-item label="Комплексные решения">
-            <AdminClientTypeOfferList
+            <LazyAdminClientTypeOfferList
               :site-section="siteSectionItem.siteSectionUrl"
-              >"</AdminClientTypeOfferList
+              >"</LazyAdminClientTypeOfferList
             >
           </b-tab-item>
 
           <b-tab-item label="Индивидуальные предложения">
-            <AdminIndividualOfferList
+            <LazyAdminIndividualOfferList
               v-model="offerList"
               :site-section="siteSectionItem"
               @newoffer:saved="refreshOfferList"
               @offer:deleted="refreshOfferList"
-              >"</AdminIndividualOfferList
+              >"</LazyAdminIndividualOfferList
             >
           </b-tab-item>
 
           <b-tab-item label="Рекомендации">
-            <AdminBrandRelationList
+            <LazyAdminBrandRelationList
               :brand-relation-items="brandRelationList"
               @brandchecked="brandChecked"
-            ></AdminBrandRelationList>
+            ></LazyAdminBrandRelationList>
           </b-tab-item>
         </b-tabs>
       </template>
@@ -157,7 +157,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
 import IndividualOffer from '@/models/ekoset/IndividualOffer.ts'
 import { getServiceContainer } from '@/api/ServiceContainer'

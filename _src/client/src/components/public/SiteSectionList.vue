@@ -1,10 +1,10 @@
 <template>
   <div class="brc-site-section-list">
-    <LazySiteSectionListItem
+    <SiteSectionListItem
       v-for="siteSectionItem in siteSectionList"
       :key="siteSectionItem.siteSectionId"
       :site-section-item="siteSectionItem"
-    ></LazySiteSectionListItem>
+    ></SiteSectionListItem>
   </div>
 </template>
 

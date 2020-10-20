@@ -1,12 +1,10 @@
-import { JsonController } from 'routing-controllers/decorator/JsonController';
-import { BaseController } from '../BaseController';
-import { Get, Res, Param, UseBefore, Body, Req, Post, QueryParam } from 'routing-controllers';
+import { classToPlain, plainToClass } from 'class-transformer';
+import { Get, Res, Param, UseBefore, Body, Req, Post, QueryParam, JsonController } from 'routing-controllers';
 import { Request, Response } from 'express';
-import ServiceContainer from '@/services/ServiceContainer';
-import ClassTransform from '@/utils/ClassTransform';
 import multer from 'multer';
 import { UserRequest } from '@/entities/ekoset/UserRequest';
-import ClientNotifyMessage from '../ClientNotifyMessage';
+import { BaseController, ClientNotifyMessage, ServiceRegistry } from 'rsn-express-core';
+import { UserRequestService } from '@/services/ekoset/UserRequestService';
 
 const upload = multer();
 
@@ -19,21 +17,21 @@ export default class UserRequestController extends BaseController {
     @Body() body: any,
     @Req() request: Request,
     @Res() response: Response,
-    @QueryParam('ask') mode: any
+    @QueryParam('ask') mode: number
   ) {
 
     const files = request.files as Express.Multer.File[];
     const formData = JSON.parse(body.formMessageData);
-    const requestData = ClassTransform.plainToClassInstanceOne<UserRequest>(formData, UserRequest);
+    const requestData = plainToClass(UserRequest, formData);
 
-    const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, mode);
+    const reqNmb = await ServiceRegistry.instance.getService(UserRequestService).saveRequest(files, requestData, mode);
     // const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, 0);
 
     const message = mode === 0 ? 'Ваш заказ отправлен. В ближайшее время с Вами свяжутся наши специалисты' : 'Ваш вопрос отправлен. В ближайшее время с Вами свяжутся наши специалисты';
 
     return reqNmb > 0 ?
-      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createNotify(message, 'ЭКОСЕТЬ')) :
-      UserRequestController.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
+      this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('ЭКОСЕТЬ', message)) :
+      this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
 }
 
