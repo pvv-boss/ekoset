@@ -3,9 +3,7 @@ import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import { Store } from 'vuex'
 import ClBrand from '@/models/ekoset/ClBrand'
-import HttpUtil from '../utils/HttpUtil'
-import { getServiceContainer } from './ServiceContainer'
-import BaseService from './BaseService'
+import { BaseService } from './BaseService'
 
 
 

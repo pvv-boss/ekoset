@@ -31,18 +31,10 @@ const config: NuxtConfig = {
 
 
     link: [
-      // {
-      //   rel: 'preload',
-      //   href: '//code-ya.jivosite.com/widget/AMTXfSmabC',
-      //   as: 'script'
-      // },
-      // может в лайаут его ? В админский через head
       {
         rel: 'preload',
         href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
         as: 'style'
-
-        // this.onload=null;this.rel='stylesheet'
       },
       {
         rel: 'stylesheet',
@@ -53,27 +45,11 @@ const config: NuxtConfig = {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.png'
-      },
-
-      // {
-      //   rel: 'preload',
-      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-      //   as: 'style'
-
-      //   // this.onload
-      // },
-
-      // {
-      //   rel: 'stylesheet',
-      //   href: 'https://unpkg.com/buefy/dist/buefy.min.css',
-      // }
+      }
     ],
 
 
     script: [
-      //   // async: '',
-      //   // src: '//code-ya.jivosite.com/widget/AMTXfSmabC'
-      // }
     ],
 
     bodyAttrs: {
@@ -148,7 +124,6 @@ const config: NuxtConfig = {
 
   build: {
     extractCSS: true,
-    optimizeCSS: true,
 
     optimization: {
       splitChunks: {
@@ -172,8 +147,9 @@ const config: NuxtConfig = {
 
   render: {
     compressor: false,
-    resourceHints: true,
-    etag: false
+    resourceHints: false,
+    etag: false,
+    crossorigin: "anonymous"
   },
 
   purgeCSS: {

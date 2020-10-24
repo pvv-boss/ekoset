@@ -1,8 +1,5 @@
-import Pagination from '@/models/Pagination'
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer';
+import { BaseService } from './BaseService';
 
 export default class IndividualOfferService extends BaseService {
 
@@ -11,22 +8,22 @@ export default class IndividualOfferService extends BaseService {
   }
 
   // Для видов деятельности и раздела
-  public async  getForActivityBySiteSectionIdSlug (siteSectionSlug: string) {
+  public async getForActivityBySiteSectionIdSlug (siteSectionSlug: string) {
     return this.getForActivityBySiteSectionId(this.getIdBySlug(siteSectionSlug))
   }
 
-  public async  adminGetAllBySiteSectionId (siteSectionId: number) {
+  public async adminGetAllBySiteSectionId (siteSectionId: number) {
     return HttpUtil.httpGet(`admin/panel/${siteSectionId}/offers`)
   }
 
   // Для Частных лиц и раздела
-  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
+  public async getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string) {
     const offers = await this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug))
     return !!offers && offers.length > 0 ? offers[0] : new IndividualOffer()
   }
 
   // Для Бизнеса и раздела
-  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
+  public async getForBusinessBySiteSectionSlug (siteSectionSlug: string) {
     const offers = await this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug))
     return !!offers && offers.length > 0 ? offers[0] : new IndividualOffer()
   }
@@ -65,19 +62,19 @@ export default class IndividualOfferService extends BaseService {
     return HttpUtil.httpGet(this.buildHttRequest(query))
   }
 
-  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number) {
+  private async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/offers/person`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getForBusinessBySiteSectionId (siteSectionId: number) {
+  private async getForBusinessBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/offers/business`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getForActivityBySiteSectionId (siteSectionId: number) {
+  private async getForActivityBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/activity/offers`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result

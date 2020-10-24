@@ -1,6 +1,6 @@
 import SiteDocument from '@/models/ekoset/SiteDocument'
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
+import { BaseService } from './BaseService'
+
 
 export default class MediaService extends BaseService {
 

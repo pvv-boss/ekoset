@@ -1,4 +1,4 @@
-import Sort from '@/models/Sort'
+import { Sort } from '@/models/core/Sort'
 
 export default class AppConfig {
   // public static endPoint = 'http://91.210.168.57/api/2_0'

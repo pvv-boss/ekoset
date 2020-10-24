@@ -1,6 +1,5 @@
 import Contract from '@/models/deal/Contract';
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService';
+import { BaseService } from './BaseService';
 
 export default class UserDealService extends BaseService {
 

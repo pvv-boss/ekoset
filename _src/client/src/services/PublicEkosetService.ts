@@ -1,10 +1,8 @@
 import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
-import ReccomendationLetter from '@/models/ekoset/ReccomendationLetter';
-import HttpUtil from '../utils/HttpUtil'
-import { getServiceContainer } from './ServiceContainer'
-import BaseService from './BaseService'
+import { BaseService } from './BaseService';
+
 
 export default class PublicEkosetService extends BaseService {
 
@@ -203,11 +201,11 @@ export default class PublicEkosetService extends BaseService {
       try {
         // @ts-ignore
         window.yaCounter64542580.reachGoal(64542580, target)
-      } catch{ }
+      } catch { }
       try {
         // @ts-ignore
         window.yaCounter64542580.reachGoal(target)
-      } catch{ }
+      } catch { }
     }
   }
 }

@@ -1,6 +1,5 @@
 import SitePage, { SitePageType } from '@/models/SitePage';
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
+import { BaseService } from './BaseService';
 
 export default class TopMenuService extends BaseService {
 

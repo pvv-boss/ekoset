@@ -1,8 +1,8 @@
-import Pagination from '@/models/Pagination'
+import { Pagination } from '@/models/core/Pagination'
 import Article from '@/models/ekoset/Article'
 import ClArticleTag from '@/models/ekoset/ClArticleTag'
 import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
+import { BaseService } from './BaseService'
 
 export default class ArticleService extends BaseService {
 

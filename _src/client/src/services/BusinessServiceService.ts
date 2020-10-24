@@ -1,8 +1,6 @@
-import Pagination from '@/models/Pagination'
+import { Pagination } from '@/models/core/Pagination'
 import BusinessService from '@/models/ekoset/BusinessService';
-import HttpUtil from '../utils/HttpUtil'
-import BaseService from './BaseService'
-import { getServiceContainer } from './ServiceContainer';
+import { BaseService } from './BaseService'
 
 export default class BusinessServiceService extends BaseService {
 
@@ -18,40 +16,40 @@ export default class BusinessServiceService extends BaseService {
   // }
 
   // Для главной страницы
-  public async  getMainList (pagination?: Pagination) {
+  public async getMainList (pagination?: Pagination) {
     const query = 'services/start/main'
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
   // Для раздела
-  public async  getBySiteSectionSlug (siteSectionSlug: string, excludeChild = true, pagination?: Pagination) {
+  public async getBySiteSectionSlug (siteSectionSlug: string, excludeChild = true, pagination?: Pagination) {
     return this.getBySiteSection(this.getIdBySlug(siteSectionSlug), excludeChild, pagination)
   }
 
   // Для админки без учета статуса
-  public async  adminGetBySiteSectionId (siteSectionId: number) {
+  public async adminGetBySiteSectionId (siteSectionId: number) {
     const query = `admin/panel/${siteSectionId}/services`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
   // Для вида деятельности и раздела
-  public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = false, pagination?: Pagination) {
+  public async getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = false, pagination?: Pagination) {
     // public async  getByActivityAndBySiteSectionSlug (siteSectionSlug: string, activityTypeId: number | null, excludeChild = true, pagination?: Pagination) {
     activityTypeId = activityTypeId || 0
     return this.getByActivityAndBySiteSectionId(this.getIdBySlug(siteSectionSlug), activityTypeId, excludeChild, pagination)
   }
 
   // Услуги для бизнеса по разделу
-  public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
+  public async getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
     //    public async  getForBusinessBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
     return this.getForBusinessBySiteSectionId(this.getIdBySlug(siteSectionSlug), excludeChild)
   }
 
   // Услуги для частных лиц по разделу
   // public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = true) {
-  public async  getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
+  public async getForPrivatePersonBySiteSectionSlug (siteSectionSlug: string, excludeChild = false) {
     return this.getForPrivatePersonBySiteSectionId(this.getIdBySlug(siteSectionSlug), excludeChild)
   }
 
@@ -226,26 +224,26 @@ export default class BusinessServiceService extends BaseService {
   }
 
 
-  private async  getBySiteSection (siteSectionId: number, excludeChild = true, pagination?: Pagination) {
+  private async getBySiteSection (siteSectionId: number, excludeChild = true, pagination?: Pagination) {
     const query = `${siteSectionId}/services?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
-  private async  getByActivityAndBySiteSectionId (siteSectionId: number, activityTypeId: number, excludeChild = true, pagination?: Pagination) {
+  private async getByActivityAndBySiteSectionId (siteSectionId: number, activityTypeId: number, excludeChild = true, pagination?: Pagination) {
     const query = `${siteSectionId}/activity/${activityTypeId}/services?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
     return result
   }
 
-  private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = false) {
+  private async getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = false) {
     //   private async  getForBusinessBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/business?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
     return result
   }
 
-  private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = false) {
+  private async getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = false) {
     // private async  getForPrivatePersonBySiteSectionId (siteSectionId: number, excludeChild = true) {
     const query = `${siteSectionId}/services/person?root=${excludeChild}`
     const result = HttpUtil.httpGet(this.buildHttRequest(query))
