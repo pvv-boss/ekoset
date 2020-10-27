@@ -116,7 +116,6 @@ export default class ServiceListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-service-smallitem {
   position: relative;
   border: 1px solid lightgrey;

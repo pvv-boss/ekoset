@@ -1,5 +1,4 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { getServiceContainer } from '@/api/ServiceContainer';
 
 @Module({
   name: 'AdminStore',

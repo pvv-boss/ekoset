@@ -211,9 +211,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import BusinessServiceService from '@/services/BusinessServiceService';
+import MediaService from '@/services/MediaService';
 
 
 @Component({
@@ -274,7 +276,7 @@ export default class AdminServiceListContainer extends Vue {
     if (this.parentServiceId) {
       this.newService.businessServiceParentId = this.parentServiceId
     }
-    const saved = await getServiceContainer().businessServiceService.save(this.newService)
+    const saved = await ServiceRegistry.instance.getService(BusinessServiceService).save(this.newService)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newService = new BusinessService()
     this.createNewServiceMode = false
@@ -289,17 +291,17 @@ export default class AdminServiceListContainer extends Vue {
   private async addServiceImage (imageFile: string, serviceItem: BusinessService, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveServiceImage(serviceItem.businessServiceId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveServiceImage(serviceItem.businessServiceId, formData, isBig)
   }
 
   private async saveService (serviceItem: BusinessService) {
-    const saved = await getServiceContainer().businessServiceService.save(serviceItem)
+    await ServiceRegistry.instance.getService(BusinessServiceService).save(serviceItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteService (service: BusinessService) {
     const okCallback = async () => {
-      await getServiceContainer().businessServiceService.delete(service.businessServiceId)
+      await ServiceRegistry.instance.getService(BusinessServiceService).delete(service.businessServiceId)
       this.$emit('service:deleted')
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить услугу?', 'Подтвердите удаление', okCallback)
@@ -314,14 +316,14 @@ export default class AdminServiceListContainer extends Vue {
   private async moveService () {
     if (!!this.movedService && !!this.parentServiceIdForMove && this.parentServiceIdForMove > 0) {
       this.movedService.businessServiceParentId = this.parentServiceIdForMove
-      await getServiceContainer().businessServiceService.save(this.movedService)
+      await ServiceRegistry.instance.getService(BusinessServiceService).save(this.movedService)
       this.$BrcNotification(BrcDialogType.Success, `Выполнено перемещение в Услугу 1-го уровня`)
       this.$emit('service:moved')
     }
 
     if (!!this.movedService && this.moveServiceAsRoot === true) {
       this.movedService.businessServiceParentId = null
-      await getServiceContainer().businessServiceService.save(this.movedService)
+      await ServiceRegistry.instance.getService(BusinessServiceService).save(this.movedService)
       this.$BrcNotification(BrcDialogType.Success, `Выполнено перемещение в корень раздела`)
       this.$emit('service:moved')
     }
@@ -336,8 +338,6 @@ export default class AdminServiceListContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-service-list-container {
   display: flex;
   flex-direction: column;

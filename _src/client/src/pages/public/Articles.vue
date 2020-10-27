@@ -14,14 +14,15 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import Pagination from '@/models/Pagination'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import { Context } from "@nuxt/types";
+import TopMenuService from '@/services/TopMenuService'
 
 @Component
 export default class Articles extends Vue {
@@ -30,18 +31,13 @@ export default class Articles extends Vue {
   private sitePageInfo: SitePage = new SitePage()
   private routeFullPath = ''
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const siteSection = context.params.siteSection
     const dynamicComponentInfo = siteSection
-      ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.NEWS)
-      : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
+      ? ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.NEWS)
+      : ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.NEWS)
 
-    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.NEWS)
-
-    // const startPagination = new Pagination()
-    // const articleList = !!siteSection
-    //   ? getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSection, startPagination)
-    //   : getServiceContainer().articleService.getRootArticleList(startPagination)
+    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.NEWS)
 
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {

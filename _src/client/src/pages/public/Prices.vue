@@ -15,14 +15,15 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-
+import { Context } from "@nuxt/types";
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { ServiceRegistry } from '@/ServiceRegistry';
+import DynamicComponentsService from '@/services/DynamicComponentsService';
+import TopMenuService from '@/services/TopMenuService';
 
 @Component
 export default class Prices extends Vue {
@@ -31,13 +32,13 @@ export default class Prices extends Vue {
   private sitePageInfo: SitePage = new SitePage()
   private routeFullPath = ''
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const siteSection = context.params.siteSection
     const dynamicComponentInfo = siteSection
-      ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.PRICES)
-      : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.PRICES)
+      ? ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponentsWithSiteSection(siteSection, SitePageType.PRICES)
+      : ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.PRICES)
 
-    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.PRICES)
+    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.PRICES)
 
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
 

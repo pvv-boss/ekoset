@@ -56,8 +56,6 @@ export default class DynamicComponentsContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-page__dynamic_block + .brc-page__dynamic_block {
   margin-top: 60px;
 

@@ -8,15 +8,17 @@
       size="is-small"
       @input="$emit('componentinfo:status:changed', dynamicComponentInfo)"
     ></b-switch>
-    <span style="margin-right:auto;">{{dynamicComponentInfo.dispalyName}}</span>
+    <span style="margin-right: auto">{{
+      dynamicComponentInfo.dispalyName
+    }}</span>
     <b-button
-      v-if="dynamicComponentInfo.code===6"
+      v-if="dynamicComponentInfo.code === 6"
       size="is-small"
       icon-right="pencil"
       @click="$emit('componentinfo:edit', dynamicComponentInfo)"
     ></b-button>
     <b-button
-      v-if="dynamicComponentInfo.code===6"
+      v-if="dynamicComponentInfo.code === 6"
       size="is-small"
       icon-right="delete"
       @click="$emit('componentinfo:delete', dynamicComponentInfo)"
@@ -26,8 +28,7 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class AdminFreeBlockItem extends Vue {
@@ -40,8 +41,6 @@ export default class AdminFreeBlockItem extends Vue {
 
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-
 .brc_admin-freeblock-item {
   display: flex;
   justify-content: space-between;

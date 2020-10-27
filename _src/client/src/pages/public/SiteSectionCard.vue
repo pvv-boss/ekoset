@@ -10,15 +10,18 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import SiteSection from '@/models/ekoset/SiteSection'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
-import SeoMeta from '@/models/ekoset/SeoMeta'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BannersInfo from '@/models/ekoset/BannersInfo'
+import { Context } from "@nuxt/types";
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import MediaService from '@/services/MediaService'
+
 
 @Component
 export default class SiteSectionCard extends Vue {
@@ -28,10 +31,10 @@ export default class SiteSectionCard extends Vue {
   private routeFullPath = ''
   private bannersInfo: BannersInfo[] = []
 
-  private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(context.params.siteSection)
-    const siteSectionItem = getServiceContainer().publicEkosetService.getSiteSectionBySlug(context.params.siteSection)
-    const bannersInfo = getServiceContainer().mediaService.getBannersForSiteSection(getServiceContainer().mediaService.getIdBySlug(context.params.siteSection))
+  private async asyncData (context: Context) {
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSiteSectionDynamicComponentsInfo(context.params.siteSection)
+    const siteSectionItem = ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionBySlug(context.params.siteSection)
+    const bannersInfo = ServiceRegistry.instance.getService(MediaService).getBannersForSiteSection(ServiceRegistry.instance.getService(MediaService).getIdBySlug(context.params.siteSection))
 
     const data = await Promise.all([siteSectionItem, dynamicComponentInfo, bannersInfo])
 
@@ -51,6 +54,7 @@ export default class SiteSectionCard extends Vue {
   private async buildBreadCrumbList () {
     this.breadCrumbList = []
     const siteSectionName = getModule(AppStore, this.$store).currentSiteSectionName
+
     this.breadCrumbList.push({ name: 'Главная', link: 'main' })
     this.breadCrumbList.push({ name: siteSectionName, link: '' })
   }

@@ -106,8 +106,6 @@ export default class AdminFreeBlockInfoEditor extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 /*! purgecss start ignore */
 .brc_admin-freeblock-editor {
   background-color: white;

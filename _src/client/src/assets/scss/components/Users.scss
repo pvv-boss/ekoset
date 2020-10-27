@@ -1,8 +1,11 @@
-@import "@/styles/variables.scss";
-
 .brc-login-form__container {
   max-width: 400px;
   width: 100%;
+
+  @media (min-width:760px) {
+    max-width: 600px;
+  }
+
   padding: 10px;
   margin: auto;
   // margin-bottom: 0;
@@ -67,27 +70,18 @@
     }
 
     .brc-login-form__submit {
-      padding-top: 10px;
-
-      >.brc-login-form__submit-btn {
-        width: 100%;
-        border: 1px solid $blue;
-        background-color: white;
-        color: $blue;
-        border-radius: 0.25rem;
-        line-height: 2;
-        font-size: 15px;
-        font-weight: $font-medium;
-        cursor: pointer;
-
-        &:hover {
-          background-color: $light-blue;
-        }
-      }
-
-      >.brc-login-form__forgot-btn {
-        margin-left: 0;
-      }
+      margin-top: 24px;
+      background-color: #ed0205;
+      width: 120px;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      letter-spacing: 0.055rem;
+      color: white;
+      margin-left: 10px;
+      border-radius: 4px;
     }
 
     .brc-login-form__social {
@@ -250,11 +244,6 @@
   }
 }
 
-@media(min-width: 420px) {
-  .brc-login-form__container {
-    width: 400px;
-  }
-}
 
 @media(max-width: 768px) {
   .brc-top-menu__user-navigation .brc-top-menu__user-navigation-menu .brc-top-menu__user-navigation-dropdown {

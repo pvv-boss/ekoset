@@ -3,7 +3,7 @@ import { Context, Plugin } from '@nuxt/types'
 import { ServiceRegistry } from '@/ServiceRegistry';
 import { Inject } from '@nuxt/types/app';
 import AxiosRequest from '@/api/core/AxiosRequest';
-import AppConfig from '@/AppConfig';
+import { AppConfig } from '@/AppConfig';
 import ArticleService from '@/services/ArticleService';
 import { AuthService } from '@/services/AuthService';
 import BusinessServiceService from '@/services/BusinessServiceService';
@@ -13,6 +13,8 @@ import MediaService from '@/services/MediaService';
 import PublicEkosetService from '@/services/PublicEkosetService';
 import TopMenuService from '@/services/TopMenuService';
 import UserDealService from '@/services/UserDealService';
+import { getModule } from 'vuex-module-decorators';
+import BuscetStore from '@/store/BuscetStore';
 // import FetchRequest from '@/api/core/FetchRequest';
 
 
@@ -40,11 +42,10 @@ declare module 'vuex/types/index' {
   }
 }
 
-const initializeApp: Plugin = (ctx: Context, inject: Inject) => {
+const initializeApp: Plugin = async (ctx: Context, inject: Inject) => {
 
   inject('serviceRegistry', ServiceRegistry.instance)
 
-  // if (process.server) {
   ServiceRegistry.instance.register(ArticleService);
 
   ServiceRegistry.instance.register(AuthService);
@@ -56,10 +57,17 @@ const initializeApp: Plugin = (ctx: Context, inject: Inject) => {
   ServiceRegistry.instance.register(TopMenuService);
   ServiceRegistry.instance.register(UserDealService);
 
-  const api = new AxiosRequest({}, AppConfig.endPoint);
+  const api = new AxiosRequest({ withCredentials: true }, AppConfig.endPoint);
   ServiceRegistry.instance.updateApiRequest(api);
   ServiceRegistry.instance.updateNuxtContext(ctx);
-  //}
+
+  if (process.server) {
+    await ServiceRegistry.instance.getService(AuthService).setSessionUserFromServer()
+  }
+
+  if (process.client) {
+    getModule(BuscetStore, ctx.store).initServiceList()
+  }
 }
 
 export default initializeApp;

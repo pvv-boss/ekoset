@@ -1,5 +1,4 @@
-﻿import { AppConfig } from '@/AppConfig';
-import { ApiResponse } from './ApiResponse';
+﻿import { ApiResponse } from './ApiResponse';
 import { Pagination } from '@/models/core/Pagination';
 import { Sort } from '@/models/core/Sort';
 
@@ -88,7 +87,7 @@ export abstract class AbstractApiRequest {
       url = url + `&sortfield=${sort.sortField}&sorttype=${sort.sortType || 'DESC'}`;
     }
     if (!!pagination) {
-      pagination.limit = pagination.limit > 0 ? pagination.limit : AppConfig.defaultPaginationLimit;
+      pagination.limit = pagination.limit > 0 ? pagination.limit : 10;
       url = url + `&offset=${(pagination.currentPage - 1) * pagination.limit || 0}&limit=${pagination.limit}`;
     }
     return url;

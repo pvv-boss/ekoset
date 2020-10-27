@@ -1,19 +1,34 @@
 <template>
-  <li v-click-outside="()=>{isMenuOpened=false}" class="brc-price-menu-wrapper" @click="onClick">
+  <li
+    v-click-outside="
+      () => {
+        isMenuOpened = false;
+      }
+    "
+    class="brc-price-menu-wrapper"
+    @click="onClick"
+  >
     <span id="dont_outside">Услуги</span>
-    <ul class="brc-price-menu" :class="{ 'active': isMenuOpened === true }">
+    <ul class="brc-price-menu" :class="{ active: isMenuOpened === true }">
       <div class="brc-price-menu__close dont_outside">&times;</div>
       <template v-if="getCurrentSiteSection !== null">
         <li
           v-for="iterService in serviceList"
           :key="iterService.businessServiceId"
           class="brc-price-menu__item"
-          style="padding:10px !important;"
+          style="padding: 10px !important"
         >
           <nuxt-link
-            :to="{ name: 'service-card', params: { service: iterService.businessServiceUrl, siteSection: iterService.siteSectionUrl}}"
-            style="padding:-5px !important;"
-          >{{iterService.businessServiceName}}</nuxt-link>
+            :to="{
+              name: 'service-card',
+              params: {
+                service: iterService.businessServiceUrl,
+                siteSection: iterService.siteSectionUrl,
+              },
+            }"
+            style="padding: -5px !important"
+            >{{ iterService.businessServiceName }}</nuxt-link
+          >
         </li>
       </template>
 
@@ -21,23 +36,34 @@
         <li
           :key="iterPriceListItem.id"
           class="brc-price-menu__item_bold"
-          style="padding:10px !important;"
+          style="padding: 10px !important"
         >
           <nuxt-link
-            :to="{ name: 'activity-card', params: {siteSection: iterPriceListItem.sitesectionurl}}"
-            style="padding:-5px !important;"
-          >{{iterPriceListItem.name}}</nuxt-link>
+            :to="{
+              name: 'activity-card',
+              params: { siteSection: iterPriceListItem.sitesectionurl },
+            }"
+            style="padding: -5px !important"
+            >{{ iterPriceListItem.name }}</nuxt-link
+          >
         </li>
         <template v-for="iterPriceItem in iterPriceListItem.pricelist">
           <li
             :key="iterPriceItem.businesserviceid"
             class="brc-price-menu__item"
-            style="padding:10px !important;"
+            style="padding: 10px !important"
           >
             <nuxt-link
-              :to="{ name: 'service-card', params: { service: iterPriceItem.businesserviceurl, siteSection: iterPriceItem.sitesectionurl}}"
-              style="padding:-5px !important;"
-            >{{iterPriceItem.businesservicename}}</nuxt-link>
+              :to="{
+                name: 'service-card',
+                params: {
+                  service: iterPriceItem.businesserviceurl,
+                  siteSection: iterPriceItem.sitesectionurl,
+                },
+              }"
+              style="padding: -5px !important"
+              >{{ iterPriceItem.businesservicename }}</nuxt-link
+            >
           </li>
         </template>
       </template>
@@ -45,7 +71,7 @@
       <li
         v-if="getCurrentSiteSection !== null"
         class="brc-price-menu__item"
-        style="padding:10px !important;"
+        style="padding: 10px !important"
       >
         <!-- <nuxt-link
           v-if="getCurrentSiteSection !== null"
@@ -53,9 +79,10 @@
           style="padding:-5px !important; color:red; font-weight:500;"
         >Все услуги...</nuxt-link>-->
         <nuxt-link
-          :to="{ name: 'main'}"
-          style="padding:-5px !important; color:red; font-weight:500;"
-        >Все услуги...</nuxt-link>
+          :to="{ name: 'main' }"
+          style="padding: -5px !important; color: red; font-weight: 500"
+          >Все услуги...</nuxt-link
+        >
       </li>
     </ul>
   </li>
@@ -68,7 +95,8 @@ import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import BusinessService from '@/models/ekoset/BusinessService'
-import { getServiceContainer } from '../../api/ServiceContainer'
+import BusinessServiceService from '@/services/BusinessServiceService'
+import { ServiceRegistry } from '@/ServiceRegistry'
 
 @Component({
   components: {
@@ -91,8 +119,8 @@ export default class ThePriceMenuItem extends Vue {
   @Watch('getCurrentSiteSection', { immediate: true })
   private async updatePriceList () {
     const siteSectionSlug = this.getCurrentSiteSection;
-    this.serviceList = siteSectionSlug ? await getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true) : []
-    this.servicePriceList = !siteSectionSlug ? await getServiceContainer().businessServiceService.getMainList() : []
+    this.serviceList = siteSectionSlug ? await ServiceRegistry.instance.getService(BusinessServiceService).getBySiteSectionSlug(siteSectionSlug, true) : []
+    this.servicePriceList = !siteSectionSlug ? await ServiceRegistry.instance.getService(BusinessServiceService).getMainList() : []
   }
 
   private async created () {
@@ -104,9 +132,6 @@ export default class ThePriceMenuItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-price-menu-wrapper {
   font-size: 0.938rem;
   position: relative;
@@ -192,7 +217,7 @@ export default class ThePriceMenuItem extends Vue {
 
 .brc-price-menu__item:before {
   color: $red;
-  content: '•';
+  content: "•";
   padding-right: 20px;
   width: 10px;
   line-height: 0px;

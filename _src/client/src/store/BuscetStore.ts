@@ -44,12 +44,12 @@ export default class BuscetStore extends VuexModule {
           const serviceArray = JSON.parse(cookStr)
           if (serviceArray) {
             serviceArray.forEach((element) => {
-              this.context.commit('addServiceMutation', element)
+              this.addServiceMutation(element)
             });
           }
         } catch (err) {
         } finally {
-          this.context.commit('setStoreInitialized')
+          this.setStoreInitialized()
         }
       }
     }
@@ -58,7 +58,7 @@ export default class BuscetStore extends VuexModule {
   @Action
   public addService (businessService: BusinessServiceLocalStorageItem) {
     if (findAddedServiceIndex(this.addedServiceList, businessService) === -1) {
-      this.context.commit('addServiceMutation', businessService)
+      this.addServiceMutation(businessService)
       Cookies.set(this.cookieBusctetStoreName, this.addedServiceList, { expires: 10 })
       BrcDialogPlugin.showNotify(BrcDialogType.Info, 'ЭКОСЕТЬ', 'Добавлено в корзину. <br> Можете отправить заказ', 1500, { position: BrcDialogPosition.Central })
     } else {
@@ -69,7 +69,7 @@ export default class BuscetStore extends VuexModule {
 
   @Action
   public removeService (businessService: BusinessServiceLocalStorageItem) {
-    this.context.commit('removeServiceMutation', businessService)
+    this.removeServiceMutation(businessService)
   }
 
   public get addedServiceList (): BusinessServiceLocalStorageItem[] {

@@ -86,10 +86,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
 
 @Component({
   components: {
@@ -171,7 +172,7 @@ export default class AdminDynamicComponentsContainer extends Vue {
 
   private deleteBlock (blockInfo: DynamicComponentInfo) {
     const okCallback = async () => {
-      await getServiceContainer().dynamicComponentsService.adminDeleteDynamicComponent(blockInfo.id)
+      await ServiceRegistry.instance.getService(DynamicComponentsService).adminDeleteDynamicComponent(blockInfo.id)
       this.$emit('freecomponent:delete')
     }
 
@@ -216,8 +217,6 @@ export default class AdminDynamicComponentsContainer extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-freeblock-container {
   display: flex;
   flex-direction: column;

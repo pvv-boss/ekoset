@@ -35,8 +35,6 @@ export default class BuscetItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-buscet_wrapper {
   display: flex;
   justify-content: space-between;

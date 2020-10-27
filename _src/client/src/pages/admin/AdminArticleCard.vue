@@ -165,21 +165,23 @@
 </template>
 
 
-
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Watch, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import SiteSection from '@/models/ekoset/SiteSection'
-import BusinessService from '@/models/ekoset/BusinessService'
 import { getModule } from 'vuex-module-decorators'
-import AppStore from '@/store/AppStore'
 import AdminStore from '@/store/AdminStore'
 import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
+import ArticleService from '@/services/ArticleService'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import MediaService from '@/services/MediaService'
+import { Context } from "@nuxt/types";
 
-@Component
+@Component({
+  components: {
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
+  }
+})
 export default class AdminArticleCard extends Vue {
   private articleItem: Article = new Article()
   private serviceRelationList: any[] = []
@@ -201,7 +203,7 @@ export default class AdminArticleCard extends Vue {
   }
 
   private async save () {
-    await getServiceContainer().articleService.saveArticle(this.articleItem)
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(this.articleItem)
     if (!this.articleItem.articleId) {
       this.$router.push({ name: 'admin-news' })
     }
@@ -212,7 +214,7 @@ export default class AdminArticleCard extends Vue {
   private async addImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveNewsImage(
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
       this.articleItem.articleId,
       formData,
       isBig
@@ -222,7 +224,7 @@ export default class AdminArticleCard extends Vue {
   @Watch('articleItem.siteSectionId', { immediate: true })
   private async updateServiceList () {
     if (this.articleItem.siteSectionId && this.articleItem.siteSectionId > 0) {
-      this.serviceRelationList = await getServiceContainer().articleService.adminGetServiceRelation(
+      this.serviceRelationList = await ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(
         this.articleItem.siteSectionId,
         this.articleItem.articleUrl
       )
@@ -236,7 +238,7 @@ export default class AdminArticleCard extends Vue {
   }
 
   private serviceChecked (businessServiceId: number, hasRelation: boolean) {
-    getServiceContainer().articleService.adminAddRemoveServiceRelation(
+    ServiceRegistry.instance.getService(ArticleService).adminAddRemoveServiceRelation(
       businessServiceId,
       this.articleItem.articleUrl,
       hasRelation
@@ -244,17 +246,17 @@ export default class AdminArticleCard extends Vue {
   }
 
   private tagChecked (tagId: number, hasRelation: boolean) {
-    getServiceContainer().articleService.adminAddRemoveArticleTag(
+    ServiceRegistry.instance.getService(ArticleService).adminAddRemoveArticleTag(
       this.articleItem.articleUrl,
       tagId,
       hasRelation
     )
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const articleUrl = context.params.article
     const articleItem = articleUrl
-      ? await getServiceContainer().articleService.getArticleBySlug(articleUrl)
+      ? await ServiceRegistry.instance.getService(ArticleService).getArticleBySlug(articleUrl)
       : new Article()
 
     const breadCrumbList: any[] = []
@@ -265,7 +267,7 @@ export default class AdminArticleCard extends Vue {
 
     let serviceRelations = []
     if (articleItem.siteSectionId > 0) {
-      serviceRelations = await getServiceContainer().articleService.adminGetServiceRelation(
+      serviceRelations = await ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(
         articleItem.siteSectionId,
         articleUrl
       )
@@ -280,7 +282,6 @@ export default class AdminArticleCard extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-admin-panel__article {
   width: 100%;
   max-width: 1100px;

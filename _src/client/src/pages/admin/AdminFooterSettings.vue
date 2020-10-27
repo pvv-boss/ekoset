@@ -33,12 +33,11 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import BusinessService from '@/models/ekoset/BusinessService.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import BusinessServiceService from '@/api/BusinessServiceService'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
+import { ServiceRegistry } from '@/ServiceRegistry';
+import BusinessServiceService from '@/services/BusinessServiceService';
 
 @Component
 export default class AdminFooterSettings extends Vue {
@@ -50,11 +49,11 @@ export default class AdminFooterSettings extends Vue {
   }
 
   private async addRemovePrivatePersonServiceToFooter (businessServiceId: number, isAdd: boolean) {
-    await getServiceContainer().businessServiceService.addRemoveService2Footer(businessServiceId, 'private', isAdd)
+    await ServiceRegistry.instance.getService(BusinessServiceService).addRemoveService2Footer(businessServiceId, 'private', isAdd)
   }
 
   private async addRemoveBusinessServiceToFooter (businessServiceId: number, isAdd: boolean) {
-    await getServiceContainer().businessServiceService.addRemoveService2Footer(businessServiceId, 'business', isAdd)
+    await ServiceRegistry.instance.getService(BusinessServiceService).addRemoveService2Footer(businessServiceId, 'business', isAdd)
   }
 
   private onChecked (businessServiceId: number, hasRelation: boolean, isBusiness: boolean) {
@@ -71,8 +70,8 @@ export default class AdminFooterSettings extends Vue {
   }
 
   private async updateData () {
-    const serviceListForPersonPr = getServiceContainer().businessServiceService.adminGetFooterServicesRelation(false)
-    const serviceListForBusinessPr = getServiceContainer().businessServiceService.adminGetFooterServicesRelation(true)
+    const serviceListForPersonPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetFooterServicesRelation(false)
+    const serviceListForBusinessPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetFooterServicesRelation(true)
     const data = await Promise.all([serviceListForPersonPr, serviceListForBusinessPr])
     this.serviceListForPerson = data[0];
     this.serviceListForBusiness = data[1];

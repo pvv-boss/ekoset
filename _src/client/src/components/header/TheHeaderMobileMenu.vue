@@ -10,20 +10,29 @@
 
     <div class="brc-buscet-mobile" @click="navigateToOfferForm">
       <img src="/images/busket.svg" />
-      <div class="brc-buscet-counter_mobile">{{getBuscetCount}}</div>
+      <div class="brc-buscet-counter_mobile">{{ getBuscetCount }}</div>
     </div>
 
-    <div v-click-outside="closeMenu" class="brc-page-header-mobile_expander" @click="openMenu">
+    <div
+      v-click-outside="closeMenu"
+      class="brc-page-header-mobile_expander"
+      @click="openMenu"
+    >
       <span></span>
       <span></span>
       <span></span>
     </div>
 
     <!-- Само меню. Живет с фиксед позишн !!! -->
-    <nav class="brc-page-header-mobile__menu" :class="{'brc-page-header-mobile__menu_visible':isMainMenuActive===true}">
+    <nav
+      class="brc-page-header-mobile__menu"
+      :class="{
+        'brc-page-header-mobile__menu_visible': isMainMenuActive === true,
+      }"
+    >
       <div class="brc-page-header-mobile-menu__title">
         <div class="brc-page-header-mobile-menu__user-auth">
-        <UserAuthHeader :is-mobile="true"></UserAuthHeader>
+          <UserAuthHeader :is-mobile="true"></UserAuthHeader>
         </div>
 
         <div class="brc-page-header-mobile__close" @click="openMenu">
@@ -54,7 +63,10 @@
     </nav>
 
     <!-- Для закрытия основного контента -->
-    <div class="main-content_hidden" :class="{active:isMainMenuActive===true}"></div>
+    <div
+      class="main-content_hidden"
+      :class="{ active: isMainMenuActive === true }"
+    ></div>
   </header>
 </template>
 
@@ -116,9 +128,6 @@ export default class TheHeaderMobileMenu2 extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .main-content_hidden {
   display: none;
 

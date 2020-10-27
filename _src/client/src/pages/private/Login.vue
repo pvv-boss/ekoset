@@ -3,15 +3,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import LoginForm from '@/components/user/LoginForm.vue'
-import { NuxtContext } from 'vue/types/options'
+import { Component, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 
 @Component({
   components: {
-    LoginForm
+    LoginForm: () => import('@/components/user/LoginForm.vue')
   }
 })
 export default class Login extends Vue {

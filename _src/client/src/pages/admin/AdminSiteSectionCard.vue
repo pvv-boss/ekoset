@@ -160,15 +160,19 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
 import IndividualOffer from '@/models/ekoset/IndividualOffer.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import BusinessService from '@/models/ekoset/BusinessService.ts'
 import AdminStore from '@/store/AdminStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import { Context } from '@nuxt/types'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import BusinessServiceService from '@/services/BusinessServiceService'
+import IndividualOfferService from '@/services/IndividualOfferService'
+import MediaService from '@/services/MediaService'
 
 @Component
 export default class AdminSiteSectionCard extends Vue {
@@ -183,8 +187,8 @@ export default class AdminSiteSectionCard extends Vue {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
-    const siteSectionItem = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(
+  private async asyncData (context: Context) {
+    const siteSectionItem = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionBySlug(
       context.params.siteSection
     )
 
@@ -194,15 +198,15 @@ export default class AdminSiteSectionCard extends Vue {
     breadCrumbList.push({ name: siteSectionItem.siteSectionName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const dynaComponents = getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(siteSectionItem.siteSectionUrl, true)
+    const dynaComponents = ServiceRegistry.instance.getService(DynamicComponentsService).getSiteSectionDynamicComponentsInfo(siteSectionItem.siteSectionUrl, true)
 
-    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForSiteSectionBrands(
+    const brandRelationList = ServiceRegistry.instance.getService(PublicEkosetService).getAdminForSiteSectionBrands(
       siteSectionItem.siteSectionId
     )
-    const serviceOtherList = getServiceContainer().businessServiceService.adminGetBySiteSectionId(
+    const serviceOtherList = ServiceRegistry.instance.getService(BusinessServiceService).adminGetBySiteSectionId(
       siteSectionItem.siteSectionId
     )
-    const offerList = getServiceContainer().individualOfferService.adminGetAllBySiteSectionId(siteSectionItem.siteSectionId)
+    const offerList = ServiceRegistry.instance.getService(IndividualOfferService).adminGetAllBySiteSectionId(siteSectionItem.siteSectionId)
 
     const data = await Promise.all([
       serviceOtherList,
@@ -223,17 +227,17 @@ export default class AdminSiteSectionCard extends Vue {
   private async addSiteSectionImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(this.siteSectionItem.siteSectionId, formData, isBig)
   }
 
   private async addSiteSectionLogo (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSiteSectionLogo(this.siteSectionItem.siteSectionId, formData)
+    ServiceRegistry.instance.getService(MediaService).saveSiteSectionLogo(this.siteSectionItem.siteSectionId, formData)
   }
 
   private saveSiteSection () {
-    getServiceContainer().publicEkosetService.saveSiteSection(
+    ServiceRegistry.instance.getService(PublicEkosetService).saveSiteSection(
       this.siteSectionItem
     )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
@@ -243,7 +247,7 @@ export default class AdminSiteSectionCard extends Vue {
     const self = this
     const okCallback = async () => {
       if (this.siteSectionItem.siteSectionSlug) {
-        await getServiceContainer().publicEkosetService.deleteSiteSection(
+        await ServiceRegistry.instance.getService(PublicEkosetService).deleteSiteSection(
           this.siteSectionItem.siteSectionSlug
         )
       }
@@ -259,34 +263,33 @@ export default class AdminSiteSectionCard extends Vue {
   }
 
   private async saveSiteSectionDynamicComponentsInfo () {
-    await getServiceContainer().dynamicComponentsService.saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
+    await ServiceRegistry.instance.getService(DynamicComponentsService).saveSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionId, this.dynamicComponentInfo)
     await this.refreshDynamicComponentsInfo()
   }
 
   private brandChecked (clBrandId: number, hasRelation: boolean) {
-    getServiceContainer().publicEkosetService.addOrRemoveBrand2SiteSection(
+    ServiceRegistry.instance.getService(PublicEkosetService).addOrRemoveBrand2SiteSection(
       clBrandId,
       this.siteSectionItem.siteSectionId,
       hasRelation
     )
   }
 
-  private async refreshServiceList (newService) {
-    this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetBySiteSectionId(this.siteSectionItem.siteSectionId)
+  private async refreshServiceList () {
+    this.serviceOtherList = await ServiceRegistry.instance.getService(BusinessServiceService).adminGetBySiteSectionId(this.siteSectionItem.siteSectionId)
   }
 
-  private async refreshOfferList (newOffer) {
-    this.offerList = await getServiceContainer().individualOfferService.adminGetAllBySiteSectionId(this.siteSectionItem.siteSectionId)
+  private async refreshOfferList () {
+    this.offerList = await ServiceRegistry.instance.getService(IndividualOfferService).adminGetAllBySiteSectionId(this.siteSectionItem.siteSectionId)
   }
 
   private async refreshDynamicComponentsInfo () {
-    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionUrl, true)
+    this.dynamicComponentInfo = await ServiceRegistry.instance.getService(DynamicComponentsService).getSiteSectionDynamicComponentsInfo(this.siteSectionItem.siteSectionUrl, true)
   }
 }
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 </style>
 
 

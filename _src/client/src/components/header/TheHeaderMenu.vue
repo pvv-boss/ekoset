@@ -69,7 +69,7 @@
         :class="{ active: isMenuOpened === true }"
         style="margin-top: 8px"
       >
-        <template v-for="iterMenuItem in this.additionalsitePageItems">
+        <template v-for="iterMenuItem in additionalsitePageItems">
           <li
             v-if="
               iterMenuItem.sitePageCode !== 7 &&
@@ -107,9 +107,10 @@
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import TopMenuService from '@/services/TopMenuService'
 
 
 @Component({
@@ -154,7 +155,7 @@ export default class TheHeaderMenu extends Vue {
   }
 
   public isMenuItemEnablede (pageMenuItem: SitePage) {
-    const currentSiteSectionId = this.getCurrentSiteSection ? getServiceContainer().topMenuService.getIdBySlug(this.getCurrentSiteSection) : null
+    const currentSiteSectionId = this.getCurrentSiteSection ? ServiceRegistry.instance.getService(TopMenuService).getIdBySlug(this.getCurrentSiteSection) : null
     if (pageMenuItem.sitePageId === SitePageType.MAIN && this.isMobile) {
       return true
     }
@@ -162,7 +163,7 @@ export default class TheHeaderMenu extends Vue {
   }
 
   public async fetch () {
-    const sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
+    const sitePageItems = await ServiceRegistry.instance.getService(TopMenuService).adminGetSitePages()
 
     sitePageItems.forEach((element: any) => {
       element.visibleInHorMenu = true
@@ -228,9 +229,6 @@ export default class TheHeaderMenu extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
-
 $menu_item_padding: 12px;
 
 .brc-page-header__main-menu {

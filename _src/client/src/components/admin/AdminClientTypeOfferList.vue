@@ -19,11 +19,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import 'vue-good-table/dist/vue-good-table.css'
+// import 'vue-good-table/dist/vue-good-table.css'
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
   }
 })
 export default class AdminClientTypeOfferList extends Vue {

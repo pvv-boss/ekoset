@@ -23,8 +23,6 @@ export default class DealContractSortSelect extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-
 .brc-contract-sort__mobile {
   display: none;
   margin-left: auto;

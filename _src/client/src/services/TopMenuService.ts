@@ -1,21 +1,23 @@
-import SitePage, { SitePageType } from '@/models/SitePage';
+import SitePage from '@/models/SitePage';
 import { BaseService } from './BaseService';
 
 export default class TopMenuService extends BaseService {
 
   public async adminGetSitePages () {
-    return HttpUtil.httpGet(this.buildHttRequest('admin/panel/cms/pages'))
+    const res = this.apiRequest.getJSON('admin/panel/cms/pages');
+    return (await res).data?.data
   }
 
   public async getSitePageById (sitePageId: number) {
-    return HttpUtil.httpGet(this.buildHttRequest(`admin/panel/cms/pages/${sitePageId}`))
+    const res = this.apiRequest.getJSON(`admin/panel/cms/pages/${sitePageId}`);
+    return (await res).data?.data
   }
 
   public async adminSaveSitePage (sitePage: SitePage) {
-    return HttpUtil.httpPut(this.buildHttRequest('admin/panel/cms/pages'), sitePage)
+    this.apiRequest.put('admin/panel/cms/pages', {}, sitePage);
   }
 
   public async adminDeleteSitePage (sitePageId: number) {
-    return HttpUtil.httpDelete(this.buildHttRequest(`admin/panel/cms/pages/${sitePageId}`))
+    this.apiRequest.delete(`admin/panel/cms/pages/${sitePageId}`);
   }
 }

@@ -4,6 +4,12 @@ import AppStore from '@/store/AppStore'
 import { Store } from 'vuex'
 import ClBrand from '@/models/ekoset/ClBrand'
 import { BaseService } from './BaseService'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import BusinessServiceService from './BusinessServiceService'
+import PublicEkosetService from './PublicEkosetService'
+import ArticleService from './ArticleService'
+import IndividualOfferService from './IndividualOfferService'
+import { data } from 'autoprefixer'
 
 
 
@@ -24,13 +30,6 @@ enum BlockType {
 }
 
 export default class DynamicComponentsService extends BaseService {
-  private store: Store<any>
-
-  constructor (store: Store<any>) {
-    super()
-    this.store = store
-  }
-
 
   public async getSiteSectionDynamicComponentsInfo (siteSectionUrl: string, adminMode = false): Promise<DynamicComponentInfo[]> {
     return this.getDynamicComponentsInfo(this.adminGetDynamicComponentsInfo(siteSectionUrl, null, null), siteSectionUrl, null, adminMode, null, null, null)
@@ -45,37 +44,38 @@ export default class DynamicComponentsService extends BaseService {
   }
 
   public async getSitePageDynamicComponents (sitePageId: number, adminMode = false): Promise<DynamicComponentInfo[]> {
-    const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
-    return this.getDynamicComponentsInfo(httpResponse, null, null, adminMode, null, null, null)
+    const httpResponse = await this.apiRequest.getJSON(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
+    return this.getDynamicComponentsInfo(httpResponse.data?.data, null, null, adminMode, null, null, null)
   }
 
   public async getSitePageDynamicComponentsWithSiteSection (siteSectionUrl: string, sitePageId: number, adminMode = false): Promise<DynamicComponentInfo[]> {
-    const httpResponse = HttpUtil.httpGet(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
-    return this.getDynamicComponentsInfo(httpResponse, siteSectionUrl, null, adminMode, null, null, null)
+    const httpResponse = await this.apiRequest.getJSON(`admin/panel/cms/blocks/info/pages/${sitePageId}`)
+    return this.getDynamicComponentsInfo(httpResponse.data?.data, siteSectionUrl, null, adminMode, null, null, null)
   }
 
   public async saveSitePageDynamicComponentsInfo (sitePage: number, infos: DynamicComponentInfo[]) {
-    return HttpUtil.httpPost(`admin/panel/cms/blocks/info/pages/${sitePage}`, infos)
+    return await this.apiRequest.post(`admin/panel/cms/blocks/info/pages/${sitePage}`, {}, infos)
   }
 
   public async saveSiteSectionDynamicComponentsInfo (siteSectionId: number, infos: DynamicComponentInfo[]) {
-    return HttpUtil.httpPost(this.createRequestQueryString('slug-' + siteSectionId, null, null), infos)
+    return this.apiRequest.post(this.createRequestQueryString('slug-' + siteSectionId, null, null), {}, infos)
   }
 
   public async saveServiceDynamicComponentsInfo (serviceId: number, infos: DynamicComponentInfo[]) {
-    return HttpUtil.httpPost(this.createRequestQueryString(null, 'slug-' + serviceId, null), infos)
+    return this.apiRequest.post(this.createRequestQueryString(null, 'slug-' + serviceId, null), {}, infos)
   }
 
   public async adminSaveDynamicComponentsOffer (offerId: number, infos: DynamicComponentInfo[]) {
-    return HttpUtil.httpPost(this.createRequestQueryString(null, null, 'slug-' + offerId), infos)
+    return this.apiRequest.post(this.createRequestQueryString(null, null, 'slug-' + offerId), {}, infos)
   }
 
   public async adminDeleteDynamicComponent (blockId: number) {
-    return HttpUtil.httpDelete(`admin/panel/cms/blocks/ ${blockId} `)
+    return this.apiRequest.delete(`admin/panel/cms/blocks/ ${blockId} `)
   }
 
   private async adminGetDynamicComponentsInfo (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null): Promise<DynamicComponentInfo[]> {
-    return HttpUtil.httpGet(this.createRequestQueryString(siteSectionUrl, serviceUrl, indOfferUrl))
+    const res = await this.apiRequest.getJSON(this.createRequestQueryString(siteSectionUrl, serviceUrl, indOfferUrl))
+    return res.data?.data
   }
 
   private createRequestQueryString (siteSectionUrl: string | null, serviceUrl: string | null, indOfferUrl: string | null) {
@@ -89,36 +89,36 @@ export default class DynamicComponentsService extends BaseService {
     // Услуга м.б. второго уровня, если так, то данные берем от его предка
     let serviceIdForRelations = 0
     if (serviceSlug) {
-      const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
+      const businessService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(serviceSlug)
       serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
     }
 
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any = null
     if (serviceIdForRelations > 0) {
-      brandItems = getServiceContainer().publicEkosetService.getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
+      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
     }
 
     if (!brandItems && !!siteSectionSlug) {
-      brandItems = getServiceContainer().publicEkosetService.getBrandsBySiteSectionSlug(siteSectionSlug)
+      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsBySiteSectionSlug(siteSectionSlug)
     }
 
     if (!brandItems) {
-      brandItems = getServiceContainer().publicEkosetService.getBrandsForHomePage()
+      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsForHomePage()
     }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
     if (serviceIdForRelations > 0) {
-      articleItems = getServiceContainer().articleService.getArticleListByBusinessServiceSlug(siteSectionSlug, 'slug-' + serviceIdForRelations)
+      articleItems = ServiceRegistry.instance.getService(ArticleService).getArticleListByBusinessServiceSlug(siteSectionSlug, 'slug-' + serviceIdForRelations)
     }
 
     if (!articleItems && !!siteSectionSlug) {
-      articleItems = getServiceContainer().articleService.getArticleListBySiteSectionSlug(siteSectionSlug)
+      articleItems = ServiceRegistry.instance.getService(ArticleService).getArticleListBySiteSectionSlug(siteSectionSlug)
     }
 
     if (!articleItems) {
-      articleItems = getServiceContainer().articleService.getRootArticleList()
+      articleItems = ServiceRegistry.instance.getService(ArticleService).getRootArticleList()
     }
 
 
@@ -128,14 +128,14 @@ export default class DynamicComponentsService extends BaseService {
     let serviceHasParent = false
     let relatedServiceList: any = null
     if (serviceSlug) {
-      const businessService = await getServiceContainer().businessServiceService.getBySlug(serviceSlug)
-      const childServiceList = await getServiceContainer().businessServiceService.getChildServicesByParentId(businessService.businessServiceId)
+      const businessService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(serviceSlug)
+      const childServiceList = await ServiceRegistry.instance.getService(BusinessServiceService).getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
       serviceHasParent = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0
 
-      priceList = serviceHasParent ? getServiceContainer().businessServiceService.getPriceListForChildService(businessService.businessServiceId) : getServiceContainer().businessServiceService.getPriceListForService(businessService.businessServiceId)
+      priceList = serviceHasParent ? ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForChildService(businessService.businessServiceId) : ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForService(businessService.businessServiceId)
 
-      relatedServiceList = getServiceContainer().businessServiceService.adminGetRelated(businessService.businessServiceId)
+      relatedServiceList = ServiceRegistry.instance.getService(BusinessServiceService).adminGetRelated(businessService.businessServiceId)
     }
 
 
@@ -143,33 +143,33 @@ export default class DynamicComponentsService extends BaseService {
     if (!!indOfferUrl && !!siteSectionSlug) {
       if (offerForClentType) {
         serviceList = offerForClentType === 'business'
-          ? getServiceContainer().businessServiceService.getForBusinessBySiteSectionSlug(siteSectionSlug)
-          : getServiceContainer().businessServiceService.getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
+          ? ServiceRegistry.instance.getService(BusinessServiceService).getForBusinessBySiteSectionSlug(siteSectionSlug)
+          : ServiceRegistry.instance.getService(BusinessServiceService).getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
 
         priceList = offerForClentType === 'business'
-          ? getServiceContainer().businessServiceService.getPriceListForBusinessBySiteSectionId(siteSectionSlug)
-          : getServiceContainer().businessServiceService.getPriceListForPersonBySiteSectionId(siteSectionSlug)
+          ? ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForBusinessBySiteSectionId(siteSectionSlug)
+          : ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForPersonBySiteSectionId(siteSectionSlug)
       } else {
-        serviceList = getServiceContainer().businessServiceService.getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
-        priceList = getServiceContainer().businessServiceService.getPriceListForActivity(siteSectionSlug, clActivityId)
+        serviceList = ServiceRegistry.instance.getService(BusinessServiceService).getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
+        priceList = ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForActivity(siteSectionSlug, clActivityId)
       }
     }
 
     // Услуги для раздела
     if (!serviceList && !!siteSectionSlug) {
-      serviceList = getServiceContainer().businessServiceService.getBySiteSectionSlug(siteSectionSlug, true)
-      priceList = getServiceContainer().businessServiceService.getPriceListForSiteSection(siteSectionSlug)
+      serviceList = ServiceRegistry.instance.getService(BusinessServiceService).getBySiteSectionSlug(siteSectionSlug, true)
+      priceList = ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForSiteSection(siteSectionSlug)
     }
 
     // Для рутовых страниц
     if (!serviceList) {
-      priceList = getServiceContainer().businessServiceService.priceList()
+      priceList = ServiceRegistry.instance.getService(BusinessServiceService).priceList()
     }
 
     // Индивидуальные предложения
     let busineesTypeOfferList: any = null
     if (!!siteSectionSlug && !adminMode) {
-      busineesTypeOfferList = getServiceContainer().individualOfferService.getForActivityBySiteSectionIdSlug(siteSectionSlug)
+      busineesTypeOfferList = ServiceRegistry.instance.getService(IndividualOfferService).getForActivityBySiteSectionIdSlug(siteSectionSlug)
     }
 
     if (!!indOfferUrl && !offerForClentType && adminMode) {
@@ -269,9 +269,9 @@ export default class DynamicComponentsService extends BaseService {
       }
       let serviceListHead
       if (serviceSlug) {
-        serviceListHead = getModule(AppStore, this.store).сurrentServiceName
+        serviceListHead = getModule(AppStore, this.context.store).сurrentServiceName
       } else {
-        const siteSectionName = getModule(AppStore, this.store).currentSiteSectionName
+        const siteSectionName = getModule(AppStore, this.context.store).currentSiteSectionName
         serviceListHead = siteSectionName || serviceInfo.head
       }
       return serviceListHead
@@ -326,7 +326,7 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.CLIENTS
     })
     if (!!clientsInfo && clientsInfo.visible === 1) {
-      clientsInfo.props.clientList = await getServiceContainer().publicEkosetService.getClients()
+      clientsInfo.props.clientList = await ServiceRegistry.instance.getService(PublicEkosetService).getClients()
       if (!adminMode) {
         clientsInfo.visible = 0
         clientsInfo.visible = !!clientsInfo.props.clientList && clientsInfo.props.clientList.length > 0 ? 1 : 0

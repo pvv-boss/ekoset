@@ -15,7 +15,3 @@ export default class NotificationSettings extends Vue {
 
 }
 </script>
-
-<style lang="scss">
-@import '@/styles/variables.scss';
-</style>

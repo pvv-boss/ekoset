@@ -2,6 +2,8 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
 import { BaseService } from './BaseService';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import MediaService from './MediaService';
 
 
 export default class PublicEkosetService extends BaseService {
@@ -14,166 +16,149 @@ export default class PublicEkosetService extends BaseService {
 
   public async getSiteSectionNameBySlug (slug: string) {
     const query = `activities/query/name/${this.getIdBySlug(slug)}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getSiteSections () {
     const query = `activities`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = await this.apiRequest.getJSON(query);
+    return res.data?.data
   }
 
   public async adminGetSiteSections () {
     const query = 'admin/panel/activities'
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   // Клиенты
   public async getClients () {
     const query = 'clients'
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getClientsInfoByActivity (activityId: number) {
     const query = `clients/activity/${activityId}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
 
   public async getClActivityList () {
     const query = `admin/panel/clActivities`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getAdminAllBands () {
     const query = `admin/panel/brands`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getBrandById (id: number) {
     const query = `admin/panel/brands/${id}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getAdminForSiteSectionBrands (siteSectionId: number) {
     const query = `admin/panel/brands/activities/${siteSectionId}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getAdminForBusinessServiceBrands (serviceId: number) {
     const query = `admin/panel/brands/serivce/${serviceId}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getBrandsForHomePage () {
     const query = `brands`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query);
+    return (await res).data?.data
   }
 
   public async getBrandsBySiteSectionSlug (slug: string) {
-    return this.getBrandsBySiteSection(this.getIdBySlug(slug))
+    const res = this.getBrandsBySiteSection(this.getIdBySlug(slug))
+    return (await res).data?.data
   }
 
   public async getBrandsByBusinessServiceSlug (slug: string) {
-    return this.getBrandsByBusinessService(this.getIdBySlug(slug))
+    const res = this.getBrandsByBusinessService(this.getIdBySlug(slug))
+    return (await res).data?.data
   }
 
   public async saveSiteSection (siteSection: SiteSection) {
-    const resPr = HttpUtil.httpPut(this.buildHttRequest('activities'), siteSection)
+    const resPr = this.apiRequest.put('activities', {}, siteSection)
 
     if (siteSection.smallImageFormData) {
-      getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
+      ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
     }
     if (siteSection.bigImageFormData) {
-      getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
+      ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
     }
 
     return resPr
   }
 
   public async deleteSiteSection (slug: string) {
-    return HttpUtil.httpDelete(this.buildHttRequest(`activities/${this.getIdBySlug(slug)}`))
+    return this.apiRequest.delete(`activities/${this.getIdBySlug(slug)}`)
   }
 
   public async saveBrand (brand: ClBrand) {
-    const resultPr = HttpUtil.httpPut(this.buildHttRequest('brands'), brand)
+    const resultPr = this.apiRequest.put('brands', {}, brand)
 
     if (brand.smallImageFormData) {
-      getServiceContainer().mediaService.saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
+      ServiceRegistry.instance.getService(MediaService).saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
     }
     if (brand.recommendImageFormData) {
-      getServiceContainer().mediaService.saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
+      ServiceRegistry.instance.getService(MediaService).saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
     }
 
     return resultPr
   }
 
   public async saveClActivity (clActivity: ClActivity) {
-    return HttpUtil.httpPut(this.buildHttRequest('admin/panel/clActivities'), clActivity)
+    return this.apiRequest.put('admin/panel/clActivities', {}, clActivity)
   }
 
   public async deleteClActivity (clActivity: ClActivity) {
-    return HttpUtil.httpDelete(this.buildHttRequest(`admin/panel/clActivities/${clActivity.clActivityId}`))
+    return this.apiRequest.delete(`admin/panel/clActivities/${clActivity.clActivityId}`)
   }
 
   public async addOrRemoveBrand2SiteSection (brandId: number, siteSectionId: number, isAdd: boolean) {
     const query = `brands/${brandId}/sitesection/${siteSectionId}`
     if (isAdd) {
-      return HttpUtil.httpPut(query)
+      return this.apiRequest.put(query)
     } else {
-      return HttpUtil.httpDelete(query)
+      return this.apiRequest.delete(query)
     }
   }
 
   public async addOrRemoveBrand2Service (brandId: number, serviceId: number, isAdd: boolean) {
     const query = `brands/${brandId}/service/${serviceId}`
     if (isAdd) {
-      return HttpUtil.httpPut(query)
+      return this.apiRequest.put(query)
     } else {
-      return HttpUtil.httpDelete(query)
+      return this.apiRequest.delete(query)
     }
   }
 
   public async deleteBrand (id: number) {
-    return HttpUtil.httpDelete(this.buildHttRequest(`brands/${id}`))
+    return this.apiRequest.delete(`brands/${id}`)
   }
-
-  // Рекомендации
-  // public async getRecommendationLettersByBrand (brandId: number) {
-  //   const query = `brands/${brandId}/letters`
-  //   return HttpUtil.httpGet(this.buildHttRequest(query))
-  // }
-
-
-  // public async saveRecommendation (letter: ReccomendationLetter) {
-  //   const query = 'brands/letters'
-  //   return HttpUtil.httpPut(this.buildHttRequest(query), letter)
-  // }
-
 
   public async deleteRecommendationLetter (id: number) {
     const query = `brands/letters/${id}`
-    return HttpUtil.httpDelete(this.buildHttRequest(query))
+    return this.apiRequest.delete(query)
   }
 
-  // public async getRecommendationLettersByBusinessServiceSlug (serviceSlug: string) {
-  //   const query = `letters/services/${this.getIdBySlug(serviceSlug)}`
-  //   return HttpUtil.httpGet(this.buildHttRequest(query))
-  // }
-
-  // public async   getRecommendationLettersBySiteSectionSlug (siteSectionSlug: string) {
-  //   const query = `letters/sitesection/${this.getIdBySlug(siteSectionSlug)}`
-  //   return HttpUtil.httpGet(this.buildHttRequest(query))
-  // }
-
-  // public async  getRecommendationLettersForHomePage () {
-  //   const query = `letters`
-  //   return HttpUtil.httpGet(this.buildHttRequest(query))
-  // }
-
-  //
-
   public async sendFormMessage (formData: FormData, mode: number) {
-    const result = HttpUtil.httpPostForm(`user/message?ask=${mode}`, formData)
+    const result = this.apiRequest.postForm(`user/message?ask=${mode}`, {}, formData)
     this.sendYandexMetrika(mode)
     return result
   }
@@ -181,17 +166,17 @@ export default class PublicEkosetService extends BaseService {
 
   private async getBrandsBySiteSection (siteSectionId: number) {
     const query = `${siteSectionId}/brands`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return this.apiRequest.getJSON(query)
   }
 
   private async getBrandsByBusinessService (serviceId: number) {
     const query = `services/${serviceId}/brands`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return this.apiRequest.getJSON(query)
   }
 
   private async getSiteSectionById (siteSectionId: number) {
     const query = `activities/${siteSectionId}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data?.data
   }
 
   private sendYandexMetrika (mode: number) {
@@ -201,10 +186,12 @@ export default class PublicEkosetService extends BaseService {
       try {
         // @ts-ignore
         window.yaCounter64542580.reachGoal(64542580, target)
+        // eslint-disable-next-line no-empty
       } catch { }
       try {
         // @ts-ignore
         window.yaCounter64542580.reachGoal(target)
+        // eslint-disable-next-line no-empty
       } catch { }
     }
   }

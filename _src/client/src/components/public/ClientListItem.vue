@@ -10,7 +10,7 @@
       v-show="clientItem.allcount - maxClientsShow > 0"
       class="brc-client-item__showmore dont_outside"
       @click="$emit('more-clients-clicked', clientItem)"
-      >{{ moreItemsText() }}</a
+      >{{ moreItemsText }}</a
     >
     <figure>
       <img
@@ -33,7 +33,7 @@ export default class ClientListItem extends Vue {
 
   private maxClientsShow = 5
 
-  private moreItemsText () {
+  private get moreItemsText () {
     return `Еще ${this.clientItem.allcount - this.maxClientsShow}`
   }
 
@@ -44,8 +44,6 @@ export default class ClientListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-client-item {
   border: 1px solid lightgrey;
   border-radius: 5px;

@@ -38,8 +38,6 @@ export default class RecommLetterListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-letter-smallitem__wrapper {
   text-align: center;
 }

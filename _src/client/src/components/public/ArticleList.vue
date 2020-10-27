@@ -28,17 +28,6 @@ export default class ArticleList extends Vue {
   @Prop(String)
   private mode
 
-  // private pagination: Pagination = new Pagination()
-
-  //   // private updatePagintaion () {
-  //   //   this.updateArticleList()
-  //   // }
-
-  //   // private async updateArticleList () {
-  //   //   const activitySlug = getModule(AppStore, this.$store).currentSiteSection
-  //   //   const articleList = activitySlug ? await getServiceContainer().articleService.getArticleListBySiteSectionSlug(activitySlug, this.pagination) : await getServiceContainer().articleService.getRootArticleList(this.pagination)
-  //   //   // this.articleItems = articleList
-  //  }
 
 }
 </script>

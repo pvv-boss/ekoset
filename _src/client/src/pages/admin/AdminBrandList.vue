@@ -168,15 +168,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import BusinessServiceService from '@/api/BusinessServiceService'
 import ClBrand from '@/models/ekoset/ClBrand'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import ClActivity from '@/models/ekoset/ClActivity'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import { Context } from "@nuxt/types";
 
 
 @Component({
@@ -203,17 +203,17 @@ export default class AdminBrandList extends Vue {
   }
 
   private async updateBrandList () {
-    this.brandList = await getServiceContainer().publicEkosetService.getAdminAllBands()
+    this.brandList = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands()
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const data = await getServiceContainer().publicEkosetService.getAdminAllBands()
-    const clActivityList = await getServiceContainer().publicEkosetService.getClActivityList()
+    const data = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands()
+    const clActivityList = await ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList()
     return {
       brandList: data,
       clActivityList
@@ -221,7 +221,7 @@ export default class AdminBrandList extends Vue {
   }
 
   private async saveNewBrand () {
-    await getServiceContainer().publicEkosetService.saveBrand(this.newBrand)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.newBrand)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newBrand = new ClBrand()
     this.createNewBrandMode = false
@@ -229,13 +229,13 @@ export default class AdminBrandList extends Vue {
   }
 
   private async saveBrand (brand: ClBrand) {
-    await getServiceContainer().publicEkosetService.saveBrand(brand)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brand)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteBrand (brand: ClBrand) {
     const okCallback = async () => {
-      await getServiceContainer().publicEkosetService.deleteBrand(brand.clBrandId)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteBrand(brand.clBrandId)
       this.updateBrandList()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
@@ -249,7 +249,7 @@ export default class AdminBrandList extends Vue {
   private async handleChange () {
     for (let i = 0; i < this.brandList.length; i++) {
       this.brandList[i].clBrandPriority = this.brandList.length - i;
-      await getServiceContainer().publicEkosetService.saveBrand(this.brandList[i])
+      await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.brandList[i])
     }
   }
 
@@ -258,7 +258,7 @@ export default class AdminBrandList extends Vue {
     formData.append('file', imageFile)
     brandItem.smallImageFormData = formData
 
-    await getServiceContainer().publicEkosetService.saveBrand(brandItem)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem)
   }
 
   private async showBrandImage (brandItem: ClBrand) {
@@ -276,12 +276,12 @@ export default class AdminBrandList extends Vue {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
     brandItem.recommendImageFormData = formData
-    await getServiceContainer().publicEkosetService.saveBrand(brandItem)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem)
   }
 
   private async deleteLetter (brandItem: ClBrand) {
     const okCallback = async () => {
-      await getServiceContainer().publicEkosetService.deleteRecommendationLetter(brandItem.clBrandId)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteRecommendationLetter(brandItem.clBrandId)
       this.updateBrandList()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить рекомендательное письмо ?', 'Подтвердите удаление', okCallback)
@@ -291,8 +291,6 @@ export default class AdminBrandList extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-brand-list-container {
   display: flex;
   flex-direction: column;

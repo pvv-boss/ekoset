@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BreadCrumbs extends Vue {

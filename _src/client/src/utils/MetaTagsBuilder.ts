@@ -1,6 +1,6 @@
 
 import SeoMeta from '@/models/ekoset/SeoMeta'
-import AppConfig from '@/AppConfig'
+import { AppConfig } from '@/AppConfig'
 
 export default class MetaTagsBuilder {
 

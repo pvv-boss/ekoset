@@ -1,5 +1,7 @@
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
+import { ServiceRegistry } from '@/ServiceRegistry';
 import { BaseService } from './BaseService';
+import MediaService from './MediaService';
 
 export default class IndividualOfferService extends BaseService {
 
@@ -13,7 +15,8 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async adminGetAllBySiteSectionId (siteSectionId: number) {
-    return HttpUtil.httpGet(`admin/panel/${siteSectionId}/offers`)
+    const res = this.apiRequest.getJSON(`admin/panel/${siteSectionId}/offers`)
+    return (await res).data?.data
   }
 
   // Для Частных лиц и раздела
@@ -29,7 +32,7 @@ export default class IndividualOfferService extends BaseService {
   }
 
   public async adminGetAll () {
-    return HttpUtil.httpGet(this.buildHttRequest('admin/panel/offers'))
+    return this.apiRequest.getJSON('admin/panel/offers')
   }
 
   public async saveAll (list: IndividualOffer[]) {
@@ -40,13 +43,13 @@ export default class IndividualOfferService extends BaseService {
 
   public async save (individualOffer: IndividualOffer) {
     const query = 'offers'
-    const resultPr = HttpUtil.httpPut(this.buildHttRequest(query), individualOffer)
+    const resultPr = this.apiRequest.put(query, {}, individualOffer)
 
     if (individualOffer.smallImageFormData) {
-      getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
+      ServiceRegistry.instance.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
     }
     if (individualOffer.bigImageFormData) {
-      getServiceContainer().mediaService.saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
+      ServiceRegistry.instance.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
     }
 
     return resultPr
@@ -54,29 +57,30 @@ export default class IndividualOfferService extends BaseService {
 
   public async delete (id: number) {
     const query = `offers/${id}`
-    return HttpUtil.httpDelete(this.buildHttRequest(query))
+    return this.apiRequest.delete(query)
   }
 
   private async getById (id: number) {
     const query = `offers/${id}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    const res = this.apiRequest.getJSON(query)
+    return (await res).data?.data
   }
 
   private async getForPrivatePersonBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/offers/person`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
+    const result = await this.apiRequest.getJSON(query)
+    return result.data?.data
   }
 
   private async getForBusinessBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/offers/business`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
+    const result = await this.apiRequest.getJSON(query)
+    return result.data?.data
   }
 
   private async getForActivityBySiteSectionId (siteSectionId: number) {
     const query = `${siteSectionId}/activity/offers`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
+    const result = await this.apiRequest.getJSON(query)
+    return result.data?.data
   }
 }

@@ -43,7 +43,7 @@
             // initialSortBy: {field: 'articlePublishDate', type: 'desc'}
           }"
         >
-          <template slot="table-row" slot-scope="props">
+          <template #table-row="props">
             <b-switch
               v-if="props.column.field == 'articleStatus'"
               v-model="props.row.articleStatus"
@@ -97,19 +97,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-
-import 'vue-good-table/dist/vue-good-table.css'
+import { Context } from "@nuxt/types";
+// import 'vue-good-table/dist/vue-good-table.css'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import ArticleService from '@/services/ArticleService'
+import MediaService from '@/services/MediaService'
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
   }
 })
 export default class AdminArticleList extends Vue {
@@ -174,13 +175,13 @@ export default class AdminArticleList extends Vue {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const data = await getServiceContainer().articleService.adminGetAll()
+    const data = await ServiceRegistry.instance.getService(ArticleService).adminGetAll()
     return {
       articleItems: data
     }
@@ -189,7 +190,7 @@ export default class AdminArticleList extends Vue {
   private async save () {
     this.newArticle.articleDescription = this.newArticle.articleTitle
     this.newArticle.articleH1 = this.newArticle.articleTitle
-    await getServiceContainer().articleService.saveArticle(
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(
       this.newArticle
     )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
@@ -204,13 +205,13 @@ export default class AdminArticleList extends Vue {
   }
 
   private async changeArticleStatus (article: Article) {
-    await getServiceContainer().articleService.saveArticle(article)
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(article)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteArticle (article: Article) {
     const okCallback = async () => {
-      await getServiceContainer().articleService.deleteArticle(article.articleId)
+      await ServiceRegistry.instance.getService(ArticleService).deleteArticle(article.articleId)
       this.updateItems()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость ?', 'Подтвердите удаление', okCallback)
@@ -219,7 +220,7 @@ export default class AdminArticleList extends Vue {
   private async addMainImage (imageFile: string, article: Article) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveNewsImage(
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
       article.articleId,
       formData,
       true
@@ -229,7 +230,7 @@ export default class AdminArticleList extends Vue {
   private async addSmallImage (imageFile: string, article: Article) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveNewsImage(
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
       article.articleId,
       formData,
       false
@@ -237,7 +238,7 @@ export default class AdminArticleList extends Vue {
   }
 
   private async updateItems () {
-    this.articleItems = await getServiceContainer().articleService.adminGetAll()
+    this.articleItems = await ServiceRegistry.instance.getService(ArticleService).adminGetAll()
   }
 }
 </script>

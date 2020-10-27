@@ -113,16 +113,23 @@
   </div>
 </template>
 
+
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import SitePage from '@/models/SitePage.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
+import { Context } from '@nuxt/types'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import TopMenuService from '@/services/TopMenuService'
+import MediaService from '@/services/MediaService'
 
-@Component
+@Component({
+  components: {
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
+  }
+})
 export default class AdminTopMenuList extends Vue {
   private sitePageItems: SitePage[] = []
   private createNewMode = false
@@ -143,16 +150,16 @@ export default class AdminTopMenuList extends Vue {
   }
 
   private async updateItems () {
-    this.sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
+    this.sitePageItems = await ServiceRegistry.instance.getService(TopMenuService).adminGetSitePages()
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Верхнее меню', link: 'admin-top-menu-list' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const sitePageItems = await getServiceContainer().topMenuService.adminGetSitePages()
+    const sitePageItems = await ServiceRegistry.instance.getService(TopMenuService).adminGetSitePages()
     return {
       sitePageItems
     }
@@ -160,7 +167,7 @@ export default class AdminTopMenuList extends Vue {
 
   private async savenewSitePage () {
     this.newSitePage.sitePageH1 = this.newSitePage.sitePageName
-    await getServiceContainer().topMenuService.adminSaveSitePage(
+    await ServiceRegistry.instance.getService(TopMenuService).adminSaveSitePage(
       this.newSitePage
     )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
@@ -174,21 +181,21 @@ export default class AdminTopMenuList extends Vue {
     this.createNewMode = false
   }
 
-  private async addImage (imageFile: string, sitePage: SitePage, isBig: boolean) {
+  private async addImage (imageFile: string, sitePage: SitePage) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSitePageImage(sitePage.sitePageId, formData)
+    ServiceRegistry.instance.getService(MediaService).saveSitePageImage(sitePage.sitePageId, formData)
   }
 
   private async changeStatus (sitePage: SitePage) {
-    await getServiceContainer().topMenuService.adminSaveSitePage(
+    await ServiceRegistry.instance.getService(TopMenuService).adminSaveSitePage(
       sitePage
     )
   }
 
   private async deleteSitePage (sitePage: SitePage) {
     const okCallback = async () => {
-      await getServiceContainer().topMenuService.adminDeleteSitePage(sitePage.sitePageId)
+      await ServiceRegistry.instance.getService(TopMenuService).adminDeleteSitePage(sitePage.sitePageId)
       this.updateItems()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить пункт меню и связанную страницу ?', 'Подтвердите удаление', okCallback)
@@ -197,7 +204,7 @@ export default class AdminTopMenuList extends Vue {
   private async handleDragChange () {
     for (let i = 0; i < this.sitePageItems.length; i++) {
       this.sitePageItems[i].sitePageMenuPosition = i;
-      await getServiceContainer().topMenuService.adminSaveSitePage(this.sitePageItems[i])
+      await ServiceRegistry.instance.getService(TopMenuService).adminSaveSitePage(this.sitePageItems[i])
     }
   }
 
@@ -207,8 +214,6 @@ export default class AdminTopMenuList extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-topmenu-list-item {
   margin-top: 10px;
 

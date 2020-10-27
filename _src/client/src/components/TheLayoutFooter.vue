@@ -114,11 +114,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import BusinessServiceService from '@/services/BusinessServiceService'
 
 @Component
 export default class TheLayoutFooter extends Vue {
@@ -127,8 +128,8 @@ export default class TheLayoutFooter extends Vue {
 
 
   private async fetch () {
-    const pr1 = getServiceContainer().businessServiceService.getServicesForFooter('private')
-    const pr2 = getServiceContainer().businessServiceService.getServicesForFooter('business')
+    const pr1 = ServiceRegistry.instance.getService(BusinessServiceService).getServicesForFooter('private')
+    const pr2 = ServiceRegistry.instance.getService(BusinessServiceService).getServicesForFooter('business')
     const data = await Promise.all([pr1, pr2])
     this.serviceListForPerson = data[0]
     this.serviceListForBusiness = data[1]
@@ -142,8 +143,6 @@ export default class TheLayoutFooter extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-page-footer {
   display: flex;
   flex-direction: row;

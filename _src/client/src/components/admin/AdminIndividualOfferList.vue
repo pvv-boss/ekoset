@@ -110,10 +110,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import BusinessService from '@/models/ekoset/BusinessService';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType';
 import IndividualOffer from '@/models/ekoset/IndividualOffer';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import IndividualOfferService from '@/services/IndividualOfferService';
+import MediaService from '@/services/MediaService';
 
 @Component({
   components: {
@@ -149,7 +150,7 @@ export default class AdminIndividualOfferList extends Vue {
     this.newOffer.siteSectionId = this.siteSection.siteSectionId
     this.newOffer.indOfferH1 = this.newOffer.indOfferName
 
-    const saved = await getServiceContainer().individualOfferService.save(this.newOffer)
+    const saved = await ServiceRegistry.instance.getService(IndividualOfferService).save(this.newOffer)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newOffer = new IndividualOffer()
     this.createNewOfferMode = false
@@ -157,7 +158,7 @@ export default class AdminIndividualOfferList extends Vue {
   }
 
   private async saveOffer (offer: IndividualOffer) {
-    getServiceContainer().individualOfferService.save(offer)
+    ServiceRegistry.instance.getService(IndividualOfferService).save(offer)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
@@ -169,12 +170,12 @@ export default class AdminIndividualOfferList extends Vue {
   private async addOfferImage (imageFile: string, offerItem: IndividualOffer, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveOfferImage(offerItem.indOfferId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveOfferImage(offerItem.indOfferId, formData, isBig)
   }
 
   private async deleteOffer (offer: IndividualOffer) {
     const okCallback = async () => {
-      await getServiceContainer().individualOfferService.delete(offer.indOfferId)
+      await ServiceRegistry.instance.getService(IndividualOfferService).delete(offer.indOfferId)
       this.$emit('offer:deleted')
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить индивидуальное предложение?', 'Подтвердите удаление', okCallback)
@@ -184,8 +185,6 @@ export default class AdminIndividualOfferList extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-offer-list-container {
   display: flex;
   flex-direction: column;

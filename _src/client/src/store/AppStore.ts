@@ -1,6 +1,8 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { getServiceContainer } from '@/api/ServiceContainer';
+import { Module, VuexModule, VuexMutation, VuexAction } from 'nuxt-property-decorator'
 import SitePage, { SitePageType } from '@/models/SitePage';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import TopMenuService from '@/services/TopMenuService';
+import PublicEkosetService from '@/services/PublicEkosetService';
 
 @Module({
   name: 'AppStore',
@@ -16,67 +18,56 @@ export default class AppStore extends VuexModule {
   private currentCustomPage: SitePage | null = null
 
 
-  @Mutation
+  @VuexMutation
   public setCurrentSiteSection (siteSectionSlug: string | null) {
     this.currentSiteSectionState = siteSectionSlug
   }
 
-  @Mutation
+  @VuexMutation
   public setCurrentSiteSectionName (siteSectionName: string | null) {
     this.currentSiteSectionNameState = siteSectionName
   }
 
-  @Mutation
+  @VuexMutation
   public setCurrentServiceName (name: string | null) {
     this.currentServiceNameState = name
   }
-  // @Mutation
-  // public setCurrentCustomPage (currentCustomPage: SitePage | null) {
-  //   this.currentCustomPage = currentCustomPage || this.defaultCustomPage
-  // }
 
-  @Mutation
+
+  @VuexMutation
   public setDefaultCustomPage (defaultCustomPage: SitePage | null) {
     this.defaultCustomPageState = defaultCustomPage
   }
 
-  @Action
+  @VuexAction
   public async changeCurrentSiteSection (siteSectionSlug: string | null) {
     if (this.currentSiteSectionState !== siteSectionSlug) {
-      this.context.commit('setCurrentSiteSection', siteSectionSlug)
+      this.setCurrentSiteSection(siteSectionSlug)
+
       if (siteSectionSlug) {
-        const siteSectionModel = await getServiceContainer().publicEkosetService.getSiteSectionNameBySlug(siteSectionSlug)
+        const siteSectionModel = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionNameBySlug(siteSectionSlug)
         if (siteSectionModel) {
-          this.context.commit('setCurrentSiteSectionName', siteSectionModel.siteSectionName)
+          this.setCurrentSiteSectionName(siteSectionModel.siteSectionName)
         } else {
-          this.context.commit('setCurrentSiteSectionName', null)
+          this.setCurrentSiteSectionName(null)
         }
       } else {
-        this.context.commit('setCurrentSiteSectionName', null)
+        this.setCurrentSiteSectionName(null)
       }
     }
   }
 
 
-  // @Action
-  // public async changeCurrentCustomPage (currentCustomPageSlug: string | null) {
-  //   let sitePageInfo = null
-  //   if (!!currentCustomPageSlug) {
-  //     const pageId = getServiceContainer().topMenuService.getIdBySlug(currentCustomPageSlug)
-  //     sitePageInfo = !!pageId ? await getServiceContainer().topMenuService.getSitePageById(pageId) : null
-  //   }
-  //   this.context.commit('setCurrentCustomPage', sitePageInfo)
-  // }
 
-  @Action
+  @VuexAction
   public async changeDefaultCustomPage () {
     if (!this.currentDefaultSitePage) {
-      const sitePageInfo = await getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
+      const sitePageInfo = await ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.MAIN)
       this.context.commit('setDefaultCustomPage', sitePageInfo)
     }
   }
 
-  @Action
+  @VuexAction
   public async changeCurrentServiceName (name: string | null) {
     this.context.commit('setCurrentServiceName', name)
   }

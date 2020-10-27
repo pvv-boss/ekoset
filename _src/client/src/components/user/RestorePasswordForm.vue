@@ -1,81 +1,96 @@
 <template>
-  <section class="brc-body">
-    <div class="brc-login-form__container">
+  <div class="brc-login-form__container">
+    <div class="brc-login-form__wrapper login-container">
+      <div class="brc-footer-logo__wrapper login-logo">
+        <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
+          <img src="/images/logo.png" alt="Экосеть" />
+        </nuxt-link>
+      </div>
+      <div class="login-hr"></div>
+      <h1 class="login-header">Восстановление пароля</h1>
       <form
         id="user-form"
         ref="user"
-        class="brc-login-form"
+        class="brc-login-form logon-form"
         name="user"
         label-width="120px"
-        @submit="restorePassword"
+        @submit="restorePassword()"
       >
-        <div v-if="isBrowser" class="brc-login-form__block">
+        <div class="brc-login-form__block">
           <label>Email</label>
-          <input v-model.lazy="email" type="email" name="userName" placeholder="Email">
-          <span
-            v-if="(isSubmit || email.length > 0) && $v.email.$invalid"
-            class="error-message"
-          >{{invalidEmail}}</span>
+          <input
+            v-model.lazy="email"
+            name="Email"
+            class="login-input"
+            placeholder="Email"
+          />
         </div>
+        <div class="restore-pass-descr">
+          <span>
+            Для восстановления пароля, необходимо указать email, на него будет
+            отправлен новый временный пароль
+          </span>
+        </div>
+        <div class="not-sending-mail">
+          <span>Не пришло письмо?</span>
 
-        <div class="brc-login-form__submit">
-          <button
-            type="button"
-            class="brc-login-form__submit-btn"
-            @click="restorePassword"
-          >Восстановить пароль</button>
+          <nuxt-link
+            :to="{ name: 'auth-restore' }"
+            class="logon-restore send-mail-resore"
+          >
+            Отправить письмо повторно
+          </nuxt-link>
+        </div>
+        <span v-if="!!errorMessage" class="logon-error">{{
+          errorMessage
+        }}</span>
+
+        <div
+          class="brc-login-form__submit login-button"
+          @click="restorePassword()"
+        >
+          Отправить
         </div>
       </form>
-      <div class="brc-login-form__switch-mode">
-        <div>
-          Еще нет аккаунта?
-          <nuxt-link :to="{ name: 'auth-login', params: {mode: 'registration'} }">Зарегистрируйтесь</nuxt-link>
-        </div>
-      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
-import { Prop, Vue, Component } from 'nuxt-property-decorator'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType.ts'
-import SessionUser from '@/models/user/SessionUser'
-import AuthStore from '@/store/AuthStore'
-import { getModule } from 'vuex-module-decorators'
-import { Validation } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
-import { emailTest, invalidEmailMessage } from '@/utils/Validators'
+import { Vue, Component } from 'nuxt-property-decorator'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import { AuthService } from '@/services/AuthService'
+import { ResetPasswordStatus } from '@/models/user/ResetPasswordResult'
 
-@Component(
-  {
-    validations: {
-      email: {
-        required,
-        validFormat: (val) => emailTest.test(val)
-      }
-    }
-  })
+@Component
 export default class RestorePasswordForm extends Vue {
-  private user: SessionUser = SessionUser.anonymousUser
-  private userStore = getModule(AuthStore, this.$store)
-  private email = this.userStore.sessionUser.appUserId > 0 && this.userStore.sessionUser.appUserEmail !== 'Гость' ? this.userStore.sessionUser.appUserEmail : ''
-  private isSubmit = false
-  private isBrowser = false
-  private invalidEmail = invalidEmailMessage
 
-  private validateForm (): boolean {
-    this.isSubmit = true
-    return this.$v.email ? !this.$v.email.$invalid : false
-  }
+  private email = ''
+  private errorMessage: string | null = null
 
-  private restorePassword () {
-    if (this.validateForm()) {
-      this.userStore.resetPassword(this.email)
+  private async restorePassword () {
+    const result = await ServiceRegistry.instance.getService(AuthService).resetPassword(this.email)
+    if (result.resetPasswordStatus !== ResetPasswordStatus.OK) {
+      this.errorMessage = result.message
     }
-  }
-
-  private mounted () {
-    this.isBrowser = true
   }
 }
 </script>
+
+<style lang="scss">
+.not-sending-mail {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.send-mail-resore {
+  margin-left: 16px;
+}
+
+.restore-pass-descr {
+  margin: 32px auto;
+  font-size: 20px;
+  font-weight: 500;
+}
+</style>

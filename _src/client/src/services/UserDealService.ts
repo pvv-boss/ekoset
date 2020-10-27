@@ -4,7 +4,8 @@ import { BaseService } from './BaseService';
 export default class UserDealService extends BaseService {
 
     public async getContracts () {
-        return HttpUtil.httpGet(this.buildHttRequest('user/deal/contracts'))
+        const res = await this.apiRequest.getJSON('user/deal/contracts');
+        return res.data?.data;
     }
 
     public async getClientsByContracts (contracts: Contract[]) {

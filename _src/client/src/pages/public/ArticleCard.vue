@@ -72,13 +72,15 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Article from '@/models/ekoset/Article.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import { Context } from "@nuxt/types";
+import ArticleService from '@/services/ArticleService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
 
 @Component
 export default class ArticleCard extends Vue {
@@ -88,12 +90,12 @@ export default class ArticleCard extends Vue {
   private breadCrumbList: any[] = []
   private routeFullPath = ''
 
-  private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.NEWS)
+  private async asyncData (context: Context) {
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.NEWS)
 
     const articleUrl = context.params.article
-    const articlePr = getServiceContainer().articleService.getArticleBySlug(articleUrl)
-    const relatedListPr = getServiceContainer().articleService.getRelatedArticleListBySlug(articleUrl)
+    const articlePr = ServiceRegistry.instance.getService(ArticleService).getArticleBySlug(articleUrl)
+    const relatedListPr = ServiceRegistry.instance.getService(ArticleService).getRelatedArticleListBySlug(articleUrl)
     const data = await Promise.all([articlePr, relatedListPr])
 
     return {
@@ -131,7 +133,6 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-article-list_vertical {
   margin-top: 0;
 }

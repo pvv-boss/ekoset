@@ -1,6 +1,4 @@
 import BrcDialogOptions from '@/plugins/brc-dialog/BrcDialogOptions'
-import BrcDialogModule from '@/plugins/brc-dialog/BrcDialogModule'
-// import { getServiceContainer, ServiceContainer } from '@/api/ServiceContainer'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -10,8 +8,7 @@ declare module 'vue/types/vue' {
     $BrcPreloader: BrcPreloader;
     $BrcDestroy: BrcDestroy;
     $ShowPreloader: ShowPreloader;
-    $ClosePreloader: ClosePreloader;
-    //  $getServiceContainer: getServiceContainer;
+    $ClosePreloader: ClosePreloader
   }
 }
 
@@ -40,7 +37,3 @@ export interface ShowPreloader {
 export interface ClosePreloader {
   (): void
 }
-
-// export interface getServiceContainer {
-//   (): ServiceContainer
-// }

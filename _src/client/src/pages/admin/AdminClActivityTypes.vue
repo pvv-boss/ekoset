@@ -86,24 +86,26 @@
       :can-cancel="true"
       :width="400"
     >
-      <LazyClientListItem
+      <ClientListItem
         :client-item="previewClientItem"
         class="brc-page__dynamic_block"
         style="width: 265px; margin: 0px; background-color: white"
-      ></LazyClientListItem>
+      ></ClientListItem>
     </b-modal>
   </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators'
 import AdminStore from '@/store/AdminStore'
 import ClActivity from '@/models/ekoset/ClActivity'
+import { Context } from "@nuxt/types";
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import MediaService from '@/services/MediaService'
 
 @Component
 export default class AdminClActivityTypes extends Vue {
@@ -120,8 +122,8 @@ export default class AdminClActivityTypes extends Vue {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
-    const itemList = getServiceContainer().publicEkosetService.getClActivityList()
+  private async asyncData (context: Context) {
+    const itemList = ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList()
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -135,11 +137,11 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async updateItems () {
-    this.itemList = await getServiceContainer().publicEkosetService.getClActivityList()
+    this.itemList = await ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList()
   }
 
   private async save () {
-    await getServiceContainer().publicEkosetService.saveClActivity(this.newActivity)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveClActivity(this.newActivity)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     this.newActivity = new ClActivity()
     this.createNewMode = false
@@ -147,26 +149,26 @@ export default class AdminClActivityTypes extends Vue {
   }
 
   private async saveAct (activity: ClActivity) {
-    await getServiceContainer().publicEkosetService.saveClActivity(activity)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveClActivity(activity)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async saveAll () {
     for (const iterActiv of this.itemList) {
-      await getServiceContainer().publicEkosetService.saveClActivity(iterActiv)
+      await ServiceRegistry.instance.getService(PublicEkosetService).saveClActivity(iterActiv)
     }
   }
 
   private async addMainClientImage (imageFile: string, activity: ClActivity) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveClActivityMainClientLogo(activity.clActivityId, formData)
+    ServiceRegistry.instance.getService(MediaService).saveClActivityMainClientLogo(activity.clActivityId, formData)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async deleteActivity (activity: ClActivity) {
     const okCallback = async () => {
-      await getServiceContainer().publicEkosetService.deleteClActivity(activity)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteClActivity(activity)
       this.updateItems()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить вид деятельности?', 'Подтвердите удаление', okCallback)
@@ -182,7 +184,7 @@ export default class AdminClActivityTypes extends Vue {
     this.previewImageActivity = activity
     this.isShowMainClientImageActive = !this.isShowMainClientImageActive
 
-    const allClients = await getServiceContainer().publicEkosetService.getClients()
+    const allClients = await ServiceRegistry.instance.getService(PublicEkosetService).getClients()
     this.previewClientItem = (allClients as any[]).find((iter) => {
       return iter.clActivityId === this.previewImageActivity.clActivityId
     })
@@ -197,7 +199,6 @@ export default class AdminClActivityTypes extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-card-button__active-create {
   margin-left: auto;
 }

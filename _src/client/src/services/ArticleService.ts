@@ -1,7 +1,7 @@
 import { Pagination } from '@/models/core/Pagination'
 import Article from '@/models/ekoset/Article'
 import ClArticleTag from '@/models/ekoset/ClArticleTag'
-import HttpUtil from '../utils/HttpUtil'
+
 import { BaseService } from './BaseService'
 
 export default class ArticleService extends BaseService {
@@ -17,23 +17,23 @@ export default class ArticleService extends BaseService {
   // TODO: Для админки - все новости @oso
   public async adminGetAll () {
     const query = 'admin/panel/news'
-    const result = HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
+    const result = this.apiRequest.getJSON(query)
+    return (await result).data.data
   }
 
   // Для админки получить связи статьи с услугами
   public async adminGetServiceRelation (siteSectionId: number, artcicleUrl: string) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/${siteSectionId}/service`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data
   }
 
   // Для админки добавить связи статьи с услугой
   public async adminAddRemoveServiceRelation (businessServiceId: number, artcicleUrl: string, isAdd: boolean) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleUrl)}/service/${businessServiceId}`
     if (isAdd) {
-      return HttpUtil.httpPut(this.buildHttRequest(query))
+      return this.apiRequest.post(query)
     } else {
-      return HttpUtil.httpDelete(this.buildHttRequest(query))
+      return this.apiRequest.delete(query)
     }
   }
 
@@ -41,30 +41,30 @@ export default class ArticleService extends BaseService {
   public async adminAddRemoveArticleTag (artcicleSlug: string, tagId: number, isAdd: boolean) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}/tags/${tagId}`
     if (isAdd) {
-      return HttpUtil.httpPost(this.buildHttRequest(query))
+      return this.apiRequest.post(query)
     } else {
-      return HttpUtil.httpDelete(this.buildHttRequest(query))
+      return this.apiRequest.delete(query)
     }
   }
 
   // Связка тэгов для Новости
   public async getArticleTagsRelation (artcicleSlug: string) {
     const query = `admin/panel/news/${this.getIdBySlug(artcicleSlug)}/tags`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data?.data
   }
 
   // Сохрнаить тэг
   public async saveArticleTag (tag: ClArticleTag) {
     const query = `admin/panel/news/tags`
-    return HttpUtil.httpPost(this.buildHttRequest(query), tag)
+    return this.apiRequest.post(query, {}, tag)
   }
 
   // Для главной страницы
   public async getRootArticleList (pagination?: Pagination) {
     const query = 'news'
     this.modifyPagination(0, pagination)
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
+    const result = this.apiRequest.getJSON(query, pagination)
+    return (await result).data.data
   }
 
   // Для раздела
@@ -85,40 +85,40 @@ export default class ArticleService extends BaseService {
   // Тэги для заданной статьи
   public async getArticleTags (artcicleSlug: string) {
     const query = `news/${this.getIdBySlug(artcicleSlug)}/tags`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data?.data
   }
 
 
   public async saveArticle (article: Article) {
     const query = 'news'
-    return HttpUtil.httpPut(this.buildHttRequest(query), article)
+    return this.apiRequest.put(query, {}, article)
   }
 
   public async deleteArticle (id: number) {
     const query = `news/${id}`
-    return HttpUtil.httpDelete(this.buildHttRequest(query))
+    return this.apiRequest.delete(query)
   }
 
   private async getArticleById (id: number) {
     const query = `news/${id}`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data?.data
   }
 
   private async getRelatedArticleListById (id: number) {
     const query = `news/${id}/related`
-    return HttpUtil.httpGet(this.buildHttRequest(query))
+    return (await this.apiRequest.getJSON(query)).data?.data
   }
 
   private async getArticleListBySiteSection (siteSectionId: number, pagination?: Pagination) {
     const query = `${siteSectionId}/news`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
+    const result = this.apiRequest.getJSON(query, {}, pagination)
+    return (await result).data.data
   }
 
   private async getArticleListByBusinessService (serviceId: number, pagination?: Pagination) {
     const query = `services/${serviceId}/news`
-    const result = HttpUtil.httpGet(this.buildHttRequest(query, pagination))
-    return result
+    const result = this.apiRequest.getJSON(query, {}, pagination)
+    return (await result).data.data
   }
 
   private async modifyPagination (siteSectionId: number, pagination?: Pagination) {
@@ -129,7 +129,7 @@ export default class ArticleService extends BaseService {
 
   private async getArticlesCount (siteSectionId: number | null) {
     const query = siteSectionId && siteSectionId > 0 ? `${siteSectionId}/news/count` : 'news/count'
-    const result = await HttpUtil.httpGet(this.buildHttRequest(query))
-    return result
+    const result = await this.apiRequest.getJSON(query)
+    return result.data?.data
   }
 }

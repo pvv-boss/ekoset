@@ -14,14 +14,15 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-
+import { Context } from "@nuxt/types";
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { ServiceRegistry } from '@/ServiceRegistry';
+import DynamicComponentsService from '@/services/DynamicComponentsService';
+import TopMenuService from '@/services/TopMenuService';
 
 @Component
 export default class Clients extends Vue {
@@ -32,9 +33,9 @@ export default class Clients extends Vue {
   private routeFullPath = ''
 
 
-  private async asyncData (context: NuxtContext) {
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.CLIENTS)
-    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.CLIENTS)
+  private async asyncData (context: Context) {
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.CLIENTS)
+    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.CLIENTS)
 
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
     return {

@@ -12,11 +12,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import AuthStore from '@/store/AuthStore'
 import { NonAuthMessage } from '@/models/user/NonAuthMessage.ts'
 import { getModule } from 'vuex-module-decorators'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import { AuthService } from '@/services/AuthService'
 
 @Component
 export default class ActivateAccauntNotice extends Vue {
@@ -24,7 +25,7 @@ export default class ActivateAccauntNotice extends Vue {
   private nonAuthMessage = NonAuthMessage
 
   private get isUserNotVerified () {
-    return this.authStore.isUserNotVerified
+    return ServiceRegistry.instance.getService(AuthService).isUserAuthorized()
   }
 
   private get isAuthenticated () {
@@ -32,7 +33,7 @@ export default class ActivateAccauntNotice extends Vue {
   }
 
   private async sentVerificationMail () {
-    await getServiceContainer().authService.sendConfirmRegEmail()
+    await ServiceRegistry.instance.getService(AuthService).sendConfirmRegEmail()
   }
 }
 </script>

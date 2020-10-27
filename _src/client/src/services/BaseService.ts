@@ -5,7 +5,7 @@ import AxiosRequest from '@/api/core/AxiosRequest';
 
 export class BaseService {
   private api: AbstractApiRequest;
-  private context: Context;
+  protected context: Context;
 
   public injectNuxtContext (ctx: Context) {
     this.context = ctx;
@@ -43,7 +43,7 @@ export class BaseService {
     }
   }
 
-  protected getIdBySlug (slug: string) {
+  public getIdBySlug (slug: string) {
     let result = 0;
 
     if (!!slug && slug.toString().indexOf("-") > -1) {

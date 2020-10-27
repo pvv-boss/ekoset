@@ -15,7 +15,7 @@
 </template>
 
 <script  lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class AdminLayout extends Vue {
@@ -24,7 +24,6 @@ export default class AdminLayout extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/index.scss";
 .brc-admin-container {
   display: grid;
   grid-template-rows: 64px calc(100vh - 64px);

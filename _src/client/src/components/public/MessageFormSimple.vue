@@ -110,11 +110,12 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
-import { getServiceContainer } from '@/api/ServiceContainer';
 import UserRequest from '@/models/ekoset/UserRequest';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators';
 import AppStore from '@/store/AppStore';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import PublicEkosetService from '@/services/PublicEkosetService';
 @Component({
   validations: {
     formMessageData: {
@@ -180,7 +181,7 @@ export default class MessageFormSimple extends Vue {
       for (const iterItem of this.files) {
         formData.append('files', iterItem)
       }
-      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.mode)
+      ServiceRegistry.instance.getService(PublicEkosetService).sendFormMessage(formData, this.mode)
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }
@@ -201,209 +202,3 @@ export default class MessageFormSimple extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-@import "@/styles/variables.scss";
-.brc-feedback {
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 30px 15px;
-  max-width: 900px;
-  margin: 60px auto 0;
-  h2,
-  h3 {
-    text-align: center !important;
-  }
-}
-
-.phone_add_seven {
-  position: absolute;
-  top: -2px;
-  left: 10px;
-
-  @media (max-width: 768px) {
-    top: 4px;
-  }
-}
-
-.brc-message-form__data {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  .brc-message-form__row {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    justify-content: space-between;
-    margin: 15px;
-  }
-  .brc-message-form__block + .brc-message-form__block {
-    margin-top: 5px;
-  }
-  .brc-message-form__block {
-    label {
-      display: block;
-      @media (max-width: 768px) {
-        font-size: 14px;
-      }
-    }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin: 0;
-      background-color: #f4f4f5;
-      border: 1px solid #d1d1d1;
-      border-radius: 3px;
-      padding: 15px;
-      color: #000000;
-      font-size: 14px;
-      // resize: none;
-      outline: none;
-      &:focus {
-        background-color: white;
-      }
-    }
-    input {
-      width: 100%;
-      height: 32px !important;
-      background-color: #f4f4f5;
-      border: 1px solid #d1d1d1;
-      border-radius: 3px;
-      padding-left: 15px;
-      color: #000000;
-      font-size: 16px;
-      outline: none;
-      margin-top: 2px;
-      margin-bottom: 10px;
-      &:focus {
-        background-color: white;
-      }
-      &.form-control_phone {
-        padding-left: 35px;
-      }
-    }
-    .brc-input-addon {
-      position: relative;
-    }
-    &.brc-message-form__block_message {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      textarea {
-        flex-grow: 1;
-      }
-    }
-    .brc-error-message {
-      font-size: small;
-      color: #ed0205;
-      font-weight: $font-medium;
-      display: none;
-      &.brc-error-message_visible {
-        display: block;
-      }
-    }
-  }
-}
-.brc-message-form__button {
-  width: 100%;
-  text-align: center;
-  position: relative;
-  button {
-    border: 1px solid red;
-    background-color: red;
-    color: white;
-    text-decoration: none;
-    width: 200px;
-    max-width: 100%;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
-    margin: auto;
-    font-size: 16px;
-    margin-top: 10px;
-    &:hover {
-      background-color: darkred;
-      border-color: darkred;
-      cursor: pointer;
-    }
-  }
-  .attach-file {
-    position: relative !important;
-    border: none !important;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    margin-right: 15px;
-    margin-bottom: 5px;
-    input {
-      display: none;
-    }
-    .file-name {
-      color: gray;
-      font-size: 12px;
-      cursor: pointer;
-      padding-right: 20px;
-      background-image: url("/images/clip-icon.png");
-      background-repeat: no-repeat;
-      background-position: right;
-      transition: 0.3s;
-      border: none !important;
-      margin-top: 5px;
-    }
-    @media (max-width: 768px) {
-      margin-bottom: 0px;
-      align-items: center;
-      margin-left: 0px;
-      margin-right: 0px;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-    .attached-file-name {
-      font-size: 12px;
-      word-wrap: break-word;
-      word-break: break-word;
-      text-align: right;
-      //  height: 32px;
-      @media (max-width: 768px) {
-        text-align: left;
-      }
-    }
-  }
-}
-@media (max-width: 768px) {
-  .brc-feedback {
-    max-height: calc(100vh - 100px);
-    margin: 0 auto !important;
-    padding: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: scroll;
-    textarea {
-      height: 70px !important;
-    }
-    input {
-      height: 30px !important;
-    }
-    button {
-      height: 35px !important;
-    }
-    .brc-input-addon {
-      padding-top: 6px !important;
-    }
-  }
-  .brc-message-form__row {
-    flex-basis: 100% !important;
-    &:last-child {
-      margin-top: 0;
-    }
-    &:first-child {
-      margin-bottom: 0;
-    }
-  }
-  .brc-message-form__row:last-child {
-    margin-bottom: 0 !important;
-  }
-}
-</style>

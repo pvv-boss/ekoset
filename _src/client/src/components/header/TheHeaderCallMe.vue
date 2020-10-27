@@ -18,9 +18,6 @@ export default class TheHeaderCallMe extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-contact__telephone {
   display: flex;
   flex-direction: row;

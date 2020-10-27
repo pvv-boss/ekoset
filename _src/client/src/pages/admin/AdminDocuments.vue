@@ -99,19 +99,18 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import SitePage from '@/models/SitePage.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
+import { Component, Vue } from 'nuxt-property-decorator'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
 import SiteDocument from '@/models/ekoset/SiteDocument.ts'
-
-import 'vue-good-table/dist/vue-good-table.css'
+import { Context } from "@nuxt/types";
+// import 'vue-good-table/dist/vue-good-table.css'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import MediaService from '@/services/MediaService'
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
   }
 })
 export default class AdminDocuments extends Vue {
@@ -155,13 +154,13 @@ export default class AdminDocuments extends Vue {
     return 'admin'
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Документы сайта', link: 'admin-documents' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const siteDocumentList = await getServiceContainer().mediaService.getSiteDocuments()
+    const siteDocumentList = await ServiceRegistry.instance.getService(MediaService).getSiteDocuments()
     return {
       siteDocumentList
     }
@@ -169,7 +168,7 @@ export default class AdminDocuments extends Vue {
 
   private async save () {
     this.createNewMode = false
-    await getServiceContainer().mediaService.saveSiteDocument(this.newSiteDocument)
+    await ServiceRegistry.instance.getService(MediaService).saveSiteDocument(this.newSiteDocument)
     this.newSiteDocument = new SiteDocument()
     this.refreshList()
   }
@@ -177,7 +176,7 @@ export default class AdminDocuments extends Vue {
   private async addDocument (file: string, siteDocument: SiteDocument) {
     const formData: FormData = new FormData()
     formData.append('file', file)
-    await getServiceContainer().mediaService.addSiteDocument(formData, siteDocument.siteDocumentId)
+    await ServiceRegistry.instance.getService(MediaService).addSiteDocument(formData, siteDocument.siteDocumentId)
     this.refreshList()
   }
 
@@ -191,7 +190,7 @@ export default class AdminDocuments extends Vue {
   }
 
   private async deleteDocument (siteDocument: SiteDocument) {
-    await getServiceContainer().mediaService.deleteSiteDocument(siteDocument.siteDocumentId)
+    await ServiceRegistry.instance.getService(MediaService).deleteSiteDocument(siteDocument.siteDocumentId)
     this.refreshList()
   }
 
@@ -201,7 +200,7 @@ export default class AdminDocuments extends Vue {
   }
 
   private async refreshList () {
-    this.siteDocumentList = await getServiceContainer().mediaService.getSiteDocuments()
+    this.siteDocumentList = await ServiceRegistry.instance.getService(MediaService).getSiteDocuments()
   }
 
 }
@@ -209,5 +208,4 @@ export default class AdminDocuments extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 </style>  

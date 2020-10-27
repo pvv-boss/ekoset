@@ -152,13 +152,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import AdminStore from '@/store/AdminStore'
 import { getModule } from 'vuex-module-decorators'
+import { Context } from '@nuxt/types'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import MediaService from '@/services/MediaService'
 
 @Component({
   components: {
@@ -190,16 +192,16 @@ export default class AdminSiteSectionList extends Vue {
   }
 
   private async updateItems () {
-    this.siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
+    this.siteSectionItems = await ServiceRegistry.instance.getService(PublicEkosetService).adminGetSiteSections()
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: 'Резделы сайта', link: 'admin-site-sections' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const siteSectionItems = await getServiceContainer().publicEkosetService.adminGetSiteSections()
+    const siteSectionItems = await ServiceRegistry.instance.getService(PublicEkosetService).adminGetSiteSections()
     return {
       siteSectionItems
     }
@@ -207,7 +209,7 @@ export default class AdminSiteSectionList extends Vue {
 
   private async saveNewSiteSection () {
     this.newSiteSection.siteSectionH1 = this.newSiteSection.siteSectionName
-    await getServiceContainer().publicEkosetService.saveSiteSection(
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveSiteSection(
       this.newSiteSection
     )
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
@@ -224,18 +226,18 @@ export default class AdminSiteSectionList extends Vue {
   private async addImage (imageFile: string, siteSection: SiteSection, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSiteSectionImage(siteSection.siteSectionId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, formData, isBig)
   }
 
   private async changeStatus (siteSection: SiteSection) {
-    await getServiceContainer().publicEkosetService.saveSiteSection(
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveSiteSection(
       siteSection
     )
   }
 
   private async deleteSiteSection (siteSection: SiteSection) {
     const okCallback = async () => {
-      await getServiceContainer().publicEkosetService.deleteSiteSection(siteSection.siteSectionUrl)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteSiteSection(siteSection.siteSectionUrl)
       this.updateItems()
     }
     this.$BrcAlert(BrcDialogType.Warning, 'Удалить раздел ?', 'Подтвердите удаление', okCallback)
@@ -244,7 +246,7 @@ export default class AdminSiteSectionList extends Vue {
   private async handleDragChange () {
     for (let i = 0; i < this.siteSectionItems.length; i++) {
       this.siteSectionItems[i].siteSectionPriority = this.siteSectionItems.length - i;
-      await getServiceContainer().publicEkosetService.saveSiteSection(this.siteSectionItems[i])
+      await ServiceRegistry.instance.getService(PublicEkosetService).saveSiteSection(this.siteSectionItems[i])
     }
   }
 
@@ -254,8 +256,6 @@ export default class AdminSiteSectionList extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_admin-sitesection-list-item {
   margin-top: 10px;
 

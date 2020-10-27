@@ -22,7 +22,7 @@ export default class ArticleController extends BaseController {
     @Param('siteSectionId') siteSectionId: number,
     @Param('artcicleId') artcicleId: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(siteSectionId, artcicleId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(siteSectionId, artcicleId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -33,7 +33,7 @@ export default class ArticleController extends BaseController {
     @Param('serviceId') serviceId: number,
     @Param('artcicleId') artcicleId: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).adminAddServiceRelation(serviceId, artcicleId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).adminAddServiceRelation(serviceId, artcicleId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -43,7 +43,7 @@ export default class ArticleController extends BaseController {
     @Param('serviceId') serviceId: number,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).adminRemoveServiceRelation(serviceId, artcicleId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).adminRemoveServiceRelation(serviceId, artcicleId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -52,7 +52,7 @@ export default class ArticleController extends BaseController {
     @Res() response: Response,
     @Param('artcicleId') artcicleId: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getArticleTagsRelation(artcicleId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getArticleTagsRelation(artcicleId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -60,7 +60,7 @@ export default class ArticleController extends BaseController {
   @Get('/admin/panel/news/tags')
   public async getAllArticleTags (
     @Res() response: Response) {
-    const result = ServiceRegistry.instance.getService(ArticleService).getAllArticleTags();
+    const result = await ServiceRegistry.instance.getService(ArticleService).getAllArticleTags();
     return this.createSuccessResponse(result, response);
   }
 
@@ -70,7 +70,7 @@ export default class ArticleController extends BaseController {
     @Param('artcicleId') artcicleId: number,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).adminAddArticleTag(artcicleId, tagId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).adminAddArticleTag(artcicleId, tagId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -79,7 +79,7 @@ export default class ArticleController extends BaseController {
     @Body() clArticleTag: ClArticleTag,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).saveArticleTag(clArticleTag);
+    const result = await ServiceRegistry.instance.getService(ArticleService).saveArticleTag(clArticleTag);
     return this.createSuccessResponse(result, response);
   }
 
@@ -89,7 +89,7 @@ export default class ArticleController extends BaseController {
     @Param('artcicleId') artcicleId: number,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).adminDeleteArticleTag(artcicleId, tagId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).adminDeleteArticleTag(artcicleId, tagId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -100,7 +100,7 @@ export default class ArticleController extends BaseController {
 
   ) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getForHomePage(sortFilterPang);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getForHomePage(sortFilterPang);
     return this.createSuccessResponse(result, response);
   }
 
@@ -110,7 +110,7 @@ export default class ArticleController extends BaseController {
     @Param('sitesection') siteSectionId: number,
     @sortPaginationFromRequest() sortFilterPang: SortPagination) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getBySiteSection(siteSectionId, sortFilterPang);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getBySiteSection(siteSectionId, sortFilterPang);
     return this.createSuccessResponse(result, response);
   }
 
@@ -119,7 +119,7 @@ export default class ArticleController extends BaseController {
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getCountBySiteSection(siteSectionId);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getCountBySiteSection(siteSectionId);
     return this.createSuccessResponse(result, response);
   }
 
@@ -137,9 +137,10 @@ export default class ArticleController extends BaseController {
     @Param('service') serviceId: number,
     @sortPaginationFromRequest() sortFilterPang: SortPagination) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getByBusinessService(serviceId, sortFilterPang);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getByBusinessService(serviceId, sortFilterPang);
     return this.createSuccessResponse(result, response);
   }
+
 
   @Get('/news/:id(\\d+)')
   public async getArticlesById (
@@ -147,7 +148,7 @@ export default class ArticleController extends BaseController {
     @Res() response: Response,
     @Param('id') id: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getById(id);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getById(id);
     if (!!result) {
       return this.createSuccessResponse(result, response);
     } else {
@@ -160,7 +161,7 @@ export default class ArticleController extends BaseController {
     @Res() response: Response,
     @Param('id') id: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getRelated(id);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getRelated(id);
     return this.createSuccessResponse(result, response);
   }
 
@@ -170,7 +171,7 @@ export default class ArticleController extends BaseController {
     @Res() response: Response,
     @Param('id') id: number) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).getArticleTags(id);
+    const result = await ServiceRegistry.instance.getService(ArticleService).getArticleTags(id);
     return this.createSuccessResponse(result, response);
   }
 
@@ -179,7 +180,7 @@ export default class ArticleController extends BaseController {
     @Body() article: Article,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).save(article);
+    const result = await ServiceRegistry.instance.getService(ArticleService).save(article);
     return this.createSuccessResponse(result, response);
   }
 
@@ -188,7 +189,7 @@ export default class ArticleController extends BaseController {
     @Param('id') id: number,
     @Res() response: Response) {
 
-    const result = ServiceRegistry.instance.getService(ArticleService).delete(id);
+    const result = await ServiceRegistry.instance.getService(ArticleService).delete(id);
     return this.createSuccessResponse(result, response);
   }
 }

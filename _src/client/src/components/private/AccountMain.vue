@@ -17,7 +17,3 @@ export default class AccountMain extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/styles/variables.scss';
-</style>

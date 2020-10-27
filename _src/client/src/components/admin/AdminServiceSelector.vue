@@ -12,7 +12,9 @@
           v-for="item in itemList"
           :key="item.businessServiceId"
           :value="item.businessServiceId"
-        >{{item.businessServiceName}}</option>
+        >
+          {{ item.businessServiceName }}
+        </option>
       </b-select>
       <span v-if="nullable" @click="setValueNull">
         <b-icon icon="close"></b-icon>
@@ -23,8 +25,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 import BusinessService from '@/models/ekoset/BusinessService'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import BusinessServiceService from '@/services/BusinessServiceService'
 
 @Component
 export default class AdminServiceSelector extends Vue {
@@ -61,7 +64,7 @@ export default class AdminServiceSelector extends Vue {
   @Watch('siteSectionId', { immediate: true })
   private async updateServiceList () {
     if (this.siteSectionId && this.siteSectionId > 0) {
-      this.itemList = await getServiceContainer().businessServiceService.getBySiteSectionSlug('slug-' + this.siteSectionId)
+      this.itemList = await ServiceRegistry.instance.getService(BusinessServiceService).getBySiteSectionSlug('slug-' + this.siteSectionId)
     }
   }
 

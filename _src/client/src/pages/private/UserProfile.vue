@@ -7,9 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { NuxtContext } from 'vue/types/options'
-import { getModule } from 'vuex-module-decorators'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class UserProfile extends Vue {
@@ -18,5 +16,4 @@ export default class UserProfile extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 </style>

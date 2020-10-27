@@ -49,9 +49,9 @@
       "refreshTokenAgeInSeconds": 2592000,
       "registrationOptions": {
           "bcryptSaltRounds": 10,
-          "isLoginByPhone": true,
-          "isRequireConfirmationByEmail": true,
-          "isRequireConfirmationBySms": true,
+          "isLoginByPhone": false,
+          "isRequireConfirmationByEmail": false,
+          "isRequireConfirmationBySms": false,
           "сonfirMailUrl": "http://localhost:3003/api/2_0/user/registration/confirm/mail",
           "сonfirmMailHeader": "Подтверждение регистрации",
           "сonfirmMailTemplate": "reg_confirm",
@@ -67,8 +67,8 @@
           "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия ссылки, или аккаунт был удален"
       },
       "authOptions": {
-          "isLoginByPhone": true,
-          "isRequireConfirmationBySms": true,
+          "isLoginByPhone": false,
+          "isRequireConfirmationBySms": false,
           "userNotFoundButSocialNetworkAuthOkMessage": "Профиль не связан с какой-либо учетной записью на сайте. Войдите на сайт или зарегистрируйтесь, чтобы заходить в один аккаунт вводя логин и пароль или используя ",
           "userBlockedMessage": "Учетная запись заблокирована",
           "failedMessage": "Ошибка входа. Неверный идентификатор пользователя или пароль",

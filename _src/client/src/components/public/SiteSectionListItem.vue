@@ -1,10 +1,13 @@
 <template>
   <section class="brc-site-section-smallitem">
     <nuxt-link
-      :to="{ name: 'activity-card', params: { siteSection: siteSectionItem.siteSectionUrl}}"
+      :to="{
+        name: 'activity-card',
+        params: { siteSection: siteSectionItem.siteSectionUrl },
+      }"
       class="brc-site-section-link"
     >
-      <h4>{{siteSectionItem.siteSectionName}}</h4>
+      <h4>{{ siteSectionItem.siteSectionName }}</h4>
       <figure>
         <img
           :alt="siteSectionItem.siteSectionName"
@@ -12,7 +15,7 @@
           :src="imageSrc"
           class="brc-site-section-img"
         />
-        <figcaption>{{siteSectionItem.siteSectionName}}</figcaption>
+        <figcaption>{{ siteSectionItem.siteSectionName }}</figcaption>
       </figure>
     </nuxt-link>
   </section>
@@ -38,7 +41,6 @@ export default class SiteSectionListItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
 .brc-site-section-smallitem {
   border: 1px solid lightgrey;
   border-radius: 5px;

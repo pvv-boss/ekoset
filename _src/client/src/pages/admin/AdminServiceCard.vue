@@ -137,11 +137,11 @@
                       @uploader:newimageloaded="addServiceImage($event, false)"
                     >
                       <template v-slot="{ imageSrc }">
-                        <LazyServiceListItem
+                        <ServiceListItem
                           :service-item="serviceItem"
                           :image-src-for-design-mode="imageSrc"
                           style="width: 263px; height: 212px; margin: 0px"
-                        ></LazyServiceListItem>
+                        ></ServiceListItem>
                       </template>
                     </LazyAdminImageUploader>
                   </b-field>
@@ -236,19 +236,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Watch, Vue } from 'nuxt-property-decorator'
 import BusinessService from '@/models/ekoset/BusinessService'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity'
-import ClClient from '@/models/ekoset/ClClient'
 import AdminStore from '@/store/AdminStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SiteSection from '../../models/ekoset/SiteSection'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import BusinessServiceService from '@/services/BusinessServiceService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import { Context } from "@nuxt/types";
+import MediaService from '@/services/MediaService'
+
 
 @Component
 export default class AdminServiceCard extends Vue {
@@ -272,42 +275,42 @@ export default class AdminServiceCard extends Vue {
   @Watch('serviceItem.businessServiceParentId', { immediate: true })
   private async updateParentService () {
     if (!!this.serviceItem.businessServiceParentId && this.serviceItem.businessServiceParentId > 0) {
-      this.brandRelationList = await getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(Number(this.serviceItem.businessServiceParentId))
-      // this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceParentId))
-      // this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+      this.brandRelationList = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminForBusinessServiceBrands(Number(this.serviceItem.businessServiceParentId))
+      // this.activityRelationList = await ServiceRegistry.instance.getService(BusinessServiceService).getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceParentId))
+      // this.clientTypeRelationList = await ServiceRegistry.instance.getService(BusinessServiceService).getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceParentId))
     }
-    this.activityRelationList = await getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceId))
-    this.clientTypeRelationList = await getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceId))
+    this.activityRelationList = await ServiceRegistry.instance.getService(BusinessServiceService).getAdminСlActivitiesForService('slug-' + Number(this.serviceItem.businessServiceId))
+    this.clientTypeRelationList = await ServiceRegistry.instance.getService(BusinessServiceService).getAdminclClientsForService('slug-' + Number(this.serviceItem.businessServiceId))
 
   }
 
-  private async asyncData (context: NuxtContext) {
-    const serviceItem = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
-    const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(serviceItem.siteSectionUrl)
+  private async asyncData (context: Context) {
+    const serviceItem = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(context.params.service)
+    const siteSection = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionBySlug(serviceItem.siteSectionUrl)
 
     const serviceIdForRelations = !!serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0 ? serviceItem.businessServiceParentId : serviceItem.businessServiceId
-    const serviceOtherList = serviceItem.businessServiceParentId == null ? await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(serviceItem.businessServiceId) : []
-    const brandRelationList = getServiceContainer().publicEkosetService.getAdminForBusinessServiceBrands(serviceIdForRelations)
+    const serviceOtherList = serviceItem.businessServiceParentId == null ? await ServiceRegistry.instance.getService(BusinessServiceService).adminGetChildServicesByParentId(serviceItem.businessServiceId) : []
+    const brandRelationList = ServiceRegistry.instance.getService(PublicEkosetService).getAdminForBusinessServiceBrands(serviceIdForRelations)
 
-    // const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
-    //    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceIdForRelations)
-    const activityRelation = getServiceContainer().businessServiceService.getAdminСlActivitiesForService('slug-' + serviceItem.businessServiceId)
-    const clientTypeRelation = getServiceContainer().businessServiceService.getAdminclClientsForService('slug-' + serviceItem.businessServiceId)
+    // const activityRelation = ServiceRegistry.instance.getService(BusinessServiceService).getAdminСlActivitiesForService('slug-' + serviceIdForRelations)
+    //    const clientTypeRelation = ServiceRegistry.instance.getService(BusinessServiceService).getAdminclClientsForService('slug-' + serviceIdForRelations)
+    const activityRelation = ServiceRegistry.instance.getService(BusinessServiceService).getAdminСlActivitiesForService('slug-' + serviceItem.businessServiceId)
+    const clientTypeRelation = ServiceRegistry.instance.getService(BusinessServiceService).getAdminclClientsForService('slug-' + serviceItem.businessServiceId)
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
     breadCrumbList.push({ name: siteSection.siteSectionName, link: 'admin-site-section-card', params: { siteSection: siteSection.siteSectionUrl } })
     if (serviceItem.businessServiceParentId && serviceItem.businessServiceParentId > 0) {
-      const parentService = await getServiceContainer().businessServiceService.getBySlug('slug-' + serviceItem.businessServiceParentId)
+      const parentService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug('slug-' + serviceItem.businessServiceParentId)
       breadCrumbList.push({ name: parentService.businessServiceName, link: 'admin-service-card', params: { service: parentService.businessServiceUrl } })
     }
     breadCrumbList.push({ name: serviceItem.businessServiceName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const dynaComponents = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection.siteSectionUrl, serviceItem.businessServiceUrl, true)
+    const dynaComponents = ServiceRegistry.instance.getService(DynamicComponentsService).getServiceDynamicComponentsInfo(siteSection.siteSectionUrl, serviceItem.businessServiceUrl, true)
 
-    const serviceRelationListPr = getServiceContainer().businessServiceService.adminGetServiceRelation(serviceItem.businessServiceId)
-    const adminGetRelatedPr = getServiceContainer().businessServiceService.adminGetRelated(serviceItem.businessServiceId)
+    const serviceRelationListPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetServiceRelation(serviceItem.businessServiceId)
+    const adminGetRelatedPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetRelated(serviceItem.businessServiceId)
 
     const data = await Promise.all([brandRelationList, activityRelation, clientTypeRelation, dynaComponents, serviceRelationListPr, adminGetRelatedPr])
     return {
@@ -324,32 +327,32 @@ export default class AdminServiceCard extends Vue {
   }
 
   private saveService () {
-    getServiceContainer().businessServiceService.save(this.serviceItem)
+    ServiceRegistry.instance.getService(BusinessServiceService).save(this.serviceItem)
 
-    getServiceContainer().businessServiceService.saveAll(this.serviceOtherList)
+    ServiceRegistry.instance.getService(BusinessServiceService).saveAll(this.serviceOtherList)
 
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
 
   private async saveDynamicComponentsInfo () {
-    await getServiceContainer().dynamicComponentsService.saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
+    await ServiceRegistry.instance.getService(DynamicComponentsService).saveServiceDynamicComponentsInfo(this.serviceItem.businessServiceId, this.dynamicComponentInfo)
     await this.refreshDynamicComponentsInfo()
   }
 
   private async refreshDynamicComponentsInfo () {
-    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(this.serviceItem.siteSectionUrl, this.serviceItem.businessServiceUrl, true)
+    this.dynamicComponentInfo = await ServiceRegistry.instance.getService(DynamicComponentsService).getServiceDynamicComponentsInfo(this.serviceItem.siteSectionUrl, this.serviceItem.businessServiceUrl, true)
   }
 
   private brandChecked (clBrandId: number, hasRelation: boolean) {
-    getServiceContainer().publicEkosetService.addOrRemoveBrand2Service(clBrandId, this.serviceItem.businessServiceId, hasRelation)
+    ServiceRegistry.instance.getService(PublicEkosetService).addOrRemoveBrand2Service(clBrandId, this.serviceItem.businessServiceId, hasRelation)
   }
 
   private clientTypeChecked (clClientId: number, hasRelation: boolean) {
     if (clClientId === 1) {
-      getServiceContainer().businessServiceService.addRemoveBusinessType2Service(this.serviceItem.businessServiceUrl, hasRelation)
+      ServiceRegistry.instance.getService(BusinessServiceService).addRemoveBusinessType2Service(this.serviceItem.businessServiceUrl, hasRelation)
     } else {
-      getServiceContainer().businessServiceService.addRemovePrivatePerson2Service(this.serviceItem.businessServiceUrl, hasRelation)
+      ServiceRegistry.instance.getService(BusinessServiceService).addRemovePrivatePerson2Service(this.serviceItem.businessServiceUrl, hasRelation)
     }
 
   }
@@ -357,32 +360,32 @@ export default class AdminServiceCard extends Vue {
   private async addServiceImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveServiceImage(this.serviceItem.businessServiceId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveServiceImage(this.serviceItem.businessServiceId, formData, isBig)
   }
 
 
   private activityChecked (clActivityId: number, hasRelation: boolean) {
-    getServiceContainer().businessServiceService.addRemoveActivityType2Service(this.serviceItem.businessServiceUrl, clActivityId, hasRelation)
+    ServiceRegistry.instance.getService(BusinessServiceService).addRemoveActivityType2Service(this.serviceItem.businessServiceUrl, clActivityId, hasRelation)
   }
 
   private async refreshServiceList () {
-    this.serviceOtherList = await getServiceContainer().businessServiceService.adminGetChildServicesByParentId(this.serviceItem.businessServiceId)
+    this.serviceOtherList = await ServiceRegistry.instance.getService(BusinessServiceService).adminGetChildServicesByParentId(this.serviceItem.businessServiceId)
   }
 
   private async relatedServiceSelected (serviceId: number, selected: boolean) {
-    await getServiceContainer().businessServiceService.adminAddRemoveRelated(this.serviceItem.businessServiceId, serviceId, 0, selected)
+    await ServiceRegistry.instance.getService(BusinessServiceService).adminAddRemoveRelated(this.serviceItem.businessServiceId, serviceId, 0, selected)
     this.refreshRelatedService()
   }
 
   private relatedServicePriorityChanged (relatedServiceList: any[]) {
     relatedServiceList.map((iter) => {
-      getServiceContainer().businessServiceService.adminAddRemoveRelated(this.serviceItem.businessServiceId, iter.businessServiceId, iter.businessServicePriority, true)
+      ServiceRegistry.instance.getService(BusinessServiceService).adminAddRemoveRelated(this.serviceItem.businessServiceId, iter.businessServiceId, iter.businessServicePriority, true)
     })
   }
 
   private async refreshRelatedService () {
-    // const serviceRelationListPr = getServiceContainer().businessServiceService.adminGetServiceRelation(this.serviceItem.businessServiceId)
-    const adminGetRelatedPr = getServiceContainer().businessServiceService.adminGetRelated(this.serviceItem.businessServiceId)
+    // const serviceRelationListPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetServiceRelation(this.serviceItem.businessServiceId)
+    const adminGetRelatedPr = ServiceRegistry.instance.getService(BusinessServiceService).adminGetRelated(this.serviceItem.businessServiceId)
     // const data = await Promise.all([serviceRelationListPr, adminGetRelatedPr])
     const data = await Promise.all([adminGetRelatedPr])
     // this.serviceRelationList = data[0]

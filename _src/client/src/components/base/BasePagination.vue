@@ -1,17 +1,21 @@
 <template>
   <div v-if="countPage > 1" class="brc-pagination">
     <ul>
-      <li v-if="pages[0]>1" @click="currentChange(pages[0]-1)">&lt;</li>
+      <li v-if="pages[0] > 1" @click="currentChange(pages[0] - 1)">&lt;</li>
       <li
         v-for="page in pages"
         :key="page"
-        :class="{active : page === currentPage }"
+        :class="{ active: page === currentPage }"
         @click="currentChange(page)"
-      >{{page}}</li>
+      >
+        {{ page }}
+      </li>
       <li
-        v-if="pages[pages.length-1]<countPage"
-        @click="currentChange(pages[pages.length-1]+1)"
-      >&gt;</li>
+        v-if="pages[pages.length - 1] < countPage"
+        @click="currentChange(pages[pages.length - 1] + 1)"
+      >
+        &gt;
+      </li>
     </ul>
   </div>
 </template>
@@ -68,8 +72,6 @@ export default class BasePagination extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-pagination {
   display: block;
   width: 100%;

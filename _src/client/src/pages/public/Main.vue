@@ -10,15 +10,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import SeoMeta from '@/models/ekoset/SeoMeta'
-
+import { Context } from "@nuxt/types";
 import SiteSection from '@/models/ekoset/SiteSection'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BannersInfo from '@/models/ekoset/BannersInfo'
+import { ServiceRegistry } from '@/ServiceRegistry';
+import PublicEkosetService from '@/services/PublicEkosetService';
+import TopMenuService from '@/services/TopMenuService';
+import DynamicComponentsService from '@/services/DynamicComponentsService';
+import MediaService from '@/services/MediaService';
 
 
 @Component
@@ -34,12 +37,13 @@ export default class Main extends Vue {
     return MetaTagsBuilder.head(this.sitePageInfo, this.routeFullPath)
   }
 
-  private async asyncData (context: NuxtContext) {
-    const siteSectionItems = getServiceContainer().publicEkosetService.getSiteSections()
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(SitePageType.MAIN)
-    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(SitePageType.MAIN)
+  private async asyncData (context: Context) {
+    const siteSectionItems = ServiceRegistry.instance.getService(PublicEkosetService).getSiteSections()
 
-    const bannersInfo = getServiceContainer().mediaService.getBannersForMainPage()
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.MAIN)
+    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.MAIN)
+
+    const bannersInfo = ServiceRegistry.instance.getService(MediaService).getBannersForMainPage()
 
     const data = await Promise.all([siteSectionItems, dynamicComponentInfo, sitePageInfo, bannersInfo])
     return {

@@ -56,7 +56,6 @@ export default class UserDeals extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-user-deals__wrapper {
   // display: grid;
   // grid-template-columns: 2fr 1fr;

@@ -1,4 +1,4 @@
-import Admin from '@/pages/admin/Admin.vue'
+import StartAdmin from '@/pages/admin/StartAdmin.vue'
 import AdminArticleList from '@/pages/admin/AdminArticleList.vue'
 import AdminArticleCard from '@/pages/admin/AdminArticleCard.vue'
 import AdminSiteSectionList from '@/pages/admin/AdminSiteSectionList.vue'
@@ -18,7 +18,7 @@ export const AdminRouter = [
     name: 'admin',
     path: '/admin',
     props: true,
-    component: Admin,
+    component: StartAdmin,
     meta: { requiresAuth: true, title: 'Экосеть: Панель управления' }
   },
   {
@@ -37,7 +37,7 @@ export const AdminRouter = [
   },
   {
     name: 'admin-news-article-card',
-    path: '/admin/news/article/:article',
+    path: '/admin-news/article/:article',
     props: true,
     component: AdminArticleCard,
     meta: { requiresAuth: true, itle: 'Экосеть: Панель управления - редактирование новости' }

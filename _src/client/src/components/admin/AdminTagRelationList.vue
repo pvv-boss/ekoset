@@ -44,15 +44,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import BusinessServiceService from '@/api/BusinessServiceService'
 import ClArticleTag from '@/models/ekoset/ClArticleTag'
 
-import 'vue-good-table/dist/vue-good-table.css'
+// import 'vue-good-table/dist/vue-good-table.css'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import ArticleService from '@/services/ArticleService'
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table')
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
   }
 }) export default class AdminTagRelationList extends Vue {
   @Prop()
@@ -78,7 +78,7 @@ import 'vue-good-table/dist/vue-good-table.css'
   ]
 
   private async updateTagList () {
-    this.tagRelationItems = await getServiceContainer().articleService.getArticleTagsRelation(this.articleUrl)
+    this.tagRelationItems = await ServiceRegistry.instance.getService(ArticleService).getArticleTagsRelation(this.articleUrl)
   }
 
   private mounted () {
@@ -94,7 +94,7 @@ import 'vue-good-table/dist/vue-good-table.css'
   }
 
   private async saveNewTag () {
-    await getServiceContainer().articleService.saveArticleTag(this.newItem)
+    await ServiceRegistry.instance.getService(ArticleService).saveArticleTag(this.newItem)
     this.newItem = new ClArticleTag()
     this.createNewMode = false
     this.updateTagList()

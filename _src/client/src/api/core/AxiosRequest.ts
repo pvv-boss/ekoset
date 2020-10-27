@@ -1,6 +1,9 @@
 import { AbstractApiRequest, ResponseType } from './AbstractApiRequest'
 import { ApiResponse } from './ApiResponse'
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
+import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
 
 
 export default class AxiosRequest extends AbstractApiRequest {
@@ -23,6 +26,12 @@ export default class AxiosRequest extends AbstractApiRequest {
     try {
       const result = await axiosResult
       response = this.createResponse(result)
+
+      if (result.data?.showNotify) {
+        BrcDialogPlugin.showNotify(BrcDialogType.Info, result.data?.showNotify.title, result.data?.showNotify.text, 2500, { position: BrcDialogPosition.Central })
+
+      }
+
       return Promise.resolve(response)
     } catch (err) {
       return Promise.reject(this.createErrorResponse(err))

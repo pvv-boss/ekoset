@@ -1,6 +1,10 @@
 <template>
   <nuxt-link :to="getNuxtLink">
-    <img :src="logoImageSrc" :alt="currentSiteSectionName" class="brc-logo_main" />
+    <img
+      :src="logoImageSrc"
+      :alt="currentSiteSectionName"
+      class="brc-logo_main"
+    />
   </nuxt-link>
 </template>
 
@@ -10,7 +14,8 @@ import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import SitePage from '@/models/SitePage'
-import { getServiceContainer } from '../../api/ServiceContainer'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import { ServiceRegistry } from '@/ServiceRegistry'
 
 @Component({
   components: {
@@ -57,7 +62,7 @@ export default class TheHeaderLogo extends Vue {
       this.currentLogoSrc = this.defaultLogo
       const siteSectionSlug = getModule(AppStore, this.$store).currentSiteSection
       if (siteSectionSlug) {
-        const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug(siteSectionSlug)
+        const siteSection = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionBySlug(siteSectionSlug)
         this.currentLogoSrc = siteSection ? siteSection.siteSectionLogo : this.defaultLogo
       }
 
@@ -80,9 +85,6 @@ export default class TheHeaderLogo extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-logo_main {
   width: 277px;
   height: 96px;

@@ -1,6 +1,8 @@
 <template>
   <ul class="brc-article-tags">
-    <li v-for="tag in tagList" :key="tag.clArticleId">#{{tag.clArticleName}}</li>
+    <li v-for="tag in tagList" :key="tag.clArticleId">
+      #{{ tag.clArticleName }}
+    </li>
   </ul>
 </template>
 
@@ -8,7 +10,8 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import ArticleService from '@/services/ArticleService'
 
 @Component({})
 export default class ArticleMetaTags extends Vue {
@@ -22,7 +25,7 @@ export default class ArticleMetaTags extends Vue {
   }
 
   public async mounted () {
-    this.tagList = await getServiceContainer().articleService.getArticleTags(this.articleUrl)
+    this.tagList = await ServiceRegistry.instance.getService(ArticleService).getArticleTags(this.articleUrl)
   }
 }
 </script>

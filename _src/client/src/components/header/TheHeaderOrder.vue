@@ -1,7 +1,7 @@
 <template>
   <div class="brc-page-header__order">
     <a href="#brcOfferForm" @click="navigateToOfferForm">Заказать</a>
-    <div class="brc-buscet-counter">{{getBuscetCount}}</div>
+    <div class="brc-buscet-counter">{{ getBuscetCount }}</div>
   </div>
 </template>
 
@@ -35,9 +35,6 @@ export default class TheHeaderOrder extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-page-header__order {
   position: relative;
   background-color: $red;

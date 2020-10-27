@@ -26,8 +26,6 @@ export default class BuscetContaner extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-buscet_container {
   display: flex;
   flex-wrap: wrap;

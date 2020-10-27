@@ -24,9 +24,6 @@ export default class TheHeaderAskQuestion extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
-
 .brc-page-header__action {
   display: flex;
   height: 18px;

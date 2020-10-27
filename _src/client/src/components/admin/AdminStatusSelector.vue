@@ -8,14 +8,14 @@
         false-value="0"
         type="is-success"
         @input="$emit('input', selectedId)"
-      >{{caption}}</b-switch>
+        >{{ caption }}</b-switch
+      >
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 
 @Component
 export default class AdminStatusSelector extends Vue {

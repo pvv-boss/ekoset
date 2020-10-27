@@ -1,9 +1,9 @@
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import { NuxtContext } from 'vue/types/options';
 import BuscetStore from '@/store/BuscetStore';
+import { Context } from '@nuxt/types';
 
-const baseMiddleware = (context: NuxtContext) => {
+const baseMiddleware = (context: Context) => {
   const appStore = getModule(AppStore, context.store)
 
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null

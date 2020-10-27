@@ -113,19 +113,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import BusinessService from '@/models/ekoset/BusinessService.ts'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
-import AppStore from '@/store/AppStore'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import ClBrand from '@/models/ekoset/ClBrand'
-import SiteSection from '@/models/ekoset/SiteSection'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
-import ClActivity from '@/models/ekoset/ClActivity'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AdminStore from '@/store/AdminStore'
+import BusinessService from '@/models/ekoset/BusinessService'
+import { Context } from "@nuxt/types";
+import { ServiceRegistry } from '@/ServiceRegistry'
+import IndividualOfferService from '@/services/IndividualOfferService'
+import PublicEkosetService from '@/services/PublicEkosetService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import MediaService from '@/services/MediaService'
 
 @Component
 export default class AdminIndividualOfferCard extends Vue {
@@ -141,19 +141,17 @@ export default class AdminIndividualOfferCard extends Vue {
     return this.indOfferItem.clClientId > 0
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     let indOfferItem: IndividualOffer
-    let isClientTypeMode = false
     if (context.params.clienttype) {
-      isClientTypeMode = true
       indOfferItem = context.params.clienttype === 'business'
-        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(context.params.siteSection)
-        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
+        ? await ServiceRegistry.instance.getService(IndividualOfferService).getForBusinessBySiteSectionSlug(context.params.siteSection)
+        : await ServiceRegistry.instance.getService(IndividualOfferService).getForPrivatePersonBySiteSectionSlug(context.params.siteSection)
     } else {
-      indOfferItem = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
+      indOfferItem = await ServiceRegistry.instance.getService(IndividualOfferService).getBySlug(context.params.offer)
     }
 
-    const siteSection = await getServiceContainer().publicEkosetService.getSiteSectionBySlug('SLUG-' + indOfferItem.siteSectionId)
+    const siteSection = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionBySlug('SLUG-' + indOfferItem.siteSectionId)
 
     const breadCrumbList: any[] = []
     breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
@@ -161,7 +159,7 @@ export default class AdminIndividualOfferCard extends Vue {
     breadCrumbList.push({ name: indOfferItem.indOfferName, link: '' })
     getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
 
-    const dynaComponents = getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection.siteSectionUrl, indOfferItem.indOfferUrl, context.params.clienttype, indOfferItem.clActivityId, true)
+    const dynaComponents = ServiceRegistry.instance.getService(DynamicComponentsService).getIndOfferDynamicComponentsInfo(siteSection.siteSectionUrl, indOfferItem.indOfferUrl, context.params.clienttype, indOfferItem.clActivityId, true)
 
     const data = await Promise.all([dynaComponents])
 
@@ -172,31 +170,31 @@ export default class AdminIndividualOfferCard extends Vue {
   }
 
   private saveOffer () {
-    getServiceContainer().individualOfferService.save(this.indOfferItem)
+    ServiceRegistry.instance.getService(IndividualOfferService).save(this.indOfferItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
   private async saveDynamicComponentsInfo () {
-    await getServiceContainer().dynamicComponentsService.adminSaveDynamicComponentsOffer(this.indOfferItem.indOfferId, this.dynamicComponentInfo)
+    await ServiceRegistry.instance.getService(DynamicComponentsService).adminSaveDynamicComponentsOffer(this.indOfferItem.indOfferId, this.dynamicComponentInfo)
     await this.refreshDynamicComponentsInfo()
   }
 
   private async refreshDynamicComponentsInfo () {
     const clienttype = this.indOfferItem.clClientId ? (this.indOfferItem.clClientId === 1 ? 'business' : 'person') : null
-    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo('slug-' + this.indOfferItem.siteSectionId, this.indOfferItem.indOfferUrl, clienttype, this.indOfferItem.clActivityId, true)
+    this.dynamicComponentInfo = await ServiceRegistry.instance.getService(DynamicComponentsService).getIndOfferDynamicComponentsInfo('slug-' + this.indOfferItem.siteSectionId, this.indOfferItem.indOfferUrl, clienttype, this.indOfferItem.clActivityId, true)
   }
 
 
   private async addOfferImage (imageFile: string, isBig: boolean) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveOfferImage(this.indOfferItem.indOfferId, formData, isBig)
+    ServiceRegistry.instance.getService(MediaService).saveOfferImage(this.indOfferItem.indOfferId, formData, isBig)
   }
 
   private deleteOffer () {
     const self = this
     const okCallback = async () => {
-      await getServiceContainer().individualOfferService.delete(this.indOfferItem.indOfferId)
+      await ServiceRegistry.instance.getService(IndividualOfferService).delete(this.indOfferItem.indOfferId)
       self.$router.push({ name: 'admin-individual-offers' })
       self.$BrcNotification(BrcDialogType.Success, `Выполнено`)
     }

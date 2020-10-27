@@ -10,7 +10,7 @@ const paths = {
   npm: path.resolve(__dirname, 'npm')
 };
 const entryFileName = path.join(paths.src, "main.ts");
-const outProductionBundleFileName = 'main.js';
+const outProductionBundleFileName = 'main.bundle.js';
 const outDevBundleFileName = 'main.dev.js';
 
 
@@ -60,7 +60,7 @@ let config = {
   },
 
   mode: nodeEnv,
-  devtool: ifDevelopment('cheap-module-source-map', '#source-map'),
+  devtool: ifDevelopment('cheap-module-source-map', 'source-map'),
   target: 'node',
   externals: [NodeExternals()],
 

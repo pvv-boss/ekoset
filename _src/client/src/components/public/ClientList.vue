@@ -1,6 +1,6 @@
 <template>
   <div class="brc-clients-list">
-    <LazyClientListItem
+    <ClientListItem
       v-for="clientItem in clientList"
       :key="clientItem.clActivityId"
       :client-item="clientItem"
@@ -10,7 +10,7 @@
           updateClickedAllClients();
         }
       "
-    ></LazyClientListItem>
+    ></ClientListItem>
 
     <div v-if="moreClientPopupActive" class="brc-clients-list-popup__wrapper">
       <div
@@ -64,8 +64,9 @@
 </template>
 
 <script lang="ts">
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
 
 @Component
 export default class ClientList extends Vue {
@@ -77,7 +78,7 @@ export default class ClientList extends Vue {
   private moreClientPopupActive = false
 
   private async updateClickedAllClients () {
-    const res = await getServiceContainer().publicEkosetService.getClientsInfoByActivity(this.clickedMoreClientItem.clActivityId)
+    const res = await ServiceRegistry.instance.getService(PublicEkosetService).getClientsInfoByActivity(this.clickedMoreClientItem.clActivityId)
     if (!!res && res.length && res.length > 0) {
       this.clickedMoreClientList = res[0]
       this.moreClientPopupActive = true
@@ -90,8 +91,6 @@ export default class ClientList extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-clients-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

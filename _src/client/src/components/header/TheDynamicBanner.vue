@@ -20,15 +20,27 @@
       class="brc-page-image__wrapper"
       @change="bannerChanged($event)"
     >
-      <b-carousel-item v-for="iterBaner in bannersInfo" :key="iterBaner.businessServiceImgBig">
+      <b-carousel-item
+        v-for="iterBaner in bannersInfo"
+        :key="iterBaner.businessServiceImgBig"
+      >
         <nuxt-link :to="linkParams2Page">
-          <figure v-if="!!iterBaner.businessServiceImgBig" style="position:relative;display:flex;">
-            <img itemprop="image" :src="iterBaner.businessServiceImgBig" class="brc-page-image" />
+          <figure
+            v-if="!!iterBaner.businessServiceImgBig"
+            style="position: relative; display: flex"
+          >
+            <img
+              itemprop="image"
+              :src="iterBaner.businessServiceImgBig"
+              class="brc-page-image"
+            />
             <h1
               v-if="!!iterBaner.bannerTitle"
               itemprop="headline name"
               class="brc-page-title"
-            >{{iterBaner.bannerTitle}}</h1>
+            >
+              {{ iterBaner.bannerTitle }}
+            </h1>
           </figure>
         </nuxt-link>
       </b-carousel-item>
@@ -37,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import BannersInfo from '@/models/ekoset/BannersInfo'
 import TheBanner from '@/components/header/TheBanner.vue'
 
@@ -77,7 +89,7 @@ export default class TheDynamicBanner extends Vue {
 
   private get linkParams2Page () {
 
-    if (this.currentBanner.businessServiceId > 0) {
+    if (!!this.currentBanner && this.currentBanner.businessServiceId > 0) {
       const params: any = {}
       params.name = 'service-card'
       params.params = {}

@@ -107,15 +107,17 @@
 
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators'
-import AppStore from '@/store/AppStore'
 import AdminStore from '@/store/AdminStore'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import TopMenuService from '@/services/TopMenuService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import { Context } from '@nuxt/types'
+import MediaService from '@/services/MediaService'
 
 @Component
 export default class AdminTopMenuCard extends Vue {
@@ -127,15 +129,15 @@ export default class AdminTopMenuCard extends Vue {
   }
 
   private async save () {
-    await getServiceContainer().topMenuService.adminSaveSitePage(this.sitePageItem)
+    await ServiceRegistry.instance.getService(TopMenuService).adminSaveSitePage(this.sitePageItem)
     this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
   }
 
 
-  private async addImage (imageFile: string, isBig: boolean) {
+  private async addImage (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSitePageImage(
+    ServiceRegistry.instance.getService(MediaService).saveSitePageImage(
       this.sitePageItem.sitePageId,
       formData
     )
@@ -149,10 +151,10 @@ export default class AdminTopMenuCard extends Vue {
     return this.sitePageItem.sitePageCode === SitePageType.MAIN
   }
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const sitePageId = Number(context.params.sitePageId)
-    const sitePageItem = await getServiceContainer().topMenuService.getSitePageById(sitePageId)
-    const dynaComponents = getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(sitePageItem.sitePageId, true)
+    const sitePageItem = await ServiceRegistry.instance.getService(TopMenuService).getSitePageById(sitePageId)
+    const dynaComponents = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(sitePageItem.sitePageId, true)
     const data = await Promise.all([dynaComponents])
 
     const breadCrumbList: any[] = []
@@ -168,18 +170,18 @@ export default class AdminTopMenuCard extends Vue {
   }
 
   private async saveDynamicComponentsInfo () {
-    await getServiceContainer().dynamicComponentsService.saveSitePageDynamicComponentsInfo(this.sitePageItem.sitePageId, this.dynamicComponentInfo)
+    await ServiceRegistry.instance.getService(DynamicComponentsService).saveSitePageDynamicComponentsInfo(this.sitePageItem.sitePageId, this.dynamicComponentInfo)
     await this.refreshDynamicComponentsInfo()
   }
 
   private async refreshDynamicComponentsInfo () {
-    this.dynamicComponentInfo = await getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(this.sitePageItem.sitePageId, true)
+    this.dynamicComponentInfo = await ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(this.sitePageItem.sitePageId, true)
   }
 
   private async updateSitePageLogo (imageFile: string) {
     const formData: FormData = new FormData()
     formData.append('file', imageFile)
-    getServiceContainer().mediaService.saveSitePageLogo(this.sitePageItem.sitePageId, formData)
+    ServiceRegistry.instance.getService(MediaService).saveSitePageLogo(this.sitePageItem.sitePageId, formData)
 
   }
 }

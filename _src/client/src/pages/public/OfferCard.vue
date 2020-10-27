@@ -14,13 +14,15 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import IndividualOffer from '@/models/ekoset/IndividualOffer'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { Context } from "@nuxt/types";
+import { ServiceRegistry } from '@/ServiceRegistry'
+import IndividualOfferService from '@/services/IndividualOfferService'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
 
 
 @Component
@@ -31,7 +33,7 @@ export default class OfferCard extends Vue {
   private offerHeaderText = ''
   private routeFullPath = ''
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const siteSection = context.params.siteSection
     // Индивидуальное предложение Для бизнеса/частных лиц или по виду дуетяельности (автосалоны...)
     let individualOffer: IndividualOffer
@@ -39,16 +41,16 @@ export default class OfferCard extends Vue {
 
     if (context.params.clienttype) {
       individualOffer = context.params.clienttype === 'business'
-        ? await getServiceContainer().individualOfferService.getForBusinessBySiteSectionSlug(siteSection)
-        : await getServiceContainer().individualOfferService.getForPrivatePersonBySiteSectionSlug(siteSection)
+        ? await ServiceRegistry.instance.getService(IndividualOfferService).getForBusinessBySiteSectionSlug(siteSection)
+        : await ServiceRegistry.instance.getService(IndividualOfferService).getForPrivatePersonBySiteSectionSlug(siteSection)
 
       offerHeaderText = context.params.clienttype === 'business' ? 'Для бизнеса' : 'Для дома'
     } else {
-      individualOffer = await getServiceContainer().individualOfferService.getBySlug(context.params.offer)
+      individualOffer = await ServiceRegistry.instance.getService(IndividualOfferService).getBySlug(context.params.offer)
       offerHeaderText = individualOffer.indOfferName
     }
 
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getIndOfferDynamicComponentsInfo(siteSection, individualOffer.indOfferUrl, context.params.clienttype, individualOffer.clActivityId)
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getIndOfferDynamicComponentsInfo(siteSection, individualOffer.indOfferUrl, context.params.clienttype, individualOffer.clActivityId)
 
     const data = await Promise.all([dynamicComponentInfo])
 

@@ -22,7 +22,6 @@ export default class DealTypeWrapper extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
 .brc-deal-type-wrapper {
   .brc-deal-type-wrapper__header,
   .brc-deal-type-wrapper__filter {

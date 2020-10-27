@@ -1,6 +1,6 @@
 <template>
   <div class="brc-select-wrapper">
-    <b-field style="align-items:center">
+    <b-field style="align-items: center">
       <b-select
         v-model="selectedSiteSectionId"
         placeholder="Раздел сайта"
@@ -12,7 +12,9 @@
           v-for="siteSection in siteSectionList"
           :key="siteSection.siteSectionId"
           :value="siteSection.siteSectionId"
-        >{{siteSection.siteSectionName}}</option>
+        >
+          {{ siteSection.siteSectionName }}
+        </option>
       </b-select>
       <span v-if="nullable" @click="setSiteSectionNull">
         <b-icon icon="close"></b-icon>
@@ -24,7 +26,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import SiteSection from '@/models/ekoset/SiteSection'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
 
 @Component
 export default class AdminSiteSectionSelector extends Vue {
@@ -50,7 +53,7 @@ export default class AdminSiteSectionSelector extends Vue {
   private siteSectionList: SiteSection[] = []
 
   private async mounted () {
-    this.siteSectionList = await getServiceContainer().publicEkosetService.getSiteSections()
+    this.siteSectionList = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSections()
     this.selectedId = this.value
   }
 

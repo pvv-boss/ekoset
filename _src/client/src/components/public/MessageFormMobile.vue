@@ -1,8 +1,17 @@
 <template>
   <div class="brc-feedback_busket_mobile">
-    <div v-if="showCloseBtn" class="brc-message-arise__close" @click="$emit('closeForm')">&times;</div>
-    <h2 style="text-align: center !important;">{{title}}</h2>
-    <form class="brc-message-form" :class="{'brc-message-form__error':!isValidForm}">
+    <div
+      v-if="showCloseBtn"
+      class="brc-message-arise__close"
+      @click="$emit('closeForm')"
+    >
+      &times;
+    </div>
+    <h2 style="text-align: center !important">{{ title }}</h2>
+    <form
+      class="brc-message-form"
+      :class="{ 'brc-message-form__error': !isValidForm }"
+    >
       <div class="brc-message-form__data">
         <div class="brc-message-form__row">
           <div class="brc-message-form__block">
@@ -10,8 +19,13 @@
             <input v-model.lazy="formMessageData.userRequestUser" type="text" />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestUser.trim().length === 0 }"
-            >Введите имя</span>
+              :class="{
+                'brc-error-message_visible':
+                  isSubmit &&
+                  formMessageData.userRequestUser.trim().length === 0,
+              }"
+              >Введите имя</span
+            >
           </div>
           <div v-if="isBrowser" class="brc-message-form__block">
             <label for="phone">Телефон</label>
@@ -30,33 +44,56 @@
               />
               <span
                 class="brc-error-message"
-                :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestPhone.length > 0) && $v.formMessageData.userRequestPhone.$invalid}"
-              >Введите телефон</span>
+                :class="{
+                  'brc-error-message_visible':
+                    (isSubmit || formMessageData.userRequestPhone.length > 0) &&
+                    $v.formMessageData.userRequestPhone.$invalid,
+                }"
+                >Введите телефон</span
+              >
             </span>
           </div>
           <div v-if="isBrowser" class="brc-message-form__block">
             <label for="email">Email</label>
-            <input v-model.lazy="formMessageData.userRequestMail" type="email" />
+            <input
+              v-model.lazy="formMessageData.userRequestMail"
+              type="email"
+            />
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': (isSubmit || formMessageData.userRequestMail.length > 0) && $v.formMessageData.userRequestMail.$invalid}"
-            >Введите настоящий email</span>
+              :class="{
+                'brc-error-message_visible':
+                  (isSubmit || formMessageData.userRequestMail.length > 0) &&
+                  $v.formMessageData.userRequestMail.$invalid,
+              }"
+              >Введите настоящий email</span
+            >
           </div>
 
           <div class="brc-message-form__block brc-message-form__block_message">
             <label for="message">Комментарий</label>
-            <textarea v-model.lazy="formMessageData.userRequestText" rows="2"></textarea>
+            <textarea
+              v-model.lazy="formMessageData.userRequestText"
+              rows="2"
+            ></textarea>
             <span
               class="brc-error-message"
-              :class="{'brc-error-message_visible': isSubmit && formMessageData.userRequestText.trim().length === 0}"
-            >Напишите комментарий</span>
+              :class="{
+                'brc-error-message_visible':
+                  isSubmit &&
+                  formMessageData.userRequestText.trim().length === 0,
+              }"
+              >Напишите комментарий</span
+            >
           </div>
         </div>
         <div class="brc-message-form__row">
-          <label style="font-size:14px;">Корзина</label>
-          <BuscetContaner :class="{'brc-message-form__error':!isValidForm}"></BuscetContaner>
+          <label style="font-size: 14px">Корзина</label>
+          <BuscetContaner
+            :class="{ 'brc-message-form__error': !isValidForm }"
+          ></BuscetContaner>
         </div>
-        <div class="brc-message-form__block" style="width:100%;">
+        <div class="brc-message-form__block" style="width: 100%">
           <label class="attach-file">
             <input
               id="file"
@@ -67,7 +104,12 @@
               @change="handleFileUpload()"
             />
             <div class="attach-file-file-name">Прикрепить файл(ы)</div>
-            <div v-show="!!files && files.length > 0" class="attached-file-name">{{fileNames}}</div>
+            <div
+              v-show="!!files && files.length > 0"
+              class="attached-file-name"
+            >
+              {{ fileNames }}
+            </div>
           </label>
         </div>
       </div>
@@ -83,13 +125,14 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
-import { getServiceContainer } from '@/api/ServiceContainer';
 import UserRequest from '@/models/ekoset/UserRequest';
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { getModule } from 'vuex-module-decorators';
 import AppStore from '@/store/AppStore';
 import BuscetStore from '@/store/BuscetStore';
 import BuscetContaner from '@/components/public/BuscetContaner.vue'
+import { ServiceRegistry } from '@/ServiceRegistry';
+import PublicEkosetService from '@/services/PublicEkosetService';
 
 
 @Component({
@@ -168,7 +211,7 @@ export default class MessageFormMobile extends Vue {
         formData.append('files', iterItem)
       }
 
-      getServiceContainer().publicEkosetService.sendFormMessage(formData, this.mode)
+      ServiceRegistry.instance.getService(PublicEkosetService).sendFormMessage(formData, this.mode)
 
       if (this.showCloseBtn) {
         this.$emit('closeForm')
@@ -193,272 +236,4 @@ export default class MessageFormMobile extends Vue {
 }
 </script>
 
-<style lang="scss">
-@import '@/styles/variables.scss';
-
-.brc-feedback_busket_mobile {
-  display: none;
-
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-  }
-  //  height: calc(100% - 90px) !important;
-  // max-height: calc(100% - 90px) !important;
-
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 0px;
-  padding-top: 15px;
-  max-width: 900px;
-  margin: 60px auto 0;
-  // height: 580 px;
-  // max-height: 700px;
-  overflow: hidden;
-
-  .brc-buscet_container {
-    height: calc(100% - 65px);
-    overflow-y: auto;
-    //  flex-direction: row;
-
-    flex-direction: column;
-    flex-wrap: nowrap;
-
-    @media (max-width: 768px) {
-      height: 105px;
-    }
-
-    .brc-buscet_wrapper {
-      padding: 2px !important;
-      margin: 2px;
-      span {
-        font-size: 12px;
-      }
-      div {
-        font-size: 15px;
-        line-break: 0, 01rem;
-      }
-    }
-  }
-
-  h2,
-  h3 {
-    text-align: center !important;
-  }
-
-  .brc-message-form {
-    max-height: 90vh;
-    height: max-content;
-  }
-
-  .brc-message-form__data {
-    height: 100%;
-    overflow-y: hidden;
-
-    .brc-message-form__row {
-      height: 100%;
-      max-height: 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      overflow: hidden;
-      margin: 15px;
-      margin-top: 8px;
-    }
-
-    .brc-message-form__block + .brc-message-form__block {
-      margin-top: 5px;
-      @media (max-width: 768px) {
-        margin-top: 2px;
-      }
-    }
-
-    .brc-message-form__block {
-      label {
-        display: block;
-        @media (max-width: 768px) {
-          font-size: 14px;
-        }
-      }
-      textarea {
-        width: 100%;
-        height: auto !important;
-        margin: 0;
-        background-color: #f4f4f5;
-        border: 1px solid #d1d1d1;
-        border-radius: 3px;
-        padding: 5px;
-        color: #000000;
-        font-size: 14px;
-        // resize: none;
-        outline: none;
-
-        &:focus {
-          background-color: white;
-        }
-      }
-
-      input {
-        width: 100%;
-        height: 28px !important;
-        background-color: #f4f4f5;
-        border: 1px solid #d1d1d1;
-        border-radius: 3px;
-        padding-left: 15px;
-        color: #000000;
-        font-size: 16px;
-        outline: none;
-        margin-top: 2px;
-        margin-bottom: 1px;
-
-        &:focus {
-          background-color: white;
-        }
-
-        &.form-control_phone {
-          padding-left: 35px;
-        }
-      }
-
-      .brc-input-addon {
-        position: relative;
-      }
-
-      &.brc-message-form__block_message {
-        display: flex !important;
-        flex-grow: 1;
-        height: auto !important;
-
-        textarea {
-          flex-grow: 1 !important;
-        }
-      }
-
-      .brc-error-message {
-        font-size: small;
-        color: #ed0205;
-        font-weight: $font-medium;
-        display: none;
-
-        &.brc-error-message_visible {
-          display: block;
-        }
-      }
-    }
-
-    .attach-file {
-      position: relative !important;
-      border: none !important;
-      display: flex !important;
-      flex-direction: column;
-      margin-bottom: 0px;
-      align-items: center;
-      margin-left: 0px;
-      margin-right: 0px;
-      padding-left: 10px;
-      padding-right: 10px;
-      input {
-        display: none;
-      }
-      .attach-file-file-name {
-        color: gray;
-        font-size: 12px;
-        //  height: 32px;
-        cursor: pointer;
-        padding-right: 20px;
-        background-image: url('/images/clip-icon.png');
-        background-repeat: no-repeat;
-        background-position: right;
-        transition: 0.3s;
-        border: none !important;
-        margin-top: 10px;
-        max-width: 13em !important;
-        padding-left: 0 !important;
-      }
-
-      @media (max-width: 768px) {
-        margin-bottom: 0px;
-        align-items: center;
-        margin-left: 0px;
-        margin-right: 0px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-      }
-
-      .attached-file-name {
-        font-size: 12px;
-        word-wrap: break-word;
-        word-break: break-word;
-        // height: 32px;
-        // text-align: right;
-        @media (max-width: 768px) {
-          text-align: left;
-        }
-      }
-    }
-  }
-
-  .brc-message-form__button {
-    width: 100%;
-    text-align: center;
-    position: relative;
-    button {
-      border: 1px solid red;
-      background-color: red;
-      color: white;
-      text-decoration: none;
-      width: 200px;
-      max-width: 100%;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 3px;
-      margin: auto;
-      font-size: 16px;
-      margin-top: 5px;
-
-      &:hover {
-        background-color: darkred;
-        border-color: darkred;
-        cursor: pointer;
-      }
-    }
-  }
-  @media (max-width: 768px) {
-    //  max-height: calc(100vh - 90px) !important;
-    margin: 0 auto !important;
-    padding: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: hidden;
-
-    textarea {
-      // height: 70px !important;
-    }
-    input {
-      height: 30px !important;
-    }
-    button {
-      height: 35px !important;
-    }
-    .brc-input-addon {
-      padding-top: 6px !important;
-    }
-  }
-  .brc-message-form__row {
-    flex-basis: 100% !important;
-    margin-bottom: 0 !important;
-    &:last-child {
-      margin-top: 0;
-    }
-    &:first-child {
-      margin-bottom: 0;
-    }
-  }
-  .brc-message-form__row:last-child {
-    margin-bottom: 0 !important;
-  }
-}
-</style>
 

@@ -28,7 +28,10 @@ const config: NuxtConfig = {
     }
     ],
 
-
+    bodyAttrs: {
+      itemscope: '',
+      itemtype: 'https://schema.org/WebPage'
+    },
 
     link: [
       {
@@ -46,17 +49,13 @@ const config: NuxtConfig = {
         type: 'image/x-icon',
         href: '/favicon.png'
       }
-    ],
-
-
-    script: [
-    ],
-
-    bodyAttrs: {
-      itemscope: '',
-      itemtype: 'https://schema.org/WebPage'
-    },
+    ]
   },
+
+
+  css: [
+    '~assets/scss/index.scss'
+  ],
 
   pageTransition: {
     css: false
@@ -79,9 +78,6 @@ const config: NuxtConfig = {
       src: '@/plugins/yandex-share', mode: 'client'
     },
     {
-      src: '@/plugins/brc-route-middleware'
-    },
-    {
       src: '@/plugins/brc-buefy-plugin'
     },
     {
@@ -91,12 +87,13 @@ const config: NuxtConfig = {
 
   router: {
     prefetchLinks: false,
-    middleware: ['needAuthorize', 'baseMiddleware']
+    middleware: ['requiresAuthorize', 'baseMiddleware']
   },
 
   buildModules: [
     'nuxt-webfontloader',
     'nuxt-purgecss',
+    '@nuxtjs/style-resources',
     ['@nuxt/typescript-build', {
       typeCheck: true,
       ignoreNotFoundWarnings: true,
@@ -121,6 +118,9 @@ const config: NuxtConfig = {
       }]
   ],
 
+  styleResources: {
+    scss: ['~assets/scss/variables.scss']
+  },
 
   build: {
     extractCSS: true,

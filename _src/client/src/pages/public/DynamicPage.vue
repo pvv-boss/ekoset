@@ -14,13 +14,16 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
 import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
-import SitePage, { SitePageType } from '@/models/SitePage'
+import SitePage from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
+import { Context } from "@nuxt/types";
+import { ServiceRegistry } from '@/ServiceRegistry'
+import DynamicComponentsService from '@/services/DynamicComponentsService'
+import TopMenuService from '@/services/TopMenuService'
+
 
 @Component
 export default class DynamicPage extends Vue {
@@ -29,15 +32,15 @@ export default class DynamicPage extends Vue {
   private breadCrumbList: any[] = []
   private routeFullPath = ''
 
-  private async asyncData (context: NuxtContext) {
-    const pageId = getServiceContainer().dynamicComponentsService.getIdBySlug(context.params.page)
+  private async asyncData (context: Context) {
+    const pageId = ServiceRegistry.instance.getService(DynamicComponentsService).getIdBySlug(context.params.page)
     const siteSection = context.params.siteSection
 
     const dynamicComponentInfo = siteSection
-      ? getServiceContainer().dynamicComponentsService.getSitePageDynamicComponentsWithSiteSection(siteSection, pageId)
-      : getServiceContainer().dynamicComponentsService.getSitePageDynamicComponents(pageId)
+      ? ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponentsWithSiteSection(siteSection, pageId)
+      : ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(pageId)
 
-    const sitePageInfo = getServiceContainer().topMenuService.getSitePageById(pageId)
+    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(pageId)
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
 
     return {

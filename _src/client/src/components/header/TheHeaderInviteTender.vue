@@ -1,6 +1,8 @@
 <template>
   <div class="brc-page-header__invent">
-    <a href="#brcOfferForm" @click="navigateToOfferForm">Пригласить на тендер</a>
+    <a href="#brcOfferForm" @click="navigateToOfferForm"
+      >Пригласить на тендер</a
+    >
   </div>
 </template>
 
@@ -24,9 +26,6 @@ export default class TheHeaderInviteTender extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-@import "@/styles/typography.scss";
-
 .brc-page-header__invent {
   display: flex;
   height: 18px;

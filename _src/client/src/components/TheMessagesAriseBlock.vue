@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class TheMessagesAriseBlock extends Vue {
@@ -70,55 +70,3 @@ export default class TheMessagesAriseBlock extends Vue {
 
 }
 </script>
-
-<style lang="scss">
-@import "@/styles/variables.scss";
-.brc-message-arise__outer {
-  z-index: 3000;
-}
-
-.brc-message-arise__wrapper {
-  position: fixed;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  background-color: rgba(64, 64, 64, 0.9);
-  color: $text-color;
-  width: 100%;
-  height: 100vh;
-  padding: 16px;
-  //  overflow: scroll;
-
-  > .brc-feedback,
-  .brc-feedback_busket,
-  .brc-feedback_busket_mobile {
-    background-color: white;
-    h2,
-    h3 {
-      text-align: center !important;
-    }
-    position: relative;
-  }
-
-  .brc-message-arise__close {
-    // float: right;
-    // margin-top: -30px;
-    font-size: 36px;
-    color: lightgray;
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-    right: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .brc-message-arise__wrapper {
-    .brc-feedback,
-    .brc-feedback_busket,
-    .brc-feedback_busket_mobile {
-      max-height: calc(100vh - 30px);
-    }
-  }
-}
-</style>

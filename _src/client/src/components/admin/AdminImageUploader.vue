@@ -1,7 +1,7 @@
 <template>
   <div class="brc-image-uploader">
     <slot :imageSrc="displayImageSrc"></slot>
-    <div class="brc-image-uploader__loader" :class="{left:isLeft}">
+    <div class="brc-image-uploader__loader" :class="{ left: isLeft }">
       <b-upload v-model="imageFile">
         <a class="button is-link">
           <b-icon icon="upload"></b-icon>
@@ -9,10 +9,11 @@
       </b-upload>
 
       <b-button
-        v-if="showDeleteButton===true"
+        v-if="showDeleteButton === true"
         class="brc-image-uploader__save-button"
         @click="deleteImage"
-      >Удалить</b-button>
+        >Удалить</b-button
+      >
     </div>
   </div>
 </template>
@@ -58,9 +59,6 @@ export default class AdminImageUploader extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-image-uploader {
   position: relative;
 

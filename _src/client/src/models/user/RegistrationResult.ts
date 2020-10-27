@@ -1,23 +1,15 @@
+import SessionUser from './SessionUser';
+
 export enum RegistrationStatus {
   OK,
-  AlreadyExists,
-  InvalidEmail,
-  PasswordIsNotStrong,
-  Error,
+  RequereConfirmBySmsCode,
+  RequereConfirmByEmail,
+  Invalid,
   Unknown
 }
 
 export class RegistrationResult {
-  public static makeUnknownResult() {
-    const result = new RegistrationResult()
-    result.registrationStatus = RegistrationStatus.Unknown
-    result.endProcess = false
-    result.message = ''
-    return result
-  }
-
   public registrationStatus: RegistrationStatus = RegistrationStatus.Unknown
-  public exception: null
-  public endProcess = false
+  public sessionUser: SessionUser = SessionUser.anonymousUser;
   public message: string
 }

@@ -5,15 +5,15 @@
   >
     <draggable
       v-model="relatedServiceList"
-      class="brc-related-service-list brc-admin-panel__site"
+      class="admin_brc-related-service-list brc-admin-panel__site"
       style="margin-top: 0px"
       @change="handleChangePriority"
     >
-      <LazyServiceListItem
+      <ServiceListItem
         v-for="serviceItem in relatedServiceList"
         :key="serviceItem.businessServiceId"
         :service-item="serviceItem"
-      ></LazyServiceListItem>
+      ></ServiceListItem>
     </draggable>
 
     <LazyAdminServiceRelationListBySection
@@ -56,13 +56,23 @@ export default class AdminRelatedService extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc_related_service__service_list {
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
   font-size: 14px !important;
   margin-left: 20px;
+}
+
+.admin_brc-related-service-list {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 30px 0 0 0;
+  grid-gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
 }
 </style>  

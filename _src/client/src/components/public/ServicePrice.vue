@@ -186,7 +186,6 @@ export default class ServicePrice extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-service-price-table__wrapper {
   margin: 30px 0 0;
 

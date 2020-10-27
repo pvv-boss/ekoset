@@ -1,4 +1,7 @@
-export default class SessionUser {
+import { BaseViewModel } from '../core/BaseViewModel';
+
+
+export default class SessionUser extends BaseViewModel {
   public static anonymousUser: SessionUser = new SessionUser();
 
   public appUserId = 0

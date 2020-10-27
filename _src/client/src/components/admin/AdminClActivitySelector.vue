@@ -12,7 +12,9 @@
           v-for="item in itemList"
           :key="item.clActivityId"
           :value="item.clActivityId"
-        >{{item.clActivityName}}</option>
+        >
+          {{ item.clActivityName }}
+        </option>
       </b-select>
       <span v-if="nullable" @click="setValueNull">
         <b-icon icon="close"></b-icon>
@@ -24,7 +26,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ClActivity from '@/models/ekoset/ClActivity'
-import { getServiceContainer } from '@/api/ServiceContainer'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import PublicEkosetService from '@/services/PublicEkosetService'
 
 @Component
 export default class AdminClActivitySelector extends Vue {
@@ -58,7 +61,7 @@ export default class AdminClActivitySelector extends Vue {
   }
 
   private async mounted () {
-    this.itemList = this.clActivityList ? this.clActivityList : await getServiceContainer().publicEkosetService.getClActivityList()
+    this.itemList = this.clActivityList ? this.clActivityList : await ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList()
     this.selectedId = this.value
   }
 

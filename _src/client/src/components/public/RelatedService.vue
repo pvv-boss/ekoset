@@ -1,10 +1,10 @@
 <template>
   <div class="brc-related-service-list">
-    <LazyServiceListItem
+    <ServiceListItem
       v-for="serviceItem in serviceList"
       :key="serviceItem.businessServiceId"
       :service-item="serviceItem"
-    ></LazyServiceListItem>
+    ></ServiceListItem>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default class RelatedService extends Vue {
 
 <style lang="scss">
 .brc-related-service-list {
-  display: grid;
+  display: grid !important;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin: 30px 0 0 0;
   grid-gap: 1rem;

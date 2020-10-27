@@ -3,11 +3,20 @@
     <section>
       <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
         <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
-        <div>{{ sessionUser.userSnProfileNick ? sessionUser.userSnProfileNick : sessionUser.appUserEmail }}</div>
+        <div>
+          {{
+            sessionUser.userSnProfileNick
+              ? sessionUser.userSnProfileNick
+              : sessionUser.appUserEmail
+          }}
+        </div>
       </div>
 
       <div v-else class="brc-top-menu__user_notauthenticated">
-        <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
+        <nuxt-link
+          :to="{ name: 'auth-login', params: { mode: 'login' } }"
+          style="display: flex"
+        >
           <img :src="userImageSrc" title="Вход на сайт" />
           <div v-if="isMobile">Личный кабинет</div>
         </nuxt-link>
@@ -17,9 +26,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AuthStore from '@/store/AuthStore'
 import { getModule } from 'vuex-module-decorators'
+import { AuthService } from '@/services/AuthService'
+import { ServiceRegistry } from '@/ServiceRegistry'
 
 @Component
 export default class UserAuthHeader extends Vue {
@@ -27,14 +38,14 @@ export default class UserAuthHeader extends Vue {
   @Prop()
   private isMobile
 
-  private userStore = getModule(AuthStore, this.$store)
+  private get userStore () { return getModule(AuthStore, this.$store) }
 
   private get sessionUser () {
     return this.userStore.sessionUser
   }
 
   private logout () {
-    return this.userStore.logoff()
+    return ServiceRegistry.instance.getService(AuthService).logoff()
   }
 
   private get isAuthenticated () {
@@ -50,9 +61,6 @@ export default class UserAuthHeader extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-@import '@/styles/typography.scss';
-
 .brc-top-menu__user_authenticated,
 .brc-top-menu__user_notauthenticated {
   color: $red;

@@ -48,8 +48,6 @@ export default class BusinessTypeOfferListItem extends Vue {
 
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-business-type-offer-item__wrapper {
   flex: 1;
   // min-width: 220px;

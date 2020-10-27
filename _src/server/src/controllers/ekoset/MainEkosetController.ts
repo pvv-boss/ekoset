@@ -38,7 +38,8 @@ export default class MainEkosetController extends BaseController {
     @Param('sitesection') siteSectionId: number) {
     if (!!siteSectionId) {
       const result = await ServiceRegistry.instance.getService(MainEkosetService).getSiteSectionNameById(siteSectionId);
-      return this.createSuccessResponse(result, response);
+      const rr = !!result && result.length && result.length > 0 ? result[0] : null
+      return this.createSuccessResponse(rr, response);
     } else {
       this.createSuccessResponse({}, response)
     }

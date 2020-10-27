@@ -32,8 +32,6 @@ export default class DealStatus extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables.scss';
-
 .brc-deal-status {
   display: flex;
   margin-top: 10px;

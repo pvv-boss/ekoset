@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component
@@ -21,8 +21,6 @@ export default class BaseCard extends Vue { }
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-card-wrapper {
   display: flex;
   flex-direction: column;

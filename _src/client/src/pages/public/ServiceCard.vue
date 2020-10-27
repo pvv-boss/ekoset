@@ -31,8 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getServiceContainer } from '@/api/ServiceContainer'
-import { NuxtContext } from 'vue/types/options'
+import { Context } from "@nuxt/types";
 import BusinessService from '@/models/ekoset/BusinessService'
 import { getModule } from 'vuex-module-decorators'
 import AppStore from '@/store/AppStore'
@@ -40,6 +39,9 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BuscetStore, { findAddedServiceIndex } from '@/store/BuscetStore'
 import { BusinessServiceLocalStorageItem } from '@/models/ekoset/BusinessServiceLocalStorageItem'
+import BusinessServiceService from '@/services/BusinessServiceService';
+import { ServiceRegistry } from '@/ServiceRegistry';
+import DynamicComponentsService from '@/services/DynamicComponentsService';
 
 @Component
 export default class ServiceCard extends Vue {
@@ -88,10 +90,10 @@ export default class ServiceCard extends Vue {
   }
 
 
-  private async asyncData (context: NuxtContext) {
+  private async asyncData (context: Context) {
     const siteSection = context.params.siteSection
-    const businessService = await getServiceContainer().businessServiceService.getBySlug(context.params.service)
-    const dynamicComponentInfo = getServiceContainer().dynamicComponentsService.getServiceDynamicComponentsInfo(siteSection, context.params.service)
+    const businessService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(context.params.service)
+    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getServiceDynamicComponentsInfo(siteSection, context.params.service)
 
     getModule(AppStore, context.store).changeCurrentServiceName(businessService.businessServiceName)
 
@@ -132,7 +134,6 @@ export default class ServiceCard extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 .brc-service-img {
   width: 100%;
 }

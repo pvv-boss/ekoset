@@ -88,8 +88,6 @@ export default class RecommLetterList extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
-
 .brc-letters {
   display: grid;
   // grid-template-columns: repeat(4, 1fr);

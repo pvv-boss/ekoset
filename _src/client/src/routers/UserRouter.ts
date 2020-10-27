@@ -1,7 +1,6 @@
 import Login from '@/pages/private/Login.vue'
 import ChangePasswordForm from '@/components/user/ChangePasswordForm.vue'
 import RestorePasswordForm from '@/components/user/RestorePasswordForm.vue'
-import AuthCallback from '@/components/user/AuthCallback.vue'
 import UserProfile from '@/pages/private/UserProfile.vue'
 import UserDeals from '@/pages/private/UserDeals.vue'
 import ContractList from '@/components/private/ContractList.vue'
@@ -32,12 +31,6 @@ export const UserRoute = [
     path: '/auth/restore',
     component: RestorePasswordForm,
     meta: { title: 'Экосеть:: Восстановление пароля' }
-  },
-  {
-    name: 'auth-callback',
-    path: '/auth/callback/:mode(login|registration|logoff)',
-    props: true,
-    component: AuthCallback
   },
   {
     name: 'user-prifile',

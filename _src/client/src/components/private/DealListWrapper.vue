@@ -1,6 +1,10 @@
 <template>
   <section class="brc-deal-list_wrapper">
-    <div v-for="iterItem of dealList" :key="iterItem.id" class="brc-deal-list__item">
+    <div
+      v-for="iterItem of dealList"
+      :key="iterItem.id"
+      class="brc-deal-list__item"
+    >
       <div class="brc-deal-list__item__header">
         <slot name="header" :dealListItem="iterItem"></slot>
       </div>
@@ -25,7 +29,6 @@ export default class DealListWrapper extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables.scss";
 /*! purgecss start ignore */
 
 .brc-deal-list_wrapper {
