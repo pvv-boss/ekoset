@@ -1,96 +1,96 @@
 [{
-  "ExpressConfig": {
-      "port": 3002,
-      "host": "https://ekoset.ru",
-      "restApiBaseUrl": "/api/2_0",
-      "bodyParserLimit": "50mb",
-      "useCors": true,
-      "corsOptions": {
-          "credentials": true,
-          "origin": true
-      }
-  }
-}, {
-  "DatabaseConfig": {
-      "type": "postgres",
-      "host": "localhost",
-      "port": 5432,
-      "user": "postgres",
-      "username": "postgres",
-      "password": "vW642B8$Hz",
-      "database": "ekoset",
-      "schema": "brc_ekoset",
-      "pgOptions": {
-          "schema": "brc_ekoset"
-      },
-      "synchronize": false
-  }
-}, {
-  "SmtpOptions": {
-      "host": "smtp.timeweb.ru",
-      "port": 25,
-      "from": "inbox@ekoset.ru",
-      "secure": false,
-      "pool": true,
-      "maxConnections": 1,
-      "maxMessages": 100,
-      "auth": {
-          "user": "inbox@ekoset.ru",
-          "pass": "xiUF7g7t"
-      }
-  }
-}, {
-  "SecurityConfig": {
-      "jwtCookieName": "auth-rsn-cookie",
-      "jwtSecretKey": "gostorgiryzhkov1976",
-      "jwtSignOptions": {
-          "expiresIn": 600
-      },
-      "refreshTokenAgeInSeconds": 2592000,
-      "registrationOptions": {
-          "bcryptSaltRounds": 10,
-          "isLoginByPhone": false,
-          "isRequireConfirmationByEmail": false,
-          "isRequireConfirmationBySms": false,
-          "сonfirMailUrl": "http://localhost:3003/api/2_0/user/registration/confirm/mail",
-          "сonfirmMailHeader": "Подтверждение регистрации",
-          "сonfirmMailTemplate": "reg_confirm",
-          "сonfirmUrlTemplateExpression": "{{verify_link}}",
-          "emailConfirmationLifetime": 864000,
-          "registrationCompliteMessage": "Регистрация завершена",
-          "userAlreadyExistsMessage": "Пользователь с данным логином уже существует",
-          "invalidEmailMessage": "Неверно указан email",
-          "invalidPhoneMessage": "Неверно указан телефон",
-          "passwordNotStrenghtMessage": "Пароль должен содержать не менее 8 символов включая цифры, прописные и строчные буквы",
-          "requireConfirmationEmailMessage": "В Ваш адрес отправлено письмо. Перейдите по ссылке из письма для завершения регистрации",
-          "requireSmsConfirmationMessage": "Подтвердитее регистрацию. Введите SMS код",
-          "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия ссылки, или аккаунт был удален"
-      },
-      "authOptions": {
-          "isLoginByPhone": false,
-          "isRequireConfirmationBySms": false,
-          "userNotFoundButSocialNetworkAuthOkMessage": "Профиль не связан с какой-либо учетной записью на сайте. Войдите на сайт или зарегистрируйтесь, чтобы заходить в один аккаунт вводя логин и пароль или используя ",
-          "userBlockedMessage": "Учетная запись заблокирована",
-          "failedMessage": "Ошибка входа. Неверный идентификатор пользователя или пароль",
-          "errorMessage": "Ошибка входа",
-          "authOkMessage": "Вход выполнен успешно",
-          "requireSmsConfirmationMessage": "Введите SMS код",
-          "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия",
-          "requireRegistrationConfirmationMessage": "Регистрация не подтверждена"
-      },
-      "resetPasswordOptions": {
-          "resetPasswordEmailConfirm": true,
-          "resetPasswordUrl": "http://localhost:3003/api/2_0/user/password/reset/confirm",
-          "resetPasswordMailHeader": "Подтверждение регистрации",
-          "resetPasswordMailTemplate": "reset_password",
-          "resetPasswordUrlTemplateExpression": "{{reset_password_link}}",
-          "resetPasswordLifetimeInSeconds": 86400,
-          "resetPasswordUserNotFoundMessage": "Неверный логин пользователя",
-          "resetPasswordInvalidCodeMessage": "Неверно указан код",
-          "resetPasswordExpareddMessage": "Истек срок действия токена для восстановления пароля",
-          "resetPasswordMailSendMessage": "На почтовый ящик отправлено письмо с инструкциями для восстановления пароля",
-          "resetPasswordSmsSendMessage": "Введите SMS код",
-          "resetPasswordOKMessage": "Укажите новый пароль"
-      }
-  }
-}]
+    "ExpressConfig": {
+        "port": 3002,
+        "host": "https://ekoset.ru",
+        "restApiBaseUrl": "/api/2_0",
+        "bodyParserLimit": "50mb",
+        "useCors": true,
+        "corsOptions": {
+            "credentials": true,
+            "origin": true
+        }
+    }
+  }, {
+    "DatabaseConfig": {
+        "type": "postgres",
+        "host": "localhost",
+        "port": 5432,
+        "user": "postgres",
+        "username": "postgres",
+        "password": "vW642B8$Hz",
+        "database": "ekoset",
+        "schema": "brc_ekoset",
+        "pgOptions": {
+            "schema": "brc_ekoset"
+        },
+        "synchronize": false
+    }
+  }, {
+    "SmtpOptions": {
+        "host": "smtp.timeweb.ru",
+        "port": 25,
+        "from": "inbox@ekoset.ru",
+        "secure": false,
+        "pool": true,
+        "maxConnections": 1,
+        "maxMessages": 100,
+        "auth": {
+            "user": "inbox@ekoset.ru",
+            "pass": "xiUF7g7t"
+        }
+    }
+  }, {
+    "SecurityConfig": {
+        "jwtCookieName": "auth-rsn-cookie",
+        "jwtSecretKey": "gostorgiryzhkov1976",
+        "jwtSignOptions": {
+            "expiresIn": 600
+        },
+        "refreshTokenAgeInSeconds": 2592000,
+        "registrationOptions": {
+            "bcryptSaltRounds": 10,
+            "isLoginByPhone": false,
+            "isRequireConfirmationByEmail": false,
+            "isRequireConfirmationBySms": false,
+            "сonfirMailUrl": "http://localhost:3003/api/2_0/user/registration/confirm/mail",
+            "сonfirmMailHeader": "Подтверждение регистрации",
+            "сonfirmMailTemplate": "reg_confirm",
+            "сonfirmUrlTemplateExpression": "{{verify_link}}",
+            "emailConfirmationLifetime": 864000,
+            "registrationCompliteMessage": "Регистрация завершена",
+            "userAlreadyExistsMessage": "Пользователь с данным логином уже существует",
+            "invalidEmailMessage": "Неверно указан email",
+            "invalidPhoneMessage": "Неверно указан телефон",
+            "passwordNotStrenghtMessage": "Пароль должен содержать не менее 8 символов включая цифры, прописные и строчные буквы",
+            "requireConfirmationEmailMessage": "В Ваш адрес отправлено письмо. Перейдите по ссылке из письма для завершения регистрации",
+            "requireSmsConfirmationMessage": "Подтвердитее регистрацию. Введите SMS код",
+            "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия ссылки, или аккаунт был удален"
+        },
+        "authOptions": {
+            "isLoginByPhone": false,
+            "isRequireConfirmationBySms": false,
+            "userNotFoundButSocialNetworkAuthOkMessage": "Профиль не связан с какой-либо учетной записью на сайте. Войдите на сайт или зарегистрируйтесь, чтобы заходить в один аккаунт вводя логин и пароль или используя ",
+            "userBlockedMessage": "Учетная запись заблокирована",
+            "failedMessage": "Ошибка входа. Неверный идентификатор пользователя или пароль",
+            "errorMessage": "Ошибка входа",
+            "authOkMessage": "Вход выполнен успешно",
+            "requireSmsConfirmationMessage": "Введите SMS код",
+            "invalidConfirmationCodeMessage": "Неверный код подтверждения или истек срок действия",
+            "requireRegistrationConfirmationMessage": "Регистрация не подтверждена"
+        },
+        "resetPasswordOptions": {
+            "resetPasswordEmailConfirm": true,
+            "resetPasswordUrl": "https://ekoset.ru/user/password/reset/confirm",
+            "resetPasswordMailHeader": "Восстановление доступа в личный кабинет ЭКОСЕТЬ",
+            "resetPasswordMailTemplate": "reset_password",
+            "resetPasswordUrlTemplateExpression": "{{reset_password_link}}",
+            "resetPasswordLifetimeInSeconds": 86400,
+            "resetPasswordInvalidCodeMessage": "Неверно указан код",
+            "resetPasswordExpareddMessage": "Истек срок действия токена для восстановления пароля",
+            "resetPasswordMailSendMessage": "На почтовый ящик отправлено письмо с инструкциями для восстановления пароля",
+            "resetPasswordSmsSendMessage": "Введите SMS код",
+            "resetPasswordOKMessage": "Укажите новый пароль",
+            "resetPasswordMailSendFailMessage" : "Не удалось отправить почтовое сообщние"
+        }
+    }
+  }]

@@ -3,13 +3,13 @@
     <section>
       <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
         <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
-        <div>
+        <nuxt-link :to="{ name: 'user-profile' }">
           {{
             sessionUser.userSnProfileNick
               ? sessionUser.userSnProfileNick
-              : sessionUser.appUserEmail
+              : sessionUser.appUserName
           }}
-        </div>
+        </nuxt-link>
       </div>
 
       <div v-else class="brc-top-menu__user_notauthenticated">

@@ -14,7 +14,7 @@
         class="brc-login-form logon-form"
         name="user"
         label-width="120px"
-        @submit="restorePassword()"
+        @submit.prevent="restorePassword"
       >
         <div class="brc-login-form__block">
           <label>Email</label>
@@ -24,6 +24,9 @@
             class="login-input"
             placeholder="Email"
           />
+          <span v-if="!!errorMessage" class="logon-error">{{
+            errorMessage
+          }}</span>
         </div>
         <div class="restore-pass-descr">
           <span>
@@ -34,23 +37,21 @@
         <div class="not-sending-mail">
           <span>Не пришло письмо?</span>
 
-          <nuxt-link
-            :to="{ name: 'auth-restore' }"
+          <div
             class="logon-restore send-mail-resore"
+            @click="restorePassword()"
           >
             Отправить письмо повторно
-          </nuxt-link>
+          </div>
         </div>
-        <span v-if="!!errorMessage" class="logon-error">{{
-          errorMessage
-        }}</span>
 
-        <div
+        <button
+          :disabled="submitPending"
           class="brc-login-form__submit login-button"
-          @click="restorePassword()"
+          type="submit"
         >
           Отправить
-        </div>
+        </button>
       </form>
     </div>
   </div>
@@ -61,18 +62,41 @@ import { Vue, Component } from 'nuxt-property-decorator'
 import { ServiceRegistry } from '@/ServiceRegistry'
 import { AuthService } from '@/services/AuthService'
 import { ResetPasswordStatus } from '@/models/user/ResetPasswordResult'
+import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
+import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
 
 @Component
 export default class RestorePasswordForm extends Vue {
 
   private email = ''
   private errorMessage: string | null = null
+  private submitPending = false
 
   private async restorePassword () {
-    const result = await ServiceRegistry.instance.getService(AuthService).resetPassword(this.email)
-    if (result.resetPasswordStatus !== ResetPasswordStatus.OK) {
-      this.errorMessage = result.message
+    this.submitPending = true
+
+    if (this.validateData()) {
+      const result = await ServiceRegistry.instance.getService(AuthService).resetPassword(this.email)
+      if (result.resetPasswordStatus !== ResetPasswordStatus.OK) {
+        BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Сброс пароля', result.message, 2500, { position: BrcDialogPosition.Central })
+        this.$router.push({ name: "main" })
+      } else {
+        this.errorMessage = result.message
+      }
     }
+    this.submitPending = false
+    this.email = ''
+  }
+
+  private validateData () {
+    this.errorMessage = ''
+    let ok = true
+    if (this.email.trim().length < 1) {
+      this.errorMessage = 'Укажите email !'
+      ok = false;
+    }
+    return ok
   }
 }
 </script>
@@ -86,10 +110,12 @@ export default class RestorePasswordForm extends Vue {
 
 .send-mail-resore {
   margin-left: 16px;
+  color: $link-color;
+  cursor: pointer;
 }
 
 .restore-pass-descr {
-  margin: 32px auto;
+  margin: 18px auto;
   font-size: 20px;
   font-weight: 500;
 }

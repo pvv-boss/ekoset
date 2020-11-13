@@ -2,23 +2,27 @@
   <DealTypeWrapper>
     <template #header>Список договоров</template>
     <template #filter>
-      <div class="brc-contract-filter">
-        <input
-          id="valid_contract"
-          v-model="isValidContractFilter"
-          type="checkbox"
-        />
-        <label for="valid_contract">
-          <span>Действует</span>
-        </label>
-        <input
-          id="ended_contract"
-          v-model="isEndedContractFilter"
-          type="checkbox"
-        />
-        <label for="ended_contract">
-          <span>Закончился</span>
-        </label>
+      <div class="brc-contract-filter red-inputs">
+        <div>
+          <input
+            id="valid_contract"
+            v-model="isValidContractFilter"
+            type="checkbox"
+          />
+          <label for="valid_contract">
+            <span>Действует</span>
+          </label>
+        </div>
+        <div style="margin-left: 18px">
+          <input
+            id="ended_contract"
+            v-model="isEndedContractFilter"
+            type="checkbox"
+          />
+          <label for="ended_contract">
+            <span>Закончился</span>
+          </label>
+        </div>
         <div class="brc-contract-filter__sortbydate" @click="sortByDate">
           <span>По сроку действия</span>
           <div v-html="dateSortSymbol"></div>
@@ -210,10 +214,10 @@ export default class ContractList extends Vue {
     font-size: 0.8rem;
   }
 
-  span {
-    margin-left: 5px;
-    white-space: nowrap;
-  }
+  // span {
+  //   margin-left: 5px;
+  //   white-space: nowrap;
+  // }
 
   #ended_contract {
     margin-left: 25px;
@@ -240,6 +244,7 @@ export default class ContractList extends Vue {
       display: none;
     }
     margin-left: 25px;
+    flex-shrink: 0;
     display: flex;
     span {
       text-decoration: underline;

@@ -12,9 +12,9 @@ const baseMiddleware = (context: Context) => {
 
   getModule(AppStore, context.store).changeDefaultCustomPage()
 
-  if (process.client) {
-    getModule(BuscetStore, context.store).initServiceList()
-  }
+  // if (process.client) {
+  //   getModule(BuscetStore, context.store).initServiceList()
+  // }
 }
 
 export default baseMiddleware

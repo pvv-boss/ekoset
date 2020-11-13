@@ -80,17 +80,17 @@
       },
       "resetPasswordOptions": {
           "resetPasswordEmailConfirm": true,
-          "resetPasswordUrl": "http://localhost:3003/api/2_0/user/password/reset/confirm",
-          "resetPasswordMailHeader": "Подтверждение регистрации",
+          "resetPasswordUrl": "http://localhost:8010/user/password/reset/confirm",
+          "resetPasswordMailHeader": "Восстановление доступа в личный кабинет ЭКОСЕТЬ",
           "resetPasswordMailTemplate": "reset_password",
           "resetPasswordUrlTemplateExpression": "{{reset_password_link}}",
           "resetPasswordLifetimeInSeconds": 86400,
-          "resetPasswordUserNotFoundMessage": "Неверный логин пользователя",
           "resetPasswordInvalidCodeMessage": "Неверно указан код",
           "resetPasswordExpareddMessage": "Истек срок действия токена для восстановления пароля",
           "resetPasswordMailSendMessage": "На почтовый ящик отправлено письмо с инструкциями для восстановления пароля",
           "resetPasswordSmsSendMessage": "Введите SMS код",
-          "resetPasswordOKMessage": "Укажите новый пароль"
+          "resetPasswordOKMessage": "Укажите новый пароль",
+          "resetPasswordMailSendFailMessage" : "Не удалось отправить почтовое сообщние"
       }
   }
 }]

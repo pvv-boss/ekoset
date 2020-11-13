@@ -7,6 +7,7 @@ import { getModule } from 'nuxt-property-decorator'
 import { ResetPasswordResult } from '@/models/user/ResetPasswordResult'
 import { RegistrationResult } from '@/models/user/RegistrationResult'
 
+//FIXME: Все завернуть в try catch
 export class AuthService extends BaseService {
 
     public get authStore () {
@@ -65,10 +66,11 @@ export class AuthService extends BaseService {
         return result
     }
 
-
     // Смена пароля
     public async changePassword (newPassword: string) {
-        return this.apiRequest.post('auth/password/change', {}, { password: newPassword })
+        const response = await this.apiRequest.post('auth/password/change', {}, { password: newPassword })
+        const result: LogonResult = response?.data?.data
+        return result
     }
 
     // Восстановление пароля
@@ -78,7 +80,7 @@ export class AuthService extends BaseService {
         return result
     }
 
-    public async confirmResetPasswordByCode (code: number) {
+    public async confirmResetPasswordByCode (code: string) {
         const response = await this.apiRequest.getJSON(`user/password/reset/confirm/${code}`)
         const result: ResetPasswordResult = response?.data?.data
         // Выставим в сторе сессионого пользователя (какой именно решает бэк)
@@ -94,18 +96,18 @@ export class AuthService extends BaseService {
     }
 
     // Отправка письма для потдтверждения email
-    public async sendConfirmRegEmail () {
-        const currentUser = this.getSessionUser()
-        if (currentUser && currentUser.appUserId > 0) {
-            await this.apiRequest.post('user/register/sendconfirm', {}, { useremail: currentUser.appUserEmail });
-        }
-    }
+    // public async sendConfirmRegEmail () {
+    //     const currentUser = this.getSessionUser()
+    //     if (currentUser && currentUser.appUserId > 0) {
+    //         await this.apiRequest.post('user/register/sendconfirm', {}, { useremail: currentUser.appUserEmail });
+    //     }
+    // }
 
     private async processAuth (logonResult: LogonResult) {
         // Если была аутентификация через соц.сеть, но юзверя в базе нет, временно сохраняем его
         this.authStore.clearTempSocialUserUser()
         if (!!logonResult && logonResult.logonStatus === LogonStatus.UserNotFoundButSocialNetworkAuthOK) {
-            this.authStore.setTempSocialUser(this.getSessionUser())
+            //  this.authStore.setTempSocialUser(this.getSessionUser())
         }
 
         // Выставим в сторе сессионого пользователя (какой именно решает бэк)

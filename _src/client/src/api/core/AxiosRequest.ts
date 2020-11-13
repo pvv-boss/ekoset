@@ -29,7 +29,6 @@ export default class AxiosRequest extends AbstractApiRequest {
 
       if (result.data?.showNotify) {
         BrcDialogPlugin.showNotify(BrcDialogType.Info, result.data?.showNotify.title, result.data?.showNotify.text, 2500, { position: BrcDialogPosition.Central })
-
       }
 
       return Promise.resolve(response)

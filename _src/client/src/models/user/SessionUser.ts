@@ -5,7 +5,7 @@ export default class SessionUser extends BaseViewModel {
   public static anonymousUser: SessionUser = new SessionUser();
 
   public appUserId = 0
-  public appUserEmail = 'Гость'
+  public appUserName = 'Гость'
   public appUserBlockedInd = 0
   public appUserRegDate: string
   public appUserRegVerifiedInd: number
@@ -17,3 +17,6 @@ export default class SessionUser extends BaseViewModel {
   public userSnProfileLink = ''
   public userSnProfileEmail = 'Гость'
 }
+
+
+// // appUserName

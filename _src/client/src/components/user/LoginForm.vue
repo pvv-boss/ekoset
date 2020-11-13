@@ -1,5 +1,5 @@
 <template>
-  <div class="brc-login-form__container">
+  <div class="brc-login-form__container red-inputs">
     <div class="brc-login-form__wrapper login-container">
       <div class="brc-footer-logo__wrapper login-logo">
         <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
@@ -10,51 +10,57 @@
       <h1 class="login-header">Авторизация</h1>
       <form
         id="user-form"
-        ref="user"
         class="brc-login-form logon-form"
         name="user"
         label-width="120px"
-        @submit="processLocalAuthAction()"
+        @submit.prevent="processLocalAuthAction()"
       >
         <div class="brc-login-form__block">
           <label>Логин</label>
           <input
-            v-model.lazy="loginData.login"
+            v-model="loginData.login"
             name="login"
             class="login-input"
             placeholder="Логин"
           />
+          <span v-if="!!errorLoginMessage" class="logon-error">{{
+            errorLoginMessage
+          }}</span>
         </div>
         <div class="brc-login-form__block">
           <label>Пароль</label>
           <input
-            v-model.lazy="loginData.password"
+            v-model="loginData.password"
             type="password"
             name="password"
             placeholder="Пароль"
             autocomplete="off"
             class="login-input"
-            @keyup.enter="processLocalAuthAction()"
           />
+          <span v-if="!!errorPasswordMessage" class="logon-error">{{
+            errorPasswordMessage
+          }}</span>
         </div>
+
+        <span v-if="!!errorMessage" class="logon-error">{{
+          errorMessage
+        }}</span>
+
         <nuxt-link :to="{ name: 'auth-restore' }" class="logon-restore">
           Забыли пароль ?
         </nuxt-link>
 
         <div>
-          <input id="cb1" type="checkbox" />
+          <input id="cb1" v-model="loginData.rememberMe" type="checkbox" />
           <label for="cb1">Запомнить меня</label>
         </div>
-        <span v-if="!!errorMessage" class="logon-error">{{
-          errorMessage
-        }}</span>
-
-        <div
+        <button
+          :disabled="submitPending"
           class="brc-login-form__submit login-button"
-          @click="processLocalAuthAction()"
+          type="submit"
         >
           Войти
-        </div>
+        </button>
       </form>
     </div>
   </div>
@@ -78,19 +84,46 @@ export default class LoginForm extends Vue {
   private mode
 
   private loginData: LoginData = new LoginData()
-  private logonStatus = LogonStatus
+
+  private errorLoginMessage: string | null = null
+  private errorPasswordMessage: string | null = null
   private errorMessage: string | null = null
 
+  private submitPending = false
+
   private async processLocalAuthAction () {
-    this.errorMessage = ''
-    // const result = await ServiceRegistry.instance.getService(AuthService).register(this.loginData)
-    const result = await ServiceRegistry.instance.getService(AuthService).loginByPassword(this.loginData)
-    if (result.logonStatus === LogonStatus.OK) {
-      this.$router.push({ name: "main" })
-    } else {
-      this.errorMessage = result.message
+    this.submitPending = true
+
+    if (this.validateData()) {
+      const result = await ServiceRegistry.instance.getService(AuthService).loginByPassword(this.loginData)
+      if (result.logonStatus === LogonStatus.OK) {
+        this.$router.push({ name: "user-profile" })
+      } else {
+        this.errorMessage = result.message
+      }
     }
+
+    this.loginData = new LoginData()
+    this.submitPending = false
   }
+
+  private validateData () {
+    this.errorLoginMessage = ''
+    this.errorPasswordMessage = ''
+    this.errorMessage = ''
+
+    let ok = true
+    if (this.loginData.login.trim().length < 1) {
+      this.errorLoginMessage = 'Укажите логин !'
+      ok = false;
+    }
+    if (ok && this.loginData.password.trim().length < 1) {
+      this.errorPasswordMessage = 'Укажите пароль !'
+      ok = false;
+    }
+    return ok
+  }
+
 }
 </script>
 <style lang="scss">
@@ -140,7 +173,7 @@ export default class LoginForm extends Vue {
 }
 
 .login-input {
-  padding: 10px !important;
+  padding: 8px !important;
   font-size: 16px !important;
 }
 
@@ -155,104 +188,15 @@ export default class LoginForm extends Vue {
   margin-left: auto !important;
   margin-right: auto !important;
   cursor: pointer;
+  border: 1px !important;
+  border-radius: 8px;
+  font-weight: 500 !important;
 }
 
 .logon-error {
   color: $red;
   margin-top: 16px;
   font-size: 15px;
-}
-
-.login-container {
-  input[type="checkbox"]:checked,
-  input[type="checkbox"]:not(:checked),
-  input[type="radio"]:checked,
-  input[type="radio"]:not(:checked) {
-    position: absolute;
-    left: -9999px;
-  }
-
-  input[type="checkbox"]:checked + label,
-  input[type="checkbox"]:not(:checked) + label,
-  input[type="radio"]:checked + label,
-  input[type="radio"]:not(:checked) + label {
-    display: inline-block;
-    position: relative;
-    padding-left: 32px;
-    cursor: pointer;
-  }
-
-  input[type="checkbox"]:checked + label:before,
-  input[type="checkbox"]:not(:checked) + label:before,
-  input[type="radio"]:checked + label:before,
-  input[type="radio"]:not(:checked) + label:before {
-    content: "";
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 24px;
-    height: 24px;
-    border: 1px solid #b2b2b2;
-    background-color: #ffffff;
-  }
-
-  input[type="checkbox"]:checked + label:before,
-  input[type="checkbox"]:not(:checked) + label:before {
-    border-radius: 2px;
-  }
-
-  input[type="radio"]:checked + label:before,
-  input[type="radio"]:not(:checked) + label:before {
-    border-radius: 100%;
-  }
-
-  input[type="checkbox"]:checked + label:after,
-  input[type="checkbox"]:not(:checked) + label:after,
-  input[type="radio"]:checked + label:after,
-  input[type="radio"]:not(:checked) + label:after {
-    content: "";
-    position: absolute;
-    -webkit-transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-  }
-
-  input[type="checkbox"]:checked + label:after,
-  input[type="checkbox"]:not(:checked) + label:after {
-    left: 3px;
-    top: 4px;
-    width: 20px;
-    height: 10px;
-    border-radius: 1px;
-    border-left: 4px solid $red;
-    border-bottom: 4px solid $red;
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-  }
-
-  input[type="radio"]:checked + label:after,
-  input[type="radio"]:not(:checked) + label:after {
-    left: 5px;
-    top: 5px;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    background-color: $red;
-  }
-
-  input[type="checkbox"]:not(:checked) + label:after,
-  input[type="radio"]:not(:checked) + label:after {
-    opacity: 0;
-  }
-
-  input[type="checkbox"]:checked + label:after,
-  input[type="radio"]:checked + label:after {
-    opacity: 1;
-  }
 }
 </style>
 

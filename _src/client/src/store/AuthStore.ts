@@ -11,25 +11,25 @@ export default class AuthStore extends VuexModule {
   private tempSocialUserState: SessionUser = SessionUser.anonymousUser
 
   @VuexMutation
-  public setSessionUser (sessionUser: SessionUser) {
+  private setSessionUser (sessionUser: SessionUser) {
     const setVal = sessionUser ?? SessionUser.anonymousUser
     this.sessionUserState = setVal
   }
 
   @VuexMutation
-  public setTempSocialUser (sessionUser: SessionUser) {
+  private setTempSocialUser (sessionUser: SessionUser) {
     const setVal = sessionUser ?? SessionUser.anonymousUser
     this.tempSocialUserState = setVal
   }
 
   @VuexAction
   public updateSessionUser (user: SessionUser) {
-    this.context.commit('setSessionUser', user) // Вот так НЕ будет "рекурсии"
+    this.setSessionUser(user)
   }
 
   @VuexAction
   public clearTempSocialUserUser () {
-    this.context.commit('setTempSocialUser', SessionUser.anonymousUser)
+    this.setTempSocialUser(SessionUser.anonymousUser)
   }
 
   public get isAuthenticated () {

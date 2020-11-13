@@ -2,6 +2,7 @@ import { Context } from "@nuxt/types";
 import { Location } from "vue-router";
 import { AbstractApiRequest } from "@/api/core/AbstractApiRequest";
 import AxiosRequest from '@/api/core/AxiosRequest';
+import { plainToClass } from 'class-transformer';
 
 export class BaseService {
   private api: AbstractApiRequest;
@@ -20,6 +21,27 @@ export class BaseService {
       this.api = new AxiosRequest()
     }
     return this.api;
+  }
+
+  public async getOneOrEmpty<T> (ctor: { new(): T }, url: string): Promise<T> {
+    try {
+      const response = await this.apiRequest.getJSON(url);
+      const data = response?.data?.data;
+      return !!data ? plainToClass(ctor, data) : new ctor();
+    } catch {
+      return new ctor();
+    }
+  }
+
+
+  public async getArrayOrEmpty<T> (ctor: { new(): T }, url: string): Promise<T[]> {
+    try {
+      const response = await this.apiRequest.getJSON(url);
+      const data = response?.data?.data;
+      return !!data ? plainToClass(ctor, Array.from(data)) : [];
+    } catch {
+      return [];
+    }
   }
 
   public notAuthRedirect () {
