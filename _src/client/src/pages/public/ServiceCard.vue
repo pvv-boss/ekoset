@@ -8,7 +8,7 @@
     <a class="brc-service-buscet__icon_desktop" @click="addServiceToBuscet">
       <span>{{ basketImageInfo.alt }}</span>
       <img
-        src="/images/addBusket.svg"
+        src="~/assets/images/addBusket.svg"
         :alt="basketImageInfo.alt"
         :title="basketImageInfo.alt"
       />
@@ -45,7 +45,7 @@ import DynamicComponentsService from '@/services/DynamicComponentsService';
 
 @Component
 export default class ServiceCard extends Vue {
-  private basketImageInfo: any = { src: '/images/addBusket.svg', alt: 'Добавить в корзину' }
+  private basketImageInfo: any = { src: require('~/assets/images/addBusket.svg'), alt: 'Добавить в корзину' }
   private dynamicComponentInfo: DynamicComponentInfo[] = []
   private businessService: BusinessService = new BusinessService()
   private childServiceList: BusinessService[] = []
@@ -66,7 +66,7 @@ export default class ServiceCard extends Vue {
   private updateBasketImage () {
     const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.businessService)
     const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
-    const info = ind === -1 ? { src: '/images/addBusketWhite.svg', alt: 'Добавить в корзину' } : { src: '/images/checkBasketWhite.svg', alt: 'В корзине' }
+    const info = ind === -1 ? { src: require('~/assets/images/addBusketWhite.svg'), alt: 'Добавить в корзину' } : { src: require('~/assets/images/checkBasketWhite.svg'), alt: 'В корзине' }
     this.basketImageInfo.src = info.src
     this.basketImageInfo.alt = info.alt
   }

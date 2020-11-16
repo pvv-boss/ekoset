@@ -23,6 +23,8 @@ export class AuthService extends BaseService {
         let serverUser = SessionUser.anonymousUser
         const reqUrl = 'auth/user'
 
+        console.log(this.context.req?.headers)
+
         if (!!this.context.req) {
             const cookie = this.context.req?.headers?.cookie
             if (!!cookie) {

@@ -61,8 +61,8 @@ export default class ServiceListItem extends Vue {
   @Prop()
   private imageSrcForDesignMode: string
 
-  private basketImageInfo: any = { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' }
-  private basketImageInfoMobile: any = { src: '/images/addBusketWhite.svg', alt: 'В корзину' }
+  private basketImageInfo: any = { src: require('~/assets/images/addBusketBlack.svg'), alt: 'Добавить в корзину' }
+  private basketImageInfoMobile: any = { src: require('~/assets/images/addBusketWhite.svg'), alt: 'В корзину' }
 
   private get imageSrc () {
     return this.imageSrcForDesignMode ? this.imageSrcForDesignMode : this.serviceItem.businessServiceImgSmall
@@ -95,7 +95,7 @@ export default class ServiceListItem extends Vue {
   public updateBasketImage () {
     const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem)
     const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
-    const info = ind === -1 ? { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' } : { src: '/images/checkBasket.svg', alt: 'Убрать из корзины' }
+    const info = ind === -1 ? { src: require('~/assets/images/addBusketBlack.svg'), alt: 'Добавить в корзину' } : { src: require('~/assets/images/checkBasket.svg'), alt: 'Убрать из корзины' }
     this.basketImageInfo.src = info.src
     this.basketImageInfo.alt = info.alt
   }
@@ -103,7 +103,7 @@ export default class ServiceListItem extends Vue {
   public updateBasketImageMobile () {
     const wrapper = BusinessServiceLocalStorageItem.createFromBusinessService(this.serviceItem)
     const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
-    const info = ind === -1 ? { src: '/images/addBusketWhite.svg', alt: 'В корзину' } : { src: '/images/checkBasketWhite.svg', alt: 'В корзине' }
+    const info = ind === -1 ? { src: require('~/assets/images/addBusketWhite.svg'), alt: 'В корзину' } : { src: require('~/assets/images/checkBasketWhite.svg'), alt: 'В корзине' }
     this.basketImageInfoMobile.src = info.src
     this.basketImageInfoMobile.alt = info.alt
   }

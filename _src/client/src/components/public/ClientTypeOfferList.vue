@@ -12,7 +12,7 @@
       class="brc-client-type-offer-item"
     >
       <img
-        src="/images/solutions-business.png"
+        src="~/assets/images/solutions-business.png"
         alt="Комлексное решение для бизнеса"
         title="Комлексное решение для бизнеса"
         itemprop="image"
@@ -32,7 +32,7 @@
       class="brc-client-type-offer-item"
     >
       <img
-        src="/images/solutions-person.png"
+        src="~/assets/images/solutions-person.png"
         alt="Комлексное решение для дома"
         title="Комлексное решение для дома"
         itemprop="image"

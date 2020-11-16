@@ -1,6 +1,6 @@
 
 import { Context, Plugin } from '@nuxt/types'
-import { ServiceRegistry } from '@/ServiceRegistry';
+import { createNewServiceRegistryFromPlugin, ContextServiceRegistry, ServiceRegistry } from '@/ServiceRegistry';
 import { Inject } from '@nuxt/types/app';
 import AxiosRequest from '@/api/core/AxiosRequest';
 import { AppConfig } from '@/AppConfig';
@@ -20,34 +20,33 @@ import BuscetStore from '@/store/BuscetStore';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $serviceRegistry: ServiceRegistry
+    $serviceRegistry: ContextServiceRegistry
   }
 }
 
 declare module '@nuxt/types' {
   // nuxtContext.app.$serviceRegistry inside asyncData, fetch, plugins, middleware, nuxtServerInit
   interface NuxtAppOptions {
-    $serviceRegistry: ServiceRegistry
+    $serviceRegistry: ContextServiceRegistry
   }
   // nuxtContext.$serviceRegistry
   interface Context {
-    $serviceRegistry: ServiceRegistry
+    $serviceRegistry: ContextServiceRegistry
   }
 }
 
 declare module 'vuex/types/index' {
   // this.$serviceRegistry inside Vuex stores
   interface Store<S> {
-    $serviceRegistry (): ServiceRegistry
+    $serviceRegistry (): ContextServiceRegistry
   }
 }
 
 const initializeApp: Plugin = async (ctx: Context, inject: Inject) => {
 
-  inject('serviceRegistry', ServiceRegistry.instance)
+  createNewServiceRegistryFromPlugin()
 
   ServiceRegistry.instance.register(ArticleService);
-
   ServiceRegistry.instance.register(AuthService);
   ServiceRegistry.instance.register(BusinessServiceService);
   ServiceRegistry.instance.register(DynamicComponentsService);
@@ -60,6 +59,8 @@ const initializeApp: Plugin = async (ctx: Context, inject: Inject) => {
   const api = new AxiosRequest({ withCredentials: true }, AppConfig.endPoint);
   ServiceRegistry.instance.updateApiRequest(api);
   ServiceRegistry.instance.updateNuxtContext(ctx);
+
+  inject('serviceRegistry', ServiceRegistry.instance)
 
   if (process.server) {
     await ServiceRegistry.instance.getService(AuthService).setSessionUserFromServer()

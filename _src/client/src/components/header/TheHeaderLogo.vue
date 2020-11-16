@@ -1,7 +1,7 @@
 <template>
   <nuxt-link :to="getNuxtLink">
     <img
-      :src="logoImageSrc"
+      src="~/assets/images/page_logo_1_ck71lvkv50000kciace7g1eik.svg"
       :alt="currentSiteSectionName"
       class="brc-logo_main"
     />
@@ -32,7 +32,7 @@ export default class TheHeaderLogo extends Vue {
   // @Prop()
   // private sitePage: SitePage
 
-  private defaultLogo = '/images/page_logo_1_ck71lvkv50000kciace7g1eik.svg'
+  private defaultLogo = '~/assets/images/page_logo_1_ck71lvkv50000kciace7g1eik.svg'
   private currentLogoSrc = ''
 
   private get currentSiteSectionName () {

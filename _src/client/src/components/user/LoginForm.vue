@@ -3,7 +3,7 @@
     <div class="brc-login-form__wrapper login-container">
       <div class="brc-footer-logo__wrapper login-logo">
         <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
-          <img src="/images/logo.png" alt="Экосеть" />
+          <img src="~/assets/images/logo.png" alt="Экосеть" />
         </nuxt-link>
       </div>
       <div class="login-hr"></div>

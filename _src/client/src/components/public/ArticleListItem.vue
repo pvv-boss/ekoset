@@ -2,7 +2,13 @@
   <article class="brc-article-smallitem">
     <figure class="brc-article-smallitem__preview">
       <nuxt-link
-        :to="{ name: 'news-card', params: {  article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
+        :to="{
+          name: 'news-card',
+          params: {
+            article: articleItem.articleUrl,
+            siteSection: getCurrentSiteSection,
+          },
+        }"
       >
         <img
           :src="imageSrc"
@@ -12,25 +18,52 @@
         />
       </nuxt-link>
 
-      <figcaption>{{articleItem.articleTitle}}</figcaption>
+      <figcaption>{{ articleItem.articleTitle }}</figcaption>
     </figure>
     <header class="brc-article-smallitem__header">
       <nuxt-link
-        :to="{ name: 'news-card', params: { article: articleItem.articleUrl, siteSection: getCurrentSiteSection}}"
+        :to="{
+          name: 'news-card',
+          params: {
+            article: articleItem.articleUrl,
+            siteSection: getCurrentSiteSection,
+          },
+        }"
         class="brc-article-smallitem__header-link"
-      >{{articleItem.articleTitle}}</nuxt-link>
+        >{{ articleItem.articleTitle }}</nuxt-link
+      >
     </header>
     <div class="clearfix"></div>
     <div class="brc-article-smallitem__stat-info">
       <div class="brc-article-smallitem__date">
         <span
           itemprop="datePublished"
-          :content="articleItem.articlePublishDate ? new Date(articleItem.articlePublishDate).toISOString().split('T')[0] : ''"
-        >{{ articleItem.articlePublishDate ? (new Date(articleItem.articlePublishDate)).toLocaleDateString('ru-RU') : '' }}</span>
+          :content="
+            articleItem.articlePublishDate
+              ? new Date(articleItem.articlePublishDate)
+                  .toISOString()
+                  .split('T')[0]
+              : ''
+          "
+          >{{
+            articleItem.articlePublishDate
+              ? new Date(articleItem.articlePublishDate).toLocaleDateString(
+                  "ru-RU"
+                )
+              : ""
+          }}</span
+        >
       </div>
-      <div v-if="articleItem.articleViewsNumber > 0" class="brc-article-smallitem__views">
-        <img src="/images/eye.svg" alt="Количество просмотров" title="Количество просмотров" />
-        <span>{{articleItem.articleViewsNumber}}</span>
+      <div
+        v-if="articleItem.articleViewsNumber > 0"
+        class="brc-article-smallitem__views"
+      >
+        <img
+          src="~/assets/images/eye.svg"
+          alt="Количество просмотров"
+          title="Количество просмотров"
+        />
+        <span>{{ articleItem.articleViewsNumber }}</span>
       </div>
     </div>
   </article>

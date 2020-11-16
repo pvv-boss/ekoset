@@ -2,7 +2,11 @@
   <client-only>
     <section>
       <div v-if="isAuthenticated" class="brc-top-menu__user_authenticated">
-        <img v-if="isMobile" :src="userImageSrc" title="Вход на сайт" />
+        <img
+          v-if="isMobile"
+          src="~/assets/images/user-icon-red.png"
+          title="Вход на сайт"
+        />
         <nuxt-link :to="{ name: 'user-profile' }">
           {{
             sessionUser.userSnProfileNick
@@ -17,7 +21,7 @@
           :to="{ name: 'auth-login', params: { mode: 'login' } }"
           style="display: flex"
         >
-          <img :src="userImageSrc" title="Вход на сайт" />
+          <img src="~/assets/images/user-icon.png" title="Вход на сайт" />
           <div v-if="isMobile">Личный кабинет</div>
         </nuxt-link>
       </div>
@@ -53,8 +57,8 @@ export default class UserAuthHeader extends Vue {
   }
 
   private get userImageSrc (): string {
-    return this.isMobile ? '/images/user-icon-red.png' : '/images/user-icon.png'
-    // return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '/images/user-icon.png'
+    return this.isMobile ? '~/assets/images/user-icon-red.png' : '~/assets/images/user-icon.png'
+    // return this.sessionUser.userSnProfileAvatar !== '' ? this.sessionUser.userSnProfileAvatar : '~/assets/images/user-icon.png'
   }
 
 }

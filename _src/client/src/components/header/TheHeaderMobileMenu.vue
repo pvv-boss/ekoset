@@ -4,12 +4,12 @@
 
     <!-- <div class="brc-page-header-mobile__user">
       <nuxt-link :to="{ name: 'auth-login', params: {mode: 'login'}}" style="display:flex;">
-        <img src="/images/user-icon.png" title="Вход на сайт" />
+        <img src="~/assets/images/user-icon.png" title="Вход на сайт" />
       </nuxt-link>
     </div>-->
 
     <div class="brc-buscet-mobile" @click="navigateToOfferForm">
-      <img src="/images/busket.svg" />
+      <img src="~/assets/images/busket.svg" />
       <div class="brc-buscet-counter_mobile">{{ getBuscetCount }}</div>
     </div>
 

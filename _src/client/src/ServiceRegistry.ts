@@ -4,17 +4,9 @@ import { AbstractApiRequest } from "@/api/core/AbstractApiRequest";
 
 export type ConstructorOf<T extends BaseService> = new (...args: any[]) => T;
 
-export class ServiceRegistry {
-  private static _instance: ServiceRegistry = new ServiceRegistry()
+export class ContextServiceRegistry {
   private servicesMap = new Map<ConstructorOf<BaseService>, any>()
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor () { }
-
-
-  public static get instance () {
-    return this._instance
-  }
 
   public updateNuxtContext (ctx: Context) {
     for (const iterServ of this.servicesMap.values()) {
@@ -35,10 +27,25 @@ export class ServiceRegistry {
   }
 
   public getService<T extends BaseService> (ctor: ConstructorOf<T>): T {
-    return this.servicesMap.get(ctor) || new BaseService()
+    return this.servicesMap.get(ctor) || new ctor()
   }
 
   public exists<T extends BaseService> (ctor: new (...args: any[]) => T): boolean {
     return !!this.getService(ctor)
   }
 }
+
+let instance: ContextServiceRegistry = new ContextServiceRegistry()
+
+export class ServiceRegistry {
+  public static get instance () {
+    return instance
+  }
+}
+
+export const createNewServiceRegistryFromPlugin = () => {
+  instance = new ContextServiceRegistry()
+}
+
+
+

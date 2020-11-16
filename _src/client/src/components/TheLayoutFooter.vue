@@ -8,7 +8,7 @@
         <div class="brc-footer-logo__wrapper" style="margin: auto">
           <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
             <img
-              src="/images/logo.png"
+              src="~/assets/images/logo.png"
               alt="Экосеть"
               style="max-height: 40px; height: 40px"
             />
@@ -19,10 +19,10 @@
         </div>
         <div class="brc-page-footer__social">
           <a href="mailto:inbox@ekoset.ru">
-            <img src="/images/mail.svg" alt="Экосеть Эл.почта" />
+            <img src="~/assets/images/mail.svg" alt="Экосеть Эл.почта" />
           </a>
           <a href="https://vk.com/ekoset" style="margin-left: 15px">
-            <img src="/images/vk.svg" alt="Экосеть ВКонтакте" />
+            <img src="~/assets/images/vk.svg" alt="Экосеть ВКонтакте" />
           </a>
         </div>
       </div>

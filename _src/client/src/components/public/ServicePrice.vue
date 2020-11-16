@@ -180,7 +180,7 @@ export default class ServicePrice extends Vue {
   public basketImage (serviceItem: any) {
     const wrapper = BusinessServiceLocalStorageItem.createFromServicePrice(serviceItem)
     const ind = findAddedServiceIndex(this.buscetStore.addedServiceList, wrapper)
-    return ind === -1 ? { src: '/images/addBusketBlack.svg', alt: 'Добавить в корзину' } : { src: '/images/checkBasket.svg', alt: 'Убрать из корзины' }
+    return ind === -1 ? { src: require('~/assets/images/addBusketBlack.svg'), alt: 'Добавить в корзину' } : { src: require('~/assets/images/checkBasket.svg'), alt: 'Убрать из корзины' }
   }
 }
 </script>

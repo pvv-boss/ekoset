@@ -28,7 +28,7 @@
         class="brc-article-item__views"
       >
         <img
-          src="/images/eye.svg"
+          src="~/assets/images/eye.svg"
           alt="Количество просмотров"
           title="Количество просмотров"
         />
