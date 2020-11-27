@@ -89,36 +89,36 @@ export default class DynamicComponentsService extends BaseService {
     // Услуга м.б. второго уровня, если так, то данные берем от его предка
     let serviceIdForRelations = 0
     if (serviceSlug) {
-      const businessService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(serviceSlug)
+      const businessService = await this.context.$serviceRegistry.getService(BusinessServiceService).getBySlug(serviceSlug)
       serviceIdForRelations = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0 ? businessService.businessServiceParentId : businessService.businessServiceId
     }
 
     // Нас рекомендуют (брэнды) (для услуги или раздела или для главной)
     let brandItems: any = null
     if (serviceIdForRelations > 0) {
-      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
+      brandItems = this.context.$serviceRegistry.getService(PublicEkosetService).getBrandsByBusinessServiceSlug('slug-' + serviceIdForRelations)
     }
 
     if (!brandItems && !!siteSectionSlug) {
-      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsBySiteSectionSlug(siteSectionSlug)
+      brandItems = this.context.$serviceRegistry.getService(PublicEkosetService).getBrandsBySiteSectionSlug(siteSectionSlug)
     }
 
     if (!brandItems) {
-      brandItems = ServiceRegistry.instance.getService(PublicEkosetService).getBrandsForHomePage()
+      brandItems = this.context.$serviceRegistry.getService(PublicEkosetService).getBrandsForHomePage()
     }
 
     // Новости (для услуги или для раздела или для главной)
     let articleItems: any = null
     if (serviceIdForRelations > 0) {
-      articleItems = ServiceRegistry.instance.getService(ArticleService).getArticleListByBusinessServiceSlug(siteSectionSlug, 'slug-' + serviceIdForRelations)
+      articleItems = this.context.$serviceRegistry.getService(ArticleService).getArticleListByBusinessServiceSlug(siteSectionSlug, 'slug-' + serviceIdForRelations)
     }
 
     if (!articleItems && !!siteSectionSlug) {
-      articleItems = ServiceRegistry.instance.getService(ArticleService).getArticleListBySiteSectionSlug(siteSectionSlug)
+      articleItems = this.context.$serviceRegistry.getService(ArticleService).getArticleListBySiteSectionSlug(siteSectionSlug)
     }
 
     if (!articleItems) {
-      articleItems = ServiceRegistry.instance.getService(ArticleService).getRootArticleList()
+      articleItems = this.context.$serviceRegistry.getService(ArticleService).getRootArticleList()
     }
 
 
@@ -128,14 +128,14 @@ export default class DynamicComponentsService extends BaseService {
     let serviceHasParent = false
     let relatedServiceList: any = null
     if (serviceSlug) {
-      const businessService = await ServiceRegistry.instance.getService(BusinessServiceService).getBySlug(serviceSlug)
-      const childServiceList = await ServiceRegistry.instance.getService(BusinessServiceService).getChildServicesByParentId(businessService.businessServiceId)
+      const businessService = await this.context.$serviceRegistry.getService(BusinessServiceService).getBySlug(serviceSlug)
+      const childServiceList = await this.context.$serviceRegistry.getService(BusinessServiceService).getChildServicesByParentId(businessService.businessServiceId)
       serviceList = !!childServiceList && childServiceList.length && childServiceList.length > 0 ? [...childServiceList] : [businessService]
       serviceHasParent = !!businessService.businessServiceParentId && businessService.businessServiceParentId > 0
 
-      priceList = serviceHasParent ? ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForChildService(businessService.businessServiceId) : ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForService(businessService.businessServiceId)
+      priceList = serviceHasParent ? this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForChildService(businessService.businessServiceId) : this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForService(businessService.businessServiceId)
 
-      relatedServiceList = ServiceRegistry.instance.getService(BusinessServiceService).adminGetRelated(businessService.businessServiceId)
+      relatedServiceList = this.context.$serviceRegistry.getService(BusinessServiceService).adminGetRelated(businessService.businessServiceId)
     }
 
 
@@ -143,33 +143,33 @@ export default class DynamicComponentsService extends BaseService {
     if (!!indOfferUrl && !!siteSectionSlug) {
       if (offerForClentType) {
         serviceList = offerForClentType === 'business'
-          ? ServiceRegistry.instance.getService(BusinessServiceService).getForBusinessBySiteSectionSlug(siteSectionSlug)
-          : ServiceRegistry.instance.getService(BusinessServiceService).getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
+          ? this.context.$serviceRegistry.getService(BusinessServiceService).getForBusinessBySiteSectionSlug(siteSectionSlug)
+          : this.context.$serviceRegistry.getService(BusinessServiceService).getForPrivatePersonBySiteSectionSlug(siteSectionSlug)
 
         priceList = offerForClentType === 'business'
-          ? ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForBusinessBySiteSectionId(siteSectionSlug)
-          : ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForPersonBySiteSectionId(siteSectionSlug)
+          ? this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForBusinessBySiteSectionId(siteSectionSlug)
+          : this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForPersonBySiteSectionId(siteSectionSlug)
       } else {
-        serviceList = ServiceRegistry.instance.getService(BusinessServiceService).getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
-        priceList = ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForActivity(siteSectionSlug, clActivityId)
+        serviceList = this.context.$serviceRegistry.getService(BusinessServiceService).getByActivityAndBySiteSectionSlug(siteSectionSlug, clActivityId)
+        priceList = this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForActivity(siteSectionSlug, clActivityId)
       }
     }
 
     // Услуги для раздела
     if (!serviceList && !!siteSectionSlug) {
-      serviceList = ServiceRegistry.instance.getService(BusinessServiceService).getBySiteSectionSlug(siteSectionSlug, true)
-      priceList = ServiceRegistry.instance.getService(BusinessServiceService).getPriceListForSiteSection(siteSectionSlug)
+      serviceList = this.context.$serviceRegistry.getService(BusinessServiceService).getBySiteSectionSlug(siteSectionSlug, true)
+      priceList = this.context.$serviceRegistry.getService(BusinessServiceService).getPriceListForSiteSection(siteSectionSlug)
     }
 
     // Для рутовых страниц
     if (!serviceList) {
-      priceList = ServiceRegistry.instance.getService(BusinessServiceService).priceList()
+      priceList = this.context.$serviceRegistry.getService(BusinessServiceService).priceList()
     }
 
     // Индивидуальные предложения
     let busineesTypeOfferList: any = null
     if (!!siteSectionSlug && !adminMode) {
-      busineesTypeOfferList = ServiceRegistry.instance.getService(IndividualOfferService).getForActivityBySiteSectionIdSlug(siteSectionSlug)
+      busineesTypeOfferList = this.context.$serviceRegistry.getService(IndividualOfferService).getForActivityBySiteSectionIdSlug(siteSectionSlug)
     }
 
     if (!!indOfferUrl && !offerForClentType && adminMode) {
@@ -326,7 +326,7 @@ export default class DynamicComponentsService extends BaseService {
       return iter.code === BlockType.CLIENTS
     })
     if (!!clientsInfo && clientsInfo.visible === 1) {
-      clientsInfo.props.clientList = await ServiceRegistry.instance.getService(PublicEkosetService).getClients()
+      clientsInfo.props.clientList = await this.context.$serviceRegistry.getService(PublicEkosetService).getClients()
       if (!adminMode) {
         clientsInfo.visible = 0
         clientsInfo.visible = !!clientsInfo.props.clientList && clientsInfo.props.clientList.length > 0 ? 1 : 0

@@ -1,15 +1,15 @@
 // const Articles = () => import('@/pages/public/Articles.vue').default
 import Articles from '@/pages/public/Articles.vue'
-import SiteSectionCard from '@/pages/public/SiteSectionCard.vue'
-import OfferCard from '@/pages/public/OfferCard.vue'
+// import SiteSectionCard from '@/pages/public/SiteSectionCard.vue'
+// import OfferCard from '@/pages/public/OfferCard.vue'
 import ArticleCard from '@/pages/public/ArticleCard.vue'
-import ServiceCard from '@/pages/public/ServiceCard.vue'
-import Main from '@/pages/public/Main.vue'
-import Clients from '@/pages/public/Clients.vue'
+// import ServiceCard from '@/pages/public/ServiceCard.vue'
+// import Main from '@/pages/public/Main.vue'
+// import Clients from '@/pages/public/Clients.vue'
 import Contacts from '@/pages/public/Contacts.vue'
-import Prices from '@/pages/public/Prices.vue'
-import About from '@/pages/public/About.vue'
-import DynamicPage from '@/pages/public/DynamicPage.vue'
+// import Prices from '@/pages/public/Prices.vue'
+// import About from '@/pages/public/About.vue'
+// import DynamicPage from '@/pages/public/DynamicPage.vue'
 
 
 export const EkosetRouter = [
@@ -17,7 +17,8 @@ export const EkosetRouter = [
     name: 'main',
     path: '/',
     props: true,
-    component: Main
+    component: () => require(/* webpackChunkName: "main" */ "@/pages/public/Main.vue").default
+    //   component: Main
     // meta: {
     //   requiresAuth: true
     // }
@@ -26,13 +27,15 @@ export const EkosetRouter = [
     name: 'about',
     path: '/about',
     props: true,
-    component: About
+    component: () => require(/* webpackChunkName: "about" */ "@/pages/public/About.vue").default
+    //  component: About 
   },
   {
     name: 'clients',
     path: '/:siteSection?/clients',
     props: true,
-    component: Clients
+    component: () => require(/* webpackChunkName: "clients" */ "@/pages/public/Clients.vue").default
+    // component: Clients
   },
   {
     name: 'contacts',
@@ -44,19 +47,22 @@ export const EkosetRouter = [
     name: 'prices',
     path: '/:siteSection?/prices',
     props: true,
-    component: Prices
+    component: () => require(/* webpackChunkName: "prices" */ "@/pages/public/Prices.vue").default
+    //   component: Prices
   },
 
   {
     name: 'offer-card',
     path: '/:siteSection?/:clienttype?/offers/:offer?',
     props: true,
-    component: OfferCard
+    component: () => require(/* webpackChunkName: "offerCard" */ "@/pages/public/OfferCard.vue").default
+    //    component: OfferCard
   },
   {
     name: 'service-card',
     path: '/:siteSection?/services/:service',
-    component: ServiceCard,
+    component: () => require(/* webpackChunkName: "serviceCard" */ "@/pages/public/ServiceCard.vue").default,
+    //    component: ServiceCard,
     props: true
   },
 
@@ -78,14 +84,16 @@ export const EkosetRouter = [
     name: 'activity-card',
     path: '/:siteSection',
     props: true,
-    component: SiteSectionCard
+    component: () => require(/* webpackChunkName: "siteSectionCard" */ "@/pages/public/SiteSectionCard.vue").default,
+    //    component: SiteSectionCard
   },
 
   {
     name: 'custom-page',
     path: '/:siteSection?/pages/:page',
     props: true,
-    component: DynamicPage
+    component: () => require(/* webpackChunkName: "dynamicPage" */ "@/pages/public/DynamicPage.vue").default,
+    // component: DynamicPage
   }
 
 ]

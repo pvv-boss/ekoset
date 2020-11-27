@@ -1,6 +1,7 @@
 import { AbstractApiRequest, ResponseType } from './AbstractApiRequest';
 import { ApiResponse } from './ApiResponse';
 
+// FIXME: Надо базовые настройки в конструктор как у аксиоса
 export default class FetchRequest extends AbstractApiRequest {
 
   protected async processRequest (url: string, responseType: ResponseType, config?: any, data?: any): Promise<ApiResponse> {

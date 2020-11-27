@@ -2,7 +2,6 @@ import SiteSection from '@/models/ekoset/SiteSection'
 import ClBrand from '@/models/ekoset/ClBrand'
 import ClActivity from '@/models/ekoset/ClActivity';
 import { BaseService } from './BaseService';
-import { ServiceRegistry } from '@/ServiceRegistry';
 import MediaService from './MediaService';
 
 
@@ -96,10 +95,10 @@ export default class PublicEkosetService extends BaseService {
     const resPr = this.apiRequest.put('activities', {}, siteSection)
 
     if (siteSection.smallImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
+      this.context.$serviceRegistry.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.smallImageFormData, false)
     }
     if (siteSection.bigImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
+      this.context.$serviceRegistry.getService(MediaService).saveSiteSectionImage(siteSection.siteSectionId, siteSection.bigImageFormData, true)
     }
 
     return resPr
@@ -113,10 +112,10 @@ export default class PublicEkosetService extends BaseService {
     const resultPr = this.apiRequest.put('brands', {}, brand)
 
     if (brand.smallImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
+      this.context.$serviceRegistry.getService(MediaService).saveBrandImage(brand.clBrandId, brand.smallImageFormData, false)
     }
     if (brand.recommendImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
+      this.context.$serviceRegistry.getService(MediaService).saveRecommendationLetterImage(brand.clBrandId, brand.recommendImageFormData)
     }
 
     return resultPr
@@ -163,6 +162,9 @@ export default class PublicEkosetService extends BaseService {
     return result
   }
 
+  public async logOnServer (log: any) {
+    return this.apiRequest.put('app/log', {}, log)
+  }
 
   private async getBrandsBySiteSection (siteSectionId: number) {
     const query = `${siteSectionId}/brands`

@@ -19,14 +19,14 @@ export const AdminRouter = [
     path: '/admin',
     props: true,
     component: StartAdmin,
-    meta: { requiresAuth: true, title: 'Экосеть: Панель управления' }
+    meta: { requiresAuth: true }
   },
   {
     name: 'admin-news',
     path: '/admin/news',
     props: true,
     component: AdminArticleList,
-    meta: { requiresAuth: true, title: 'Экосеть: Панель управления - список новостей' }
+    meta: { requiresAuth: true }
   },
   {
     name: 'admin-news-article',

@@ -32,8 +32,8 @@ export default class About extends Vue {
   private routeFullPath = ''
 
   private async asyncData (context: Context) {
-    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.ABOUT)
-    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.ABOUT)
+    const dynamicComponentInfo = context.$serviceRegistry.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.ABOUT)
+    const sitePageInfo = context.$serviceRegistry.getService(TopMenuService).getSitePageById(SitePageType.ABOUT)
     const data = await Promise.all([dynamicComponentInfo, sitePageInfo])
 
     return {

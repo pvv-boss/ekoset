@@ -46,8 +46,8 @@
     width: 100%;
     border: 1px solid $delimiter-strong-color;
     border-radius: 0.25rem;
-    padding: 3px 10px;
-    font-size: $font-small;
+    padding: 8px;
+    // font-size: 16p;
   }
 
   .brc-login-form__licence {
@@ -64,7 +64,7 @@
     >label {
       margin-bottom: 0;
       font-weight: $font-regular;
-      font-size: 0.9rem;
+      // font-size: 0.9rem;
     }
   }
 

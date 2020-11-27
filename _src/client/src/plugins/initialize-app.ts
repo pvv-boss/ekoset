@@ -1,6 +1,6 @@
 
 import { Context, Plugin } from '@nuxt/types'
-import { createNewServiceRegistryFromPlugin, ContextServiceRegistry, ServiceRegistry } from '@/ServiceRegistry';
+import { ContextServiceRegistry, ServiceRegistry } from '@/ServiceRegistry';
 import { Inject } from '@nuxt/types/app';
 import AxiosRequest from '@/api/core/AxiosRequest';
 import { AppConfig } from '@/AppConfig';
@@ -15,6 +15,7 @@ import TopMenuService from '@/services/TopMenuService';
 import UserDealService from '@/services/UserDealService';
 import { getModule } from 'vuex-module-decorators';
 import BuscetStore from '@/store/BuscetStore';
+import UserService from '@/services/UserService';
 // import FetchRequest from '@/api/core/FetchRequest';
 
 
@@ -42,9 +43,23 @@ declare module 'vuex/types/index' {
   }
 }
 
-const initializeApp: Plugin = async (ctx: Context, inject: Inject) => {
+const initializeApp = async (ctx: Context, inject: Inject) => {
 
-  createNewServiceRegistryFromPlugin()
+  initializeServiceRegistry(ctx, inject)
+
+
+  if (process.server) {
+    await ServiceRegistry.instance.getService(AuthService).setSessionUserFromServer()
+  }
+
+  if (process.client) {
+    getModule(BuscetStore, ctx.store).initServiceList()
+  }
+}
+
+const initializeServiceRegistry = (ctx: Context, inject: Inject) => {
+
+  ServiceRegistry.createFreshSrvRegistry()
 
   ServiceRegistry.instance.register(ArticleService);
   ServiceRegistry.instance.register(AuthService);
@@ -55,20 +70,15 @@ const initializeApp: Plugin = async (ctx: Context, inject: Inject) => {
   ServiceRegistry.instance.register(PublicEkosetService);
   ServiceRegistry.instance.register(TopMenuService);
   ServiceRegistry.instance.register(UserDealService);
+  ServiceRegistry.instance.register(UserService);
+
 
   const api = new AxiosRequest({ withCredentials: true }, AppConfig.endPoint);
   ServiceRegistry.instance.updateApiRequest(api);
+
   ServiceRegistry.instance.updateNuxtContext(ctx);
 
-  inject('serviceRegistry', ServiceRegistry.instance)
-
-  if (process.server) {
-    await ServiceRegistry.instance.getService(AuthService).setSessionUserFromServer()
-  }
-
-  if (process.client) {
-    getModule(BuscetStore, ctx.store).initServiceList()
-  }
+  inject('serviceRegistry', ServiceRegistry.instance);
 }
 
 export default initializeApp;

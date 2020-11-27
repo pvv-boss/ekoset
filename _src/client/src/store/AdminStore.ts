@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, VuexMutation, VuexAction } from 'nuxt-property-decorator'
 
 @Module({
   name: 'AdminStore',
@@ -8,12 +8,12 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 export default class AdminStore extends VuexModule {
   private breadCrumbListState: any[] = [];
 
-  @Mutation
+  @VuexMutation
   public setBreadCrumbList (list: any[]) {
     this.breadCrumbListState = list;
   }
 
-  @Action
+  @VuexAction
   public async changeBreadCrumbList (list: any[]) {
     this.context.commit('setBreadCrumbList', list)
   }

@@ -17,6 +17,8 @@ import MediaService from './services/ekoset/MediaService';
 import UserDealService from './services/ekoset/UserDealService';
 import { UserRequestService } from './services/ekoset/UserRequestService';
 import { ExpressApplication, logger, ServiceRegistry } from 'rsn-express-core';
+import UserService from './services/ekoset/UserService';
+import UserController from './controllers/ekoset/UserController';
 
 
 (async () => {
@@ -24,7 +26,7 @@ import { ExpressApplication, logger, ServiceRegistry } from 'rsn-express-core';
     const app: ExpressApplication = new ExpressApplication();
 
     app.addAppControllers([ArticleController, MainEkosetController, IndividualOfferController, BusinessServiceController,
-        MediaController, CmsController, PriceController, UserRequestController, UserDealController]);
+        MediaController, CmsController, PriceController, UserRequestController, UserDealController, UserController]);
 
     ServiceRegistry.instance.register(ArticleService);
     ServiceRegistry.instance.register(MainEkosetService);
@@ -34,9 +36,12 @@ import { ExpressApplication, logger, ServiceRegistry } from 'rsn-express-core';
     ServiceRegistry.instance.register(CMSService);
     ServiceRegistry.instance.register(UserRequestService);
     ServiceRegistry.instance.register(UserDealService);
-
+    ServiceRegistry.instance.register(UserService);
 
     app.addTypeOrmEntityMetadata([...entityModelMetadata]);
+
+
+    ServiceRegistry.instance.getService(UserService).initUserConnection();
 
     await app.start();
 

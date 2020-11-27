@@ -118,8 +118,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import BusinessService from '@/models/ekoset/BusinessService'
-import { ServiceRegistry } from '@/ServiceRegistry'
 import BusinessServiceService from '@/services/BusinessServiceService'
+import { ServiceRegistry } from '@/ServiceRegistry'
 
 @Component
 export default class TheLayoutFooter extends Vue {

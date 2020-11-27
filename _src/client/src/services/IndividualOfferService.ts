@@ -46,10 +46,10 @@ export default class IndividualOfferService extends BaseService {
     const resultPr = this.apiRequest.put(query, {}, individualOffer)
 
     if (individualOffer.smallImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
+      this.context.$serviceRegistry.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.smallImageFormData, false)
     }
     if (individualOffer.bigImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
+      this.context.$serviceRegistry.getService(MediaService).saveOfferImage(individualOffer.indOfferId, individualOffer.bigImageFormData, true)
     }
 
     return resultPr

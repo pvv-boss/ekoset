@@ -1,4 +1,5 @@
 import { NuxtConfig } from '@nuxt/types'
+import { client } from 'process'
 
 
 const config: NuxtConfig = {
@@ -7,6 +8,12 @@ const config: NuxtConfig = {
   srcDir: 'src/',
   loading: {
     color: '#ac1315'
+  },
+
+  loadingIndicator: {
+    name: 'circle',
+    color: '#3B8070',
+    background: 'white'
   },
 
   head: {
@@ -82,12 +89,14 @@ const config: NuxtConfig = {
     },
     {
       src: '@/plugins/vue-lazyload'
+    }, {
+      src: '@/plugins/vue-imask.client', mode: 'client'
     }
   ],
 
   router: {
     prefetchLinks: false,
-    middleware: ['requiresAuthorize', 'baseMiddleware']
+    middleware: ['baseMiddleware', 'requiresAuthorize']
   },
 
   buildModules: [
@@ -105,7 +114,7 @@ const config: NuxtConfig = {
     ['@nuxtjs/router', {
       path: 'src/routers',
       fileName: 'index.ts'
-    }]
+    }], "cookie-universal-nuxt"
     ,
     ['@nuxtjs/yandex-metrika',
       {
@@ -142,6 +151,8 @@ const config: NuxtConfig = {
         isDev
       }) => isDev ? '[name].css' : '[contenthash].css',
     },
+
+    transpile: ['vue-imask']
   },
 
 

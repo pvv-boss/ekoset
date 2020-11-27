@@ -130,10 +130,10 @@ export default class BusinessServiceService extends BaseService {
     const resultPr = this.apiRequest.put(query, {}, businessService)
 
     if (businessService.smallImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveServiceImage(businessService.businessServiceId, businessService.smallImageFormData, false)
+      this.context.$serviceRegistry.getService(MediaService).saveServiceImage(businessService.businessServiceId, businessService.smallImageFormData, false)
     }
     if (businessService.bigImageFormData) {
-      ServiceRegistry.instance.getService(MediaService).saveServiceImage(businessService.businessServiceId, businessService.bigImageFormData, true)
+      this.context.$serviceRegistry.getService(MediaService).saveServiceImage(businessService.businessServiceId, businessService.bigImageFormData, true)
     }
 
     return resultPr

@@ -27,29 +27,9 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
-import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
-import TheHeaderMobileMenu from '@/components/header/TheHeaderMobileMenu.vue'
-import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
-import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
-import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
-import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue'
-import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
 
 
-
-@Component({
-  components: {
-    TheHeaderMenu,
-    UserAuthHeader,
-    TheHeaderMobileMenu,
-    TheHeaderOrder,
-    TheHeaderCallMe,
-    TheHeaderAskQuestion,
-    TheHeaderInviteTender,
-    TheHeaderLogo
-  }
-})
+@Component
 export default class TheLayoutHeader extends Vue {
   // private get activeIndex () {
   //   return this.$route.name ? this.$route.name.split('-')[0] : ''

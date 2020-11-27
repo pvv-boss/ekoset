@@ -41,14 +41,13 @@ export const UserRoute = [
   },
 
   {
-    name: 'user-deals',
     path: '/user/deals',
     props: true,
     meta: { requiresAuth: true },
     component: UserDeals,
     children: [
       {
-        name: 'user-deals-empty',
+        name: 'user-deals',
         path: '',
         props: true,
         component: ContractList

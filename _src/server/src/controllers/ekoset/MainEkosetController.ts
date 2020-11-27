@@ -28,6 +28,10 @@ export default class MainEkosetController extends BaseController {
   public async getSiteSectionById (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
+
+    if (Number.isNaN(siteSectionId)) {
+      return this.createSuccessResponse({}, response);
+    }
     const result = await ServiceRegistry.instance.getService(MainEkosetService).getSiteSectionById(siteSectionId);
     return this.createSuccessResponse(result, response);
   }
@@ -119,6 +123,10 @@ export default class MainEkosetController extends BaseController {
   public async getBrandsBySiteSection (
     @Res() response: Response,
     @Param('sitesection') siteSectionId: number) {
+
+    if (Number.isNaN(siteSectionId)) {
+      return this.createSuccessResponse({}, response);
+    }
     const result = await ServiceRegistry.instance.getService(MainEkosetService).getBrandsBySiteSection(siteSectionId);
     return this.createSuccessResponse(result, response);
   }

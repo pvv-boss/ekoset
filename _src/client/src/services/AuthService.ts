@@ -6,6 +6,10 @@ import AuthStore from '@/store/AuthStore'
 import { getModule } from 'nuxt-property-decorator'
 import { ResetPasswordResult } from '@/models/user/ResetPasswordResult'
 import { RegistrationResult } from '@/models/user/RegistrationResult'
+import { Context } from "@nuxt/types";
+import { AppConfig } from '@/AppConfig'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import EkosetClient from '@/models/EkosetClient'
 
 //FIXME: Все завернуть в try catch
 export class AuthService extends BaseService {
@@ -13,7 +17,6 @@ export class AuthService extends BaseService {
     public get authStore () {
         return getModule(AuthStore, this.context.store)
     }
-
 
     public getSessionUser (): SessionUser {
         return this.authStore.sessionUser
@@ -23,25 +26,34 @@ export class AuthService extends BaseService {
         let serverUser = SessionUser.anonymousUser
         const reqUrl = 'auth/user'
 
-        console.log(this.context.req?.headers)
+        const authCookie = this.context.app.$cookies.get(AppConfig.authCookieName, { parseJSON: false })
 
-        if (!!this.context.req) {
-            const cookie = this.context.req?.headers?.cookie
-            if (!!cookie) {
-                const options = { headers: { 'Cookie': cookie } }
-                try {
-                    const response = await this.apiRequest.getJSON(reqUrl, options);
-                    serverUser = response?.data?.data
-                    this.authStore.updateSessionUser(serverUser)
-                } catch {
-                    serverUser = SessionUser.anonymousUser
-                }
+        if (!!authCookie) {
+            const options = { headers: { 'Cookie': `${AppConfig.authCookieName}=${authCookie}` } }
+            try {
+                const response = await this.apiRequest.getJSON(reqUrl, options);
+                serverUser = response?.data?.data
+                this.authStore.updateSessionUser(serverUser)
+                await this.updateEkosetClient(options)
+            } catch (errr) {
+                serverUser = SessionUser.anonymousUser
             }
-        } else {
-            serverUser = (await this.apiRequest.getJSON(reqUrl))?.data?.data
         }
+
         this.authStore.updateSessionUser(serverUser)
+
         return serverUser
+    }
+
+    public async updateEkosetClient (options?: any) {
+        const su = this.getSessionUser();
+        if (!!su && su.appUserId > 0) {
+            const client = await this.getOneOrEmpty(EkosetClient, `personal/user/${su.appUserId}`, options)
+            if (!!client) {
+                client.personBirthday = !!client.personBirthday && client.personBirthday.split('T').length > 0 ? client.personBirthday.split('T')[0] : ''
+                this.authStore.updateEkosetClient(client)
+            }
+        }
     }
 
     public isUserAuthorized () {
@@ -97,13 +109,6 @@ export class AuthService extends BaseService {
         this.authStore.updateSessionUser(SessionUser.anonymousUser)
     }
 
-    // Отправка письма для потдтверждения email
-    // public async sendConfirmRegEmail () {
-    //     const currentUser = this.getSessionUser()
-    //     if (currentUser && currentUser.appUserId > 0) {
-    //         await this.apiRequest.post('user/register/sendconfirm', {}, { useremail: currentUser.appUserEmail });
-    //     }
-    // }
 
     private async processAuth (logonResult: LogonResult) {
         // Если была аутентификация через соц.сеть, но юзверя в базе нет, временно сохраняем его
@@ -114,6 +119,9 @@ export class AuthService extends BaseService {
 
         // Выставим в сторе сессионого пользователя (какой именно решает бэк)
         this.authStore.updateSessionUser(!!logonResult.sessionUser ? logonResult.sessionUser : SessionUser.anonymousUser)
+
+        await this.updateEkosetClient()
+
         return logonResult
     }
 

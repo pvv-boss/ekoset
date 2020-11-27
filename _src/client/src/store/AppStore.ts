@@ -3,6 +3,7 @@ import SitePage, { SitePageType } from '@/models/SitePage';
 import { ServiceRegistry } from '@/ServiceRegistry';
 import TopMenuService from '@/services/TopMenuService';
 import PublicEkosetService from '@/services/PublicEkosetService';
+import Vue from 'vue'
 
 @Module({
   name: 'AppStore',
@@ -45,6 +46,7 @@ export default class AppStore extends VuexModule {
       this.setCurrentSiteSection(siteSectionSlug)
 
       if (siteSectionSlug) {
+
         const siteSectionModel = await ServiceRegistry.instance.getService(PublicEkosetService).getSiteSectionNameBySlug(siteSectionSlug)
         if (siteSectionModel) {
           this.setCurrentSiteSectionName(siteSectionModel.siteSectionName)
@@ -57,11 +59,10 @@ export default class AppStore extends VuexModule {
     }
   }
 
-
-
   @VuexAction
   public async changeDefaultCustomPage () {
     if (!this.currentDefaultSitePage) {
+
       const sitePageInfo = await ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.MAIN)
       this.context.commit('setDefaultCustomPage', sitePageInfo)
     }

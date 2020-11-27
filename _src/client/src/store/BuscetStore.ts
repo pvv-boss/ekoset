@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, VuexMutation, VuexAction } from 'nuxt-property-decorator';
 import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
@@ -15,12 +15,12 @@ export default class BuscetStore extends VuexModule {
   private cookieBusctetStoreName = 'ekoset_busket_store'
   private addedServiceListState: BusinessServiceLocalStorageItem[] = []
 
-  @Mutation
+  @VuexMutation
   public addServiceMutation (businessService: BusinessServiceLocalStorageItem) {
     this.addedServiceListState.push(businessService)
   }
 
-  @Mutation
+  @VuexMutation
   public removeServiceMutation (businessService: BusinessServiceLocalStorageItem) {
 
     const index = findAddedServiceIndex(this.addedServiceListState, businessService)
@@ -30,12 +30,12 @@ export default class BuscetStore extends VuexModule {
 
   }
 
-  @Mutation
+  @VuexMutation
   public setStoreInitialized () {
     this.isStoreInitialized = true
   }
 
-  @Action
+  @VuexAction
   public initServiceList () {
     if (!this.storeInitialized) {
       const cookStr = Cookies.get(this.cookieBusctetStoreName)
@@ -55,7 +55,7 @@ export default class BuscetStore extends VuexModule {
     }
   }
 
-  @Action
+  @VuexAction
   public addService (businessService: BusinessServiceLocalStorageItem) {
     if (findAddedServiceIndex(this.addedServiceList, businessService) === -1) {
       this.addServiceMutation(businessService)
@@ -67,7 +67,7 @@ export default class BuscetStore extends VuexModule {
   }
 
 
-  @Action
+  @VuexAction
   public removeService (businessService: BusinessServiceLocalStorageItem) {
     this.removeServiceMutation(businessService)
   }

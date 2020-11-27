@@ -134,7 +134,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { Validation } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { emailTest, phoneTest } from '@/utils/Validators'
 import UserRequest from '@/models/ekoset/UserRequest';
@@ -144,8 +143,8 @@ import AppStore from '@/store/AppStore';
 import BuscetStore from '@/store/BuscetStore';
 import BuscetContaner from '@/components/public/BuscetContaner.vue'
 import MessageFormMobile from '@/components/public/MessageFormMobile.vue'
-import { ServiceRegistry } from '@/ServiceRegistry';
 import PublicEkosetService from '@/services/PublicEkosetService';
+import { ServiceRegistry } from '@/ServiceRegistry';
 
 @Component({
   components: {

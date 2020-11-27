@@ -6,10 +6,10 @@ import { plainToClass } from 'class-transformer';
 
 export class BaseService {
   private api: AbstractApiRequest;
-  protected context: Context;
+  protected ctx: Context;
 
   public injectNuxtContext (ctx: Context) {
-    this.context = ctx;
+    this.ctx = ctx;
   }
 
   public set apiRequest (api: AbstractApiRequest) {
@@ -23,9 +23,13 @@ export class BaseService {
     return this.api;
   }
 
-  public async getOneOrEmpty<T> (ctor: { new(): T }, url: string): Promise<T> {
+  public get context () {
+    return this.ctx
+  }
+
+  public async getOneOrEmpty<T> (ctor: { new(): T }, url: string, options?: any): Promise<T> {
     try {
-      const response = await this.apiRequest.getJSON(url);
+      const response = await this.apiRequest.getJSON(url, options);
       const data = response?.data?.data;
       return !!data ? plainToClass(ctor, data) : new ctor();
     } catch {

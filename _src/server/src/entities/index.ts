@@ -13,6 +13,7 @@ import SitePage from './ekoset/SitePage';
 import { UserRequest } from './ekoset/UserRequest';
 import { UserRequestFile } from './ekoset/UserRequestFile';
 import SiteDocument from './ekoset/SiteDocument';
+import EkosetClient from './ekoset/EkosetClient';
 
 
 const entityModelMetadata = [

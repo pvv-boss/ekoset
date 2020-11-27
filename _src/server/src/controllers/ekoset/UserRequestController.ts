@@ -25,13 +25,11 @@ export default class UserRequestController extends BaseController {
     const requestData = plainToClass(UserRequest, formData);
 
     const reqNmb = await ServiceRegistry.instance.getService(UserRequestService).saveRequest(files, requestData, mode);
-    // const reqNmb = await ServiceContainer.UserRequestService.saveRequest(files, requestData, 0);
 
-    const message = mode === 0 ? 'Ваш заказ отправлен. В ближайшее время с Вами свяжутся наши специалисты' : 'Ваш вопрос отправлен. В ближайшее время с Вами свяжутся наши специалисты';
+    const message = mode === 0 ? 'Ваш заказ отправлен. В ближайшее время с Вами свяжутся наши специалисты' : (mode === 1 ? 'Ваш вопрос отправлен. В ближайшее время с Вами свяжутся наши специалисты' : 'Ваше приглашение на тендер отправлено. В ближайшее время с Вами свяжутся наши специалисты');
 
     return reqNmb > 0 ?
       this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('ЭКОСЕТЬ', message)) :
       this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
 }
-

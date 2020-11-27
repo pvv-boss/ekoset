@@ -17,7 +17,6 @@ import DynamicComponentInfo from '@/models/DynamicComponentInfo'
 import SitePage, { SitePageType } from '@/models/SitePage'
 import MetaTagsBuilder from '@/utils/MetaTagsBuilder'
 import BannersInfo from '@/models/ekoset/BannersInfo'
-import { ServiceRegistry } from '@/ServiceRegistry';
 import PublicEkosetService from '@/services/PublicEkosetService';
 import TopMenuService from '@/services/TopMenuService';
 import DynamicComponentsService from '@/services/DynamicComponentsService';
@@ -38,12 +37,12 @@ export default class Main extends Vue {
   }
 
   private async asyncData (context: Context) {
-    const siteSectionItems = ServiceRegistry.instance.getService(PublicEkosetService).getSiteSections()
+    const siteSectionItems = context.$serviceRegistry.getService(PublicEkosetService).getSiteSections()
 
-    const dynamicComponentInfo = ServiceRegistry.instance.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.MAIN)
-    const sitePageInfo = ServiceRegistry.instance.getService(TopMenuService).getSitePageById(SitePageType.MAIN)
+    const dynamicComponentInfo = context.$serviceRegistry.getService(DynamicComponentsService).getSitePageDynamicComponents(SitePageType.MAIN)
+    const sitePageInfo = context.$serviceRegistry.getService(TopMenuService).getSitePageById(SitePageType.MAIN)
 
-    const bannersInfo = ServiceRegistry.instance.getService(MediaService).getBannersForMainPage()
+    const bannersInfo = context.$serviceRegistry.getService(MediaService).getBannersForMainPage()
 
     const data = await Promise.all([siteSectionItems, dynamicComponentInfo, sitePageInfo, bannersInfo])
     return {

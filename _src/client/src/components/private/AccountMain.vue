@@ -2,61 +2,85 @@
   <div class="profile-main">
     <h3>Основная информация</h3>
     <span style="margin-top: 16px">Логин</span>
-    <h3 style="margin: 16px 0 30px 0">{{ sessionUser.appUserName }}</h3>
-    <form id="account-main-form" class="brc-login-form account-main-form">
+    <h3 style="margin: 16px 0 30px 0">{{ ekosetClient.personEmail }}</h3>
+    <form
+      id="account-main-form"
+      class="brc-login-form account-main-form"
+      @submit.prevent="save()"
+    >
       <div class="brc-login-form__block">
-        <label>ФИО</label>
-        <input
-          v-model="sessionUser.userSnProfileEmail"
-          placeholder="ФИО"
-          class="login-input"
-        />
-        <span v-if="!!sessionUser.userSnProfileEmail" class="logon-error">
-          Укажите фамилию,имя, отчество
-        </span>
+        <BaseInput
+          id="reg-name-input"
+          v-model="ekosetClient.personName"
+          label="ФИО"
+          placeholder="Фамилия Имя Отчество"
+        >
+          <span v-if="!ekosetClient.personName">
+            Укажите фамилию,имя, отчество
+          </span>
+        </BaseInput>
       </div>
 
       <div class="brc-login-form__block">
-        <label>Телефон</label>
-        <input
-          v-model="sessionUser.userSnProfileEmail"
+        <BaseInputMask
+          id="reg-phone-input"
+          v-model="ekosetClient.personPhone"
+          :mask="phoneMask"
+          label="Телефон"
           placeholder="Телефон"
-          class="login-input"
-        />
-        <span v-if="!!sessionUser.userSnProfileEmail" class="logon-error">
-          Укажите телефон
-        </span>
+        >
+        </BaseInputMask>
       </div>
 
       <div class="brc-login-form__block">
-        <label>Дата рождения</label>
-        <input
-          v-model="sessionUser.userSnProfileEmail"
+        <BaseInput
+          id="reg-birthday-input"
+          v-model="ekosetClient.personBirthday"
+          label="Дата рождения"
           placeholder="Дата рождения"
-          class="login-input"
-        />
-        <span v-if="!!sessionUser.userSnProfileEmail" class="logon-error">
-          Укажите дату рождения
-        </span>
+          type="date"
+        >
+        </BaseInput>
       </div>
+
+      <button class="brc-change-pwd-form__submit">Сохранить</button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import SessionUser from '@/models/user/SessionUser'
-import { AuthService } from '@/services/AuthService'
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, getModule, Vue } from 'nuxt-property-decorator'
+import { phoneNumberMask } from "@/utils/InputMaskDefinitions";
+import BaseInputMask from "@/components/base/BaseInputMask.vue"
+import EkosetClient from '@/models/EkosetClient';
+import AuthStore from '@/store/AuthStore';
+import UserService from '@/services/UserService';
 
-@Component
+@Component({
+  components: { BaseInputMask }
+})
 export default class AccountMain extends Vue {
 
-  private get sessionUser (): SessionUser {
-    return this.$serviceRegistry.getService(AuthService).getSessionUser()
+  private get ekosetClient (): EkosetClient {
+    return getModule(AuthStore, this.$store).ekosetClient
   }
 
   private head () {
     return { title: 'Профиль пользователя' }
+  }
+
+  private get phoneMask () {
+    return phoneNumberMask;
+  }
+
+  private validateData () {
+    return !!this.ekosetClient.personName && !!this.ekosetClient.personPhone
+  }
+
+  private async save () {
+    if (this.validateData()) {
+      await this.$serviceRegistry.getService(UserService).saveClient(this.ekosetClient)
+    }
   }
 }
 </script>

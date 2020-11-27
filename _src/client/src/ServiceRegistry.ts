@@ -7,7 +7,6 @@ export type ConstructorOf<T extends BaseService> = new (...args: any[]) => T;
 export class ContextServiceRegistry {
   private servicesMap = new Map<ConstructorOf<BaseService>, any>()
 
-
   public updateNuxtContext (ctx: Context) {
     for (const iterServ of this.servicesMap.values()) {
       iterServ.injectNuxtContext(ctx)
@@ -41,11 +40,8 @@ export class ServiceRegistry {
   public static get instance () {
     return instance
   }
+
+  public static createFreshSrvRegistry () {
+    instance = new ContextServiceRegistry()
+  }
 }
-
-export const createNewServiceRegistryFromPlugin = () => {
-  instance = new ContextServiceRegistry()
-}
-
-
-
