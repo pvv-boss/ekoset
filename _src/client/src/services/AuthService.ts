@@ -69,15 +69,14 @@ export class AuthService extends BaseService {
         return this.processAuth(result)
     }
 
-
     //  Регистрация
     public async register (registrationData: LoginData): Promise<RegistrationResult> {
-        registrationData.unlinkedSocialUser = this.authStore.tempSocialUser
-        const response = await this.apiRequest.post('user/signup', {}, registrationData)
-        const result: RegistrationResult = response?.data?.data
-        // Выставим в сторе сессионого пользователя (какой именно решает бэк)
-        this.authStore.updateSessionUser(result.sessionUser)
-        return result
+        // registrationData.unlinkedSocialUser = this.authStore.tempSocialUser
+        // const response = await this.apiRequest.post('user/signup', {}, registrationData)
+        // const result: RegistrationResult = response?.data?.data
+        // // Выставим в сторе сессионого пользователя (какой именно решает бэк)
+        // this.authStore.updateSessionUser(result.sessionUser)
+        // return result
     }
 
     // Смена пароля
@@ -100,6 +99,12 @@ export class AuthService extends BaseService {
         // Выставим в сторе сессионого пользователя (какой именно решает бэк)
         this.authStore.updateSessionUser(result.sessionUser)
         return result
+    }
+
+    // После смены пароля (после восстановления)
+    public async onPasswordChangedAfterConfirmByCode (appUser: SessionUser) {
+        this.authStore.updateSessionUser(appUser)
+        await this.updateEkosetClient()
     }
 
     // Выйти

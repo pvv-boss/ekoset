@@ -35,7 +35,7 @@ import { v4 as uuidv4 } from "uuid";
   inheritAttrs: false
 })
 export default class BaseInputMask extends Vue {
-  @Ref("baseInputMask") readonly phoneFiled!: HTMLInputElement | any;
+  @Ref("baseInputMask") readonly baseInputMask!: HTMLInputElement | any;
 
   @Prop()
   public label: string;
@@ -74,8 +74,8 @@ export default class BaseInputMask extends Vue {
   }
 
   private updateInput (val) {
-    if (this.$refs.phoneFiled) {
-      this.phoneFiled.maskRef.typedValue = String(val);
+    if (this.$refs.baseInputMask) {
+      this.baseInputMask.maskRef.typedValue = String(val);
     }
   }
 }

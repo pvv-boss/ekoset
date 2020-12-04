@@ -9,4 +9,13 @@ export default class EkosetClient extends BaseViewModel {
     personDateCh: string
     personBirthday: string
     appUserId: number
+
+    notifFutureWork: boolean
+    notifEndWork: boolean
+    notifDesignSanitaryDoc: boolean
+    notifFinishedSanitaryDoc: boolean
+    notifLabProtocol: boolean
+
+    notifEmailInd: boolean
+    notifSmsInd: boolean
 }

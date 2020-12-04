@@ -44,4 +44,42 @@ export default class EkosetClient {
         name: 'app_user_id'
     })
     appUserId: number
+
+
+
+    @Column({
+        name: 'notif_future_work'
+    })
+    notifFutureWork: boolean
+
+    @Column({
+        name: 'notif_end_work'
+    })
+    notifEndWork: boolean
+
+    @Column({
+        name: 'notif_design_sanitary_doc'
+    })
+    notifDesignSanitaryDoc: boolean
+
+    @Column({
+        name: 'notif_finished_sanitary_doc'
+    })
+    notifFinishedSanitaryDoc: boolean
+
+    @Column({
+        name: 'notif_lab_protocol'
+    })
+    notifLabProtocol: boolean
+
+    @Column({
+        name: 'notif_email_ind'
+    })
+    notifEmailInd: boolean
+
+    @Column({
+        name: 'notif_sms_ind'
+    })
+    notifSmsInd: boolean
+
 }

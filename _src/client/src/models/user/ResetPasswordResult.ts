@@ -10,7 +10,7 @@ export enum ResetPasswordStatus {
 }
 
 export class ResetPasswordResult {
-    public resetPasswordStatus: ResetPasswordStatus = ResetPasswordStatus.Unknown
+    public status: ResetPasswordStatus = ResetPasswordStatus.Unknown
     public sessionUser: SessionUser = SessionUser.anonymousUser;
     public message: string
 }

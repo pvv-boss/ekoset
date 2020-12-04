@@ -1,4 +1,6 @@
 import Login from '@/pages/private/Login.vue'
+import ChangePasswordForm from '@/pages/private/ChangePasswordForm.vue'
+
 import RestorePasswordForm from '@/components/user/RestorePasswordForm.vue'
 import UserProfile from '@/pages/private/UserProfile.vue'
 import UserDeals from '@/pages/private/UserDeals.vue'
@@ -38,6 +40,14 @@ export const UserRoute = [
     path: '/user/password/reset/confirm/:code',
     props: true,
     component: ConfirmResetPassworCallback
+  },
+
+  {
+    name: 'user-change-password',
+    path: '/user/password/change',
+    props: true,
+    component: ChangePasswordForm,
+    meta: { requiresAuth: true }
   },
 
   {

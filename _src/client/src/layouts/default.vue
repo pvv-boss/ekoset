@@ -18,5 +18,16 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component
 export default class DefaultLayout extends Vue {
 
+  public head () {
+    return {
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://ekoset.ru' + this.$route.path
+        }
+      ]
+    }
+  }
+
 }
 </script>

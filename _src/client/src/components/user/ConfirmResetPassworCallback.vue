@@ -7,7 +7,7 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { ServiceRegistry } from '@/ServiceRegistry'
 import { AuthService } from '@/services/AuthService'
-import { ResetPasswordResult } from '@/models/user/ResetPasswordResult'
+import { ResetPasswordResult, ResetPasswordStatus } from '@/models/user/ResetPasswordResult'
 import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
 import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
@@ -22,20 +22,23 @@ export default class ConfirmResetPassworCallback extends Vue {
 
   private async mounted () {
 
+    let routeName = 'main'
     BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Сброс пароля', this.message, 1500, { position: BrcDialogPosition.Central })
 
     if (!this.code) {
       this.message = 'Неверно указан код сброса пароля !'
     } else {
       const result: ResetPasswordResult = await ServiceRegistry.instance.getService(AuthService).confirmResetPasswordByCode(this.code)
-      this.message = result.message;
+
+      if (result?.status === ResetPasswordStatus.OK) {
+        routeName = 'user-change-password'
+      } else {
+        BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Сброс пароля', result.message, 1500, { position: BrcDialogPosition.Central })
+      }
     }
 
-    BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Восстановление пароля', this.message, 2500, { position: BrcDialogPosition.Central })
-
-    this.$router.push({ name: "user-profile" })
+    this.$router.push({ name: routeName })
   }
-
 }
 </script>
 <style lang="scss">
