@@ -70,14 +70,14 @@ export class AuthService extends BaseService {
     }
 
     //  Регистрация
-    public async register (registrationData: LoginData): Promise<RegistrationResult> {
-        // registrationData.unlinkedSocialUser = this.authStore.tempSocialUser
-        // const response = await this.apiRequest.post('user/signup', {}, registrationData)
-        // const result: RegistrationResult = response?.data?.data
-        // // Выставим в сторе сессионого пользователя (какой именно решает бэк)
-        // this.authStore.updateSessionUser(result.sessionUser)
-        // return result
-    }
+    // public async register (registrationData: LoginData): Promise<RegistrationResult> {
+    //     // registrationData.unlinkedSocialUser = this.authStore.tempSocialUser
+    //     // const response = await this.apiRequest.post('user/signup', {}, registrationData)
+    //     // const result: RegistrationResult = response?.data?.data
+    //     // // Выставим в сторе сессионого пользователя (какой именно решает бэк)
+    //     // this.authStore.updateSessionUser(result.sessionUser)
+    //     // return result
+    // }
 
     // Смена пароля
     public async changePassword (newPassword: string) {

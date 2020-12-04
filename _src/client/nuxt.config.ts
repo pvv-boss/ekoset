@@ -121,7 +121,7 @@ const config: NuxtConfig = {
         id: '64542580',
         webvisor: true,
         clickmap: true,
-        useCDN: true,
+        // useCDN: true,
         trackLinks: true,
         accurateTrackBounce: false
       }]
@@ -141,7 +141,7 @@ const config: NuxtConfig = {
     },
 
     splitChunks: {
-      layouts: false,
+      layouts: true,
       pages: true,
       commons: true
     },

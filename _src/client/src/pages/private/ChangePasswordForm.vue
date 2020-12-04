@@ -96,6 +96,7 @@ export default class ChangePasswordForm extends Vue {
     return ok
   }
 
+
   private async changePassword () {
     this.submitPending = true
     if (this.validatePassword()) {
@@ -104,8 +105,10 @@ export default class ChangePasswordForm extends Vue {
       let message = result.message
       if (result.logonStatus === LogonStatus.PasswordChanged) {
         message = 'Пароль успешно сменен'
+        await ServiceRegistry.instance.getService(AuthService).onPasswordChangedAfterConfirmByCode(result.sessionUser)
       }
       BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Смена пароля', message, 2500, { position: BrcDialogPosition.Central })
+      this.$router.push({ name: 'main' })
     }
     this.submitPending = false
   }

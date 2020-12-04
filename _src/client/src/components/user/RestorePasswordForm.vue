@@ -78,7 +78,7 @@ export default class RestorePasswordForm extends Vue {
 
     if (this.validateData()) {
       const result = await ServiceRegistry.instance.getService(AuthService).resetPassword(this.email)
-      if (result.resetPasswordStatus !== ResetPasswordStatus.OK) {
+      if (result.status !== ResetPasswordStatus.OK) {
         BrcDialogPlugin.showNotify(BrcDialogType.Info, 'Сброс пароля', result.message, 2500, { position: BrcDialogPosition.Central })
         this.$router.push({ name: "main" })
       } else {
