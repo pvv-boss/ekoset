@@ -1,7 +1,7 @@
 <template>
   <select v-model="sortMode" class="brc-contract-sort__mobile">
-    <option :value="0">По сроку действия</option>
-    <option :value="1">По наименованию</option>
+    <option :value="0">{{zeroOptName}}</option>
+    <option :value="1">{{oneOptName}}</option>
   </select>
 </template>
 
@@ -10,6 +10,12 @@ import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
 
 @Component
 export default class DealContractSortSelect extends Vue {
+
+@Prop({default:'По сроку действия'})
+private zeroOptName
+
+@Prop({default:'По наименованию'})
+private oneOptName
 
   private sortMode = 0
   private sortOrder = false

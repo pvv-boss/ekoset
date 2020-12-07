@@ -16,7 +16,7 @@
   "explorer.confirmDragAndDrop": false,
 
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  "files.autoSaveDelay": 10000,
   "files.exclude": {
     "node_modules/*.*": true,
     "**/.git": true,

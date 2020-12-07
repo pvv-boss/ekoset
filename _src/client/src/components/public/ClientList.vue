@@ -47,6 +47,7 @@
           </li>
         </ul>
 
+
         <div class="brc-clients-list-popup__list_img">
           <div
             v-for="iterBrand in clickedMoreClientList.brandsList"

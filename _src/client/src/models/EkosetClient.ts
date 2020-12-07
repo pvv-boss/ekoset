@@ -18,4 +18,8 @@ export default class EkosetClient extends BaseViewModel {
 
     notifEmailInd: boolean
     notifSmsInd: boolean
+
+    managerName: string
+    managerPhone: string
+    managerEmail: string
 }

@@ -13,7 +13,17 @@ export default class DealStatus extends Vue {
   @Prop()
   private statusCode
 
+  @Prop({ default: false })
+  private forWork
+
   private get statusName () {
+
+    if (this.forWork) {
+      return this.statusCode === 1
+        ? 'Запланировано'
+        : 'Выполнено'
+    }
+
     return this.statusCode === 0
       ? 'Действует'
       : this.statusCode === 1
@@ -22,6 +32,12 @@ export default class DealStatus extends Vue {
   }
 
   private get statusColor () {
+
+    if (this.forWork) {
+      return this.statusCode === 1
+        ? '#f4f414'
+        : 'green'
+    }
     return this.statusCode === 0
       ? 'green'
       : this.statusCode === 1

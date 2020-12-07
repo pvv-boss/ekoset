@@ -1,10 +1,21 @@
 import Contract from '@/models/deal/Contract';
+import Work from '@/models/deal/Work';
 import { BaseService } from './BaseService';
 
 export default class UserDealService extends BaseService {
 
     public async getContracts () {
         const res = await this.apiRequest.getJSON('user/deal/contracts');
+        return res.data?.data;
+    }
+
+    public async getLabaratoryList () {
+        const res = await this.apiRequest.getJSON('user/deal/labaratory');
+        return res.data?.data;
+    }
+
+    public async getDesworkList () {
+        const res = await this.apiRequest.getJSON('user/deal/deswork');
         return res.data?.data;
     }
 
@@ -87,5 +98,54 @@ export default class UserDealService extends BaseService {
             })
         }
 
+    }
+
+    public async getContractsForWorks () {
+        return this.getContracts()
+    }
+
+    public async filterWork (works: Work[], isEndFilter, isPlanFilter, contractId, sortMode = 0, sortOrder = true) {
+        if (!!works) {
+            const filtered = works.filter((iterContract: Work) => {
+                let isOk = false
+
+                if (isPlanFilter && isEndFilter && contractId === 0) {
+                    return true
+                }
+
+                if (!isPlanFilter && !isEndFilter) {
+                    return false
+                }
+
+                if (contractId > 0 && isPlanFilter && isEndFilter && iterContract.contractId === contractId) {
+                    return true
+                }
+
+                if (contractId > 0 && iterContract.contractId !== contractId) {
+                    return false
+                }
+
+                if (isPlanFilter && !isEndFilter) {
+                    isOk = iterContract.sheldServicePlanInd === 1
+                }
+
+                return isOk
+            })
+
+            console.log(filtered);
+
+            if (sortMode === 0) {
+                return filtered.sort((a, b) => {
+                    return sortOrder ? (a.sheldServiceDate > b.sheldServiceDate ? 1 : -1) : (a.sheldServiceDate < b.sheldServiceDate ? 1 : -1)
+                })
+            } else {
+                const c = Intl.Collator('ru', { 'sensitivity': 'variant' });
+                return filtered.sort((a, b) => {
+                    return sortOrder ? c.compare(a.sheldServiceName, b.sheldServiceName) : c.compare(a.sheldServiceName, b.sheldServiceName) * -1
+                })
+            }
+        } else {
+            return works
+        }
     }
 }

@@ -19,11 +19,12 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class DefaultLayout extends Vue {
 
   public head () {
+    const canonical = 'https://ekoset.ru' + this.$route.path
     return {
       link: [
         {
           rel: 'canonical',
-          href: 'https://ekoset.ru' + this.$route.path
+          href: canonical.endsWith('/') ? canonical.slice(0, -1) : canonical
         }
       ]
     }

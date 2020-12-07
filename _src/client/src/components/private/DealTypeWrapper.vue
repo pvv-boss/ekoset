@@ -13,8 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Contract from '@/models/deal/Contract'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class DealTypeWrapper extends Vue {

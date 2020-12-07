@@ -1,12 +1,13 @@
-юп7рюж.жзздexport default class Work {
-  public workId: number
-  public workName: string
-  public workStatus: string
-  public workDate: string
-  public workMaster: string
-  public workRate: string
-
-  public partnerName: string
-  public contractNumber: string
+export default class Work {
   public contractId: number
+  public contractForm: string
+  public contractDateStart: string
+  public contractAddress: string
+  public personId: number
+  public clientId: number
+  public clientName:string
+  public sheldServiceId :number 
+  public sheldServiceDate: string
+  public sheldServiceName: string
+  public sheldServicePlanInd: number
 }
