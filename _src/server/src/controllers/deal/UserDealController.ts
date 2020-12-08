@@ -57,4 +57,22 @@ export default class UserDealController extends BaseController {
 
     }
 
+
+    @UseBefore(authorized())
+    @Get('/deal/sandocs')
+    public async getSanDocsList (
+        @Req() request: Request,
+        @Res() response: Response) {
+
+        const sessionUser = SecurityHelper.getSessionUserFromToken(request);
+
+        if (!!sessionUser) {
+            const result = await ServiceRegistry.instance.getService(UserDealService).getSanDocsList(sessionUser.appUserId);
+            return this.createSuccessResponse(result, response);
+        } else {
+            return this.createFailureResponse(new Unauthorized(), response)
+        }
+
+    }
+
 }

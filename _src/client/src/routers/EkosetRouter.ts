@@ -1,46 +1,47 @@
+import { interopDefault } from './AdminRouter';
 
 export const EkosetRouter = [
   {
     name: 'main',
     path: '/',
     props: true,
-    component: () => require(/* webpackChunkName: "main" */ "@/pages/public/Main.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "main" */ "@/pages/public/Main.vue"))
   },
   {
     name: 'about',
     path: '/about',
     props: true,
-    component: () => require(/* webpackChunkName: "about" */ "@/pages/public/About.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "about" */ "@/pages/public/About.vue"))
   },
   {
     name: 'clients',
     path: '/:siteSection?/clients',
     props: true,
-    component: () => require(/* webpackChunkName: "clients" */ "@/pages/public/Clients.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "clients" */ "@/pages/public/Clients.vue"))
   },
   {
     name: 'contacts',
     path: '/:siteSection?/contacts',
     props: true,
-    component: () => require(/* webpackChunkName: "contacts" */ "@/pages/public/Contacts.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "contacts" */ "@/pages/public/Contacts.vue"))
   },
   {
     name: 'prices',
     path: '/:siteSection?/prices',
     props: true,
-    component: () => require(/* webpackChunkName: "prices" */ "@/pages/public/Prices.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "prices" */ "@/pages/public/Prices.vue"))
   },
 
   {
     name: 'offer-card',
     path: '/:siteSection?/:clienttype?/offers/:offer?',
     props: true,
-    component: () => require(/* webpackChunkName: "offerCard" */ "@/pages/public/OfferCard.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "offerCard" */ "@/pages/public/OfferCard.vue"))
   },
   {
     name: 'service-card',
     path: '/:siteSection?/services/:service',
-    component: () => require(/* webpackChunkName: "serviceCard" */ "@/pages/public/ServiceCard.vue").default,
+    component: () => interopDefault(import(/* webpackChunkName: "serviceCard" */ "@/pages/public/ServiceCard.vue")),
     props: true
   },
 
@@ -48,13 +49,13 @@ export const EkosetRouter = [
     name: 'news',
     path: '/:siteSection?/news',
     props: true,
-    component: () => require(/* webpackChunkName: "articles" */ "@/pages/public/Articles.vue").default
+    component: () => interopDefault(import(/* webpackChunkName: "articles" */ "@/pages/public/Articles.vue"))
   },
 
   {
     name: 'news-card',
     path: '/:siteSection?/news/:article',
-    component: () => require(/* webpackChunkName: "articles" */ "@/pages/public/ArticleCard.vue").default,
+    component: () => interopDefault(import(/* webpackChunkName: "articles" */ "@/pages/public/ArticleCard.vue")),
     props: true
   },
 
@@ -62,14 +63,14 @@ export const EkosetRouter = [
     name: 'activity-card',
     path: '/:siteSection',
     props: true,
-    component: () => require(/* webpackChunkName: "siteSectionCard" */ "@/pages/public/SiteSectionCard.vue").default,
+    component: () => interopDefault(import(/* webpackChunkName: "siteSectionCard" */ "@/pages/public/SiteSectionCard.vue")),
   },
 
   {
     name: 'custom-page',
     path: '/:siteSection?/pages/:page',
     props: true,
-    component: () => require(/* webpackChunkName: "dynamicPage" */ "@/pages/public/DynamicPage.vue").default,
+    component: () => interopDefault(import(/* webpackChunkName: "dynamicPage" */ "@/pages/public/DynamicPage.vue")),
   }
 
 ]

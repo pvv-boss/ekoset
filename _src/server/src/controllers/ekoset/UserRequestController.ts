@@ -32,4 +32,21 @@ export default class UserRequestController extends BaseController {
       this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('ЭКОСЕТЬ', message)) :
       this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
   }
+
+  @Post('/deals/contract/message')
+  public async continionContract (
+    @Body() body: any,
+    @Req() request: Request,
+    @Res() response: Response) {
+
+    try {
+      await ServiceRegistry.instance.getService(UserRequestService).continionContract(body);
+
+      const message = 'Спасибо за обращение. Мы уже начали обработку Вашего сообщения. В ближайшее время с Вами свяжется наш специалист'
+      return this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('ЭКОСЕТЬ', message))
+    } catch {
+      return this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert('Ошибка', 'Не удалось доставить сообщение !'))
+    }
+
+  }
 }

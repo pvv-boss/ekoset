@@ -40,6 +40,22 @@ figcaption {
   clear: both;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
 .brc-page-container {
   width: 100%;
   max-width: 1164px;

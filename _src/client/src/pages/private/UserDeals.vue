@@ -8,14 +8,7 @@
         >
           <nuxt-link :to="{ name: 'user-deals-contracts' }">Договоры</nuxt-link>
         </div>
-        <div
-          class="brc-user-deals_menu_item"
-          :class="{ active: isActiveIndex('user-deals-labaratory') }"
-        >
-          <nuxt-link :to="{ name: 'user-deals-labaratory' }"
-            >Лаборатория</nuxt-link
-          >
-        </div>
+
         <div
           class="brc-user-deals_menu_item"
           :class="{ active: isActiveIndex('user-deals-sanitary') }"
@@ -24,6 +17,16 @@
             >Сандокументы</nuxt-link
           >
         </div>
+
+        <div
+          class="brc-user-deals_menu_item"
+          :class="{ active: isActiveIndex('user-deals-labaratory') }"
+        >
+          <nuxt-link :to="{ name: 'user-deals-labaratory' }"
+            >Лаборатория</nuxt-link
+          >
+        </div>
+
         <div
           class="brc-user-deals_menu_item"
           :class="{ active: isActiveIndex('user-deals-disinfection') }"
@@ -35,14 +38,14 @@
       </div>
       <nuxt-child></nuxt-child>
 
+      <LazyMyManager></LazyMyManager>
+
       <LazyMessageForm
         title="Отправить заказ"
         :mode="0"
         :show-close-btn="false"
         class="brc-user-deals__wrapper__messageform"
       ></LazyMessageForm>
-
-      <LazyMyManager></LazyMyManager>
     </section>
   </main>
 </template>

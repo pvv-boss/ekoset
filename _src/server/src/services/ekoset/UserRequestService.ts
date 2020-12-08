@@ -3,6 +3,7 @@ import Intl from 'intl';
 import { UserRequestFile } from '@/entities/ekoset/UserRequestFile';
 import { BaseService, logger, MailMessage, MailSender, postgresWrapper, ServiceRegistry, TypeOrmManager } from 'rsn-express-core';
 import MediaService from './MediaService';
+import Contract from '@/entities/deal/Contract';
 
 const ruDateFormat = new Intl.DateTimeFormat('ru', {
   day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC', hour12: false,
@@ -48,6 +49,26 @@ export class UserRequestService extends BaseService {
     } catch (err) {
       logger.error(err);
       return -1;
+    }
+  }
+
+  public async continionContract (contract: Contract) {
+    const header = 'Заявка на продление договора'
+
+    const message: MailMessage = {
+      from: `Тест от контактного лица`,
+      to: 'SergeyRyzhkov76@gmail.com',
+      subject: header,
+      text: '',
+      html: ''
+    }
+
+    const sender = new MailSender();
+
+    try {
+      const ss = await sender.send(message);
+    } catch (err) {
+      logger.error(err)
     }
   }
 
@@ -111,7 +132,7 @@ export class UserRequestService extends BaseService {
 
   }
   private getToEmails () {
-   // return ['SergeyRyzhkov76@gmail.com'];
-      return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
+    // return ['SergeyRyzhkov76@gmail.com'];
+    return ['inbox@ekoset.ru', 'SergeyRyzhkov76@gmail.com'];
   }
 }

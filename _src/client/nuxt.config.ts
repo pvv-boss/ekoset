@@ -89,8 +89,12 @@ const config: NuxtConfig = {
     },
     {
       src: '@/plugins/vue-lazyload'
-    }, {
+    },
+    {
       src: '@/plugins/vue-imask.client', mode: 'client'
+    },
+    {
+      src: '@/plugins/modal-manager.client', mode: 'client'
     }
   ],
 
@@ -135,6 +139,8 @@ const config: NuxtConfig = {
     extractCSS: true,
 
     optimization: {
+      removeEmptyChunks: true,
+      mergeDuplicateChunks:true,
       splitChunks: {
         chunks: 'all'
       }

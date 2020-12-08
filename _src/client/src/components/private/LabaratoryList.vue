@@ -33,7 +33,7 @@
         ></DealContractSortSelect>
 
         <select v-model="selectedContract" class="brc-contract-filter__clients">
-          <option :key="0" :value="0">{{ "ВСЕ Договоры" }}</option>
+          <option :key="0" :value="0">{{ "Все договора" }}</option>
           <option
             v-for="iterContract in contracts"
             :key="iterContract.contractId"
@@ -126,7 +126,7 @@ export default class LabaratoryList extends Vue {
   }
 
   private getActionText (item: Work) {
-    return item.sheldServicePlanInd === 1 ? 'Изменить дату работ' : 'Заказть еще раз';
+    return item.sheldServicePlanInd === 1 ? 'Изменить дату работ' : 'Заказать еще раз';
   }
 
 

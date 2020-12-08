@@ -32,7 +32,8 @@
     "vue-lazyload": "latest",
     "vue-router": "latest",
     "vuedraggable": "latest",
-    "vuelidate": "latest"
+    "vuelidate": "latest",
+    "vue-js-modal": "1.3.34"
   },
   "devDependencies": {
     "@nuxt/config": "latest",

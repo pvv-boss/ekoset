@@ -96,6 +96,11 @@
               'brc-deal-list__item__action_button',
               { action_notactive: dealListItem.contractStatus === 0 },
             ]"
+            @click="
+              dealListItem.contractStatus !== 0
+                ? onContinieContract(dealListItem)
+                : () => {}
+            "
             >Продлить договор</a
           >
         </template>
@@ -109,6 +114,8 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Contract from '@/models/deal/Contract'
 import UserDealService from '@/services/UserDealService'
 import { ServiceRegistry } from '@/ServiceRegistry'
+
+import DealContininForm from '@/components/private/DealContininForm.vue'
 
 @Component
 export default class ContractList extends Vue {
@@ -197,6 +204,10 @@ export default class ContractList extends Vue {
   private mobileSortModeChanged (sortMode: number) {
     this.sortMode = sortMode
     this.applayFilter()
+  }
+
+  private onContinieContract (contract: Contract) {
+    this.$modalManager.modalShow(DealContininForm, { contract }, {})
   }
 }
 </script>

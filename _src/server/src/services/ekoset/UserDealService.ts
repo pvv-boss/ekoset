@@ -18,6 +18,12 @@ export default class UserDealService extends BaseService {
         return !!personId ? await postgresWrapper.anyWhere('dezwork_api_view', null, 'person_id=$1', [personId]) : null;
     }
 
+
+    public async getSanDocsList (appUserId: number) {
+        const personId = await this.getPersonId(appUserId)
+        return !!personId ? await postgresWrapper.anyWhere('sandoc_api_view', null, 'person_id=$1', [personId]) : null;
+    }
+
     private async getPersonId (appUserId: number) {
         const client = await ServiceRegistry.instance.getService(UserService).getClientByAppUserId(appUserId)
         return !!client ? client.personId : null

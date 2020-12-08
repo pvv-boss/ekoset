@@ -1,6 +1,4 @@
-import { BaseViewModel } from '../core/BaseViewModel'
-
-export default class Research extends BaseViewModel {
+export default class Research {
   public researchId: number
   public researchName: string
   public researchStatus: string

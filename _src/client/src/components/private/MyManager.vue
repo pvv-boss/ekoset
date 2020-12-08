@@ -242,6 +242,20 @@ export default class MyManager extends Vue {
   .my-manager-form__button {
     margin: 0px !important;
     margin-right: 15px !important;
+
+    border: 1px solid red;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    width: 200px;
+    max-width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-top: 10px;
   }
 }
 </style>

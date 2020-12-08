@@ -142,7 +142,7 @@
       :can-cancel="true"
       :width="300"
     >
-      <LazyServiceListItem
+      <ServiceListItem
         :service-item="previewSmallService"
         style="
           width: 252px;
@@ -150,7 +150,7 @@
           margin: 0px;
           background-color: white;
         "
-      ></LazyServiceListItem>
+      ></ServiceListItem>
     </b-modal>
 
     <b-modal :active.sync="isShowBigImageActive" :can-cancel="true">

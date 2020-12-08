@@ -1,6 +1,4 @@
-import { BaseViewModel } from '../core/BaseViewModel'
-
-export default class Contract extends BaseViewModel {
+export default class Contract {
   contractId: any
   clientId: any
   contractForm: any

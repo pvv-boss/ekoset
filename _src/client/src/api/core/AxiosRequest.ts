@@ -26,7 +26,6 @@ export default class AxiosRequest extends AbstractApiRequest {
     try {
       const result = await axiosResult
       response = this.createResponse(result)
-
       if (result.data?.showNotify) {
         BrcDialogPlugin.showNotify(BrcDialogType.Info, result.data?.showNotify.title, result.data?.showNotify.text, 2500, { position: BrcDialogPosition.Central })
       }

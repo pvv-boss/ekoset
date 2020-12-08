@@ -19,6 +19,12 @@ export default class UserDealService extends BaseService {
         return res.data?.data;
     }
 
+    public async getSanDocsList () {
+        const res = await this.apiRequest.getJSON('user/deal/sandocs');
+        return res.data?.data;
+    }
+
+
     public async getClientsByContracts (contracts: Contract[]) {
         const clients: any[] = [{ clientId: 0, clientName: 'Все контрагенты' }]
         if (contracts) {
@@ -131,8 +137,6 @@ export default class UserDealService extends BaseService {
 
                 return isOk
             })
-
-            console.log(filtered);
 
             if (sortMode === 0) {
                 return filtered.sort((a, b) => {
