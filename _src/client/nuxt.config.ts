@@ -140,25 +140,25 @@ const config: NuxtConfig = {
 
     optimization: {
       removeEmptyChunks: true,
-      mergeDuplicateChunks:true,
       splitChunks: {
         chunks: 'all'
       }
     },
 
     splitChunks: {
-      layouts: true,
+      layouts: false,
       pages: true,
       commons: true
-    },
+    }
+    //,
 
-    filenames: {
-      css: ({
-        isDev
-      }) => isDev ? '[name].css' : '[contenthash].css',
-    },
+    // filenames: {
+    //   css: ({
+    //     isDev
+    //   }) => isDev ? '[name].css' : '[contenthash].css',
+    // }
 
-    transpile: ['vue-imask']
+    // transpile: ['vue-imask']
   },
 
 

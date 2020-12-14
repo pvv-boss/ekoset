@@ -5,6 +5,7 @@ export const phoneNumberMask = {
     },
     // placeholder: {},
     lazy: false,
+    overwrite: true
 };
 
 export const mailMask = {

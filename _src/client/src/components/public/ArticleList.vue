@@ -3,11 +3,11 @@
     class="brc-article-list"
     :class="{ 'brc-article-list_vertical': mode === 'vertical' }"
   >
-    <LazyArticleListItem
+    <ArticleListItem
       v-for="articleItem in articleList"
       :key="articleItem.articleId"
       :article-item="articleItem"
-    ></LazyArticleListItem>
+    ></ArticleListItem>
     <!-- <BasePagination
       :total="pagination.total"
       :currentPage.sync="pagination.currentPage"

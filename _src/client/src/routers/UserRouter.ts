@@ -1,14 +1,4 @@
-import Login from '@/pages/private/Login.vue'
-import ChangePasswordForm from '@/pages/private/ChangePasswordForm.vue'
-
-import RestorePasswordForm from '@/components/user/RestorePasswordForm.vue'
-import UserProfile from '@/pages/private/UserProfile.vue'
-import UserDeals from '@/pages/private/UserDeals.vue'
-import ContractList from '@/components/private/ContractList.vue'
-import LabaratoryList from '@/components/private/LabaratoryList.vue'
-import SanitaryList from '@/components/private/SanitaryList.vue'
-import DisinfectionList from '@/components/private/DisinfectionList.vue'
-import ConfirmResetPassworCallback from '@/components/user/ConfirmResetPassworCallback.vue'
+import { interopDefault } from './AdminRouter'
 
 
 export const UserRoute = [
@@ -16,14 +6,14 @@ export const UserRoute = [
     name: 'auth-login',
     path: '/auth/:mode(login|registration)',
     props: true,
-    component: Login,
+    component: () => interopDefault(import(/* webpackChunkName: "login" */ "@/pages/private/Login.vue")),
     meta: { title: 'Экосеть:: Вход на сайт' }
   },
 
   {
     name: 'auth-restore',
     path: '/auth/restore',
-    component: RestorePasswordForm,
+    component: () => interopDefault(import(/* webpackChunkName: "RestorePasswordForm" */ "@/components/user/RestorePasswordForm.vue")),
     meta: { title: 'Экосеть:: Восстановление пароля' }
   },
 
@@ -31,7 +21,7 @@ export const UserRoute = [
     name: 'user-profile',
     path: '/user/profile',
     props: true,
-    component: UserProfile,
+    component: () => interopDefault(import(/* webpackChunkName: "UserProfile" */ "@/pages/private/UserProfile.vue")),
     meta: { requiresAuth: true }
   },
 
@@ -39,14 +29,14 @@ export const UserRoute = [
     name: 'confirm-reset-password',
     path: '/user/password/reset/confirm/:code',
     props: true,
-    component: ConfirmResetPassworCallback
+    component: () => interopDefault(import(/* webpackChunkName: "ConfirmResetPassworCallback" */ "@/components/user/ConfirmResetPassworCallback.vue"))
   },
 
   {
     name: 'user-change-password',
     path: '/user/password/change',
     props: true,
-    component: ChangePasswordForm,
+    component: () => interopDefault(import(/* webpackChunkName: "ChangePasswordForm" */ "@/pages/private/ChangePasswordForm.vue")),
     meta: { requiresAuth: true }
   },
 
@@ -54,37 +44,38 @@ export const UserRoute = [
     path: '/user/deals',
     props: true,
     meta: { requiresAuth: true },
-    component: UserDeals,
+    component: () => interopDefault(import(/* webpackChunkName: "UserDeals" */ "@/pages/private/UserDeals.vue")),
+
     children: [
       {
         name: 'user-deals',
         path: '',
         props: true,
-        component: ContractList
+        component: () => interopDefault(import(/* webpackChunkName: "ContractList" */ "@/components/private/ContractList.vue"))
       },
       {
         name: 'user-deals-contracts',
         path: 'contracts',
         props: true,
-        component: ContractList
+        component: () => interopDefault(import(/* webpackChunkName: "ContractList" */ "@/components/private/ContractList.vue"))
       },
       {
         name: 'user-deals-labaratory',
         path: 'labs',
         props: true,
-        component: LabaratoryList
+        component: () => interopDefault(import(/* webpackChunkName: "LabaratoryList" */ "@/components/private/LabaratoryList.vue"))
       },
       {
         name: 'user-deals-sanitary',
         path: 'sanitary',
         props: true,
-        component: SanitaryList
+        component: () => interopDefault(import(/* webpackChunkName: "SanitaryList" */ "@/components/private/SanitaryList.vue"))
       },
       {
         name: 'user-deals-disinfection',
         path: 'disinfection',
         props: true,
-        component: DisinfectionList
+        component: () => interopDefault(import(/* webpackChunkName: "DisinfectionList" */ "@/components/private/DisinfectionList.vue"))
       }
     ]
   }

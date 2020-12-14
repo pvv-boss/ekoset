@@ -60,10 +60,10 @@
       </section>
       <section v-if="realtedArticles.length > 0" class="brc-article-related">
         <h2>Похожие новости</h2>
-        <LazyArticleList
+        <ArticleList
           :article-list="realtedArticles.slice(0, 3)"
           mode="vertical"
-        ></LazyArticleList>
+        ></ArticleList>
       </section>
     </div>
   </div>
