@@ -89,9 +89,11 @@
           </div>
         </template>
         <template #action="{ dealListItem }">
-          <a :class="['brc-deal-list__item__action_button']">{{
-            getActionText(dealListItem)
-          }}</a>
+          <a
+            :class="['brc-deal-list__item__action_button']"
+            @click="onContinieWork(dealListItem)"
+            >{{ getActionText(dealListItem) }}</a
+          >
         </template>
       </DealListWrapper>
     </template>
@@ -103,6 +105,7 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Work from '@/models/deal/Work'
 import UserDealService from '@/services/UserDealService'
 import { ServiceRegistry } from '@/ServiceRegistry'
+import WorkContinionForm from '@/components/private/WorkContinionForm.vue'
 
 @Component
 export default class LabaratoryList extends Vue {
@@ -194,6 +197,11 @@ export default class LabaratoryList extends Vue {
   private mobileSortModeChanged (sortMode: number) {
     this.sortMode = sortMode
     this.applayFilter()
+  }
+
+  private onContinieWork (work: Work) {
+    this.$modalManager.modalShow(WorkContinionForm, { work }, {})
+
   }
 }
 </script>

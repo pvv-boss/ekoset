@@ -162,6 +162,12 @@ export default class PublicEkosetService extends BaseService {
     return result
   }
 
+
+  public async sendMessageToManager (formData: FormData) {
+    const result = this.apiRequest.postForm('user/manager/message', {}, formData)
+    return result
+  }
+
   public async logOnServer (log: any) {
     return this.apiRequest.put('app/log', {}, log)
   }

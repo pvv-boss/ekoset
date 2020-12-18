@@ -58,7 +58,7 @@ export abstract class AbstractApiRequest {
     return this.processRequest(this.buildUrl(url), ResponseType.JSON, { ...config, ...{ method: 'DELETE' } });
   }
 
-  protected async abstract processRequest (url: string, responseType: ResponseType, config?: any, data?: any): Promise<ApiResponse>
+  protected abstract processRequest (url: string, responseType: ResponseType, config?: any, data?: any): Promise<ApiResponse>
 
 
   protected createResponse (resp: any): ApiResponse {

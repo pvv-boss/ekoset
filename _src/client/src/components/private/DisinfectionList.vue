@@ -1,6 +1,6 @@
 <template>
   <DealTypeWrapper>
-    <template #header>Список лабораторных исследований</template>
+    <template #header>Список дезработ</template>
     <template #filter>
       <div class="brc-contract-filter red-inputs">
         <div>
@@ -47,8 +47,21 @@
     <template #cards>
       <DealListWrapper :deal-list="workList">
         <template #header="{ dealListItem }">
-          <div class="brc-deal-list__item_strong">
-            {{ dealListItem.sheldServiceName }}
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div class="brc-deal-list__item_strong">
+              {{ dealListItem.sheldServiceName }}
+            </div>
+            <BaseRating
+              :value="dealListItem.sheldServiceBall"
+              :show-reviews="false"
+              @click="addRating(dealListItem)"
+            ></BaseRating>
           </div>
           <label class="brc-deal-list__item__header_id">
             {{ "ID " + dealListItem.contractId }}
@@ -89,9 +102,11 @@
           </div>
         </template>
         <template #action="{ dealListItem }">
-          <a :class="['brc-deal-list__item__action_button']">{{
-            getActionText(dealListItem)
-          }}</a>
+          <a
+            :class="['brc-deal-list__item__action_button']"
+            @click="onContinieWork(dealListItem)"
+            >{{ getActionText(dealListItem) }}</a
+          >
         </template>
       </DealListWrapper>
     </template>
@@ -103,6 +118,8 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Work from '@/models/deal/Work'
 import UserDealService from '@/services/UserDealService'
 import { ServiceRegistry } from '@/ServiceRegistry'
+import WorkContinionForm from '@/components/private/WorkContinionForm.vue'
+import AddDezWorkRatingForm from '@/components/private/AddDezWorkRatingForm.vue'
 
 @Component
 export default class DisinfectionList extends Vue {
@@ -194,6 +211,14 @@ export default class DisinfectionList extends Vue {
   private mobileSortModeChanged (sortMode: number) {
     this.sortMode = sortMode
     this.applayFilter()
+  }
+
+  private onContinieWork (work: Work) {
+    this.$modalManager.modalShow(WorkContinionForm, { work }, {})
+  }
+
+  private addRating (work: Work) {
+    this.$modalManager.modalShow(AddDezWorkRatingForm, { work }, {})
   }
 }
 </script>

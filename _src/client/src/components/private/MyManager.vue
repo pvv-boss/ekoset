@@ -85,7 +85,6 @@ import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
 import { ServiceRegistry } from '@/ServiceRegistry';
 import PublicEkosetService from '@/services/PublicEkosetService';
 import AuthStore from '@/store/AuthStore';
-import UserService from '@/services/UserService';
 import EkosetClient from '@/models/EkosetClient'
 
 import { formatPhoneNumber } from '@/utils/InputMaskDefinitions'
@@ -147,7 +146,7 @@ export default class MyManager extends Vue {
       for (const iterItem of this.files) {
         formData.append('files', iterItem)
       }
-      ServiceRegistry.instance.getService(PublicEkosetService).sendFormMessage(formData, this.mode)
+      ServiceRegistry.instance.getService(PublicEkosetService).sendMessageToManager(formData)
       if (this.showCloseBtn) {
         this.$emit('closeForm')
       }
@@ -155,7 +154,7 @@ export default class MyManager extends Vue {
       this.formMessageData = new UserRequest()
       this.files = []
     } else {
-      this.$BrcNotification(BrcDialogType.Error, this.title, `Заполните все поля правильно`)
+      this.$BrcNotification(BrcDialogType.Error, 'Внимание !', `Заполните все поля правильно`)
     }
   }
 

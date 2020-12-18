@@ -6,13 +6,13 @@
         <div>
           <input id="valid_contract" v-model="isEndFilter" type="checkbox" />
           <label for="valid_contract">
-            <span>Выполнено</span>
+            <span>Действует</span>
           </label>
         </div>
         <div style="margin-left: 18px">
           <input id="ended_contract" v-model="isPlanFilter" type="checkbox" />
           <label for="ended_contract">
-            <span>Планируется</span>
+            <span>Закончился</span>
           </label>
         </div>
 
@@ -22,12 +22,12 @@
         </div>
 
         <div class="brc-contract-filter__sortbydate" @click="sortByDate">
-          <span>По дате работ</span>
+          <span>По сроку действия</span>
           <div v-html="dateSortSymbol"></div>
         </div>
 
         <DealContractSortSelect
-          zero-opt-name="По дате работ"
+          zero-opt-name="По сроку действия"
           one-opt-name="По наименованию"
           @sort-mode-changed="mobileSortModeChanged"
         ></DealContractSortSelect>
@@ -116,6 +116,7 @@ import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import SanDoc from '@/models/deal/SanDoc'
 import UserDealService from '@/services/UserDealService'
 import { ServiceRegistry } from '@/ServiceRegistry'
+import SanitaryContinionForm from '@/components/private/SanitaryContinionForm.vue'
 
 @Component
 export default class SanitaryList extends Vue {
@@ -184,15 +185,15 @@ export default class SanitaryList extends Vue {
   }
 
   private async applayFilter () {
-    this.workList = this.allWorkList
-    // this.workList = await ServiceRegistry.instance.getService(UserDealService).filterWork(
-    //   this.allWorkList,
-    //   this.isEndFilter,
-    //   this.isPlanFilter,
-    //   this.selectedContract,
-    //   this.sortMode,
-    //   this.sortOrder
-    // )
+    // this.workList = this.allWorkList
+    this.workList = await ServiceRegistry.instance.getService(UserDealService).filterSanDocs(
+      this.allWorkList,
+      this.isEndFilter,
+      this.isPlanFilter,
+      this.selectedContract,
+      this.sortMode,
+      this.sortOrder
+    )
   }
 
   private sortByDate () {
@@ -212,7 +213,8 @@ export default class SanitaryList extends Vue {
     this.applayFilter()
   }
 
-  private onContinieDoc (doc: SanDoc) {
+  private onContinieDoc (sanDoc: SanDoc) {
+    this.$modalManager.modalShow(SanitaryContinionForm, { sanDoc }, {})
 
   }
 }

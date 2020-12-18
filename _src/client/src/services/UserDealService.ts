@@ -1,4 +1,5 @@
 import Contract from '@/models/deal/Contract';
+import SanDoc from '@/models/deal/SanDoc';
 import Work from '@/models/deal/Work';
 import { BaseService } from './BaseService';
 
@@ -135,6 +136,10 @@ export default class UserDealService extends BaseService {
                     isOk = iterContract.sheldServicePlanInd === 1
                 }
 
+                if (!isPlanFilter && isEndFilter) {
+                    isOk = iterContract.sheldServicePlanInd === 0
+                }
+
                 return isOk
             })
 
@@ -146,6 +151,55 @@ export default class UserDealService extends BaseService {
                 const c = Intl.Collator('ru', { 'sensitivity': 'variant' });
                 return filtered.sort((a, b) => {
                     return sortOrder ? c.compare(a.sheldServiceName, b.sheldServiceName) : c.compare(a.sheldServiceName, b.sheldServiceName) * -1
+                })
+            }
+        } else {
+            return works
+        }
+    }
+
+
+
+    public async filterSanDocs (works: SanDoc[], isEndFilter, isPlanFilter, contractId, sortMode = 0, sortOrder = true) {
+        if (!!works) {
+            const filtered = works.filter((iterContract: SanDoc) => {
+                let isOk = false
+
+                if (isPlanFilter && isEndFilter && contractId === 0) {
+                    return true
+                }
+
+                if (!isPlanFilter && !isEndFilter) {
+                    return false
+                }
+
+                if (contractId > 0 && isPlanFilter && isEndFilter && iterContract.contractId === contractId) {
+                    return true
+                }
+
+                if (contractId > 0 && iterContract.contractId !== contractId) {
+                    return false
+                }
+
+                if (!isPlanFilter && isEndFilter) {
+                    isOk = iterContract.docDateStatus === 1 || iterContract.docDateStatus === 0
+                }
+
+                if (isPlanFilter && !isEndFilter) {
+                    isOk = iterContract.docDateStatus === 2
+                }
+
+                return isOk
+            })
+
+            if (sortMode === 0) {
+                return filtered.sort((a, b) => {
+                    return sortOrder ? (a.contractDateEnd > b.contractDateEnd ? 1 : -1) : (a.contractDateEnd < b.contractDateEnd ? 1 : -1)
+                })
+            } else {
+                const c = Intl.Collator('ru', { 'sensitivity': 'variant' });
+                return filtered.sort((a, b) => {
+                    return sortOrder ? c.compare(a.documentName, b.documentName) : c.compare(a.documentName, b.documentName) * -1
                 })
             }
         } else {

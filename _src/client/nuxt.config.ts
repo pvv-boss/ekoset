@@ -125,7 +125,7 @@ const config: NuxtConfig = {
         id: '64542580',
         webvisor: true,
         clickmap: true,
-        // useCDN: true,
+        useCDN: true,
         trackLinks: true,
         accurateTrackBounce: false
       }]
@@ -136,7 +136,9 @@ const config: NuxtConfig = {
   },
 
   build: {
-    extractCSS: true,
+    extractCSS: {
+      ignoreOrder: true
+    },
 
     optimization: {
       removeEmptyChunks: true,

@@ -82,4 +82,9 @@ export default class EkosetClient {
     })
     notifSmsInd: boolean
 
+
+    managerName: string
+    managerPhone: string
+    managerEmail: string
+
 }
