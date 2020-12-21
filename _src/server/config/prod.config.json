@@ -1,6 +1,6 @@
 [{
     "ExpressConfig": {
-        "port": 3003,
+        "port": 3002,
         "host": "https://ekoset.ru",
         "restApiBaseUrl": "/api/2_0",
         "bodyParserLimit": "50mb",
@@ -13,7 +13,7 @@
   }, {
     "DatabaseConfig": {
         "type": "postgres",
-        "host": "91.210.168.57",
+        "host": "localhost",
         "port": 5432,
         "user": "postgres",
         "username": "postgres",
@@ -46,7 +46,8 @@
         "jwtSignOptions": {
             "expiresIn": 600
         },
-        "cookieDomain":"localhost",
+        "cookieDomain" :".ekoset.ru",
+	    "cookieSecure":true,
         "refreshTokenAgeInSeconds": 2592000,
         "registrationOptions": {
             "bcryptSaltRounds": 10,

@@ -4,7 +4,7 @@
       <img
         v-if="isMobile"
         src="~/assets/images/user-icon-red.png"
-        title="Вход на сайт"
+        title="Вход для клиентов"
       />
       <nuxt-link :to="{ name: 'user-profile' }">
         {{ ekosetClientUserName }}
@@ -16,7 +16,7 @@
         :to="{ name: 'auth-login', params: { mode: 'login' } }"
         style="display: flex"
       >
-        <img src="~/assets/images/user-icon.png" title="Вход на сайт" />
+        <img src="~/assets/images/user-icon.png" title="Вход для клиентов" />
         <div v-if="isMobile">Личный кабинет</div>
       </nuxt-link>
     </div>
