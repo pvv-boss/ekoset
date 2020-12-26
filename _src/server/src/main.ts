@@ -19,6 +19,7 @@ import { UserRequestService } from './services/ekoset/UserRequestService';
 import { ExpressApplication, logger, ServiceRegistry } from 'rsn-express-core';
 import UserService from './services/ekoset/UserService';
 import UserController from './controllers/ekoset/UserController';
+import StaffClientController from './controllers/admin/StaffClientController';
 
 
 (async () => {
@@ -26,7 +27,7 @@ import UserController from './controllers/ekoset/UserController';
     const app: ExpressApplication = new ExpressApplication();
 
     app.addAppControllers([ArticleController, MainEkosetController, IndividualOfferController, BusinessServiceController,
-        MediaController, CmsController, PriceController, UserRequestController, UserDealController, UserController]);
+        MediaController, CmsController, PriceController, UserRequestController, UserDealController, UserController, StaffClientController]);
 
     ServiceRegistry.instance.register(ArticleService);
     ServiceRegistry.instance.register(MainEkosetService);

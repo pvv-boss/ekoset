@@ -66,7 +66,6 @@ export default class MediaService extends BaseService {
     return this.updateSmallOrBigImageFor(file, 'clients', `client_${clActivityId}`, updateStmt);
   }
 
-
   public async getSiteDocuments () {
     return postgresWrapper.anyWhere('v_api_site_document')
   }
@@ -87,9 +86,9 @@ export default class MediaService extends BaseService {
     }
   }
 
-  public getImageFullPathAndFileName (dir: string, subDir: string, fileprefix: string, fileExt: string) {
+  public getImageFullPathAndFileName (dir: string, subDir: string, fileprefix: string, fileExt: string, useCuid = true) {
     const pathName = path.resolve('static', dir, subDir);
-    const fileName = `${fileprefix}_${cuid()}.${fileExt}`;
+    const fileName = useCuid ? `${fileprefix}_${cuid()}.${fileExt}` : `${fileprefix}`;
     if (!fs.existsSync(pathName)) {
       fs.mkdirSync(pathName, { recursive: true });
     }
@@ -97,12 +96,12 @@ export default class MediaService extends BaseService {
     return [path.resolve(pathName, fileName), fileName];
   }
 
-  public async saveFileFromRequestBody (file: Express.Multer.File, dir: string, subDir: string, fileprefix: string): Promise<string[]> {
+  public async saveFileFromRequestBody (file: Express.Multer.File, dir: string, subDir: string, fileprefix: string, useCuid = true): Promise<string[]> {
     if (!!file && file.size > 0) {
       let fileExt = mime.extension(file.mimetype);
       fileExt = fileExt ? fileExt : 'txt';
 
-      const pathAndName = this.getImageFullPathAndFileName(dir, subDir, fileprefix, fileExt);
+      const pathAndName = this.getImageFullPathAndFileName(dir, subDir, fileprefix, fileExt, useCuid);
 
       const promise = new Promise<string[]>((resolve, reject) => {
         if (pathAndName[0]) {

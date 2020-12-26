@@ -18,7 +18,7 @@
 
     <slot></slot>
 
-    <div class="dialog_buttons">
+    <div v-if="showOkCancel" class="dialog_buttons">
       <button
         class="dialog_button_ok"
         @click="
@@ -61,6 +61,10 @@ export default class BaseModal extends Vue {
 
   @Prop({ default: false })
   public fullLoading: boolean;
+
+  @Prop({ default: true })
+  public showOkCancel: boolean;
+
 }
 </script>
 

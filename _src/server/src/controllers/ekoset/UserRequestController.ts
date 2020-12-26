@@ -53,6 +53,9 @@ export default class UserRequestController extends BaseController {
       if (!!sessionUser && sessionUser.appUserId > 0) {
         const client = await ServiceRegistry.instance.getService(UserService).getClientByAppUserId(sessionUser.appUserId)
         requestData.userRequestMail = client.personEmail;
+        requestData.userRequestPhone = String(client.personPhone)
+        requestData.userRequestType = `Обращение к менеджеру: ${client.managerName}`
+        requestData.userRequestUser = client.personName
 
         const reqNmb = await ServiceRegistry.instance.getService(UserRequestService).saveRequest(files, requestData, 100, client);
         const message = 'Ваше сообщение отправлено. В ближайшее время с Вами свяжутся наши специалисты';

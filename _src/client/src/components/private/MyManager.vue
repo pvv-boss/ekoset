@@ -4,7 +4,10 @@
     <form class="brc-message-form my-manager-wrapper">
       <div class="my-manager-contacts">
         <div class="my-manager-contacts__foto">
-          <img src="~/assets/images/empty-image.png" />
+          <img
+            :src="`/img/managers/${myManager.managerId}`"
+            onerror="this.onerror=null; this.src='/img/empty-image.png'"
+          />
         </div>
         <div class="my-manager-contacts__main">
           <span class="my-manager-contacts__main__capt"
@@ -127,7 +130,7 @@ export default class MyManager extends Vue {
   }
 
   private managerPhoneNumber () {
-    return `+7 ${formatPhoneNumber(this.myManager.managerPhone)}`;
+    return formatPhoneNumber(this.myManager.managerPhone);
   }
 
   private mounted () {

@@ -121,7 +121,39 @@ export const AdminRouter = [
     meta: {
       requiresAuth: true
     }
+  },
+
+  {
+    name: 'admin-manager-list',
+    path: '/admin/staff/managers',
+    props: true,
+    component: () => interopDefault(import(/* webpackChunkName: "admin" */ "@/pages/admin/ManagerList.vue")),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    name: 'admin-clients-list',
+    path: '/admin/staff/clients',
+    props: true,
+    component: () => interopDefault(import(/* webpackChunkName: "admin" */ "@/pages/admin/ContactClientList.vue")),
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+  {
+    name: 'admin-request-list',
+    path: '/admin/user/requests',
+    props: true,
+    component: () => interopDefault(import(/* webpackChunkName: "admin" */ "@/pages/admin/UserRequestList.vue")),
+    meta: {
+      requiresAuth: true
+    }
   }
+
+
+  //StaffList
 
 ]
 

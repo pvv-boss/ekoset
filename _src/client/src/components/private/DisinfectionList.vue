@@ -57,11 +57,11 @@
             <div class="brc-deal-list__item_strong">
               {{ dealListItem.sheldServiceName }}
             </div>
-            <BaseRating
+            <!-- <BaseRating
               :value="dealListItem.sheldServiceBall"
               :show-reviews="false"
               @click="addRating(dealListItem)"
-            ></BaseRating>
+            ></BaseRating> -->
           </div>
           <label class="brc-deal-list__item__header_id">
             {{ "ID " + dealListItem.contractId }}

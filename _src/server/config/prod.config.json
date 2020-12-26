@@ -13,7 +13,7 @@
   }, {
     "DatabaseConfig": {
         "type": "postgres",
-        "host": "localhost",
+        "host": "91.210.168.57",
         "port": 5432,
         "user": "postgres",
         "username": "postgres",
@@ -46,8 +46,8 @@
         "jwtSignOptions": {
             "expiresIn": 600
         },
-        "cookieDomain" :".ekoset.ru",
-	    "cookieSecure":true,
+        "cookieDomain" :false,
+	    "cookieSecure":false,
         "refreshTokenAgeInSeconds": 2592000,
         "registrationOptions": {
             "bcryptSaltRounds": 10,

@@ -26,6 +26,20 @@ export default class UserDealService extends BaseService {
     }
 
 
+    public async getClients () {
+        const res = await this.apiRequest.getJSON('admin/staff/clients');
+        return res.data?.data;
+    }
+
+    public async getManagers () {
+        const res = await this.apiRequest.getJSON('admin/staff/managers');
+        return res.data?.data;
+    }
+
+    public async saveManagerFoto (id: number, formData: FormData) {
+        return this.apiRequest.postForm(`admin/staff/manager/foto/${id}`, {}, formData)
+    }
+
     public async getClientsByContracts (contracts: Contract[]) {
         const clients: any[] = [{ clientId: 0, clientName: 'Все контрагенты' }]
         if (contracts) {
@@ -205,5 +219,10 @@ export default class UserDealService extends BaseService {
         } else {
             return works
         }
+    }
+
+    public async getUsersRequests () {
+        const res = await this.apiRequest.getJSON('admin/user/requests')
+        return res.data?.data;
     }
 }
