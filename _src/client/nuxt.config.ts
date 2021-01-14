@@ -124,8 +124,8 @@ const config: NuxtConfig = {
       {
         id: '64542580',
         webvisor: true,
-        clickmap: true,
-        useCDN: true,
+        clickmap: false,
+        useCDN: false,
         trackLinks: true,
         accurateTrackBounce: false
       }]

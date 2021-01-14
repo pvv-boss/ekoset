@@ -39,7 +39,7 @@
                 :src-image="brandItem.clBrandImgSmall"
                 @uploader:newimageloaded="saveBrandImage"
               >
-                <template v-slot="{ imageSrc }">
+                <template #default="{ imageSrc }">
                   <LazyRecommendationListItem
                     :brand="brandItem"
                     :image-src-for-design-mode="imageSrc"

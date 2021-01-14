@@ -22,7 +22,7 @@ let CkEditor
 let Editor
 
 if (process.client) {
-  CkEditor = require('@ckeditor/ckeditor5-vue')
+  CkEditor = require('@ckeditor/ckeditor5-vue2')
   Editor = require('rsn/ckeditor')
 } else {
   CkEditor = { component: { template: '<div></div>' } }

@@ -143,6 +143,16 @@ export const AdminRouter = [
   },
 
   {
+    name: 'admin-client-card',
+    path: '/admin/staff/clients/:clientId',
+    props: true,
+    component: () => interopDefault(import(/* webpackChunkName: "admin" */ "@/pages/admin/ClientCard.vue")),
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+  {
     name: 'admin-request-list',
     path: '/admin/user/requests',
     props: true,

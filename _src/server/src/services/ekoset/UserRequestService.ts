@@ -127,6 +127,34 @@ export class UserRequestService extends BaseService {
     })
   }
 
+  public sendActivateUserMail (clinet: EkosetClient, password: string) {
+    const format = (template: string) => {
+      const text = this.formatAllPossible(template, clinet, null, null, null);
+      return text.replace('{{user_login}}', clinet.personEmail).replace('{{user_password}}', password);
+    }
+
+    const getEmails = (clinet: EkosetClient) => {
+      return ['SergeyRyzhkov76@gmail.com', 'pvv@ekoset.ru']
+    }
+
+    const sender = new MailSender();
+
+    getEmails(clinet).forEach(async (iterEmal) => {
+      const innerMessage: MailMessage = {
+        from: `Сайт ЭКОСЕТЬ <inbox@ekoset.ru>`,
+        to: iterEmal,
+        subject: `Активация доступа в ЛК сайт ЭКОСЕТЬ`,
+        text: '',
+        html: ''
+      }
+      try {
+        await sender.sendFromTemplate(innerMessage, 'activate_user', format);
+      } catch (err) {
+        logger.error(err)
+      }
+    })
+  }
+
   private formatAllPossible (template: string, clinet: EkosetClient, contract: Contract, work: Work, sanDoc: SanDoc) {
     let result = template
 

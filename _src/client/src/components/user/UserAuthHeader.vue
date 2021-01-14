@@ -39,7 +39,7 @@ export default class UserAuthHeader extends Vue {
   private get userStore () { return getModule(AuthStore, this.$store) }
 
   private get ekosetClientUserName () {
-    return this.userStore.ekosetClient?.personName ?? this.userStore.sessionUser.appUserName
+    return this.userStore.ekosetClient?.personEmail ?? this.userStore.sessionUser.appUserName
   }
 
   private logout () {

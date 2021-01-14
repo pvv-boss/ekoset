@@ -30,8 +30,9 @@ export class BaseService {
   public async getOneOrEmpty<T> (ctor: { new(): T }, url: string, options?: any): Promise<T> {
     try {
       const response = await this.apiRequest.getJSON(url, options);
-      const data = response?.data?.data;
-      return !!data ? plainToClass(ctor, data) : new ctor();
+      let result = response?.data?.data;
+      result = !!result ? (Array.isArray(result) && result.length > 0 ? result[0] : result) : null;
+      return !!result ? plainToClass(ctor, result) : new ctor();
     } catch {
       return new ctor();
     }

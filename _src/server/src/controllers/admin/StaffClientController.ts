@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { authorized, BaseController, postgresWrapper, SecurityHelper, ServiceRegistry, Unauthorized } from 'rsn-express-core';
+import { authorized, BaseController, ClientNotifyMessage, postgresWrapper, SecurityHelper, ServiceRegistry, Unauthorized } from 'rsn-express-core';
 import UserDealService from '@/services/ekoset/UserDealService';
-import { JsonController, Get, Res, Param, Req, Body, Put, Delete, Post, UseBefore } from 'routing-controllers';
+import { JsonController, Get, Res, Param, Req, Body, Put, Delete, Post, UseBefore, BodyParam } from 'routing-controllers';
 import multer from 'multer';
 import MediaService from '@/services/ekoset/MediaService';
+import UserService from '@/services/ekoset/UserService';
 
 const upload = multer();
 
@@ -51,4 +52,96 @@ export default class StaffClientController extends BaseController {
         return this.createSuccessResponse(result, response);
     }
 
+    @UseBefore(authorized())
+    @Post('/user/client/activate')
+    public async activateEkosetClient (
+        @BodyParam('id') id: number,
+        @Res() response: Response) {
+        const result = await ServiceRegistry.instance.getService(UserService).activateEkosetClient(id);
+
+        return this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert(' Активация пользователя ', result.message));
+    }
+
+    @UseBefore(authorized())
+    @Delete('/user/client/:id/deactivate')
+    public async deactivateEkosetClient (
+        @Param('id') id: number,
+        @Res() response: Response) {
+        const result = await ServiceRegistry.instance.getService(UserService).deactivateEkosetClient(id);
+
+        return this.createSuccessResponseWithMessage({}, response, 200, ClientNotifyMessage.createAlert(' Деактивация пользователя ', 'Выполнено!'));
+    }
+
+    // Для карточки клиента в админке
+
+    @UseBefore(authorized())
+    @Get('/deal/:id/contracts')
+    public async getContracts (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+        const result = await ServiceRegistry.instance.getService(UserDealService).getContracts(id, true);
+        return this.createSuccessResponse(result, response);
+    }
+
+    @UseBefore(authorized())
+    @Get('/deal/:id/labaratory')
+    public async getLabaratoryList (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+        const result = await ServiceRegistry.instance.getService(UserDealService).getLabaratoryList(id, true);
+        return this.createSuccessResponse(result, response);
+    }
+
+    @UseBefore(authorized())
+    @Get('/deal/:id/deswork')
+    public async getDesworkList (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+
+        const result = await ServiceRegistry.instance.getService(UserDealService).getDesworkList(id, true);
+        return this.createSuccessResponse(result, response);
+
+    }
+
+
+    @UseBefore(authorized())
+    @Get('/deal/:id/sandocs')
+    public async getSanDocsList (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+
+        const result = await ServiceRegistry.instance.getService(UserDealService).getSanDocsList(id, true);
+        return this.createSuccessResponse(result, response);
+
+    }
+
+    @UseBefore(authorized())
+    @Get('/deal/:id/contragents')
+    public async getСontragentList (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+
+        const result = await postgresWrapper.anyWhere('contragent_view', null, 'person_id=$1', [id]);
+
+        return this.createSuccessResponse(result, response);
+
+    }
+    @UseBefore(authorized())
+    @Get('/user/person/:id')
+    public async getPersonById (
+        @Req() request: Request,
+        @Param('id') id: number,
+        @Res() response: Response) {
+
+        const result = await postgresWrapper.anyWhere('admin_client_api_view', null, 'person_id=$1', [id]);
+
+        return this.createSuccessResponse(result, response);
+
+    }
 }
+

@@ -14,21 +14,49 @@
           :fixed-header="true"
           :sort-options="{
             enabled: true, //,
-            // initialSortBy: {field: 'articlePublishDate', type: 'desc'}
           }"
         >
           <template #table-row="props">
-            <b-switch v-if="props.column.field == 'articleStatus'"></b-switch>
-
-            <!-- <b-upload
-              v-else-if="props.column.field == 'addSmallImage'"
-              @input="addSmallImage(...arguments, props.row)"
+            <span v-if="props.column.field == 'personStatus'">
+              {{ statusText(props.row) }}
+            </span>
+            <b-button
+              v-if="
+                props.column.field == 'personStatus' &&
+                !isUserActive(props.row) &&
+                !!props.row.personEmail
+              "
+              icon-right="content-copy"
+              type="is-info"
+              size="is-small"
+              outlined
+              style="margin-left: 15px"
+              @click="activateClient(props.row)"
+              >Активировать</b-button
             >
-              <a class="button is-link">
-                <b-icon icon="upload"></b-icon>
-              </a>
-            </b-upload> -->
 
+            <b-button
+              v-if="
+                props.column.field == 'personStatus' &&
+                isUserActive(props.row) &&
+                !!props.row.personEmail
+              "
+              type="is-danger"
+              icon-right="delete"
+              size="is-small"
+              style="margin-left: 15px"
+              @click="deactivateClient(props.row)"
+              >Блокировать</b-button
+            >
+
+            <nuxt-link
+              v-else-if="props.column.field == 'personName'"
+              :to="{
+                name: 'admin-client-card',
+                params: { clientId: props.row.personId },
+              }"
+              >{{ props.row.personName }}</nuxt-link
+            >
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
           </template>
         </vue-good-table>
@@ -44,6 +72,7 @@ import AdminStore from '@/store/AdminStore'
 import { Context } from "@nuxt/types";
 import { ServiceRegistry } from '@/ServiceRegistry'
 import UserDealService from '@/services/UserDealService'
+import UserService from '@/services/UserService'
 import EkosetClient from '@/models/EkosetClient'
 
 @Component({
@@ -75,12 +104,28 @@ export default class ContactClientList extends Vue {
     {
       field: 'personEmail',
       label: 'E-Mail'
+    },
+
+    {
+      field: 'personStatus',
+      label: 'Статус'
     }
 
   ]
 
   private layout () {
     return 'admin'
+  }
+
+  private isUserActive (client: EkosetClient) {
+    return !!client.appUserId
+  }
+
+  private statusText (client: EkosetClient) {
+    if (!client.personEmail) {
+      return 'Не указан почтовый адрес!'
+    }
+    return this.isUserActive(client) ? 'Активен' : 'Блокирован'
   }
 
   private async asyncData (context: Context) {
@@ -93,6 +138,20 @@ export default class ContactClientList extends Vue {
     return {
       ekosetClients: data
     }
+  }
+
+  private async refreshData () {
+    this.ekosetClients = await ServiceRegistry.instance.getService(UserDealService).getClients()
+  }
+
+  private async activateClient (client: EkosetClient) {
+    await ServiceRegistry.instance.getService(UserService).activateEkosetClient(client.personId)
+    await this.refreshData()
+  }
+
+  private async deactivateClient (client: EkosetClient) {
+    await ServiceRegistry.instance.getService(UserService).deactivateEkosetClient(client.appUserId)
+    await this.refreshData()
   }
 
 }

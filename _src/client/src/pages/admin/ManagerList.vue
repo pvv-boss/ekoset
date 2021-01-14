@@ -90,7 +90,7 @@ export default class ManagerList extends Vue {
     },
     {
       field: 'managerEmail',
-      label: 'Почта (логи)'
+      label: 'Почта (логин)'
     },
     {
       field: 'managerPhone',

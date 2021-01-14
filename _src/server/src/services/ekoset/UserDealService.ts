@@ -3,24 +3,24 @@ import UserService from './UserService';
 
 export default class UserDealService extends BaseService {
 
-    public async getContracts (appUserId: number) {
-        const personId = await this.getPersonId(appUserId)
+    public async getContracts (appUserId: number, isPersonId = false) {
+        const personId = isPersonId ? appUserId : await this.getPersonId(appUserId)
         return !!personId ? await postgresWrapper.anyWhere('contract_api_view', null, 'person_id=$1', [personId]) : null;
     }
 
-    public async getLabaratoryList (appUserId: number) {
-        const personId = await this.getPersonId(appUserId)
+    public async getLabaratoryList (appUserId: number, isPersonId = false) {
+        const personId = isPersonId ? appUserId : await this.getPersonId(appUserId)
         return !!personId ? await postgresWrapper.anyWhere('labaratory_api_view', null, 'person_id=$1', [personId]) : null;
     }
 
-    public async getDesworkList (appUserId: number) {
-        const personId = await this.getPersonId(appUserId)
+    public async getDesworkList (appUserId: number, isPersonId = false) {
+        const personId = isPersonId ? appUserId : await this.getPersonId(appUserId)
         return !!personId ? await postgresWrapper.anyWhere('dezwork_api_view', null, 'person_id=$1', [personId]) : null;
     }
 
 
-    public async getSanDocsList (appUserId: number) {
-        const personId = await this.getPersonId(appUserId)
+    public async getSanDocsList (appUserId: number, isPersonId = false) {
+        const personId = isPersonId ? appUserId : await this.getPersonId(appUserId)
         return !!personId ? await postgresWrapper.anyWhere('sandoc_api_view', null, 'person_id=$1', [personId]) : null;
     }
 

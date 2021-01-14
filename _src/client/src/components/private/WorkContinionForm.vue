@@ -23,6 +23,7 @@
           v-model="work.sheldServiceNewDate"
           placeholder="Планируемая дата проведения работ"
           type="date"
+          :min="currentDate"
           classes="brc-login-form input"
         >
         </BaseInput>
@@ -64,6 +65,10 @@ export default class WorkContinionForm extends Vue {
       ' от ' +
       new Date(this.work.contractDateStart).toLocaleDateString('ru-RU')
     )
+  }
+
+  private get currentDate () {
+    return new Date().toISOString().split("T")[0];
   }
 
 

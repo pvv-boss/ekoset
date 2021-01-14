@@ -7,8 +7,8 @@
       </div>
       <div class="brc-user-profile">
         <AccountMain class="mt-40"></AccountMain>
-        <ChangePassword class="mt-40"></ChangePassword>
         <NotificationSettings class="mt-40"></NotificationSettings>
+        <ChangePassword class="mt-40"></ChangePassword>
       </div>
     </section>
   </main>
