@@ -97,7 +97,7 @@ export default class LoginForm extends Vue {
     if (this.validateData()) {
       const result = await ServiceRegistry.instance.getService(AuthService).loginByPassword(this.loginData)
       if (result.logonStatus === LogonStatus.OK) {
-        this.$router.push({ name: "user-profile" })
+        this.$router.push({ name: "user-deals-contracts" })
       } else {
         this.errorMessage = result.message
       }

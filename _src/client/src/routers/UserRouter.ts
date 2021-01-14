@@ -57,7 +57,7 @@ export const UserRoute = [
         name: 'user-deals-contracts',
         path: 'contracts',
         props: true,
-        component: () => interopDefault(import(/* webpackChunkName: "ContractList" */ "@/components/private/ContractList.vue"))
+        component: () => interopDefault(import(/* webpackChunkName: "ContractList" */ "@/components/private/ContractList.vue")),
       },
       {
         name: 'user-deals-labaratory',

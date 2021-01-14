@@ -6,9 +6,17 @@
         src="~/assets/images/user-icon-red.png"
         title="Вход для клиентов"
       />
-      <nuxt-link :to="{ name: 'user-profile' }">
-        {{ ekosetClientUserName }}
-      </nuxt-link>
+      <div class="person_menu_wrapper">
+        <nuxt-link :to="{ name: 'user-deals-contracts' }">
+          <span id="dont_outside">{{ ekosetClientUserName }}</span>
+        </nuxt-link>
+        <ul v-if="isPersonalSiteSection" class="person_menu">
+          <nuxt-link :to="{ name: 'user-profile' }" tag="li">
+            <span>Настройка аккаунта</span>
+          </nuxt-link>
+          <li @click="logout()">Выход</li>
+        </ul>
+      </div>
     </div>
 
     <div v-show="!isAuthenticated" class="brc-top-menu__user_notauthenticated">
@@ -29,6 +37,7 @@ import AuthStore from '@/store/AuthStore'
 import { getModule } from 'vuex-module-decorators'
 import { AuthService } from '@/services/AuthService'
 import { ServiceRegistry } from '@/ServiceRegistry'
+import AppStore from '@/store/AppStore'
 
 @Component
 export default class UserAuthHeader extends Vue {
@@ -42,13 +51,20 @@ export default class UserAuthHeader extends Vue {
     return this.userStore.ekosetClient?.personEmail ?? this.userStore.sessionUser.appUserName
   }
 
-  private logout () {
-    return ServiceRegistry.instance.getService(AuthService).logoff()
+  private async logout () {
+    await ServiceRegistry.instance.getService(AuthService).logoff()
+    this.$router.push({ name: "main" })
+
   }
 
   private get isAuthenticated () {
-    return this.userStore.isAuthenticated
+    return ServiceRegistry.instance.getService(AuthService).isUserAuthorized
   }
+
+  private get isPersonalSiteSection () {
+    return getModule(AppStore, this.$store).isPersonalSiteSection
+  }
+
 }
 </script>
 
@@ -67,6 +83,24 @@ export default class UserAuthHeader extends Vue {
     color: $red;
     display: flex;
     align-items: center;
+  }
+}
+
+.brc-top-menu__user_authenticated {
+  .person_menu_wrapper {
+    position: relative;
+  }
+  .person_menu {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    width: max-content;
+    font-size: 0.938rem;
+    color: $text-color !important;
+    &:hover {
+      color: $red;
+      cursor: pointer;
+    }
   }
 }
 </style>

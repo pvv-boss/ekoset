@@ -10,7 +10,7 @@ const requiresAuthorize = async (ctx: Context) => {
       await ctx.$serviceRegistry.getService(AuthService).setSessionUserFromServer()
     }
 
-    const isUserAuth = ctx.$serviceRegistry.getService(AuthService).isUserAuthorized()
+    const isUserAuth = ctx.$serviceRegistry.getService(AuthService).isUserAuthorized
 
     if (!isUserAuth) {
       return ctx.redirect(

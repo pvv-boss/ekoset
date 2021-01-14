@@ -5,9 +5,11 @@ import { AbstractApiRequest } from "@/api/core/AbstractApiRequest";
 export type ConstructorOf<T extends BaseService> = new (...args: any[]) => T;
 
 export class ContextServiceRegistry {
+  private ctx: Context
   private servicesMap = new Map<ConstructorOf<BaseService>, any>()
 
   public updateNuxtContext (ctx: Context) {
+    this.ctx = ctx
     for (const iterServ of this.servicesMap.values()) {
       iterServ.injectNuxtContext(ctx)
     }
@@ -31,6 +33,10 @@ export class ContextServiceRegistry {
 
   public exists<T extends BaseService> (ctor: new (...args: any[]) => T): boolean {
     return !!this.getService(ctor)
+  }
+
+  public get nuxtContext () {
+    return this.ctx
   }
 }
 

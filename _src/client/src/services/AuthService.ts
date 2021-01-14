@@ -56,7 +56,7 @@ export class AuthService extends BaseService {
         }
     }
 
-    public isUserAuthorized () {
+    public get isUserAuthorized () {
         const currentUser = this.getSessionUser()
         return !!currentUser && currentUser.appUserId > 0
     }

@@ -9,7 +9,11 @@
     @click="onClick"
   >
     <span id="dont_outside">Услуги</span>
-    <ul class="brc-price-menu" :class="{ active: isMenuOpened === true }">
+    <ul
+      v-if="isMenuOpened"
+      class="brc-price-menu"
+      :class="{ active: isMenuOpened === true }"
+    >
       <div class="brc-price-menu__close dont_outside">&times;</div>
       <template v-if="getCurrentSiteSection !== null">
         <li

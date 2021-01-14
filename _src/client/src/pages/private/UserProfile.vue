@@ -3,7 +3,6 @@
     <section class="brc-section__wrapper">
       <div>
         <h1>Настройка Аккаунта</h1>
-        <nuxt-link :to="{ name: 'user-deals-contracts' }">Временно</nuxt-link>
       </div>
       <div class="brc-user-profile">
         <AccountMain class="mt-40"></AccountMain>

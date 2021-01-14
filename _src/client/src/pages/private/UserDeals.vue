@@ -51,7 +51,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { ServiceRegistry } from '@/ServiceRegistry'
+import AppStore from '@/store/AppStore'
+import { Component, getModule, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class UserDeals extends Vue {
@@ -59,6 +61,18 @@ export default class UserDeals extends Vue {
   public isActiveIndex (routeName: string) {
     return this.$route.name === routeName
   }
+
+
+  public beforeRouteEnter (to, from, next) {
+    getModule(AppStore, ServiceRegistry.instance.nuxtContext.store).setisPersonalSiteSection(true)
+    next()
+  }
+
+  public beforeRouteLeave (to, from, next) {
+    getModule(AppStore, this.$store).setisPersonalSiteSection(false)
+    next()
+  }
+
 }
 </script>
 

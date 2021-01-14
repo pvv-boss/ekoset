@@ -30,7 +30,7 @@
           >{{ iterMenuItem.sitePageName }}</nuxt-link
         >
       </li>
-      <ThePriceMenuItem
+      <LazyThePriceMenuItem
         v-if="
           iterMenuItem.sitePageCode === 7 && isMenuItemEnablede(iterMenuItem)
         "
@@ -42,7 +42,7 @@
             ? 'visibility:visible'
             : 'position:absolute; visibility: hidden'
         "
-      ></ThePriceMenuItem>
+      ></LazyThePriceMenuItem>
     </template>
 
     <li
@@ -108,16 +108,11 @@ import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import AppStore from '@/store/AppStore'
 import { getModule } from 'vuex-module-decorators'
 import SitePage, { SitePageType } from '@/models/SitePage'
-import ThePriceMenuItem from '@/components/header/ThePriceMenuItem.vue'
 import { ServiceRegistry } from '@/ServiceRegistry'
 import TopMenuService from '@/services/TopMenuService'
 
 
-@Component({
-  components: {
-    ThePriceMenuItem
-  }
-})
+@Component
 export default class TheHeaderMenu extends Vue {
 
   @Prop({ default: false })

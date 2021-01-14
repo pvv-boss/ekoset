@@ -3,7 +3,6 @@ import SitePage, { SitePageType } from '@/models/SitePage';
 import { ServiceRegistry } from '@/ServiceRegistry';
 import TopMenuService from '@/services/TopMenuService';
 import PublicEkosetService from '@/services/PublicEkosetService';
-import Vue from 'vue'
 
 @Module({
   name: 'AppStore',
@@ -17,6 +16,13 @@ export default class AppStore extends VuexModule {
 
   private defaultCustomPageState: SitePage | null = null
   private currentCustomPage: SitePage | null = null
+
+  private isPersonalSiteSectionState = false
+
+  @VuexMutation
+  public setisPersonalSiteSection (isPersonalSiteSection: boolean) {
+    this.isPersonalSiteSectionState = isPersonalSiteSection
+  }
 
 
   @VuexMutation
@@ -73,6 +79,10 @@ export default class AppStore extends VuexModule {
     this.context.commit('setCurrentServiceName', name)
   }
 
+  @VuexAction
+  public async changeIsPersonalSiteSection (isPersonalSiteSection: boolean) {
+    this.setisPersonalSiteSection(isPersonalSiteSection)
+  }
 
   public get currentSiteSection (): string | null {
     return this.currentSiteSectionState
@@ -84,6 +94,10 @@ export default class AppStore extends VuexModule {
 
   public get сurrentServiceName (): string | null {
     return this.currentServiceNameState
+  }
+
+  public get isPersonalSiteSection (): boolean {
+    return this.isPersonalSiteSectionState
   }
 
 

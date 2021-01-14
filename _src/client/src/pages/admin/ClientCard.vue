@@ -26,8 +26,6 @@
       </template>
       <template #content>
         <b-tabs v-model="activeTab">
-          <b-tab-item label="Основные"> </b-tab-item>
-
           <b-tab-item label="Контрагенты">
             <vue-good-table
               :columns="agentsHeaderFields"
