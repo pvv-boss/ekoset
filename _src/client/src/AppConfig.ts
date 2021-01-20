@@ -5,5 +5,5 @@ export enum AppConfig {
   defaultRowsLimit = 10,
   adminRoleName = 'admin',
   authCookieName = 'auth-rsn-cookie',
-  jwtHeaderName = 'auth-rsn-header'
+  jwtHeaderName = 'auth-access-token'
 }

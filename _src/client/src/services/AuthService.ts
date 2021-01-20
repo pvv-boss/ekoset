@@ -5,10 +5,7 @@ import LoginData from '@/models/user/LoginData'
 import AuthStore from '@/store/AuthStore'
 import { getModule } from 'nuxt-property-decorator'
 import { ResetPasswordResult } from '@/models/user/ResetPasswordResult'
-import { RegistrationResult } from '@/models/user/RegistrationResult'
-import { Context } from "@nuxt/types";
 import { AppConfig } from '@/AppConfig'
-import { ServiceRegistry } from '@/ServiceRegistry'
 import EkosetClient from '@/models/EkosetClient'
 
 //FIXME: Все завернуть в try catch
@@ -18,8 +15,24 @@ export class AuthService extends BaseService {
         return getModule(AuthStore, this.context.store)
     }
 
+    public updateAccessToken () {
+        const token = this.getAccessToken();
+        if (!token) {
+            this.authStore.updateSessionUser(SessionUser.anonymousUser)
+        }
+    }
+
+    public getAccessToken (): string | null {
+        return this.context.app.$cookies.get(AppConfig.authCookieName, { parseJSON: false })
+    }
+
     public getSessionUser (): SessionUser {
         return this.authStore.sessionUser
+    }
+
+    public get isUserAuthorized () {
+        const currentUser = this.getSessionUser()
+        return !!currentUser && currentUser.appUserId > 0
     }
 
     public async setSessionUserFromServer (): Promise<SessionUser> {
@@ -54,11 +67,6 @@ export class AuthService extends BaseService {
                 this.authStore.updateEkosetClient(client)
             }
         }
-    }
-
-    public get isUserAuthorized () {
-        const currentUser = this.getSessionUser()
-        return !!currentUser && currentUser.appUserId > 0
     }
 
     // Логин. (логин\пароль)
@@ -112,6 +120,7 @@ export class AuthService extends BaseService {
         await this.apiRequest.getJSON('auth/logout')
         this.authStore.clearTempSocialUserUser()
         this.authStore.updateSessionUser(SessionUser.anonymousUser)
+        this.updateAccessToken()
     }
 
 

@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <h3 style="margin-top: 16px !important">Методы получения уведомлений:</h3>
+    <h4 style="margin-top: 16px !important">Методы получения уведомлений:</h4>
 
     <div class="profile-notif__list">
       <div>
@@ -77,8 +77,6 @@
         <label for="profile-notif__sms">SMS</label>
       </div>
     </div>
-
-    <button class="brc-change-pwd-form__submit" @click="save">Сохранить</button>
   </div>
 </template>
 
@@ -86,7 +84,6 @@
 import EkosetClient from '@/models/EkosetClient'
 import AuthStore from '@/store/AuthStore'
 import { Component, getModule, Vue } from 'nuxt-property-decorator'
-import UserService from '@/services/UserService';
 
 @Component
 export default class NotificationSettings extends Vue {
@@ -94,11 +91,6 @@ export default class NotificationSettings extends Vue {
   private get ekosetClient (): EkosetClient {
     return getModule(AuthStore, this.$store).ekosetClient
   }
-
-  private async save () {
-    await this.$serviceRegistry.getService(UserService).saveClient(this.ekosetClient)
-  }
-
 }
 </script>
 
@@ -110,7 +102,7 @@ export default class NotificationSettings extends Vue {
 }
 
 .profile-notif__deesc {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -118,7 +110,6 @@ export default class NotificationSettings extends Vue {
 .profile-notif__list {
   display: flex;
   flex-direction: column;
-
   div {
     margin-top: 10px;
   }

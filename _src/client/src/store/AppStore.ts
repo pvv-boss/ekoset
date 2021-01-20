@@ -18,12 +18,17 @@ export default class AppStore extends VuexModule {
   private currentCustomPage: SitePage | null = null
 
   private isPersonalSiteSectionState = false
+  private isAccountSiteSectionState = false
 
   @VuexMutation
   public setisPersonalSiteSection (isPersonalSiteSection: boolean) {
     this.isPersonalSiteSectionState = isPersonalSiteSection
   }
 
+  @VuexMutation
+  public setisAccountSiteSection (isAccountSiteSectionState: boolean) {
+    this.isAccountSiteSectionState = isAccountSiteSectionState
+  }
 
   @VuexMutation
   public setCurrentSiteSection (siteSectionSlug: string | null) {
@@ -84,6 +89,11 @@ export default class AppStore extends VuexModule {
     this.setisPersonalSiteSection(isPersonalSiteSection)
   }
 
+  @VuexAction
+  public async changeIsAccountSiteSection (isAccountSiteSection: boolean) {
+    this.setisAccountSiteSection(isAccountSiteSection)
+  }
+
   public get currentSiteSection (): string | null {
     return this.currentSiteSectionState
   }
@@ -100,6 +110,9 @@ export default class AppStore extends VuexModule {
     return this.isPersonalSiteSectionState
   }
 
+  public get isAccountSiteSection (): boolean {
+    return this.isAccountSiteSectionState
+  }
 
   // public get currentSitePage (): SitePage | null {
   //   return this.currentCustomPage

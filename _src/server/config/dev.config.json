@@ -41,6 +41,7 @@
   }
 }, {
   "SecurityConfig": {
+    "jwtHeaderName":"Auth-Access-Token",
       "jwtCookieName": "auth-rsn-cookie",
       "jwtSecretKey": "gostorgiryzhkov1976",
       "jwtSignOptions": {

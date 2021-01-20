@@ -5,16 +5,48 @@
         v-if="isMobile"
         src="~/assets/images/user-icon-red.png"
         title="Вход для клиентов"
+        style="margin-right: 10px"
       />
-      <div class="person_menu_wrapper">
-        <nuxt-link :to="{ name: 'user-deals-contracts' }">
-          <span id="dont_outside">{{ ekosetClientUserName }}</span>
-        </nuxt-link>
-        <ul v-if="isPersonalSiteSection" class="person_menu">
-          <nuxt-link :to="{ name: 'user-profile' }" tag="li">
+      <nuxt-link
+        v-if="!isPersonalSiteSection"
+        :to="{ name: 'user-deals-contracts' }"
+      >
+        <span id="dont_outside">{{ captionForAuthenticated }}</span>
+      </nuxt-link>
+
+      <div
+        v-if="isPersonalSiteSection"
+        v-click-outside="
+          () => {
+            isMenuOpened = false;
+          }
+        "
+        class="person_menu_wrapper"
+        @click="onMenuClick"
+      >
+        <span id="dont_outside" style="cursor: pointer">{{
+          captionForAuthenticated
+        }}</span>
+        <ul
+          v-if="isMenuOpened"
+          class="person_menu"
+          :class="{ active: isMenuOpened === true }"
+        >
+          <nuxt-link
+            :to="{ name: 'user-profile' }"
+            tag="li"
+            class="brc-price-menu__item"
+            style="padding: 10px !important"
+          >
             <span>Настройка аккаунта</span>
           </nuxt-link>
-          <li @click="logout()">Выход</li>
+          <li
+            class="brc-price-menu__item"
+            style="padding: 10px !important"
+            @click="logout()"
+          >
+            Выход
+          </li>
         </ul>
       </div>
     </div>
@@ -45,6 +77,7 @@ export default class UserAuthHeader extends Vue {
   @Prop()
   private isMobile
 
+  private isMenuOpened = false
   private get userStore () { return getModule(AuthStore, this.$store) }
 
   private get ekosetClientUserName () {
@@ -63,6 +96,19 @@ export default class UserAuthHeader extends Vue {
 
   private get isPersonalSiteSection () {
     return getModule(AppStore, this.$store).isPersonalSiteSection
+  }
+
+  private get isAccountSiteSection () {
+    return getModule(AppStore, this.$store).isAccountSiteSection
+  }
+
+  private get captionForAuthenticated () {
+    return this.isPersonalSiteSection || this.isAccountSiteSection ? this.ekosetClientUserName : 'Личный кабинет'
+  }
+
+
+  private onMenuClick () {
+    this.isMenuOpened = !this.isMenuOpened
   }
 
 }
@@ -91,15 +137,36 @@ export default class UserAuthHeader extends Vue {
     position: relative;
   }
   .person_menu {
+    display: none !important;
     position: absolute;
-    top: 20px;
+    top: 24px;
     left: 0px;
     width: max-content;
     font-size: 0.938rem;
     color: $text-color !important;
-    &:hover {
-      color: $red;
-      cursor: pointer;
+    cursor: pointer;
+
+    z-index: 2000;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-top: 1px solid lightgray;
+    overflow-y: auto;
+    list-style: none;
+    list-style-type: none;
+    text-transform: none;
+    max-width: 90vw;
+    max-height: 70vh;
+    &.active {
+      display: block !important;
+    }
+
+    @media (max-width: 900px) {
+      position: fixed;
+      width: max-content;
+      top: 44px;
+      left: auto !important;
+      margin: auto;
+      max-height: calc(95vh - 140px);
     }
   }
 }

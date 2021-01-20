@@ -1,6 +1,6 @@
 import { BaseService } from './services/BaseService'
 import { Context } from '@nuxt/types'
-import { AbstractApiRequest } from "@/api/core/AbstractApiRequest";
+import { RequestAPI } from "@/api/core/RequestAPI";
 
 export type ConstructorOf<T extends BaseService> = new (...args: any[]) => T;
 
@@ -15,7 +15,7 @@ export class ContextServiceRegistry {
     }
   }
 
-  public updateApiRequest (api: AbstractApiRequest) {
+  public updateRequestApi (api: RequestAPI) {
     for (const iterServ of this.servicesMap.values()) {
       iterServ.apiRequest = api;
     }

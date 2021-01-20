@@ -1,18 +1,18 @@
 import { Context } from "@nuxt/types";
 import { Location } from "vue-router";
-import { AbstractApiRequest } from "@/api/core/AbstractApiRequest";
+import { RequestAPI } from "@/api/core/RequestAPI";
 import AxiosRequest from '@/api/core/AxiosRequest';
 import { plainToClass } from 'class-transformer';
 
 export class BaseService {
-  private api: AbstractApiRequest;
+  private api: RequestAPI;
   protected ctx: Context;
 
   public injectNuxtContext (ctx: Context) {
     this.ctx = ctx;
   }
 
-  public set apiRequest (api: AbstractApiRequest) {
+  public set apiRequest (api: RequestAPI) {
     this.api = api;
   }
 

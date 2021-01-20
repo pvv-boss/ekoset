@@ -1,8 +1,8 @@
-import { AbstractApiRequest, ResponseType } from './AbstractApiRequest';
+import { RequestAPI, ResponseType } from './RequestAPI';
 import { ApiResponse } from './ApiResponse';
 
 // FIXME: Надо базовые настройки в конструктор как у аксиоса
-export default class FetchRequest extends AbstractApiRequest {
+export default class FetchRequest extends RequestAPI {
 
   protected async processRequest (url: string, responseType: ResponseType, config?: any, data?: any): Promise<ApiResponse> {
 
@@ -16,23 +16,18 @@ export default class FetchRequest extends AbstractApiRequest {
       }
     }
 
-    const extConfig = { ...config, ...{ body: reqData } }
-    return this.processResponse(responseType, fetch(url, extConfig));
-  }
-
-  private async processResponse (responseType: ResponseType, fetchResult: Promise<Response>): Promise<ApiResponse> {
+    const extConfig = { ...config, ...{ body: reqData } };
     let response: ApiResponse;
-    try {
-      const result = await fetchResult;
 
+    try {
+      const result = await fetch(url, extConfig);
       response = this.createResponse(result);
       response.data = responseType === ResponseType.JSON ? await result.json() : await result.text();
-
       if (!result.ok || result.status > 399) {
-        return Promise.reject(response);
+        return Promise.reject(this.createErrorResponse({ response }));
       }
 
-      return Promise.resolve(response);
+      return response;
     }
     catch (err) {
       return Promise.reject(this.createErrorResponse(err));

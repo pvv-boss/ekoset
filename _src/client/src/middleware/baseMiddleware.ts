@@ -8,7 +8,7 @@ const baseMiddleware = (context: Context) => {
   const newSiteSection = context.params.siteSection ? context.params.siteSection : null
   appStore.changeCurrentSiteSection(newSiteSection)
 
-  appStore.changeDefaultCustomPage()
+  // appStore.changeDefaultCustomPage()
 
 }
 

@@ -1,5 +1,6 @@
 export type ApiResponse = {
   data: any | null
   status: number
-  statusText: string
+  statusText: string,
+  headers: any
 }

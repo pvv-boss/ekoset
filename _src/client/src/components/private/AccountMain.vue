@@ -1,13 +1,11 @@
 <template>
   <div class="profile-main">
     <h3>Основная информация</h3>
-    <span style="margin-top: 16px">Логин</span>
-    <h3 style="margin: 16px 0 30px 0">{{ ekosetClient.personEmail }}</h3>
-    <form
-      id="account-main-form"
-      class="brc-login-form account-main-form"
-      @submit.prevent="save()"
-    >
+    <div class="main-pof-blick">
+      <span>Логин:</span>
+      <h3 style="margin-left: 16px">{{ ekosetClient.personEmail }}</h3>
+    </div>
+    <div id="account-main-form" class="brc-login-form account-main-form">
       <div class="brc-login-form__block">
         <BaseInput
           id="reg-name-input"
@@ -42,9 +40,7 @@
         >
         </BaseInput>
       </div>
-
-      <button class="brc-change-pwd-form__submit">Сохранить</button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -94,5 +90,12 @@ export default class AccountMain extends Vue {
 .account-main-form {
   display: flex;
   flex-direction: column;
+}
+
+.main-pof-blick {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
 }
 </style>

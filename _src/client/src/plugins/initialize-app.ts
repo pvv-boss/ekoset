@@ -16,7 +16,10 @@ import UserDealService from '@/services/UserDealService';
 import { getModule } from 'vuex-module-decorators';
 import BuscetStore from '@/store/BuscetStore';
 import UserService from '@/services/UserService';
-// import FetchRequest from '@/api/core/FetchRequest';
+import { ApiResponse } from '@/api/core/ApiResponse';
+import { BrcDialogType } from './brc-dialog/BrcDialogType';
+import BrcDialogPlugin from '@/plugins/brc-dialog/brc-dialog'
+import { BrcDialogPosition } from '@/plugins/brc-dialog/BrcDialogPosition'
 
 
 declare module 'vue/types/vue' {
@@ -71,14 +74,41 @@ const initializeServiceRegistry = (ctx: Context, inject: Inject) => {
   ServiceRegistry.instance.register(TopMenuService);
   ServiceRegistry.instance.register(UserDealService);
   ServiceRegistry.instance.register(UserService);
-
-
-  const api = new AxiosRequest({ withCredentials: true }, AppConfig.endPoint);
-  ServiceRegistry.instance.updateApiRequest(api);
-
   ServiceRegistry.instance.updateNuxtContext(ctx);
 
+  const api = createApiRequest();
+  ServiceRegistry.instance.updateRequestApi(api);
+
   inject('serviceRegistry', ServiceRegistry.instance);
+}
+
+const createApiRequest = () => {
+  const api = new AxiosRequest({ withCredentials: true }, AppConfig.endPoint);
+
+  api.addRequestInterceptor((config) => {
+    config.headers = {}
+    const accessToken = ServiceRegistry.instance.getService(AuthService).getAccessToken();
+
+    if (!!accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
+    } else {
+      delete config.headers.Authorization;
+    }
+    return config;
+  })
+
+
+  api.addResponseInterceptor(() => {
+    ServiceRegistry.instance.getService(AuthService).updateAccessToken();
+  })
+
+  api.addResponseInterceptor((response: ApiResponse) => {
+    if (response?.data?.showNotify) {
+      BrcDialogPlugin.showNotify(BrcDialogType.Info, response.data?.showNotify.title, response.data?.showNotify.text, 2500, { position: BrcDialogPosition.Central })
+    }
+  })
+
+  return api;
 }
 
 export default initializeApp;
