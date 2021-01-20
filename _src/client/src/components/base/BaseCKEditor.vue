@@ -17,7 +17,6 @@
 
 import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 
-
 let CkEditor
 let Editor
 
