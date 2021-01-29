@@ -19,7 +19,7 @@ export enum ResponseType {
 //   // Something happened in setting up the request that triggered an Error
 //   reject(response);
 // }
-Сделать типизированные ошибки (сереверная, нет ответа, своя)
+// Сделать типизированные ошибки (сереверная, нет ответа, своя)
 
 
 export abstract class RequestAPI {

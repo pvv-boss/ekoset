@@ -43,6 +43,7 @@
     "@nuxtjs/eslint-config": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/router": "latest",
     "@types/js-cookie": "latest",
     "@types/jwt-decode": "^3.1.0",

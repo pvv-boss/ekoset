@@ -106,6 +106,7 @@ const config: NuxtConfig = {
   buildModules: [
     'nuxt-webfontloader',
     'nuxt-purgecss',
+    '@nuxtjs/google-analytics',
     '@nuxtjs/style-resources',
     ['@nuxt/typescript-build', {
       typeCheck: true,
@@ -124,12 +125,15 @@ const config: NuxtConfig = {
       {
         id: '64542580',
         webvisor: true,
-        clickmap: false,
-        useCDN: false,
+        clickmap: true,
         trackLinks: true,
-        accurateTrackBounce: false
+        accurateTrackBounce: true
       }]
   ],
+
+   googleAnalytics: {
+    id: 'UA-179741331-1'
+  },
 
   styleResources: {
     scss: ['~assets/scss/variables.scss']

@@ -114,7 +114,6 @@
                     :nullable="true"
                   ></LazyAdminSiteSectionSelector>
                 </b-field>
-
                 <b-field
                   v-if="articleItem.articleId > 0"
                   label="Связанные услуги"
