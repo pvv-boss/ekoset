@@ -47,7 +47,6 @@
       "jwtSignOptions": {
           "expiresIn": 600
       },
-      "cookieDomain":"localhost",
       "refreshTokenAgeInSeconds": 2592000,
       "registrationOptions": {
           "bcryptSaltRounds": 10,

@@ -4,10 +4,7 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Новость: {{ articleItem.articleTitle }}</h2>
-          <LazyAdminStatusSelector
-            v-model.number="articleItem.articleStatus"
-            status-caption="Активна"
-          ></LazyAdminStatusSelector>
+          <LazyAdminStatusSelector v-model.number="articleItem.articleStatus" status-caption="Активна"></LazyAdminStatusSelector>
 
           <b-button type="is-primary" @click="save">Сохранить</b-button>
         </div>
@@ -23,7 +20,7 @@
                     :src-image="articleItem.articleHeaderImgSrc"
                     @uploader:newimageloaded="addImage($event, true)"
                   >
-                    <template v-slot="{ imageSrc }">
+                    <template #default="{ imageSrc }">
                       <figure class="brc-admin-card-image__wrapper">
                         <img class="brc-admin-image" :src="imageSrc" />
                         <h1 class="brc-admin-card-image-title">
@@ -54,10 +51,7 @@
                 </b-field>
 
                 <b-field label="URL (ЧПУ) на страницу">
-                  <b-input
-                    v-model="articleItem.articleSlug"
-                    type="text"
-                  ></b-input>
+                  <b-input v-model="articleItem.articleSlug" type="text"></b-input>
                 </b-field>
 
                 <b-field label="Дата публикации">
@@ -68,10 +62,7 @@
                     :first-day-of-week="1"
                     placeholder="Выберите дату ..."
                   >
-                    <button
-                      class="button is-primary"
-                      @click="articleDateDate = new Date()"
-                    >
+                    <button class="button is-primary" @click="articleDateDate = new Date()">
                       <b-icon icon="calendar-today"></b-icon>
                       <span>Сегодня</span>
                     </button>
@@ -79,18 +70,10 @@
                 </b-field>
 
                 <b-field label="Автор">
-                  <b-input
-                    v-model="articleItem.articleAuthor"
-                    placeholder="Автор"
-                    type="text"
-                  ></b-input>
+                  <b-input v-model="articleItem.articleAuthor" placeholder="Автор" type="text"></b-input>
                 </b-field>
                 <b-field label="Источник">
-                  <b-input
-                    v-model="articleItem.articleSource"
-                    placeholder="Источник"
-                    type="text"
-                  ></b-input>
+                  <b-input v-model="articleItem.articleSource" placeholder="Источник" type="text"></b-input>
                 </b-field>
                 <b-field label="Краткое описание">
                   <b-input
@@ -114,10 +97,7 @@
                     :nullable="true"
                   ></LazyAdminSiteSectionSelector>
                 </b-field>
-                <b-field
-                  v-if="articleItem.articleId > 0"
-                  label="Связанные услуги"
-                >
+                <b-field v-if="articleItem.articleId > 0" label="Связанные услуги">
                   <LazyAdminServiceRelationList
                     :service-relation-items="serviceRelationList"
                     @servicechecked="serviceChecked"
@@ -132,7 +112,7 @@
                     :src-image="articleItem.articlePreviewImgSrc"
                     @uploader:newimageloaded="addImage($event, false)"
                   >
-                    <template v-slot="{ imageSrc }">
+                    <template #default="{ imageSrc }">
                       <LazyArticleListItem
                         :article-item="articleItem"
                         :image-src-for-design-mode="imageSrc"
@@ -152,9 +132,7 @@
           </b-tab-item>
           <b-tab-item label="Содержание">
             <div class="brc-admin-panel__article">
-              <LazyBaseCkEditor
-                v-model="articleItem.articleBody"
-              ></LazyBaseCkEditor>
+              <LazyBaseCkEditor v-model="articleItem.articleBody"></LazyBaseCkEditor>
             </div>
           </b-tab-item>
         </b-tabs>
@@ -163,119 +141,105 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import { Component, Watch, Vue } from 'nuxt-property-decorator'
-import Article from '@/models/ekoset/Article'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import { getModule } from 'vuex-module-decorators'
-import AdminStore from '@/store/AdminStore'
-import { dayNamesRu, monthNamesRu } from '@/utils/DateUtil'
-import ArticleService from '@/services/ArticleService'
-import { ServiceRegistry } from '@/ServiceRegistry'
-import MediaService from '@/services/MediaService'
+import { Component, Watch, Vue } from "nuxt-property-decorator";
+import Article from "@/models/ekoset/Article";
+import { BrcDialogType } from "@/plugins/brc-dialog/BrcDialogType";
+import { getModule } from "vuex-module-decorators";
+import AdminStore from "@/store/AdminStore";
+import { dayNamesRu, monthNamesRu } from "@/utils/DateUtil";
+import ArticleService from "@/services/ArticleService";
+import { ServiceRegistry } from "@/ServiceRegistry";
+import MediaService from "@/services/MediaService";
 import { Context } from "@nuxt/types";
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
-  }
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ "vue-good-table/src/components/Table.vue"),
+  },
 })
 export default class AdminArticleCard extends Vue {
-  private articleItem: Article = new Article()
-  private serviceRelationList: any[] = []
-  private activeTab = 0
+  private articleItem: Article = new Article();
+  private serviceRelationList: any[] = [];
+  private activeTab = 0;
 
-  private get articleDateDate () {
-    return this.articleItem.articlePublishDate ? new Date(this.articleItem.articlePublishDate) : new Date(Date.now())
+  private get articleDateDate() {
+    return this.articleItem.articlePublishDate ? new Date(this.articleItem.articlePublishDate) : new Date(Date.now());
   }
 
-  private set articleDateDate (selectedDate: Date) {
-    this.articleItem.articlePublishDate = selectedDate.toUTCString()
+  private set articleDateDate(selectedDate: Date) {
+    this.articleItem.articlePublishDate = selectedDate.toUTCString();
   }
 
-  private dayNamesRu = dayNamesRu
-  private monthNamesRu = monthNamesRu
+  private dayNamesRu = dayNamesRu;
+  private monthNamesRu = monthNamesRu;
 
-  private layout () {
-    return 'admin'
+  private layout() {
+    return "admin";
   }
 
-  private async save () {
-    await ServiceRegistry.instance.getService(ArticleService).saveArticle(this.articleItem)
+  private async save() {
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(this.articleItem);
     if (!this.articleItem.articleId) {
-      this.$router.push({ name: 'admin-news' })
+      this.$router.push({ name: "admin-news" });
     }
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`);
   }
 
-
-  private async addImage (imageFile: string, isBig: boolean) {
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
-      this.articleItem.articleId,
-      formData,
-      isBig
-    )
+  private async addImage(imageFile: string, isBig: boolean) {
+    const formData: FormData = new FormData();
+    formData.append("file", imageFile);
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(this.articleItem.articleId, formData, isBig);
   }
 
-  @Watch('articleItem.siteSectionId', { immediate: true })
-  private async updateServiceList () {
+  @Watch("articleItem.siteSectionId", { immediate: true })
+  private async updateServiceList() {
     if (this.articleItem.siteSectionId && this.articleItem.siteSectionId > 0) {
-      this.serviceRelationList = await ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(
-        this.articleItem.siteSectionId,
-        this.articleItem.articleUrl
-      )
+      this.serviceRelationList = await ServiceRegistry.instance
+        .getService(ArticleService)
+        .adminGetServiceRelation(this.articleItem.siteSectionId, this.articleItem.articleUrl);
     } else {
-      this.serviceRelationList = []
+      this.serviceRelationList = [];
     }
   }
 
-  private mounted () {
-    this.updateServiceList()
+  private mounted() {
+    this.updateServiceList();
   }
 
-  private serviceChecked (businessServiceId: number, hasRelation: boolean) {
-    ServiceRegistry.instance.getService(ArticleService).adminAddRemoveServiceRelation(
-      businessServiceId,
-      this.articleItem.articleUrl,
-      hasRelation
-    )
+  private serviceChecked(businessServiceId: number, hasRelation: boolean) {
+    ServiceRegistry.instance
+      .getService(ArticleService)
+      .adminAddRemoveServiceRelation(businessServiceId, this.articleItem.articleUrl, hasRelation);
   }
 
-  private tagChecked (tagId: number, hasRelation: boolean) {
-    ServiceRegistry.instance.getService(ArticleService).adminAddRemoveArticleTag(
-      this.articleItem.articleUrl,
-      tagId,
-      hasRelation
-    )
+  private tagChecked(tagId: number, hasRelation: boolean) {
+    ServiceRegistry.instance.getService(ArticleService).adminAddRemoveArticleTag(this.articleItem.articleUrl, tagId, hasRelation);
   }
 
-  private async asyncData (context: Context) {
-    const articleUrl = context.params.article
+  private async asyncData(context: Context) {
+    const articleUrl = context.params.article;
     const articleItem = articleUrl
       ? await ServiceRegistry.instance.getService(ArticleService).getArticleBySlug(articleUrl)
-      : new Article()
+      : new Article();
 
-    const breadCrumbList: any[] = []
-    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-    breadCrumbList.push({ name: articleItem.articleTitle, link: '' })
-    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+    const breadCrumbList: any[] = [];
+    breadCrumbList.push({ name: "Администрирование", link: "admin" });
+    breadCrumbList.push({ name: "Новости", link: "admin-news" });
+    breadCrumbList.push({ name: articleItem.articleTitle, link: "" });
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList);
 
-    let serviceRelations = []
+    let serviceRelations = [];
     if (articleItem.siteSectionId > 0) {
-      serviceRelations = await ServiceRegistry.instance.getService(ArticleService).adminGetServiceRelation(
-        articleItem.siteSectionId,
-        articleUrl
-      )
+      serviceRelations = await ServiceRegistry.instance
+        .getService(ArticleService)
+        .adminGetServiceRelation(articleItem.siteSectionId, articleUrl);
     }
 
     return {
       articleItem,
-      serviceRelationList: serviceRelations
-    }
+      serviceRelationList: serviceRelations,
+    };
   }
 }
 </script>
@@ -301,4 +265,4 @@ export default class AdminArticleCard extends Vue {
     height: 100%;
   }
 }
-</style>  
+</style>

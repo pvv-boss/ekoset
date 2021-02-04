@@ -1,22 +1,20 @@
-import { BaseViewModel } from '../core/BaseViewModel';
-
+import { BaseViewModel } from "../core/BaseViewModel";
 
 export default class SessionUser extends BaseViewModel {
-  public static anonymousUser: SessionUser = new SessionUser();
+    public static anonymousUser: SessionUser = new SessionUser();
 
-  public appUserId = 0
-  public appUserName = 'Гость'
-  public appUserBlockedInd = 0
-  public appUserRegDate: string
-  public appUserRegVerifiedInd: number
+    public appUserId = 0;
+    public appUserName = "Гость";
+    public appUserBlockedInd = 0;
+    public appUserRegDate: string;
+    public appUserRegVerifiedInd: number;
 
-  public userSnProfileId = 0;
-  public userSnProfileType = ''
-  public userSnProfileNick = ''
-  public userSnProfileAvatar = ''
-  public userSnProfileLink = ''
-  public userSnProfileEmail = 'Гость'
+    public userSnProfileId = 0;
+    public userSnProfileType = "";
+    public userSnProfileNick = "";
+    public userSnProfileAvatar = "";
+    public userSnProfileLink = "";
+    public userSnProfileEmail = "Гость";
 }
-
 
 // // appUserName

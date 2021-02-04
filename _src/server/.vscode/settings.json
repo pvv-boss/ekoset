@@ -1,9 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "svn.ignoreMissingSvnWarning": true,
-  "workbench.startupEditor": "newUntitledFile",
   "window.zoomLevel": 0,
-  "editor.fontSize": 13,
+  "editor.fontSize": 14,
   "typescript.suggest.autoImports": true,
   "typescript.suggest.completeFunctionCalls": true,
   "files.autoSave": "off",

@@ -4,17 +4,12 @@ node_modules
 # logs
 npm-debug.log
 
-# dist
+# Nuxt build
+.nuxt
+
+# Nuxt generate
 dist
 
-# debug
-debug
-
-# config
-# config
-
-
-# mail
-mail
-
 static
+
+debug
