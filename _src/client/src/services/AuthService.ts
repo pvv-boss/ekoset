@@ -46,6 +46,11 @@ export class AuthService extends BaseService {
         return !!currentUser && currentUser.appUserId > 0 && !!this.getAccessToken();
     }
 
+    public get isUserAdmin() {
+        const currentUser = this.getSessionUser();
+        return this.isUserAuthorized && currentUser.appUserAdminInd;
+    }
+
     public async trySetSessionUserFromServer(): Promise<void> {
         const reqUrl = "auth/me";
 
@@ -57,23 +62,27 @@ export class AuthService extends BaseService {
                 const response = await this.apiRequest.getJSON(reqUrl, options);
                 const logonResult = response?.data?.data;
                 this.updateSessionUser(!!logonResult.sessionUser ? logonResult.sessionUser : SessionUser.anonymousUser);
-                await this.updateEkosetClient(options);
+                await this.updateEkosetClientOrManager();
             } catch (errr) {
                 console.log("error = " + errr);
             }
         }
     }
 
-    public async updateEkosetClient(options?: any) {
+    public async updateEkosetClientOrManager() {
         const su = this.getSessionUser();
         if (!!su && su.appUserId > 0) {
-            const client = await this.getOneOrEmpty(EkosetClient, `personal/user/${su.appUserId}`, options);
-            if (!!client) {
-                client.personBirthday =
-                    !!client.personBirthday && client.personBirthday.split("T").length > 0
-                        ? client.personBirthday.split("T")[0]
-                        : "";
-                this.authStore.updateEkosetClient(client);
+            if (this.isUserAdmin) {
+                //  console.log("ADMIN!!!!");
+            } else {
+                const client = await this.getOneOrEmpty(EkosetClient, `personal/user/${su.appUserId}`);
+                if (!!client) {
+                    client.personBirthday =
+                        !!client.personBirthday && client.personBirthday.split("T").length > 0
+                            ? client.personBirthday.split("T")[0]
+                            : "";
+                    this.authStore.updateEkosetClient(client);
+                }
             }
         }
     }
@@ -86,7 +95,7 @@ export class AuthService extends BaseService {
 
         // Выставим в сторе сессионого пользователя (какой именно решает бэк)
         this.updateSessionUser(!!logonResult.sessionUser ? logonResult.sessionUser : SessionUser.anonymousUser);
-        await this.updateEkosetClient();
+        await this.updateEkosetClientOrManager();
 
         return logonResult;
     }
@@ -116,7 +125,7 @@ export class AuthService extends BaseService {
     // После смены пароля (после восстановления)
     public async onPasswordChangedAfterConfirmByCode(appUser: SessionUser) {
         this.updateSessionUser(appUser);
-        await this.updateEkosetClient();
+        await this.updateEkosetClientOrManager();
     }
 
     // Выйти

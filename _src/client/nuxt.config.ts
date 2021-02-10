@@ -3,7 +3,7 @@ import { client } from "process";
 
 const config: NuxtConfig = {
     components: true,
-    modern: true,
+    // modern: true,
     srcDir: "src/",
     loading: {
         color: "#ac1315",
@@ -65,9 +65,9 @@ const config: NuxtConfig = {
 
     css: ["~assets/scss/index.scss"],
 
-    // pageTransition: {
-    //     css: false,
-    // },
+    pageTransition: {
+        css: false,
+    },
 
     plugins: [
         {
@@ -193,7 +193,7 @@ const config: NuxtConfig = {
         mode: "postcss",
         // whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, , /file.*?$/, /grid.*?$/, /help.*?$/, ]
         whitelistPatterns: [/brc.*?$/, /vgt.*?$/, /vue.*?$/, /ql.*?$/, /theme.*?$/],
-        whitelist: ["label", "field-label"],
+        whitelist: ["label", "field-label", "sr-only"],
     },
 
     webfontloader: {

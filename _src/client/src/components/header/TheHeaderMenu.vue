@@ -2,27 +2,20 @@
   <ul ref="mainmenu" class="brc-page-header__main-menu">
     <template v-for="iterMenuItem in sitePageItems">
       <li
-        v-if="
-          iterMenuItem.sitePageCode !== 7 && isMenuItemEnablede(iterMenuItem)
-        "
+        v-if="iterMenuItem.sitePageCode !== 7 && isMenuItemEnablede(iterMenuItem)"
         :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
         :key="isMobile + iterMenuItem.sitePageId"
         :style="
-          (iterMenuItem.sitePageCode !== 7 && iterMenuItem.visibleInHorMenu) ||
-          isMobile
+          (iterMenuItem.sitePageCode !== 7 && iterMenuItem.visibleInHorMenu) || isMobile
             ? 'visibility:visible'
             : 'position:absolute; visibility: hidden'
         "
       >
         <nuxt-link
           :to="{
-            name: !!iterMenuItem.sitePageRouteName
-              ? iterMenuItem.sitePageRouteName
-              : 'main',
+            name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main',
             params: {
-              siteSection: !!iterMenuItem.sitePageRouteName
-                ? getCurrentSiteSection
-                : null,
+              siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
               page: iterMenuItem.sitePageUrl,
             },
           }"
@@ -30,25 +23,19 @@
           >{{ iterMenuItem.sitePageName }}</nuxt-link
         >
       </li>
-      <LazyThePriceMenuItem
-        v-if="
-          iterMenuItem.sitePageCode === 7 && isMenuItemEnablede(iterMenuItem)
-        "
+      <ThePriceMenuItem
+        v-if="iterMenuItem.sitePageCode === 7 && isMenuItemEnablede(iterMenuItem)"
         :ref="'menuitem' + isMobile + iterMenuItem.sitePageId"
         :key="isMobile + iterMenuItem.sitePageId"
         :style="
-          (iterMenuItem.sitePageCode === 7 && iterMenuItem.visibleInHorMenu) ||
-          isMobile
+          (iterMenuItem.sitePageCode === 7 && iterMenuItem.visibleInHorMenu) || isMobile
             ? 'visibility:visible'
             : 'position:absolute; visibility: hidden'
         "
-      ></LazyThePriceMenuItem>
+      ></ThePriceMenuItem>
     </template>
 
-    <li
-      v-if="!isMobile && additionalsitePageItems.length > 0"
-      class="brc-page-header__main-menu_add-wrapper"
-    >
+    <li v-if="!isMobile && additionalsitePageItems.length > 0" class="brc-page-header__main-menu_add-wrapper">
       <div
         id="dont_outside"
         v-click-outside="
@@ -64,17 +51,10 @@
         <span></span>
       </div>
 
-      <ul
-        class="brc-price-menu"
-        :class="{ active: isMenuOpened === true }"
-        style="margin-top: 8px"
-      >
+      <ul class="brc-price-menu" :class="{ active: isMenuOpened === true }" style="margin-top: 8px">
         <template v-for="iterMenuItem in additionalsitePageItems">
           <li
-            v-if="
-              iterMenuItem.sitePageCode !== 7 &&
-              isMenuItemEnablede(iterMenuItem)
-            "
+            v-if="iterMenuItem.sitePageCode !== 7 && isMenuItemEnablede(iterMenuItem)"
             :ref="'addmenuitem' + isMobile + iterMenuItem.sitePageId"
             :key="isMobile + iterMenuItem.sitePageId"
             class="brc-page-header__main-menu_add-wrapper__item"
@@ -82,13 +62,9 @@
           >
             <nuxt-link
               :to="{
-                name: !!iterMenuItem.sitePageRouteName
-                  ? iterMenuItem.sitePageRouteName
-                  : 'main',
+                name: !!iterMenuItem.sitePageRouteName ? iterMenuItem.sitePageRouteName : 'main',
                 params: {
-                  siteSection: !!iterMenuItem.sitePageRouteName
-                    ? getCurrentSiteSection
-                    : null,
+                  siteSection: !!iterMenuItem.sitePageRouteName ? getCurrentSiteSection : null,
                   page: iterMenuItem.sitePageUrl,
                 },
               }"
@@ -102,125 +78,123 @@
   </ul>
 </template>
 
-
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import AppStore from '@/store/AppStore'
-import { getModule } from 'vuex-module-decorators'
-import SitePage, { SitePageType } from '@/models/SitePage'
-import { ServiceRegistry } from '@/ServiceRegistry'
-import TopMenuService from '@/services/TopMenuService'
-
+import { Component, Prop, Watch, Vue } from "nuxt-property-decorator";
+import AppStore from "@/store/AppStore";
+import { getModule } from "vuex-module-decorators";
+import SitePage, { SitePageType } from "@/models/SitePage";
+import { ServiceRegistry } from "@/ServiceRegistry";
+import TopMenuService from "@/services/TopMenuService";
 
 @Component
 export default class TheHeaderMenu extends Vue {
-
   @Prop({ default: false })
-  public isMobile: boolean
+  public isMobile: boolean;
 
-  public sitePageItems: SitePage[] = []
+  public sitePageItems: SitePage[] = [];
 
-  public additionalsitePageItems: SitePage[] = []
+  public additionalsitePageItems: SitePage[] = [];
 
-  public isMenuOpened = false
+  public isMenuOpened = false;
 
-  @Watch('$route.params', { immediate: true })
-  public onRouteChanged () {
+  @Watch("$route.params", { immediate: true })
+  public onRouteChanged() {
     if (!this.isMobile) {
-      this.modifyMenuItemsVisible()
+      this.modifyMenuItemsVisible();
     }
   }
 
-  public onClick () {
-    this.isMenuOpened = !this.isMenuOpened
+  public onClick() {
+    this.isMenuOpened = !this.isMenuOpened;
   }
 
-
-  public get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSection
+  public get getCurrentSiteSection() {
+    return getModule(AppStore, this.$store).currentSiteSection;
   }
 
-  public isActiveIndex (menuItem: SitePage) {
-    const routeName = this.$route.name
-    if (routeName === 'custom-page') {
-      return this.$route.params.page === menuItem.sitePageUrl
+  public isActiveIndex(menuItem: SitePage) {
+    const routeName = this.$route.name;
+    if (routeName === "custom-page") {
+      return this.$route.params.page === menuItem.sitePageUrl;
     } else {
-      return routeName === menuItem.sitePageRouteName
+      return routeName === menuItem.sitePageRouteName;
     }
   }
 
-  public isMenuItemEnablede (pageMenuItem: SitePage) {
-    const currentSiteSectionId = this.getCurrentSiteSection ? ServiceRegistry.instance.getService(TopMenuService).getIdBySlug(this.getCurrentSiteSection) : null
+  public isMenuItemEnablede(pageMenuItem: SitePage) {
+    const currentSiteSectionId = this.getCurrentSiteSection
+      ? ServiceRegistry.instance.getService(TopMenuService).getIdBySlug(this.getCurrentSiteSection)
+      : null;
     if (pageMenuItem.sitePageId === SitePageType.MAIN && this.isMobile) {
-      return true
+      return true;
     }
-    return pageMenuItem.sitePageId !== SitePageType.MAIN && pageMenuItem.sitePageStatus === 1 && (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
+    return (
+      pageMenuItem.sitePageId !== SitePageType.MAIN &&
+      pageMenuItem.sitePageStatus === 1 &&
+      (pageMenuItem.siteSectionId === currentSiteSectionId || !pageMenuItem.siteSectionId)
+    );
   }
 
-  public async fetch () {
-    const sitePageItems = await ServiceRegistry.instance.getService(TopMenuService).adminGetSitePages()
+  public async fetch() {
+    const sitePageItems = await ServiceRegistry.instance.getService(TopMenuService).adminGetSitePages();
 
     sitePageItems.forEach((element: any) => {
-      element.visibleInHorMenu = true
+      element.visibleInHorMenu = true;
     });
 
-    this.sitePageItems = sitePageItems
-
+    this.sitePageItems = sitePageItems;
   }
 
-  public async mounted () {
-
+  public async mounted() {
     this.$nextTick(() => {
       if (!this.isMobile) {
-        window.removeEventListener('resize', this.modifyMenuItemsVisible)
-        window.addEventListener('resize', this.modifyMenuItemsVisible)
-        this.modifyMenuItemsVisible()
+        window.removeEventListener("resize", this.modifyMenuItemsVisible);
+        window.addEventListener("resize", this.modifyMenuItemsVisible);
+        this.modifyMenuItemsVisible();
       }
-    })
-
+    });
   }
 
-  public beforDestroy () {
-    window.removeEventListener('resize', this.modifyMenuItemsVisible)
+  public beforDestroy() {
+    window.removeEventListener("resize", this.modifyMenuItemsVisible);
   }
 
-  private modifyMenuItemsVisible () {
-    const menuOl = this.$refs.mainmenu as HTMLElement
+  private modifyMenuItemsVisible() {
+    const menuOl = this.$refs.mainmenu as HTMLElement;
 
     if (menuOl) {
-      const menuOffsetWidth = menuOl.offsetWidth
-      const menuItemsToRelocate: SitePage[] = []
-      const delta = this.additionalsitePageItems.length > 1 ? 65 : (this.additionalsitePageItems.length === 1 ? 55 : 20)
+      const menuOffsetWidth = menuOl.offsetWidth;
+      const menuItemsToRelocate: SitePage[] = [];
+      const delta = this.additionalsitePageItems.length > 1 ? 65 : this.additionalsitePageItems.length === 1 ? 55 : 20;
 
       let aggMenuItemWidth = 0;
 
       this.sitePageItems.forEach((iterItem) => {
         if (this.isMenuItemEnablede(iterItem)) {
-          const elWidth = this.getMenuItemOffsetWidth(iterItem)
+          const elWidth = this.getMenuItemOffsetWidth(iterItem);
           if (elWidth) {
-            aggMenuItemWidth = aggMenuItemWidth + elWidth + 10
+            aggMenuItemWidth = aggMenuItemWidth + elWidth + 10;
 
             if (aggMenuItemWidth > menuOffsetWidth - delta) {
-              menuItemsToRelocate.push(iterItem)
-              iterItem.visibleInHorMenu = false
+              menuItemsToRelocate.push(iterItem);
+              iterItem.visibleInHorMenu = false;
             } else {
-              iterItem.visibleInHorMenu = true
+              iterItem.visibleInHorMenu = true;
             }
           }
         }
-      })
-      this.additionalsitePageItems = [...menuItemsToRelocate]
+      });
+      this.additionalsitePageItems = [...menuItemsToRelocate];
     }
   }
 
-  private getMenuItemOffsetWidth (iterItem: SitePage) {
-    const iterDomElement = this.$refs['menuitem' + this.isMobile + iterItem.sitePageId]
+  private getMenuItemOffsetWidth(iterItem: SitePage) {
+    const iterDomElement = this.$refs["menuitem" + this.isMobile + iterItem.sitePageId];
     if (!!iterDomElement && Array.isArray(iterDomElement) && iterDomElement.length > 0) {
-      return (iterDomElement[0] as HTMLElement).offsetWidth
+      return (iterDomElement[0] as HTMLElement).offsetWidth;
     }
   }
 }
-
 </script>
 
 <style lang="scss">
@@ -315,8 +289,7 @@ $menu_item_padding: 12px;
       padding: 10px;
     }
 
-    .brc-page-header__main-menu_add-wrapper__item
-      + .brc-page-header__main-menu_add-wrapper__item {
+    .brc-page-header__main-menu_add-wrapper__item + .brc-page-header__main-menu_add-wrapper__item {
       border-top: 1px solid lightgray;
     }
   }

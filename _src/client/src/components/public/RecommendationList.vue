@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="brc-recommendations">
-      <LazyRecommendationListItem
+      <RecommendationListItem
         v-for="iterBrand in brandShowList"
         :key="iterBrand.clBrandId"
         :brand="iterBrand"
-      ></LazyRecommendationListItem>
+      ></RecommendationListItem>
     </div>
     <div v-show="!allBrandsPage" class="brc-all-brands-link__wrapper">
       <nuxt-link
@@ -21,36 +21,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ClBrand from '@/models/ekoset/ClBrand'
-import { getModule } from 'vuex-module-decorators'
-import AppStore from '@/store/AppStore'
+import { Component, Prop, Vue } from "nuxt-property-decorator";
+import { getModule } from "vuex-module-decorators";
+import AppStore from "@/store/AppStore";
 
 @Component
 export default class RecommendationList extends Vue {
   @Prop(Array)
-  private brandList
+  private brandList;
 
   @Prop({ default: false })
-  private allBrandsPage
+  private allBrandsPage;
 
   // private isMobile: boolean = false
 
-  public get getCurrentSiteSection () {
-    return getModule(AppStore, this.$store).currentSiteSection
+  public get getCurrentSiteSection() {
+    return getModule(AppStore, this.$store).currentSiteSection;
   }
 
-  private get brandShowList () {
-    return this.brandList
+  private get brandShowList() {
+    return this.brandList;
     // return !this.allBrandsPage ? this.brandList.slice(0, this.isMobile ? 4 : 12) : this.brandList
   }
-
-  // private mounted () {
-  //   const bodyElement = document.getElementsByTagName('body')[0]
-  //   if (bodyElement && bodyElement.offsetWidth < 768) {
-  //     this.isMobile = true
-  //   }
-  // }
 }
 </script>
 

@@ -1,17 +1,8 @@
 <template>
-  <nav
-    id="adminNavigation"
-    class="brc-admin-navigation__wrapper"
-    :class="{ 'brc-admin-navigation_hidden': !sidebaropen }"
-  >
+  <nav id="adminNavigation" class="brc-admin-navigation__wrapper" :class="{ 'brc-admin-navigation_hidden': !sidebaropen }">
     <b-menu>
       <b-menu-list>
-        <b-menu-item
-          tag="nuxt-link"
-          label="Переход на Сайт"
-          :to="{ name: 'main' }"
-          target="_blank"
-        ></b-menu-item>
+        <b-menu-item tag="nuxt-link" label="Переход на Сайт" :to="{ name: 'main' }" target="_blank"></b-menu-item>
 
         <b-menu-item
           icon="link"
@@ -21,35 +12,16 @@
         >
           <template slot="label" slot-scope="props">
             Контент
-            <b-icon
-              class="is-pulled-right"
-              :icon="props.expanded ? 'menu-down' : 'menu-up'"
-            ></b-icon>
+            <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
           </template>
 
-          <b-menu-item
-            tag="nuxt-link"
-            label="Разделы сайта"
-            :to="{ name: 'admin-site-sections' }"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" label="Разделы сайта" :to="{ name: 'admin-site-sections' }"></b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-top-menu-list' }"
-            label="Верхнее меню"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-top-menu-list' }" label="Верхнее меню"></b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-footer-settings' }"
-            label="Услуги для Футера"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-footer-settings' }" label="Услуги для Футера"></b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-news' }"
-            label="Новости"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-news' }" label="Новости"></b-menu-item>
         </b-menu-item>
 
         <b-menu-item
@@ -60,121 +32,74 @@
         >
           <template slot="label" slot-scope="props">
             Справочники
-            <b-icon
-              class="is-pulled-right"
-              :icon="props.expanded ? 'menu-down' : 'menu-up'"
-            ></b-icon>
+            <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
           </template>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'cl-activity-types' }"
-            label="Виды деятельности"
-          ></b-menu-item>
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-brands' }"
-            label="Бренды"
-          ></b-menu-item>
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-documents' }"
-            label="Документы"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'cl-activity-types' }" label="Виды деятельности"></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-brands' }" label="Бренды"></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-documents' }" label="Документы"></b-menu-item>
 
           <b-menu-item
             label="Прайс-лист"
-            @click="
-              showNotFoundPopup(
-                'Будет реализовано в доработках по ранее предоставленному заданию'
-              )
-            "
+            @click="showNotFoundPopup('Будет реализовано в доработках по ранее предоставленному заданию')"
           ></b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-manager-list' }"
-            label="Сотрудники"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-manager-list' }" label="Сотрудники"></b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-clients-list' }"
-            label="Контактные лица"
-          ></b-menu-item>
+          <b-menu-item tag="nuxt-link" :to="{ name: 'admin-clients-list' }" label="Контактные лица"></b-menu-item>
         </b-menu-item>
 
-          <b-menu-item
-            tag="nuxt-link"
-            :to="{ name: 'admin-request-list' }"
-            label="Заявки"
-          ></b-menu-item>
+        <b-menu-item tag="nuxt-link" :to="{ name: 'admin-request-list' }" label="Заявки"></b-menu-item>
 
-        <b-menu-item
-          icon="link"
-          :active="isAdminActive"
-          :expanded="isAdminActive"
-          @click="isAdminActive = !isAdminActive"
-        >
+        <b-menu-item icon="link" :active="isAdminActive" :expanded="isAdminActive" @click="isAdminActive = !isAdminActive">
           <template slot="label" slot-scope="props">
             Администрирование
-            <b-icon
-              class="is-pulled-right"
-              :icon="props.expanded ? 'menu-down' : 'menu-up'"
-            ></b-icon>
+            <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
           </template>
 
-          <b-menu-item
-            label="Контактные формы"
-            @click="showNotFoundPopup()"
-          ></b-menu-item>
-          <b-menu-item
-            label="Соцсети"
-            @click="showNotFoundPopup()"
-          ></b-menu-item>
+          <b-menu-item label="Контактные формы" @click="showNotFoundPopup()"></b-menu-item>
+          <b-menu-item label="Соцсети" @click="showNotFoundPopup()"></b-menu-item>
 
           <b-menu-item
             label="Почтовый сервер"
-            @click="
-              showNotFoundPopup(
-                'Будет реализовано в доработках после уточнения задачи'
-              )
-            "
+            @click="showNotFoundPopup('Будет реализовано в доработках после уточнения задачи')"
           ></b-menu-item>
 
-          <b-menu-item
-            label="Обмен данными с Access"
-            @click="showNotFoundPopup()"
-          ></b-menu-item>
+          <b-menu-item label="Обмен данными с Access" @click="showNotFoundPopup()"></b-menu-item>
 
-          <b-menu-item
-            label="Логи"
-            @click="showNotFoundPopup('В работе')"
-          ></b-menu-item>
+          <b-menu-item label="Логи" @click="showNotFoundPopup('В работе')"></b-menu-item>
         </b-menu-item>
+
+        <b-menu-item label="Выход" :to="{ name: 'main' }" @click="logout"></b-menu-item>
       </b-menu-list>
     </b-menu>
   </nav>
 </template>
 
-
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import BaseNotImplementForm from './base/BaseNotImplementForm.vue'
+import { ServiceRegistry } from "@/ServiceRegistry";
+import { AuthService } from "@/services/AuthService";
+import { Component, Vue, Prop } from "nuxt-property-decorator";
+import BaseNotImplementForm from "./base/BaseNotImplementForm.vue";
 
 @Component({})
 export default class TheAdminSideBar extends Vue {
   @Prop()
-  private sidebaropen
+  private sidebaropen;
 
-  private isActive = false
-  private isSettingsActive = false
+  private isActive = false;
+  private isSettingsActive = false;
 
-  isAdminActive = false
-  isContentEnabled = false
+  isAdminActive = false;
+  isContentEnabled = false;
 
-  showNotFoundPopup (message = 'В работе') {
-    this.$modalManager.modalShow(BaseNotImplementForm, { message: message }, {})
+  showNotFoundPopup(message = "В работе") {
+    this.$modalManager.modalShow(BaseNotImplementForm, { message: message }, {});
+  }
+
+  private async logout() {
+    await ServiceRegistry.instance.getService(AuthService).logoff();
+    this.$router.push({ name: "main" });
   }
 }
 </script>

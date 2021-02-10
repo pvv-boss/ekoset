@@ -15,6 +15,8 @@ export default class SessionUser extends BaseViewModel {
     public userSnProfileAvatar = "";
     public userSnProfileLink = "";
     public userSnProfileEmail = "Гость";
+
+    public appUserAdminInd = false;
 }
 
 // // appUserName

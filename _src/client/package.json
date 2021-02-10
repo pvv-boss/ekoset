@@ -8,6 +8,7 @@
     "dev": "nuxts",
     "build": "nuxts build",
     "start": "nuxts start",
+    "analyze": "nuxts build --analyze",
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .ts,.js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",

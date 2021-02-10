@@ -1,25 +1,25 @@
-import { BaseViewModel } from './core/BaseViewModel';
+import { BaseViewModel } from "./core/BaseViewModel";
 
 export default class EkosetClient extends BaseViewModel {
-    personId: number
-    managerId: number
-    personName: number
-    personPhone: number
-    personEmail: string
-    personDateCh: string
-    personBirthday: string
-    appUserId: number
+    personId: number;
+    managerId: number;
+    personName: number;
+    personPhone: number;
+    personEmail: string;
+    personDateCh: string;
+    personBirthday: string;
+    appUserId: number;
 
-    notifFutureWork: boolean
-    notifEndWork: boolean
-    notifDesignSanitaryDoc: boolean
-    notifFinishedSanitaryDoc: boolean
-    notifLabProtocol: boolean
+    notifFutureWork: boolean;
+    notifEndWork: boolean;
+    notifDesignSanitaryDoc: boolean;
+    notifFinishedSanitaryDoc: boolean;
+    notifLabProtocol: boolean;
 
-    notifEmailInd: boolean
-    notifSmsInd: boolean
+    notifEmailInd: boolean;
+    notifSmsInd: boolean;
 
-    managerName: string
-    managerPhone: string
-    managerEmail: string
+    managerName: string;
+    managerPhone: string;
+    managerEmail: string;
 }

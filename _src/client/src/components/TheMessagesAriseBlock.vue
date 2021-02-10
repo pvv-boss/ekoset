@@ -1,72 +1,43 @@
 <template>
   <div class="brc-message-arise__outer">
-    <div
-      id="btnOrderPopupForm"
-      class="brc-message-arise__wrapper"
-      style="display: none"
-    >
-      <LazyMessageFormSimple
-        title="Пригласить на тендер"
-        :mode="2"
-        show-close-btn="true"
-        @closeForm="closeForm"
-      ></LazyMessageFormSimple>
+    <div id="btnOrderPopupForm" class="brc-message-arise__wrapper" style="display: none">
+      <MessageFormSimple title="Пригласить на тендер" :mode="2" show-close-btn="true" @closeForm="closeForm"></MessageFormSimple>
     </div>
-    <div
-      id="btnQuestionPopupForm"
-      class="brc-message-arise__wrapper"
-      style="display: none"
-    >
-      <LazyMessageFormSimple
+    <div id="btnQuestionPopupForm" class="brc-message-arise__wrapper" style="display: none">
+      <MessageFormSimple
         title="Задать вопрос эксперту"
         :mode="1"
         show-close-btn="true"
         @closeForm="closeForm"
-      ></LazyMessageFormSimple>
+      ></MessageFormSimple>
     </div>
-    <div
-      id="btnRequestServicePopupForm"
-      class="brc-message-arise__wrapper"
-      style="display: none"
-    >
-      <LazyMessageForm
-        title="Отправить заказ"
-        :mode="0"
-        show-close-btn="true"
-        @closeForm="closeForm"
-      ></LazyMessageForm>
-      <LazyMessageFormMobile
-        title="Отправить заказ"
-        :mode="0"
-        show-close-btn="true"
-        @closeForm="closeForm"
-      ></LazyMessageFormMobile>
+    <div id="btnRequestServicePopupForm" class="brc-message-arise__wrapper" style="display: none">
+      <MessageForm title="Отправить заказ" :mode="0" show-close-btn="true" @closeForm="closeForm"></MessageForm>
+      <MessageFormMobile title="Отправить заказ" :mode="0" show-close-btn="true" @closeForm="closeForm"></MessageFormMobile>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from "nuxt-property-decorator";
 
 @Component
 export default class TheMessagesAriseBlock extends Vue {
-
-  private closeForm () {
-    const orderFormElement = document.getElementById('btnOrderPopupForm')
+  private closeForm() {
+    const orderFormElement = document.getElementById("btnOrderPopupForm");
     if (orderFormElement) {
-      orderFormElement.setAttribute('style', 'display:none')
+      orderFormElement.setAttribute("style", "display:none");
     }
 
-    const questionFormElement = document.getElementById('btnQuestionPopupForm')
+    const questionFormElement = document.getElementById("btnQuestionPopupForm");
     if (questionFormElement) {
-      questionFormElement.setAttribute('style', 'display:none')
+      questionFormElement.setAttribute("style", "display:none");
     }
 
-    const reqServiceFormElement = document.getElementById('btnRequestServicePopupForm')
+    const reqServiceFormElement = document.getElementById("btnRequestServicePopupForm");
     if (reqServiceFormElement) {
-      reqServiceFormElement.setAttribute('style', 'display:none')
+      reqServiceFormElement.setAttribute("style", "display:none");
     }
   }
-
 }
 </script>

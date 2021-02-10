@@ -21,11 +21,7 @@
               {{ statusText(props.row) }}
             </span>
             <b-button
-              v-if="
-                props.column.field == 'personStatus' &&
-                !isUserActive(props.row) &&
-                !!props.row.personEmail
-              "
+              v-if="props.column.field == 'personStatus' && !isUserActive(props.row) && !!props.row.personEmail"
               icon-right="content-copy"
               type="is-info"
               size="is-small"
@@ -36,11 +32,7 @@
             >
 
             <b-button
-              v-if="
-                props.column.field == 'personStatus' &&
-                isUserActive(props.row) &&
-                !!props.row.personEmail
-              "
+              v-if="props.column.field == 'personStatus' && isUserActive(props.row) && !!props.row.personEmail"
               type="is-danger"
               icon-right="delete"
               size="is-small"
@@ -66,94 +58,91 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import AdminStore from '@/store/AdminStore'
+import { Component, Vue } from "nuxt-property-decorator";
+import { getModule } from "vuex-module-decorators";
+import AdminStore from "@/store/AdminStore";
 import { Context } from "@nuxt/types";
-import { ServiceRegistry } from '@/ServiceRegistry'
-import UserDealService from '@/services/UserDealService'
-import UserService from '@/services/UserService'
-import EkosetClient from '@/models/EkosetClient'
+import { ServiceRegistry } from "@/ServiceRegistry";
+import UserDealService from "@/services/UserDealService";
+import UserService from "@/services/UserService";
+import EkosetClient from "@/models/EkosetClient";
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
-  }
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ "vue-good-table/src/components/Table.vue"),
+  },
 })
 export default class ContactClientList extends Vue {
-  private ekosetClients: EkosetClient[] = []
-  private newManager = new EkosetClient()
-  private createNewMode = false
+  private ekosetClients: EkosetClient[] = [];
+  private newManager = new EkosetClient();
+  private createNewMode = false;
 
   private headerFields = [
     {
-      field: 'personId',
-      label: 'Код',
-      type: 'number',
-      tdClass: 'brc-admin-centered-td'
+      field: "personId",
+      label: "Код",
+      type: "number",
+      tdClass: "brc-admin-centered-td",
     },
     {
-      field: 'personName',
-      label: 'ФИО'
+      field: "personName",
+      label: "ФИО",
     },
     {
-      field: 'personPhone',
-      label: 'Телефон'
-    },
-
-    {
-      field: 'personEmail',
-      label: 'E-Mail'
+      field: "personPhone",
+      label: "Телефон",
     },
 
     {
-      field: 'personStatus',
-      label: 'Статус'
-    }
+      field: "personEmail",
+      label: "E-Mail",
+    },
 
-  ]
+    {
+      field: "personStatus",
+      label: "Статус",
+    },
+  ];
 
-  private layout () {
-    return 'admin'
+  private layout() {
+    return "admin";
   }
 
-  private isUserActive (client: EkosetClient) {
-    return !!client.appUserId
+  private isUserActive(client: EkosetClient) {
+    return !!client.appUserId;
   }
 
-  private statusText (client: EkosetClient) {
+  private statusText(client: EkosetClient) {
     if (!client.personEmail) {
-      return 'Не указан почтовый адрес!'
+      return "Не указан почтовый адрес!";
     }
-    return this.isUserActive(client) ? 'Активен' : 'Блокирован'
+    return this.isUserActive(client) ? "Активен" : "Блокирован";
   }
 
-  private async asyncData (context: Context) {
-    const breadCrumbList: any[] = []
-    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    breadCrumbList.push({ name: 'Контактные лица', link: 'admin-clients-list' })
-    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+  private async asyncData(context: Context) {
+    const breadCrumbList: any[] = [];
+    breadCrumbList.push({ name: "Администрирование", link: "admin" });
+    breadCrumbList.push({ name: "Контактные лица", link: "admin-clients-list" });
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList);
 
-    const data = await ServiceRegistry.instance.getService(UserDealService).getClients()
+    const data = await ServiceRegistry.instance.getService(UserDealService).getClients();
     return {
-      ekosetClients: data
-    }
+      ekosetClients: data,
+    };
   }
 
-  private async refreshData () {
-    this.ekosetClients = await ServiceRegistry.instance.getService(UserDealService).getClients()
+  private async refreshData() {
+    this.ekosetClients = await ServiceRegistry.instance.getService(UserDealService).getClients();
   }
 
-  private async activateClient (client: EkosetClient) {
-    await ServiceRegistry.instance.getService(UserService).activateEkosetClient(client.personId)
-    await this.refreshData()
+  private async activateClient(client: EkosetClient) {
+    await ServiceRegistry.instance.getService(UserService).activateEkosetClient(client.personId);
+    await this.refreshData();
   }
 
-  private async deactivateClient (client: EkosetClient) {
-    await ServiceRegistry.instance.getService(UserService).deactivateEkosetClient(client.appUserId)
-    await this.refreshData()
+  private async deactivateClient(client: EkosetClient) {
+    await ServiceRegistry.instance.getService(UserService).deactivateEkosetClient(client.appUserId);
+    await this.refreshData();
   }
-
 }
 </script>
-

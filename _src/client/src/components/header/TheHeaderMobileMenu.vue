@@ -13,11 +13,7 @@
       <div class="brc-buscet-counter_mobile">{{ getBuscetCount }}</div>
     </div>
 
-    <div
-      v-click-outside="closeMenu"
-      class="brc-page-header-mobile_expander"
-      @click="openMenu"
-    >
+    <div v-click-outside="closeMenu" class="brc-page-header-mobile_expander" @click="openMenu">
       <span></span>
       <span></span>
       <span></span>
@@ -63,24 +59,20 @@
     </nav>
 
     <!-- Для закрытия основного контента -->
-    <div
-      class="main-content_hidden"
-      :class="{ active: isMainMenuActive === true }"
-    ></div>
+    <div class="main-content_hidden" :class="{ active: isMainMenuActive === true }"></div>
   </header>
 </template>
 
-
 <script lang="ts">
-import { Component, Prop, Watch, Vue, getModule } from 'nuxt-property-decorator'
-import TheHeaderMenu from '@/components/header/TheHeaderMenu.vue'
-import UserAuthHeader from '@/components/user/UserAuthHeader.vue'
-import TheHeaderOrder from '@/components/header/TheHeaderOrder.vue'
-import TheHeaderCallMe from '@/components/header/TheHeaderCallMe.vue'
-import TheHeaderAskQuestion from '@/components/header/TheHeaderAskQuestion.vue'
-import TheHeaderInviteTender from '@/components/header/TheHeaderInviteTender.vue'
-import TheHeaderLogo from '@/components/header/TheHeaderLogo.vue'
-import BuscetStore from '@/store/BuscetStore'
+import { Component, Prop, Watch, Vue, getModule } from "nuxt-property-decorator";
+import TheHeaderMenu from "@/components/header/TheHeaderMenu.vue";
+import UserAuthHeader from "@/components/user/UserAuthHeader.vue";
+import TheHeaderOrder from "@/components/header/TheHeaderOrder.vue";
+import TheHeaderCallMe from "@/components/header/TheHeaderCallMe.vue";
+import TheHeaderAskQuestion from "@/components/header/TheHeaderAskQuestion.vue";
+import TheHeaderInviteTender from "@/components/header/TheHeaderInviteTender.vue";
+import TheHeaderLogo from "@/components/header/TheHeaderLogo.vue";
+import BuscetStore from "@/store/BuscetStore";
 
 @Component({
   components: {
@@ -90,39 +82,38 @@ import BuscetStore from '@/store/BuscetStore'
     TheHeaderOrder,
     TheHeaderInviteTender,
     TheHeaderAskQuestion,
-    TheHeaderLogo
-  }
+    TheHeaderLogo,
+  },
 })
 export default class TheHeaderMobileMenu2 extends Vue {
-
-  public get activeIndex () {
-    return this.$route.name ? this.$route.name.split('-')[0] : ''
+  public get activeIndex() {
+    return this.$route.name ? this.$route.name.split("-")[0] : "";
   }
 
-  private get getBuscetCount () {
-    return this.buscetStore.addedServiceCount
+  private get getBuscetCount() {
+    return this.buscetStore.addedServiceCount;
   }
 
-  public isMainMenuActive = false
+  public isMainMenuActive = false;
 
-  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store)
+  private buscetStore: BuscetStore = getModule(BuscetStore, this.$store);
 
-  public openMenu () {
-    this.isMainMenuActive = !this.isMainMenuActive
+  public openMenu() {
+    this.isMainMenuActive = !this.isMainMenuActive;
   }
 
-  public closeMenu () {
+  public closeMenu() {
     if (this.isMainMenuActive === true) {
-      this.isMainMenuActive = false
+      this.isMainMenuActive = false;
     }
   }
 
-  private navigateToOfferForm (e) {
-    const formElement = document.getElementById('btnRequestServicePopupForm')
+  private navigateToOfferForm(e) {
+    const formElement = document.getElementById("btnRequestServicePopupForm");
     if (formElement) {
-      formElement.setAttribute('style', 'display:block');
+      formElement.setAttribute("style", "display:block");
     }
-    e.preventDefault()
+    e.preventDefault();
   }
 }
 </script>

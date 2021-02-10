@@ -17,15 +17,8 @@
       >
         <div class="brc-login-form__block">
           <label>Логин</label>
-          <input
-            v-model="loginData.login"
-            name="login"
-            class="login-input"
-            placeholder="Логин"
-          />
-          <span v-if="!!errorLoginMessage" class="logon-error">{{
-            errorLoginMessage
-          }}</span>
+          <input v-model="loginData.login" name="login" class="login-input" placeholder="Логин" />
+          <span v-if="!!errorLoginMessage" class="logon-error">{{ errorLoginMessage }}</span>
         </div>
         <div class="brc-login-form__block">
           <label>Пароль</label>
@@ -37,93 +30,82 @@
             autocomplete="off"
             class="login-input"
           />
-          <span v-if="!!errorPasswordMessage" class="logon-error">{{
-            errorPasswordMessage
-          }}</span>
+          <span v-if="!!errorPasswordMessage" class="logon-error">{{ errorPasswordMessage }}</span>
         </div>
 
-        <span v-if="!!errorMessage" class="logon-error">{{
-          errorMessage
-        }}</span>
+        <span v-if="!!errorMessage" class="logon-error">{{ errorMessage }}</span>
 
-        <nuxt-link :to="{ name: 'auth-restore' }" class="logon-restore">
-          Забыли пароль ?
-        </nuxt-link>
+        <nuxt-link :to="{ name: 'auth-restore' }" class="logon-restore"> Забыли пароль ? </nuxt-link>
 
         <div>
           <input id="cb1" v-model="loginData.rememberMe" type="checkbox" />
           <label for="cb1">Запомнить меня</label>
         </div>
-        <button
-          :disabled="submitPending"
-          class="brc-login-form__submit login-button"
-          type="submit"
-        >
-          Войти
-        </button>
+        <button :disabled="submitPending" class="brc-login-form__submit login-button" type="submit">Войти</button>
       </form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import LoginData from '@/models/user/LoginData'
-import { LogonStatus } from '@/models/user/LogonResult'
-import { AuthService } from '@/services/AuthService'
-import { ServiceRegistry } from '@/ServiceRegistry'
+import { Component, Prop, Vue } from "nuxt-property-decorator";
+import LoginData from "@/models/user/LoginData";
+import { LogonStatus } from "@/models/user/LogonResult";
+import { AuthService } from "@/services/AuthService";
+import { ServiceRegistry } from "@/ServiceRegistry";
 
 @Component
 export default class LoginForm extends Vue {
-
   @Prop()
-  private status
+  private status;
 
   @Prop(String)
-  private mode
+  private mode;
 
-  private loginData: LoginData = new LoginData()
+  private loginData: LoginData = new LoginData();
 
-  private errorLoginMessage: string | null = null
-  private errorPasswordMessage: string | null = null
-  private errorMessage: string | null = null
+  private errorLoginMessage: string | null = null;
+  private errorPasswordMessage: string | null = null;
+  private errorMessage: string | null = null;
 
-  private submitPending = false
+  private submitPending = false;
 
-  private async processLocalAuthAction () {
-    this.submitPending = true
+  private async processLocalAuthAction() {
+    this.submitPending = true;
 
     if (this.validateData()) {
-      const result = await ServiceRegistry.instance.getService(AuthService).loginByPassword(this.loginData)
+      const result = await ServiceRegistry.instance.getService(AuthService).loginByPassword(this.loginData);
       if (result.logonStatus === LogonStatus.OK) {
-        this.$router.push({ name: "user-deals-contracts" })
+        this.$router.push(this.routeNameAfterLogin);
       } else {
-        this.errorMessage = result.message
+        this.errorMessage = result.message;
       }
     }
 
-    this.loginData = new LoginData()
-    this.submitPending = false
+    this.loginData = new LoginData();
+    this.submitPending = false;
   }
 
-  private validateData () {
-    this.errorLoginMessage = ''
-    this.errorPasswordMessage = ''
-    this.errorMessage = ''
+  private get routeNameAfterLogin() {
+    return { name: ServiceRegistry.instance.getService(AuthService).isUserAdmin ? "admin" : "user-deals-contracts" };
+  }
 
-    let ok = true
+  private validateData() {
+    this.errorLoginMessage = "";
+    this.errorPasswordMessage = "";
+    this.errorMessage = "";
+
+    let ok = true;
     if (this.loginData.login.trim().length < 1) {
-      this.errorLoginMessage = 'Укажите логин !'
+      this.errorLoginMessage = "Укажите логин !";
       ok = false;
     }
     if (ok && this.loginData.password.trim().length < 1) {
-      this.errorPasswordMessage = 'Укажите пароль !'
+      this.errorPasswordMessage = "Укажите пароль !";
       ok = false;
     }
-    return ok
+    return ok;
   }
-
 }
 </script>
 <style lang="scss">
@@ -199,4 +181,3 @@ export default class LoginForm extends Vue {
   font-size: 15px;
 }
 </style>
-

@@ -1,39 +1,39 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import UserRoute from '@/routers/UserRouter'
-import BaseNotFound from '@/components/base/BaseNotFound.vue'
-import BaseError from '@/components/base/BaseError.vue'
-import { EkosetRouter } from '@/routers/EkosetRouter'
-import { AdminRouter } from '@/routers/AdminRouter'
+import Vue from "vue";
+import Router from "vue-router";
+import UserRoute from "@/routers/UserRouter";
+import BaseNotFound from "@/components/base/BaseNotFound.vue";
+import BaseError from "@/components/base/BaseError.vue";
+import { EkosetRouter } from "@/routers/EkosetRouter";
+import { AdminRouter } from "@/routers/AdminRouter";
 
-Vue.use(Router)
+Vue.use(Router);
 
-export function createRouter () {
-  return new Router({
-    mode: 'history',
-    routes: [
-      ...UserRoute,
-      ...AdminRouter,
-      ...EkosetRouter,
-      {
-        name: 'not-found',
-        path: '*',
-        component: BaseNotFound
-      },
-      {
-        name: 'error-page',
-        path: '/app/error',
-        component: BaseError,
-        props: true
-      }
-    ],
+export function createRouter() {
+    return new Router({
+        mode: "history",
+        routes: [
+            ...UserRoute,
+            ...AdminRouter,
+            ...EkosetRouter,
+            {
+                name: "not-found",
+                path: "*",
+                component: BaseNotFound,
+            },
+            {
+                name: "error-page",
+                path: "/app/error",
+                component: BaseError,
+                props: true,
+            },
+        ],
 
-    scrollBehavior (to, from, savedPosition) {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        return { x: 0, y: 0 }
-      }
-    }
-  })
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition;
+            } else {
+                return { x: 0, y: 0 };
+            }
+        },
+    });
 }
