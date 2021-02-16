@@ -16,15 +16,21 @@ export function createRouter() {
             ...AdminRouter,
             ...EkosetRouter,
             {
-                name: "not-found",
-                path: "*",
-                component: BaseNotFound,
-            },
-            {
                 name: "error-page",
                 path: "/app/error",
                 component: BaseError,
                 props: true,
+            },
+
+            {
+                name: "not-found",
+                path: "/app/not-found-page",
+                component: BaseNotFound,
+            },
+
+            {
+                path: "/:pathMatch(.*)*",
+                redirect: { name: "not-found" },
             },
         ],
 

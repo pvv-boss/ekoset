@@ -64,7 +64,7 @@ export class AuthService extends BaseService {
                 this.updateSessionUser(!!logonResult.sessionUser ? logonResult.sessionUser : SessionUser.anonymousUser);
                 await this.updateEkosetClientOrManager();
             } catch (errr) {
-                console.log("error = " + errr);
+                console.log("trySetSessionUserFromServer = " + errr);
             }
         }
     }
@@ -73,7 +73,7 @@ export class AuthService extends BaseService {
         const su = this.getSessionUser();
         if (!!su && su.appUserId > 0) {
             if (this.isUserAdmin) {
-                //  console.log("ADMIN!!!!");
+                this.authStore.updateEkosetClient(null);
             } else {
                 const client = await this.getOneOrEmpty(EkosetClient, `personal/user/${su.appUserId}`);
                 if (!!client) {

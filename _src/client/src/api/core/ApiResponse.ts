@@ -1,6 +1,6 @@
 export type ApiResponse = {
-  data: any | null
-  status: number
-  statusText: string,
-  headers: any
-}
+    data: any | null;
+    status: number;
+    statusText: string;
+    headers: any;
+};

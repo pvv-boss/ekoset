@@ -49,23 +49,36 @@ export class BaseService {
     }
 
     public notAuthRedirect() {
-        this.safePushRoute({ name: "auth-login", params: { mode: "login" } });
+        this.safeRedirect({ name: "auth-login", params: { mode: "login" } }, 401);
     }
 
-    public notFoundRedirect({ status, statusText }) {
-        this.safePushRoute({ name: "not-found", params: { status, statusText } });
+    public notFoundRedirect() {
+        this.safeRedirect({ name: "not-found" }, 404);
     }
 
     public errorRedirect({ status, statusText, message }) {
-        this.safePushRoute({
-            name: "error-page",
-            params: { status, statusText: !!statusText ? statusText : message },
-        });
+        this.safeRedirect(
+            {
+                name: "error-page",
+                params: { status, statusText: !!statusText ? statusText : message },
+            },
+            500
+        );
     }
 
-    public safePushRoute(rawLocation: Location) {
+    public safeRedirect(rawLocation: Location, code = 302) {
         if (this.context.route.name !== rawLocation.name) {
-            this.context.app.router?.push(rawLocation);
+            if (process.server && this.context.res) {
+                this.context.res.statusCode = code;
+            }
+            if (process.server) {
+                this.context.redirect(code, rawLocation);
+            }
+            if (process.client) {
+                this.context.app.router?.push(rawLocation).catch((err) => {
+                    const r = 1;
+                });
+            }
         }
     }
 

@@ -10,7 +10,7 @@ import { Module, VuexModule, VuexMutation, VuexAction } from "nuxt-property-deco
 export default class AuthStore extends VuexModule {
     private sessionUserState: SessionUser = SessionUser.anonymousUser;
     private tempSocialUserState: SessionUser = SessionUser.anonymousUser;
-    private ekosetClientState: EkosetClient = new EkosetClient();
+    private ekosetClientState: EkosetClient | null = new EkosetClient();
     private accessTokenState: string | null;
 
     @VuexMutation
@@ -31,7 +31,7 @@ export default class AuthStore extends VuexModule {
     }
 
     @VuexMutation
-    private setEkosetClient(ekosetClient: EkosetClient) {
+    private setEkosetClient(ekosetClient: EkosetClient | null) {
         this.ekosetClientState = ekosetClient;
     }
 
@@ -41,6 +41,7 @@ export default class AuthStore extends VuexModule {
         // В принципе делается в сервисе, но страховка
         if (!accessToken) {
             this.setSessionUser(SessionUser.anonymousUser);
+            this.setEkosetClient(null);
         }
     }
 
@@ -59,7 +60,7 @@ export default class AuthStore extends VuexModule {
     }
 
     @VuexAction
-    public updateEkosetClient(ekosetClient: EkosetClient) {
+    public updateEkosetClient(ekosetClient: EkosetClient | null) {
         this.setEkosetClient(ekosetClient);
     }
 

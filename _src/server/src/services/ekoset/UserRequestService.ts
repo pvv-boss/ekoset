@@ -153,7 +153,7 @@ export class UserRequestService extends BaseService {
                 subject:
                     clinet instanceof EkosetClient
                         ? `Активация доступа в ЛК сайт ЭКОСЕТЬ`
-                        : "Активация доступа в раздел Администрирование сайта ЭКОСЕТЬ",
+                        : "Активация доступа Администрирование сайта ЭКОСЕТЬ",
                 text: "",
                 html: "",
             };

@@ -8,57 +8,53 @@
         <div class="mt-40">
           <div class="account_notif">
             <AccountMain class="prof-main"></AccountMain>
-            <NotificationSettings
-              class="nittiff-settings"
-            ></NotificationSettings>
+            <NotificationSettings class="nittiff-settings"></NotificationSettings>
           </div>
           <div class="dialog_buttons dialog_buttons--profile">
             <button class="dialog_button_ok" @click="save">Сохранить</button>
             <button class="dialog_button_cancel" @click="cancel">Отмена</button>
           </div>
         </div>
-        <ChangePassword
-          class="mt-40 change-password"
-          style="flex-basis: 33%"
-        ></ChangePassword>
+        <ChangePassword class="mt-40 change-password" style="flex-basis: 33%"></ChangePassword>
       </div>
     </section>
   </main>
 </template>
 
 <script lang="ts">
-import EkosetClient from '@/models/EkosetClient'
-import { ServiceRegistry } from '@/ServiceRegistry'
-import UserService from '@/services/UserService'
-import AppStore from '@/store/AppStore'
-import AuthStore from '@/store/AuthStore'
-import { Component, getModule, Vue } from 'nuxt-property-decorator'
+import EkosetClient from "@/models/EkosetClient";
+import { ServiceRegistry } from "@/ServiceRegistry";
+import UserService from "@/services/UserService";
+import AppStore from "@/store/AppStore";
+import AuthStore from "@/store/AuthStore";
+import { Component, getModule, Vue } from "nuxt-property-decorator";
 
 @Component
 export default class UserProfile extends Vue {
-  public beforeRouteEnter (to, from, next) {
-    getModule(AppStore, ServiceRegistry.instance.nuxtContext.store).changeIsAccountSiteSection(true)
-    next()
+  public beforeRouteEnter(to, from, next) {
+    getModule(AppStore, ServiceRegistry.instance.nuxtContext.store).changeIsAccountSiteSection(true);
+    next();
   }
 
-  public beforeRouteLeave (to, from, next) {
-    getModule(AppStore, this.$store).changeIsAccountSiteSection(false)
-    next()
+  public beforeRouteLeave(to, from, next) {
+    getModule(AppStore, this.$store).changeIsAccountSiteSection(false);
+    next();
   }
 
-  private get ekosetClient (): EkosetClient {
-    return getModule(AuthStore, this.$store).ekosetClient
+  private get ekosetClient(): EkosetClient | null {
+    return getModule(AuthStore, this.$store).ekosetClient;
   }
 
-  private async save () {
-    await this.$serviceRegistry.getService(UserService).saveClient(this.ekosetClient)
-    this.$router.push({ name: 'user-deals-contracts' });
+  private async save() {
+    if (!!this.ekosetClient) {
+      await this.$serviceRegistry.getService(UserService).saveClient(this.ekosetClient);
+      this.$router.push({ name: "user-deals-contracts" });
+    }
   }
 
-  private async cancel () {
-    this.$router.push({ name: 'user-deals-contracts' });
+  private async cancel() {
+    this.$router.push({ name: "user-deals-contracts" });
   }
-
 }
 </script>
 

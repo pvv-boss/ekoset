@@ -3,18 +3,10 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2 v-if="!!title" v-html="title"></h2>
 
-      <span
-        v-if="showCloseButton"
-        class="vue-dialog-close-button cursor-pointer"
-        @click.prevent="$parent.$emit('close')"
-      ></span>
+      <span v-if="showCloseButton" class="vue-dialog-close-button cursor-pointer" @click.prevent="$parent.$emit('close')"></span>
     </div>
 
-    <div
-      v-if="!!description && !loading"
-      class="vue-dialog-description"
-      v-html="description"
-    />
+    <div v-if="!!description && !loading" class="vue-dialog-description" v-html="description" />
 
     <slot></slot>
 
@@ -64,7 +56,5 @@ export default class BaseModal extends Vue {
 
   @Prop({ default: true })
   public showOkCancel: boolean;
-
 }
 </script>
-
