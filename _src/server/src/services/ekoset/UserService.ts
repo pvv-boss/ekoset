@@ -98,6 +98,11 @@ export default class UserService extends BaseService {
         return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
     }
 
+    public async addNewAdminManager(manager: EkosetManager) {
+        await this.initUserConnection();
+        await this.connection.manager.save(manager);
+    }
+
     public async initUserConnection() {
         if (!this.connection) {
             const dbConfig = { ...ConfigManager.instance.getOptionsAsPlain("DatabaseConfig") };

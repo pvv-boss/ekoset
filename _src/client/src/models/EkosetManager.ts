@@ -6,4 +6,5 @@ export default class EkosetManager extends BaseViewModel {
     managerPhone: string;
     managerEmail: string;
     appUserId: number;
+    managerRole = "Админ";
 }

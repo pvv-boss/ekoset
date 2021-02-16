@@ -1,8 +1,6 @@
 <template>
   <BaseModal
-    :title="
-      work.sheldServicePlanInd === 1 ? 'Изменить дату работ' : 'Заказать услугу'
-    "
+    :title="work.sheldServicePlanInd === 1 ? 'Изменить дату работ' : 'Заказать услугу'"
     @dialogOkClick="onOkClick()"
     @dialogCancelClick="onCancelClick()"
   >
@@ -44,42 +42,34 @@
   </BaseModal>
 </template>
 
-
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Work from '@/models/deal/Work'
-import UserService from '@/services/UserService'
+import { Component, Vue, Prop } from "nuxt-property-decorator";
+import Work from "@/models/deal/Work";
+import UserService from "@/services/UserService";
 
 @Component
 export default class WorkContinionForm extends Vue {
+  @Prop()
+  work: Work;
 
   @Prop()
-  work: Work
+  isWorkPlaned: boolean;
 
-  @Prop()
-  isWorkPlaned: boolean
-
-  public get contractNmbWithDate () {
-    return (
-      this.work.contractForm +
-      ' от ' +
-      new Date(this.work.contractDateStart).toLocaleDateString('ru-RU')
-    )
+  public get contractNmbWithDate() {
+    return this.work.contractForm + " от " + new Date(this.work.contractDateStart).toLocaleDateString("ru-RU");
   }
 
-  private get currentDate () {
+  private get currentDate() {
     return new Date().toISOString().split("T")[0];
   }
 
-
-  public async onOkClick () {
-    await this.$serviceRegistry.getService(UserService).continionWork(this.work)
-    this.$emit('close')
+  public async onOkClick() {
+    await this.$serviceRegistry.getService(UserService).continionWork(this.work);
+    this.$emit("close");
   }
 
-  public onCancelClick () {
-    this.$emit('close')
+  public onCancelClick() {
+    this.$emit("close");
   }
-
 }
 </script>

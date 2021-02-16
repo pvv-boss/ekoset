@@ -2,6 +2,7 @@ import Contract from "@/models/deal/Contract";
 import SanDoc from "@/models/deal/SanDoc";
 import Work from "@/models/deal/Work";
 import EkosetClient from "@/models/EkosetClient";
+import EkosetManager from "@/models/EkosetManager";
 import { BaseService } from "./BaseService";
 
 export default class UserService extends BaseService {
@@ -11,6 +12,10 @@ export default class UserService extends BaseService {
 
     public async saveClient(client: EkosetClient) {
         const result = await this.apiRequest.post("personal/user", {}, client);
+    }
+
+    public async addNewManager(manager: EkosetManager) {
+        const result = await this.apiRequest.post("admin/user/admin/manager", {}, manager);
     }
 
     public async continionContract(contract: Contract) {

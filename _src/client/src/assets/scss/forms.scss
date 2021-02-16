@@ -1,6 +1,10 @@
 .input-rounded {
     font-family: $font-stack !important;
     font-size: 1rem !important;
+    border: 1px solid #b2b2b2;
+    border-radius: 0.25rem;
+    padding: 8px;
+    width: 100%;
 }
 
 .input-help {
@@ -31,7 +35,7 @@
     padding: 16px;
     //  overflow: scroll;
 
-    >.brc-feedback,
+    > .brc-feedback,
     .brc-feedback_busket,
     .brc-feedback_busket_mobile {
         background-color: white;
@@ -58,7 +62,6 @@
 
 @media (max-width: 768px) {
     .brc-message-arise__wrapper {
-
         .brc-feedback,
         .brc-feedback_busket,
         .brc-feedback_busket_mobile {
@@ -66,8 +69,6 @@
         }
     }
 }
-
-
 
 .brc-feedback {
     border: 1px solid lightgrey;
@@ -105,7 +106,7 @@
         margin: 15px;
     }
 
-    .brc-message-form__block+.brc-message-form__block {
+    .brc-message-form__block + .brc-message-form__block {
         margin-top: 5px;
     }
 
@@ -305,8 +306,6 @@
     }
 }
 
-
-
 .brc-feedback_busket {
     @media (max-width: 768px) {
         display: none;
@@ -360,7 +359,7 @@
             overflow: hidden;
         }
 
-        .brc-message-form__block+.brc-message-form__block {
+        .brc-message-form__block + .brc-message-form__block {
             margin-top: 5px;
         }
 
@@ -565,7 +564,6 @@
     }
 }
 
-
 .brc-feedback_busket_mobile {
     display: none;
 
@@ -639,7 +637,7 @@
             margin-top: 8px;
         }
 
-        .brc-message-form__block+.brc-message-form__block {
+        .brc-message-form__block + .brc-message-form__block {
             margin-top: 5px;
 
             @media (max-width: 768px) {

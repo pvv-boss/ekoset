@@ -24,11 +24,17 @@ Vue.use(VModal, {
         maxWidth: 568,
         height: "auto",
         scrollable: true,
+        draggable: true,
     },
 });
 
 class ModalManager {
-    modalShow(modal: typeof Vue | ComponentOptions<Vue> | AsyncComponent, props = {}, options: any = {}): Promise<any> {
+    modalShow(
+        modal: typeof Vue | ComponentOptions<Vue> | AsyncComponent,
+        props = {},
+        options: any = {},
+        events: any = {}
+    ): Promise<any> {
         if (modal.name === "Dialog") {
             options.width = "350";
         }
@@ -36,17 +42,19 @@ class ModalManager {
         return new Promise((resolve) => {
             Vue.prototype.$modal.show(
                 modal,
-                props,
                 {
-                    height: "auto",
-                    scrollable: true,
-                    ...options,
+                    ...props,
+                    // Пример использования в компоненте модала. Должен быть пропс returnDataResolver
+                    // public async onOkClick () {
+                    // if (!!this.returnDataResolver) {
+                    //   this.returnDataResolver(this.ekosetManager);
+                    // }
+                    // this.$emit("close", this.ekosetManager);
+                    //}
+                    returnDataResolver: resolve,
                 },
-                {
-                    "before-close": (event) => {
-                        return resolve(event.params || null);
-                    },
-                }
+                options,
+                events
             );
         });
     }

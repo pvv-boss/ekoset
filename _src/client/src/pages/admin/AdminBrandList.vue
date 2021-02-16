@@ -4,9 +4,7 @@
       <div class="brc-card__header__toolbar">
         <h2>Бренды</h2>
         <span class="brc_admin-brand-list-container__help">
-          <i
-            >(Для измнения порядка следования перетащите блок вверх или вниз)</i
-          >
+          <i>(Для измнения порядка следования перетащите блок вверх или вниз)</i>
         </span>
 
         <div v-if="createNewBrandMode" class="brc-admin-card-create-row">
@@ -23,13 +21,7 @@
           <b-button @click="cancelSaveNewBrand">Отмена</b-button>
         </div>
 
-        <b-button
-          v-show="!createNewBrandMode"
-          type="is-primary"
-          outlined
-          @click="createNewBrandMode = true"
-          >Создать</b-button
-        >
+        <b-button v-show="!createNewBrandMode" type="is-primary" outlined @click="createNewBrandMode = true">Создать</b-button>
       </div>
 
       <div class="brc_admin-brand-list">
@@ -44,11 +36,7 @@
         </div>
 
         <draggable v-model="brandList" @change="handleChange">
-          <div
-            v-for="iterBrand in brandList"
-            :key="iterBrand.clBrandId"
-            class="brc_admin-brand-list-item"
-          >
+          <div v-for="iterBrand in brandList" :key="iterBrand.clBrandId" class="brc_admin-brand-list-item">
             <b-switch
               v-model="iterBrand.clBrandStatus"
               true-value="1"
@@ -88,10 +76,7 @@
                 </a>
               </b-upload>
               <b-button
-                v-if="
-                  !!iterBrand.clBrandImgSmall &&
-                  iterBrand.clBrandImgSmall != '/img/empty-image.png'
-                "
+                v-if="!!iterBrand.clBrandImgSmall && iterBrand.clBrandImgSmall != '/img/empty-image.png'"
                 icon-right="file-find"
                 type="is-success"
                 size="is-medium"
@@ -108,10 +93,7 @@
                 </a>
               </b-upload>
               <b-button
-                v-if="
-                  !!iterBrand.clBrandImgBig &&
-                  iterBrand.clBrandImgBig != '/img/empty-image.png'
-                "
+                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig != '/img/empty-image.png'"
                 icon-right="file-find"
                 type="is-success"
                 size="is-medium"
@@ -120,10 +102,7 @@
                 @click="showLetterImage(iterBrand)"
               ></b-button>
               <b-button
-                v-if="
-                  !!iterBrand.clBrandImgBig &&
-                  iterBrand.clBrandImgBig != '/img/empty-image.png'
-                "
+                v-if="!!iterBrand.clBrandImgBig && iterBrand.clBrandImgBig != '/img/empty-image.png'"
                 type="is-danger"
                 size="is-medium"
                 outlined
@@ -133,162 +112,143 @@
               ></b-button>
             </div>
 
-            <b-button
-              type="is-danger"
-              icon-right="delete"
-              @click="deleteBrand(iterBrand)"
-            ></b-button>
+            <b-button type="is-danger" icon-right="delete" @click="deleteBrand(iterBrand)"></b-button>
           </div>
         </draggable>
       </div>
     </div>
 
-    <b-modal
-      :active.sync="isShowBrandImageActive"
-      :can-cancel="true"
-      :width="400"
-    >
+    <b-modal :active.sync="isShowBrandImageActive" :can-cancel="true" :width="400">
       <RecommendationListItem
         :brand="previewImageBrand"
         style="width: 190px; margin: 0px; background-color: white"
       ></RecommendationListItem>
     </b-modal>
 
-    <b-modal
-      :active.sync="isShowLetterImageActive"
-      :can-cancel="true"
-      :width="400"
-    >
-      <RecommLetterListItem
-        :brand="previewLetterBrand"
-        style="background-color: white"
-      ></RecommLetterListItem>
+    <b-modal :active.sync="isShowLetterImageActive" :can-cancel="true" :width="400">
+      <RecommLetterListItem :brand="previewLetterBrand" style="background-color: white"></RecommLetterListItem>
     </b-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
-import ClBrand from '@/models/ekoset/ClBrand'
-import { getModule } from 'vuex-module-decorators'
-import AdminStore from '@/store/AdminStore'
-import ClActivity from '@/models/ekoset/ClActivity'
-import PublicEkosetService from '@/services/PublicEkosetService'
-import { ServiceRegistry } from '@/ServiceRegistry'
+import { Component, Vue } from "nuxt-property-decorator";
+import { BrcDialogType } from "@/plugins/brc-dialog/BrcDialogType";
+import ClBrand from "@/models/ekoset/ClBrand";
+import { getModule } from "vuex-module-decorators";
+import AdminStore from "@/store/AdminStore";
+import ClActivity from "@/models/ekoset/ClActivity";
+import PublicEkosetService from "@/services/PublicEkosetService";
+import { ServiceRegistry } from "@/ServiceRegistry";
 import { Context } from "@nuxt/types";
-
 
 @Component({
   components: {
-    draggable: () => import(/* webpackChunkName: "vuedraggable" */ 'vuedraggable')
-  }
+    draggable: () => import(/* webpackChunkName: "vuedraggable" */ "vuedraggable"),
+  },
 })
 export default class AdminBrandList extends Vue {
-  private brandList: ClBrand[] = []
-  private createNewBrandMode = false
-  private newBrand: ClBrand = new ClBrand()
+  private brandList: ClBrand[] = [];
+  private createNewBrandMode = false;
+  private newBrand: ClBrand = new ClBrand();
 
-  private isShowBrandImageActive = false
-  private previewImageBrand: ClBrand = new ClBrand()
+  private isShowBrandImageActive = false;
+  private previewImageBrand: ClBrand = new ClBrand();
 
-  private isShowLetterImageActive = false
-  private previewLetterBrand: ClBrand = new ClBrand()
+  private isShowLetterImageActive = false;
+  private previewLetterBrand: ClBrand = new ClBrand();
 
-  private clActivityList: ClActivity[] = []
+  private clActivityList: ClActivity[] = [];
 
-
-  private layout () {
-    return 'admin'
+  private layout() {
+    return "admin";
   }
 
-  private async updateBrandList () {
-    this.brandList = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands()
+  private async updateBrandList() {
+    this.brandList = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands();
   }
 
-  private async asyncData (context: Context) {
-    const breadCrumbList: any[] = []
-    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    breadCrumbList.push({ name: 'Бренды', link: 'admin-brands' })
-    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+  private async asyncData(context: Context) {
+    const breadCrumbList: any[] = [];
+    breadCrumbList.push({ name: "Администрирование", link: "admin" });
+    breadCrumbList.push({ name: "Бренды", link: "admin-brands" });
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList);
 
-    const data = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands()
-    const clActivityList = await ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList()
+    const data = await ServiceRegistry.instance.getService(PublicEkosetService).getAdminAllBands();
+    const clActivityList = await ServiceRegistry.instance.getService(PublicEkosetService).getClActivityList();
     return {
       brandList: data,
-      clActivityList
-    }
+      clActivityList,
+    };
   }
 
-  private async saveNewBrand () {
-    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.newBrand)
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.newBrand = new ClBrand()
-    this.createNewBrandMode = false
-    this.updateBrandList()
+  private async saveNewBrand() {
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.newBrand);
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`);
+    this.newBrand = new ClBrand();
+    this.createNewBrandMode = false;
+    this.updateBrandList();
   }
 
-  private async saveBrand (brand: ClBrand) {
-    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brand)
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  private async saveBrand(brand: ClBrand) {
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brand);
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`);
   }
 
-  private async deleteBrand (brand: ClBrand) {
+  private async deleteBrand(brand: ClBrand) {
     const okCallback = async () => {
-      await ServiceRegistry.instance.getService(PublicEkosetService).deleteBrand(brand.clBrandId)
-      this.updateBrandList()
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить бренд?', 'Подтвердите удаление', okCallback)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteBrand(brand.clBrandId);
+      this.updateBrandList();
+    };
+    this.$BrcAlert(BrcDialogType.Warning, "Удалить бренд?", "Подтвердите удаление", okCallback);
   }
 
-  private cancelSaveNewBrand () {
-    this.newBrand = new ClBrand()
-    this.createNewBrandMode = false
+  private cancelSaveNewBrand() {
+    this.newBrand = new ClBrand();
+    this.createNewBrandMode = false;
   }
 
-  private async handleChange () {
+  private async handleChange() {
     for (let i = 0; i < this.brandList.length; i++) {
       this.brandList[i].clBrandPriority = this.brandList.length - i;
-      await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.brandList[i])
+      await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(this.brandList[i]);
     }
   }
 
-  private async saveBrandImage (imageFile: string, brandItem: ClBrand) {
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    brandItem.smallImageFormData = formData
+  private async saveBrandImage(imageFile: string, brandItem: ClBrand) {
+    const formData: FormData = new FormData();
+    formData.append("file", imageFile);
+    brandItem.smallImageFormData = formData;
 
-    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem)
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem);
   }
 
-  private async showBrandImage (brandItem: ClBrand) {
-    this.previewImageBrand = brandItem
-    this.isShowBrandImageActive = !this.isShowBrandImageActive
-
+  private async showBrandImage(brandItem: ClBrand) {
+    this.previewImageBrand = brandItem;
+    this.isShowBrandImageActive = !this.isShowBrandImageActive;
   }
 
-  private async showLetterImage (brandItem: ClBrand) {
-    this.previewLetterBrand = brandItem
-    this.isShowLetterImageActive = !this.isShowLetterImageActive
+  private async showLetterImage(brandItem: ClBrand) {
+    this.previewLetterBrand = brandItem;
+    this.isShowLetterImageActive = !this.isShowLetterImageActive;
   }
 
-  private async saveLetterImage (imageFile: string, brandItem: ClBrand) {
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    brandItem.recommendImageFormData = formData
-    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem)
+  private async saveLetterImage(imageFile: string, brandItem: ClBrand) {
+    const formData: FormData = new FormData();
+    formData.append("file", imageFile);
+    brandItem.recommendImageFormData = formData;
+    await ServiceRegistry.instance.getService(PublicEkosetService).saveBrand(brandItem);
   }
 
-  private async deleteLetter (brandItem: ClBrand) {
+  private async deleteLetter(brandItem: ClBrand) {
     const okCallback = async () => {
-      await ServiceRegistry.instance.getService(PublicEkosetService).deleteRecommendationLetter(brandItem.clBrandId)
-      this.updateBrandList()
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить рекомендательное письмо ?', 'Подтвердите удаление', okCallback)
+      await ServiceRegistry.instance.getService(PublicEkosetService).deleteRecommendationLetter(brandItem.clBrandId);
+      this.updateBrandList();
+    };
+    this.$BrcAlert(BrcDialogType.Warning, "Удалить рекомендательное письмо ?", "Подтвердите удаление", okCallback);
   }
 }
 </script>
-
 
 <style lang="scss">
 .brc_admin-brand-list-container {
@@ -329,6 +289,4 @@ export default class AdminBrandList extends Vue {
     margin-bottom: 5px;
   }
 }
-</style>  
-
-
+</style>

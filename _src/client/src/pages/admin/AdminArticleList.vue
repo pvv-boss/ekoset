@@ -19,13 +19,7 @@
             <b-button @click="cancel">Отмена</b-button>
           </div>
 
-          <b-button
-            v-show="!createNewMode"
-            type="is-primary"
-            outlined
-            @click="createNewMode = true"
-            >Создать</b-button
-          >
+          <b-button v-show="!createNewMode" type="is-primary" outlined @click="createNewMode = true">Создать</b-button>
         </div>
       </template>
 
@@ -70,19 +64,13 @@
               @click="deleteArticle(props.row)"
             ></b-button>
 
-            <b-upload
-              v-else-if="props.column.field == 'addMainImage'"
-              @input="addMainImage(...arguments, props.row)"
-            >
+            <b-upload v-else-if="props.column.field == 'addMainImage'" @input="addMainImage(...arguments, props.row)">
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
             </b-upload>
 
-            <b-upload
-              v-else-if="props.column.field == 'addSmallImage'"
-              @input="addSmallImage(...arguments, props.row)"
-            >
+            <b-upload v-else-if="props.column.field == 'addSmallImage'" @input="addSmallImage(...arguments, props.row)">
               <a class="button is-link">
                 <b-icon icon="upload"></b-icon>
               </a>
@@ -97,149 +85,137 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import Article from '@/models/ekoset/Article.ts'
-import { getModule } from 'vuex-module-decorators'
-import AdminStore from '@/store/AdminStore'
-import { BrcDialogType } from '@/plugins/brc-dialog/BrcDialogType'
+import { Component, Vue } from "nuxt-property-decorator";
+import Article from "@/models/ekoset/Article.ts";
+import { getModule } from "vuex-module-decorators";
+import AdminStore from "@/store/AdminStore";
+import { BrcDialogType } from "@/plugins/brc-dialog/BrcDialogType";
 import { Context } from "@nuxt/types";
 // import 'vue-good-table/dist/vue-good-table.css'
-import { ServiceRegistry } from '@/ServiceRegistry'
-import ArticleService from '@/services/ArticleService'
-import MediaService from '@/services/MediaService'
+import { ServiceRegistry } from "@/ServiceRegistry";
+import ArticleService from "@/services/ArticleService";
+import MediaService from "@/services/MediaService";
 
 @Component({
   components: {
-    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ 'vue-good-table/src/components/Table.vue')
-  }
+    VueGoodTable: () => import(/* webpackChunkName: "vue-good-table" */ "vue-good-table/src/components/Table.vue"),
+  },
 })
 export default class AdminArticleList extends Vue {
-  private articleItems: Article[] = []
-  private newArticle = new Article()
-  private createNewMode = false
+  private articleItems: Article[] = [];
+  private newArticle = new Article();
+  private createNewMode = false;
 
   private headerFields = [
     {
-      field: 'articleStatus',
-      label: 'Статус',
-      type: 'number',
-      tdClass: 'brc-admin-centered-td'
+      field: "articleStatus",
+      label: "Статус",
+      type: "number",
+      tdClass: "brc-admin-centered-td",
     },
     {
       // field: 'articlePublishDate',
-      label: 'Дата',
+      label: "Дата",
       field: (rowObj) => {
-        return rowObj.articlePublishDate ? (new Date(rowObj.articlePublishDate)).toLocaleDateString('ru-RU') : ''
-      }
-
+        return rowObj.articlePublishDate ? new Date(rowObj.articlePublishDate).toLocaleDateString("ru-RU") : "";
+      },
     },
     {
-      field: 'articleTitle',
-      label: 'Заголовок',
+      field: "articleTitle",
+      label: "Заголовок",
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования заголовка'
-      }
+        placeholder: "Введите часть наименования заголовка",
+      },
     },
     {
-      field: 'siteSectionName',
-      label: 'Раздел',
+      field: "siteSectionName",
+      label: "Раздел",
       filterOptions: {
         enabled: true,
-        placeholder: 'Введите часть наименования раздела'
-      }
+        placeholder: "Введите часть наименования раздела",
+      },
     },
     {
-      field: 'addMainImage',
-      label: 'Фото на странце',
-      tdClass: 'brc-admin-centered-td'
+      field: "addMainImage",
+      label: "Фото на странце",
+      tdClass: "brc-admin-centered-td",
     },
     {
-      field: 'addSmallImage',
-      label: 'Фото в карточке',
-      tdClass: 'brc-admin-centered-td'
+      field: "addSmallImage",
+      label: "Фото в карточке",
+      tdClass: "brc-admin-centered-td",
     },
     {
-      field: 'removeNews',
-      label: 'Удалить',
-      tdClass: 'brc-admin-centered-td'
-    }
+      field: "removeNews",
+      label: "Удалить",
+      tdClass: "brc-admin-centered-td",
+    },
     // {
     //   field: 'articleViewsNumber',
     //   label: 'Просмотры',
     //   type: 'number'
     // }
-  ]
+  ];
 
-  private layout () {
-    return 'admin'
+  private layout() {
+    return "admin";
   }
 
-  private async asyncData (context: Context) {
-    const breadCrumbList: any[] = []
-    breadCrumbList.push({ name: 'Администрирование', link: 'admin' })
-    breadCrumbList.push({ name: 'Новости', link: 'admin-news' })
-    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList)
+  private async asyncData(context: Context) {
+    const breadCrumbList: any[] = [];
+    breadCrumbList.push({ name: "Администрирование", link: "admin" });
+    breadCrumbList.push({ name: "Новости", link: "admin-news" });
+    getModule(AdminStore, context.store).changeBreadCrumbList(breadCrumbList);
 
-    const data = await ServiceRegistry.instance.getService(ArticleService).adminGetAll()
+    const data = await ServiceRegistry.instance.getService(ArticleService).adminGetAll();
     return {
-      articleItems: data
-    }
+      articleItems: data,
+    };
   }
 
-  private async save () {
-    this.newArticle.articleDescription = this.newArticle.articleTitle
-    this.newArticle.articleH1 = this.newArticle.articleTitle
-    await ServiceRegistry.instance.getService(ArticleService).saveArticle(
-      this.newArticle
-    )
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
-    this.createNewMode = false
-    await this.updateItems()
-    this.newArticle = new Article()
+  private async save() {
+    this.newArticle.articleDescription = this.newArticle.articleTitle;
+    this.newArticle.articleH1 = this.newArticle.articleTitle;
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(this.newArticle);
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`);
+    this.createNewMode = false;
+    await this.updateItems();
+    this.newArticle = new Article();
   }
 
-  private cancel () {
-    this.newArticle = new Article()
-    this.createNewMode = false
+  private cancel() {
+    this.newArticle = new Article();
+    this.createNewMode = false;
   }
 
-  private async changeArticleStatus (article: Article) {
-    await ServiceRegistry.instance.getService(ArticleService).saveArticle(article)
-    this.$BrcNotification(BrcDialogType.Success, `Выполнено`)
+  private async changeArticleStatus(article: Article) {
+    await ServiceRegistry.instance.getService(ArticleService).saveArticle(article);
+    this.$BrcNotification(BrcDialogType.Success, `Выполнено`);
   }
 
-  private async deleteArticle (article: Article) {
+  private async deleteArticle(article: Article) {
     const okCallback = async () => {
-      await ServiceRegistry.instance.getService(ArticleService).deleteArticle(article.articleId)
-      this.updateItems()
-    }
-    this.$BrcAlert(BrcDialogType.Warning, 'Удалить новость ?', 'Подтвердите удаление', okCallback)
+      await ServiceRegistry.instance.getService(ArticleService).deleteArticle(article.articleId);
+      this.updateItems();
+    };
+    this.$BrcAlert(BrcDialogType.Warning, "Удалить новость ?", "Подтвердите удаление", okCallback);
   }
 
-  private async addMainImage (imageFile: string, article: Article) {
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
-      article.articleId,
-      formData,
-      true
-    )
+  private async addMainImage(imageFile: string, article: Article) {
+    const formData: FormData = new FormData();
+    formData.append("file", imageFile);
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(article.articleId, formData, true);
   }
 
-  private async addSmallImage (imageFile: string, article: Article) {
-    const formData: FormData = new FormData()
-    formData.append('file', imageFile)
-    ServiceRegistry.instance.getService(MediaService).saveNewsImage(
-      article.articleId,
-      formData,
-      false
-    )
+  private async addSmallImage(imageFile: string, article: Article) {
+    const formData: FormData = new FormData();
+    formData.append("file", imageFile);
+    ServiceRegistry.instance.getService(MediaService).saveNewsImage(article.articleId, formData, false);
   }
 
-  private async updateItems () {
-    this.articleItems = await ServiceRegistry.instance.getService(ArticleService).adminGetAll()
+  private async updateItems() {
+    this.articleItems = await ServiceRegistry.instance.getService(ArticleService).adminGetAll();
   }
 }
 </script>
-

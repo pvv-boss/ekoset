@@ -13,6 +13,7 @@ import { JsonController, Get, Res, Param, Req, Body, Put, Delete, Post, UseBefor
 import multer from "multer";
 import MediaService from "@/services/ekoset/MediaService";
 import UserService from "@/services/ekoset/UserService";
+import EkosetManager from "@/entities/ekoset/EkosetManager";
 
 const upload = multer();
 
@@ -101,8 +102,20 @@ export default class StaffClientController extends BaseController {
         );
     }
 
-    // Для карточки клиента в админке
+    @UseBefore(authorized())
+    @Post("/user/admin/manager")
+    public async addNewAdminManager(@Body() ekosetManager: EkosetManager, @Res() response: Response) {
+        const result = await ServiceRegistry.instance.getService(UserService).addNewAdminManager(ekosetManager);
 
+        return this.createSuccessResponseWithMessage(
+            {},
+            response,
+            200,
+            ClientNotifyMessage.createAlert(" Создание сотрудника ", "Выполнено!")
+        );
+    }
+
+    // Для карточки клиента в админке
     @UseBefore(authorized())
     @Get("/deal/:id/contracts")
     public async getContracts(@Req() request: Request, @Param("id") id: number, @Res() response: Response) {

@@ -5,6 +5,7 @@
       <template #header>
         <div class="brc-card__header__toolbar">
           <h2>Сотрудники (менеджеры)</h2>
+          <b-button type="is-primary" @click="addNewManager()">Добавить</b-button>
         </div>
       </template>
 
@@ -19,29 +20,42 @@
           }"
         >
           <template #table-row="props">
-            <span v-if="props.column.field == 'managerStatus'">
-              {{ statusText(props.row) }}
-            </span>
-            <b-button
-              v-if="props.column.field == 'managerStatus' && !isUserActive(props.row) && !!props.row.managerEmail"
-              icon-right="content-copy"
-              type="is-info"
-              size="is-small"
-              outlined
-              style="margin-left: 15px"
-              @click="activateManager(props.row)"
-              >Активировать</b-button
-            >
+            <div v-if="props.column.field == 'managerStatus'" style="display: flex; align-items: center">
+              <span v-if="props.column.field == 'managerStatus'">
+                {{ statusText(props.row) }}
+              </span>
+              <b-button
+                v-if="props.column.field == 'managerStatus' && !isUserActive(props.row) && !!props.row.managerEmail"
+                icon-right="content-copy"
+                type="is-info"
+                size="is-small"
+                outlined
+                style="margin-left: 15px"
+                @click="activateManager(props.row)"
+                >Активировать</b-button
+              >
 
-            <b-button
-              v-if="props.column.field == 'managerStatus' && isUserActive(props.row) && !!props.row.managerEmail"
-              type="is-danger"
-              icon-right="delete"
-              size="is-small"
-              style="margin-left: 15px"
-              @click="deactivateManager(props.row)"
-              >Блокировать</b-button
-            >
+              <b-button
+                v-if="props.column.field == 'managerStatus' && isUserActive(props.row) && !!props.row.managerEmail"
+                type="is-danger"
+                icon-right="delete"
+                size="is-small"
+                style="margin-left: 15px"
+                @click="deactivateManager(props.row)"
+                >Блокировать</b-button
+              >
+
+              <b-button
+                v-if="props.column.field == 'managerStatus'"
+                icon-right="account"
+                type="is-success"
+                size="is-small"
+                outlined
+                style="margin-left: auto"
+                @click="editManager(props.row)"
+                >Редактировать</b-button
+              >
+            </div>
 
             <div v-else-if="props.column.field == 'addManagerFoto'">
               <b-upload @input="addManagerFoto(...arguments, props.row)">
@@ -82,6 +96,7 @@ import { Context } from "@nuxt/types";
 import { ServiceRegistry } from "@/ServiceRegistry";
 import UserDealService from "@/services/UserDealService";
 import UserService from "@/services/UserService";
+import ManagerForm from "@/components/private/ManagerForm.vue";
 
 @Component({
   components: {
@@ -114,16 +129,15 @@ export default class ManagerList extends Vue {
       label: "Телефон",
     },
     {
-      field: "managerRole",
-      label: "Роль",
-    },
-
-    {
       field: "managerId",
       label: "КодСотрудника",
       type: "number",
       tdClass: "brc-admin-centered-td",
     },
+    // {
+    //   field: "managerRole",
+    //   label: "Роль",
+    // },
     {
       field: "managerPermission",
       label: "Права пользователя",
@@ -184,6 +198,22 @@ export default class ManagerList extends Vue {
 
   private async refreshData() {
     this.managers = await ServiceRegistry.instance.getService(UserDealService).getManagers();
+  }
+
+  private async addNewManager() {
+    const result = await this.$modalManager.modalShow(ManagerForm, { manager: new EkosetManager() });
+    if (!!result) {
+      await ServiceRegistry.instance.getService(UserService).addNewManager(result);
+      await this.refreshData();
+    }
+  }
+
+  private async editManager(manager: EkosetManager) {
+    const result = await this.$modalManager.modalShow(ManagerForm, { manager });
+    if (!!result) {
+      await ServiceRegistry.instance.getService(UserService).addNewManager(result);
+      await this.refreshData();
+    }
   }
 }
 </script>
