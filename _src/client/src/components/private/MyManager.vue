@@ -201,6 +201,7 @@ export default class MyManager extends Vue {
     display: none;
   }
   display: flex;
+  width: 100%;
   flex-direction: row;
   margin-top: 16px;
 }

@@ -1,3 +1,5 @@
+import Work from "@/entities/deal/Work";
+import DesWork from "@/entities/ekoset/DesWork";
 import EkosetClient from "@/entities/ekoset/EkosetClient";
 import EkosetManager from "@/entities/ekoset/EkosetManager";
 import {
@@ -90,6 +92,11 @@ export default class UserService extends BaseService {
         return result;
     }
 
+    public async saveDeswork(work: DesWork) {
+        await this.initUserConnection();
+        return await this.connection.manager.save(work);
+    }
+
     public async deactivateEkosetClient(appUserId: number) {
         return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
     }
@@ -107,7 +114,7 @@ export default class UserService extends BaseService {
         if (!this.connection) {
             const dbConfig = { ...ConfigManager.instance.getOptionsAsPlain("DatabaseConfig") };
             dbConfig.schema = "brc_ekoset_private";
-            dbConfig.entities = [EkosetClient, EkosetManager];
+            dbConfig.entities = [EkosetClient, EkosetManager, DesWork];
             this.connection = await createConnection(dbConfig);
         }
     }

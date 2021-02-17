@@ -99,7 +99,6 @@ import Work from "@/models/deal/Work";
 import UserDealService from "@/services/UserDealService";
 import { ServiceRegistry } from "@/ServiceRegistry";
 import WorkContinionForm from "@/components/private/WorkContinionForm.vue";
-import AddDezWorkRatingForm from "@/components/private/AddDezWorkRatingForm.vue";
 
 @Component
 export default class DisinfectionList extends Vue {
@@ -187,9 +186,9 @@ export default class DisinfectionList extends Vue {
     this.$modalManager.modalShow(WorkContinionForm, { work }, {});
   }
 
-  private addRating(work: Work) {
-    this.$modalManager.modalShow(AddDezWorkRatingForm, { work }, {});
-  }
+  // private addRating(work: Work) {
+  //   this.$modalManager.modalShow(AddDezWorkRatingForm, { work }, {});
+  // }
 }
 </script>
 

@@ -95,7 +95,7 @@ export abstract class RequestAPI {
             for (const iter of this.requestInterceptorList) {
                 const addOptions = iter(extConfig);
                 if (!!addOptions) {
-                    extConfig = { ...extConfig, addOptions };
+                    extConfig = { ...extConfig, ...addOptions };
                 }
             }
         }

@@ -1,12 +1,12 @@
 <template>
   <div class="brc-login-form__container red-inputs">
     <div class="brc-login-form__wrapper login-container">
-      <div class="brc-footer-logo__wrapper login-logo">
+      <!-- <div class="brc-footer-logo__wrapper login-logo">
         <nuxt-link :to="{ name: 'main' }" class="brc-footer-logo">
           <img src="~/assets/images/logo.png" alt="Экосеть" />
         </nuxt-link>
       </div>
-      <div class="login-hr"></div>
+      <div class="login-hr"></div> -->
       <h1 class="login-header">Смена пароля</h1>
 
       <form

@@ -2,20 +2,20 @@
   <BaseModal :title="title" @dialogOkClick="onOkClick()" @dialogCancelClick="onCancelClick()">
     <div class="brc-login-form account-main-form">
       <div class="brc-login-form__block">
-        <BaseInput v-model="manager.managerName" label="ФИО" placeholder="Фамилия Имя Отчество">
-          <span v-if="!manager.managerName"> Укажите фамилию,имя, отчество </span>
+        <BaseInput v-model="innerManagerState.managerName" label="ФИО" placeholder="Фамилия Имя Отчество">
+          <span v-if="!innerManagerState.managerName"> Укажите фамилию,имя, отчество </span>
         </BaseInput>
       </div>
       <div class="brc-login-form__block">
-        <BaseInput v-model="manager.managerEmail" label="Почта (логин)">
-          <span v-if="!manager.managerEmail"> Укажите Email </span>
+        <BaseInput v-model="innerManagerState.managerEmail" label="Почта (логин)">
+          <span v-if="!innerManagerState.managerEmail"> Укажите Email </span>
         </BaseInput>
       </div>
 
       <div class="brc-login-form__block">
         <BaseInputMask
           id="reg-phone-input"
-          v-model="manager.managerPhone"
+          v-model="innerManagerState.managerPhone"
           :mask="phoneMask"
           label="Телефон"
           placeholder="Телефон"
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import EkosetManager from "@/models/EkosetManager";
-import { Component, Vue, Prop } from "nuxt-property-decorator";
+import { Component, Vue, Prop, Watch } from "nuxt-property-decorator";
 import { phoneNumberMask } from "@/utils/InputMaskDefinitions";
 
 @Component
@@ -39,6 +39,13 @@ export default class ManagerForm extends Vue {
   @Prop()
   private manager: EkosetManager;
 
+  private innerManagerState: EkosetManager = new EkosetManager();
+
+  @Watch("manager", { immediate: true })
+  private onManagerChanged() {
+    this.innerManagerState = { ...this.manager } as any;
+  }
+
   private get phoneMask() {
     return phoneNumberMask;
   }
@@ -48,11 +55,11 @@ export default class ManagerForm extends Vue {
   }
 
   public async onOkClick() {
-    if (!!this.manager.managerName && this.manager.managerEmail) {
+    if (!!this.innerManagerState.managerName && this.innerManagerState.managerEmail) {
       if (!!this.returnDataResolver) {
-        this.returnDataResolver(this.manager);
+        this.returnDataResolver(this.innerManagerState);
       }
-      this.$emit("close", this.manager);
+      this.$emit("close", this.innerManagerState);
     }
   }
 

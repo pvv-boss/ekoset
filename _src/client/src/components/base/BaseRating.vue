@@ -35,28 +35,28 @@ export default class BaseRating extends Vue {
   reviews: number;
 
   @Prop({ default: true })
-  showReviews: boolean
+  showReviews: boolean;
 
   @Prop({ default: 26 })
-  starFontSize: number
+  starFontSize: number;
 
-  get goodRatingCount () {
+  get goodRatingCount() {
     return this.value > 5 ? 5 : Math.round(this.value);
   }
 
-  get badRatingCount () {
+  get badRatingCount() {
     return 5 - this.goodRatingCount;
   }
 
-  get startFontSizeStyle () {
+  get startFontSizeStyle() {
     return {
-      "font-size": `${this.starFontSize}px`
-    }
+      "font-size": `${this.starFontSize}px`,
+    };
   }
 
-  onStarClick (good: boolean, index: number) {
-    const newRating = good ? index : (5 - this.badRatingCount) + index
-    this.$emit("input", newRating)
+  onStarClick(good: boolean, index: number) {
+    const newRating = good ? index : 5 - this.badRatingCount + index;
+    this.$emit("input", newRating);
   }
 }
 </script>

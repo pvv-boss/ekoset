@@ -32,7 +32,7 @@ export class ContextServiceRegistry {
     }
 
     public exists<T extends BaseService>(ctor: new (...args: any[]) => T): boolean {
-        return !!this.getService(ctor);
+        return !!this.servicesMap.get(ctor);
     }
 
     public get nuxtContext() {

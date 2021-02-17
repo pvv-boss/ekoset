@@ -2,6 +2,14 @@ import { interopDefault } from "./AdminRouter";
 
 export const UserRoute = [
     {
+        name: "dez-work-rating",
+        path: "/user/deal/deswork/rating/:desWorkId",
+        props: true,
+        meta: { requiresAuth: true },
+        component: () =>
+            interopDefault(import(/* webpackChunkName: "dez-work-rating" */ "@/pages/private/AddDezWorkRatingForm.vue")),
+    },
+    {
         name: "auth-login",
         path: "/auth/:mode(login|registration)",
         props: true,
