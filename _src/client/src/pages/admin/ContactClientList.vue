@@ -17,29 +17,31 @@
           }"
         >
           <template #table-row="props">
-            <span v-if="props.column.field == 'personStatus'">
-              {{ statusText(props.row) }}
-            </span>
-            <b-button
-              v-if="props.column.field == 'personStatus' && !isUserActive(props.row) && !!props.row.personEmail"
-              icon-right="content-copy"
-              type="is-info"
-              size="is-small"
-              outlined
-              style="margin-left: 15px"
-              @click="activateClient(props.row)"
-              >Активировать</b-button
-            >
+            <div v-if="props.column.field == 'personStatus'" style="display: flex; align-items: center">
+              <span v-if="props.column.field == 'personStatus'">
+                {{ statusText(props.row) }}
+              </span>
+              <b-button
+                v-if="props.column.field == 'personStatus' && !isUserActive(props.row) && !!props.row.personEmail"
+                icon-right="content-copy"
+                type="is-info"
+                size="is-small"
+                outlined
+                style="margin-left: 15px"
+                @click="activateClient(props.row)"
+                >Активировать</b-button
+              >
 
-            <b-button
-              v-if="props.column.field == 'personStatus' && isUserActive(props.row) && !!props.row.personEmail"
-              type="is-danger"
-              icon-right="delete"
-              size="is-small"
-              style="margin-left: 15px"
-              @click="deactivateClient(props.row)"
-              >Блокировать</b-button
-            >
+              <b-button
+                v-if="props.column.field == 'personStatus' && isUserActive(props.row) && !!props.row.personEmail"
+                type="is-danger"
+                icon-right="delete"
+                size="is-small"
+                style="margin-left: 15px"
+                @click="deactivateClient(props.row)"
+                >Блокировать</b-button
+              >
+            </div>
 
             <nuxt-link
               v-else-if="props.column.field == 'personName'"
