@@ -140,8 +140,9 @@ export class UserRequestService extends BaseService {
         };
 
         const getEmails = (clinet: EkosetClient | EkosetManager) => {
-            return ["SergeyRyzhkov76@gmail.com"];
-            // return ["SergeyRyzhkov76@gmail.com", "pvv@ekoset.ru"];
+            const mails = ["SergeyRyzhkov76@gmail.com", "pvv@ekoset.ru"];
+            mails.push(clinet.personEmail);
+            return mails;
         };
 
         const sender = new MailSender();
@@ -334,13 +335,10 @@ export class UserRequestService extends BaseService {
     }
 
     private getToEmails() {
-        // return ['SergeyRyzhkov76@gmail.com'];
         return ["inbox@ekoset.ru", "SergeyRyzhkov76@gmail.com"];
     }
 
     private getDealManagerToEmails(clinet: EkosetClient) {
-        //  return ['SergeyRyzhkov76@gmail.com'];
-        // return ['SergeyRyzhkov76@gmail.com', 'inbox@ekoset.ru'];
         return ["inbox@ekoset.ru", clinet.managerEmail, "SergeyRyzhkov76@gmail.com"];
     }
 }
