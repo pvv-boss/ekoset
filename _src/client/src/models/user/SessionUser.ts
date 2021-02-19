@@ -1,3 +1,4 @@
+import { AdminMenuSection } from "../AdminMenuSectionPermissionsManager";
 import { BaseViewModel } from "../core/BaseViewModel";
 
 export default class SessionUser extends BaseViewModel {
@@ -17,6 +18,9 @@ export default class SessionUser extends BaseViewModel {
     public userSnProfileEmail = "Гость";
 
     public appUserAdminInd = false;
+
+    public appUserPermissions = "[]";
+    public menuPermissions: AdminMenuSection[] = [];
 }
 
 // // appUserName

@@ -7,6 +7,7 @@ import { getModule } from "nuxt-property-decorator";
 import { ResetPasswordResult } from "@/models/user/ResetPasswordResult";
 import { AppConfig } from "@/AppConfig";
 import EkosetClient from "@/models/EkosetClient";
+import { AdminMenuSection, AdminMenuSectionPermissionsManager } from "@/models/AdminMenuSectionPermissionsManager";
 
 //FIXME: Все завернуть в try catch
 export class AuthService extends BaseService {
@@ -35,6 +36,7 @@ export class AuthService extends BaseService {
     }
 
     public updateSessionUser(sessionUser: SessionUser) {
+        sessionUser.menuPermissions = AdminMenuSectionPermissionsManager.fromString(sessionUser.appUserPermissions);
         this.authStore.updateSessionUser(sessionUser);
         if (!sessionUser || sessionUser.appUserId === 0) {
             this.clearAccessToken();

@@ -3,9 +3,18 @@ import SanDoc from "@/models/deal/SanDoc";
 import Work from "@/models/deal/Work";
 import EkosetClient from "@/models/EkosetClient";
 import EkosetManager from "@/models/EkosetManager";
+import SessionUser from "@/models/user/SessionUser";
 import { BaseService } from "./BaseService";
 
 export default class UserService extends BaseService {
+    public async getSessionUserbyAppUserId(id: number) {
+        return await this.getOneOrEmpty(SessionUser, `auth/sessionuser/${id}`);
+    }
+
+    public async updateAppUserRoles(sessUser: SessionUser) {
+        return await this.apiRequest.post("admin/staff/managers/roles", {}, sessUser);
+    }
+
     public async getEkosetClient(id: number) {
         return await this.getOneOrEmpty(EkosetClient, `admin/user/person/${id}`);
     }

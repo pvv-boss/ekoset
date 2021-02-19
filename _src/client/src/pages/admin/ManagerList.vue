@@ -74,6 +74,19 @@
               ></b-button>
             </div>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
+
+            <div v-if="props.column.field == 'managerPermission' && isUserActive(props.row) && !!props.row.managerEmail">
+              <b-button
+                v-if="props.column.field == 'managerPermission'"
+                icon-right="account"
+                type="is-success"
+                size="is-small"
+                outlined
+                style="margin-left: auto"
+                @click="editPermissions(props.row)"
+                >Редактировать</b-button
+              >
+            </div>
           </template>
         </vue-good-table>
       </template>
@@ -97,6 +110,10 @@ import { ServiceRegistry } from "@/ServiceRegistry";
 import UserDealService from "@/services/UserDealService";
 import UserService from "@/services/UserService";
 import ManagerForm from "@/components/private/ManagerForm.vue";
+import ManagerPermissions from "@/components/admin/ManagerPermissions.vue";
+import { AuthService } from "@/services/AuthService";
+import SessionUser from "@/models/user/SessionUser";
+import { AdminMenuSectionPermissionsManager } from "@/models/AdminMenuSectionPermissionsManager";
 
 @Component({
   components: {
@@ -214,6 +231,14 @@ export default class ManagerList extends Vue {
       await ServiceRegistry.instance.getService(UserService).addNewManager(result);
       await this.refreshData();
     }
+  }
+
+  private async editPermissions(manager: EkosetManager) {
+    const result = await this.$modalManager.modalShow(ManagerPermissions, { appUserId: manager.appUserId });
+    const sessionUserForSave = new SessionUser();
+    sessionUserForSave.appUserId = manager.appUserId;
+    sessionUserForSave.appUserPermissions = AdminMenuSectionPermissionsManager.toString(result);
+    await this.$serviceRegistry.getService(UserService).updateAppUserRoles(sessionUserForSave);
   }
 }
 </script>

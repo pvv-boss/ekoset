@@ -3,6 +3,7 @@ import DesWork from "@/entities/ekoset/DesWork";
 import EkosetClient from "@/entities/ekoset/EkosetClient";
 import EkosetManager from "@/entities/ekoset/EkosetManager";
 import {
+    AppUser,
     BaseService,
     ConfigManager,
     DatabaseConfig,
@@ -12,6 +13,7 @@ import {
     RegistrationService,
     RegistrationStatus,
     ServiceRegistry,
+    SessionUser,
     TypeOrmManager,
 } from "rsn-express-core";
 import { Connection, createConnection, getManager } from "typeorm";
@@ -22,6 +24,13 @@ export default class UserService extends BaseService {
 
     public async getClientByAppUserId(id: number): Promise<EkosetClient> {
         return postgresWrapper.oneOrNoneWhere("client_api_view", "app_user_id=$1", [id]);
+    }
+
+    public async updateAppUserRoles(sessionUser: SessionUser) {
+        const appUser = new AppUser();
+        appUser.appUserId = sessionUser.appUserId;
+        appUser.appUserPermissions = sessionUser.appUserPermissions;
+        return TypeOrmManager.EntityManager.save(appUser);
     }
 
     public async save(client: EkosetClient) {

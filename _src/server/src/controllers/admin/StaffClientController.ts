@@ -6,6 +6,7 @@ import {
     postgresWrapper,
     SecurityHelper,
     ServiceRegistry,
+    SessionUser,
     Unauthorized,
 } from "rsn-express-core";
 import UserDealService from "@/services/ekoset/UserDealService";
@@ -19,6 +20,18 @@ const upload = multer();
 
 @JsonController("/admin")
 export default class StaffClientController extends BaseController {
+    @UseBefore(authorized())
+    @Post("/staff/managers/roles")
+    public async updateAppUserRoles(@Req() request: Request, @Res() response: Response, @Body() sessionUser: SessionUser) {
+        const result = await ServiceRegistry.instance.getService(UserService).updateAppUserRoles(sessionUser);
+        return this.createSuccessResponseWithMessage(
+            {},
+            response,
+            200,
+            ClientNotifyMessage.createAlert(" Права пользователя ", "Данные сохранены !")
+        );
+    }
+
     @UseBefore(authorized())
     @Get("/staff/managers")
     public async getManagers(@Req() request: Request, @Res() response: Response) {

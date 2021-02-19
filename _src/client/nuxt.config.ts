@@ -1,5 +1,4 @@
 import { NuxtConfig } from "@nuxt/types";
-import { client } from "process";
 
 const config: NuxtConfig = {
     components: true,
