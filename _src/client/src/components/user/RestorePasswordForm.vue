@@ -24,11 +24,11 @@
         <div class="restore-pass-descr">
           <span> Для восстановления пароля, необходимо указать email, на него будет отправлен новый временный пароль </span>
         </div>
-        <div class="not-sending-mail">
+        <!-- <div class="not-sending-mail">
           <span>Не пришло письмо?</span>
 
           <div class="logon-restore send-mail-resore" @click="restorePassword()">Отправить письмо повторно</div>
-        </div>
+        </div> -->
 
         <button :disabled="submitPending" class="brc-login-form__submit login-button" type="submit">Отправить</button>
       </form>

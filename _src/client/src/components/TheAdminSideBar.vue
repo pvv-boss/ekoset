@@ -93,14 +93,14 @@
             :to="{ name: 'admin-clients-list' }"
             label="Контактные лица"
           ></b-menu-item>
-        </b-menu-item>
 
-        <b-menu-item
-          v-if="isMenuItemVisile('Заявки')"
-          tag="nuxt-link"
-          :to="{ name: 'admin-request-list' }"
-          label="Заявки"
-        ></b-menu-item>
+          <b-menu-item
+            v-if="isMenuItemVisile('Заявки')"
+            tag="nuxt-link"
+            :to="{ name: 'admin-request-list' }"
+            label="Заявки"
+          ></b-menu-item>
+        </b-menu-item>
 
         <b-menu-item icon="link" :active="isAdminActive" :expanded="isAdminActive" @click="isAdminActive = !isAdminActive">
           <template slot="label" slot-scope="props">

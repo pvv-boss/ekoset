@@ -20,12 +20,9 @@
           }"
         >
           <template #table-row="props">
-            <div v-if="props.column.field == 'managerStatus'" style="display: flex; align-items: center">
-              <span v-if="props.column.field == 'managerStatus'">
-                {{ statusText(props.row) }}
-              </span>
+            <div v-if="props.column.field == 'managerAction'" style="display: flex; align-items: center">
               <b-button
-                v-if="props.column.field == 'managerStatus' && !isUserActive(props.row) && !!props.row.managerEmail"
+                v-if="props.column.field == 'managerAction' && !isUserActive(props.row) && !!props.row.managerEmail"
                 icon-right="content-copy"
                 type="is-info"
                 size="is-small"
@@ -36,7 +33,7 @@
               >
 
               <b-button
-                v-if="props.column.field == 'managerStatus' && isUserActive(props.row) && !!props.row.managerEmail"
+                v-if="props.column.field == 'managerAction' && isUserActive(props.row) && !!props.row.managerEmail"
                 type="is-danger"
                 icon-right="delete"
                 size="is-small"
@@ -44,17 +41,10 @@
                 @click="deactivateManager(props.row)"
                 >Блокировать</b-button
               >
+            </div>
 
-              <b-button
-                v-if="props.column.field == 'managerStatus'"
-                icon-right="account"
-                type="is-success"
-                size="is-small"
-                outlined
-                style="margin-left: auto"
-                @click="editManager(props.row)"
-                >Редактировать</b-button
-              >
+            <div v-else-if="props.column.field == 'managerStatus'">
+              {{ statusText(props.row) }}
             </div>
 
             <div v-else-if="props.column.field == 'addManagerFoto'">
@@ -65,6 +55,7 @@
               </b-upload>
 
               <b-button
+                v-if="!!props.row.managerPhotoPath"
                 icon-right="file-find"
                 type="is-success"
                 size="is-small"
@@ -73,6 +64,11 @@
                 @click="showManagerPhoto(props.row)"
               ></b-button>
             </div>
+
+            <a v-else-if="props.column.field == 'managerName'" @click="editManager(props.row)">
+              {{ props.row.managerName }}
+            </a>
+
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
 
             <div v-if="props.column.field == 'managerPermission' && isUserActive(props.row) && !!props.row.managerEmail">
@@ -94,7 +90,7 @@
 
     <b-modal :active.sync="isShowPfoto" :can-cancel="true" :width="200">
       <div class="my-manager-contacts__foto" style="width: 125px; height: 150px">
-        <img :src="`/img/managers/${showManagerPhot.managerId}`" onerror="this.onerror=null; this.src='/img/empty-image.png'" />
+        <img :src="showManagerPhot.managerPhotoPath" onerror="this.onerror=null; this.src='/img/empty-image.png'" />
       </div>
     </b-modal>
   </div>
@@ -163,6 +159,10 @@ export default class ManagerList extends Vue {
       field: "managerStatus",
       label: "Статус",
     },
+    {
+      field: "managerAction",
+      label: "Действие",
+    },
   ];
 
   private layout() {
@@ -182,12 +182,12 @@ export default class ManagerList extends Vue {
   }
 
   private isUserActive(manager: EkosetManager) {
-    return !!manager.appUserId;
+    return !!manager.appUserId && manager.appUserBlockedInd === 0;
   }
 
   private statusText(manager: EkosetManager) {
     if (!manager.managerEmail) {
-      return "Не указан почтовый адрес!";
+      return "Нет адреса";
     }
     return this.isUserActive(manager) ? "Активен" : "Блокирован";
   }
@@ -196,6 +196,7 @@ export default class ManagerList extends Vue {
     const formData: FormData = new FormData();
     formData.append("file", imageFile);
     await ServiceRegistry.instance.getService(UserDealService).saveManagerFoto(manager.managerId, formData);
+    await this.refreshData();
   }
 
   private showManagerPhoto(manager: EkosetManager) {

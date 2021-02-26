@@ -1,9 +1,6 @@
 <template>
-  <section class="brc-admin-container" :class="{ sidebarclose: !sidebaropen }">
-    <LazyTheAdminSideBar
-      :sidebaropen="sidebaropen"
-      class="brc-admin-container__nav"
-    ></LazyTheAdminSideBar>
+  <section v-if="isStripeLoaded" class="brc-admin-container" :class="{ sidebarclose: !sidebaropen }">
+    <LazyTheAdminSideBar :sidebaropen="sidebaropen" class="brc-admin-container__nav"></LazyTheAdminSideBar>
     <LazyTheAdminLayoutHeader
       class="brc-admin-container__header"
       @humburger:open="sidebaropen = $event"
@@ -14,12 +11,28 @@
   </section>
 </template>
 
-<script  lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Vue } from "nuxt-property-decorator";
 
 @Component
 export default class AdminLayout extends Vue {
-  private sidebaropen = true
+  private sidebaropen = true;
+  private isStripeLoaded = false;
+
+  head() {
+    return {
+      link: [
+        {
+          hid: "materialdesignicons",
+          rel: "stylesheet",
+          href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
+          callback: () => {
+            this.isStripeLoaded = true;
+          },
+        },
+      ],
+    };
+  }
 }
 </script>
 

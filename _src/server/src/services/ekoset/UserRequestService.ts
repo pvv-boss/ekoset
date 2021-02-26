@@ -140,12 +140,14 @@ export class UserRequestService extends BaseService {
         };
 
         const getEmails = (clinet: EkosetClient | EkosetManager) => {
-            const mails = ["SergeyRyzhkov76@gmail.com", "pvv@ekoset.ru"];
+            const mails = ["SergeyRyzhkov76@gmail.com"];
             mails.push(clinet.personEmail);
             return mails;
         };
 
         const sender = new MailSender();
+
+        const templateName = clinet instanceof EkosetClient ? "activate_user" : "activate_admin";
 
         getEmails(clinet).forEach(async (iterEmal) => {
             const innerMessage: MailMessage = {
@@ -153,13 +155,13 @@ export class UserRequestService extends BaseService {
                 to: iterEmal,
                 subject:
                     clinet instanceof EkosetClient
-                        ? `Активация доступа в ЛК сайт ЭКОСЕТЬ`
+                        ? `Данные для входа в личный кабинет`
                         : "Активация доступа Администрирование сайта ЭКОСЕТЬ",
                 text: "",
                 html: "",
             };
             try {
-                await sender.sendFromTemplate(innerMessage, "activate_user", format);
+                await sender.sendFromTemplate(innerMessage, templateName, format);
             } catch (err) {
                 logger.error(err);
             }

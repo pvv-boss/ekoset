@@ -53,6 +53,9 @@ export default class StaffClientController extends BaseController {
         const pathAndFileName = await ServiceRegistry.instance
             .getService(MediaService)
             .saveFileFromRequestBody(file, "img", "managers", id.toString(), false);
+
+        await ServiceRegistry.instance.getService(UserService).updateManagerPhoto(id, `/img/managers/${pathAndFileName[1]}`);
+
         return this.createSuccessResponse(pathAndFileName[0], response);
     }
 
@@ -118,14 +121,23 @@ export default class StaffClientController extends BaseController {
     @UseBefore(authorized())
     @Post("/user/admin/manager")
     public async addNewAdminManager(@Body() ekosetManager: EkosetManager, @Res() response: Response) {
-        const result = await ServiceRegistry.instance.getService(UserService).addNewAdminManager(ekosetManager);
+        try {
+            const result = await ServiceRegistry.instance.getService(UserService).createOrUpdateManager(ekosetManager);
 
-        return this.createSuccessResponseWithMessage(
-            {},
-            response,
-            200,
-            ClientNotifyMessage.createAlert(" Создание сотрудника ", "Выполнено!")
-        );
+            return this.createSuccessResponseWithMessage(
+                {},
+                response,
+                200,
+                ClientNotifyMessage.createAlert(" Сотрудник ", "Выполнено!")
+            );
+        } catch (exc) {
+            return this.createSuccessResponseWithMessage(
+                {},
+                response,
+                200,
+                ClientNotifyMessage.createAlert(" Сотрудник ", "Ошибка ! <br>" + exc.status)
+            );
+        }
     }
 
     // Для карточки клиента в админке

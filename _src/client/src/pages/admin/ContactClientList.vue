@@ -17,12 +17,13 @@
           }"
         >
           <template #table-row="props">
-            <div v-if="props.column.field == 'personStatus'" style="display: flex; align-items: center">
-              <span v-if="props.column.field == 'personStatus'">
-                {{ statusText(props.row) }}
-              </span>
+            <span v-if="props.column.field == 'personStatus'">
+              {{ statusText(props.row) }}
+            </span>
+
+            <div v-if="props.column.field == 'personAction'" style="display: flex; align-items: center">
               <b-button
-                v-if="props.column.field == 'personStatus' && !isUserActive(props.row) && !!props.row.personEmail"
+                v-if="props.column.field == 'personAction' && !isUserActive(props.row) && !!props.row.personEmail"
                 icon-right="content-copy"
                 type="is-info"
                 size="is-small"
@@ -33,7 +34,7 @@
               >
 
               <b-button
-                v-if="props.column.field == 'personStatus' && isUserActive(props.row) && !!props.row.personEmail"
+                v-if="props.column.field == 'personAction' && isUserActive(props.row) && !!props.row.personEmail"
                 type="is-danger"
                 icon-right="delete"
                 size="is-small"
@@ -104,6 +105,10 @@ export default class ContactClientList extends Vue {
       field: "personStatus",
       label: "Статус",
     },
+    {
+      field: "personAction",
+      label: "Действие",
+    },
   ];
 
   private layout() {
@@ -111,12 +116,12 @@ export default class ContactClientList extends Vue {
   }
 
   private isUserActive(client: EkosetClient) {
-    return !!client.appUserId;
+    return !!client.appUserId && client.appUserBlockedInd === 0;
   }
 
   private statusText(client: EkosetClient) {
     if (!client.personEmail) {
-      return "Не указан почтовый адрес!";
+      return "Нет адреса";
     }
     return this.isUserActive(client) ? "Активен" : "Блокирован";
   }

@@ -44,15 +44,15 @@ const config: NuxtConfig = {
         },
 
         link: [
-            {
-                rel: "preload",
-                href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
-                as: "style",
-            },
-            {
-                rel: "stylesheet",
-                href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
-            },
+            // {
+            //     rel: "preload",
+            //     href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
+            //     as: "style",
+            // },
+            // {
+            //     rel: "stylesheet",
+            //     href: "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
+            // },
 
             {
                 rel: "icon",
@@ -100,6 +100,11 @@ const config: NuxtConfig = {
         },
         {
             src: "@/plugins/modal-manager.client",
+            mode: "client",
+        },
+
+        {
+            src: "@/plugins/roistat.client",
             mode: "client",
         },
     ],

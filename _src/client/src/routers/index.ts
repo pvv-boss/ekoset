@@ -35,10 +35,12 @@ export function createRouter() {
         ],
 
         scrollBehavior(to, from, savedPosition) {
-            if (savedPosition) {
-                return savedPosition;
-            } else {
-                return { x: 0, y: 0 };
+            if (to.name !== from.name) {
+                if (!!savedPosition) {
+                    return savedPosition;
+                } else {
+                    return { x: 0, y: 0, behavior: "smooth" };
+                }
             }
         },
     });

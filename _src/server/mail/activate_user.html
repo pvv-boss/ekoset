@@ -17,6 +17,7 @@
   <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS 7-9 -->
 
   <style type="text/css">
+
     body {
       margin: 0;
       padding: 0;
@@ -64,8 +65,6 @@
 
     .inner-td {
       background-color: rgb(208, 240, 251);
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 15px;
       line-height: 20px;
       text-align: left;
       border: 1px solid black;
@@ -108,7 +107,7 @@
   </style>
 </head>
 
-<body style="margin:0; padding:0;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body style="margin:0; padding:0;font-family: Calibri;font-size: 15px;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
   <!-- 100% background wrapper (grey background) -->
   <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
@@ -119,23 +118,34 @@
 
         <!-- 600px container (white background) -->
         <table border="0" width="600" cellpadding="0" cellspacing="0" class="container"
-          style="width:600px;max-width:600px">
+          style="width:600px;max-width:600px;font-family: Calibri;font-size: 15px;">
           <tr>
             <td class="container-padding content" align="left"
               style="padding-left:24px;padding-right:24px;padding-top:1px;padding-bottom:12px;">
               <div class="body-text"
-              style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;">
-                <p>Добрый день ! <br><br>
-                <p>Вам открыт доступ к личному кабинету сайта ЭКОСЕТЬ</p>
-          
-                <p>Ваш логин:<br>{{user_login}}</p>
-                <p>Ваш пароль:<br>{{user_password}}</p>
-          
-                <p>Данное письмо отправлено автоматически – не отвечайте на него.</p>
-             
-                <pre style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;">
+              style="text-align:left;">
+                <p>Добрый день ! </p>
+                <p>Мы признательны Вам за выбор нашей компании в качестве поставщика услуг.</p>
+                <p>Для удобства управления услугами Вы получаете доступ в личный кабинет:</p>
+                <p>Ваш логин:  {{user_login}}</p>
+                <p>Ваш пароль: {{user_password}}</p>
+
+                <pre style="text-align:left; font-family: Calibri;font-size: 15px;">
+Ваш личный кабинет позволит Вам:
+
+• Планировать даты выполнения работ
+• Контролировать графики выполнения работ
+• Переносить даты запланированных работ
+• Хранить всю сандокументацию в одном месте
+• Контролировать сроки действия сандокументации
+• Настраивать важные уведомления
+• Управлять заключёнными договорами
+• Получать оперативную информацию от персонального менеджера
+                </pre>
+
+                <pre style="text-align:left;font-family: Calibri;font-size: 15px;">
  --
- С уважением, 
+ С уважением,
  Компания ЭКОСЕТЬ
  +7 (495) 223-35-95
  www.ekoset.ru

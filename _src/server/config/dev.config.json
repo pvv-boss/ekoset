@@ -20,13 +20,11 @@
       "password": "vW642B8$Hz",
       "database": "ekoset",
       "schema": "brc_ekoset",
+      "cache": true,
       "pgOptions": {
           "schema": "brc_ekoset",
           "noLocking" :true,
-          "noWarnings":true,
-          "max":30,
-          "min":10,
-          "idleTimeoutMillis":600000
+          "noWarnings":true
       },
       "synchronize": false
   }

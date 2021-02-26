@@ -4,9 +4,11 @@ import EkosetClient from "@/entities/ekoset/EkosetClient";
 import EkosetManager from "@/entities/ekoset/EkosetManager";
 import {
     AppUser,
+    AppUserService,
     BaseService,
     ConfigManager,
     DatabaseConfig,
+    Exception,
     Guid,
     postgresWrapper,
     RegistrationResult,
@@ -55,15 +57,30 @@ export default class UserService extends BaseService {
             const client = await this.connection.manager.findOne(EkosetClient, clientId);
 
             if (!!client) {
-                const password = Guid.newGuid().substring(0, 13);
-                result = await ServiceRegistry.instance
-                    .getService(RegistrationService)
-                    .registerUser(client.personEmail, password, null);
+                if (!!client.appUserId) {
+                    const appUser = await ServiceRegistry.instance.getService(AppUserService).getById(client.appUserId);
+                    if (!!appUser) {
+                        appUser.appUserBlockedInd = 0;
+                        appUser.appUserAdminInd = true;
+                        appUser.appUserLogin = appUser.appUserMail = client.personEmail;
 
-                if (result.registrationStatus === RegistrationStatus.OK) {
-                    client.appUserId = result.sessionUser.appUserId;
-                    await this.connection.manager.save(client);
-                    ServiceRegistry.instance.getService(UserRequestService).sendActivateUserMail(client, password);
+                        const updAppUser = await ServiceRegistry.instance.getService(AppUserService).save(appUser);
+                        const sessUser = ServiceRegistry.instance
+                            .getService(AppUserService)
+                            .convertAppUserToSessionUser(updAppUser);
+                        result.makeOK(sessUser, "Активирован");
+                    }
+                } else {
+                    const password = Guid.newGuid().substring(0, 13);
+                    result = await ServiceRegistry.instance
+                        .getService(RegistrationService)
+                        .registerUser(client.personEmail, password, null);
+
+                    if (result.registrationStatus === RegistrationStatus.OK) {
+                        client.appUserId = result.sessionUser.appUserId;
+                        await this.connection.manager.save(client);
+                        ServiceRegistry.instance.getService(UserRequestService).sendActivateUserMail(client, password);
+                    }
                 }
             }
         } catch (err) {
@@ -79,20 +96,34 @@ export default class UserService extends BaseService {
             const manager = await this.connection.manager.findOne(EkosetManager, managerId);
 
             if (!!manager) {
-                const password = Guid.newGuid().substring(0, 13);
-                result = await ServiceRegistry.instance
-                    .getService(RegistrationService)
-                    .registerUser(manager.managerEmail, password, null);
+                if (!!manager.appUserId) {
+                    const appUser = await ServiceRegistry.instance.getService(AppUserService).getById(manager.appUserId);
+                    if (!!appUser) {
+                        appUser.appUserBlockedInd = 0;
+                        appUser.appUserAdminInd = true;
+                        appUser.appUserLogin = appUser.appUserMail = manager.managerEmail;
+                        const updAppUser = await ServiceRegistry.instance.getService(AppUserService).save(appUser);
+                        const sessUser = ServiceRegistry.instance
+                            .getService(AppUserService)
+                            .convertAppUserToSessionUser(updAppUser);
+                        result.makeOK(sessUser, "Активирован");
+                    }
+                } else {
+                    const password = Guid.newGuid().substring(0, 13);
+                    result = await ServiceRegistry.instance
+                        .getService(RegistrationService)
+                        .registerUser(manager.managerEmail, password, null);
 
-                if (result.registrationStatus === RegistrationStatus.OK) {
-                    manager.appUserId = result.sessionUser.appUserId;
-                    await this.connection.manager.save(manager);
+                    if (result.registrationStatus === RegistrationStatus.OK) {
+                        manager.appUserId = result.sessionUser.appUserId;
+                        await this.connection.manager.save(manager);
 
-                    postgresWrapper.execNone("UPDATE APP_USER SET app_user_admin_ind = TRUE WHERE app_user_ID = $1", [
-                        manager.appUserId,
-                    ]);
+                        postgresWrapper.execNone("UPDATE APP_USER SET app_user_admin_ind = TRUE WHERE app_user_ID = $1", [
+                            manager.appUserId,
+                        ]);
 
-                    ServiceRegistry.instance.getService(UserRequestService).sendActivateUserMail(manager, password);
+                        ServiceRegistry.instance.getService(UserRequestService).sendActivateUserMail(manager, password);
+                    }
                 }
             }
         } catch (err) {
@@ -101,22 +132,61 @@ export default class UserService extends BaseService {
         return result;
     }
 
+    public async updateManagerPhoto(managerId: number, photoPath: string) {
+        await this.initUserConnection();
+        const manager = await this.connection.manager.findOne(EkosetManager, managerId);
+        if (!!manager) {
+            manager.managerPhotoPath = photoPath;
+            await this.connection.manager.save(manager);
+        }
+    }
+
     public async saveDeswork(work: DesWork) {
         await this.initUserConnection();
         return await this.connection.manager.save(work);
     }
 
     public async deactivateEkosetClient(appUserId: number) {
-        return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
+        const appUser = await ServiceRegistry.instance.getService(AppUserService).getById(appUserId);
+        if (!!appUser) {
+            appUser.appUserBlockedInd = 1;
+            appUser.appUserAdminInd = true;
+        }
+        return await ServiceRegistry.instance.getService(AppUserService).save(appUser);
+        // return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
     }
 
     public async deactivateEkosetAdmin(appUserId: number) {
-        return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
+        const appUser = await ServiceRegistry.instance.getService(AppUserService).getById(appUserId);
+        if (!!appUser) {
+            appUser.appUserBlockedInd = 1;
+            appUser.appUserAdminInd = true;
+        }
+        return await ServiceRegistry.instance.getService(AppUserService).save(appUser);
+        // return await postgresWrapper.delete("app_user", "app_user_id=$1", [appUserId]);
     }
 
-    public async addNewAdminManager(manager: EkosetManager) {
+    public async createOrUpdateManager(manager: EkosetManager) {
+        if (!manager.managerEmail) {
+            throw new Exception("Не указан почтовый адрес !");
+        }
+        const testAppUserByLogin = await ServiceRegistry.instance.getService(AppUserService).getByLogin(manager.managerEmail);
+
+        if (!!testAppUserByLogin && testAppUserByLogin.appUserId !== manager.appUserId) {
+            throw new Exception("Пользователь с данным логином уже существует !");
+        }
+
         await this.initUserConnection();
         await this.connection.manager.save(manager);
+
+        if (!!testAppUserByLogin) {
+            testAppUserByLogin.appUserLogin = testAppUserByLogin.appUserMail = manager.managerEmail;
+            await ServiceRegistry.instance.getService(AppUserService).save(testAppUserByLogin);
+        }
+    }
+
+    public async isOtherUserAlreadyExists(appUserLogin: string) {
+        const appUser = await ServiceRegistry.instance.getService(AppUserService).getByLogin(appUserLogin);
     }
 
     public async initUserConnection() {

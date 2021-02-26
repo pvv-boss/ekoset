@@ -45,7 +45,7 @@ export class AuthService extends BaseService {
 
     public get isUserAuthorized() {
         const currentUser = this.getSessionUser();
-        return !!currentUser && currentUser.appUserId > 0 && !!this.getAccessToken();
+        return !!currentUser && currentUser.appUserId > 0 && !!this.getAccessToken() && currentUser.appUserBlockedInd === 0;
     }
 
     public get isUserAdmin() {

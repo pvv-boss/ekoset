@@ -172,4 +172,19 @@ th {
     font-size: 14px !important;
 }
 
+.mdi-chevron-right::before {
+    content: "\276F";
+    font-style: normal !important;
+    font-size: 30px !important;
+}
+
+.mdi-chevron-left {
+    transform: rotate(180deg);
+}
+.mdi-chevron-left::before {
+    content: "\276F";
+    font-size: 30px !important;
+    font-style: normal !important;
+}
+
 /*! purgecss end ignore */

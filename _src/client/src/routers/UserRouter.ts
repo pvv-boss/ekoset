@@ -49,7 +49,7 @@ export const UserRoute = [
         props: true,
         component: () =>
             interopDefault(import(/* webpackChunkName: "ChangePasswordForm" */ "@/pages/private/ChangePasswordForm.vue")),
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true, allowAll: true },
     },
 
     {

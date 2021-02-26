@@ -42,6 +42,11 @@ export default class EkosetManager {
     })
     appUserId: number;
 
+    @Column({
+        name: "manager_photo_path",
+    })
+    managerPhotoPath: string;
+
     get personPhone() {
         return this.managerPhone;
     }

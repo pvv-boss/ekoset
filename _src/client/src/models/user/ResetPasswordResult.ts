@@ -1,4 +1,4 @@
-import SessionUser from './SessionUser';
+import SessionUser from "./SessionUser";
 
 export enum ResetPasswordStatus {
     OK,
@@ -6,11 +6,11 @@ export enum ResetPasswordStatus {
     RequereConfirmBySmsCode,
     ResetPasswordExpaired,
     Failed,
-    Unknown
+    Unknown,
 }
 
 export class ResetPasswordResult {
-    public status: ResetPasswordStatus = ResetPasswordStatus.Unknown
+    public status: ResetPasswordStatus = ResetPasswordStatus.Unknown;
     public sessionUser: SessionUser = SessionUser.anonymousUser;
-    public message: string
+    public message: string;
 }
