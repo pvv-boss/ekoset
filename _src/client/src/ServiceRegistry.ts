@@ -27,6 +27,7 @@ export class ContextServiceRegistry {
         return this;
     }
 
+    БАГА. 
     public getService<T extends BaseService>(ctor: ConstructorOf<T>): T {
         return this.servicesMap.get(ctor) || new ctor();
     }
