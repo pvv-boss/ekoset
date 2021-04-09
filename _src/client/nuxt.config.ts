@@ -191,6 +191,10 @@ const config: NuxtConfig = {
         resourceHints: false,
         etag: false,
         crossorigin: "anonymous",
+
+        bundleRenderer: {
+            runInNewContext: false,
+        },
     },
 
     purgeCSS: {
